@@ -1,0 +1,24 @@
+# Temp files
+*.tmp
+/tmp/
+
+# PM2 configs
+pm2-*.json
+
+# Logs
+*.log
+
+# Crush cache
+.crush/
+
+# Nested data repo (separate git repo — private data)
+ShipFlow/
+
+# Local Claude settings backups
+.claude/settings.json.bak-*
+
+# Runtime/build artifacts
+__pycache__/
+*.pyc
+tmp_shipflow*.sh
+site/.playwright-mcp/

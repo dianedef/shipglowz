@@ -1,0 +1,122 @@
+---
+artifact: technical_module_context
+metadata_schema_version: "1.0"
+artifact_version: "0.1.0"
+project: ShipGlowz
+created: "2026-05-24"
+updated: "2026-05-24"
+status: draft
+source_skill: sg-docs
+scope: external-platform-astro
+owner: Diane
+confidence: high
+risk_level: high
+security_impact: yes
+docs_impact: yes
+linked_systems:
+  - skills/references/documentation-freshness-gate.md
+  - shipglowz_data/technical/public-site-and-content-runtime.md
+  - shipglowz_data/editorial/content-map.md
+  - templates/artifacts/project_platform_usage.md
+depends_on:
+  - artifact: "shipglowz_data/technical/external-platforms/README.md"
+    artifact_version: "0.1.0"
+    required_status: "draft"
+supersedes: []
+evidence:
+  - "Fresh external docs checked on 2026-05-24 against Astro deploy, content collections, environment variables, Firebase deploy, and v6 upgrade docs."
+next_review: "2026-06-24"
+next_step: "/sg-docs technical audit"
+---
+
+# Astro Platform Note
+
+## Purpose
+
+This note is the global ShipGlowz/Chiclou cheat sheet for Astro-related freshness checks. Use it before relying on assumptions about Astro content collections, content schemas, `src/content.config.*`, environment variables, static vs on-demand rendering, deploy adapters, build output, major upgrades, or public-site runtime content.
+
+It does not replace Astro documentation. It records the source map and ShipGlowz rules agents should use before changing Astro code, content schemas, public site docs, deployments, or project-local Astro usage docs.
+
+## Source Map
+
+Primary sources for Freshness Gate:
+
+| Need | Source |
+| --- | --- |
+| Astro deploy overview | https://docs.astro.build/en/guides/deploy/ |
+| Content collections | https://docs.astro.build/en/guides/content-collections/ |
+| Environment variables | https://docs.astro.build/en/guides/environment-variables/ |
+| Deploy to Firebase Hosting | https://docs.astro.build/en/guides/deploy/firebase/ |
+| Upgrade to Astro v6 | https://docs.astro.build/en/guides/upgrade-to/v6/ |
+| Current docs entrypoint | https://docs.astro.build/ |
+
+Freshness evidence on 2026-05-24:
+
+- Astro deploy docs describe common host auto-detection, `astro build`/`npm run build`, and `dist` as the default static build output.
+- Astro deploy docs distinguish static output and on-demand rendering, requiring an adapter for on-demand rendering.
+- Astro content collection docs describe `src/content.config.ts` as the collection definition file for build-time consumed collections.
+- Astro environment variable docs describe Vite env support and that only `PUBLIC_` variables are available to client-side code.
+- Astro v6 upgrade docs state that Astro 6 drops Node 18/20 support, upgrades to Zod 4, and includes breaking changes requiring migration review.
+- Astro Firebase deploy docs describe Firebase Hosting support and note experimental Firebase CLI auto-detection/configuration for Astro.
+
+## Freshness Gate Use
+
+Use `fresh-docs checked` for Astro decisions only after checking relevant Astro docs and local `package.json`, lockfile, `astro.config.*`, content config, and deploy provider evidence.
+
+Use `fresh-docs gap` when:
+
+- Astro version, adapter, content collection schema, or deploy mode affects the task but current docs/local versions were not checked.
+- Runtime content is edited without checking `src/content.config.*` and the editorial content schema policy.
+- Environment variables are changed without verifying server/client exposure and `PUBLIC_` naming.
+- A project uses Astro but lacks `shipglowz_data/technical/platforms/astro.md`.
+
+Use `fresh-docs conflict` when current Astro docs contradict local docs, deploy assumptions, content schema assumptions, or a planned implementation.
+
+## ShipGlowz Decision Rules
+
+- Runtime content must preserve the app's schema. Do not add ShipGlowz governance frontmatter to app-rendered content collections unless the app schema accepts it.
+- Public content changes must use editorial governance and Astro schema constraints together.
+- `PUBLIC_` env vars are client-exposed. Treat secret env vars as server-only and never reference them in browser-executed code.
+- Static builds, on-demand rendering, and adapter behavior are different proof surfaces. Know which one the project uses before validating.
+- Major Astro upgrades require migration review, Node compatibility review, Zod/schema review, and full site build proof.
+- Deployment provider docs may be needed in addition to Astro docs, especially for Vercel, Firebase, Netlify, Cloudflare, or Render.
+
+## Common Project-Local Fields
+
+A project using Astro should maintain `<governance-root>/shipglowz_data/technical/platforms/astro.md` with:
+
+- Astro version and package manager
+- rendering mode: static, server, hybrid, or adapter-specific
+- deploy provider and build output
+- content collection files and schema constraints
+- public/runtime content boundaries
+- environment variable exposure policy
+- image/content/integration notes
+- validation commands and preview/prod proof route
+
+Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+
+## Security Notes
+
+- Never expose secret env vars through `PUBLIC_` or client-rendered content.
+- Treat content schemas as security and build-stability boundaries when content comes from external sources or agents.
+- Avoid publishing internal ShipGlowz docs through Astro routes unless explicitly intended.
+- Check generated output for accidental private docs, tokens, or internal-only content when public site routes change.
+
+## Validation
+
+```bash
+python3 tools/shipglowz_metadata_lint.py shipglowz_data/technical/external-platforms/astro.md
+rg -n "Freshness Gate|Source Map|ShipGlowz Decision Rules|Maintenance Rule" shipglowz_data/technical/external-platforms/astro.md
+```
+
+## Reader Checklist
+
+- `astro`, `astro.config`, `src/content.config`, `.astro`, `getCollection`, adapter config, or Astro deploy docs found -> check for project-local Astro usage note.
+- Public content changed -> check editorial corpus plus Astro content schema.
+- Dependency upgrade touches Astro/Vite/Zod -> route to `sg-migrate` and require build proof.
+- Env var change -> verify server/client exposure and deploy provider configuration.
+
+## Maintenance Rule
+
+Update this note when Astro content collections, env behavior, adapters, deploy guidance, major upgrades, Node support, Zod/schema behavior, or ShipGlowz public-site proof rules change.

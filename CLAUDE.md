@@ -1,0 +1,154 @@
+# CLAUDE.md
+
+Guidance for Claude Code when working in this repository.
+
+---
+
+## Project Overview
+
+**ShipFlow** — CLI dev environment manager for servers. Automates deployment with **Flox** (isolation), **PM2** (processes), **Caddy** (HTTPS reverse proxy). Provides SSH tunnel access + public HTTPS URLs via DuckDNS.
+
+---
+
+## Architecture
+
+### Core Files
+
+- **cli/shipflow.sh** — Main entry point (interactive menu)
+- **cli/lib.sh** — Central library (ports, PM2 cache, Flox, Caddy, validation, logging)
+- **cli/config.sh** — All settings via env vars (ports, SSH, logging, cache TTL)
+- **cli/install.sh** — Server setup (Node.js, PM2, Flox, Caddy, gh, skills symlinks)
+
+### Key Patterns
+
+**Env Registry** (`~/.shipflow/envs.reg`) — Zero-subprocess dashboard data:
+```bash
+registry_sync()   # Build registry from pm2 jlist + .flox dirs (called once on lib.sh load)
+registry_update() # Update single env entry (called by env_start/env_stop)
+# Format: name|status|port|path per line
+# Dashboard reads via `cat` — ~1ms, no subprocesses
+```
+
+**PM2 Health Scan** — File-read health check, no subprocess:
+```bash
+pm2_health_scan()  # Reads ~/.pm2/dump.pm2 (~1ms), warns on >10 restarts
+# Runs at lib.sh source time + after env_start + refresh_menu_status_cache_sync (every 120s)
+```
+
+**Port Allocation** — Anti-collision in 3000-3100 range:
+```bash
+find_available_port()  # Checks active ports + PM2-reserved ports
+```
+
+**Idempotent Operations** — No check-then-act races:
+```bash
+pm2 delete "app" 2>/dev/null || true  # Safe to retry
+```
+
+**Input Validation** — `validate_project_path()` blocks `..`, `;`, `&`, `|`, `$`, backticks.
+
+**JSON Parsing** — Prefers jq (2-5x faster), falls back to python3.
+
+**Dashboard** — Numbered `[ 1]...[N]` layout with legend `🟢 online 🟡 stopped 🔴 error ⚪ unknown`:
+```bash
+show_dashboard()  # Reads envs.reg, displays environments + action bar
+# Action bar: [n] [s] [e] [o] [k] [x] — single-keypress (s/k/digits), multi-step (e/o + number)
+# Stdin drain: read -t 0.01 -n 10000 after action bar prevents key leakage to main menu
+```
+
+**Auto-Install Guards** — Fail-safe dependency recovery:
+```bash
+# Node.js: checks node_modules exists + non-empty; runs pnpm/npm install if missing
+# Python: checks venv/bin/python3 exists; creates venv + pip install -r requirements if missing
+# Doppler: tests connectivity; disables if unreachable
+```
+
+**Port Display** — `localhost:PORT` (no protocol prefix), `Port:` without double-colon.
+
+---
+
+## Common Tasks
+
+```bash
+# Launch menu
+sf                    # or: shipflow, or: ./cli/shipflow.sh
+
+# Install dependencies (run as root)
+sudo ./cli/install.sh
+
+# Run tests
+./test_validation.sh  # Input validation
+./test_priority2.sh   # Caching, logging, config
+./test_priority3.sh   # jq, error handling
+
+# Source library functions
+source cli/lib.sh
+env_start "myapp"     # Start environment (auto-installs deps, creates venv, validates doppler)
+env_stop "myapp"      # Stop (idempotent, silent)
+env_remove "myapp"    # Remove (destructive)
+get_pm2_status "myapp"
+get_port_from_pm2 "myapp"
+registry_sync         # Force rebuild envs.reg from pm2
+registry_update "name" "status" "port" "path"  # Update single entry
+show_dashboard        # Display dashboard (reads envs.reg, 0 subprocesses)
+```
+
+---
+
+## Critical Rules
+
+1. **Always invalidate cache** after PM2 state changes (`invalidate_pm2_cache`)
+2. **Don't parse JS with grep** — use `node -e "require(...)"`
+3. **Don't use relative paths** — validation requires absolute paths
+4. **Don't manually edit ecosystem.config.cjs** — regenerated on each start
+5. **Use idempotent operations** — `pm2 delete || true`, not check-then-act
+6. **Do not run Android release builds on Linux ARM64** — on `aarch64`/`arm64` hosts, do not run `flutter build apk --release`, `flutter build appbundle --release`, `./gradlew assembleRelease`, or `./gradlew bundleRelease`; route APK/AAB release builds to Blacksmith or another Linux x64 CI runner. Local Flutter work is limited to `flutter analyze`, `flutter test`, and `flutter build web --release`.
+7. **Keep reference clones and caches hidden** — use `~/.local/share/.go`, `~/.local/share/.fzf`, and `~/.local/share/.keyboard` instead of visible top-level `~/go`, `~/fzf`, or `~/keyboard` directories.
+
+---
+
+## Framework Auto-Configuration
+
+| Framework | Detection | Port Config |
+|-----------|-----------|-------------|
+| Astro | package.json | `server.port = PORT` in config |
+| Vite | package.json | `--port $PORT --host` |
+| Next.js | package.json | `-p $PORT` (automatic) |
+| Nuxt | package.json | `--port $PORT` |
+| Expo | package.json | Tunnel mode, no fixed port |
+| Python/FastAPI | venv/bin/python3 | Via uvicorn in ecosystem config |
+
+## Renamed Environments
+
+| Original | Renamed | Path | Purpose |
+|----------|---------|------|---------|
+| `app` | `shipflow_app` | `/home/claude/shipflow_app/shipflow_app/` | Flutter dashboard (CI only) |
+| `site` | `shipflow-site` | `/home/claude/shipflow/shipflow-site/` | ShipFlow marketing site (Astro) |
+| `contentflowz-app` (flox) | `shipflow-app` | — | Flox env for shipflow_app |
+
+---
+
+## File Structure
+
+```
+shipflow/
+├── cli/
+│   ├── shipflow.sh             # Main menu
+│   ├── lib.sh                  # Core library
+│   ├── config.sh               # Configuration
+│   ├── install.sh              # Server installation
+│   ├── shipflow_devserver_bash.sh
+│   └── shipflow_devserver_gum.sh
+├── shipflow.sh                 # Deprecated compat wrapper
+├── lib.sh                      # Deprecated compat wrapper
+├── config.sh                   # Deprecated compat wrapper
+├── install.sh                  # Deprecated compat wrapper
+├── skills/                     # ShipFlow skill library
+├── .claude/statusline-starship.sh  # Status bar
+├── local/                      # SSH tunnel scripts
+│   ├── dev-tunnel.sh
+│   ├── local.sh
+│   └── install.sh
+├── injectors/web-inspector.js  # Browser inspector
+└── test_*.sh                   # Test suites
+```

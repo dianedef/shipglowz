@@ -1,0 +1,102 @@
+---
+name: 302-sg-help
+description: "Answer ShipGlowz workflow, skill, mode, and prompt questions."
+argument-hint: <help topic or route question>
+---
+
+## Canonical Paths
+
+Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/references/canonical-paths.md` (`$SHIPFLOW_ROOT` defaults to `$HOME/shipglowz`). ShipGlowz tools, shared references, skill-local `references/*`, templates, workflow docs, and internal scripts must resolve from `$SHIPFLOW_ROOT`, not from the project repo where the skill is running. Project artifacts and source files still resolve from the current project root unless explicitly stated otherwise.
+
+## Instruction Layering
+
+This `SKILL.md` is the activation contract. Before editing or expanding this skill, load `$SHIPFLOW_ROOT/skills/references/skill-instruction-layering.md` and keep bulky workflow detail in skill-local references.
+
+## Chantier Tracking
+
+Trace category: `non-applicable`.
+Process role: `helper`.
+
+This skill does not write to chantier specs. If invoked inside a spec-first flow, do not modify `Skill Run History`; include `Chantier: non applicable` or `Chantier: non trace` only when useful.
+
+## Report Modes
+
+Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
+
+Default to `report=user`: concise, outcome-first, and in the user's active language. Use `report=agent`, `handoff`, `verbose`, or `full-report` only when the user or next owner needs detailed evidence.
+
+## Required References
+
+Always load shared references only when their gate applies. Load skill-local references precisely by mode:
+
+- `references/help-catalog.md`: Skill catalog, workflow cycles, prompts, scoring notes, file references, and quick answers.
+- `skills/references/shipglowz-terms.md`: canonical package terminology for `Dev Server`, `TUI`, `local tools`, and skill-scope references.
+- `skills/references/question-contract.md`: canonical doctrine for when ShipGlowz should ask questions, what shape they should take, and when not asking is the correct autonomous behavior.
+- `skills/references/operator-partnership-contract.md`: canonical doctrine for operator collaboration, delegated intent, and the boundary between technical autonomy and operator-owned business truth.
+- `skills/references/profile-activation.md`: canonical profile resolution, precedence, fallback, and reporting contract.
+- `skills/references/profile-project-context.md`: canonical project-context bundle mapping for named profiles.
+- `skills/references/operator-roles/` and `shipglowz_data/business/agent-profiles/`: canonical operator-role and named-profile layer when the user asks who should answer, how a named profile works, or how `%Profile` / `profile=` should be used.
+- `skills/references/project-governance-rules.md`: canonical answer when the user asks what rules a ShipGlowz-governed project must respect or what `#rules` means.
+- `skills/references/documentation-governance-rules.md`: canonical answer when the user asks about documentation architecture, metadata, doc placement, or what `#docs` means.
+
+The canonical `Chantier Registry` doctrine lives in `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`; this skill only summarizes it for help output.
+
+The canonical decision-quality doctrine lives in `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`; this skill summarizes it when users ask about quality, minimal changes, shortcuts, model choice, best practices, security, performance, engineering standards, or the rule "does this replace part of the current structure with less friction, more speed, or less maintenance?"
+
+The canonical numeric skill-code index lives in `$SHIPFLOW_ROOT/skills/references/skill-code-index.md`; load it when users ask about skill codes, numeric prefixes, shortcuts, faster skill lookup, or exact skill discovery.
+
+When users ask about app creation, blueprints, "crée une app", "quoi de neuf", or how `001-sg-build` handles new app projects, load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` and `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`. Blueprints are global spec skeletons that pre-fill architecture, stack, models, and routes for recurring app archetypes. `001-sg-build` loads them at the Blueprint Gate (after chantier check, before spec). If no blueprint matches, the normal spec-first workflow runs unchanged. Available blueprints are indexed in `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`.
+When users ask who should answer, ask for a named business/operator profile, or ask how `%Profile` / `profile=...` works, load `skills/references/profile-activation.md` and `skills/references/profile-project-context.md` and explain the distinction: skill = capability, operator role = decision contract, profile = human-readable invocation layer. `%<Profile>` is canonical; `#<Tag>` remains a focus-tag surface. Load the matching files when a concrete profile is named.
+
+## Mode Detection
+
+Parse `$ARGUMENTS` and choose the smallest safe mode as defined by `decision-quality-contract`: bounded and professional, never shortcut quality. When the question is about doctrine or tradeoffs, answer through the `Structure Replacement Doctrine` rather than treating novelty, tooling, or extra process as value by default.
+
+`302-sg-help` answers one helper question:
+
+```text
+What workflow, skill, mode, or doctrine does the operator need explained right now?
+```
+
+- If the user asks a direct help question, answer concisely from the top-level route and `references/help-catalog.md` as needed.
+- If the user asks for skill codes, numeric prefixes, or shortcut lookup, load `skill-code-index.md` and answer from the code table without renaming canonical skills.
+- If the user asks how ShipGlowz is invoked from Codex, Claude, OpenCode, KiloCode, or another runtime, load `references/help-catalog.md` and answer with the explicit distinction between what the operator types and what the runtime may call internally.
+- If the user needs full skill taxonomy, workflow cheat sheets, or quick answers, load `references/help-catalog.md`.
+- If the user asks why ShipGlowz asked, did not ask, or should have asked a question, load `skills/references/question-contract.md`.
+- If the user asks about passivity, autonomy, collaboration style, business framing, or what the operator is expected to provide, load `skills/references/operator-partnership-contract.md`.
+- If the user asks about a named profile such as `Victoire`, `SEO Specialist`, or `Tariq`, or asks who should answer a business/growth/search/acquisition question, load the matching profile plus its operator role and answer from that distinction.
+- If the user asks whether `%Victoire` or `#Victoire` should be used, answer: `%<Profile>` is the canonical named-profile syntax at the router/governance layer; `#<Tag>` stays for focus tags.
+- If the user asks what `#rules`, `#docs`, `#public-docs`, or `#internal-docs` mean, load the matching governance reference and explain the distinction rather than answering from local shorthand.
+- Use `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` for canonical trace/process role doctrine instead of maintaining a duplicate role matrix here.
+- For `Skills at a Glance`, `Quick Answers`, workflow cycles, audit scoring, and file-reference help, load `references/help-catalog.md`.
+
+Keep the boundary explicit: `302-sg-help` explains, clarifies, and routes. It tells the operator what to type and which owner takes over next. It does not continue a chantier, invoke runtime internals, summarize hidden repo truth, or mutate durable state.
+
+Route immediately instead of staying in help mode when the operator is no longer asking for explanation:
+
+- continue or advance the current work item -> `706-continue`
+- summarize only this visible thread -> `303-sg-resume`
+- do real lifecycle work -> route to the owning lifecycle or specialist skill
+
+## Core Execution Rules
+
+- Do not write chantier specs or trackers.
+- Keep answers user-facing and in the active user language.
+- Route to an owner skill when the user asks ShipGlowz to do work rather than explain it.
+
+## Stop Conditions
+
+Stop and report blocked when:
+
+- A required reference is missing or contradicts this activation contract.
+- The requested work would change behavior outside this skill's scope.
+- A safety, security, documentation, source-faithfulness, or chantier guardrail would need to be weakened.
+- The action would edit unrelated dirty files or mutate durable state without an owner-skill contract.
+
+## Validation
+
+Validate this skill after edits with:
+
+- `rg -n "Trace category|Process role|Chantier Registry|Skills at a Glance|Quick Answers|references/" skills/302-sg-help/SKILL.md`
+- `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
+- `tools/shipglowz_sync_skills.sh --check --all`

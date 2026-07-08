@@ -1,0 +1,20 @@
+{
+  "name": "shipglowz",
+  "interface": {
+    "displayName": "ShipGlowz"
+  },
+  "plugins": [
+    {
+      "name": "shipglowz",
+      "source": {
+        "source": "local",
+        "path": "./plugins/shipglowz"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

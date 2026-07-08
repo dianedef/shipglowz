@@ -1,0 +1,181 @@
+# Tasks — ShipFlow
+
+> **Priority:** 🔴 P0 blocker · 🟠 P1 high · 🟡 P2 normal · 🟢 P3 low · ⚪ deferred
+> **Status:** 📋 todo · 🔄 in progress · ✅ done · ⛔ blocked · 💤 deferred
+> **Priority last updated:** 2026-06-27 UTC · criteria: balanced (`impact`, `blockers`, `risk`, `high-roi`)
+> **Recommended next execution target:** `install.sh` supply-chain and failure handling hardening
+
+---
+
+## Bootstrap universel
+
+| Pri | Task | Status |
+|-----|------|--------|
+| 🔴 | Concevoir un bootstrap universel multi-OS (`Linux`, `macOS`, `WSL`, `Windows`) avec comportement explicite selon la plateforme | 📋 todo |
+| 🔴 | Supprimer l'hypothèse implicite "`python3` déjà installé" hors `sudo ./install.sh` serveur et définir la stratégie officielle de provisioning runtime | 📋 todo |
+| 🟠 | Ajouter un chemin d'installation local sans root quand possible pour les outils docs/metadata qui reposent sur Python | 📋 todo |
+| 🟠 | Faire échouer les scripts avec un diagnostic précis et actionnable quand un runtime requis manque au lieu de dépendre d'erreurs secondaires | 📋 todo |
+| 🟠 | Corriger la configuration Playwright MCP pour pointer le Chromium ARM64 local au lieu de Google Chrome stable absent | 🔄 in progress |
+| 🟠 | Provisionner Flutter/Dart via Flox par projet (validation overrides + réparation `.flox` existants + docs/tests) | ✅ done |
+| 🟠 | Documenter la matrice de bootstrap par environnement : serveur Debian/Ubuntu, poste macOS, poste Linux non-root, Windows/WSL | 📋 todo |
+| 🟡 | Évaluer s'il faut fournir un wrapper unique (`bootstrap` / `doctor`) pour vérifier et installer les prérequis avant usage | 📋 todo |
+| 🟡 | Vérifier que `README.md`, `AGENT.md`, `CONTEXT.md` et `GUIDELINES.md` racontent le même contrat de bootstrap | 📋 todo |
+
+---
+
+## Documentation contracts
+
+| Pri | Task | Status |
+|-----|------|--------|
+| 🟠 | Relire et shipper les docs `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, `GTM.md`, `ARCHITECTURE.md`, `GUIDELINES.md` après la passe de durcissement en cours | 🔄 in progress |
+| 🟠 | Bootstrapper les corpus de gouvernance technique/éditoriale via `sg-init`/`sg-docs` et les intégrer au contrat `sg-build` | ✅ done |
+| ✅ | Ajouter la couche de gouvernance éditoriale ShipFlow (`docs/editorial/`, Editorial Reader, claim register, page intent, schema Astro, blog-surface stop conditions) | ✅ done |
+| ✅ | Ajouter au site public ShipFlow un tutoriel marketing sur les modes des skills, une page FAQ dédiée, puis renforcer le maillage interne vers ces surfaces | ✅ done |
+| 🟠 | Corriger la synchronisation finale des aliases/symlinks dans `dotfiles/install.sh` pour qu'elle s'applique aussi en mode `--only=<component>` (éviter les alias/symlinks fantômes) | ✅ done |
+| 🟡 | Normaliser à terme le schéma metadata si on veut éliminer la différence `linked_systems` / `linked_artifacts` | 📋 todo |
+
+---
+
+## Skills
+
+🟢 [ShipFlow] task: Integrer le TDD proof-first et les checklists manuelles durables dans les skills | status: done | area: skills
+🟢 [ShipFlow] task: Ajouter une boucle d'audit des conversations et d'auto-evolution des skills | status: done | area: skills
+🟢 [ShipFlow] task: Auditer en batch les conversations Markdown pour identifier les travers agents et router les améliorations | status: done | area: skills
+🟢 [ShipFlow] task: Compacter semantiquement le Batch A des skills lifecycle (`100`, `101`, `103`, `104`, `005`) selon la taxonomie d'artefacts | status: done | area: skills | spec: shipglowz_data/workflow/specs/semantic-compaction-of-core-shipflow-skills.md | next: none
+🟢 [ShipFlow] task: Durcir les retours humains des skills, l'autonomie des questions, les claims de preuve et la sortie `sg-ready` | status: done | area: skills | spec: shipglowz_data/workflow/specs/shipflow-skill-reporting-and-proof-hardening.md | next: /sg-ship shipflow-skill-reporting-and-proof-hardening
+🟢 [ShipFlow] task: Router les preuves hébergées manquantes vers un owner concret après un verdict `partial` | status: done | area: skills | spec: shipglowz_data/workflow/specs/shipflow-hosted-proof-follow-through-and-user-report-discipline.md | next: none
+🟢 [ShipFlow] task: Forcer les exports et audits de conversation ShipFlow dans le repo ShipFlow | status: done | area: skills | spec: shipglowz_data/workflow/specs/conversation-audit-canonical-storage-hardening.md | next: none
+🟢 [ShipFlow] task: Ajouter un index numerique canonique des skills sans renommer les invocations | status: done | area: skills | spec: shipglowz_data/workflow/specs/numeric-skill-code-index.md | next: /sg-ship Numeric Skill Code Index
+🟢 [ShipFlow] task: Migrer les noms runtime des skills ShipFlow vers des prefixes a trois chiffres | status: done | area: skills | spec: shipglowz_data/workflow/specs/three-digit-runtime-skill-names.md | next: /005-sg-ship Three Digit Runtime Skill Names
+🟢 [ShipFlow] task: Autoriser `sg-start` a enchaîner une auto-verification locale bornee quand la preuve restante est sure et non destructive | status: done | area: skills | spec: shipglowz_data/workflow/specs/auto-follow-through-for-local-only-sg-start-verification.md | next: /sg-ship Auto-follow-through for local-only sg-start verification
+🟢 [ShipFlow] task: Renforcer les skills pour exiger et utiliser une surface diagnostics copiable dans les apps runtime | status: done | area: skills-observability | next: none
+🟢 [ShipFlow] task: Compacter semantiquement le Batch C des skills specialists source (`105`, `106`, `107`, `108`, `109`) selon la taxonomie d'artefacts | status: done | area: skills | spec: shipglowz_data/workflow/specs/semantic-compaction-of-source-specialist-skills.md | next: none
+🟢 [ShipFlow] task: Compacter semantiquement le Batch D1 des master skills maintenance/release (`002`, `003`, `004`) selon la taxonomie d'artefacts | status: done | area: skills | spec: shipglowz_data/workflow/specs/semantic-compaction-of-maintenance-and-release-master-skills.md | next: none
+🟢 [ShipFlow] task: Compacter semantiquement le Batch D2 des master skills design/content/skill-build (`006`, `007`, `009`) selon la taxonomie d'artefacts | status: done | area: skills | spec: shipglowz_data/workflow/specs/semantic-compaction-of-design-content-and-skill-build-master-skills.md | next: none
+🟢 [ShipFlow] task: Publier un chemin d'installation marketplace repo-backed pour le plugin Codex `shipflow` et documenter l'installation sur le site ShipFlow | status: done | area: plugin-distribution | spec: shipglowz_data/workflow/specs/shipflow-main-plugin-and-pack-portability.md | next: none
+🟢 [ShipFlow] task: Créer et tenir un registre de hardening système des skills pour passer les 68 skills au crible sur preflight, chemins canoniques, boucle probleme->cause->prevention->contrat, operator-last-resort et risques de taille | status: done | area: skills-execution-fidelity | source: decision utilisateur 2026-06-26 | next: none
+🟢 [ShipFlow] task: Compacter ou justifier explicitement la taille de `101-sg-ready` pour réduire le risque de discipline d'execution sous pression mis en evidence par l'audit des skills | status: done | area: skills-execution-fidelity | source: audit_shipflow_skills.py 2026-06-26 | next: none
+🟢 [ShipFlow] task: Compacter le corpus global des skills pour repasser sous le budget agrégé `8500` sans dégrader les garde-fous d'execution | status: done | area: skills-corpus-compaction | spec: shipglowz_data/workflow/specs/aggregate-skill-corpus-compaction-phase-1.md | source: skill_budget_audit.py 2026-06-27 | next: none
+🟢 [ShipFlow] task: Durcir la clarté agent des frontières de rôle et du prochain owner sur les skills à plus forte ambiguïté | status: done | area: skills-agent-clarity | spec: shipglowz_data/workflow/specs/agent-clarity-hardening-phase-7.md | source: decision utilisateur 2026-06-27 | next: none
+🟢 [ShipFlow] task: Capitaliser les futures passes de clarté agent avec un playbook et une checklist réutilisable | status: done | area: skills-agent-clarity | spec: shipglowz_data/workflow/specs/agent-clarity-pass-playbook-and-checklist.md | source: decision utilisateur 2026-06-27 | next: none
+🟢 [ShipFlow] task: Durcir la clarté des handoffs publics/docs entre aide, runtime, invocation et ownership d'execution sur `302-sg-help`, la doc runtime, le README, le workflow et les cheatsheets | status: done | area: skills-agent-clarity-public-docs | spec: shipglowz_data/workflow/specs/agent-clarity-public-docs-handoffs-phase-2.md | source: decision utilisateur 2026-06-28 | next: /005-sg-ship agent-clarity-public-docs-handoffs-phase-2
+🟢 [ShipFlow] task: Ajouter un systeme global de navigation de code et de documentation de fonctions avec index de comportements et pilote IME WinFlowz | status: done | area: technical-docs-navigation | spec: shipglowz_data/workflow/specs/shipflow-code-navigation-and-function-documentation-system.md | next: /005-sg-ship ShipFlow Code Navigation And Function Documentation System
+
+| Pri | Task | Status |
+|-----|------|--------|
+| 🟠 | Faire des specs le registre global des chantiers spec-first avec historique de skills | ✅ done |
+| 🟠 | Ajouter la taxonomie interne des skills et les sources de chantier potentiel | ✅ done |
+| 🟠 | Durable Exploration Reports for `sg-explore` | ✅ done |
+| ✅ | Skill description budget compliance: audit script, descriptions compactes et checks `sg-docs`/`sg-skills-refresh` scoppés | ✅ done |
+| ✅ | Patch global des skills pour résoudre les références et outils internes depuis le root canonique ShipFlow | ✅ done |
+| ✅ | Créer `sg-test` pour guider les tests manuels, loguer `TEST_LOG.md` et ouvrir `BUGS.md` | ✅ done |
+| 🟠 | Implémenter Professional Bug Management avec index compact, dossiers bug et preuves séparées | ✅ done |
+| 🟠 | Durcir `sg-fix` pour exiger une trace bug durable même en fix direct, sauf exception mineure explicitement justifiée | ✅ done |
+| ✅ | Créer `sg-bug` comme orchestrateur de boucle bug (`sg-test -> dossier -> sg-fix -> retest -> sg-verify -> sg-ship`) et aligner docs/help/site | ✅ done |
+| ✅ | Documenter et propager le mode de développement projet (`local`, `vercel-preview-push`, `hybrid`) dans les skills de validation et de ship | ✅ done |
+| ✅ | Créer `sg-browser` comme skill navigateur généraliste non-auth et l'intégrer aux routes `sg-auth-debug`, `sg-test`, `sg-prod`, `sg-fix`, `sg-start`, `sg-verify`, `sg-check`, aux specs de taxonomie/catalogue, aux README internes et au site public | ✅ done |
+| 🟠 | Construire `sg-build` comme skill maître autonome (orchestrateur spec -> ready -> start -> verify -> end -> ship avec délégation bornée) | ✅ done |
+| ✅ | Empêcher `sg-build` de renvoyer manuellement vers `sg-end`/`sg-ship` après vérification réussie sauf blocage explicite | ✅ done |
+| ✅ | Implémenter `sg-skill-build` comme skill maître de maintenance des skills (`sg-explore si nécessaire -> sg-spec -> SKILL.md -> sg-skills-refresh -> budget audit -> sg-verify -> sg-docs/help -> sg-ship`) et aligner les surfaces publiques/docs | ✅ done |
+| ✅ | Créer `sg-deploy` comme skill maître de release (`sg-check -> sg-ship -> sg-prod -> preuve -> sg-verify -> sg-changelog`) et aligner docs/help/site | ✅ done |
+| ✅ | Promouvoir `sg-maintain` en skill maître de maintenance projet (`triage -> spec/ready -> délégation bornée -> verify -> ship/deploy`) et aligner docs/help/site | ✅ done |
+| ✅ | Ajouter un helper partagé de synchronisation des skills Claude/Codex (`tools/shipflow_sync_skills.sh`) et l'intégrer à l'installateur, `sg-skill-build`, `sg-check`, `sg-verify` et `sg-ship` | ✅ done |
+| ✅ | Ajouter un contrat partagé de rapports compacts pour les skills (`report=user` par défaut, `report=agent` explicite) et le propager aux skills lifecycle, bug et audit | ✅ done |
+| ✅ | Ajouter une discipline Spec-Driven Development + Proof-First TDD/Evidence Gates aux skills d'exécution, bug, skill-build, verify et délégation | ✅ done |
+| ✅ | Auditer la taxonomie des skills et compacter les descriptions de découverte sans changer les invocations, rôles ni catégories de trace | ✅ done |
+| ✅ | Renforcer les questions `sg-build` en mode plan avec contexte, racine du problème, enjeu business, options et recommandation best practice | ✅ done |
+| ✅ | Ajouter une cheatsheet publique et Markdown repo des master skills, supporting skills et modes d'arguments, avec page publique `sg-build` | ✅ done |
+| 🟠 | Créer une skill `sg-prs` pour trier les PR GitHub ouvertes (`gh`), vérifier repo/branches/diffs/checks, regrouper Dependabot quand possible, merger les PRs vertes et fermer/commenter les PRs obsolètes selon une politique explicite | 📋 todo |
+
+---
+
+## Historical completed work
+
+> Imported from the master tracker to keep local ShipFlow context coherent. These items are historical context, not active backlog.
+
+| Pri | Task | Status |
+|-----|------|--------|
+| ✅ | Extraction action handlers dans `lib.sh` + `shipflow.sh` réduit à 48 lignes | ✅ done |
+| ✅ | Retirer ou restreindre `shipflow-inspector` et `shipflow-eruda` du layout de production | ✅ done |
+| ✅ | Auditer et sécuriser `shipflow-inspector.js` (intégration upload + clé IMGBB exposée) | ✅ done |
+
+---
+
+## Backlog
+
+🟢 [ShipFlow] task: Conserver les fiches skills en anglais et l’expliquer sur le site français | status: done | area: site-i18n
+🟢 [ShipFlow] task: Documenter une page OpenCode et une page KiloCode pour expliquer comment les skills ShipFlow sont découverts, invoqués et configurés selon chaque runtime, en précisant que dans OpenCode l'utilisateur écrit simplement "utilise le skill shipflow" et que `skill({ name: "shipflow" })` est un appel interne du runtime, pas une commande manuelle | status: done | area: skills-discovery | spec: shipglowz_data/workflow/specs/opencode-and-kilocode-runtime-doc-pages.md | next: /005-sg-ship opencode-and-kilocode-runtime-doc-pages
+
+| Pri | Task | Status |
+|-----|------|--------|
+| 🟠 | Harmoniser tous les sous-menus CLI : lettres au lieu de chiffres, `x) Cancel` unique, et comportement Cancel cohérent entre `gum` et fallback bash | ✅ done |
+| 🟠 | Regrouper le menu racine ShipFlow en entrées lisibles avec sous-menus iconés (`Dashboard`, `Deploy / Start`, `Environments`, `Tools`, `System`, `Agents / ShipFlow`, `Help`) | ✅ done |
+| ✅ | Aligner `sg-veille` avec la gouvernance contenu : router les idées blog/newsletter vers `sg-content`/`sg-repurpose` et signaler `surface missing: blog` quand aucune surface n'est déclarée | ✅ done |
+| 🟢 | Ajouter un handoff contenu à `sg-research` et `sg-market-study` quand leurs rapports recommandent des contenus publics, avec sources, claims et route vers `sg-content` | 💤 deferred |
+| 🟢 | Renforcer `sg-audit` master pour charger explicitement les corpus éditorial/technique quand l'audit touche des surfaces publiques, claims ou docs mappées | 💤 deferred |
+| 🟢 | Ajouter une micro-intégration `technical-docs-corpus` à `sg-content`/`sg-repurpose` quand les opportunités ou handoffs touchent des docs techniques internes | 💤 deferred |
+| 🟡 | Cadrer une grille de notation éditoriale réutilisable par les skills contenu, avec critères communs et règles spécifiques par projet depuis le corpus de gouvernance — preuve sample rubric ajoutée et `sg-verify` validé | ✅ done |
+| 🟢 | Étudier `models.dev` comme source externe pour actualiser la référence `sg-model` sans hardcoder prix, limites, capacités et fenêtres de contexte | 💤 deferred |
+| 🟢 | Étudier OpenPostern comme inspiration pour les skills de codage et veille technologique: vendor-risk score, CVE/NVD, CISA KEV, SSL/TLS, DNS, headers HTTP, news sécurité IA et recommandations actionnables | 💤 deferred |
+| 🟢 | Étudier Alpic comme inspiration pour packager, déployer, monitorer et distribuer des MCP servers / ChatGPT Apps liés aux skills ShipFlow | 💤 deferred |
+| 🟢 | Idée à cadrer : créer une brique partagée de journaux opérationnels append-only (`OPERATIONS_LOG.md` / `DEPENDENCY_LOG.md`) pour tracer les runs importants sans remplacer `specs/`, `bugs/`, `TASKS.md` ni `CHANGELOG.md` | 💤 deferred |
+| 🟢 | Cadrer plus tard le mécanisme de synchronisation `project repo -> master` pour `shipglowz_data` (symlink, copie, index généré, ingestion web app ou autre) dans une spec dédiée | 💤 deferred |
+| 🟠 | Décider au niveau ShipGlowz si les projets doivent séparer le backlog d'exécution (`shipglowz_data/workflow/TASKS.md`) et la roadmap éditoriale/contenu dans un artefact canonique distinct, puis si validé: définir le nouvel artefact, mettre à jour la doctrine canonique, adapter les skills qui écrivent aujourd'hui dans `TASKS.md`, et prévoir la migration des projets existants | 📋 todo |
+
+🟢 [ShipFlow] task: Évaluer models.dev comme registre externe optionnel pour `sg-model` | status: deferred | area: model-routing | source: veille utilisateur https://models.dev/ 2026-06-10
+🟢 [ShipFlow] task: Évaluer OpenPostern comme pattern pour enrichir `sg-veille`, `sg-deps`, `sg-audit-code` et les skills de codage avec scoring vendor-risk et signaux sécurité actionnables | status: deferred | area: tech-watch-security-skills | source: veille utilisateur https://betalist.com/startups/openpostern et https://openpostern.com/ 2026-06-10
+🟢 [ShipFlow] task: Évaluer Alpic comme référence d'infrastructure MCP/ChatGPT Apps pour packaging, déploiement, monitoring, sécurité et distribution de skills ou serveurs MCP ShipFlow | status: deferred | area: mcp-app-distribution | source: veille utilisateur https://alpic.ai/ et https://alpic.ai/blog/deploy-chatgpt-apps-on-alpic 2026-06-10
+🟢 [ShipFlow] task: Explorer si un index SQL opérationnel peut remplacer utilement une partie de `shipglowz_data` sans dégrader la source de vérité documentaire | status: deferred | area: operational-data-architecture | source: recherche Bunny Database 2026-06-12 | next: /700-sg-explore SQL operational index over shipglowz_data
+🟢 [ShipFlow] task: Réévaluer plus tard les redondances entre profils nommés et focus tags puis supprimer les doublons de gouvernance si le runtime profils les remplace proprement | status: deferred | area: operator-profiles-governance | source: décision utilisateur 2026-06-28 | next: après implémentation runtime des profils
+🟠 [ShipFlow] task: Formaliser la sémantique stable de la convention `%Profile`, ses règles d'interaction avec les focus tags et sa visibilité de handoff/reporting, sans prétendre à une primitive runtime native Codex ni créer de pseudo-runtime maison opaque | status: todo | area: operator-profiles-governance | source: décision utilisateur 2026-06-28 | next: /100-sg-spec named profile convention semantics
+🟠 [ShipFlow] task: Cadrer par spec la séparation éventuelle entre backlog d'exécution et roadmap éditoriale multi-projets, avec inventaire des skills impactés, règles d'écriture, emplacements canoniques et stratégie de migration | status: todo | area: workflow-editorial-governance | source: décision utilisateur 2026-07-07 | next: /100-sg-spec workflow vs editorial roadmap split
+
+---
+
+### Audit: Code
+
+| Pri | Task | Status |
+|-----|------|--------|
+| ✅ | Harden `local/dev-tunnel.sh` SSH target and identity validation so saved config cannot be interpreted as SSH options or malformed key paths | ✅ done |
+| ✅ | Make `local/dev-tunnel.sh` session and PM2 SSH failures fail soft enough to show actionable local errors under `set -e` | ✅ done |
+| ✅ | Validate PM2 ports, stop on duplicate remote ports before mutating tunnels, and check local port occupancy before `autossh` launch | ✅ done |
+| ✅ | Replace broad `pkill -f "autossh.*$REMOTE_HOST"` guidance with managed tunnel PID selection and `local/dev-tunnel.sh --stop` | ✅ done |
+| ✅ | Add a polished animated SSH sonar scan loader to `local/local.sh` so startup remote checks no longer look frozen | ✅ done |
+| ✅ | Corriger la validation et l'affichage Termux du prompt serveur SSH local (`BUG-2026-05-02-002`) | ✅ done |
+| ✅ | Corriger la résolution des noms simples de clés SSH locales (`BUG-2026-05-02-003`) | ✅ done |
+| ✅ | Remplacer l'IP opérateur par une IP de documentation et purger l'historique GitHub récent (`BUG-2026-05-02-004`) | ✅ done |
+| 🟠 | Rendre les alertes de cleanup disque explicites quand `/` est en pression critique (`BUG-2026-05-04-001`) | 🔄 in progress |
+| ✅ | Corriger le raccourci CLI `sf u` et harmoniser les retours `x`/`Esc`/Backspace dans les sous-menus (`BUG-2026-05-04-002`) | ✅ done |
+| 🟠 | Consolidate duplicated tunnel lifecycle logic between `local/dev-tunnel.sh` and `local/local.sh` so the interactive menu inherits the same validation, collision handling, and managed stop behavior | 📋 todo |
+| 🔴 | Harden `install.sh` supply-chain and failure handling: replace live `curl | bash`/direct downloads with pinned, verified install steps and strict failure behavior | 🔄 in progress |
+| 🟡 | Corriger la détection de commande dev quand un projet Flutter contient un `package.json` uniquement Convex (`BUG-2026-05-04-004`) | 🔄 in progress |
+| 🟡 | Empêcher ShipFlow de créer des symlinks `TASKS.md` dans les projets et garder le tracking dans `shipglowz_data` (`BUG-2026-05-05-001`) | 🔄 in progress |
+| 🟠 | Local MCP OAuth tunnel login: commande `shipflow-mcp-login`, intégration menu local, alias install, tests de validation et docs | ✅ done |
+| 🟠 | Split `lib.sh` hotspots around environment lifecycle, publishing, dashboard, inspector, and metadata helpers to reduce the 5,900+ line blast radius | 📋 todo |
+| 🟡 | Resolve the `site` production dependency advisory for Astro (`GHSA-j687-52p2-xcff`) through a planned Astro upgrade/migration | 📋 todo |
+| 🟡 | Fix `test_priority3.sh` so the PM2 jq parsing fixture passes or is explicitly skipped with an accurate reason | 📋 todo |
+| ✅ | Validate DuckDNS publish inputs, encode DuckDNS update requests, harden secret writes, and remove the default public ImgBB upload key | ✅ done |
+| ✅ | Restore the Astro docs page build by moving dynamic GitHub URLs into frontmatter and escaping shell-style `${...}` text | ✅ done |
+| ✅ | Corriger la latence du menu ShipFlow et bloquer les auto-sélections dangereuses dans Health/cleanup (`BUG-2026-05-08-001`, `BUG-2026-05-08-002`) | ✅ done |
+
+### Audit: Perf (2026-04-29) — Score: B
+
+| Pri | Task | Status |
+|-----|------|--------|
+| ✅ | Load the public site fonts asynchronously in [site/src/layouts/BaseLayout.astro](/home/ubuntu/shipflow/site/src/layouts/BaseLayout.astro:24) so the Google Fonts stylesheet no longer blocks first paint | ✅ done |
+| ✅ | Reduce compositor cost in [site/src/styles/global.css](/home/ubuntu/shipflow/site/src/styles/global.css:105) by gating blur effects behind `@supports` and lowering the blur radius on glass panels | ✅ done |
+| ✅ | Defer below-the-fold layout and paint work on long static pages via `content-visibility` in [site/src/styles/global.css](/home/ubuntu/shipflow/site/src/styles/global.css:283) | ✅ done |
+| ✅ | Prune heavyweight directories from [lib.sh](/home/ubuntu/shipflow/lib.sh:2233) project resolution scans and replace remote PM2 Python parsing with Node in [local/local.sh](/home/ubuntu/shipflow/local/local.sh:415) and [local/dev-tunnel.sh](/home/ubuntu/shipflow/local/dev-tunnel.sh:260) | ✅ done |
+| 🟠 | Self-host the marketing site fonts or move to a local-first stack to eliminate the remaining cross-origin font dependency after the non-blocking preload patch | ✅ done |
+| 🟡 | Consolidate duplicated remote PM2/tunnel parsing logic between [local/local.sh](/home/ubuntu/shipflow/local/local.sh:415) and [local/dev-tunnel.sh](/home/ubuntu/shipflow/local/dev-tunnel.sh:260) so future perf and failure-handling fixes do not drift | ✅ done |
+
+## Audit Findings
+<!-- Populated by /sg-audit — dated sections with Fixed: / Remaining: -->
+🟠 [ShipFlow] task: Migrer les valeurs visuelles hardcodees du site ShipFlow vers des design tokens semantiques centralises dans `site/src/styles/global.css` et leurs usages partages | status: todo | area: site-design-system | spec: shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
+🟠 [ShipFlow] task: Completer le socle des design tokens ShipFlow avec palette semantique, surfaces et motion pour le site public | status: todo | area: site-design-tokens | spec: shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
+🟡 [ShipFlow] task: Justifier explicitement le mode unique du theme site dans la gouvernance ou ajouter une couverture multi-mode et une architecture de preference coherente | status: todo | area: site-theme-architecture | spec: shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
+
+### Audit: Deps
+
+🟠 [ShipFlow] task: Remediate the site Astro advisory with the planned major upgrade path | status: todo | area: site-deps | next: /404-sg-migrate astro 6.x upgrade
+🟡 [ShipFlow] task: Add a committed lockfile and pin the tui toolchain for reproducible dependency audits | status: todo | area: tui-deps | next: bun install --lockfile-only

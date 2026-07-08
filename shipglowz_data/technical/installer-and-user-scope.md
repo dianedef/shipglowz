@@ -1,0 +1,160 @@
+---
+artifact: technical_module_context
+metadata_schema_version: "1.0"
+artifact_version: "1.0.6"
+project: ShipGlowz
+created: "2026-05-01"
+updated: "2026-06-30"
+status: reviewed
+source_skill: sg-start
+scope: installer-and-user-scope
+owner: Diane
+confidence: high
+risk_level: high
+security_impact: yes
+docs_impact: yes
+linked_systems:
+  - cli/install.sh
+  - README.md
+  - local/install.sh
+depends_on:
+  - artifact: "README.md"
+    artifact_version: "0.1.0"
+    required_status: draft
+  - artifact: "GUIDELINES.md"
+    artifact_version: "1.2.0"
+    required_status: reviewed
+supersedes: []
+evidence:
+  - "README installer section and cli/install.sh function inventory."
+  - "PM2 boot autostart removed from default installer contract."
+  - "Turso SSH helper command wrapper added to installer-managed global commands."
+  - "Turso remote login helper command wrapper added."
+  - "Remote Agents menu includes Turso guidance while local menu owns the SSH tunnel flow."
+  - "Short remote ShipGlowz bootstrap added for clone-free install."
+  - "Installer now supports per-agent user-space selection for Claude, Codex, OpenCode, and KiloCode, plus separate runtime/TUI choices."
+next_review: "2026-06-01"
+next_step: "/sg-docs technical audit installer"
+---
+
+# Installer And User Scope
+
+## Purpose
+
+This doc covers `cli/install.sh` and the root/user boundary for ShipGlowz setup. Read it before changing system dependencies, global binaries, aliases, skill links, Codex/Claude config, MCP registration, or project-local `shipglowz_data` bootstrap behavior.
+
+## Owned Files
+
+| Path | Role | Edit notes |
+| --- | --- | --- |
+| `cli/install.sh` | Root-level server bootstrap and per-user setup | Preserve idempotence and explicit root-only behavior |
+| `tools/shipglowz_sync_skills.sh` | Shared Claude/Codex skill symlink sync helper | Reuse instead of duplicating skill-link repair logic |
+| `README.md` | Operator install contract | Update when commands, privilege, or installed tooling changes |
+| `local/install.sh`, `local/install_local.ps1` | Workstation-side setup | Keep separate from root server install assumptions |
+| `.env.example` | Example configuration | Keep secrets as placeholders only |
+
+## Entrypoints
+
+- `curl -fsSL https://shipflowzsite.vercel.app/shipflow-script | sudo sh`: short remote bootstrap. It clones or updates `~/shipflow` for the invoking sudo user, stashes local dirty repo changes before updating, then delegates to `~/shipflow/cli/install.sh`.
+- `install-shipglowz.sh`: raw bootstrap script used by the short remote endpoint.
+- `sudo ./cli/install.sh`: server installer.
+- `configure_command_wrappers`: installs global `shipflow`, `sf`, and helper command symlinks such as `shipflow-turso-login` and `shipflow-turso-ssh`.
+- `setup_user`: per-user configuration for eligible users.
+- `resolve_install_components`: interactive or env-driven selector for user-space agents (`claude`, `codex`, `opencode`, `kilocode`), ShipGlowz runtime config, and TUI.
+- `configure_*_mcp`: Claude/Codex MCP provider setup. Codex MCP entries
+  are registered disabled by default and enabled per session by the ShipGlowz
+  launcher.
+- `configure_skills`: delegates skill symlink check/repair to `tools/shipglowz_sync_skills.sh`.
+- `configure_aliases`, `configure_data`: user workflow setup.
+
+## Control Flow
+
+```text
+curl -fsSL https://shipflowzsite.vercel.app/shipflow-script | sudo sh
+  -> install git/curl/bash bootstrap dependencies when missing
+  -> clone or update ShipGlowz under the invoking user's home
+  -> stash local dirty repo changes before update
+  -> exec sudo/root cli/install.sh
+
+sudo ./cli/install.sh
+  -> verify root scope
+  -> install system tools
+  -> configure global commands
+  -> collect eligible users
+  -> resolve user-space component selection
+  -> setup_user
+  -> write aliases, skill links, MCP config, Codex config, shipglowz_data
+  -> generate install report
+```
+
+## Invariants
+
+- Server install is root-level and should fail clearly without root.
+- The remote bootstrap must preserve the root boundary: it may prepare the repository, but the real system setup still runs through `cli/install.sh` as root.
+- Daily work should run under an operational user, not by forcing all state into root.
+- The installer installs the PM2 binary but must not configure PM2 boot
+  autostart by default; environments should start explicitly under the
+  operator user.
+- The installer installs the Caddy binary for ShipGlowz use, but disables the
+  default system `caddy.service`; normal environment proxying is launched later
+  by ShipGlowz in user mode and tied to PM2 app lifecycle.
+- Existing user config must be preserved outside ShipGlowz-managed blocks.
+- User-space agent CLI install is selection-based. `claude`, `codex`,
+  `opencode`, and `kilocode` may be installed independently.
+- The current user-space agent install path uses `pnpm add -g` inside
+  `PNPM_HOME`, so the installer follows the package registry version current at
+  install time instead of shipping pinned local binaries.
+- Symlinks and aliases should be idempotent and updated consistently. The managed bash aliases include `shipflow`/`sf`/`s`, Claude/Codex launch shortcuts, reload helpers, and `ch` for clearing the current terminal plus tmux pane history (`clear; tmux clear-history`).
+- Helper command wrappers under `/usr/local/bin` should point back to scripts in
+  `$SHIPFLOW_ROOT`; do not duplicate helper logic into generated files.
+- ShipGlowz skill runtime entries under `~/.claude/skills` and `~/.codex/skills` are symlinks to `$SHIPFLOW_ROOT/skills/<name>`.
+- Codex MCP registrations should default to `enabled = false`; normal Codex
+  sessions stay lightweight, and ShipGlowz launches MCP-enabled sessions with
+  temporary `-c mcp_servers.<name>.enabled=true` overrides.
+- Runtime skill link repair blocks on non-symlink targets by default; installer compatibility may pass `--backup-existing` to move collisions aside explicitly.
+- Installer errors should stop before partial or misleading success.
+- `cli/install.sh` provides Flox/system tooling; Flutter/Dart runtimes are provisioned per project Flox environment unless the operator explicitly uses optional global SDK install.
+
+## Failure Modes
+
+- Live downloads or package installers can fail partially; messages must identify the failing step.
+- `--only` or component-scoped install paths can leave stale aliases or symlinks if final synchronization is skipped.
+- Missing runtime tools should produce direct diagnostics, not secondary shell errors.
+- When only some agents are selected, verification and reporting must show
+  unselected agents as intentionally skipped rather than failed.
+- Missing Playwright Chromium runtime libraries can still break a
+  Playwright-enabled Codex launch; the installer records the local Chromium
+  path while keeping Playwright MCP disabled until explicitly requested.
+- Incorrect user targeting can install private workflow config for the wrong account.
+
+## Security Notes
+
+- Do not paste tokens, private MCP credentials, or shell config secrets into docs.
+- Treat root-level writes and `/usr/local` changes as high-impact.
+- Preserve non-destructive validation paths for installer changes.
+
+## Validation
+
+```bash
+bash -n cli/install.sh local/install.sh local/turso-login.sh local/turso-ssh.sh
+bash -n tools/shipglowz_sync_skills.sh test_skill_runtime_sync.sh
+bash test_skill_runtime_sync.sh
+tools/shipglowz_sync_skills.sh --check --all
+rg -n "resolve_install_components|install_ai_agent_clis_for_user|verify_ai_agent_clis_for_user|configure_aliases|configure_skills|configure_data|setup_user|collect_target_users|configure_codex|shipflow-turso-login|shipflow-turso-ssh" cli/install.sh local/
+```
+
+For behavioral changes, prefer a disposable host/container or a narrowly scoped installer dry run before claiming install success.
+
+## Reader Checklist
+
+- `cli/install.sh` changed -> review this doc and `README.md`.
+- Alias/symlink behavior changed -> check local and server install docs, plus `tools/shipglowz_sync_skills.sh --check --all`.
+- MCP config changed -> check provider docs references and remote login docs.
+- Playwright MCP config changed -> confirm Linux ARM64 keeps using the local
+  Playwright Chromium executable instead of a Google Chrome stable channel, and
+  that Codex still writes the provider as disabled by default.
+- User targeting changed -> check installer ownership specs.
+
+## Maintenance Rule
+
+Update this doc when install privilege, user targeting, package/tool list, symlink/alias behavior, MCP setup, Codex/Claude config, or `shipglowz_data` bootstrap behavior changes.

@@ -1,0 +1,204 @@
+---
+name: 105-sg-check
+description: "Technical checks for typecheck, lint, build, and repair."
+disable-model-invocation: true
+argument-hint: [fix|nofix]
+---
+
+## Canonical Paths
+
+Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/references/canonical-paths.md` (`$SHIPFLOW_ROOT` defaults to `$HOME/shipglowz`). ShipGlowz tools, shared references, skill-local `references/*`, templates, workflow docs, and internal scripts must resolve from `$SHIPFLOW_ROOT`, not from the project repo where the skill is running. Project artifacts and source files still resolve from the current project root unless explicitly stated otherwise.
+
+Primary artifact type: `specialist-workflow`.
+
+## Instruction Layering
+
+This `SKILL.md` is the activation contract. Before editing or expanding this skill, load `$SHIPFLOW_ROOT/skills/references/skill-instruction-layering.md` and keep bulky workflow detail in references.
+
+## Chantier Tracking
+
+Trace category: `conditionnel`.
+Process role: `source-de-chantier`.
+
+Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and include a final `Chantier` block. If no unique chantier is identified, do not write to any spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+
+## Chantier Potential Intake
+
+Apply the chantier-potential threshold from `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` before the final report.
+For `105-sg-check`, use it when findings reveal non-trivial future work outside a direct local fix and no unique chantier already owns that work.
+
+## Mission
+
+`105-sg-check` answers one question: `Quels checks techniques apportent une confiance proportionnée sur cette surface ?`
+
+Run and interpret technical checks without overstating what they prove. `105-sg-check` is a technical confidence pass, not product proof, not a browser/manual QA substitute, and not a generic bug-fix owner.
+
+If checks generate temporary build outputs, caches, or scratch artifacts, treat them as disposable unless the project contract explicitly requires a durable artifact. Remove them after the check completes.
+
+## ShipGlowz-Owned Preflight
+
+Apply `$SHIPFLOW_ROOT/skills/references/shipglowz-owned-preflight.md` before reading ShipGlowz-owned references, running ShipGlowz-owned tools/scripts, or checking ShipGlowz-owned runtime-visibility surfaces.
+For `105-sg-check`, this preflight also applies before verifying ShipGlowz skill runtime visibility targets.
+
+## Context
+
+- Current directory: !`pwd`
+- Package manager lockfiles: !`ls -1 package-lock.json yarn.lock pnpm-lock.yaml requirements.txt Pipfile.lock 2>/dev/null || echo "none found"`
+- Package.json scripts (if any): !`cat package.json 2>/dev/null | grep -E '^\s+"(dev|build|lint|typecheck|check|test|format)"' || echo "no package.json"`
+- ShipGlowz development mode: !`rg -n "ShipGlowz Development Mode|development_mode|validation_surface|ship_before_preview_test|post_ship_verification|deployment_provider" CLAUDE.md SHIPFLOW.md 2>/dev/null || echo "No project development mode documented"`
+- Project CLAUDE.md (if any): !`head -80 CLAUDE.md 2>/dev/null || echo "no CLAUDE.md"`
+
+## Your task
+
+Run all available checks for the current project and fix errors if found.
+Treat this skill as a practical confidence pass, not as proof that the product is fully correct or secure.
+
+Before finalizing, load `$SHIPFLOW_ROOT/skills/references/actionable-failure-contract.md` when a check fails or is blocked so the failure maps to a specific owner and impact.
+
+Before choosing or interpreting checks, read `${SHIPFLOW_ROOT:-$HOME/shipglowz}/skills/references/project-development-mode.md` and inspect `CLAUDE.md` or `SHIPFLOW.md`.
+- In `local` mode, local checks are the expected technical confidence pass.
+- In `vercel-preview-push` mode, local checks are pre-push confidence only. Apply `$SHIPFLOW_ROOT/skills/references/preview-proof-routing.md` before claiming preview/browser/manual validation.
+- In `hybrid` mode, local checks are valid for unit/static work, but hosted surfaces still need `/005-sg-ship` -> `/405-sg-prod` before remote validation.
+- If Vercel is detected but the mode is missing, report `unknown-vercel` as a risky assumption and recommend documenting `## ShipGlowz Development Mode`.
+
+### Workspace root detection
+
+If the current directory has no project markers (no `package.json`, no `requirements.txt`, no `src/` dir) BUT contains multiple project subdirectories — you are at the **workspace root**. Use the runtime's structured question tool when available, or a concise plain-text question:
+- Question: "Which project(s) should I check?"
+- `multiSelect: true`
+- One option per project: label = project name, description = stack
+- Read project list from local project discovery (`shipglowz_data/` markers); use old registry files only as manually supplied migration evidence.
+
+Then run checks for each selected project sequentially.
+
+Shared tracking files are read-only in this skill:
+- `PROJECTS.md` is legacy/migration evidence only; it is not required for workspace checks.
+- Never edit `TASKS.md`, `AUDIT_LOG.md`, or `PROJECTS.md` from `105-sg-check`.
+
+### Step 0: Choose which checks to run
+
+If `$ARGUMENTS` is empty (not "fix" or "nofix"), use the runtime's structured question tool when available, or a concise plain-text question:
+- Question: "Which checks should I run?"
+- `multiSelect: true`
+- Options:
+  - **Typecheck** — "TypeScript/Astro type validation"
+  - **Lint** — "ESLint, formatting, style rules"
+  - **Build** — "Full production build"
+  - **Test** — "Unit/integration tests"
+  - **Dependencies** — "Quick vulnerability + outdated check (run /402-sg-deps for full audit)"
+- All options pre-selected by default
+
+If `$ARGUMENTS` is "fix" or "nofix", run all detected checks (skip the prompt).
+
+### Step 1: Detect project type and run checks
+
+Based on the context above, identify the project stack and run the appropriate commands **sequentially** (each depends on the previous passing):
+
+**TypeScript/JavaScript projects** (has package.json):
+- Typecheck: `npm run typecheck` or `yarn typecheck` or `pnpm typecheck` (match the lockfile)
+- Lint: `npm run lint` or equivalent (if script exists)
+- Build: `npm run build` or `pnpm build` or `yarn build`
+
+**Astro projects** (has astro in dependencies):
+- `pnpm check` or `npm run check` (Astro type checking)
+- `pnpm build` or `npm run build`
+
+**Python projects** (has requirements.txt or Pipfile):
+- `python -m py_compile` on changed files, or `pytest --co -q` (collect-only) to validate
+- `pytest -x` (stop on first failure)
+
+**Bash projects** (shell scripts, no package.json):
+- `bash -n` syntax check on `.sh` files
+- Run test scripts if they exist (`./test_*.sh`)
+
+### Proportional checks policy
+
+Prefer scoped checks for low-risk edits. Do not default to a full sequence when the risk and touched surface are narrow.
+
+- `bounded`: default for localized or low-risk edits (syntax/typecheck/lint where available and targeted).
+- `full`: for behavior-relevant shared code, auth/data boundary changes, dependency/build changes, or release-risky edits.
+
+Never run full framework-heavy checks purely by habit.
+
+**ShipGlowz skill runtime visibility** (when the scope touches `skills/*/SKILL.md`, new/renamed skills, or reported Claude/Codex skill drift):
+- Check one skill: `${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/shipglowz_sync_skills.sh --check --skill <name>`
+- Check all source skills: `${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/shipglowz_sync_skills.sh --check --all`
+- Report missing/stale/non-symlink entries; do not repair unless the user asked for fix mode and the current task owns runtime visibility repair.
+
+Before concluding that the project is "green", explicitly note any major gap in coverage:
+- No tests available
+- No typecheck available on a typed codebase
+- No lint script on a repo that normally uses linting
+- Build skipped because no build command exists
+- Checks only validate syntax/compile steps, not runtime behavior or user-facing flows
+- Project mode requires Vercel preview evidence and only local checks were run
+
+If project scripts in `CLAUDE.md` or `package.json` suggest an expected check exists but it cannot be run, report that as a risky assumption instead of silently skipping it.
+
+### Step 1b: Check dependencies (if selected) — quick scan only
+
+> For comprehensive dependency auditing (unused deps, license compliance, type coverage, supply chain), run `/402-sg-deps`.
+
+**Node.js projects** (has package.json):
+- Run `npm audit --audit-level=high` / `yarn audit` / `pnpm audit` — report critical/high vulnerabilities only
+- Run `npm outdated` / `yarn outdated` / `pnpm outdated` — show summary count (X patch, Y minor, Z major)
+
+**Python projects** (has requirements.txt):
+- Run `pip-audit` if available — report critical/high vulnerabilities only
+- Run `pip list --outdated` — show summary count
+
+Report a quick summary. Do NOT auto-update dependencies. Recommend `/402-sg-deps` for full analysis (unused, duplicates, licenses, configuration).
+
+Do not present a clean dependency scan as a security sign-off. If dependency checks were not available, required auth to registry services, or only partial results were obtained, state that explicitly.
+
+### Step 2: Fix errors
+
+If `$ARGUMENTS` is "nofix", stop here and just report the errors.
+
+Otherwise (default behavior, including when `$ARGUMENTS` is "fix" or empty):
+
+1. Read each error message carefully.
+2. Open the failing file(s) and fix the root cause.
+3. Re-run the failed check to confirm the fix works.
+4. Repeat until all checks pass or you've attempted 3 fix cycles.
+
+Do not "fix" a failing check by weakening the intended guardrail unless the user explicitly asked for that tradeoff. In particular:
+- Do not disable lint/type/test/build rules just to get green output
+- Do not replace meaningful assertions with trivial ones
+- Do not remove validation, auth, authorization, or error handling paths to silence failures
+- If a passing result depends on a risky assumption, surface it in the report
+
+### Step 3: Report
+
+Summarize what was checked, what failed, and what was fixed. If anything still fails after 3 attempts, explain the remaining errors clearly so the user can decide what to do.
+
+Always include a short `Risky assumptions / gaps` section when any of the following is true:
+- a relevant check was unavailable or skipped
+- the repo has no meaningful runtime or integration coverage
+- a dependency/security check could not be completed
+- the build passes but warnings suggest a likely product-quality or security issue
+
+If nothing indicates functional validation of the main user flow, say so plainly. Example: "Checks pass, but no evidence was gathered that checkout/login/sync actually works end-to-end."
+
+If project mode is `vercel-preview-push`, include the next deployment step explicitly:
+- `Next step:` apply `$SHIPFLOW_ROOT/skills/references/preview-proof-routing.md`
+- If the checked change needs non-auth browser proof, add `/108-sg-browser [URL or scope] [objective]` after `405-sg-prod`
+- If the checked change affects auth or protected flows, add `/109-sg-auth-debug [scope]` after `405-sg-prod`
+- If it affects a manual user flow, add `/107-sg-test --preview [scope]` after `405-sg-prod`
+
+### Important
+
+- Use the correct package manager for the project (check lockfiles).
+- Do not install dependencies — if something is missing, tell the user.
+- Do not modify test expectations to make tests pass. Fix the actual code.
+- If the project CLAUDE.md specifies custom check commands, use those instead.
+- A passing `105-sg-check` run means "no obvious issues in the checks that were executed", not "product is production-ready".
+- When security-relevant checks fail or are missing (for example auth flows, permission boundaries, secret/config validation, dependency audit access), call that out explicitly and recommend the next skill when appropriate (`/103-sg-verify`, `/405-sg-prod`, `/402-sg-deps`).
+- When browser-observable behavior is unproven but the issue is not auth-specific, recommend `/108-sg-browser [URL or scope] [objective]` rather than stretching `/109-sg-auth-debug`.
+- In `vercel-preview-push` or relevant `hybrid` mode, apply `$SHIPFLOW_ROOT/skills/references/preview-proof-routing.md` when changed behavior needs preview validation.
+
+## Validation
+
+- `rg -n "Trace category|Process role|Mission|ShipGlowz-Owned Preflight|canonical ShipGlowz path|shipflow_sync_skills|project-development-mode|actionable-failure-contract|Risky assumptions / gaps|vercel-preview-push|product is production-ready" skills/105-sg-check/SKILL.md`
+- `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
+- `tools/shipglowz_sync_skills.sh --check --skill 105-sg-check`
