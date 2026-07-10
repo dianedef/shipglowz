@@ -228,6 +228,20 @@ const editorialPath = "/docs#editorial-governance";
         </article>
 
         <article class="doc-card">
+          <h3>Private data is versioned separately</h3>
+          <p>
+            ShipGlowz keeps durable private operator data out of the public
+            framework repository. The working tree under
+            <code>~/.shipglowz/private/data/</code> is intended to be a
+            separate Git repository for versioned private memory, while
+            ephemeral review queues should stay in different private paths.
+          </p>
+          <a class="doc-action" href="/blog/shipglowz-private-data-repo">
+            Read the explanation
+          </a>
+        </article>
+
+        <article class="doc-card">
           <h3>Platform support needs parity proof</h3>
           <p>
             <code>sf-platform-parity</code> checks product and technical parity across

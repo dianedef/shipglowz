@@ -60,9 +60,12 @@ It routes content work to specialist owner skills and keeps the lifecycle cohere
 Load before routing or execution:
 
 - `$SHIPFLOW_ROOT/skills/007-sg-content/references/content-router.md` for mode selection, spec gates, governance gates, owner routing, and rubric details.
+- `$SHIPFLOW_ROOT/skills/references/content-owner-handoffs.md` for the canonical content-owner matrix and minimum handoff payload.
 - `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` when the input is a pasted source, email, URL, transcript, note, article, or example whose project, angle, or owner route is not already settled.
 - `$SHIPFLOW_ROOT/skills/references/editorial-content-corpus.md` when public content, README public promises, docs, FAQ, pricing, support copy, public skill pages, blog/article intent, claims, or runtime content are in scope.
 - `$SHIPFLOW_ROOT/skills/references/content-quality-rubric.md` when mode includes audit, final draft, final repurpose, enrichment validation, or verification handoff with a required quality score.
+- `$SHIPFLOW_ROOT/skills/references/public-first-content-default.md` when Diane invokes content work and has not explicitly redirected it toward internal content or `300-sg-docs`.
+- `$SHIPFLOW_ROOT/skills/references/repurpose-pack-storage.md` when content work starts from a source and should preserve a durable source-faithful pack in the project repo.
 
 ## Validation
 
@@ -165,6 +168,8 @@ Use `report=agent` for handoff details: file list, source evidence, owner-skill 
 
 - Orchestrate; do not duplicate specialist internals.
 - Follow shared operator-partnership doctrine. In content work, apply the obvious editorial follow-through that stays inside the current surface and owner contract before asking for framing help.
+- For Diane, presume public content by default and arbitrate only the correct declared public surface unless she explicitly asks for internal content or routes through `300-sg-docs`.
+- Treat `202-sg-repurpose` as the owner for extracting the reusable source-faithful pack when the work starts from a source and the downstream surface is not yet fully resolved.
 - Keep content source truth separate from public claims.
 - Prefer declared surfaces over invented paths.
 - Ask only targeted questions when the answer changes mode, surface, scope, security, claims, or ship posture.

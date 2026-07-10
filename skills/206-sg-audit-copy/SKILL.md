@@ -35,6 +35,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 
 - `references/copy-audit-workflow.md`: Copy audit modes, business/brand context checks, page/project checklists, rewrite rules, scoring, and reporting details.
 - `$SHIPFLOW_ROOT/skills/references/content-quality-rubric.md`: shared rubric for comparable score and feedback structuré across content owner skills.
+- `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md`: choose `workflow/TASKS.md` versus `editorial/ROADMAP.md` before durable follow-up writes.
 
 ## Mode Detection
 

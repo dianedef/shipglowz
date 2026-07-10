@@ -197,6 +197,7 @@ echo -e "   ${GREEN}shipglowz-blacksmith-login${NC} - Login Blacksmith distant v
 echo -e "   ${GREEN}shipglowz-turso-login${NC} - Login Turso distant via tunnel/headless"
 echo -e "   ${GREEN}shipglowz-turso-ssh${NC} - Copie auth Turso vers le serveur + checks SQL"
 echo -e "   ${YELLOW}Legacy aliases:${NC} shipflow-mcp-login, shipflow-clerk-login, shipflow-blacksmith-login, shipflow-turso-login, shipflow-turso-ssh"
+echo -e "   ${YELLOW}Primary aliases:${NC} shipglowz-mcp-login, shipglowz-clerk-login, shipglowz-blacksmith-login, shipglowz-turso-login, shipglowz-turso-ssh"
 echo ""
 echo -e "${YELLOW}⚠  Pour activer les alias, rechargez votre shell:${NC}"
 echo -e "   ${BLUE}source $SHELL_RC${NC}"

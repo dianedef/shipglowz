@@ -4,6 +4,48 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 
 ---
 
+## 2026-07-08 — 305-sg-init
+
+**Added:**
+- [required references] Load `skills/references/private-data-repo-contract.md` when bootstrap/install scope touches `~/.shipglowz/private/data/`
+- [core execution rules] Resolve the private-data remote from configuration and treat the path as a separate Git working tree
+
+**Updated:**
+- [bootstrap doctrine] `305-sg-init` now distinguishes durable private-data bootstrap from public repo bootstrap and blocks on non-repo path collisions
+
+**New phases:**
+- None
+
+**Sources:** 0 URLs consulted (local ShipGlowz governance update)
+
+## 2026-07-08 — 302-sg-help
+
+**Added:**
+- [required references] Load `skills/references/private-data-repo-contract.md` for help about durable private data, versioning, and bootstrap treatment
+- [help catalog] New private-data-repo quick-answer block for storage contract vs clone contract
+
+**Updated:**
+- [mode detection] `302-sg-help` now routes private-data questions through the shared repo contract instead of ad hoc local explanation
+
+**New phases:**
+- None
+
+**Sources:** 0 URLs consulted (local ShipGlowz governance update)
+
+## 2026-07-08 — 300-sg-docs
+
+**Added:**
+- [required references] Load `skills/references/private-data-repo-contract.md` when docs touch durable private data or bootstrap/install guidance
+- [add-project mode] Private project import docs now explicitly anchor on the separate private-data repo contract
+
+**Updated:**
+- [documentation doctrine] `300-sg-docs` now keeps the durable-private-data repo distinct from public governance and ephemeral private state in generated guidance
+
+**New phases:**
+- None
+
+**Sources:** 0 URLs consulted (local ShipGlowz governance update)
+
 ## 2026-06-29 — 008-sg-end-user
 
 **Added:**

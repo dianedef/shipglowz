@@ -35,6 +35,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 
 - `references/copywriting-audit-workflow.md`: Copywriting modes, persuasion frameworks, scoring matrices, conversion/trust criteria, examples, and report details.
 - `$SHIPFLOW_ROOT/skills/references/content-quality-rubric.md`: shared rubric for score normalization and structured feedback in claim-sensitive copy audits.
+- `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md`: choose `workflow/TASKS.md` versus `editorial/ROADMAP.md` before durable follow-up writes.
 
 ## Mode Detection
 

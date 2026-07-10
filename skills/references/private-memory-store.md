@@ -40,27 +40,65 @@ This reference declares the approved private runtime memory root for ShipGlowz a
 
 It exists to cache reusable private context, especially project pitches and source material, without placing that content in the public ShipGlowz repository.
 
+The repository and clone behavior for that durable private root are defined separately in `skills/references/private-data-repo-contract.md`.
+
 ## Canonical Path
 
 ```text
-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}
+${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}
 ```
 
 For the current server user, this resolves to:
 
 ```text
-/home/claude/.shipflow/private
+/home/claude/.shipglowz/private/data
 ```
 
 This folder is outside `$SHIPFLOW_ROOT` and outside Git. It is private runtime memory, not a public governance artifact.
 
 ## Approved Subfolders
 
-- `project-pitches/`: cached pitch files, fetched pitch snapshots, or redacted pitch summaries used for portfolio routing.
+- `projects/`: one file per project, each file holding the project pitch, routing metadata, and the latest known project summary.
 - `source-cache/`: operator-approved reusable sources, such as inspiration emails, notes, transcripts, or excerpts.
 - `reports/`: private analysis reports derived from private sources.
 
 Create additional subfolders only when a specific owner reference documents the purpose, allowed contents, and retention rule.
+
+## Project File Schema
+
+Use one Markdown file per project under `projects/`.
+
+Recommended path:
+
+```text
+projects/<project-slug>.md
+```
+
+Recommended minimal frontmatter:
+
+```yaml
+---
+project: "<project name>"
+slug: "<project-slug>"
+pitch_url: "<github-url-or-private-source>"
+status: reviewed
+audience: "<primary audience>"
+business_angle: "<short positioning summary>"
+owner_skill: "<preferred owner skill>"
+tags: ["<routing-tag>", "<optional-tag>"]
+updated: "YYYY-MM-DD"
+source_of_truth: "<project repo path or governed doc>"
+---
+```
+
+Body content should stay short and stable:
+
+- public-facing one-liner
+- internal framing note
+- relevant source-of-truth links
+- decision notes when the pitch changed materially
+
+Keep the project file as the source of truth for that project entry. Do not split the same project truth across multiple canonical files unless a separate subsystem explicitly owns the split.
 
 ## What Can Be Stored
 
@@ -92,21 +130,20 @@ Not allowed:
 
 Use `shipglowz_data/business/portfolio-project-pitch-links.md` as the public index of project names and pitch URLs.
 
-Use `${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}/project-pitches/` as the private cache for the fetched or summarized pitch contents.
+Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/projects/` as the private cache for the fetched or summarized pitch contents.
 
 The public index decides which pitch may be relevant. The private cache may speed up classification, but it does not replace project-owned source-of-truth docs.
 
 Recommended file naming:
 
 ```text
-project-pitches/<project-slug>/PITCH.md
-project-pitches/<project-slug>/summary.md
-project-pitches/index.md
+projects/<project-slug>.md
+projects/index.md
 ```
 
 ## Source Cache
 
-Use `${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}/source-cache/` only for sources the operator approves for reuse beyond the current session.
+Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/source-cache/` only for sources the operator approves for reuse beyond the current session.
 
 For inspiration emails and marketing examples, store only the minimum useful material:
 
@@ -136,6 +173,6 @@ Validate references after edits with:
 
 ```bash
 python3 tools/shipglowz_metadata_lint.py skills/references/private-memory-store.md skills/references/source-intake-classification.md shipglowz_data/business/portfolio-project-pitch-links.md docs/focus-tags-cheatsheet.md skills/references/shipglowz-terms.md
-rg -n "private-memory-store|SHIPFLOW_PRIVATE_ROOT|\\.shipflow/private|project-pitches|source-cache" skills/references shipglowz_data/business docs/focus-tags-cheatsheet.md
-test -d "${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}"
+rg -n "private-memory-store|SHIPGLOWZ_PRIVATE_ROOT|SHIPFLOW_PRIVATE_ROOT|\\.shipglowz/private/data|project-pitches|projects/|source-cache" skills/references shipglowz_data/business docs/focus-tags-cheatsheet.md
+test -d "${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}"
 ```

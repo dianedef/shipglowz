@@ -47,6 +47,7 @@ Use this folder when the document answers:
 - content publication checklists
 - business-domain checklists paired to shared playbooks
 - `seo-charge-referencement-web-checklist.md`
+- `project-import-checklist.md`
 
 ## What Does Not Belong Here
 
@@ -76,6 +77,7 @@ Use domain-first kebab-case names:
 - `seo-launch-checklist.md`
 - `content-refresh-checklist.md`
 - `seo-charge-referencement-web-checklist.md`
+- `project-import-checklist.md`
 
 ## Relationship With Playbooks
 

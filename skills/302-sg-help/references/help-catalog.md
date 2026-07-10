@@ -121,6 +121,18 @@ Use these verbs consistently in help answers and docs:
 - `invokes`: what the runtime does after the operator request is interpreted
 - `owns execution`: the selected lifecycle or specialist skill now carries the work
 
+### Private Data Repo
+
+Use these distinctions consistently in help answers:
+
+- `~/.shipglowz/private/data/` is the durable private-data working tree
+- it is intended to be a separate Git repository from public project repos and from `$SHIPFLOW_ROOT`
+- its remote is configuration-resolved, not hardcoded in shared doctrine
+- it stores durable private operator data, not secrets
+- ephemeral private state such as mail review queues belongs in a separate path, for example `~/.shipglowz/private/mail-intake/`
+
+Only bootstrap/install owners need the clone contract. Most help answers should explain the storage contract first.
+
 ### Task & Workflow
 
 | Skill | Purpose | Arguments |
@@ -591,7 +603,7 @@ project/shipglowz_data/
 ### Content lifecycle
 ```bash
 /007-sg-content                  # Route content work through map, editorial gates, owner skills, validation
-/007-sg-content repurpose        # Turn source material into faithful docs/site/FAQ/content outputs
+/007-sg-content repurpose        # Extract and store a source-faithful pack, then route docs/site/FAQ/content work
 /007-sg-content audit seo        # Route public content through copy, copywriting, and SEO audits as needed
 ```
 

@@ -165,7 +165,7 @@ Audit ALL web projects in the workspace for SEO issues.
    - The absolute date, exact project path, and the SEO context already surfaced by this skill (`BUSINESS.md`, sitemap, robots, llms.txt, head/meta config)
    - The complete **PROJECT MODE** section from this skill (all 7 phases: Technical SEO → On-Page Scan → Content SEO → Structured Data → Internal Linking → Fix → Report)
    - The **Tracking** section from this skill
-   - Rule: **read-only analysis** — no code fixes, only update AUDIT_LOG.md and TASKS.md
+   - Rule: **read-only analysis** — no code fixes, only update AUDIT_LOG.md and the correct follow-up tracker chosen through `skills/references/task-registry-routing.md`
    - Rule: before scoring, identify linked systems and side effects (templates, metadata injection, sitemap, robots, locale variants, AI crawler rules)
    - Rule: call out outdated feature claims, documentation mismatches, wrong-intent traffic, and unproven sensitive claims
    - Rule: read/report `BUSINESS.md`, `BRANDING.md`, and `GUIDELINES.md` metadata versions; flag missing, stale, low-confidence, or unversioned contracts as proof gaps before scoring
@@ -190,7 +190,7 @@ Audit ALL web projects in the workspace for SEO issues.
    ═══════════════════════════════════════
    ```
 
-5. Update project-local `shipglowz_data/workflow/AUDIT_LOG.md` (one traffic-first audit record per project, SEO column) and project-local `shipglowz_data/workflow/TASKS.md` (each project's `### Audit: SEO` subsection).
+5. Update project-local `shipglowz_data/workflow/AUDIT_LOG.md` (one traffic-first audit record per project, SEO column) and split follow-up tasks: editorial/content SEO into `shipglowz_data/editorial/ROADMAP.md`, technical SEO implementation into `shipglowz_data/workflow/TASKS.md`.
 
 6. Ask: **"Which projects should I fix?"** — list projects with scores. Fix only approved projects, one at a time.
 
@@ -503,8 +503,9 @@ Governance:
 
 ## Tracking (all modes)
 
-Shared file write protocol for `AUDIT_LOG.md` and `TASKS.md`:
+Shared file write protocol for `AUDIT_LOG.md`, `TASKS.md`, and `ROADMAP.md`:
 - First load `$SHIPFLOW_ROOT/skills/references/operational-record-format.md`; new audit and task records must use that traffic-first operational format.
+- First load `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md`; SEO follow-up may be technical, editorial, or split across both trackers.
 - Treat the snapshots loaded at skill start as informational only.
 - Right before each write, re-read the target file from disk and use that version as authoritative.
 - Append or replace only the intended row or subsection; never rewrite the whole file from stale context.
@@ -522,10 +523,10 @@ Create or update traffic-first audit operational records in the target audit log
 
 Create either file if missing.
 
-### Update TASKS.md
+### Update follow-up trackers
 
-1. **Local TASKS.md** (project root): create or update traffic-first task records for the SEO audit findings.
-2. **Project-local `shipglowz_data/workflow/TASKS.md`**: find the project section and mirror the same traffic-first task records; update any dashboard summary only when that surface still exists.
+1. **Editorial/content SEO findings**: create or update traffic-first task records in `shipglowz_data/editorial/ROADMAP.md`.
+2. **Technical SEO findings**: create or update traffic-first task records in `TASKS.md` or `shipglowz_data/workflow/TASKS.md`; update any dashboard summary only when that execution surface still exists.
 
 ---
 

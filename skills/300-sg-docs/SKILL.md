@@ -48,6 +48,8 @@ Use `report=agent` for blocked runs, handoff, or explicit verbose request.
 - `technical`, `technical audit`, `docs/technical` -> `TECHNICAL DOCS MODE`
 - `editorial`, `editorial audit`, `docs/editorial` -> `EDITORIAL GOVERNANCE MODE`
 - `duplicata`, `duplicates`, `duplicate audit` -> `DUPLICATE GOVERNANCE MODE`
+- `add-project`, `project import`, `import project`, `import url` -> `ADD PROJECT MODE`
+- `add-project update`, `project refresh`, `refresh project`, `update project` -> `ADD PROJECT UPDATE MODE`
 - empty args -> `AUTO MODE`
 
 ## Required References
@@ -68,7 +70,9 @@ Load on demand:
 - `$SHIPFLOW_ROOT/skills/references/question-contract.md` before any user-facing merge/replace/scope/surface question, including `init` bootstrap questions for unknown project intent, target surface, or runtime.
 - `$SHIPFLOW_ROOT/skills/references/documentation-freshness-gate.md` when documentation depends on current external framework, SDK, provider, runtime, schema, auth, deployment, or API behavior.
 - `$SHIPFLOW_ROOT/skills/references/skill-context-budget.md` only when scope touches `skills/`, skill discovery metadata, or Codex/Claude skill compliance.
+- `$SHIPFLOW_ROOT/skills/references/private-data-repo-contract.md` when scope touches durable private operator data, `~/.shipglowz/private/data/`, private project fiches, or bootstrap/install docs that mention the private data repository.
 - `$SHIPFLOW_ROOT/shipglowz-metadata-migration-guide.md` when mode is metadata/migrate-frontmatter.
+- `$SHIPFLOW_ROOT/shipglowz_data/workflow/playbooks/project-import-playbook.md` and `$SHIPFLOW_ROOT/shipglowz_data/workflow/checklists/project-import-checklist.md` when mode is `add-project` or `add-project update`.
 
 ## Execution Contract
 
@@ -84,6 +88,56 @@ Load on demand:
 - Operational trackers may still contain durable planning or decision content. During migration, mine them for canonical task, QA, or decision updates instead of assuming they are disposable.
 - When scope touches `skills/`, skill README files, `site/src/content/skills/*.md`, or skill discovery metadata, verify skill contract coherence, public skill-page coherence, and runtime skill visibility together. Route non-trivial skill-contract changes through `009-sg-skill-build`.
 - Do not add ShipGlowz governance frontmatter to app-rendered runtime content such as `site/src/content/skills/*.md`.
+
+## ADD PROJECT MODE
+
+Use this mode when the operator gives a URL or repository and wants a private project fiche created or refreshed under `~/.shipglowz/private/data/projects/`.
+
+Load:
+
+- `shipglowz_data/workflow/playbooks/project-import-playbook.md`
+- `shipglowz_data/workflow/checklists/project-import-checklist.md`
+- `skills/references/source-intake-classification.md`
+- `skills/references/private-memory-store.md`
+- `skills/references/private-data-repo-contract.md`
+
+Follow the playbook order exactly:
+
+1. identify source type and project candidate
+2. detect existing ShipGlowz data, pitch, or governed docs
+3. extract stable project truth
+4. write or update one private project file
+5. record uncertainty, provenance, and next action
+6. hand off to source classification if downstream routing is still needed
+
+Do not invent a public story when the source does not support one. If the source is ambiguous or the URL is unavailable, report the gap and ask for the smallest missing URL or project truth needed to continue.
+
+When documenting or generating bootstrap guidance for this mode, keep the storage doctrine explicit: `~/.shipglowz/private/data/` is a separate private Git repository, while public governance remains in project repos and ephemeral review state lives elsewhere.
+
+## ADD PROJECT UPDATE MODE
+
+Use this mode when the operator wants to refresh an existing private project fiche after the project evolved.
+
+This mode uses the same playbook and checklist as `ADD PROJECT MODE`, but the intent changes:
+
+- refresh the pitch
+- update the business angle
+- adjust routing tags and owner-skill candidate
+- record what changed since the last import
+- keep old claims only if they still hold
+
+Load:
+
+- `shipglowz_data/workflow/playbooks/project-import-playbook.md`
+- `shipglowz_data/workflow/checklists/project-import-checklist.md`
+- `skills/references/source-intake-classification.md`
+- `skills/references/private-memory-store.md`
+
+Additional update rule:
+
+- compare the current source against the existing private file first
+- prefer update notes over rewriting the whole fiche when only the pitch or angle changed
+- if the project no longer matches the original file, treat it as a rewrite plus explicit change log
 
 ## Stop Conditions
 

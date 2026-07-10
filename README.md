@@ -145,10 +145,26 @@ It helps operators run apps on servers, but its deeper job is to reduce ambiguit
 - [shipglowz-spec-driven-workflow.md](./shipglowz-spec-driven-workflow.md) — ShipGlowz V3 workflow for `700-sg-explore`, `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, and `104-sg-end`
 - [shipglowz-metadata-migration-guide.md](./shipglowz-metadata-migration-guide.md) — how to adopt ShipGlowz metadata and versioning in an existing project
 - [skills/references/canonical-paths.md](./skills/references/canonical-paths.md) — path resolution rules for ShipGlowz-owned tools, references, templates, and project-local artifacts
+- [skills/references/private-data-repo-contract.md](./skills/references/private-data-repo-contract.md) — contract for the separate private data repository used for durable operator-managed data under `~/.shipglowz/private/data/`
 - [ECOSYSTEM-AND-PORTS.md](./ECOSYSTEM-AND-PORTS.md) — legacy root technical note pending consolidation into the canonical technical layer
 - [local/README.md](./local/README.md) — local tunnel setup
 - [tools/codebase-mcp/README.md](./tools/codebase-mcp/README.md) — local MCP server for codebase context management
 - [archive/README.md](./archive/README.md) — historical docs and old reports
+
+## Private Data Repo
+
+ShipGlowz separates public code from durable private operator data.
+
+- Public code, skills, tools, and governance stay in the ShipGlowz repository.
+- Durable private operational data lives in `~/.shipglowz/private/data/`.
+- That path is intended to be a separate Git repository so operators can version and back up private data without mixing it into public repos.
+- The repository remote must be resolved from configuration such as `SHIPGLOWZ_PRIVATE_DATA_REPO`; it must not be hardcoded in shared doctrine.
+
+This private repository is for durable operator-managed data such as project fiches, reusable private source summaries, and future declarative mail-management registries.
+
+It is not for secrets, OAuth tokens, cookies, SSH keys, or ephemeral queue state.
+
+Use a separate private path for ephemeral operational state when needed, for example `~/.shipglowz/private/mail-intake/`.
 
 ## Distribution and Installation
 
@@ -620,7 +636,7 @@ For content management, use the dedicated lifecycle entrypoint:
 007-sg-content -> CONTENT_MAP + editorial corpus -> owner content skills -> audits/docs -> validation -> 103-sg-verify -> 005-sg-ship
 ```
 
-`007-sg-content` routes content work through the right owner skill: `202-sg-repurpose` for source-faithful reuse, `200-sg-redact` for long-form drafting, `201-sg-enrich` for existing content upgrades, `206-sg-audit-copy` / `207-sg-audit-copywriting` / `406-sg-seo` for review, and `300-sg-docs` for docs and editorial governance. It now uses the declared Astro blog surface (`site/src/content/articles/`, `/blog`, `/fr/blog`) for indexed articles and still blocks undeclared parallel article systems with `surface missing: blog`.
+`007-sg-content` routes content work through the right owner skill: `202-sg-repurpose` for the reusable source-faithful pack, its versioned storage under `shipglowz_data/workflow/repurpose-packs/`, and repurposing handoffs, `200-sg-redact` for long-form drafting, `201-sg-enrich` for existing content upgrades, `206-sg-audit-copy` / `207-sg-audit-copywriting` / `406-sg-seo` for review, and `300-sg-docs` for docs and editorial governance. It now uses the declared Astro blog surface (`site/src/content/articles/`, `/blog`, `/fr/blog`) for indexed articles and still blocks undeclared parallel article systems with `surface missing: blog`.
 
 When a workflow or spec asks whether content is good enough for a specific project, content owner skills use the shared `skills/references/content-quality-rubric.md` contract. The rubric loads project rules from `shipglowz_data/business/*` and `shipglowz_data/editorial/*`, then returns a global score, criterion scores, evidence, recommendations, confidence, and one of `ready`, `needs revision`, `blocked`, or `publishable with caveats`. Blocking claims, missing project context, stale score signatures, and undeclared surfaces override the numeric score.
 

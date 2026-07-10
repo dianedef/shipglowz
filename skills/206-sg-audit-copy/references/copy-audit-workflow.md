@@ -162,7 +162,7 @@ Audit ALL web projects in the workspace for copywriting quality.
    - The absolute date, exact project path, and the copy context already surfaced by this skill (`BUSINESS.md`, `BRANDING.md`, language/i18n hints)
    - The complete **PROJECT MODE** section from this skill (all 6 phases: Voice & Tone Inventory → Messaging Hierarchy → Page-by-Page Copy Scan → Conversion Copy Check → Fix → Report)
    - The **Tracking** section from this skill
-   - Rule: **read-only analysis** — no code fixes, only update AUDIT_LOG.md and TASKS.md
+   - Rule: **read-only analysis** — no code fixes, only update AUDIT_LOG.md and the correct tracker chosen through `skills/references/task-registry-routing.md`
    - Rule: before scoring, identify the linked pages, funnel position, and downstream consequences of weak messaging or CTA choices
    - Rule: call out product promise drift, documentation mismatch, and unproven sensitive claims explicitly
    - Rule: read/report `BUSINESS.md`, `BRANDING.md`, and `GUIDELINES.md` metadata versions; flag missing, stale, low-confidence, or unversioned contracts as proof gaps before scoring
@@ -187,7 +187,7 @@ Audit ALL web projects in the workspace for copywriting quality.
    ═══════════════════════════════════════
    ```
 
-5. Update project-local `shipglowz_data/workflow/AUDIT_LOG.md` (one traffic-first audit record per project, Copy column) and project-local `shipglowz_data/workflow/TASKS.md` (each project's `### Audit: Copy` subsection).
+5. Update project-local `shipglowz_data/workflow/AUDIT_LOG.md` (one traffic-first audit record per project, Copy column) and write follow-up records to `shipglowz_data/editorial/ROADMAP.md` for editorial fixes or to `shipglowz_data/workflow/TASKS.md` for technical implementation work.
 
 6. Ask: **"Which projects should I fix?"** — list projects with scores. Fix only approved projects, one at a time.
 
@@ -467,8 +467,9 @@ Needs decision: W items
 
 ## Tracking (all modes)
 
-Shared file write protocol for `AUDIT_LOG.md` and `TASKS.md`:
+Shared file write protocol for `AUDIT_LOG.md`, `TASKS.md`, and `ROADMAP.md`:
 - First load `$SHIPFLOW_ROOT/skills/references/operational-record-format.md`; new audit and task records must use that traffic-first operational format.
+- First load `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md`; content/copy follow-ups default to `shipglowz_data/editorial/ROADMAP.md` unless the finding is genuinely technical.
 - Treat the snapshots loaded at skill start as informational only.
 - Right before each write, re-read the target file from disk and use that version as authoritative.
 - Append or replace only the intended row or subsection; never rewrite the whole file from stale context.
@@ -486,10 +487,10 @@ Create or update traffic-first audit operational records in the target audit log
 
 Create either file if missing.
 
-### Update TASKS.md
+### Update follow-up trackers
 
-1. **Local TASKS.md** (project root): create or update traffic-first task records for the Copy audit findings.
-2. **Project-local `shipglowz_data/workflow/TASKS.md`**: find the project section and mirror the same traffic-first task records.
+1. **Editorial/copy findings**: create or update traffic-first task records in `shipglowz_data/editorial/ROADMAP.md`.
+2. **Technical implementation findings**: create or update traffic-first task records in `TASKS.md` or `shipglowz_data/workflow/TASKS.md`.
 
 ---
 

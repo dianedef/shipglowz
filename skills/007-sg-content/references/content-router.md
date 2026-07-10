@@ -42,6 +42,8 @@ next_step: "/300-sg-docs update if the routing model changes"
 
 Shared routing detail for `007-sg-content`.
 
+Load `$SHIPFLOW_ROOT/skills/references/content-owner-handoffs.md` for the canonical owner matrix and minimum handoff payload. This local reference keeps only the routing choices that are activation-critical for `007-sg-content`.
+
 ## Source Intake
 
 When a pasted source, email, URL, transcript, note, article, or example arrives without a settled project, surface, angle, or owner route, load `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` before choosing the content lane.
@@ -49,7 +51,7 @@ When a pasted source, email, URL, transcript, note, article, or example arrives 
 ## Mode Map
 
 - `plan`, `strategy`, `calendar`, `content plan` -> content plan, use `100-sg-spec` when durable or multi-surface.
-- `repurpose`, `source`, `conversation`, `faq`, `release notes`, `site update` -> `202-sg-repurpose`.
+- `repurpose`, `source`, `conversation`, `faq`, `release notes`, `site update` -> `202-sg-repurpose` first for a source-faithful pack and durable repo memory, then onward to the right writer/apply owner if needed.
 - `draft`, `write`, `article`, `blog`, `guide`, `editorial` -> `200-sg-redact` after surface and claim gates.
 - `enrich`, `refresh`, `update @file`, `improve` -> `201-sg-enrich`.
 - `audit`, `copy`, `copywriting`, `seo` -> `206-sg-audit-copy`, `207-sg-audit-copywriting`, and/or `406-sg-seo`.
@@ -82,21 +84,11 @@ For public or potentially public content:
 
 ## Owner Skill Routing
 
-| Need | Owner |
-| --- | --- |
-| External URL/source triage | `205-sg-veille` |
-| Deep research report | `203-sg-research` |
-| Market/keyword/competitor demand study | `204-sg-market-study` |
-| Source-faithful content pack or applied repurposing | `202-sg-repurpose` |
-| Original long-form article, guide, or editorial draft | `200-sg-redact` |
-| Upgrade existing content with research and better structure | `201-sg-enrich` |
-| Clarity, tone, CTA, and page-level copy audit | `206-sg-audit-copy` |
-| Persona, offer, persuasion, and conversion audit | `207-sg-audit-copywriting` |
-| Technical/on-page SEO and search intent audit | `406-sg-seo` |
-| README/docs/content governance update | `300-sg-docs` |
-| Public browser proof | `108-sg-browser` |
-| Verification | `103-sg-verify` |
-| Ship | `005-sg-ship` |
+Use `$SHIPFLOW_ROOT/skills/references/content-owner-handoffs.md` as the owner matrix.
+
+Local `007-sg-content` routing rule:
+
+- when the work starts from source material and the downstream surface is not yet fully resolved, route to `202-sg-repurpose` first for the source-faithful pack and durable repo memory, then continue to the next owner if needed
 
 ## Operator Initiative Rules
 

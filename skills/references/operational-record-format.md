@@ -15,6 +15,7 @@ security_impact: yes
 docs_impact: yes
 linked_systems:
   - "shipglowz_data/workflow/TASKS.md"
+  - "shipglowz_data/editorial/ROADMAP.md"
   - "shipglowz_data/workflow/AUDIT_LOG.md"
   - "shipglowz_data/workflow/specs/"
   - "lib/data/shipflow_sources/parsers/"
@@ -33,7 +34,7 @@ next_step: "/102-sg-start Traffic-first Markdown operational record format Batch
 
 # Operational Record Format
 
-This is the shared ShipGlowz contract for task, audit, and spec operational summary records. Writer skills must load or cite this reference before creating or mutating records in `TASKS.md`, `AUDIT_LOG.md`, or spec summary/index sections.
+This is the shared ShipGlowz contract for task, audit, and spec operational summary records. Writer skills must load or cite this reference before creating or mutating records in `TASKS.md`, `ROADMAP.md`, `AUDIT_LOG.md`, or spec summary/index sections.
 
 ## Grammar V1
 

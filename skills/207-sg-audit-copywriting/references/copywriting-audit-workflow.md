@@ -638,14 +638,15 @@ next_review: "[date]"
    ═══════════════════════════════════════
    ```
 
-5. Mettre à jour AUDIT_LOG.md et TASKS.md.
+5. Mettre à jour AUDIT_LOG.md et le tracker approprié choisi via `skills/references/task-registry-routing.md`.
 
 ---
 
 ## Tracking (all modes)
 
-Protocole d'ecriture des fichiers partages (`AUDIT_LOG.md`, `TASKS.md`) :
+Protocole d'ecriture des fichiers partages (`AUDIT_LOG.md`, `TASKS.md`, `ROADMAP.md`) :
 - Charger d'abord `$SHIPFLOW_ROOT/skills/references/operational-record-format.md` ; les nouveaux enregistrements audit et task doivent suivre son format operationnel traffic-first.
+- Charger aussi `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md` ; les recommandations copywriting vont en general dans `shipglowz_data/editorial/ROADMAP.md`, pas dans le backlog d'execution.
 - Les snapshots lus au debut du skill sont informatifs, pas autoritatifs.
 - Juste avant chaque ecriture, relire le fichier cible depuis le disque et utiliser cette version comme source de verite.
 - N'ajouter ou remplacer que la ligne ou sous-section visee ; ne jamais reecrire tout le fichier a partir d'un etat perime.
@@ -658,10 +659,10 @@ Append à :
 1. **Project-local `shipglowz_data/workflow/AUDIT_LOG.md`** : créer ou mettre à jour un enregistrement `audit:` traffic-first pour l'audit Copywriting.
 2. **Local `./AUDIT_LOG.md`** : meme enregistrement traffic-first explicite cote projet; conserver le token `[project]` requis.
 
-### Update TASKS.md
+### Update follow-up trackers
 
-1. **Local TASKS.md** : créer ou mettre à jour des enregistrements `task:` traffic-first pour les recommandations Copywriting.
-2. **Project-local `shipglowz_data/workflow/TASKS.md`** : même chose dans la section du projet.
+1. **Recommandations éditoriales/copywriting** : créer ou mettre à jour des enregistrements `task:` traffic-first dans `shipglowz_data/editorial/ROADMAP.md`.
+2. **Travail technique ou implementation nécessaire** : écrire les tâches associées dans `TASKS.md` ou `shipglowz_data/workflow/TASKS.md`.
 
 ---
 

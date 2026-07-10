@@ -6,7 +6,7 @@ shipglowz_local_config_dir() {
 }
 
 shipglowz_legacy_local_config_dir() {
-    printf '%s\n' "${SHIPFLOW_LEGACY_LOCAL_CONFIG_DIR:-$HOME/.shipflow}"
+    printf '%s\n' "${SHIPGLOWZ_LEGACY_LOCAL_CONFIG_DIR:-${SHIPFLOW_LEGACY_LOCAL_CONFIG_DIR:-$HOME/.shipglowz}}"
 }
 
 shipglowz_local_config_file() {
@@ -508,7 +508,7 @@ shipglowz_remote_pm2_ports_command() {
     cat <<EOF
 {
 # Fast path: ShipGlowz env registry (~1ms file read, no subprocess)
-reg="\$HOME/.shipflow/envs.reg"
+reg="\$HOME/.shipglowz/envs.reg"
 new_reg="\$HOME/.shipglowz/envs.reg"
 if [ -f "\$new_reg" ]; then
   reg="\$new_reg"
@@ -529,7 +529,7 @@ fi
 if command -v tmux >/dev/null 2>&1; then
   freg="\${SHIPFLOW_FLUTTER_WEB_SESSIONS_FILE:-\$HOME/.shipglowz/flutter-web-sessions.tsv}"
   if [ ! -f "\$freg" ]; then
-    freg="\${SHIPFLOW_FLUTTER_WEB_SESSIONS_FILE:-\$HOME/.shipflow/flutter-web-sessions.tsv}"
+    freg="\${SHIPGLOWZ_FLUTTER_WEB_SESSIONS_FILE:-\${SHIPFLOW_FLUTTER_WEB_SESSIONS_FILE:-\$HOME/.shipglowz/flutter-web-sessions.tsv}}"
   fi
   if [ -f "\$freg" ]; then
     while IFS='|' read -r name port project_dir session_name; do

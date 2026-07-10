@@ -48,9 +48,10 @@ It stores durable project truth close to the repo: business decisions, technical
 | `business/` | Product, business, brand, GTM, competitor, and affiliate decision contracts |
 | `technical/` | Internal technical docs, architecture, code-docs map, subsystem contracts, external platform notes |
 | `editorial/` | Public-content governance, claim register, page intent, content map, and Astro content schema policy |
-| `workflow/` | Operational trackers, specs, audits, research, evidence, reusable playbooks, reusable checklists, test checklists, conversations, and archives |
+| `workflow/` | Operational trackers, specs, audits, research, repurpose packs, evidence, reusable playbooks, reusable checklists, test checklists, conversations, and archives |
 | `workflow/playbooks/` | Reusable transversal operating playbooks shared across multiple projects or domains |
 | `workflow/checklists/` | Reusable transversal non-test checklists paired to shared playbooks |
+| `workflow/repurpose-packs/` | Durable source-faithful packs written by repurposing workflows for later reuse |
 | `workflow/TASKS.md` | Active executable work tracker |
 | `workflow/AUDIT_LOG.md` | Operational audit tracker |
 | `workflow/PROJECTS.md` | Workspace/project registry compatibility tracker |
@@ -72,6 +73,7 @@ It stores durable project truth close to the repo: business decisions, technical
 - Keep durable decisions in versioned artifacts with frontmatter.
 - Keep fast-changing trackers in `workflow/`; do not force frontmatter onto operational trackers.
 - Store shared transversal method docs in `workflow/playbooks/` and reusable control surfaces in `workflow/checklists/`.
+- Store durable repurposing memory in `workflow/repurpose-packs/` when a source-faithful pack should be versioned with the project.
 - Move stale legacy root governance files into the canonical folder only through an explicit migration pass.
 - Do not publish `shipglowz_data/technical/` as public website content.
 - Keep `site/`, `README.md`, and public docs aligned with `editorial/` and `business/` before making public claims.

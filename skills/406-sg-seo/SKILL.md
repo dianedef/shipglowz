@@ -41,6 +41,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 - `$SHIPFLOW_ROOT/shipglowz_data/workflow/checklists/seo-charge-referencement-web-checklist.md`: reusable SEO control surface for launch, audit, and verification.
 - `$SHIPFLOW_ROOT/skills/406-sg-seo/references/seo-audit-workflow.md`: SEO audit modes, technical/on-page/content/schema/internal-linking/AI-visibility checks, tracking, and report details.
 - `$SHIPFLOW_ROOT/skills/references/content-quality-rubric.md`: shared rubric for project-aware content quality score and blocked criteria.
+- `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md`: split SEO follow-up between execution backlog and editorial roadmap.
 
 ## Scope Gate
 

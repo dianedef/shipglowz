@@ -148,10 +148,10 @@ When portfolio routing needs reusable pitch contents, use the private memory con
 The approved private root is:
 
 ```text
-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}
+${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}
 ```
 
-Use `${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}/project-pitches/` for cached project pitches and summaries. Use `${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}/source-cache/` only for operator-approved reusable source material.
+Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/projects/` for cached project files and summaries. Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/source-cache/` only for operator-approved reusable source material.
 
 Do not cache source text in `$SHIPFLOW_ROOT`, project repos, public specs, public docs, or generated files under version control.
 
@@ -173,7 +173,7 @@ Not allowed in the public ShipGlowz repo:
 - unredacted screenshots, transcripts, or notes
 - generated cache files containing source text
 
-If reusable private source memory is needed, use `${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}` under the rules in `skills/references/private-memory-store.md`.
+If reusable private source memory is needed, use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}` under the rules in `skills/references/private-memory-store.md`.
 
 ## Classification Output
 

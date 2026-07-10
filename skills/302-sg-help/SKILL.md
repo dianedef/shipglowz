@@ -38,6 +38,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 - `skills/references/operator-roles/` and `shipglowz_data/business/agent-profiles/`: canonical operator-role and named-profile layer when the user asks who should answer, how a named profile works, or how `%Profile` / `profile=` should be used.
 - `skills/references/project-governance-rules.md`: canonical answer when the user asks what rules a ShipGlowz-governed project must respect or what `#rules` means.
 - `skills/references/documentation-governance-rules.md`: canonical answer when the user asks about documentation architecture, metadata, doc placement, or what `#docs` means.
+- `skills/references/private-data-repo-contract.md`: canonical answer when the user asks where durable private ShipGlowz data lives, whether it is versioned, how it differs from ephemeral private state, or how install/bootstrap should treat the private data repository.
 
 The canonical `Chantier Registry` doctrine lives in `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`; this skill only summarizes it for help output.
 
@@ -67,6 +68,7 @@ What workflow, skill, mode, or doctrine does the operator need explained right n
 - If the user asks about a named profile such as `Victoire`, `SEO Specialist`, or `Tariq`, or asks who should answer a business/growth/search/acquisition question, load the matching profile plus its operator role and answer from that distinction.
 - If the user asks whether `%Victoire` or `#Victoire` should be used, answer: `%<Profile>` is the canonical named-profile syntax at the router/governance layer; `#<Tag>` stays for focus tags.
 - If the user asks what `#rules`, `#docs`, `#public-docs`, or `#internal-docs` mean, load the matching governance reference and explain the distinction rather than answering from local shorthand.
+- If the user asks about `~/.shipglowz/private/data/`, the private memory repo, versioned private data, or why it is separate from public repos, load `skills/references/private-data-repo-contract.md` and explain the storage contract vs clone contract distinction.
 - Use `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` for canonical trace/process role doctrine instead of maintaining a duplicate role matrix here.
 - For `Skills at a Glance`, `Quick Answers`, workflow cycles, audit scoring, and file-reference help, load `references/help-catalog.md`.
 

@@ -35,6 +35,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 - `$SHIPFLOW_ROOT/skills/references/question-contract.md`: required before asking bootstrap, project-intent, target-surface, runtime, or governance-scope questions.
 - `$SHIPFLOW_ROOT/skills/references/operator-partnership-contract.md`: required when bootstrap depends on operator-owned business, product, audience, or framing truth that cannot be discovered locally.
 - `$SHIPFLOW_ROOT/skills/references/design-system-token-contract.md`: required when bootstrapping or auditing governance for a project with a UI surface.
+- `$SHIPFLOW_ROOT/skills/references/private-data-repo-contract.md`: required when bootstrap, install, or repair scope touches the durable private data repository under `~/.shipglowz/private/data/`.
 
 ## Mode Detection
 
@@ -50,6 +51,9 @@ Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skill
 - Preserve absolute-path validation expectations and project-root safety checks.
 - Do not rewrite existing project governance artifacts unless the bootstrap workflow explicitly allows it.
 - Do not originate a chantier unless the user explicitly asks to formalize setup policy work.
+- When bootstrap scope includes the private data repository, resolve its remote from configuration such as `SHIPGLOWZ_PRIVATE_DATA_REPO` instead of hardcoding an operator-specific repository URL.
+- Treat `~/.shipglowz/private/data/` as a separate Git working tree for durable private data, not as a subfolder to version inside public repos or `$SHIPFLOW_ROOT`.
+- Stop and report if the target private data path exists but is not a Git repository, unless the active bootstrap contract explicitly includes migration or repair steps.
 
 ## Stop Conditions
 

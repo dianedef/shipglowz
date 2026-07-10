@@ -35,6 +35,8 @@ Source reconstruction, output selection, diffusion map, transformation catalog, 
 
 This reference preserves the detailed pre-compaction instructions for `202-sg-repurpose`. The top-level `SKILL.md` is now the activation contract; load this file only when the selected mode needs the detailed workflow, checklist, templates, or examples below.
 
+For durable storage of the final pack, also load `$SHIPFLOW_ROOT/skills/references/repurpose-pack-storage.md`.
+
 ## Detailed Instructions
 
 ## Canonical Paths
@@ -154,38 +156,13 @@ If the skill recommends a dedicated article, it must also decide one of:
 
 The default user-facing output must be immediately usable. Avoid opening with a long audit-style report unless the user explicitly asks for `report=agent`, `handoff`, or detailed evidence.
 
-In analysis/pack mode, lead with these sections in this order:
+Load `$SHIPFLOW_ROOT/skills/references/source-faithful-pack-contract.md` for the canonical section order, mandatory output backbone, optional appendices, and compression rules.
 
-1. `Best Next Actions`
-2. `Article Name Ideas`
-3. `Titles For This Conversation`
-4. `Existing Content Opportunities`
-5. `Owner Skill Handoffs`
-6. `Source Pack`
-7. `Evidence Ledger`
+For `202-sg-repurpose`, keep these local constraints on top of the shared contract:
 
-`Best Next Actions` must contain 3 to 5 concrete actions. Each action should name the content asset, target surface, source proof, and next command or owner skill.
-
-`Article Name Ideas` is a list of durable article concepts linked to the project's existing content, product doctrine, public pages, skill pages, docs, FAQ, semantic clusters, or current chantier. Each item must include:
-
-- working name
-- angle
-- source proof
-- target surface or `surface missing: blog`
-- recommended next step
-
-`Titles For This Conversation` is mandatory in workstream mode. It must give title candidates for repurposing the current conversation directly. Each title must include:
-
-- title
-- article promise
-- why this conversation supports it
-- best destination or `surface missing: blog`
-
-Keep both article lists short and ranked. Default to 5 to 8 strong items per list. If the source is too thin, give fewer strong items and say why instead of padding.
-
-Do not mix article names, titles, docs notes, marketing claims, and evidence into one long undifferentiated section. The operator should be able to pick an article idea or title without rereading the whole report.
-
-If no blog or article surface is declared, still provide article names and titles when the source supports them, but mark destination as `surface missing: blog` and do not invent a path.
+- `Best Next Actions` should usually contain 3 to 5 concrete actions.
+- The pack must let another owner skill write docs, FAQ, internal notes, public content, or email strategy without rediscovering the source truth.
+- Do not mix article names, docs notes, marketing claims, and evidence into one long undifferentiated section.
 
 ## Existing Content Placement Contract
 
@@ -207,6 +184,8 @@ For each opportunity, include:
 - content move: add section, add example, add FAQ, add comparison, add demonstration, add warning, update claim, or skip
 - priority: `must write`, `should write`, `optional`, or `do not write`
 - next step: `300-sg-docs`, `201-sg-enrich`, `200-sg-redact`, `206-sg-audit-copy`, `207-sg-audit-copywriting`, or `406-sg-seo`
+
+Load `$SHIPFLOW_ROOT/skills/references/content-owner-handoffs.md` for the canonical owner list and minimum handoff payload.
 
 When the source contains a concrete explanation, decision, demonstration, before/after contrast, or misconception correction, treat it as a potential `Audience Learning Moment`. Prefer small high-leverage insertions over inventing a full article.
 
@@ -414,11 +393,9 @@ Use the standard pack from [references/output-pack.md](references/output-pack.md
 
 Default user-facing sections:
 - `Best Next Actions`
-- `Article Name Ideas`
-- `Titles For This Conversation`
+- `Source-Faithful Pack`
 - `Existing Content Opportunities`
 - `Owner Skill Handoffs`
-- `Source Pack`
 - `Evidence Ledger`
 
 Detailed source-pack subsections:
@@ -436,10 +413,21 @@ Adapt the pack to the request:
 - for `release notes` or `changelog`, emphasize externally understandable change narrative
 - for `faq` or `landing`, convert proven facts into reusable answer blocks or copy hooks
 - for supplied text, replace build-specific sections with source-specific reframing where needed
-- for `article`, `blog`, or `outline`, expand `Article Name Ideas` and `Titles For This Conversation` first, then keep the source pack compact
+- for `article`, `blog`, `newsletter`, or `outline`, add `Article Name Ideas` and `Titles For This Conversation` after the main pack, then keep the source notes compact
 - for `docs`, `site`, `apply`, `write`, `update`, `improve`, or existing-file targets, expand `Existing Content Opportunities` and `Owner Skill Handoffs` before article ideas when placement is the primary decision
 
 The pack is the deliverable. When the user asks for applied content, the final response should summarize the handoffs and name the owner skill that should write or audit next.
+
+### Phase 3.5 — Persist the durable pack
+
+When the current repo is the governed destination and the operator did not ask for ephemeral output:
+
+1. create or reuse `shipglowz_data/workflow/repurpose-packs/`
+2. write one Markdown file using the canonical filename rule from `repurpose-pack-storage.md`
+3. keep the stored file aligned with the source-faithful pack sections
+4. update the existing same-source pack instead of creating near-duplicates when possible
+
+If the source is unsafe to store, too thin, or belongs in another repo, report that explicitly and keep the result chat-only for this run.
 
 ### Phase 4 — Safety pass
 
@@ -461,7 +449,7 @@ Before finalizing, verify that every recommended `must write` and `should write`
 The output must be directly reusable. Prefer short blocks over essay-style prose.
 
 Required behavior:
-- lead with article names, conversation titles, and next actions when the user asks for repurposing ideas
+- lead with next actions and the source-faithful pack; article names and titles come after that only when they are part of the real ask
 - include existing-content placement opportunities across internal docs and public content unless explicitly out of scope
 - clearly separate documentation material from marketing material
 - make uncertainty explicit
@@ -499,6 +487,8 @@ Translate supplied source content into higher-level assets carefully:
 - concept note → glossary entry, explainer structure, landing-page supporting argument, nurture content angle
 
 ## Owner Skill Handoffs
+
+Load `$SHIPFLOW_ROOT/skills/references/content-owner-handoffs.md` first.
 
 `202-sg-repurpose` must route writing, improvement, audit, and validation work to owner skills. It should not perform those actions itself.
 

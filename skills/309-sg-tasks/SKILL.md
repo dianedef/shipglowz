@@ -33,6 +33,7 @@ Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chanti
 **CRITICAL**: This workspace tracks projects through local project trackers (`shipglowz_data/workflow/TASKS.md`). Local project trackers are the active source of truth.
 
 - `TASKS.md` is an operational tracker, not a ShipGlowz decision artifact. Do not add YAML frontmatter or metadata schema fields to `TASKS.md`.
+- `shipglowz_data/editorial/ROADMAP.md` is the separate operational tracker for editorial/public-content follow-up. `309-sg-tasks` does not own that file by default.
 - If a task contains a durable decision, spec, business rule, research conclusion, or product contract, keep the task entry concise and extract the durable content into a separate metadata-bearing artifact via `/300-sg-docs`, `/100-sg-spec`, `/203-sg-research`, or the relevant skill.
 - **Prioritize local tracker updates** (`TASKS.md` or `shipglowz_data/workflow/TASKS.md`) as the operational source of truth.
 - Do not update a central master tracker during normal task work. Treat old master files as migration evidence only.
@@ -40,6 +41,7 @@ Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chanti
 ## Shared tracking file write protocol
 
 - Before creating or mutating task operational records, load `$SHIPFLOW_ROOT/skills/references/operational-record-format.md` and follow its traffic-first grammar for new `TASKS.md` entries.
+- Before deciding whether a follow-up belongs in the execution tracker at all, load `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md`. If the work is primarily editorial/public-content, reroute to the editorial roadmap instead of mutating `TASKS.md`.
 - Treat the TASKS snapshots loaded at skill start as informational only.
 - Right before editing the project-local TASKS file, re-read the target from disk and use that version as authoritative.
 - Apply the smallest possible patch to the relevant project section or backlog block; never rewrite the whole file from stale context.
@@ -140,13 +142,15 @@ Intelligently manage the TASKS.md file by:
 1. Checking off completed tasks
 2. Adding remaining tasks to be done
 3. Suggesting the next priority action
-4. **Keeping local and legacy master trackers in sync** (`shipglowz_data/workflow/TASKS.md` primary, legacy master optional)
+4. **Keeping the execution tracker in sync** (`shipglowz_data/workflow/TASKS.md` primary, legacy master optional)
 
 This skill answers one operator question: what should change in the task tracker right now so the durable task record matches the real project state?
 
 It owns tracker bookkeeping: task records, status updates, active-vs-backlog hygiene inside `TASKS.md`, and a tracker-derived suggestion for the next step after the file is accurate.
 
 Keep the boundary explicit:
+- stay here for execution backlog maintenance
+- reroute editorial/public-content backlog work to `shipglowz_data/editorial/ROADMAP.md` through the content owner skill or the shared routing contract
 - stay here when the main need is to create, update, migrate, clean, or reconcile the task tracker itself
 - hand off to `706-continue` when the main need is to advance the currently resolved work item rather than maintain the tracker
 - hand off to `701-sg-backlog` when the main need is deferred capture or backlog cleanup rather than active tracker maintenance

@@ -67,13 +67,13 @@ This public file is only the portfolio index. It may contain project names, pitc
 Fetched pitch contents, private pitch summaries, and reusable source material belong in the approved private memory root:
 
 ```text
-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}
+${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}
 ```
 
 Use `skills/references/private-memory-store.md` for the storage rules. The default pitch cache location is:
 
 ```text
-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}/project-pitches/
+${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/projects/
 ```
 
 Do not copy cached pitch bodies, private repo contents, or source excerpts into this public index.

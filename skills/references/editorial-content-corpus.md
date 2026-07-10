@@ -15,6 +15,7 @@ security_impact: yes
 docs_impact: yes
 linked_systems:
   - shipglowz_data/editorial/content-map.md
+  - shipglowz_data/editorial/ROADMAP.md
   - shipglowz_data/editorial/
   - shipglowz_data/business/business.md
   - shipglowz_data/business/product.md
@@ -57,6 +58,7 @@ This reference tells content, copy, docs, and Editorial Reader agents how to loa
 7. Read `shipglowz_data/editorial/editorial-update-gate.md` to produce an `Editorial Update Plan` or `Claim Impact Plan`.
 8. Read `shipglowz_data/editorial/astro-content-schema-policy.md` before editing `site/src/content/**`.
 9. Read `shipglowz_data/editorial/blog-and-article-surface-policy.md` before recommending blog or article output.
+10. Read `skills/references/task-registry-routing.md` before writing durable editorial follow-up tasks or backlog items.
 
 ## Contract Sources
 
@@ -101,6 +103,7 @@ These skills should use this corpus before changing or judging public content:
 - Existing project adoption: `300-sg-docs update` reports editorial governance as `created`, `already existed`, `needs audit`, `skipped - no editorial surfaces detected`, or `blocked`.
 - Public-content impact: produce an `Editorial Update Plan`.
 - Sensitive public claims: produce a `Claim Impact Plan`.
+- Durable editorial follow-up: write the task record to `shipglowz_data/editorial/ROADMAP.md`, not to `shipglowz_data/workflow/TASKS.md`, unless the follow-up is actually technical execution.
 - No public impact: state `no editorial impact` with a reason.
 - Missing blog or article path: report `surface missing: blog`.
 - Runtime schema conflict: preserve the schema and report the incompatibility.

@@ -158,6 +158,20 @@ const focusTagCombos = [
           </p>
           <a class="doc-action" href={pathFor("/blog", locale)}>Ouvrir le blog</a>
         </article>
+
+        <article class="doc-card">
+          <h3>Les données privées sont versionnées à part</h3>
+          <p>
+            ShipGlowz garde les données opérateur privées durables en dehors du
+            dépôt public du framework. Le dossier
+            <code>~/.shipglowz/private/data/</code> est destiné à être un dépôt
+            Git séparé pour la mémoire privée versionnée, tandis que les files
+            de revue éphémères doivent rester dans d’autres chemins privés.
+          </p>
+          <a class="doc-action" href={pathFor("/blog/pourquoi-shipglowz-separe-le-code-public-des-donnees-privees", locale)}>
+            Lire l’explication
+          </a>
+        </article>
       </div>
     </section>
 

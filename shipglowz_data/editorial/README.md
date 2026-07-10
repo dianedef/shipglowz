@@ -47,6 +47,8 @@ next_step: "/sg-verify ShipGlowz Editorial Content Governance Layer for AI Agent
 
 `shipglowz_data/editorial/` is the public-content governance layer for ShipGlowz. It shows where public content lives, which contracts govern each surface, which claims need proof, and how Astro runtime content schemas constrain edits.
 
+It also hosts the editorial operational companion `shipglowz_data/editorial/ROADMAP.md` for public-content follow-up. That file is a tracker, not a governance source of truth.
+
 This layer complements, but does not replace, `shipglowz_data/editorial/content-map.md`.
 
 - `shipglowz_data/editorial/content-map.md` maps content surfaces and routing rules.
@@ -62,6 +64,7 @@ This layer complements, but does not replace, `shipglowz_data/editorial/content-
 5. Open `shipglowz_data/editorial/editorial-update-gate.md` to produce an `Editorial Update Plan` and, when needed, a `Claim Impact Plan`.
 6. Open `shipglowz_data/editorial/astro-content-schema-policy.md` before editing `site/src/content/**`.
 7. Open `shipglowz_data/editorial/blog-and-article-surface-policy.md` before proposing blog or article output.
+8. Open `shipglowz_data/editorial/ROADMAP.md` only when the task is to review or write durable editorial follow-up items.
 
 ## Documents
 
@@ -73,6 +76,7 @@ This layer complements, but does not replace, `shipglowz_data/editorial/content-
 | `editorial-update-gate.md` | Any workstream that changes visible behavior, public docs, public copy, skill promises, FAQ, support copy, pricing, or claims |
 | `astro-content-schema-policy.md` | `site/src/content/**`, public skill content, content collections, frontmatter, or Astro build risk |
 | `blog-and-article-surface-policy.md` | Blog, article, newsletter, editorial post, or long-form content requests |
+| `ROADMAP.md` | Durable public/editorial follow-up items such as repurpose targets, article/FAQ/public-doc work, copy improvements, and audience-email sequences once the target surface is declared |
 
 ## Content Quality Scoring
 
@@ -85,6 +89,7 @@ Allowed final statuses are `ready`, `needs revision`, `blocked`, and `publishabl
 ## Invariants
 
 - `shipglowz_data/editorial/content-map.md` remains the canonical content surface map.
+- `shipglowz_data/editorial/ROADMAP.md` is an operational backlog, not a governance artifact and not a chantier registry.
 - Public content must stay inside `shipglowz_data/business/business.md`, `shipglowz_data/business/product.md`, `shipglowz_data/branding/branding.md`, `shipglowz_data/business/gtm.md`, `shipglowz_data/business/portfolio-project-pitch-links.md`, specs, verified behavior, and explicit evidence.
 - The Editorial Reader diagnoses public-content impact and claim impact. It does not edit, stage, format, or run destructive commands.
 - Shared editorial files are sequential integration surfaces unless a ready spec assigns exclusive write ownership.

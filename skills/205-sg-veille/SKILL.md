@@ -33,6 +33,7 @@ Load only the references required by the active run:
 - `$SHIPFLOW_ROOT/skills/references/question-contract.md` before asking for missing input or per-link triage decisions.
 - `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` when the input contains external URLs, marketplace links, competitor examples, or source material whose owner route is not yet obvious.
 - `$SHIPFLOW_ROOT/skills/references/editorial-content-corpus.md` before recommending blog, article, newsletter, social, public-docs, public-skill-page, claim, or public-content actions.
+- `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md` before writing project-local follow-up tasks so editorial actions do not land in the execution tracker.
 - `$SHIPFLOW_ROOT/skills/references/master-delegation-semantics.md` before coordinating delegated URL fetch/research contexts.
 - `$SHIPFLOW_ROOT/skills/references/reporting-contract.md` before the final report.
 
@@ -212,7 +213,8 @@ Canonical write targets:
 
 - Veille reports and tools: project-local `shipglowz_data/workflow/research/` when running in a target project; for ShipGlowz/global portfolio veille, `$SHIPFLOW_ROOT/shipglowz_data/workflow/research/`.
 - Cross-project tasks: do not write central master-tracker backlog actions; route project-specific work to project-local trackers.
-- Project-local tasks: `[project_path]/shipglowz_data/workflow/TASKS.md` only when the target project owns its local tracker and the action is explicitly project-local.
+- Project-local execution tasks: `[project_path]/shipglowz_data/workflow/TASKS.md` only when the target project owns its local tracker and the action is explicitly technical or implementation-focused.
+- Project-local editorial follow-up: `[project_path]/shipglowz_data/editorial/ROADMAP.md` when the action is public/editorial/content work and the surface is declared.
 - Content actions: do not write article/blog/newsletter/social tasks directly when the surface is undeclared; route to `007-sg-content` / `202-sg-repurpose` through the content lifecycle, or report `surface missing: blog`.
 
 #### Si "Ignorer"
@@ -220,9 +222,9 @@ Canonical write targets:
 
 #### Si "Backlog contenu"
 - If the chosen action affects public content, first apply the editorial corpus and content-map gate. If the target blog/article surface is missing, report `surface missing: blog` and route to `/007-sg-content [project] [source URL] [content goal]` or `/300-sg-docs editorial [project]`. If the surface exists and the source should be repurposed, route through `007-sg-content` to `202-sg-repurpose` instead of writing article copy directly.
-- If the surface exists or the action is non-public content planning, add the task to the appropriate tracker chosen above, format :
+- If the surface exists or the action is non-public content planning, add the task to the editorial roadmap chosen above, format :
   ```
-  - [ ] 📝 [Description de la tâche contenu] — source: [URL] (veille [date])
+  🟠 [Projet] task: [Description de la tâche contenu] | status: todo | area: editorial-followup | source: [URL] | surface: [surface ou unknown] | note: veille [date]
   ```
 - Ajouter une fiche dans `tools.md` (voir format Step 6).
 
@@ -310,7 +312,8 @@ Si le lien est déjà dans `tools.md` (même URL), **mettre à jour la fiche exi
 ### Step 7: Résumé final
 
 Afficher un récap compact des actions effectuées :
-- Nombre de tâches ajoutées à TASKS.md (avec les projets concernés)
+- Nombre de tâches techniques ajoutées à TASKS.md (avec les projets concernés)
+- Nombre de tâches éditoriales ajoutées à ROADMAP.md (avec les projets concernés)
 - Nombre de fiches ajoutées/mises à jour dans tools.md
 - Liens creusés (avec résumé des findings)
 - Rapport sauvegardé : chemin du fichier

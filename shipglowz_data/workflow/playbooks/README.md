@@ -44,9 +44,11 @@ Use this folder when the document answers:
 
 - transversal launch playbooks
 - SEO, GTM, onboarding, release, migration, and growth playbooks
+- project import playbooks for URL/repo-to-private-fiche imports
 - domain operating sequences reused across multiple projects
 - shared playbooks that one or more project-local checklists can instantiate
 - `seo-charge-referencement-web-playbook.md`
+- `project-import-playbook.md`
 
 ## What Does Not Belong Here
 
@@ -111,6 +113,7 @@ The current architecture expects this folder to absorb shared documents such as:
 - future `distribution-launch-playbook.md`
 - future `app-release-playbook.md`
 - `seo-charge-referencement-web-playbook.md`
+- `project-import-playbook.md`
 
 ## Validation
 

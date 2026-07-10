@@ -155,7 +155,7 @@ Within helper/pilotage surfaces, keep the first-screen distinction explicit:
 - `701-sg-backlog` captures, defers, cleans, or promotes future work.
 - `702-sg-priorities` ranks active work for immediate execution order.
 - `703-sg-review` reconstructs what happened, what is proven, and what should happen next.
-- `309-sg-tasks` maintains the durable task tracker so project state is recorded correctly.
+- `309-sg-tasks` maintains the durable execution task tracker so technical/project state is recorded correctly; editorial/public-content follow-up belongs in `shipglowz_data/editorial/ROADMAP.md` through content-owner skills.
 - `704-sg-model` recommends the right model policy for the current scope.
 - `707-name` tags or renames the current session.
 - `800-tmux-capture-conversation` exports a raw tmux conversation transcript to Markdown.
