@@ -67,6 +67,8 @@ ShipGlowz also accepts lightweight conversation recentering tags. These tags do 
 
 If a tag is present, treat it as a high-priority context cue even when the rest of the prompt is short or fuzzy.
 
+Explicit feature hints use the `#feature:<term>` form only. They are routing hints, not command language, and they keep the free-text request active.
+
 | Tag | Meaning | Canonical document |
 | --- | --- | --- |
 | `#rules` | Recenter on the full rule set for what a ShipGlowz-governed project must respect | `$SHIPFLOW_ROOT/skills/references/project-governance-rules.md` |
@@ -118,6 +120,7 @@ If a tag is present, treat it as a high-priority context cue even when the rest 
 | `#single-source` | Recenter on one authoritative artifact instead of duplicated explanation | `$SHIPFLOW_ROOT/shipglowz_data/technical/code-docs-map.md` |
 | `#shipflow` | Recenter on the internal ShipGlowz system rather than the current project repo | `$SHIPFLOW_ROOT/skills/references/entrypoint-routing.md` |
 | `#shupflow` | Alias for `#shipflow` when used as a fast recentering tag in conversation | `$SHIPFLOW_ROOT/skills/references/entrypoint-routing.md` |
+| `#feature:<term>` | Optional technical-navigation hint for behavior-index recovery before broad search; keep the free-text request active | `$SHIPFLOW_ROOT/skills/references/entrypoint-routing.md` |
 | `#onboarding` | Recenter on first success, setup order, recoverable states, and adoption guidance | `$SHIPFLOW_ROOT/skills/008-sg-end-user/SKILL.md` |
 | `#routing` | Recenter on owner-skill selection and direct handoff rules | `$SHIPFLOW_ROOT/skills/references/entrypoint-routing.md` |
 | `#proof` | Recenter on proof paths, validation proportion, and evidence claims | `$SHIPFLOW_ROOT/skills/references/spec-driven-development-discipline.md` |

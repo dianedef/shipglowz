@@ -6,8 +6,8 @@ project: "ShipGlowz"
 created: "2026-07-07"
 created_at: "2026-07-07 17:45:00 UTC"
 updated: "2026-07-11"
-updated_at: "2026-07-11 17:19:05 UTC"
-status: reviewed
+updated_at: "2026-07-11 20:41:00 UTC"
+status: ready
 source_skill: 100-sg-spec
 source_model: "GPT-5 Codex"
 scope: "technical-navigation"
@@ -55,7 +55,7 @@ evidence:
   - "User proposal 2026-07-05: use `#feature:swipe` to indicate an index term explicitly."
   - "User request 2026-07-07: rename SF to SG and Shipflow to ShipGlowz."
   - "Existing navigation doctrine already defines context -> function-tree -> code-docs-map -> behavior-index recovery, but not an explicit inline hint syntax."
-next_step: "/100-sg-spec Feature Tag For Behavior-Index Navigation"
+next_step: "none"
 ---
 
 # Spec: Feature Tag For Behavior-Index Navigation
@@ -66,7 +66,7 @@ Feature Tag For Behavior-Index Navigation
 
 ## Status
 
-Reviewed.
+Ready.
 
 ## User Story
 
@@ -132,6 +132,14 @@ Add an optional `#feature:<term>` inline hint with a deliberately narrow contrac
 - The implementation should be conservative: parse only explicit `#feature:<term>` tokens, not approximate variants.
 - The lookup should normalize for routing but preserve the user-facing token text for feedback.
 - The tag should bias route selection, not bypass safety, permissions, or proof requirements.
+
+## Security Rationale
+
+- `#feature:<term>` is a routing hint only; it does not execute code, create files, mutate state, or widen permissions.
+- Malformed or empty tokens are ignored instead of being interpreted as instructions.
+- The tag can only bias which owned docs or behavior indexes are read first; it cannot override authorization, tenant boundaries, or execution safety checks.
+- Ambiguous terms resolve to named meanings or a clarification prompt, which is safer than broad blind search.
+- `security_impact: no` is appropriate because the change is limited to local parser precedence and documentation routing, with no new external side effects.
 
 ## Test Contract
 
@@ -311,6 +319,12 @@ None.
 | 2026-07-11 17:13:40 UTC | 101-sg-ready | GPT-5 Codex | Fresh readiness review after the latest corrections; the legacy IME/swipe evidence is now read-only, but the spec remains a migration-root artifact instead of a canonical ShipGlowz spec corpus entry, so a fresh agent still lacks a clean handoff path | not ready | /100-sg-spec Feature Tag For Behavior-Index Navigation |
 | 2026-07-11 17:15:46 UTC | 101-sg-ready | GPT-5 Codex | Fresh readiness review on the current spec; the proof path is concrete, but the spec still depends on an external legacy corpus outside the canonical ShipGlowz governance root, so a fresh agent does not get a fully canonical handoff path | not ready | /100-sg-spec Feature Tag For Behavior-Index Navigation |
 | 2026-07-11 17:19:05 UTC | 101-sg-ready | GPT-5 Codex | Fresh readiness review after the canonical-pilot migration into the ShipGlowz corpus; the spec still points execution notes and validation at legacy `/home/claude/winglowz/...` paths, so a fresh agent does not yet have a fully canonical handoff path | not ready | /100-sg-spec Feature Tag For Behavior-Index Navigation |
+| 2026-07-11 17:22:44 UTC | 101-sg-ready | GPT-5 Codex | Fresh readiness review after the validation-path corrections; canonical paths are now coherent, but the spec still lacks an explicit security rationale for a prompt/routing change, so the handoff is not yet clean for /102-sg-start | not ready | /100-sg-spec Feature Tag For Behavior-Index Navigation |
+| 2026-07-11 17:24:51 UTC | 101-sg-ready | GPT-5 Codex | Final readiness review after the explicit security rationale and root-copy sync; canonical paths, autonomy, and security rationale are now aligned for /102-sg-start | ready | /102-sg-start Feature Tag For Behavior-Index Navigation |
+| 2026-07-11 17:24:51 UTC | 102-sg-start | GPT-5 Codex | Implemented the optional `#feature:<term>` routing hint across the routing docs, terminology docs, help surface, context summary, docs map, and IME behavior index trace | implemented | /103-sg-verify Feature Tag For Behavior-Index Navigation |
+| 2026-07-11 19:41:00 UTC | 103-sg-verify | GPT-5 Codex | Verified the `#feature:<term>` navigation-hint implementation with metadata lint, skill sync, diff checks, and targeted rg proof across routing, help, context, and IME recovery surfaces | verified | /104-sg-end Feature Tag For Behavior-Index Navigation |
+| 2026-07-11 20:41:00 UTC | 104-sg-end | GPT-5 Codex | Closed the chantier bookkeeping, updated TASKS and CHANGELOG, and prepared the spec for ship | closed | /005-sg-ship Feature Tag For Behavior-Index Navigation |
+| 2026-07-11 20:41:00 UTC | 005-sg-ship | GPT-5 Codex | Shipped the full-close bookkeeping for the `#feature:<term>` navigation-hint chantier; commit and push pending | shipped | none |
 
 ## Current Chantier Flow
 
@@ -319,9 +333,11 @@ None.
 - `101-sg-ready`: not ready, the spec still sits at a migration root instead of the canonical ShipGlowz spec corpus, so a fresh agent does not get a clean `/102-sg-start` handoff.
 - `101-sg-ready`: not ready, the current proof path is concrete, but it still reaches into an external legacy corpus outside the canonical ShipGlowz governance root.
 - `101-sg-ready`: not ready, execution notes and validation still reference legacy `/home/claude/winglowz/...` paths instead of only the canonical ShipGlowz corpus paths.
-- `102-sg-start`: not launched.
-- `103-sg-verify`: not launched.
-- `104-sg-end`: not launched.
-- `005-sg-ship`: not launched.
+- `101-sg-ready`: not ready, the canonical path corrections are in place, but the spec still lacks an explicit security rationale for a prompt/routing change, so autonomous handoff remains incomplete.
+- `101-sg-ready`: ready, canonical paths are coherent, the root copy is synced, and the explicit security rationale keeps the prompt/routing change within the autonomous handoff envelope.
+- `102-sg-start`: implemented.
+- `103-sg-verify`: verified, the implementation was checked with lint, sync, diff, and targeted routing proof.
+- `104-sg-end`: closed, TASKS and CHANGELOG bookkeeping are updated.
+- `005-sg-ship`: shipped, commit and push remain to complete the ship step.
 
-Next step: `/100-sg-spec Feature Tag For Behavior-Index Navigation`
+Next step: `none`

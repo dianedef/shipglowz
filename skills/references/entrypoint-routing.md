@@ -70,6 +70,8 @@ Before natural-language routing, check whether the user included one or more foc
 
 Focus tags are not decorative reminders. They change execution posture, artifact preference, and route bias for the current turn. Do not merely acknowledge them; apply their routing implications below.
 
+A `#feature:<term>` token is an optional technical-navigation hint, not a command language. Treat it as a high-priority cue for behavior-index recovery before broad search, keep the rest of the message active, and keep it distinct from `%Profile` or `profile=` routing.
+
 Named profiles are a separate router-layer construct above focus tags. Load `skills/references/profile-activation.md` when a known profile activation such as `%Victoire`, `%Tariq`, `profile=victoire`, `profile=tariq`, or `profile=traffic-manager` appears. Skills still own execution; profiles bias arbitration and output posture.
 
 If the instruction is about modifying, improving, auditing, or hardening ShipGlowz behavior, contracts, routing, publishing, editing, governance, or skills, treat ShipGlowz itself as the target system by default. Do not infer the current project repository as the edit target unless the user explicitly names that project.
@@ -81,6 +83,8 @@ That inference must hold even when the user's message omits the words "ShipGlowz
 An open project repository, a current working directory, or a nearby project discussion is not an explicit target override. Treat that context as background only until the operator explicitly says the requested change belongs to the project repository rather than ShipGlowz itself.
 
 If the request needs more than one phase, route to the relevant master skill. If the request clearly names one specialist phase, route to that focused owner skill. If no file work or lifecycle action is needed, answer directly.
+
+An explicit `#feature:<term>` hint does not replace the free-text request. It only sharpens the first routing pass so the behavior-index layer is loaded before broad repository search.
 
 Before natural-language routing, resolve three-digit skill-code prefixes through `skills/references/skill-code-index.md`. Accepted forms include `001`, `001-sg-build`, `001sfbuild`, and `001 sg-build`. Codes point to runtime skill names such as `001-sg-build`.
 

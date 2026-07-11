@@ -83,6 +83,8 @@ operator term
 
 Do not start with broad `rg` if the technical navigation layer already covers the term.
 
+When the message includes an explicit `#feature:<term>` token, treat it as a high-priority navigation hint: load the behavior index or domain-model layer before broad repository search, keep the free-text request active, and ignore malformed variants that do not match the explicit form.
+
 ## Behavior Index Contract
 
 Create a behavior index when:

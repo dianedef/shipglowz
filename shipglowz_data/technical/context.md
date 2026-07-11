@@ -43,6 +43,7 @@ ShipGlowz combine deux couches :
 - `cli/install.sh`: bootstrap serveur et configuration de l'environnement utilisateur.
 - `local/local.sh`: UX locale des tunnels SSH.
 - `skills/`: workflows AI orientes taches.
+- `#feature:<term>`: indice de navigation technique optionnel pour la recuperation par behavior index; ce n'est pas un langage de commande, et le texte libre reste actif.
 - `skills/references/app-blueprints.md`: systeme de blueprints — squelettes de specs globales pour archetypes d'applications recurrentes, utilises par `001-sg-build` (Blueprint Gate), `100-sg-spec` (pre-remplissage de spec), et `306-sg-scaffold` (conventions de structure).
 - `skills/app-blueprints/`: catalogue des blueprints disponibles.
 

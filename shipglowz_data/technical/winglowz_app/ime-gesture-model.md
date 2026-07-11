@@ -34,7 +34,7 @@ next_step: "/300-sf-docs technical audit"
 
 ## Purpose
 
-This file owns term-based recovery for WinGlowz IME gesture behavior. It exists because operator terms such as `swipe` are ambiguous in the IME and otherwise force repeated search across native code, docs, tests, and workflow artifacts.
+This file owns term-based recovery for WinGlowz IME gesture behavior. It exists because operator terms such as `swipe` are ambiguous in the IME and otherwise force repeated search across native code, docs, tests, and workflow artifacts. The canonical recovery path is long-press swipe, beam, and release-to-activate before any broader IME gesture search.
 
 ## Canonical Role
 
@@ -68,7 +68,7 @@ This file owns term-based recovery for WinGlowz IME gesture behavior. It exists 
 
 ### `long-press-swipe-dispatch`
 
-- Summary: after the pointer exits the pressed origin key, WinGlowz can switch into dispatch mode, render the visual beam, track a hovered target key, and dispatch on release instead of forcing the user to toggle a separate mode.
+- Summary: after the pointer exits the pressed origin key, WinGlowz can switch into dispatch mode, render the visual beam, track a hovered target key, and dispatch on release instead of forcing the user to toggle a separate mode. This is the beam / release-to-activate path.
 - Entrypoints:
   - `winglowz_app/android/app/src/main/kotlin/com/winglowz_app/winglowz_app/ime/WinGlowzKeyboardView.kt`
   - `tryActivateLongPressSwipeFromExit`
@@ -138,7 +138,7 @@ This file owns term-based recovery for WinGlowz IME gesture behavior. It exists 
 
 ```text
 swipe
-  -> long-press-swipe-dispatch | space-slider-navigation | ctrl-hold-swipe-dispatch | target-corner-selection | row-scroll-or-panel-scroll
+  -> long-press-swipe-dispatch (beam / release-to-activate) | space-slider-navigation | ctrl-hold-swipe-dispatch | target-corner-selection | row-scroll-or-panel-scroll
   -> WinGlowzKeyboardView.kt / KeyboardLongPressSwipePolicy.kt
   -> android-native.md + code-docs-map.md
   -> linked spec and future audit/checklist artifacts

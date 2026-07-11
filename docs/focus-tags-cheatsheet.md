@@ -132,6 +132,14 @@ Use these when the current conversation risks drifting toward the wrong reposito
 | `#shupflow` | the same thing as `#shipflow`, with a typo-tolerant fast alias | `skills/references/entrypoint-routing.md` |
 | `#shipflow-core` | ShipGlowz hardening, execution fidelity, or internal doctrine work | `skills/900-shipglowz-core/SKILL.md` |
 
+## Technical Navigation Hint Tags
+
+Use these when you want the agent to treat a word as an indexed technical feature term before broad search.
+
+| Tag | Use when you want... | Canonical source |
+| --- | --- | --- |
+| `#feature:<term>` | explicit behavior-index navigation for a technical term while keeping the free-text request active; for example, `#feature:swipe` | `skills/references/entrypoint-routing.md` |
+
 ## Recommended Combos
 
 Use these when you do not want to build the tag set from scratch.
