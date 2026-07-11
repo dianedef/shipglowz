@@ -60,9 +60,9 @@ Il ne doit pas stocker :
 - des clés SSH
 - des identifiants bruts
 
-Il ne doit pas non plus absorber l’état de file éphémère simplement parce que cet état est privé.
+Il peut aussi conserver un état opérationnel de courte rétention quand le versioning améliore la reprise, sans devenir une archive de messages bruts.
 
-Par exemple, une file de revue d’e-mails peut vivre dans un autre chemin privé comme `~/.shipglowz/private/mail-intake/`, car il s’agit d’un état opérationnel et non d’une mémoire durable.
+Par exemple, une file de revue d’e-mails peut vivre dans `~/.shipglowz/private/data/mail-intake/`. Elle ne contient que des fiches de revue redigérées, pas les corps bruts des messages.
 
 ## Pourquoi le remote reste configurable
 

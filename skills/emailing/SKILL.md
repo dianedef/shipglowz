@@ -28,6 +28,7 @@ Default to `report=user`: concise, sequence-first, and in the user's active lang
 - `shipglowz_data/business/gtm.md`
 - `shipglowz_data/editorial/content-map.md`
 - `skills/references/source-intake-classification.md`
+- `skills/references/email-sequence-storage.md` when a sequence should be retained in a project repository
 
 ## Scope
 
@@ -51,6 +52,7 @@ Default to `report=user`: concise, sequence-first, and in the user's active lang
 - Use the editorial content map when a sequence is actually a public content, landing-page, FAQ, or repurposing request.
 - When using a source email as inspiration, extract structure, angle, proof pattern, CTA, and sequence role; do not copy distinctive phrasing or unsupported claims.
 - Surface opt-out, consent, and compliance consequences when relevant.
+- When a sequence is durable, store it with the selected project's workflow artifacts; do not turn the private source cache into an email library.
 
 ## Stop Conditions
 
@@ -64,7 +66,7 @@ Default to `report=user`: concise, sequence-first, and in the user's active lang
 Validate this skill after edits with:
 
 ```bash
-rg -n "emailing|one-to-one|sequence|audience|cadence|CTA|opt-out|claim" skills/emailing/SKILL.md
+rg -n "emailing|one-to-one|sequence|audience|cadence|CTA|opt-out|claim|email-sequence-storage" skills/emailing/SKILL.md
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 tools/shipglowz_sync_skills.sh --check --skill emailing
 ```

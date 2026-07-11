@@ -129,7 +129,7 @@ Use these distinctions consistently in help answers:
 - it is intended to be a separate Git repository from public project repos and from `$SHIPFLOW_ROOT`
 - its remote is configuration-resolved, not hardcoded in shared doctrine
 - it stores durable private operator data, not secrets
-- ephemeral private state such as mail review queues belongs in a separate path, for example `~/.shipglowz/private/mail-intake/`
+- short-retention private state such as mail review queues may live in `~/.shipglowz/private/data/mail-intake/` when versioning improves recovery; it must not contain raw message bodies
 
 Only bootstrap/install owners need the clone contract. Most help answers should explain the storage contract first.
 

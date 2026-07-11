@@ -224,6 +224,10 @@ Flutter Web has two runtime paths:
 - Subcommand screen headers should use `ui_screen_header` rather than
   hand-counted rules or direct `ui_box_header` calls.
 - Generated ecosystem/runtime config is not the hand-edited source of truth.
+- PM2 identities for generic monorepo surfaces are derived as
+  `<parent-project>_<role>` for `app`, `site`, `lab`, and `worker`; already
+  specific directory names remain unchanged. Every lifecycle operation must
+  use the same centralized derivation.
 - Codex MCP providers are off by default; the runtime launcher enables selected
   providers with session-only config overrides and must not persistently flip
   `~/.codex/config.toml`.

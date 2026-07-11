@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-07-08"
-updated: "2026-07-08"
+updated: "2026-07-11"
 status: active
 source_skill: 307-sg-skills-refresh
 scope: private-data-repo-contract
@@ -21,7 +21,7 @@ linked_systems:
   - /home/claude/dotfiles/install.sh
 depends_on:
   - artifact: "skills/references/private-memory-store.md"
-    artifact_version: "1.0.0"
+    artifact_version: "1.1.0"
     required_status: active
 supersedes: []
 evidence:
@@ -81,7 +81,7 @@ Examples:
 - declarative mail-management state such as `mail-admin/`
 - short-retention mail review queues such as `mail-intake/`
 - project fiches under `projects/`
-- reusable private source summaries under `source-cache/`
+- short-retention, redacted source-routing records under `source-cache/` while a project is still unknown
 - private analysis reports that should remain outside public repositories
 
 Do not use this repository for:
@@ -90,6 +90,7 @@ Do not use this repository for:
 - throwaway caches with no recovery value
 - large temporary exports that would create noisy churn without operator leverage
 - public governance artifacts that belong in a project repository or `$SHIPFLOW_ROOT`
+- durable cross-project libraries of emails, transcripts, or marketing examples
 
 ## Separation Rules
 
@@ -97,6 +98,7 @@ Do not use this repository for:
 - Short-retention operational state may also live under `~/.shipglowz/private/data/` when versioning materially improves operator safety or recovery.
 - The important distinction is not "versioned vs not versioned" but durable reference state vs short-retention working state.
 - Working-state folders must declare their own cleanup policy so the private repo does not become an unbounded archive.
+- `source-cache/` is pre-assignment working state, not the canonical home of a source-derived asset. Once a project is chosen, write the durable pack, email sequence, or other derivative to that project's governed repository.
 
 ## Clone Contract
 

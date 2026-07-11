@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-06-29"
-updated: "2026-06-29"
+updated: "2026-07-11"
 status: active
 source_skill: 300-sg-docs
 scope: private-memory-store
@@ -18,9 +18,10 @@ linked_systems:
   - shipglowz_data/business/portfolio-project-pitch-links.md
   - skills/references/shipglowz-terms.md
   - docs/focus-tags-cheatsheet.md
+  - skills/references/email-sequence-storage.md
 depends_on:
   - artifact: "skills/references/source-intake-classification.md"
-    artifact_version: "1.0.0"
+    artifact_version: "1.3.0"
     required_status: active
   - artifact: "shipglowz_data/business/portfolio-project-pitch-links.md"
     artifact_version: "0.1.0"
@@ -54,12 +55,12 @@ For the current server user, this resolves to:
 /home/claude/.shipglowz/private/data
 ```
 
-This folder is outside `$SHIPFLOW_ROOT` and outside Git. It is private runtime memory, not a public governance artifact.
+This folder is outside `$SHIPFLOW_ROOT` and is a separate private Git working tree. It is private operator memory, not a public governance artifact.
 
 ## Approved Subfolders
 
 - `projects/`: one file per project, each file holding the project pitch, routing metadata, and the latest known project summary.
-- `source-cache/`: operator-approved reusable sources, such as inspiration emails, notes, transcripts, or excerpts.
+- `source-cache/`: a short-retention, pre-assignment holding area for redacted routing notes when the destination project is not yet decided.
 - `reports/`: private analysis reports derived from private sources.
 
 Create additional subfolders only when a specific owner reference documents the purpose, allowed contents, and retention rule.
@@ -106,7 +107,7 @@ Allowed:
 
 - cached copies of project pitch files from the operator's project repos
 - redacted summaries of project pitches for faster classification
-- private source material the operator explicitly approves for durable reuse
+- redacted, short-retention routing notes for an unassigned source when the operator needs to review its destination
 - private analysis reports that would leak source text or project detail if committed
 - local indexes that point to private cached files
 
@@ -116,6 +117,7 @@ Not allowed:
 - database dumps or customer datasets
 - private source material that was provided for one-time use only
 - unredacted material that the operator has not approved for durable reuse
+- raw inbox material, copied third-party source text, or a durable central library of source examples
 - generated cache files inside `$SHIPFLOW_ROOT`, project repos, or public docs
 
 ## Access Rules
@@ -125,6 +127,7 @@ Not allowed:
 - Prefer redacted summaries over full source text when full text is not needed.
 - Keep public artifacts limited to source-of-truth pointers, routing notes, and redacted summaries.
 - Never cite private-store paths or contents in public-facing copy.
+- When a project is known, put durable derivative work in that project's governed repository. The private store may retain project-routing truth, but it is not the canonical library for email sequences, repurpose packs, or other project assets.
 
 ## Portfolio Pitch Cache
 
@@ -141,11 +144,11 @@ projects/<project-slug>.md
 projects/index.md
 ```
 
-## Source Cache
+## Source Cache: Pre-Assignment Only
 
-Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/source-cache/` only for sources the operator approves for reuse beyond the current session.
+Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/source-cache/` only while a source has no confirmed project destination or while it awaits operator review. It is not a durable cross-project content library.
 
-For inspiration emails and marketing examples, store only the minimum useful material:
+For an inspiration email or marketing example, store only the minimum redacted routing record:
 
 - source type
 - project fit
@@ -153,9 +156,17 @@ For inspiration emails and marketing examples, store only the minimum useful mat
 - angle
 - CTA pattern
 - objections or proof pattern
-- redacted excerpt if needed
+- expiry date and next review action
 
-Do not store private recipient names, sender details, full email headers, tracking parameters, or copied proprietary phrasing unless explicitly required and approved.
+Do not store raw email bodies, private recipient names, sender details, full email headers, tracking parameters, or copied proprietary phrasing.
+
+Once a project and durable output are confirmed:
+
+- `202-sg-repurpose` writes the pack to that project's `shipglowz_data/workflow/repurpose-packs/`.
+- `emailing` writes the sequence to that project's `shipglowz_data/workflow/email/`.
+- remove the source-cache item after the handoff, unless a documented short retention period is still needed for review.
+
+The default retention is 14 days or until the handoff is complete, whichever comes first. Raw inbox content should normally remain outside Git and be deleted according to the mail workflow after processing.
 
 ## Stop Conditions
 

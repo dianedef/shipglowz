@@ -4388,7 +4388,8 @@ get_pm2_status() {
         return 1
     fi
 
-    local env_name=$(basename "$project_dir") # Use basename as the PM2 app name
+    local env_name
+    env_name=$(derive_pm2_app_name "$project_dir")
 
     if ! command -v pm2 >/dev/null 2>&1; then
         echo "pm2-not-installed"
@@ -4419,7 +4420,8 @@ get_port_from_pm2() {
         return 1
     fi
 
-    local env_name=$(basename "$project_dir") # Use basename as the PM2 app name
+    local env_name
+    env_name=$(derive_pm2_app_name "$project_dir")
 
     if ! command -v pm2 >/dev/null 2>&1; then
         return 1
@@ -4489,7 +4491,8 @@ resolve_project_path() {
                -o -name "__pycache__" -o -name "target" -o -name ".next" -o -name ".nuxt" \
                -o -name "dist" -o -name ".cache" -o -name ".pnpm" -o -name ".yarn" \) -prune \
             -o -type d -name ".flox" -print 2>/dev/null | while read -r flox_dir; do
-            echo "$(basename "$(dirname "$flox_dir")")|$(dirname "$flox_dir")"
+            project_dir=$(dirname "$flox_dir")
+            echo "$(derive_pm2_app_name "$project_dir")|$project_dir"
         done)
         RESOLVE_PATH_CACHE_TIME=$now
     fi
@@ -4511,6 +4514,28 @@ resolve_project_path() {
     return 1
 }
 
+# Return a collision-resistant PM2 name for a project directory.
+derive_pm2_app_name() {
+    local project_dir="${1%/}"
+    local role
+    local parent
+
+    [ -n "$project_dir" ] || return 1
+    role=$(basename "$project_dir")
+
+    case "$role" in
+        app|site|lab|worker)
+            parent=$(basename "$(dirname "$project_dir")")
+            [ -n "$parent" ] && [ "$parent" != "." ] && [ "$parent" != "/" ] || return 1
+            parent="${parent%_$role}"
+            printf '%s_%s\n' "$parent" "$role"
+            ;;
+        *)
+            printf '%s\n' "$role"
+            ;;
+    esac
+}
+
 # List all environments (projects with Flox env)
 list_all_environments() {
     local current_time
@@ -4528,7 +4553,8 @@ list_all_environments() {
                -o -name "dist" -o -name ".cache" -o -name ".pnpm" -o -name ".yarn" \) -prune \
             -o -type d -name ".flox" -print 2>/dev/null | while read -r flox_dir; do
             # Extract the project name from the path, e.g., /root/my-robots/chatbot/.flox -> chatbot
-            echo "$(basename "$(dirname "$flox_dir")")"
+            project_dir=$(dirname "$flox_dir")
+            derive_pm2_app_name "$project_dir"
         done | grep -v "^\.$" | sort)
         ENV_LIST_CACHE_TIME=$current_time
     fi
@@ -5999,7 +6025,7 @@ start_flutter_web_tmux_session() {
     fi
 
     local env_name
-    env_name=$(basename "$project_dir")
+    env_name=$(derive_pm2_app_name "$project_dir")
     local session_name
     session_name=$(flutter_web_session_name "$env_name")
 
@@ -6244,7 +6270,7 @@ env_start() {
         return 1
     fi
     
-    env_name=$(basename "$project_dir") # Derive env_name from the resolved path
+    env_name=$(derive_pm2_app_name "$project_dir")
     pm2_config="$project_dir/ecosystem.config.cjs"
 
     local project_type
@@ -6492,6 +6518,19 @@ for app in apps:
         echo -e "${RED}⚠️  ATTENTION: $env_name avait déjà $old_restarts redémarrages avant ton action. Consulte les logs: pm2 logs $env_name${NC}"
     fi
 
+    # Remove a legacy basename-only PM2 entry only when it belongs to this
+    # exact project. This safely reconciles app/site/lab/worker migrations.
+    local legacy_env_name
+    legacy_env_name=$(basename "$project_dir")
+    if [ "$legacy_env_name" != "$env_name" ]; then
+        local legacy_cwd
+        legacy_cwd=$(get_pm2_app_data "$legacy_env_name" "cwd" 2>/dev/null || true)
+        if [ "$legacy_cwd" = "$project_dir" ]; then
+            pm2 delete "$legacy_env_name" 2>/dev/null || true
+            invalidate_pm2_cache
+        fi
+    fi
+
     # Atomic cleanup of existing process (Priority 3 #11: Fix race condition)
     # Use pm2 delete with idempotent operation (no check-then-act)
     pm2 delete "$env_name" 2>/dev/null || true
@@ -6597,7 +6636,7 @@ env_stop() {
     local pm2_app_name=""
 
     if [ -n "$project_dir" ]; then
-        pm2_app_name=$(basename "$project_dir")
+        pm2_app_name=$(derive_pm2_app_name "$project_dir")
     elif pm2_app_exists_by_name "$identifier"; then
         pm2_app_name="$identifier"
         warning "Projet $identifier introuvable sur disque; arrêt de l'entrée PM2 orpheline."
@@ -6913,7 +6952,8 @@ env_remove() {
         return 1
     fi
 
-    local env_name=$(basename "$project_dir")
+    local env_name
+    env_name=$(derive_pm2_app_name "$project_dir")
 
     # Atomic deletion of PM2 process (Priority 3 #11: Fix race condition)
     # Use pm2 delete with idempotent operation (no check-then-act)
@@ -7901,7 +7941,8 @@ env_restart() {
         return 1
     fi
 
-    local env_name=$(basename "$project_dir")
+    local env_name
+    env_name=$(derive_pm2_app_name "$project_dir")
 
     echo -e "${BLUE}🔄 Restarting environment: $env_name${NC}"
     log INFO "Restarting environment: $env_name"
@@ -7994,7 +8035,8 @@ view_environment_logs() {
         return 1
     fi
 
-    local env_name=$(basename "$project_dir")
+    local env_name
+    env_name=$(derive_pm2_app_name "$project_dir")
 
     # Check if environment exists in PM2
     local status=$(get_pm2_status "$env_name")

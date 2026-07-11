@@ -1,10 +1,10 @@
 ---
 artifact: exploration_report
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.1"
 project: ShipFlow
 created: "2026-06-29"
-updated: "2026-06-29"
+updated: "2026-07-11"
 status: draft
 source_skill: 700-sg-explore
 scope: mail-source-intake-automation
@@ -128,7 +128,7 @@ Recommended shape:
   - `notmuch new`
   - a bounded notmuch query for fresh or unreviewed messages
   - source-intake classification against portfolio index and private pitch cache
-  - output to `${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipflow/private}/mail-intake/queue/`
+  - output to `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/mail-intake/queue/`
 - A user-facing review command that shows pending proposals and lets the operator accept, edit, reject, or route one.
 - A user systemd timer when the manual command is reliable.
 

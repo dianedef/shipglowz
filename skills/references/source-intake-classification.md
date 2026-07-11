@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.3.0"
+artifact_version: "1.4.0"
 project: ShipGlowz
 created: "2026-06-29"
-updated: "2026-07-07"
+updated: "2026-07-11"
 status: active
 source_skill: 000-shipglowz
 scope: source-intake-classification
@@ -45,7 +45,7 @@ depends_on:
     artifact_version: "0.1.0"
     required_status: draft
   - artifact: "skills/references/private-memory-store.md"
-    artifact_version: "1.0.0"
+    artifact_version: "1.1.0"
     required_status: active
 supersedes: []
 evidence:
@@ -122,7 +122,7 @@ Before final classification, load only the relevant canonical context:
 - `shipglowz_data/business/gtm.md` when offer, CTA, funnel, distribution, or positioning matters
 - `shipglowz_data/editorial/content-map.md` when public content, repurposing, docs, FAQ, article, landing page, or skill-page placement matters
 - `shipglowz_data/business/portfolio-project-pitch-links.md` when choosing between several portfolio projects matters
-- `skills/references/private-memory-store.md` when cached private pitch contents or reusable private source memory could change classification
+- `skills/references/private-memory-store.md` when cached private pitch contents or a temporary unassigned-source record could change classification
 
 Do not load every corpus by default. Load the smallest set that changes classification quality.
 
@@ -151,9 +151,9 @@ The approved private root is:
 ${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}
 ```
 
-Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/projects/` for cached project files and summaries. Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/source-cache/` only for operator-approved reusable source material.
+Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/projects/` for cached project files and summaries. Use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/source-cache/` only as a redacted, short-retention holding area while the source remains unassigned or awaits review.
 
-Do not cache source text in `$SHIPFLOW_ROOT`, project repos, public specs, public docs, or generated files under version control.
+Do not cache raw source text in `$SHIPFLOW_ROOT`, project repos, public specs, public docs, or generated files under version control.
 
 ## Cache Policy
 
@@ -173,7 +173,7 @@ Not allowed in the public ShipGlowz repo:
 - unredacted screenshots, transcripts, or notes
 - generated cache files containing source text
 
-If reusable private source memory is needed, use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}` under the rules in `skills/references/private-memory-store.md`.
+If a source needs temporary private review before its destination is known, use `${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}/source-cache/` under the rules in `skills/references/private-memory-store.md`. Once the project is known, persist only the justified derivative in the project's governed repository: repurpose packs use `skills/references/repurpose-pack-storage.md`; audience sequences use `skills/references/email-sequence-storage.md`.
 
 ## Classification Output
 
@@ -188,6 +188,7 @@ Owner skill: <skill name>
 Why: <one sentence>
 Risks: <claims | copyright | brand voice | consent | public surface | source freshness | none>
 Next action: <direct action or owner route>
+Persistence: <ephemeral | private review until YYYY-MM-DD | project artifact path>
 ```
 
 Use `unknown` when the source cannot be classified safely. Ask one targeted question only when the missing answer changes project, audience, claim safety, compliance, or owner skill.
@@ -202,6 +203,17 @@ Use `unknown` when the source cannot be classified safely. Ask one targeted ques
 - Source that should become docs, README, help, FAQ, or governance content -> `300-sg-docs` or `007-sg-content` depending on lifecycle scope.
 - Source that is mainly copy quality, offer, CTA, persuasion, or positioning critique -> `206-sg-audit-copy` or `207-sg-audit-copywriting`.
 - Source that requires a product, pricing, public claim, content-surface, or multi-step implementation decision -> `100-sg-spec` through the relevant master skill.
+
+## Durable Ownership
+
+Classify first; persist second. The selected project owns durable derivative work.
+
+- A source-faithful content pack belongs in the selected project's `shipglowz_data/workflow/repurpose-packs/`.
+- An audience email sequence belongs in the selected project's `shipglowz_data/workflow/email/`.
+- The private `projects/` index remains routing memory only.
+- `source-cache/` remains temporary and must not become a second global asset index.
+
+If a project is unknown, return an ephemeral classification or a short private-review record. Do not write a durable shared source asset before ownership is clear.
 
 ## Marketplace Source Rule
 

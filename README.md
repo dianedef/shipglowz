@@ -160,11 +160,11 @@ ShipGlowz separates public code from durable private operator data.
 - That path is intended to be a separate Git repository so operators can version and back up private data without mixing it into public repos.
 - The repository remote must be resolved from configuration such as `SHIPGLOWZ_PRIVATE_DATA_REPO`; it must not be hardcoded in shared doctrine.
 
-This private repository is for durable operator-managed data such as project fiches, reusable private source summaries, and future declarative mail-management registries.
+This private repository is for durable operator-managed data such as project fiches and declarative mail-management registries. It may also hold short-retention operational state when versioning improves recovery.
 
-It is not for secrets, OAuth tokens, cookies, SSH keys, or ephemeral queue state.
+It is not for secrets, OAuth tokens, cookies, SSH keys, or raw email bodies.
 
-Use a separate private path for ephemeral operational state when needed, for example `~/.shipglowz/private/mail-intake/`.
+Use `~/.shipglowz/private/data/mail-intake/` for a short-retention private mail review queue when versioning improves recovery.
 
 ## Distribution and Installation
 

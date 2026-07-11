@@ -60,9 +60,9 @@ It should not store:
 - SSH keys
 - raw credentials
 
-It also should not absorb ephemeral queue state just because that state is private.
+It may also hold short-retention operational state when versioning improves recovery, without becoming an archive of raw messages.
 
-For example, a mail review queue may live under a different private path such as `~/.shipglowz/private/mail-intake/`, because it is operational state rather than durable memory.
+For example, a mail review queue may live in `~/.shipglowz/private/data/mail-intake/`. It contains redacted review records, not raw message bodies.
 
 ## Why the remote is configurable
 
