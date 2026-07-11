@@ -135,6 +135,8 @@ En tant qu'operatrice ShipGlowz qui pilote a la fois du travail technique et du 
 | 2026-07-09 00:00:00 UTC | 101-sg-ready | GPT-5 Codex | Confirmed the artifact path, impacted skills, routing doctrine, and validation surface are explicit. | ready | /009-sg-skill-build workflow vs editorial roadmap split |
 | 2026-07-09 00:00:00 UTC | 009-sg-skill-build | GPT-5 Codex | Created the editorial roadmap artifact, added the shared tracker-routing contract, rewired affected skills, and updated doctrine. | implemented | /103-sg-verify workflow vs editorial roadmap split |
 | 2026-07-09 16:10:55 UTC | 103-sg-verify | GPT-5 Codex | Verified metadata lint, skill budget audit, runtime skill visibility checks, and focused routing grep checks for the tracker split. | verified | user review or bounded ship |
+| 2026-07-11 00:00:00 UTC | 009-sg-skill-build | GPT-5 Codex | Added explicit `300-sg-docs` loading and playbook language so `update` and `editorial` modes recognize `shipglowz_data/editorial/ROADMAP.md` as the editorial backlog companion. | implemented | /103-sg-verify workflow vs editorial roadmap split |
+| 2026-07-11 11:43:16 UTC | 103-sg-verify | GPT-5 Codex | Verified the explicit `300-sg-docs` routing update with metadata lint, skill budget audit, runtime sync, and focused grep checks for `ROADMAP.md` in `update` and `editorial` playbooks. | verified | user review or bounded ship |
 
 ## Current Chantier Flow
 

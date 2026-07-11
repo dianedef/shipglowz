@@ -79,6 +79,7 @@ It does not share canonical ownership with random root notes. When a root techni
 | `public-site-and-content-runtime.md` | `site/`, `shipglowz_data/editorial/content-map.md`, public/private doc boundaries |
 | `installer-and-user-scope.md` | `install.sh`, root/user setup, aliases, skill links, MCP config |
 | `codex-plugin-packaging.md` | `/home/claude/plugins/shipglowz/`, personal marketplace, plugin manifest, sparse source bootstrap |
+| `product-behavior-intelligence.md` | Cross-project product analytics framing for behavior graphs, activation, retention, feature impact, exploratory analytics, and GTM proof |
 | `decisions.md` | ADR-style decisions, `decision_record` templates, durable decision routing |
 | `github-actions.md` | GitHub Actions workflow cost, caches, monorepo triggers, job topology, deploy guards, and artifacts |
 | `design-system-authority.md` | Project UI design-system authority: canonical token/theme source, component bridge, layout/motion authority, forbidden bypasses, and validation |

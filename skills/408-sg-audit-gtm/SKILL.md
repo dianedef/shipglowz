@@ -35,6 +35,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 
 - `references/gtm-audit-workflow.md`: GTM audit modes, positioning/funnel/trust/analytics/launch-readiness checks, scoring, fixes, and report details.
 - `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` when the GTM audit uses competitor pages, marketplace listings, or external review surfaces to assess objections, trust, or positioning.
+- `$SHIPFLOW_ROOT/shipglowz_data/technical/product-behavior-intelligence.md` when the audit needs proof-backed positioning, activation-to-value reasoning, retention-backed claims, or feature-value evidence beyond generic acquisition metrics.
 
 ## Mode Detection
 
@@ -49,6 +50,7 @@ Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skill
 - Preserve positioning, offer clarity, funnel coherence, analytics, pricing/trust, and launch-readiness criteria.
 - When competitor examples influence positioning or trust recommendations, cross-check at least one customer-feedback surface when available instead of relying only on marketing pages.
 - When declared products are part of the offer story, keep product inventory, sales surfaces, and proof-backed claims coherent in the GTM review.
+- If the product story depends on repeat value, claims must be anchored in measurable behavior loops, not just visits, signups, or feature-click counts.
 - Evaluate `Chantier potentiel` when GTM findings require product, pricing, funnel, analytics, or trust decisions.
 - Do not invent market evidence, revenue claims, conversion data, or customer proof.
 

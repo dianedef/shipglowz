@@ -67,6 +67,7 @@ Load on demand:
 - `$SHIPFLOW_ROOT/skills/references/technical-docs-corpus.md` when mode is technical or update touches technical governance.
 - `$SHIPFLOW_ROOT/skills/references/code-navigation-and-function-docs.md` when mode is technical or when the task starts from operator terminology rather than file paths.
 - `$SHIPFLOW_ROOT/skills/references/editorial-content-corpus.md` when mode is editorial or update touches public-content surfaces.
+- `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md` when mode is `update` or `editorial` and the work touches operational follow-up trackers, so `shipglowz_data/workflow/TASKS.md` stays execution-only while `shipglowz_data/editorial/ROADMAP.md` carries editorial/public-content backlog.
 - `$SHIPFLOW_ROOT/skills/references/question-contract.md` before any user-facing merge/replace/scope/surface question, including `init` bootstrap questions for unknown project intent, target surface, or runtime.
 - `$SHIPFLOW_ROOT/skills/references/documentation-freshness-gate.md` when documentation depends on current external framework, SDK, provider, runtime, schema, auth, deployment, or API behavior.
 - `$SHIPFLOW_ROOT/skills/references/skill-context-budget.md` only when scope touches `skills/`, skill discovery metadata, or Codex/Claude skill compliance.

@@ -35,6 +35,7 @@ Load only the references required by the active run:
 - `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` when the audit or recommendation depends on competitor pages, marketplace listings, app-store pages, or customer-feedback surfaces such as AppSumo, Play Store, Trustpilot, G2, or Capterra.
 - `$SHIPFLOW_ROOT/skills/008-sg-end-user/references/onboarding-playbook.md` when the work is about onboarding, activation, setup order, first-run recovery, or a reusable stepped onboarding flow.
 - `$SHIPFLOW_ROOT/skills/008-sg-end-user/references/onboarding-progress-overlay-pattern.md` when designing, auditing, or implementing a popup-style stepped onboarding overlay with progress icons, completed/skipped/current states, or reusable app-onboarding code.
+- `$SHIPFLOW_ROOT/shipglowz_data/technical/product-behavior-intelligence.md` when first success, activation, revisit behavior, or feature usefulness should be defined from durable product value rather than UI completion alone.
 
 ## Context
 
@@ -86,6 +87,7 @@ When two routes are materially plausible, load `question-contract.md` and ask on
 Every end-user recommendation or implementation contract should cover:
 
 - **First success**: the earliest meaningful value moment the user should reach.
+- **Value-loop reality**: if the product depends on capture, organization, revisit, or assistive features, define first success around that loop instead of a shallow setup completion.
 - **Comprehension**: what the user thinks this is, who it is for, and what to do next.
 - **Usefulness**: whether the flow delivers value quickly enough to justify attention, setup, or trust.
 - **Friction**: unnecessary steps, decisions, waits, hidden requirements, dead ends, or unclear controls.

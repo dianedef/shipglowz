@@ -57,6 +57,7 @@ Treat stale docs as product risk, especially for security, permissions, billing,
 - `300-sg-docs technical` owns technical governance layer bootstrapping/auditing.
 - `300-sg-docs editorial` owns editorial/public-content governance bootstrapping/auditing.
 - `300-sg-docs update` aligns docs drift and can route to technical/editorial bootstrap or audit.
+- `300-sg-docs update` must preserve the execution-vs-editorial tracker split when a project declares both `shipglowz_data/workflow/TASKS.md` and `shipglowz_data/editorial/ROADMAP.md`.
 - `300-sg-docs migrate-layout` owns legacy root ShipGlowz artifact migration to canonical `shipglowz_data/` paths.
 - `300-sg-docs metadata` owns frontmatter migration/compliance for active ShipGlowz artifacts.
 
@@ -176,6 +177,7 @@ Failure rule:
 Do not enforce frontmatter on operational trackers:
 
 - `shipglowz_data/workflow/TASKS.md`
+- `shipglowz_data/editorial/ROADMAP.md`
 - `shipglowz_data/workflow/AUDIT_LOG.md`
 - Legacy central `PROJECTS.md` files are migration evidence only.
 - `TEST_LOG.md`

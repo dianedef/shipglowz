@@ -43,6 +43,7 @@ Load only the references needed for the active run:
 - `$SHIPFLOW_ROOT/skills/references/operator-partnership-contract.md`: required when a missing business, audience, or product fact belongs to operator knowledge rather than repository evidence.
 - `$SHIPFLOW_ROOT/skills/references/design-system-token-contract.md`: required when the spec creates, changes, audits, verifies, or fixes UI, mobile/app design, visual components, layout, styling, design tokens, theming, shadows, typography, spacing, color, motion, or branding implementation.
 - `$SHIPFLOW_ROOT/skills/references/documentation-freshness-gate.md`: required only when the spec depends on framework, SDK, service, API, auth/session, build, migration, cache, routing, or integration behavior.
+- `$SHIPFLOW_ROOT/shipglowz_data/technical/product-behavior-intelligence.md`: required when the spec defines activation stages, retention hypotheses, behavior-based analytics, feature-impact measurement, exploratory analytics workspaces, or GTM proof sourced from actual product usage.
 - `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`: required when a `blueprint:` handoff note or context provides a blueprint path. Loads the blueprint system contract for format and matching.
 - Supabase, Sentry, development-mode, or other shared references only when the workflow reference triggers their gate.
 
@@ -62,6 +63,7 @@ Parse `$ARGUMENTS` and the latest user request, then choose the smallest safe pa
 - Specs are written for implementation, not brainstorming; avoid placeholders, vague tasks, and undocumented assumptions.
 - Specs must preserve the decision-quality and excellence bar: correctness, security, performance where relevant, maintainability, durability, professional best practices, and proof quality before speed or convenience.
 - When a spec touches declared products or product-facing surfaces, the contract must state the governed product source of truth, canonical public URLs, delivery model, and claim-proof obligations instead of leaving product coherence implicit.
+- When a spec introduces analytics, activation, retention, or AI-feature measurement, it must define the product value loop being measured instead of falling back to vanity events or generic session counts.
 - Keep `100-sg-spec` role-pure: produce or repair the durable spec contract, then route ownership forward; do not collapse readiness, implementation, verification, closure, or shipping into this skill.
 - Specs must improve the current operating structure, not merely document motion: when a direct owner route is already clear and durable, avoid creating a spec that adds ceremony without reducing friction, delay, or maintenance cost.
 - Runtime specs must include Sentry, safe diagnostics/log-copy, and commit/build + Paris/UTC build-time header expectations from `$SHIPFLOW_ROOT/skills/references/sentry-observability.md`, or document why the static-site exception applies.

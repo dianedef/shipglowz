@@ -35,6 +35,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 
 - `references/market-study-workflow.md`: Market study workflow, demand analysis, competition, sizing, monetization, brand/domain checks, AI visibility, risk, and verdict details.
 - `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` when competitor examples, marketplace links, or external customer-feedback sources materially affect demand, competition, or positioning analysis.
+- `$SHIPFLOW_ROOT/shipglowz_data/technical/product-behavior-intelligence.md` when the study needs activation logic, retention hypotheses, feature-value segmentation, or proof patterns that connect market claims to real product behavior.
 
 ## Mode Detection
 
@@ -48,6 +49,7 @@ Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skill
 
 - Preserve demand evidence, competition, market sizing, monetization, domain/brand, AI visibility, and risk-assessment rules.
 - When competitor or product pages are part of the evidence, use at least one customer-feedback surface when available if it materially improves demand, objection, or dissatisfaction analysis.
+- When a market conclusion depends on whether usage becomes durable value, frame the recommendation with product-behavior segments rather than top-of-funnel traffic alone.
 - Evaluate `Chantier potentiel` when research produces product, GTM, content, architecture, or implementation decisions.
 - Do not invent market data, competitor facts, pricing, affiliate terms, or demand evidence.
 

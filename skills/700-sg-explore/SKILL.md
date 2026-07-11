@@ -21,6 +21,7 @@ Load only when their gate applies:
 
 - `$SHIPFLOW_ROOT/skills/references/question-contract.md`: required before asking exploration questions whose answer materially changes product direction, scope, audience, or operator-owned framing.
 - `$SHIPFLOW_ROOT/skills/references/operator-partnership-contract.md`: required when the exploration depends on business, product, audience, or strategic truth that belongs to the operator rather than the repository.
+- `$SHIPFLOW_ROOT/shipglowz_data/technical/product-behavior-intelligence.md`: required when the exploration is about activation, retention, value loops, feature-impact analysis, assistive/AI feature utility, reusable analytics layers, or GTM proof backed by product behavior.
 
 
 ## Mission
@@ -129,6 +130,7 @@ Selon ce que l'utilisateur apporte :
 - Recadrer le problème
 - Trouver des analogies
 - Quand un fait business, audience, ou framing manque et change réellement la suite, poser une question précise plutôt que déclarer un blocage flou
+- Quand le vrai sujet est "quel comportement crée de la valeur durable", structurer l'exploration avec la reference `product-behavior-intelligence.md` plutot qu'avec des analytics generiques
 
 **Investiguer le codebase**
 - Cartographier l'architecture existante en rapport avec la discussion
