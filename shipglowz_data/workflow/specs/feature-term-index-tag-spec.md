@@ -324,7 +324,7 @@ None.
 | 2026-07-11 17:24:51 UTC | 102-sg-start | GPT-5 Codex | Implemented the optional `#feature:<term>` routing hint across the routing docs, terminology docs, help surface, context summary, docs map, and IME behavior index trace | implemented | /103-sg-verify Feature Tag For Behavior-Index Navigation |
 | 2026-07-11 19:41:00 UTC | 103-sg-verify | GPT-5 Codex | Verified the `#feature:<term>` navigation-hint implementation with metadata lint, skill sync, diff checks, and targeted rg proof across routing, help, context, and IME recovery surfaces | verified | /104-sg-end Feature Tag For Behavior-Index Navigation |
 | 2026-07-11 20:41:00 UTC | 104-sg-end | GPT-5 Codex | Closed the chantier bookkeeping, updated TASKS and CHANGELOG, and prepared the spec for ship | closed | /005-sg-ship Feature Tag For Behavior-Index Navigation |
-| 2026-07-11 20:41:00 UTC | 005-sg-ship | GPT-5 Codex | Shipped the full-close bookkeeping for the `#feature:<term>` navigation-hint chantier; commit and push pending | shipped | none |
+| 2026-07-11 20:41:00 UTC | 005-sg-ship | GPT-5 Codex | Shipped the full-close bookkeeping for the `#feature:<term>` navigation-hint chantier; commit and push complete | shipped | none |
 
 ## Current Chantier Flow
 
@@ -338,6 +338,6 @@ None.
 - `102-sg-start`: implemented.
 - `103-sg-verify`: verified, the implementation was checked with lint, sync, diff, and targeted routing proof.
 - `104-sg-end`: closed, TASKS and CHANGELOG bookkeeping are updated.
-- `005-sg-ship`: shipped, commit and push remain to complete the ship step.
+- `005-sg-ship`: shipped, commit and push are complete.
 
 Next step: `none`
