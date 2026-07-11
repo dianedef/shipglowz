@@ -6,7 +6,7 @@ project: "ShipGlowz"
 created: "2026-07-11"
 created_at: "2026-07-11 12:05:00 UTC"
 updated: "2026-07-11"
-updated_at: "2026-07-11 12:30:00 UTC"
+updated_at: "2026-07-11 17:00:59 UTC"
 status: ready
 source_skill: 009-sg-skill-build
 source_model: "GPT-5 Codex"
@@ -136,6 +136,7 @@ When `305-sg-init` or `300-sg-docs` bootstraps editorial governance for a projec
 | 2026-07-11 12:17:00 UTC | 009-sg-skill-build | GPT-5 Codex | Added the roadmap bootstrap template, taught `305-sg-init` to create/report `shipglowz_data/editorial/ROADMAP.md`, and aligned `300-sg-docs` and the editorial corpus reference with the same normalization rule. | implemented | /103-sg-verify editorial roadmap bootstrap for governed projects |
 | 2026-07-11 12:21:16 UTC | 103-sg-verify | GPT-5 Codex | Verified the roadmap-bootstrap change with metadata lint, skill budget audit, runtime sync checks for `300-sg-docs` and `305-sg-init`, and focused grep checks for explicit `ROADMAP.md` bootstrap/reporting semantics. | verified | /104-sg-end editorial roadmap bootstrap for governed projects |
 | 2026-07-11 12:30:00 UTC | 104-sg-end | GPT-5 Codex | Closed the chantier bookkeeping by syncing the done state into `shipglowz_data/workflow/TASKS.md`, adding the changelog entry, and preserving the unshipped state for `005-sg-ship`. | closed | /005-sg-ship editorial roadmap bootstrap for governed projects |
+| 2026-07-11 17:00:59 UTC | 005-sg-ship | GPT-5 Codex | Shipped the bounded roadmap-bootstrap scope to `origin/main` with metadata lint, skill budget audit, and `300-sg-docs` runtime sync checks; left unrelated dirty files out of the commit. | shipped | none |
 
 ## Current Chantier Flow
 
@@ -144,6 +145,6 @@ When `305-sg-init` or `300-sg-docs` bootstraps editorial governance for a projec
 - `102-sg-start`: done via `009-sg-skill-build` bounded implementation.
 - `103-sg-verify`: verified.
 - `104-sg-end`: closed.
-- `005-sg-ship`: not launched.
+- `005-sg-ship`: shipped.
 
-Next step: `/005-sg-ship editorial roadmap bootstrap for governed projects`
+Next step: none
