@@ -158,6 +158,21 @@ Bootstrap rule:
   - add first source files or module layout
   - update technical mapping after code appears
 
+## `shipglowz_data/editorial/ROADMAP.md`
+
+Required sections:
+
+- title
+- `Active`
+- `Backlog`
+
+Bootstrap rule:
+
+- create this file only when public/editorial surfaces are detected or the editorial governance layer is otherwise applicable
+- keep it operational; do not add governance prose, frontmatter, or fake tasks
+- include at most short orienting comments that point public/editorial follow-up here and technical implementation work to `shipglowz_data/workflow/TASKS.md`
+- leave the sections empty by default unless real editorial follow-up is already known during bootstrap
+
 ## Empty-Repo Guardrail
 
 For empty or near-empty repositories, these starter templates are the default output. Do not replace them with a normal product README or subsystem docs until observed code or explicit project framing justifies that move.

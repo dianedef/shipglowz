@@ -26,6 +26,11 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 ---
 # ShipFlow Changelog
 
+## [2026-07-11]
+
+### Changed
+- Taught the editorial-governance bootstrap flow to create and report `shipglowz_data/editorial/ROADMAP.md` when a project has applicable public/editorial surfaces, and aligned `300-sg-docs`, `305-sg-init`, and the editorial corpus reference around that same normalization rule.
+
 ## [2026-07-04]
 
 ### Added

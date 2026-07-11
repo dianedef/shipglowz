@@ -100,6 +100,7 @@ These skills should use this corpus before changing or judging public content:
 ## Output Expectations
 
 - Missing `shipglowz_data/editorial/README.md` on a public/content project: treat it as a first-run bootstrap trigger.
+- Missing `shipglowz_data/editorial/ROADMAP.md` on a public/content project after bootstrap or update: treat it as a recoverable editorial-governance normalization gap and route to `/300-sg-docs editorial` or `/300-sg-docs update`.
 - Existing project adoption: `300-sg-docs update` reports editorial governance as `created`, `already existed`, `needs audit`, `skipped - no editorial surfaces detected`, or `blocked`.
 - Public-content impact: produce an `Editorial Update Plan`.
 - Sensitive public claims: produce a `Claim Impact Plan`.

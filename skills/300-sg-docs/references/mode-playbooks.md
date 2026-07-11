@@ -143,6 +143,13 @@ Behavior-index bootstrap is justified when:
 
 Load `skills/references/editorial-content-corpus.md`, then governance-root editorial governance docs (`shipglowz_data/editorial/*` fallback legacy `docs/editorial/*`).
 
+If the run touches operational follow-up or asks where a content/public-docs task should live, also load `skills/references/task-registry-routing.md` and keep the split explicit:
+
+- `shipglowz_data/workflow/TASKS.md` = execution backlog
+- `shipglowz_data/editorial/ROADMAP.md` = editorial/public-content backlog
+
+Do not let editorial bootstrap or update work silently repopulate `TASKS.md` with public-content follow-up when the new roadmap artifact exists.
+
 Use mode variants:
 
 - bootstrap: missing editorial governance with public surfaces detected
@@ -156,7 +163,13 @@ Must check:
 - page intent map coherence
 - editorial gate expectations
 - runtime content schema compatibility
+- editorial roadmap presence and role when the project has durable public-content follow-up
 - monorepos use the root `shipglowz_data/editorial/` corpus for shared public/content surfaces, with entries scoped by app/site/package where needed
+
+Bootstrap/update rule:
+
+- when editorial governance is applicable and the corpus is being bootstrapped or normalized, create `shipglowz_data/editorial/ROADMAP.md` if it is missing and the target repo is writable
+- keep the roadmap operational only; it is the backlog companion to the editorial corpus, not a substitute for `content-map.md`, `page-intent-map.md`, or the claim register
 
 If no public/editorial surfaces are detected, report `skipped - no editorial surfaces detected`.
 
@@ -281,11 +294,19 @@ Required gates:
 - preserve governance corpus ownership boundaries
 - only run skill-budget audit when scope touches skills/discovery metadata
 - persist conversation-derived durable decisions to proper docs surfaces
+- when the run touches operational follow-up trackers, load `skills/references/task-registry-routing.md` and preserve the split explicitly:
+  - execution/implementation work -> `shipglowz_data/workflow/TASKS.md`
+  - editorial/public-content work -> `shipglowz_data/editorial/ROADMAP.md`
+  - mixed findings -> split across both trackers instead of collapsing into one record
 - when slimming or deleting local docs, run a source-to-canonical preservation pass first and update the canonical target in the same change
 - keep bug model documentation consistent
 - create/update canonical business/product/branding/architecture/gtm/content-map/guidelines docs when missing and justified
 - when branding is non-trivial, prefer a governed bundle under `shipglowz_data/branding/` rather than stuffing all brand doctrine into one file
 - create/update `shipglowz_data/technical/design-system-authority.md` when a project has UI code but no declared canonical token/theme/component authority
+
+When the target repo already declares `shipglowz_data/editorial/ROADMAP.md`, `300-sg-docs update` should treat it as the canonical editorial operational companion and should not describe `shipglowz_data/workflow/TASKS.md` as the place for content-roadmap work.
+
+When the target repo has applicable editorial governance but no `shipglowz_data/editorial/ROADMAP.md`, `300-sg-docs update` should create it as part of the recoverable normalization pass rather than leaving it as an implied manual follow-up.
 
 Priority buckets:
 

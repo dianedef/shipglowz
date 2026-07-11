@@ -739,17 +739,25 @@ Editorial governance is applicable when public pages, README public promises, do
 
 If public surfaces are detected and `shipglowz_data/editorial/` can be written:
 - create `shipglowz_data/editorial/README.md` when missing
+- create `shipglowz_data/editorial/ROADMAP.md` when missing, using the minimal operational template from the bootstrap starter templates
 - create baseline project-specific editorial governance files when evidence exists: `public-surface-map.md`, `page-intent-map.md`, `claim-register.md`, `editorial-update-gate.md`, `astro-content-schema-policy.md`, and `blog-and-article-surface-policy.md`
 - keep entries evidence-based; do not copy ShipGlowz's own repository-specific conclusions into the target project
 - preserve runtime content schema boundaries. Do not add ShipGlowz metadata to `src/content/**`, Astro collections, MDX consumed by the app, CMS entries, or other runtime content unless the local schema explicitly accepts it
 - if a blog or article output is requested but no blog route is declared, record `surface missing: blog` instead of inventing a route
 
+If public surfaces are detected and `shipglowz_data/editorial/` already exists:
+- preserve existing governance files
+- create `shipglowz_data/editorial/ROADMAP.md` when it is missing and the folder is writable
+- otherwise report whether the roadmap `already existed`, `created`, `blocked`, or `needs audit`
+
 If no public/content surfaces are detected:
 - report `editorial governance: skipped - no editorial surfaces detected`
+- report `shipglowz_data/editorial/ROADMAP.md: skipped - no editorial surfaces detected`
 - name `/300-sg-docs editorial` as the adoption command if public surfaces appear later
 
 If public surfaces are detected but `shipglowz_data/editorial/` cannot be created safely:
 - report `editorial governance: blocked`
+- report `shipglowz_data/editorial/ROADMAP.md: blocked`
 - name the blocked files and the next safe command `/300-sg-docs editorial`
 - do not strengthen README, docs, public claims, FAQ, pricing, or support copy until the editorial governance state is created, audited, skipped with reason, or explicitly marked pending
 
@@ -790,6 +798,7 @@ shipglowz_data/branding/branding.md: [created / skipped / already existed]
 shipglowz_data/business/project-competitors-and-inspirations.md: [absent optional / created on request / already existed / needs audit]
 shipglowz_data/business/affiliate-programs.md: [absent optional / created on request / already existed / needs audit]
 shipglowz_data/editorial/content-map.md: [created / skipped / already existed]
+shipglowz_data/editorial/ROADMAP.md: [created / skipped - no editorial surfaces detected / already existed / blocked / needs audit]
 shipglowz_data/technical/guidelines.md: [created / skipped / already existed]
 AGENT.md:    [created / already existed / blocked]
 AGENTS.md:   [symlink created / symlink ok / absent / compatibility conflict]
