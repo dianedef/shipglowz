@@ -1,10 +1,10 @@
 ---
 artifact: contract
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: ShipGlowz
 created: "2026-06-28"
-updated: "2026-06-29"
+updated: "2026-07-12"
 status: active
 source_skill: 900-shipglowz-core
 scope: profile-activation
@@ -35,6 +35,7 @@ evidence:
   - "Operator feedback 2026-06-28: `%Victoire` must not be presented as a runtime primitive until the runtime layer exists."
   - "Operator request 2026-06-29: make the Traffic Manager role invokable through the same named-profile layer."
   - "Operator decision 2026-06-29: name the traffic-manager profile Tariq."
+  - "Operator decision 2026-07-12: register a bounded catalog of invokable technology specialist profiles."
 next_review: "2026-07-12"
 next_step: "/103-sg-verify profile-activation-contract"
 ---
@@ -108,6 +109,20 @@ Known aliases:
 - `%TechnicalReviewer`, `%technical-reviewer`, `profile=technical-reviewer`, and `profil=technical-reviewer` resolve to `shipglowz_data/business/agent-profiles/technical-reviewer.md`.
 - `%QAVerifier`, `%qa-verifier`, `profile=qa-verifier`, and `profil=qa-verifier` resolve to `shipglowz_data/business/agent-profiles/qa-verifier.md`.
 - `%Neovim`, `%NeovimSpecialist`, `%neovim-specialist`, `profile=neovim-specialist`, and `profil=neovim-specialist` resolve to `shipglowz_data/business/agent-profiles/neovim-specialist.md`.
+- `%Python`, `%PythonSpecialist`, and `profile=python-specialist` resolve to `shipglowz_data/business/agent-profiles/python-specialist.md`.
+- `%Bash`, `%BashSpecialist`, and `profile=bash-specialist` resolve to `shipglowz_data/business/agent-profiles/bash-specialist.md`.
+- `%Astro`, `%AstroSpecialist`, and `profile=astro-specialist` resolve to `shipglowz_data/business/agent-profiles/astro-specialist.md`.
+- `%TypeScript`, `%TypeScriptSpecialist`, and `profile=typescript-specialist` resolve to `shipglowz_data/business/agent-profiles/typescript-specialist.md`.
+- `%JavaScript`, `%JavaScriptSpecialist`, and `profile=javascript-specialist` resolve to `shipglowz_data/business/agent-profiles/javascript-specialist.md`.
+- `%Flutter`, `%FlutterSpecialist`, and `profile=flutter-specialist` resolve to `shipglowz_data/business/agent-profiles/flutter-specialist.md`.
+- `%Dart`, `%DartSpecialist`, and `profile=dart-specialist` resolve to `shipglowz_data/business/agent-profiles/dart-specialist.md`.
+- `%Firebase`, `%FirebaseSpecialist`, and `profile=firebase-specialist` resolve to `shipglowz_data/business/agent-profiles/firebase-specialist.md`.
+- `%Convex`, `%ConvexSpecialist`, and `profile=convex-specialist` resolve to `shipglowz_data/business/agent-profiles/convex-specialist.md`.
+- `%Vercel`, `%VercelSpecialist`, and `profile=vercel-specialist` resolve to `shipglowz_data/business/agent-profiles/vercel-specialist.md`.
+- `%Sentry`, `%SentrySpecialist`, and `profile=sentry-specialist` resolve to `shipglowz_data/business/agent-profiles/sentry-specialist.md`.
+- `%CloudIntegrations`, `%CloudIntegrationsSpecialist`, and `profile=cloud-integrations-specialist` resolve to `shipglowz_data/business/agent-profiles/cloud-integrations-specialist.md`.
+- `%Turso`, `%TursoSpecialist`, and `profile=turso-specialist` resolve to `shipglowz_data/business/agent-profiles/turso-specialist.md`.
+- `%CrewAI`, `%CrewAISpecialist`, and `profile=crewai-specialist` resolve to `shipglowz_data/business/agent-profiles/crewai-specialist.md`.
 
 ## Precedence Rules
 

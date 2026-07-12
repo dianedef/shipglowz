@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "0.6.0"
+artifact_version: "0.8.0"
 project: ShipGlowz
 created: "2026-05-24"
-updated: "2026-05-30"
+updated: "2026-07-12"
 status: draft
 source_skill: sg-docs
 scope: external-platforms-corpus
@@ -30,6 +30,8 @@ evidence:
   - "Operator decision on 2026-05-24: provider usage notes resolve from the governance root, which is the monorepo root for monorepos."
   - "CrewAI global platform note added for agent orchestration, tools, memory, structured outputs, and dependency freshness."
   - "Lemon Squeezy global platform note added for payment API/webhook, official SDK, and CLI/MCP availability decisions."
+  - "TypeScript, JavaScript, Flutter, and Dart notes added as canonical sources for technology specialist profiles."
+  - "Turso added as a specialist-backed note; PydanticAI, LangGraph, Cloudflare Workers, Hono, Drizzle ORM, and TanStack Start added as reference-only watchlist notes."
 next_review: "2026-06-24"
 next_step: "/sg-docs technical audit"
 ---
@@ -99,17 +101,28 @@ Each provider note should include:
 - `astro.md`
 - `bash.md`
 - `clerk.md`
+- `cloudflare-workers.md`
 - `convex.md`
 - `crewai.md`
+- `dart.md`
+- `drizzle-orm.md`
 - `firebase.md`
 - `firecrawl.md`
+- `flutter.md`
 - `google-cloud.md`
 - `gum.md`
+- `hono.md`
+- `javascript.md`
+- `langgraph.md`
 - `lemonsqueezy.md`
-  - `python.md`
-  - `neovim.md`
+- `neovim.md`
+- `python.md`
+- `pydanticai.md`
 - `sentry.md`
 - `supabase.md`
+- `tanstack-start.md`
+- `turso.md`
+- `typescript.md`
 - `vercel.md`
 
 ## Maintenance Rule

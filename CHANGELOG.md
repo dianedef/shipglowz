@@ -26,6 +26,12 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 ---
 # ShipFlow Changelog
 
+## [2026-07-12]
+
+### Added
+- Added an invokable technology-specialist catalog for Neovim, Python, Bash, Astro, TypeScript, JavaScript, Flutter, Dart, Firebase, Convex, Vercel, Sentry, cloud integrations, Turso, and CrewAI while preserving owner-skill routing.
+- Added canonical platform notes for TypeScript, JavaScript, Flutter, Dart, Turso, PydanticAI, LangGraph, Cloudflare Workers, Hono, Drizzle ORM, and TanStack Start; future-stack entries remain reference-only until project adoption justifies a role.
+
 ## [2026-07-11]
 
 ### Changed

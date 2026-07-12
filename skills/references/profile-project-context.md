@@ -1,10 +1,10 @@
 ---
 artifact: contract
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: ShipGlowz
 created: "2026-06-28"
-updated: "2026-06-29"
+updated: "2026-07-12"
 status: active
 source_skill: 900-shipglowz-core
 scope: profile-project-context
@@ -27,6 +27,7 @@ depends_on:
 supersedes: []
 evidence:
   - "Operator request 2026-06-28: named profiles must load useful project context, not only their role contract."
+  - "Operator decision 2026-07-12: technology specialist profiles load canonical platform notes plus the smallest project-local technical context."
 next_review: "2026-07-12"
 next_step: "/103-sg-verify profile-project-context"
 ---
@@ -164,6 +165,17 @@ Load additionally when relevant:
 - `shipglowz_data/technical/code-docs-map.md`
 
 Use this bundle for Neovim/Lua configuration, plugin compatibility, LSP/Treesitter setup, headless validation, and workstation-versus-Termux profile decisions.
+
+### Technology specialist profiles
+
+For `python-specialist`, `bash-specialist`, `astro-specialist`, `typescript-specialist`, `javascript-specialist`, `flutter-specialist`, `dart-specialist`, `firebase-specialist`, `convex-specialist`, `vercel-specialist`, `sentry-specialist`, `cloud-integrations-specialist`, `turso-specialist`, and `crewai-specialist`, load:
+
+- the platform note linked by the role contract
+- the target project's `shipglowz_data/technical/code-docs-map.md` when present
+- the smallest relevant project-local usage note under `shipglowz_data/technical/platforms/` when present
+- the affected dependency/config files needed to establish the actual project version and conventions
+
+Use this bundle for stack-specific implementation, audits, debugging, migration, validation, and freshness decisions. Do not load unrelated platform notes or copy vendor documentation into the answer.
 
 ## Missing Context Rule
 
