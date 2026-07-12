@@ -27,5 +27,5 @@ Current documentation lives at the root of ShipFlow:
 - [README.md](../README.md) - Main project overview
 - [CLAUDE.md](../CLAUDE.md) - Repository guidance and constraints
 - [shipflow-spec-driven-workflow.md](../shipflow-spec-driven-workflow.md) - ShipFlow V3 workflow
-- [ECOSYSTEM-AND-PORTS.md](../ECOSYSTEM-AND-PORTS.md) - Port and PM2 ecosystem behavior
+- [ECOSYSTEM-AND-PORTS.md](root-documentation/ECOSYSTEM-AND-PORTS.md) - Historical port and PM2 ecosystem behavior
 - [local/README.md](../local/README.md) - Local tunnel setup

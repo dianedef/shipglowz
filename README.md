@@ -146,7 +146,7 @@ It helps operators run apps on servers, but its deeper job is to reduce ambiguit
 - [shipglowz-metadata-migration-guide.md](./shipglowz-metadata-migration-guide.md) — how to adopt ShipGlowz metadata and versioning in an existing project
 - [skills/references/canonical-paths.md](./skills/references/canonical-paths.md) — path resolution rules for ShipGlowz-owned tools, references, templates, and project-local artifacts
 - [skills/references/private-data-repo-contract.md](./skills/references/private-data-repo-contract.md) — contract for the separate private data repository used for durable operator-managed data under `~/.shipglowz/private/data/`
-- [ECOSYSTEM-AND-PORTS.md](./ECOSYSTEM-AND-PORTS.md) — legacy root technical note pending consolidation into the canonical technical layer
+- Runtime port and PM2 behavior is documented in [shipglowz_data/technical/runtime-cli.md](./shipglowz_data/technical/runtime-cli.md); the historical root note is archived under [archive/root-documentation/ECOSYSTEM-AND-PORTS.md](./archive/root-documentation/ECOSYSTEM-AND-PORTS.md).
 - [local/README.md](./local/README.md) — local tunnel setup
 - [tools/codebase-mcp/README.md](./tools/codebase-mcp/README.md) — local MCP server for codebase context management
 - [archive/README.md](./archive/README.md) — historical docs and old reports
@@ -961,7 +961,6 @@ shipglowz/
 ├── CLAUDE.md
 ├── CHANGELOG.md
 ├── shipglowz-spec-driven-workflow.md
-├── ECOSYSTEM-AND-PORTS.md
 ├── shipglowz-site/
 ├── docs/
 ├── tui/

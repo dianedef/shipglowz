@@ -8,5 +8,5 @@ For current behavior, use the root documentation:
 
 - [README.md](../../README.md)
 - [shipflow-spec-driven-workflow.md](../../shipflow-spec-driven-workflow.md)
-- [ECOSYSTEM-AND-PORTS.md](../../ECOSYSTEM-AND-PORTS.md)
+- [ECOSYSTEM-AND-PORTS.md](../root-documentation/ECOSYSTEM-AND-PORTS.md)
 - [CHANGELOG.md](../../CHANGELOG.md)

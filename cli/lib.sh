@@ -1726,7 +1726,7 @@ disk_cleanup_menu() {
         echo -e "  ${CYAN}•${NC} ~/.local/state/augment"
         echo -e "  ${CYAN}•${NC} ~/.local/state/nvim, ~/.local/share/nvim, ~/.local/share/MyNeovim"
         echo -e "  ${CYAN}•${NC} ~/.local/share/claude"
-        echo -e "  ${CYAN}•${NC} ~/.local/share/pnpm (PNPM disk store/cache)"
+        echo -e "  ${CYAN}•${NC} ~/.local/share/pnpm (PNPM disk store/cache) ${RED}⚠️  casse les binaires pnpm globaux (kc, ...)${NC}"
         echo -e "  ${CYAN}•${NC} common project artifacts in home workspaces: node_modules, venv/.venv, .dart_tool, build, dist, .astro, .vite, .next, .nuxt, .turbo, pytest/mypy/ruff caches"
         echo -e "  ${CYAN}•${NC} Rust/Tauri target/ build artifacts"
         echo -e "  ${CYAN}•${NC} PM2 daemon/app logs + pm2-logrotate"

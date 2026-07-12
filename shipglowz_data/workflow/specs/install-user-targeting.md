@@ -24,11 +24,11 @@ linked_systems:
   - README.md
   - local/README.md
   - CONTEXT.md
-  - INSTALLATION-OWNERSHIP-SPEC.md
+  - shipglowz_data/workflow/specs/ai-agent-install-ownership-and-autonomous-permissions.md
 depends_on:
-  - artifact: "INSTALLATION-OWNERSHIP-SPEC.md"
-    artifact_version: "0.1.0"
-    required_status: "draft"
+  - artifact: "shipglowz_data/workflow/specs/ai-agent-install-ownership-and-autonomous-permissions.md"
+    artifact_version: "1.0.0"
+    required_status: "ready"
   - artifact: "README.md"
     artifact_version: "0.1.0"
     required_status: "reviewed"
@@ -42,7 +42,7 @@ next_step: "/sg-ready installation-user-targeting"
 # Spec: Cible d'installation par utilisateur dans install.sh
 
 > Note: cette spec est le detail ShipGlowz du contrat racine
-> `INSTALLATION-OWNERSHIP-SPEC.md`, qui separe les responsabilites
+> `shipglowz_data/workflow/specs/ai-agent-install-ownership-and-autonomous-permissions.md`, qui separe les responsabilites
 > entre `dotfiles` (tooling generique) et `ShipGlowz` (IA/code actif).
 
 ## Title

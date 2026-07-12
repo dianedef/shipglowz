@@ -20,7 +20,6 @@ docs_impact: yes
 linked_systems:
   - shipflow/install.sh
   - shipflow/README.md
-  - shipflow/INSTALLATION-OWNERSHIP-SPEC.md
   - shipflow/specs/install-user-targeting.md
   - dotfiles/install.sh
   - dotfiles/lib.sh
@@ -40,14 +39,11 @@ depends_on:
   - artifact: "README.md"
     artifact_version: "0.1.0"
     required_status: "draft"
-  - artifact: "INSTALLATION-OWNERSHIP-SPEC.md"
-    artifact_version: "0.1.0"
-    required_status: "draft"
   - artifact: "specs/install-user-targeting.md"
     artifact_version: "0.1.0"
     required_status: "draft"
 supersedes:
-  - "INSTALLATION-OWNERSHIP-SPEC.md"
+  - "archive/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md"
   - "specs/install-user-targeting.md"
 evidence:
   - "shipflow/install.sh configure deja ~/.claude/settings.json, ~/.codex/config.toml, MCP, skills et aliases pour root puis tous les comptes /home/*."
@@ -152,7 +148,7 @@ Make ShipGlowz the sole owner of Claude Code, OpenAI Codex, ShipGlowz MCP regist
   - OpenAI Codex configuration reference: `~/.codex/config.toml` is user-level config; `approval_policy` supports `never`; `sandbox_mode` supports `danger-full-access`; source: https://developers.openai.com/codex/config-reference.
   - Anthropic Claude Code settings: `permissions.defaultMode` supports `bypassPermissions`, and `skipDangerousModePermissionPrompt` applies to bypass mode in user settings; source: https://docs.anthropic.com/en/docs/claude-code/settings.
 - Existing ShipGlowz contracts:
-  - `INSTALLATION-OWNERSHIP-SPEC.md` draft is superseded by this spec.
+  - The archived root `INSTALLATION-OWNERSHIP-SPEC.md` draft is superseded by this spec.
   - `specs/install-user-targeting.md` draft is incorporated by this spec.
 - Existing dotfiles contracts:
   - dotfiles remains responsible for generic user-local npm prefix and shell PATH setup.
@@ -178,7 +174,7 @@ Make ShipGlowz the sole owner of Claude Code, OpenAI Codex, ShipGlowz MCP regist
 - Downstream:
   - `~/.claude/settings.json`, `~/.codex/config.toml`, `~/.bashrc`, `~/.claude/skills`, `~/.codex/skills`, `~/shipglowz_data`.
   - ShipGlowz README and dotfiles README install guidance.
-  - Existing install reports and `INSTALL-RUN-TRACE.md` need consistent terminology.
+  - Existing install reports and `shipglowz_data/workflow/audits/2026-04-28-install-run-trace.md` need consistent terminology.
 - Operational consequences:
   - When dotfiles was never run, ShipGlowz may need to create or repair the per-user PATH/bootstrap lines required for `~/.local/share/pnpm` in the selected account's `~/.bashrc` before attempting user-local AI installs.
   - Existing users with dotfiles-managed Codex symlinks must be migrated to real user config or have the symlink removed before ShipGlowz writes.
@@ -198,12 +194,11 @@ Make ShipGlowz the sole owner of Claude Code, OpenAI Codex, ShipGlowz MCP regist
 - Update `dotfiles/README.md`:
   - Remove claims that dotfiles installs/configures Claude Code, Codex, or Claude/Codex MCP.
   - Explain that dotfiles prepares generic tooling and that ShipGlowz handles AI/code agent workflow.
-- Update `INSTALLATION-OWNERSHIP-SPEC.md`:
-  - Mark as superseded or point to this spec.
+- Keep the archived `archive/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md` as historical evidence; this spec is the canonical contract.
 - Update `specs/install-user-targeting.md`:
   - Mark as superseded or point to this spec.
 - Update `CHANGELOG.md` after implementation.
-- Optional: update `INSTALL-RUN-TRACE.md` only if the implementation run reveals notable migration observations.
+- Optional: update `shipglowz_data/workflow/audits/2026-04-28-install-run-trace.md` only if the implementation run reveals notable migration observations.
 
 ## Edge Cases
 
@@ -224,11 +219,11 @@ Make ShipGlowz the sole owner of Claude Code, OpenAI Codex, ShipGlowz MCP regist
 ## Implementation Tasks
 
 - [ ] Task 1: Consolidate the ownership spec references
-  - File: `INSTALLATION-OWNERSHIP-SPEC.md`
+  - File: `shipglowz_data/workflow/specs/ai-agent-install-ownership-and-autonomous-permissions.md`
   - Action: mark the draft as superseded by `specs/ai-agent-install-ownership-and-autonomous-permissions.md` and remove any remaining open decision that conflicts with this spec.
   - User story link: gives agents one canonical contract for ownership.
   - Depends on: None
-  - Validate with: `rg -n "superseded|ai-agent-install-ownership" INSTALLATION-OWNERSHIP-SPEC.md`
+  - Validate with: `rg -n "superseded|ai-agent-install-ownership" shipglowz_data/workflow/specs/ai-agent-install-ownership-and-autonomous-permissions.md archive/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md`
   - Notes: Do not delete the historical context.
 
 - [ ] Task 2: Consolidate user targeting into this chantier
