@@ -8,6 +8,7 @@ updated: "2026-06-22"
 status: ready
 source_skill: 100-sg-spec
 scope: devserver-ui-centralization
+user_story: "En tant qu’opérateur du menu ShipGlowz DevServer, je veux des sélecteurs d’environnement plus rapides et un shell UI centralisé, pour réduire la latence perçue et éviter la dérive entre gum et fallback bash."
 owner: unknown
 confidence: high
 risk_level: medium

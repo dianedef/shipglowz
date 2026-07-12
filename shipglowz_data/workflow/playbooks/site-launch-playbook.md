@@ -220,7 +220,7 @@ Do not launch when any of these is true:
 
 ## Linked Checklists
 
-- [site-launch-checklist.md](/home/claude/shipflow/shipglowz_data/workflow/checklists/site-launch-checklist.md)
+- [site-launch-checklist.md](/home/claude/shipglowz/shipglowz_data/workflow/checklists/site-launch-checklist.md)
 
 ## Common Risks
 
@@ -240,5 +240,5 @@ Do not launch when any of these is true:
 ## Validation
 
 ```bash
-python3 /home/claude/shipflow/tools/shipflow_metadata_lint.py /home/claude/shipflow/shipglowz_data/workflow/playbooks/site-launch-playbook.md
+python3 /home/claude/shipglowz/tools/shipglowz_metadata_lint.py /home/claude/shipglowz/shipglowz_data/workflow/playbooks/site-launch-playbook.md
 ```

@@ -2,12 +2,12 @@
 artifact: audit_report
 metadata_schema_version: "1.0"
 artifact_version: "1.0.0"
-project: "shipflow"
+project: "ShipGlowz"
 created: "2026-06-29"
 updated: "2026-06-29"
-status: completed
+status: reviewed
 source_skill: "400-sg-audit"
-scope: "shipflow/dotfiles install coherence"
+scope: "ShipGlowz/dotfiles install coherence"
 owner: "claude"
 confidence: high
 security_impact: medium
@@ -22,6 +22,14 @@ linked_systems:
   - "/home/claude/.codex/config.toml"
   - "/home/claude/.claude/settings.json"
 depends_on: []
+domains:
+  - docs
+  - install
+  - security
+issue_counts:
+  high: 0
+  medium: 0
+  low: 0
 supersedes: []
 evidence:
   - "Dotfiles declares ShipFlow owns Claude/Codex skills and config, but dotfiles still contains direct Claude install and MCP writes."

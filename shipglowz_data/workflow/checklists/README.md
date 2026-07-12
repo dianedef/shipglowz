@@ -97,5 +97,5 @@ Use the three layers explicitly:
 ## Validation
 
 ```bash
-python3 /home/claude/shipflow/tools/shipflow_metadata_lint.py /home/claude/shipflow/shipglowz_data/workflow/checklists/README.md
+python3 /home/claude/shipglowz/tools/shipglowz_metadata_lint.py /home/claude/shipglowz/shipglowz_data/workflow/checklists/README.md
 ```

@@ -138,8 +138,8 @@ Use `templates/artifacts/project_platform_usage.md` as the starter structure.
 For documentation-only changes:
 
 ```bash
-python3 /home/claude/shipflow/tools/shipglowz_metadata_lint.py /home/claude/shipflow/shipglowz_data/technical/external-platforms/lemonsqueezy.md
-rg -n "Freshness Gate|Source Map|MCP / CLI Assessment|ShipGlowz Decision Rules|Maintenance Rule" /home/claude/shipflow/shipglowz_data/technical/external-platforms/lemonsqueezy.md
+python3 /home/claude/shipglowz/tools/shipglowz_metadata_lint.py /home/claude/shipglowz/shipglowz_data/technical/external-platforms/lemonsqueezy.md
+rg -n "Freshness Gate|Source Map|MCP / CLI Assessment|ShipGlowz Decision Rules|Maintenance Rule" /home/claude/shipglowz/shipglowz_data/technical/external-platforms/lemonsqueezy.md
 ```
 
 For project code changes:

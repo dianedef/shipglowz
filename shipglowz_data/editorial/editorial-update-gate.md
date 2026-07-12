@@ -24,8 +24,8 @@ linked_systems:
   - CONTENT_MAP.md
   - docs/editorial/
   - skills/references/subagent-roles/editorial-reader.md
-  - skills/sg-docs/SKILL.md
-  - skills/sg-repurpose/SKILL.md
+  - skills/300-sg-docs/SKILL.md
+  - skills/202-sg-repurpose/SKILL.md
 depends_on:
   - artifact: "specs/shipflow-editorial-content-governance-layer-for-ai-agents.md"
     artifact_version: "1.0.0"
@@ -34,7 +34,7 @@ supersedes: []
 evidence:
   - "Ready spec defines Editorial Update Plan, Claim Impact Plan, and pending final copy rules."
 next_review: "2026-06-01"
-next_step: "/sg-verify ShipGlowz Editorial Content Governance Layer for AI Agents"
+next_step: "/103-sg-verify ShipGlowz Editorial Content Governance Layer for AI Agents"
 ---
 
 # Editorial Update Gate

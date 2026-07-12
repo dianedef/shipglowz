@@ -1,8 +1,8 @@
 ---
 artifact: market_study
 metadata_schema_version: "1.0"
-artifact_version: "0.1.0"
-project: "shipflow"
+artifact_version: "1.0.0"
+project: "ShipGlowz"
 created: "2026-07-04"
 updated: "2026-07-04"
 status: reviewed
@@ -10,6 +10,8 @@ source_skill: "204-sg-market-study"
 scope: "market"
 confidence: "medium"
 risk_level: "medium"
+security_impact: none
+docs_impact: yes
 business_model: "service"
 target_audience: "solo founders and small technical teams using ShipFlow for app delivery workflows"
 market: "global"
@@ -19,6 +21,9 @@ depends_on:
   - artifact: "shipglowz_data/business/business.md"
     artifact_version: "1.2.0"
     required_status: "reviewed"
+supersedes: []
+owner: "Diane"
+next_step: "/204-sg-market-study refresh deployment substrate comparison"
 evidence:
   - "https://www.codesphere.com/"
   - "https://docs.codesphere.com/intro"

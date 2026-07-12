@@ -118,5 +118,5 @@ The current architecture expects this folder to absorb shared documents such as:
 ## Validation
 
 ```bash
-python3 /home/claude/shipflow/tools/shipflow_metadata_lint.py /home/claude/shipflow/shipglowz_data/workflow/playbooks/README.md
+python3 /home/claude/shipglowz/tools/shipglowz_metadata_lint.py /home/claude/shipglowz/shipglowz_data/workflow/playbooks/README.md
 ```

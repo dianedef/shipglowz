@@ -11,6 +11,7 @@ status: ready
 source_skill: "100-sg-spec"
 source_model: "GPT-5 Codex"
 scope: skill-maintenance
+user_story: "As a ShipGlowz user who sends audience email sequences, I want a dedicated emailing skill for multi-step campaigns, so I can produce consistent sequences with clear cadence, audience fit, and measurable outcomes."
 owner: "Diane"
 confidence: high
 risk_level: medium

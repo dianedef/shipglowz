@@ -136,7 +136,7 @@ This checklist is complete only when all blocking items are checked and no unres
 
 ## Linked Playbook
 
-- [site-launch-playbook.md](/home/claude/shipflow/shipglowz_data/workflow/playbooks/site-launch-playbook.md)
+- [site-launch-playbook.md](/home/claude/shipglowz/shipglowz_data/workflow/playbooks/site-launch-playbook.md)
 
 ## Exceptions
 
@@ -150,5 +150,5 @@ Record exceptions directly below the relevant item with:
 ## Validation
 
 ```bash
-python3 /home/claude/shipflow/tools/shipflow_metadata_lint.py /home/claude/shipflow/shipglowz_data/workflow/checklists/site-launch-checklist.md
+python3 /home/claude/shipglowz/tools/shipglowz_metadata_lint.py /home/claude/shipglowz/shipglowz_data/workflow/checklists/site-launch-checklist.md
 ```

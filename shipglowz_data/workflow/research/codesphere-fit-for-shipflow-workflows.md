@@ -2,7 +2,7 @@
 artifact: research
 metadata_schema_version: "1.0"
 artifact_version: "1.0.0"
-project: "shipflow"
+project: "ShipGlowz"
 created: "2026-07-04"
 updated: "2026-07-04"
 status: reviewed
@@ -22,6 +22,8 @@ evidence:
   - "https://docs.codesphere.com/workspace-toolkit/monitor/log-browser"
   - "https://docs.codesphere.com/category/automations"
   - "https://docs.codesphere.com/next/apis-and-automations/public-api"
+depends_on: []
+supersedes: []
   - "https://www.codesphere.com/remote-development"
 next_step: "/204-sg-market-study compare Codesphere vs Railway/Render/Fly.io for ShipFlow-target workflows"
 ---

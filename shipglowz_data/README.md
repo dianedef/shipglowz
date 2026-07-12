@@ -38,7 +38,7 @@ next_step: "/300-sg-docs update shipglowz_data README"
 
 # shipglowz_data
 
-`shipglowz_data/` is ShipFlow's canonical governance and workflow corpus for this repository.
+`shipglowz_data/` is ShipGlowz's canonical governance and workflow corpus for this repository.
 
 It stores durable project truth close to the repo: business decisions, technical contracts, editorial/public-content rules, specs, trackers, audits, test checklists, and evidence. Legacy root files and the old external `~/shipglowz_data` control-plane model are migration context only.
 
