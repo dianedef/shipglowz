@@ -97,7 +97,7 @@ maintenance intake -> triage -> existing chantier/spec gate -> spec/readiness wh
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `tools/shipflow_sync_skills.sh --check --skill sg-maintain`
 - `rg -n "sg-maintain.*lifecycle|sg-maintain.*ship|delegated sequential|spec-gated parallel" skills/sg-maintain/SKILL.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md skills/sg-help/SKILL.md docs/technical/skill-runtime-and-lifecycle.md site/src/content/skills/sg-maintain.md`
-- `pnpm --dir shipflow-site build`
+- `pnpm --dir shipglowz-site build`
 
 ## Skill Run History
 

@@ -137,7 +137,7 @@ Create `shipflow` as a thin primary router backed by a shared `entrypoint-routin
 - [x] Task 6: Validate the skill lifecycle.
   - File: changed skill, reference, spec, docs, and public surfaces
   - Action: Run budget audit, metadata lint, runtime sync check, focused route checks, and site build.
-  - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/shipflow-primary-router-skill.md skills/references/entrypoint-routing.md skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md skills/references/chantier-tracking.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md`; `tools/shipflow_sync_skills.sh --check --skill shipflow`; `pnpm --dir shipflow-site build`
+  - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/shipflow-primary-router-skill.md skills/references/entrypoint-routing.md skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md skills/references/chantier-tracking.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md`; `tools/shipflow_sync_skills.sh --check --skill shipflow`; `pnpm --dir shipglowz-site build`
 
 ## Acceptance Criteria
 
@@ -157,7 +157,7 @@ Create `shipflow` as a thin primary router backed by a shared `entrypoint-routin
 - Metadata: lint the new spec and reference plus changed docs.
 - Skill budget: run the skill discovery budget audit.
 - Runtime: run `tools/shipflow_sync_skills.sh --repair --skill shipflow`, then `--check --skill shipflow`.
-- Public site: run `pnpm --dir shipflow-site build`.
+- Public site: run `pnpm --dir shipglowz-site build`.
 - Manual scenarios: classify pure question, feature, maintenance, bug, deploy, content, skill-maintenance, audit, and ambiguous requests against the routing matrix.
 
 ## Risks

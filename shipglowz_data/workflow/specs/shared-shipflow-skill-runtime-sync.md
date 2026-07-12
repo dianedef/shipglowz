@@ -311,7 +311,7 @@ The initial helper should prioritize current-user repair and install-time reuse.
   - User story link: Proves the helper is safe, reusable, and visible to the lifecycle.
   - Depends on: Tasks 2-8
   - Validate with: `bash -n tools/shipflow_sync_skills.sh install.sh test_skill_runtime_sync.sh`; `bash test_skill_runtime_sync.sh`; `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/shared-shipflow-skill-runtime-sync.md docs/technical/installer-and-user-scope.md docs/technical/skill-runtime-and-lifecycle.md docs/technical/code-docs-map.md bugs/BUG-2026-05-03-001.md`; `tools/shipflow_sync_skills.sh --check --all`
-  - Notes: `pnpm --dir shipflow-site build` is not required unless public site content changes.
+  - Notes: `pnpm --dir shipglowz-site build` is not required unless public site content changes.
 
 ## Acceptance Criteria
 

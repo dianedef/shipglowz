@@ -134,7 +134,7 @@ sg-bug -> sg-test -> bug dossier -> sg-fix -> sg-test --retest -> sg-verify -> s
 - `tools/shipflow_sync_skills.sh --check --skill sg-bug`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `python3 tools/shipflow_metadata_lint.py specs/sg-bug-professional-bug-loop-orchestrator.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical skills/references/chantier-tracking.md`
-- `pnpm --dir shipflow-site build`
+- `pnpm --dir shipglowz-site build`
 - Focused `rg` checks for `sg-bug`, bug routing, and stale duplicate ownership wording.
 
 ## Security Notes

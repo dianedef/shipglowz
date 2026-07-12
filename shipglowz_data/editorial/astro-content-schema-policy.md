@@ -95,7 +95,7 @@ This matches the current implementation: `site/src/pages/skills/[slug].astro` ca
 - Preserve frontmatter fields exactly inside the active schema.
 - Add public-copy fields only after checking `site/src/content.config.ts`.
 - Record ShipGlowz context versions in the work report, Editorial Update Plan, or governance doc when the runtime schema does not accept them.
-- Validate with `pnpm --dir shipflow-site build` after content collection edits.
+- Validate with `pnpm --dir shipglowz-site build` after content collection edits.
 - If schema validation fails, fix the runtime content or route the schema change through a separate explicit contract.
 
 ## Governance Content Rules

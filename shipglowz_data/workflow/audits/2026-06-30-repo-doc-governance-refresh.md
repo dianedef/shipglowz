@@ -44,7 +44,7 @@ Recentrer le repo sur sa structure documentaire canonique et rendre explicite ce
 | `TASKS.md` + `shipglowz_data/workflow/TASKS.md` | merge-to-shared | `shipglowz_data/workflow/TASKS.md` | root file reduced to compatibility facade | root tracker was stale and incomplete; canonical tracker is richer and already consumed by skills/TUI/docs |
 | `AUDIT_LOG.md` + `shipglowz_data/workflow/AUDIT_LOG.md` | merge-to-shared | `shipglowz_data/workflow/AUDIT_LOG.md` | root file reduced to compatibility facade | root audit index was stale and drifted from canonical tracker |
 | `concurrent.md` + `shipglowz_data/workflow/concurrent.md` | merge-to-shared | `shipglowz_data/workflow/concurrent.md` | root file reduced to compatibility facade | same governance intent already exists in canonical workflow layer |
-| root shell wrappers + `cli/*` | keep-surface-specific | `cli/*` for behavior, root wrappers for compatibility | keep wrappers, clarify deprecated status | wrappers are intentional entrypoint compatibility, not duplicate governance docs |
+| root shell wrappers + `cli/*` | keep-surface-specific | `cli/*` for behavior, root wrappers for compatibility | keep wrappers, label them as launchers | wrappers are intentional entrypoint compatibility, not duplicate governance docs |
 | `ECOSYSTEM-AND-PORTS.md` + canonical technical layer | collision-needs-review | likely `shipglowz_data/technical/runtime-cli.md` or a dedicated scoped technical note | keep as debt for a dedicated merge pass | root note is legacy, but preservation into technical layer was not proven in this pass |
 
 ## Public/Internal Surface Updates

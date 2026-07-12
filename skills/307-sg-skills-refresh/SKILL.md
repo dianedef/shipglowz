@@ -208,7 +208,7 @@ python3 tools/shipglowz_metadata_lint.py <changed-governance-artifacts>
 When public skill pages or the site content collection changed:
 
 ```bash
-pnpm --dir shipflow-site build
+pnpm --dir shipglowz-site build
 ```
 
 Use focused `rg` checks for new or required gate language, stale names, and public claim drift.

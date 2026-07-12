@@ -320,7 +320,7 @@ Retire `~/shipglowz_data` completely. Treat it as a migration source only, not a
 - Inventory proof: run the retirement inventory command and review the generated classification report.
 - Data proof: compare checksums and diffs for migrated files; preserve central dirty changes and history before deletion.
 - Static proof: use focused `rg` checks for central-path references and manually classify remaining historical mentions.
-- Shell proof: run `bash -n shipflow.sh lib.sh config.sh install.sh` plus updated init/start tests in temp homes.
+- Shell proof: run `bash -n shipglowz.sh lib.sh config.sh install.sh` plus updated init/start tests in temp homes.
 - Skill proof: run `python3 tools/skill_budget_audit.py --skills-root skills --format markdown` and `tools/shipflow_sync_skills.sh --check --all` after skill edits.
 - Metadata proof: run `python3 tools/shipflow_metadata_lint.py` on changed active artifacts.
 - TUI proof: run `bun run typecheck` and `bun test` in `tui/`.

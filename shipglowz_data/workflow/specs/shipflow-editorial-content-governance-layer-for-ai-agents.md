@@ -36,11 +36,11 @@ linked_systems:
   - skills/sg-audit-copy/SKILL.md
   - skills/sg-redact/SKILL.md
   - skills/sg-enrich/SKILL.md
-  - shipflow-site/package.json
-  - shipflow-site/src/content.config.ts
-  - shipflow-site/src/pages/
-  - shipflow-site/src/components/
-  - shipflow-site/src/content/skills/
+  - shipglowz-site/package.json
+  - shipglowz-site/src/content.config.ts
+  - shipglowz-site/src/pages/
+  - shipglowz-site/src/components/
+  - shipglowz-site/src/content/skills/
 depends_on:
   - artifact: "CONTENT_MAP.md"
     artifact_version: "0.3.0"
@@ -78,7 +78,7 @@ depends_on:
 supersedes: []
 evidence:
   - "User request 2026-05-01: prepare a similar reflection for editorial documentation: blog, site pages, README, and public docs displayed on the Astro site."
-  - "Local Astro site uses Astro 6.4.8 from shipflow-site/pnpm-lock.yaml and a skills content collection declared in shipflow-site/src/content.config.ts."
+  - "Local Astro site uses Astro 6.4.8 from shipglowz-site/pnpm-lock.yaml and a skills content collection declared in shipglowz-site/src/content.config.ts."
   - "Astro official docs checked through Context7 /withastro/docs: src/pages uses file-based routing; content collections use defineCollection with schema validation; collection entries need dynamic routes with getCollection/getStaticPaths."
   - "CONTENT_MAP.md already maps public docs overview, public skill pages, landing page, repo docs, workflow doctrine, product/GTM/brand contracts, semantic clusters, and cross-surface update rules."
   - "CONTENT_MAP.md currently says no dedicated blog directory is declared yet."
@@ -104,7 +104,7 @@ This chantier is the editorial/public-content counterpart to `specs/shipflow-tec
 
 En tant qu'utilisatrice ShipGlowz qui publie un site Astro et délègue l'exécution à des agents, je veux une couche de gouvernance éditoriale pour le blog, les pages du site, le README et les docs publiques affichées, afin que les contenus publics, claims, FAQ, pages de vente et docs restent cohérents avec le produit réellement livré.
 
-The expected value is lower product/copy drift, less rediscovery of content surfaces, safer public claims, clearer routing between README/internal docs and public Astro pages, and fewer schema-breaking edits to `shipflow-site/src/content/**`.
+The expected value is lower product/copy drift, less rediscovery of content surfaces, safer public claims, clearer routing between README/internal docs and public Astro pages, and fewer schema-breaking edits to `shipglowz-site/src/content/**`.
 
 ## Minimal Behavior Contract
 
@@ -115,7 +115,7 @@ ShipGlowz must provide a public-content governance layer: `docs/editorial/` cont
 - Given a fresh agent receives a task touching product behavior, a public skill promise, README, FAQ, docs overview, pricing, landing copy, support copy, or future article/blog content, when it opens `CONTENT_MAP.md` and `docs/editorial/`, then it can identify impacted surfaces, source contracts, update triggers, allowed claim boundaries, and validation checks.
 - Given a ShipGlowz workstream changes user-visible behavior or public documentation truth, when the Editorial Reader runs the editorial gate, then it produces an `Editorial Update Plan` with impacted files, reason, required action, owner role, parallel-safety, and validation.
 - Given a public claim touches security, privacy, compliance, AI reliability, automation quality, speed, savings, availability, pricing, or business outcomes, when the claim is added or changed, then it is checked against `docs/editorial/claim-register.md` and either backed by evidence, downgraded, marked pending proof, or blocked.
-- Given a content file lives in `shipflow-site/src/content/**`, when an agent edits it, then it preserves the Astro content collection schema and never adds incompatible ShipGlowz frontmatter.
+- Given a content file lives in `shipglowz-site/src/content/**`, when an agent edits it, then it preserves the Astro content collection schema and never adds incompatible ShipGlowz frontmatter.
 - Given a blog/article output is requested, when no blog route or collection is declared, then the agent reports `surface missing: blog` and proposes a separate spec or explicit surface decision instead of creating an ad hoc path.
 
 ## Error Behavior
@@ -123,7 +123,7 @@ ShipGlowz must provide a public-content governance layer: `docs/editorial/` cont
 - If `CONTENT_MAP.md` or `docs/editorial/page-intent-map.md` does not list a public surface that is affected by a change, the plan reports `surface missing` and routes shared-map updates before page/content edits are considered complete.
 - If an Astro content collection schema rejects additional fields, the implementation preserves the runtime schema and records ShipGlowz context versions in the plan/report, not in incompatible frontmatter.
 - If a public claim lacks evidence or conflicts with product/brand/GTM contracts, the claim is marked `claim mismatch`, `needs proof`, or `blocked`; it is not published as fact.
-- If shared editorial files such as `CONTENT_MAP.md`, `docs/editorial/claim-register.md`, `shipflow-site/src/pages/index.astro`, shared components, nav/footer, FAQ, pricing, or docs overview are assigned to parallel write agents, the work is blocked or rerouted to sequential integration.
+- If shared editorial files such as `CONTENT_MAP.md`, `docs/editorial/claim-register.md`, `shipglowz-site/src/pages/index.astro`, shared components, nav/footer, FAQ, pricing, or docs overview are assigned to parallel write agents, the work is blocked or rerouted to sequential integration.
 - If a feature ships with stale public docs, README guidance, FAQ, skill pages, or site copy that describe the old behavior, verification fails unless the stale item is explicitly marked `pending final copy` with owner, reason, and a block-before-ship condition.
 - If public content would expose internal-only technical details, private URLs, credentials, tokens, sensitive logs, or unsupported security/compliance language, verification fails and the content must be removed or rewritten.
 
@@ -134,8 +134,8 @@ ShipGlowz already has strong pieces for editorial work:
 - `CONTENT_MAP.md` maps major public and internal content surfaces.
 - `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, and `GTM.md` define audience, promise, tone, and claim boundaries.
 - `README.md` is both a public overview and contributor/operator entrypoint.
-- `shipflow-site/src/pages/*.astro` contains the public Astro pages.
-- `shipflow-site/src/content/skills/*.md` contains public skill pages rendered through Astro's `skills` content collection.
+- `shipglowz-site/src/pages/*.astro` contains the public Astro pages.
+- `shipglowz-site/src/content/skills/*.md` contains public skill pages rendered through Astro's `skills` content collection.
 - `sg-repurpose`, `sg-audit-copy`, `sg-redact`, and `sg-enrich` already contain partial rules for content routing and claim safety.
 
 The gap is that these rules are spread across many documents and skills. A fresh agent can see that content matters, but it does not have one durable layer that answers: which public surface owns which message, which source contract governs it, which claims are sensitive, what to update after a behavior change, how README and public Astro docs relate, how future blog work should be declared, and how to avoid breaking Astro content schemas.
@@ -239,7 +239,7 @@ Local docs and contracts to inspect before implementation:
 Astro site files to inspect before writing public-surface docs:
 
 - `site/package.json`
-- `shipflow-site/pnpm-lock.yaml`
+- `shipglowz-site/pnpm-lock.yaml`
 - `site/src/content.config.ts`
 - `site/src/pages/*.astro`
 - `site/src/pages/skills/[slug].astro`
@@ -459,7 +459,7 @@ Anti-duplication rules:
   - Action : Run metadata lint, static `rg` validations, and the Astro build when dependencies are available.
   - User story link : Proves the layer does not break ShipGlowz artifacts or the public Astro site.
   - Depends on : All previous tasks.
-  - Validate with : `$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py specs/shipflow-editorial-content-governance-layer-for-ai-agents.md docs/editorial templates/artifacts/editorial_content_context.md && test -f skills/references/subagent-roles/editorial-reader.md && test ! -e skills/references/subagent-roles/reader.md && cd shipflow-site && pnpm build`
+  - Validate with : `$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py specs/shipflow-editorial-content-governance-layer-for-ai-agents.md docs/editorial templates/artifacts/editorial_content_context.md && test -f skills/references/subagent-roles/editorial-reader.md && test ! -e skills/references/subagent-roles/reader.md && cd shipglowz-site && pnpm build`
   - Notes : If build cannot run, report the exact dependency blocker and run static schema checks.
 
 ## Acceptance Criteria
@@ -476,7 +476,7 @@ Anti-duplication rules:
 - [ ] AC 9: Given two exclusive public skill pages need copy-only updates, when a ready spec assigns one file per executor and no shared files are touched, then parallel edits may be allowed and integrated before closure.
 - [ ] AC 10: Given `sg-docs`, `sg-repurpose`, `sg-audit-copy`, `sg-redact`, or `sg-enrich` touches public content, then the relevant skill instructions point to the editorial corpus and claim boundaries.
 - [ ] AC 11: Given public docs are rendered by Astro, when the site builds, then no incompatible frontmatter or broken route/schema is introduced.
-- [ ] AC 12: Given implementation finishes, when verification runs, then metadata lint passes for ShipGlowz editorial artifacts and `cd shipflow-site && pnpm build` passes or the blocker is documented.
+- [ ] AC 12: Given implementation finishes, when verification runs, then metadata lint passes for ShipGlowz editorial artifacts and `cd shipglowz-site && pnpm build` passes or the blocker is documented.
 
 ## Test Strategy
 
@@ -504,9 +504,9 @@ Coherence checks:
 
 Astro checks:
 
-- Confirm local Astro version from `shipflow-site/pnpm-lock.yaml`.
-- Confirm `shipflow-site/src/content.config.ts` still validates the `skills` collection fields.
-- Run `cd shipflow-site && pnpm build` after implementation.
+- Confirm local Astro version from `shipglowz-site/pnpm-lock.yaml`.
+- Confirm `shipglowz-site/src/content.config.ts` still validates the `skills` collection fields.
+- Run `cd shipglowz-site && pnpm build` after implementation.
 
 Claim and safety checks:
 
@@ -530,8 +530,8 @@ Claim and safety checks:
 Read first:
 
 - `CONTENT_MAP.md`, `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, `GTM.md`.
-- `README.md`, `shipflow-site/src/pages/docs.astro`, `shipflow-site/src/pages/index.astro`, `shipflow-site/src/pages/faq.astro`, `shipflow-site/src/pages/pricing.astro`, `shipflow-site/src/pages/skills/index.astro`, `shipflow-site/src/pages/skills/[slug].astro`.
-- `shipflow-site/src/content.config.ts`, `shipflow-site/package.json`, `shipflow-site/pnpm-lock.yaml`.
+- `README.md`, `shipglowz-site/src/pages/docs.astro`, `shipglowz-site/src/pages/index.astro`, `shipglowz-site/src/pages/faq.astro`, `shipglowz-site/src/pages/pricing.astro`, `shipglowz-site/src/pages/skills/index.astro`, `shipglowz-site/src/pages/skills/[slug].astro`.
+- `shipglowz-site/src/content.config.ts`, `shipglowz-site/package.json`, `shipglowz-site/pnpm-lock.yaml`.
 - `skills/sg-docs/SKILL.md`, `skills/sg-repurpose/SKILL.md`, `skills/sg-audit-copy/SKILL.md`, `skills/sg-redact/SKILL.md`, `skills/sg-enrich/SKILL.md`.
 - `specs/shipflow-technical-documentation-layer-for-ai-agents.md`.
 
@@ -596,7 +596,7 @@ The current decision is explicit: prepare editorial governance for blog/article 
 | 2026-05-01 14:50:34 UTC | sg-ready | GPT-5 Codex | Evaluated readiness gate for structure, metadata, user-story alignment, freshness, task order, docs coherence, language doctrine, adversarial risks, security posture, and open questions. | Ready: local dependency versions were aligned, Astro freshness evidence was rechecked, hidden dependencies were made explicit, metadata lint passed, and no blocking ambiguity remained. | `/sg-start ShipGlowz Editorial Content Governance Layer for AI Agents` |
 | 2026-05-01 19:08:22 UTC | sg-start | GPT-5 Codex | Implemented the editorial governance layer, editorial content template, editorial corpus reference, Editorial Reader role, metadata-linter support, content-map wiring, content skill gates, README/workflow/public-docs pointers, and related technical docs. | implemented | `/sg-verify ShipGlowz Editorial Content Governance Layer for AI Agents` |
 | 2026-05-01 19:58:45 UTC | sg-verify | GPT-5 Codex | Verified the editorial governance layer against the ready spec, corrected stale dependency metadata references, ran metadata lint, structural checks, skill budget audit, linter syntax/help checks, page-surface coverage checks, and risk scans. | partial: static and contract checks pass, but Astro build evidence remains pending because sg-verify does not run builds. | `/sg-check ShipGlowz Editorial Content Governance Layer for AI Agents` |
-| 2026-05-01 20:46:41 UTC | sg-check | GPT-5 Codex | Ran the missing Astro production build proof for the public site after sg-verify identified it as the only blocking evidence gap. | passed: `pnpm --dir shipflow-site build` generated 58 static pages, including `/docs` and dynamic `/skills/[slug]` pages. | `/sg-end ShipGlowz Editorial Content Governance Layer for AI Agents` |
+| 2026-05-01 20:46:41 UTC | sg-check | GPT-5 Codex | Ran the missing Astro production build proof for the public site after sg-verify identified it as the only blocking evidence gap. | passed: `pnpm --dir shipglowz-site build` generated 58 static pages, including `/docs` and dynamic `/skills/[slug]` pages. | `/sg-end ShipGlowz Editorial Content Governance Layer for AI Agents` |
 | 2026-05-01 20:48:10 UTC | sg-check | GPT-5 Codex | Re-ran scoped technical checks for the editorial governance chantier: Astro build, metadata lint, metadata linter compile check, whitespace diff check, npm audit high threshold, and npm outdated summary. | passed with known dependency note: build generated 58 pages, lint/compile/diff checks passed, no high/critical npm audit findings, Astro has a moderate advisory with latest major 6.2.1. | `/sg-end ShipGlowz Editorial Content Governance Layer for AI Agents` |
 | 2026-05-02 03:39:28 UTC | sg-end | GPT-5 Codex | Closed the editorial governance chantier, updated local and master task trackers, and prepared the changelog entry without committing or pushing. | closed | `/sg-ship ShipGlowz Editorial Content Governance Layer for AI Agents` |
 | 2026-05-02 04:46:54 UTC | sg-ship | GPT-5 Codex | Quick-shipped the editorial governance chantier after metadata lint, Python compile, whitespace diff, high-threshold npm audit, and Astro build checks passed. | shipped | None |

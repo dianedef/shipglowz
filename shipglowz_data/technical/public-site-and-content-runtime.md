@@ -28,14 +28,14 @@ depends_on:
     required_status: reviewed
 supersedes: []
 evidence:
-  - "shipglowz_data/editorial/content-map.md and shipflow-site directory inventory."
+  - "shipglowz_data/editorial/content-map.md and shipglowz-site directory inventory."
   - "shipglowz_data/editorial added for public-content governance and Astro schema policy."
   - "Skill modes page expanded into a public launch cheatsheet for master and supporting skill modes."
   - "docs/skill-launch-cheatsheet.md added as the Markdown reference for the public launch cheatsheet."
   - "Public docs page now needs to present the project governance layout decision."
   - "French locale added for primary public routes while public skill contracts remain intentionally English for agent reliability."
 next_review: "2026-06-01"
-next_step: "/sg-docs technical audit shipflow-site"
+next_step: "/sg-docs technical audit shipglowz-site"
 ---
 
 # Public Site And Content Runtime
@@ -60,7 +60,7 @@ This doc covers the Astro public site under `shipglowz-site/`, public skill cont
 
 ## Entrypoints
 
-- `npm --prefix shipflow-site run build`: public site build.
+- `npm --prefix shipglowz-site run build`: public site build.
 - `shipglowz-site/src/pages/docs.astro`: public docs overview.
 - `shipglowz-site/src/pages/blog/index.astro`, `shipglowz-site/src/pages/blog/[slug].astro`: indexed blog hub and article route.
 - `shipglowz-site/src/pages/skill-modes.astro`: public launch cheatsheet and skill mode tutorial.
@@ -105,7 +105,7 @@ This doc covers the Astro public site under `shipglowz-site/`, public skill cont
 ## Validation
 
 ```bash
-pnpm --dir shipflow-site build
+pnpm --dir shipglowz-site build
 rg -n "shipglowz_data/technical|docs/technical|internal-only|secret|token|credential" shipglowz-site/src shipglowz_data/editorial/content-map.md
 rg -n "Editorial Update Plan|Claim Impact Plan|surface missing|Astro content schema" shipglowz_data/editorial
 ```

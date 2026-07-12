@@ -68,7 +68,7 @@ Quand une visiteuse ouvre le hub public `/skills`, les skills doivent etre class
 - Trigger: une visiteuse ouvre `/skills` ou une page `/skills/[slug]`.
 - User/operator result: les categories expliquent mieux l'intention de chaque skill et rendent le catalogue plus scannable.
 - System effect: le schema de collection, l'ordre de categories, les frontmatter de skills et les textes du hub restent alignes.
-- Success proof: `pnpm --dir shipflow-site astro check` si disponible ou `pnpm --dir shipflow-site build` dans un check dedie; a minima `rg` confirme que chaque categorie frontmatter appartient au schema et que chaque categorie du schema est presente dans `categoryOrder`.
+- Success proof: `pnpm --dir shipglowz-site astro check` si disponible ou `pnpm --dir shipglowz-site build` dans un check dedie; a minima `rg` confirme que chaque categorie frontmatter appartient au schema et que chaque categorie du schema est presente dans `categoryOrder`.
 - Silent success: not allowed; le changement doit etre visible dans le hub public et les chips de pages detail.
 
 ## Error Behavior
@@ -120,7 +120,7 @@ Definir une taxonomie publique separee des roles de chantier, puis l'appliquer a
 
 ## Dependencies
 
-- Runtime: Astro 6.4.8 from `shipflow-site/pnpm-lock.yaml`, content collections, Zod schema via the existing `astro:content` collection config.
+- Runtime: Astro 6.4.8 from `shipglowz-site/pnpm-lock.yaml`, content collections, Zod schema via the existing `astro:content` collection config.
 - Document contracts: `specs/skill-taxonomy-and-chantier-sources.md` pour la separation interne/public; `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` pour le vocabulaire workflow.
 - Metadata gaps: public skill pages use the Astro content schema, not ShipGlowz artifact metadata.
 - Fresh external docs: fresh-docs checked. Official Astro docs say content collection schemas validate frontmatter and provide typed content querying; the Zod schema utility supports enum validation for schema fields. Sources: https://docs.astro.build/en/guides/content-collections/ and https://docs.astro.build/en/reference/modules/astro-zod/
@@ -202,8 +202,8 @@ Definir une taxonomie publique separee des roles de chantier, puis l'appliquer a
   - Action: Mettre a jour chaque frontmatter `category` selon `Target Classification Map`.
   - User story link: Chaque skill apparait dans le bon rayon du catalogue.
   - Depends on: Task 3
-  - Validate with: `rg -n '^category: "(Core Workflow|Audits|Context & Docs|Research & Growth|Operations|Meta & Utility)"' shipflow-site/src/content/skills/*.md` returns no matches, then `pnpm --dir shipflow-site build`.
-  - Notes: Garder une categorie principale par skill; ne pas creer `shipflow-site/src/content/skills/continue.md`.
+  - Validate with: `rg -n '^category: "(Core Workflow|Audits|Context & Docs|Research & Growth|Operations|Meta & Utility)"' shipglowz-site/src/content/skills/*.md` returns no matches, then `pnpm --dir shipglowz-site build`.
+  - Notes: Garder une categorie principale par skill; ne pas creer `shipglowz-site/src/content/skills/continue.md`.
 
 - [x] Task 5: Aligner le hub public
   - File: `site/src/pages/skills/index.astro`
@@ -218,7 +218,7 @@ Definir une taxonomie publique separee des roles de chantier, puis l'appliquer a
   - Action: Confirmer que les nouveaux libelles tiennent dans les chips et cartes; ajuster microcopy seulement si necessaire.
   - User story link: Les categories restent visibles sans casser l'UI.
   - Depends on: Tasks 3-5
-  - Validate with: `pnpm --dir shipflow-site build`
+  - Validate with: `pnpm --dir shipglowz-site build`
   - Notes: Si le build est trop long, au minimum lancer le check Astro disponible ou un scan de schema.
 
 - [ ] Task 7: Mettre a jour le changelog
@@ -244,9 +244,9 @@ Definir une taxonomie publique separee des roles de chantier, puis l'appliquer a
 ## Test Strategy
 
 - Unit: None, because this is content/schema taxonomy.
-- Integration: `pnpm --dir shipflow-site build` after implementation.
+- Integration: `pnpm --dir shipglowz-site build` after implementation.
 - Manual: Review `/skills` grouping and one representative detail page per category.
-- Regression: `rg` scans for category schema/order/frontmatter alignment, absence of internal role labels as public categories, absence of old public category names in frontmatter, and absence of `shipflow-site/src/content/skills/continue.md`.
+- Regression: `rg` scans for category schema/order/frontmatter alignment, absence of internal role labels as public categories, absence of old public category names in frontmatter, and absence of `shipglowz-site/src/content/skills/continue.md`.
 
 ## Risks
 
@@ -257,8 +257,8 @@ Definir une taxonomie publique separee des roles de chantier, puis l'appliquer a
 
 ## Execution Notes
 
-- Read first: `shipflow-site/src/content.config.ts`, `shipflow-site/src/pages/skills/index.astro`, `shipflow-site/src/pages/skills/[slug].astro`, `shipflow-site/src/components/SkillCard.astro`, representative `shipflow-site/src/content/skills/*.md`.
-- Validate with: `pnpm --dir shipflow-site build`, `rg -n '^category:' shipflow-site/src/content/skills/*.md`, `rg -n '^category: "(Core Workflow|Audits|Context & Docs|Research & Growth|Operations|Meta & Utility)"' shipflow-site/src/content/skills/*.md`, `test ! -f shipflow-site/src/content/skills/continue.md`.
+- Read first: `shipglowz-site/src/content.config.ts`, `shipglowz-site/src/pages/skills/index.astro`, `shipglowz-site/src/pages/skills/[slug].astro`, `shipglowz-site/src/components/SkillCard.astro`, representative `shipglowz-site/src/content/skills/*.md`.
+- Validate with: `pnpm --dir shipglowz-site build`, `rg -n '^category:' shipglowz-site/src/content/skills/*.md`, `rg -n '^category: "(Core Workflow|Audits|Context & Docs|Research & Growth|Operations|Meta & Utility)"' shipglowz-site/src/content/skills/*.md`, `test ! -f shipglowz-site/src/content/skills/continue.md`.
 - Stop conditions: if implementation discovers a public skill page not listed in `Target Classification Map`, pause and update the spec before recategorizing it; if Astro docs conflict with the schema approach, reroute.
 
 ## Open Questions

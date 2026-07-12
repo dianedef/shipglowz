@@ -251,7 +251,7 @@ Local docs to inspect before implementation:
 
 Code to inspect before writing subsystem docs:
 
-- `shipflow.sh`
+- `shipglowz.sh`
 - `lib.sh`
 - `config.sh`
 - `install.sh`
@@ -404,10 +404,10 @@ Freshness rules:
 
 - [x] Task 5: Document runtime CLI.
   - Fichier : `docs/technical/runtime-cli.md`
-  - Action : Document `shipflow.sh`, `lib.sh`, `config.sh`, entrypoints, flows, invariants, side effects, and validations.
+  - Action : Document `shipglowz.sh`, `lib.sh`, `config.sh`, entrypoints, flows, invariants, side effects, and validations.
   - User story link : Allows executors to modify the CLI runtime without rediscovering core shell behavior.
   - Depends on : Task 3 and reading `CONTEXT-FUNCTION-TREE.md`.
-  - Validate with : `rg -n "shipflow.sh|lib.sh|config.sh|Entrypoints|Invariants|Validation|Maintenance Rule" docs/technical/runtime-cli.md`
+  - Validate with : `rg -n "shipglowz.sh|lib.sh|config.sh|Entrypoints|Invariants|Validation|Maintenance Rule" docs/technical/runtime-cli.md`
   - Notes : Link to `CONTEXT-FUNCTION-TREE.md`; do not copy the full function tree.
 
 - [x] Task 6: Document local tunnels and MCP login.
@@ -668,7 +668,7 @@ Read first before editing:
 
 - `AGENT.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `GUIDELINES.md`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
 - `shipglowz_data/technical/metadata-migration-guide.md`, `templates/artifacts/*.md`, and `tools/shipflow_metadata_lint.py` before creating `technical_module_context`.
-- The owned code area before writing each subsystem doc: `shipflow.sh`, `lib.sh`, `config.sh`, `install.sh`, `local/`, `skills/`, `tools/codebase-mcp/`, or `site/`.
+- The owned code area before writing each subsystem doc: `shipglowz.sh`, `lib.sh`, `config.sh`, `install.sh`, `local/`, `skills/`, `tools/codebase-mcp/`, or `site/`.
 
 Implementation constraints:
 

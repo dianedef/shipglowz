@@ -286,7 +286,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 - [ ] AC 11: Given a push changes only docs/specs/skills outside the app path, when GitHub Actions evaluates workflows, then app/APK workflows are skipped by path filters and only relevant docs/skills checks run.
 - [ ] AC 12: Given a push changes an app/site/backend path, when GitHub Actions evaluates workflows, then the matching surface workflow runs and unrelated expensive workflows stay skipped unless explicitly forced.
 - [ ] AC 13: Given a workflow is path-filtered, when branch protection requires checks, then required-check behavior is reviewed so skipped workflows do not block unrelated PRs.
-- [ ] AC 14: Given public `sg-test` docs are changed, when `pnpm --dir shipflow-site build` runs, then the site build passes.
+- [ ] AC 14: Given public `sg-test` docs are changed, when `pnpm --dir shipglowz-site build` runs, then the site build passes.
 - [ ] AC 15: Given skills are changed, when skill checks run, then `skill_budget_audit` and `shipflow_sync_skills.sh --check --all` pass or report only accepted non-blocking risks.
 
 ## Test Contract

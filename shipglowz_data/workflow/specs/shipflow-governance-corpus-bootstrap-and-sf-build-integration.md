@@ -343,7 +343,7 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
   - Action: Run metadata lint, targeted rg checks, skill budget audit, and public-site build if public docs or site content changed.
   - User story link: Proves the workflow integration is coherent and does not break existing shipped layers.
   - Depends on: Tasks 1-12
-  - Validate with: `python3 tools/shipflow_metadata_lint.py specs docs AGENT.md CONTENT_MAP.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md GUIDELINES.md && python3 tools/skill_budget_audit.py --skills-root skills --format markdown && pnpm --dir shipflow-site build`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py specs docs AGENT.md CONTENT_MAP.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md GUIDELINES.md && python3 tools/skill_budget_audit.py --skills-root skills --format markdown && pnpm --dir shipglowz-site build`
   - Notes: Site build is required only if implementation touches `site/` or public docs pages, but safe to run as final proof.
 
 ## Acceptance Criteria
@@ -367,7 +367,7 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
 - Static metadata: run `python3 tools/shipflow_metadata_lint.py specs docs AGENT.md CONTENT_MAP.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md GUIDELINES.md`.
 - Skill compliance: run `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`.
 - Targeted rg checks: verify `sg-init`, `sg-docs`, and the `sg-build` spec contain the new governance corpus language and concrete paths.
-- Site build: run `pnpm --dir shipflow-site build` if README, public docs pages, `shipflow-site/`, or public content changed.
+- Site build: run `pnpm --dir shipglowz-site build` if README, public docs pages, `shipglowz-site/`, or public content changed.
 - Manual scenario 1: simulate a code-only project init and verify technical created plus editorial skipped with reason.
 - Manual scenario 2: simulate an Astro/public-docs project init and verify technical plus editorial created or clearly blocked.
 - Manual scenario 3: simulate `/sg-docs update` on an existing project with no governance layers and verify adoption statuses.

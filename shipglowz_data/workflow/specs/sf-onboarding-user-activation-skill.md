@@ -256,7 +256,7 @@ No project product docs are changed by the skill creation itself. Future `sg-onb
 - `tools/shipflow_sync_skills.sh --check --skill sg-onboarding`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/sg-onboarding-user-activation-skill.md shipglowz_data/technical/skill-runtime-and-lifecycle.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md README.md skills/references/entrypoint-routing.md skills/sg-help/references/help-catalog.md`
-- `pnpm --dir shipflow-site build`
+- `pnpm --dir shipglowz-site build`
 - `rg -n "BEGIN .*KEY|PRIVATE KEY|PASSWORD=|SECRET=|TOKEN=|CREDENTIAL=" skills/sg-onboarding/SKILL.md site/src/content/skills/sg-onboarding.md`
 
 ## Risks

@@ -183,5 +183,5 @@ rg -n "Report Modes|Required References|Validation|Stop Conditions" skills/[0-9]
 When the scope touches public skill pages or docs rendered by the site:
 
 ```bash
-pnpm --dir shipflow-site build
+pnpm --dir shipglowz-site build
 ```

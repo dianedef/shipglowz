@@ -210,7 +210,7 @@ Downstream:
 - [ ] AC-2: The hero `h1` is materially less oversized on mobile while preserving a strong value proposition hierarchy.
 - [ ] AC-3: Shared spacing and elevation feel more intentional on the home without introducing raw visual literals outside the canonical style layer.
 - [ ] AC-4: Both `/` and `/fr/` pass the same navbar/hero/mobile behavior.
-- [ ] AC-5: `pnpm --dir shipflow-site build` passes.
+- [ ] AC-5: `pnpm --dir shipglowz-site build` passes.
 - [ ] AC-6: `python3 /home/claude/shipflow/tools/design_system_drift_check.py --root /home/claude/shipflow/site --changed --format markdown` reports no unapproved drift in changed site files.
 
 ## Test Contract
@@ -219,7 +219,7 @@ Downstream:
 - proof_profile: automated -> browser/manual
 - proof_order:
   1. `python3 /home/claude/shipflow/tools/design_system_drift_check.py --root /home/claude/shipflow/site --changed --format markdown`
-  2. `pnpm --dir shipflow-site build`
+  2. `pnpm --dir shipglowz-site build`
   3. browser/mobile proof on `/` and `/fr/`
 - checklist_path: `shipglowz_data/workflow/test-checklists/shipflow-home-mobile-navigation-and-hero-hardening.md`
 - required_scenario_ids:
@@ -236,7 +236,7 @@ Downstream:
 ## Test Strategy
 
 - `python3 /home/claude/shipflow/tools/design_system_drift_check.py --root /home/claude/shipflow/site --changed --format markdown`
-- `pnpm --dir shipflow-site build`
+- `pnpm --dir shipglowz-site build`
 - local browser verification on `/` and `/fr/` with a narrow mobile viewport
 - `python3 /home/claude/shipflow/tools/shipflow_metadata_lint.py /home/claude/shipflow/shipglowz_data/workflow/specs/shipflow-home-mobile-navigation-and-hero-hardening.md /home/claude/shipflow/shipglowz_data/workflow/test-checklists/shipflow-home-mobile-navigation-and-hero-hardening.md`
 

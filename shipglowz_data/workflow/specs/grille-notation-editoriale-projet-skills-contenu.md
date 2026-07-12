@@ -381,7 +381,7 @@ Pas de changement nécessaire aux contenus des projets cibles dans cette spec.
   - User story link : Prouve que la nouvelle brique est utilisable et cohérente.
   - Depends on : Tâches 1-5
   - Validate with : `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`, `tools/shipflow_sync_skills.sh --check --all`, `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/grille-notation-editoriale-projet-skills-contenu.md skills/references/content-quality-rubric.md shipglowz_data/editorial/content-map.md shipglowz_data/technical/skill-runtime-and-lifecycle.md`
-  - Notes : Ajouter `pnpm --dir shipflow-site build` seulement si les pages publiques ou runtime content changent.
+  - Notes : Ajouter `pnpm --dir shipglowz-site build` seulement si les pages publiques ou runtime content changent.
 
 ## Acceptance Criteria
 
@@ -404,7 +404,7 @@ Pas de changement nécessaire aux contenus des projets cibles dans cette spec.
 - Metadata : `python3 tools/shipflow_metadata_lint.py` sur la spec et les documents modifiés.
 - Skill runtime : `python3 tools/skill_budget_audit.py --skills-root skills --format markdown` et `tools/shipflow_sync_skills.sh --check --all`.
 - Manual review : relire deux exemples de notation dans la référence, dont un projet sensible et un projet contenu/SEO, pour vérifier qu'ils n'encouragent pas un score générique.
-- Public build : `pnpm --dir shipflow-site build` seulement si une page publique ou `shipflow-site/src/content/**` est modifiée.
+- Public build : `pnpm --dir shipglowz-site build` seulement si une page publique ou `shipglowz-site/src/content/**` est modifiée.
 
 ## Risks
 

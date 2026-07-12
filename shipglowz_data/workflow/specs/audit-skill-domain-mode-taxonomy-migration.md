@@ -29,7 +29,7 @@ linked_systems:
   - "shipglowz_data/technical/skill-runtime-and-lifecycle.md"
   - "plugins/shipflow/assets/pack-catalog.json"
   - "plugins/shipflow/skills/shipflow/references/pack-catalog.md"
-  - "shipflow-site/src/content/skills/"
+  - "shipglowz-site/src/content/skills/"
 depends_on:
   - artifact: "skills/references/skill-code-index.md"
     artifact_version: "2.2.0"
@@ -128,7 +128,7 @@ Migrate audit-named skills in controlled batches. Keep numeric codes stable, ren
   - `shipglowz_data/editorial/*`
   - `plugins/shipflow/assets/pack-catalog.json`
   - `plugins/shipflow/skills/shipflow/references/pack-catalog.md`
-  - `shipflow-site/src/content/skills/*`
+  - `shipglowz-site/src/content/skills/*`
 - Repair current-user runtime links under `$HOME/.claude/skills` and `$HOME/.codex/skills`.
 
 ## Scope Out
@@ -144,7 +144,7 @@ Migrate audit-named skills in controlled batches. Keep numeric codes stable, ren
 
 - Keep runtime names lowercase with numbers and hyphens only.
 - Preserve `Trace category`, `Process role`, chantier behavior, report modes, stop conditions, validation, and canonical path loading.
-- Preserve public site schema when renaming `shipflow-site/src/content/skills/*.md`.
+- Preserve public site schema when renaming `shipglowz-site/src/content/skills/*.md`.
 - Preserve plugin pack semantics and all pack references.
 - Do not use search/replace over historical evidence directories.
 - Dirty worktree exists from the current SEO/domain-router migration; implementation must not revert unrelated changes.
@@ -170,7 +170,7 @@ Pressure scenarios:
 - `tools/shipflow_sync_skills.sh` publishes runtime symlinks.
 - `tools/skill_budget_audit.py` validates compact skill activation bodies.
 - `tools/skill_code_index_lint.py` validates the code table after renames.
-- `shipflow-site` Astro build validates public skill page slugs.
+- `shipglowz-site` Astro build validates public skill page slugs.
 - `plugins/shipflow/assets/pack-catalog.json` and `plugins/shipflow/skills/shipflow/references/pack-catalog.md` define plugin pack membership.
 
 ## Invariants
@@ -203,7 +203,7 @@ Update these live documentation surfaces during implementation:
 - `skills/302-sg-help/references/help-catalog.md`
 - `skills/references/skill-code-index.md`
 - role references under `skills/references/operator-roles/`
-- public skill content under `shipflow-site/src/content/skills/`
+- public skill content under `shipglowz-site/src/content/skills/`
 - plugin pack catalog files
 
 Do not update:
@@ -231,11 +231,11 @@ Do not update:
    - Action: record which audit-named skills become domain routers, specialist review helpers, or historical exceptions.
 
 2. Complete and verify SEO migration.
-   - Files: `skills/406-sg-seo/**`, `shipflow-site/src/content/skills/sg-seo.md`, active docs and pack catalogs.
+   - Files: `skills/406-sg-seo/**`, `shipglowz-site/src/content/skills/sg-seo.md`, active docs and pack catalogs.
    - Action: ensure all active references use `406-sg-seo` / `sg-seo`; remove stale runtime symlinks; validate site build.
 
 3. Migrate GTM.
-   - Files: `skills/408-sg-audit-gtm/**`, `shipflow-site/src/content/skills/sg-audit-gtm.md`, active references.
+   - Files: `skills/408-sg-audit-gtm/**`, `shipglowz-site/src/content/skills/sg-audit-gtm.md`, active references.
    - Action: rename to `skills/408-sg-gtm`, update `name:`, public slug `sg-gtm`, references, pack catalogs, help docs, runtime symlinks; keep mode `audit` in the skill.
 
 4. Migrate i18n/translation.
@@ -281,7 +281,7 @@ Do not update:
 - [ ] `tools/skill_code_index_lint.py` passes.
 - [ ] `tools/skill_budget_audit.py --skills-root skills --format markdown` passes with 0 hard violations and 0 warnings.
 - [ ] `tools/shipflow_sync_skills.sh --check --all` passes.
-- [ ] `pnpm --dir shipflow-site build` passes after public skill page changes.
+- [ ] `pnpm --dir shipglowz-site build` passes after public skill page changes.
 - [ ] A stale-name scan over active surfaces finds no old names for the completed tranche.
 
 ## Test Strategy
@@ -293,7 +293,7 @@ python3 tools/skill_code_index_lint.py
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 tools/shipflow_sync_skills.sh --check --all
 python3 tools/shipflow_metadata_lint.py <changed-frontmatter-docs-and-references>
-pnpm --dir shipflow-site build
+pnpm --dir shipglowz-site build
 ```
 
 Run a stale active-name scan, excluding historical evidence:

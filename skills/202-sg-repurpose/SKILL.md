@@ -42,6 +42,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 
 Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`: bounded professional scope, never shortcut quality.
 
+- VERBATIM MODE: when `$ARGUMENTS` contains `verbatim`, `mot pour mot`, or `copie exacte`, enter archival mode instead of repurpose mode. With no number, capture the immediately preceding assistant response. With `verbatim N`, capture the N immediately preceding conversation messages in chronological order, excluding the command that invoked verbatim mode. Preserve text, order, speaker boundaries, Markdown, links, punctuation, and line breaks exactly. Write only a minimal archival wrapper and do not summarize, translate, classify, rewrite, or add editorial commentary inside the preserved block.
 - Read-Only Delegation: if subagents are used for source reading, they must not edit files, mutate trackers, or create content surfaces.
 - SOURCE INTAKE: load `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` before reconstructing source truth when the source's project, downstream surface, angle, or owner route is not already clear.
 - Execution contract: first reconstruct source truth, then extract a reusable source-faithful pack, then decide justified downstream surfaces and handoffs.
@@ -55,6 +56,9 @@ Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skill
 ## Core Execution Rules
 
 - Stay source-faithful: do not invent claims, proof, product promises, legal statements, or article surfaces.
+- If the operator asks for `verbatim`, `mot pour mot`, `copie exacte`, or a conversation backup, switch to verbatim-preservation mode: copy the requested source text exactly, keep it in the original order, do not summarize or restructure it, and use only a minimal archival wrapper outside the preserved text.
+- In verbatim mode, default storage is one file under `shipglowz_data/workflow/repurpose-packs/` named `YYYY-MM-DD-verbatim-<short-slug>.md`; the preserved messages are the source of truth. Do not create a source-faithful analysis pack, handoff matrix, article outline, or inferred summary unless the operator separately asks for one.
+- In verbatim mode, label each preserved message only with its speaker and ordinal outside the message body. If the requested message count exceeds the available conversation context, preserve the available contiguous window and report the exact count captured; do not fabricate or reconstruct missing text.
 - The first deliverable is a reusable source-faithful pack, not free paragraphs and not a surface-specific draft by default.
 - The pack may support public content, docs, FAQ, internal notes, research handoff, or email strategy, but it must keep source facts separate from proposed downstream use.
 - When the repo is the governed destination and the source is safe to persist, store the durable pack under `shipglowz_data/workflow/repurpose-packs/` unless the operator asked for ephemeral output.

@@ -97,7 +97,7 @@
 
 | Pri | Task | Status |
 |-----|------|--------|
-| ✅ | Extraction action handlers dans `lib.sh` + `shipflow.sh` réduit à 48 lignes | ✅ done |
+| ✅ | Extraction action handlers dans `lib.sh` + `shipglowz.sh` réduit à 48 lignes | ✅ done |
 | ✅ | Retirer ou restreindre `shipflow-inspector` et `shipflow-eruda` du layout de production | ✅ done |
 | ✅ | Auditer et sécuriser `shipflow-inspector.js` (intégration upload + clé IMGBB exposée) | ✅ done |
 
@@ -173,9 +173,9 @@
 
 ## Audit Findings
 <!-- Populated by /sg-audit — dated sections with Fixed: / Remaining: -->
-🟠 [ShipFlow] task: Migrer les valeurs visuelles hardcodees du site ShipFlow vers des design tokens semantiques centralises dans `site/src/styles/global.css` et leurs usages partages | status: todo | area: site-design-system | spec: shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
-🟠 [ShipFlow] task: Completer le socle des design tokens ShipFlow avec palette semantique, surfaces et motion pour le site public | status: todo | area: site-design-tokens | spec: shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
-🟡 [ShipFlow] task: Justifier explicitement le mode unique du theme site dans la gouvernance ou ajouter une couverture multi-mode et une architecture de preference coherente | status: todo | area: site-theme-architecture | spec: shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
+🟠 [ShipFlow] task: Migrer les valeurs visuelles hardcodees du site ShipFlow vers des design tokens semantiques centralises dans `site/src/styles/global.css` et leurs usages partages | status: todo | area: site-design-system | spec: shipglowz_data/workflow/specs/shipglowz-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
+🟠 [ShipFlow] task: Completer le socle des design tokens ShipFlow avec palette semantique, surfaces et motion pour le site public | status: todo | area: site-design-tokens | spec: shipglowz_data/workflow/specs/shipglowz-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
+🟡 [ShipFlow] task: Justifier explicitement le mode unique du theme site dans la gouvernance ou ajouter une couverture multi-mode et une architecture de preference coherente | status: todo | area: site-theme-architecture | spec: shipglowz_data/workflow/specs/shipglowz-site-token-hardening-and-visual-standardization.md | next: /102-sg-start ShipFlow site token hardening and visual standardization
 
 ### Audit: Deps
 

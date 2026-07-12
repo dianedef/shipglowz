@@ -132,7 +132,7 @@ When the user asks to create or modify a ShipGlowz skill, `sg-skill-build` must 
 - Trigger: the user invokes `/sg-skill-build <skill idea or skill path>` or asks explicitly to create or modify a ShipGlowz skill through this lifecycle.
 - User/operator result: the user gets one guided path instead of manually remembering `sg-spec`, direct file edits, refresh, budget audit, verification, docs/help updates, public site updates, and ship.
 - System effect: `sg-skill-build` checks for an existing matching spec, creates or updates the spec via `sg-spec` when needed, executes only after readiness, creates or edits the target `skills/<name>/SKILL.md`, creates or verifies current-user `~/.claude/skills/<name>` and `~/.codex/skills/<name>` symlinks, runs `sg-skills-refresh <name>` or records why refresh is not appropriate, runs `tools/skill_budget_audit.py`, routes verification through `sg-verify`, produces `Documentation Update Plan` and `Editorial Update Plan` items for changed technical and public surfaces, updates `sg-help`, README/workflow docs, public skill content, and public skill listing surfaces when impacted, then routes to `sg-ship`.
-- Success proof: the target `SKILL.md` exists and matches its directory name, the public skill page exists or is explicitly justified as not public, the current-user Claude/Codex skill symlinks resolve to that skill and expose `SKILL.md`, the skill budget audit passes or reports only accepted warnings, `shipflow_metadata_lint.py` passes for changed ShipGlowz artifacts, `pnpm --dir shipflow-site build` passes when site content changed, and `sg-verify` confirms the user story and documentation coherence.
+- Success proof: the target `SKILL.md` exists and matches its directory name, the public skill page exists or is explicitly justified as not public, the current-user Claude/Codex skill symlinks resolve to that skill and expose `SKILL.md`, the skill budget audit passes or reports only accepted warnings, `shipflow_metadata_lint.py` passes for changed ShipGlowz artifacts, `pnpm --dir shipglowz-site build` passes when site content changed, and `sg-verify` confirms the user story and documentation coherence.
 - Silent success: not allowed. The final report must name the target skill, spec path, changed surfaces, validations, public-content decision, remaining warnings if any, and next lifecycle command.
 
 ## Error Behavior
@@ -171,7 +171,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
 - Update `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` when the skill changes official workflow doctrine, recommended entrypoints, or lifecycle routing.
 - Update `CONTENT_MAP.md` and `docs/editorial/` gates when public skill promises, skill page roles, public claims, categories, or content-routing rules change.
 - Use `docs/technical/code-docs-map.md` to determine technical documentation impact for `skills/**/SKILL.md`, `site/**`, `CONTENT_MAP.md`, and `specs/**`.
-- Run focused public-site checks when public skill content changes, including `pnpm --dir shipflow-site build` and relevant `rg` checks for schema, internal-only leaks, stale skill names, and public claim drift.
+- Run focused public-site checks when public skill content changes, including `pnpm --dir shipglowz-site build` and relevant `rg` checks for schema, internal-only leaks, stale skill names, and public claim drift.
 - Require `sg-verify` before closure and `sg-ship` only after verification and ship-scope checks.
 
 ## Scope Out
@@ -209,9 +209,9 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
 - Local tools: `tools/skill_budget_audit.py` and `tools/shipflow_metadata_lint.py`.
 - Local technical docs: `docs/technical/skill-runtime-and-lifecycle.md`, `docs/technical/code-docs-map.md`, and `docs/technical/public-site-and-content-runtime.md`.
 - Public content governance: `CONTENT_MAP.md`, `docs/editorial/README.md`, `docs/editorial/public-surface-map.md`, `docs/editorial/page-intent-map.md`, `docs/editorial/editorial-update-gate.md`, `docs/editorial/claim-register.md`, and `docs/editorial/astro-content-schema-policy.md`.
-- Public site runtime: Astro skills collection in `shipflow-site/src/content.config.ts`, public skill content in `shipflow-site/src/content/skills/`, hub route `shipflow-site/src/pages/skills/index.astro`, detail route `shipflow-site/src/pages/skills/[slug].astro`, and build command `pnpm --dir shipflow-site build`.
+- Public site runtime: Astro skills collection in `shipglowz-site/src/content.config.ts`, public skill content in `shipglowz-site/src/content/skills/`, hub route `shipglowz-site/src/pages/skills/index.astro`, detail route `shipglowz-site/src/pages/skills/[slug].astro`, and build command `pnpm --dir shipglowz-site build`.
 - Product and public-claim contracts: `BUSINESS.md` 1.1.0 reviewed, `PRODUCT.md` 1.1.0 reviewed, `BRANDING.md` 1.0.0 reviewed, `GTM.md` 1.1.0 reviewed, and `GUIDELINES.md` 1.3.0 reviewed.
-- Fresh external docs verdict: fresh-docs checked on 2026-05-02 for Astro runtime assumptions used by this spec. Local version discovered from `shipflow-site/pnpm-lock.yaml`: `astro@6.4.8`. Official docs consulted: content collections guide (`https://docs.astro.build/en/guides/content-collections/`) and build/deploy guidance (`https://docs.astro.build/en/develop-and-build/`, `https://docs.astro.build/en/guides/deploy/`). Decision impact: keep schema-first content constraints in `shipflow-site/src/content.config.ts` and keep `pnpm --dir shipflow-site build` as a required validation gate when public skill content or routes change.
+- Fresh external docs verdict: fresh-docs checked on 2026-05-02 for Astro runtime assumptions used by this spec. Local version discovered from `shipglowz-site/pnpm-lock.yaml`: `astro@6.4.8`. Official docs consulted: content collections guide (`https://docs.astro.build/en/guides/content-collections/`) and build/deploy guidance (`https://docs.astro.build/en/develop-and-build/`, `https://docs.astro.build/en/guides/deploy/`). Decision impact: keep schema-first content constraints in `shipglowz-site/src/content.config.ts` and keep `pnpm --dir shipglowz-site build` as a required validation gate when public skill content or routes change.
 
 ## Invariants
 
@@ -294,7 +294,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
   - Action: Create a public-facing skill page with schema-compatible frontmatter, concise public promise, examples, limits, related skills, and category selection.
   - User story link: Makes the new master skill discoverable on the public skills site.
   - Depends on: Task 2
-  - Validate with: `pnpm --dir shipflow-site build`
+  - Validate with: `pnpm --dir shipglowz-site build`
   - Notes: Use the Astro skills schema only. Do not add ShipGlowz artifact metadata to this runtime content file.
 
 - [x] Task 5: Review public skills hub and listing behavior
@@ -350,7 +350,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
   - Action: Run the focused validation set for skill, spec, docs, and public site changes.
   - User story link: Proves the skill is discoverable, metadata-valid, and publicly renderable.
   - Depends on: Tasks 2-10
-  - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/sg-skill-build-master-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md CONTENT_MAP.md docs/technical docs/editorial`; `pnpm --dir shipflow-site build`; `rg -n "docs/technical|secret|token|credential" shipflow-site/src CONTENT_MAP.md`
+  - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/sg-skill-build-master-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md CONTENT_MAP.md docs/technical docs/editorial`; `pnpm --dir shipglowz-site build`; `rg -n "docs/technical|secret|token|credential" shipglowz-site/src CONTENT_MAP.md`
   - Notes: Review sensitive keyword matches manually; generic policy warnings are not automatically failures.
 
 - [x] Task 12: Verify, close docs/help coherence, and ship
@@ -385,7 +385,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
 - Static skill validation: run `python3 tools/skill_budget_audit.py --skills-root skills --format markdown` and consider `--strict` before ship if warnings remain.
 - Runtime link validation: verify `readlink -f ~/.claude/skills/<name>` and `readlink -f ~/.codex/skills/<name>` match `${SHIPGLOWZ_ROOT:-$HOME/shipglowz}/skills/<name>`, and verify both expose `SKILL.md`.
 - Metadata validation: run `python3 tools/shipflow_metadata_lint.py` on the spec and changed ShipGlowz artifacts; include `docs/technical` and `docs/editorial` when they are edited.
-- Public site validation: run `pnpm --dir shipflow-site build` when `shipflow-site/src/content/skills/`, `shipflow-site/src/content.config.ts`, or public skill routes change.
+- Public site validation: run `pnpm --dir shipglowz-site build` when `shipglowz-site/src/content/skills/`, `shipglowz-site/src/content.config.ts`, or public skill routes change.
 - Focused content scans: use `rg` to check stale skill names, old lifecycle wording, internal-only technical-doc links in public site content, and sensitive public-claim keywords.
 - Manual review: inspect the new public skill page and `/skills` hub grouping when public content changes.
 - Workflow verification: run `sg-verify` against this spec before closure, checking the behavior contract, error behavior, docs coherence, and public-content gate outcomes.

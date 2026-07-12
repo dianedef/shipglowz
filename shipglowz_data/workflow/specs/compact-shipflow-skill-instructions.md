@@ -144,7 +144,7 @@ If one pilot file proves unsafe to compact in this run, substitute the next high
 - Rewriting every ShipGlowz skill in one pass.
 - Changing the public promise of a skill unless the spec is explicitly updated and re-readied.
 - Changing Codex, Claude Code, or installer runtime configuration.
-- Modifying unrelated CLI behavior in `shipflow.sh`, `lib.sh`, `config.sh`, or `local/`.
+- Modifying unrelated CLI behavior in `shipglowz.sh`, `lib.sh`, `config.sh`, or `local/`.
 - Broad language migration of legacy text beyond sections touched by this chantier.
 
 ## Constraints

@@ -281,7 +281,7 @@ for the internal architecture contract.
 
 The current repository is split by ownership, not only by technology:
 
-- `cli/` is the canonical server/runtime CLI layer. Root shell files such as `shipglowz.sh`, `lib.sh`, `config.sh`, `install.sh`, and legacy `shipflow_devserver_*` wrappers are deprecated compatibility surfaces.
+- `cli/` is the canonical server/runtime CLI layer. Root shell files such as `shipglowz.sh`, `lib.sh`, `config.sh`, and `install.sh` are compatibility launchers that forward to it.
 - `tui/` is the optional terminal cockpit. It is a visibility layer, not a second workflow engine.
 - `skills/` contains the ShipGlowz execution system and shared references.
 - `shipglowz_data/` is the canonical internal governance corpus for technical, editorial, business, and workflow artifacts.
@@ -952,10 +952,10 @@ Promotion rule:
 
 ```text
 shipglowz/
-├── shipglowz.sh                 # Deprecated compat wrapper
-├── lib.sh                      # Deprecated compat wrapper
-├── config.sh                   # Deprecated compat wrapper
-├── install.sh                  # Deprecated compat wrapper
+├── shipglowz.sh                 # Compatibility launcher
+├── lib.sh                      # Compatibility launcher
+├── config.sh                   # Compatibility launcher
+├── install.sh                  # Compatibility launcher
 ├── install-shipglowz.sh
 ├── README.md
 ├── CLAUDE.md

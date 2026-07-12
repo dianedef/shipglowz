@@ -68,7 +68,7 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 
 ## Scope Out
 
-- `shipflow.sh`, `shipflow_devserver_gum.sh`, `shipflow_devserver_bash.sh` (sauf consommation directe des helpers `ui_*`).
+- `shipglowz.sh`, `shipglowz_devserver_gum.sh`, `shipglowz_devserver_bash.sh` (sauf consommation directe des helpers `ui_*`).
 - Tunnels SSH (`local/*.sh`), PM2, Caddy, Flox, DuckDNS.
 - `injectors/web-inspector.js`, `tui/src/main.ts`.
 - Changements de design tokens CSS/tokens du site public.
@@ -116,7 +116,7 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 
 ## Links & Consequences
 
-- `lib.sh` est sourcé par `shipflow.sh`, `shipflow_devserver_gum.sh`, `shipflow_devserver_bash.sh`, et tous les `local/*.sh` qui utilisent `ui_*`. Tous les fichiers qui importent `ui_choose`/`ui_filter_choose` doivent continuer de fonctionner sans changement d’appel.
+- `lib.sh` est sourcé par `shipglowz.sh`, `shipglowz_devserver_gum.sh`, `shipglowz_devserver_bash.sh`, et tous les `local/*.sh` qui utilisent `ui_*`. Tous les fichiers qui importent `ui_choose`/`ui_filter_choose` doivent continuer de fonctionner sans changement d’appel.
 - `tui/src/sources/readers.ts` est consommé par `tui/src/main.ts` via `readDashboardData`. Tout découpage doit préserver le contrat de sortie `DashboardData`.
 - `tui/src/viewModels/dashboard.ts` construit `DashboardViewModel` utilisé par `dashboardView.ts`. Le mapping de statut déplacé doit rester importable sans breaking change.
 - `shipglowz_data/workflow/TASKS.md` doit être mis à jour avec les tâches de refactor.

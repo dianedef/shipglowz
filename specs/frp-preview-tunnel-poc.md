@@ -20,7 +20,7 @@ linked_systems:
   - "config.sh"
   - "install.sh"
   - "lib.sh"
-  - "shipflow.sh"
+  - "shipglowz.sh"
   - "local/dev-tunnel.sh"
   - "local/README.md"
   - "shipglowz_data/technical/runtime-cli.md"
@@ -188,7 +188,7 @@ Docs impact is required if the POC is implemented:
   - Notes: Cleanup must target only ShipFlow-managed FRP POC processes.
 
 - [ ] Task 5: Add a guarded menu or shortcut entry
-  - File: `shipflow.sh` or menu files selected during implementation
+  - File: `shipglowz.sh` or menu files selected during implementation
   - Action: Expose the POC only when `SHIPFLOW_FRP_EXPERIMENTAL=true`.
   - User story link: Lets operators run the POC intentionally.
   - Depends on: Task 4

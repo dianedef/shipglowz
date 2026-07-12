@@ -87,7 +87,7 @@ python3 tools/shipglowz_metadata_lint.py shipglowz_data/workflow/specs README.md
 For public site or runtime content:
 
 ```bash
-pnpm --dir shipflow-site build
+pnpm --dir shipglowz-site build
 ```
 
 For public-claim and leak scans:

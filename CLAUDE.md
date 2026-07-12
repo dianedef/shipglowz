@@ -139,10 +139,10 @@ shipglowz/
 │   ├── install.sh              # Server installation
 │   ├── shipglowz_devserver_bash.sh
 │   └── shipglowz_devserver_gum.sh
-├── shipglowz.sh                # Deprecated compat wrapper
-├── lib.sh                      # Deprecated compat wrapper
-├── config.sh                   # Deprecated compat wrapper
-├── install.sh                  # Deprecated compat wrapper
+├── shipglowz.sh                # Compatibility launcher
+├── lib.sh                      # Compatibility launcher
+├── config.sh                   # Compatibility launcher
+├── install.sh                  # Compatibility launcher
 ├── skills/                     # ShipGlowz skill library
 ├── .claude/statusline-starship.sh  # Status bar
 ├── local/                      # SSH tunnel scripts

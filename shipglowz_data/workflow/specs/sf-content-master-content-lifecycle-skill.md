@@ -247,7 +247,7 @@ No update required:
   - Action: Add a schema-compatible public page summarizing the master content workflow.
   - User story link: Makes the new content entrypoint visible in the public skill catalog.
   - Depends on: Task 2.
-  - Validate with: `pnpm --dir shipflow-site build`
+  - Validate with: `pnpm --dir shipglowz-site build`
   - Notes: Do not add ShipGlowz governance frontmatter to runtime content.
 
 - [x] Task 5: Update help and launch docs.
@@ -307,7 +307,7 @@ Validation commands:
 - `${SHIPGLOWZ_ROOT:-$HOME/shipglowz}/tools/shipflow_sync_skills.sh --check --skill sg-content`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `python3 tools/shipflow_metadata_lint.py specs/sg-content-master-content-lifecycle-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md CONTENT_MAP.md docs/technical docs/editorial docs/skill-launch-cheatsheet.md`
-- `pnpm --dir shipflow-site build`
+- `pnpm --dir shipglowz-site build`
 - `rg -n "secret|token|credential|private key|BEGIN .*KEY" skills/sg-content/SKILL.md site/src/content/skills/sg-content.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md CONTENT_MAP.md docs/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md site/src/pages/skill-modes.astro`
 
 Verification:

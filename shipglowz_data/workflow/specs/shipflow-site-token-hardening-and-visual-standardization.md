@@ -71,7 +71,7 @@ Tout changement visuel d'une page, d'un composant, d'une classe partagée ou d'u
 - If a new visual token is needed for spacing/typography/color/motion/shadows, then the token is introduced or updated in `site/src/styles/global.css` before component consumption is changed.
 - If a page or component currently uses ad-hoc values, then those values are replaced by variable references or shared component classes, with no behavior regression for layout breakpoints and mobile spacing.
 - If remaining legacy exceptions are necessary (e.g., third-party embed constraints), they are listed with owner and expiry in spec execution notes and design-system authority.
-- If verification runs, then `pnpm --dir shipflow-site build` and the checklist prove mobile and desktop consistency for the primary pages.
+- If verification runs, then `pnpm --dir shipglowz-site build` and the checklist prove mobile and desktop consistency for the primary pages.
 
 ## Error Behavior
 
@@ -98,10 +98,10 @@ Renforcer la doctrine déjà introduite pour ce dépôt: établir une source can
 - Design-system governance:
   - Validation and enforcement in `shipglowz_data/technical/design-system-authority.md`.
 - Evidence and proof:
-  - Test checklist creation and execution in `shipglowz_data/workflow/test-checklists/shipflow-site-token-hardening-and-visual-standardization.md`.
+  - Test checklist creation and execution in `shipglowz_data/workflow/test-checklists/shipglowz-site-token-hardening-and-visual-standardization.md`.
 - Validation commands:
   - `python3 tools/design_system_drift_check.py --root site --changed --format markdown`
-  - `pnpm --dir shipflow-site build`
+  - `pnpm --dir shipglowz-site build`
 
 ## Scope Out
 
@@ -126,7 +126,7 @@ Renforcer la doctrine déjà introduite pour ce dépôt: établir une source can
 - `site/src/pages/`
 - `skills/503-sg-audit-design-tokens/SKILL.md`
 - `tools/design_system_drift_check.py`
-- `pnpm --dir shipflow-site build`
+- `pnpm --dir shipglowz-site build`
 
 ## Invariants
 
@@ -186,7 +186,7 @@ Downstream:
   - Fichiers: `site/src/pages/index.astro`, `site/src/pages/docs.astro`, `site/src/pages/faq.astro`, `site/src/pages/skill-modes.astro`, `site/src/pages/pricing.astro`
   - Action: remplacer les styles locaux non-autorisés dans les grilles/sections et harmoniser les composants visuels.
   - Depends on: Tâche 4.
-  - Validate with: `pnpm --dir shipflow-site build`.
+  - Validate with: `pnpm --dir shipglowz-site build`.
 
 - [ ] Tâche 6: Vérifier la couverture mobile-first
   - Fichiers: toutes les zones de landing/home/footer/docs/cards mentionnées ci-dessus
@@ -194,7 +194,7 @@ Downstream:
   - Validate with: revue manuelle ciblée + scenarios du checklist.
 
 - [ ] Tâche 7: Exécuter la preuve de conformité chantier
-  - Fichiers: `shipglowz_data/workflow/test-checklists/shipflow-site-token-hardening-and-visual-standardization.md`
+  - Fichiers: `shipglowz_data/workflow/test-checklists/shipglowz-site-token-hardening-and-visual-standardization.md`
   - Action: renseigner les scénarios requis et passer en `PASS`/`BLOCKED` selon la preuve réelle.
   - Validate with: `103-sg-verify`.
 
@@ -214,9 +214,9 @@ Downstream:
 - proof_order:
   1. `python3 tools/design_system_drift_check.py --root site --format markdown --warn-only`
   2. `python3 tools/design_system_drift_check.py --root site --changed --format markdown`
-  3. `pnpm --dir shipflow-site build`
+  3. `pnpm --dir shipglowz-site build`
   4. Scenarios checklist.
-- checklist_path: `shipglowz_data/workflow/test-checklists/shipflow-site-token-hardening-and-visual-standardization.md`
+- checklist_path: `shipglowz_data/workflow/test-checklists/shipglowz-site-token-hardening-and-visual-standardization.md`
 - required_scenario_ids:
   - DS-SITE-TOKENS-001
   - DS-SITE-RESPONSIVE-001
@@ -232,9 +232,9 @@ Downstream:
 
 - `python3 tools/design_system_drift_check.py --root site --format markdown --warn-only --max-findings 200`
 - `python3 tools/design_system_drift_check.py --root site --changed --format markdown`
-- `pnpm --dir shipflow-site build`
+- `pnpm --dir shipglowz-site build`
 - Revue responsive manuelle sur les pages principales `/`, `/docs`, `/faq`, `/pricing`, `/skill-modes`.
-- `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md shipglowz_data/workflow/test-checklists/shipflow-site-token-hardening-and-visual-standardization.md`
+- `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/shipglowz-site-token-hardening-and-visual-standardization.md shipglowz_data/workflow/test-checklists/shipglowz-site-token-hardening-and-visual-standardization.md`
 
 ## Risks
 

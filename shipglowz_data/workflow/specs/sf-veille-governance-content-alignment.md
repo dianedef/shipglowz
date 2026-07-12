@@ -202,7 +202,7 @@ rg -n "governance|content surface|sg-content|surface missing|project-local" site
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 tools/shipflow_sync_skills.sh --check --skill sg-veille
 python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/sg-veille-governance-content-alignment.md
-pnpm --dir shipflow-site build
+pnpm --dir shipglowz-site build
 ```
 
 # Risks

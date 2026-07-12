@@ -106,7 +106,7 @@ The product need is a fast local cockpit that lives next to the existing ShipGlo
 
 # Solution
 
-Add an optional terminal UI package under `/home/claude/shipflow/tui` as a separate subproject. V1 uses OpenTUI for a persistent interactive dashboard if Bun/OpenTUI are available, while keeping Gum as a separate shell-enhancement tool for one-shot prompts in `shipflow.sh` or helper scripts. The TUI reads ShipGlowz Markdown and ledgers through a local allowlisted source layer and exposes read-only navigation first: projects, specs/chantiers, tasks/audits, checks/logs, and skills.
+Add an optional terminal UI package under `/home/claude/shipflow/tui` as a separate subproject. V1 uses OpenTUI for a persistent interactive dashboard if Bun/OpenTUI are available, while keeping Gum as a separate shell-enhancement tool for one-shot prompts in `shipglowz.sh` or helper scripts. The TUI reads ShipGlowz Markdown and ledgers through a local allowlisted source layer and exposes read-only navigation first: projects, specs/chantiers, tasks/audits, checks/logs, and skills.
 
 Flutter remains separate and continues to serve the graphical/dashboard path. The TUI is not a replacement for all of Flutter; it is the priority V1 operator cockpit.
 
@@ -136,7 +136,7 @@ Flutter remains separate and continues to serve the graphical/dashboard path. Th
 # Constraints
 
 - ShipGlowz Markdown and repository files remain canonical.
-- The TUI is optional; missing Bun/OpenTUI cannot break `shipflow.sh`, existing Flutter checks, or Vercel validation.
+- The TUI is optional; missing Bun/OpenTUI cannot break `shipglowz.sh`, existing Flutter checks, or Vercel validation.
 - V1 is read-only. Any write/action feature requires a separate ready spec.
 - Terminal capability must stay local; no privileged service credentials, BYOK secrets, tokens, cookies, private keys, or service-role keys may be stored in the TUI.
 - TUI source readers must enforce allowlisted roots, path normalization, symlink escape protection, and file size limits comparable to the Flutter source policy.
@@ -328,7 +328,7 @@ Flutter remains separate and continues to serve the graphical/dashboard path. Th
 
 - The implementation should start with `/home/claude/shipflow/tui`, not root repo changes.
 - Use OpenTUI for persistent screens only after confirming Bun works locally.
-- Consider Gum separately for `shipflow.sh` prompts; do not force Gum into the OpenTUI package.
+- Consider Gum separately for `shipglowz.sh` prompts; do not force Gum into the OpenTUI package.
 - Avoid importing Flutter data models into TypeScript. Reuse concepts and constraints, not source code.
 - Treat current Flutter `source_path_policy.dart` behavior as a policy benchmark for the TUI source layer.
 - Keep the first implementation local and read-only even if OpenTUI makes command execution easy.

@@ -202,7 +202,7 @@ None for this skill creation. Naming is resolved as `sg-design-from-scratch`.
 - `"${SHIPGLOWZ_ROOT:-$HOME/shipglowz}/tools/shipflow_sync_skills.sh" --check --skill sg-design-from-scratch`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `python3 tools/shipflow_metadata_lint.py specs/sg-design-from-scratch-design-system-skill.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
-- `pnpm --dir shipflow-site build`
+- `pnpm --dir shipglowz-site build`
 - `rg -n "BEGIN .*KEY|PRIVATE KEY|PASSWORD=|SECRET=|TOKEN=|CREDENTIAL=" skills/sg-design-from-scratch/SKILL.md site/src/content/skills/sg-design-from-scratch.md`
 
 ## Risks

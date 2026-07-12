@@ -116,7 +116,7 @@ Update this artifact whenever the project adds a frontend, changes styling techn
 
 ## ShipGlowz Surface Declarations (2026-06-26)
 
-- `shipflow-site`:
+- `shipglowz-site`:
   - status: `declared`
   - brand_contract: `shipglowz_data/branding/branding.md`
   - canonical_source: `shipglowz-site/src/styles/global.css`
@@ -129,6 +129,6 @@ Update this artifact whenever the project adds a frontend, changes styling techn
     - mobile-nav, hero, spacing, shadow, or elevation values created directly in page/component markup
     - locale-specific visual overrides that diverge from the shared home component system without explicit proof
   - validation:
-    - `python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/design_system_drift_check.py" --root "${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipflow-site" --changed --format markdown`
-    - `npm --prefix "${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipflow-site" run build`
+    - `python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/design_system_drift_check.py" --root "${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz-site" --changed --format markdown`
+    - `npm --prefix "${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz-site" run build`
     - browser/mobile proof on `/` and `/fr/` when home or navigation visuals change

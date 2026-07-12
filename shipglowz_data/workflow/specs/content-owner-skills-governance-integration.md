@@ -160,7 +160,7 @@ The five owner skills must load the editorial governance corpus before changing,
   - Action: Add concise governance-output language where useful.
   - User story link: Keeps public pages aligned with internal skill behavior.
   - Depends on: Task 1
-  - Validate with: `pnpm --dir shipflow-site build`
+  - Validate with: `pnpm --dir shipglowz-site build`
   - Notes: Do not add ShipGlowz governance frontmatter.
 - [x] Task 3: Record the refresh.
   - File: `skills/REFRESH_LOG.md`

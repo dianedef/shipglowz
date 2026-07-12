@@ -203,7 +203,7 @@ python3 /home/claude/.codex/skills/.system/plugin-creator/scripts/validate_plugi
 codex plugin list
 python3 /home/claude/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py plugins/shipflow
 bash -n plugins/shipflow/scripts/bootstrap_shipflow_repo.sh
-pnpm --dir shipflow-site build
+pnpm --dir shipglowz-site build
 codex plugin marketplace add /home/claude/shipflow
 codex plugin add shipflow@shipflow --json
 ```

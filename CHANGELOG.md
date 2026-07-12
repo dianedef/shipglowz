@@ -14,7 +14,7 @@ security_impact: yes
 risk_level: low
 docs_impact: yes
 linked_systems:
-  - shipflow.sh
+  - shipglowz.sh
   - lib.sh
   - config.sh
   - install.sh
@@ -68,7 +68,7 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 - Added pause between environment list and idle-app picker in dashboard
 
 ### Renamed
-- PM2/directory/flox env: `app` → `shipflow_app`, `site` → `shipflow-site`, flox env `contentflowz-app` → `shipflow-app`
+- PM2/directory/flox env: `app` → `shipflow_app`, `site` → `shipglowz-site`, flox env `contentflowz-app` → `shipflow-app`
 - Created `/home/claude/shipflow_app/shipflow_app/` directory for renamed shipflow_app project
 
 ### Removed
@@ -503,14 +503,14 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 - System Monitor merged into Health Check (`h`): RAM overview, visual bar, top processes, long-running detection (24h+)
 - Dashboard shows per-app uptime with idle detection and inline stop prompt
 - Config: `SHIPFLOW_MEM_WARN_GB`, `SHIPFLOW_PROCESS_LONG_RUNNING_HOURS`, `SHIPFLOW_MONITOR_TOP_N`
-- `shipflow_devserver_gum.sh` — pure gum-styled menus with instant single-keypress shortcuts
-- `shipflow_devserver_bash.sh` — pure bash fallback menus
+- `shipglowz_devserver_gum.sh` — pure gum-styled menus with instant single-keypress shortcuts
+- `shipglowz_devserver_bash.sh` — pure bash fallback menus
 - `ui_pause()` replacing all scattered pause points
 - `ui_choose` auto-selects `gum choose` (≤5 items) or `gum filter` (>5 items)
 
 ### Changed
 - All menu shortcuts: numbers → letters (d=Dashboard, e=Deploy, r=Restart, etc.)
-- `shipflow.sh` reduced from 1078 to 48 lines (thin launcher)
+- `shipglowz.sh` reduced from 1078 to 48 lines (thin launcher)
 - All action handlers and menu definitions moved to lib.sh
 - Stdin flush between menu cycles to prevent residual keypress issues
 

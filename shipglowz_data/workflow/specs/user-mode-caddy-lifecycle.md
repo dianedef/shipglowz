@@ -54,7 +54,7 @@ As a ShipGlowz operator, I want Caddy to run under the current user and only whi
 ## Validation
 
 ```bash
-bash -n shipflow.sh lib.sh config.sh install.sh
+bash -n shipglowz.sh lib.sh config.sh install.sh
 SHIPGLOWZ_USER_CADDY_DRY_RUN=1 bash -lc 'source ./lib.sh; refresh_user_caddy_from_pm2'
 SHIPGLOWZ_AGGRESSIVE_CLEANUP_DRY_RUN=1 bash -lc 'source ./lib.sh; aggressive_cleanup_menu'
 python3 tools/shipflow_metadata_lint.py specs/user-mode-caddy-lifecycle.md docs/technical/runtime-cli.md CONTEXT.md CONTEXT-FUNCTION-TREE.md

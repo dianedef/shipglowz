@@ -54,4 +54,4 @@ pnpm preview
 - Keep public claims aligned with `shipglowz_data/business/`, `shipglowz_data/editorial/`, and the current product reality.
 - Keep plugin packaging claims aligned with `shipglowz_data/technical/codex-plugin-packaging.md`.
 - French routes may localize navigation and explanatory framing, but skill descriptions stay in English by default because agents consume the English skill contracts more reliably.
-- Run `pnpm --dir shipflow-site build` after changing rendered site content or schemas.
+- Run `pnpm --dir shipglowz-site build` after changing rendered site content or schemas.

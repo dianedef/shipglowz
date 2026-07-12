@@ -20,7 +20,7 @@ docs_impact: yes
 linked_systems:
   - install.sh
   - lib.sh
-  - shipflow.sh
+  - shipglowz.sh
   - README.md
   - docs/technical/installer-and-user-scope.md
   - docs/technical/runtime-cli.md
@@ -107,9 +107,9 @@ ShipGlowz doit enregistrer les MCP Codex utiles dans `~/.codex/config.toml` avec
   - Validate with: `bash -n lib.sh`
 
 - [x] Task 3: Ajouter le raccourci CLI
-  - File: `lib.sh`, `shipflow.sh`
+  - File: `lib.sh`, `shipglowz.sh`
   - Action: permettre `sf codex` et `sf codex supabase playwright` sans casser les raccourcis menu existants.
-  - Validate with: `bash -n shipflow.sh lib.sh`
+  - Validate with: `bash -n shipglowz.sh lib.sh`
 
 - [x] Task 4: Mettre a jour la documentation utilisateur et technique
   - File: `README.md`, `docs/technical/installer-and-user-scope.md`, `docs/technical/runtime-cli.md`
@@ -132,7 +132,7 @@ ShipGlowz doit enregistrer les MCP Codex utiles dans `~/.codex/config.toml` avec
 
 ## Test Strategy
 
-- Syntax: `bash -n install.sh lib.sh shipflow.sh`
+- Syntax: `bash -n install.sh lib.sh shipglowz.sh`
 - Focused config proof: inspect `enabled = false` in generated install blocks.
 - Focused launcher proof: dry-run by reading constructed code path and using `codex mcp list -c ...` behavior already confirmed locally.
 

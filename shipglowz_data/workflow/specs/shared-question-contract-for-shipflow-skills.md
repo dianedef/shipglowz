@@ -118,7 +118,7 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 
 - [x] Task 4: Update docs and public surfaces.
   - Files: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/skill-launch-cheatsheet.md`, `docs/technical/skill-runtime-and-lifecycle.md`, `skills/sg-help/SKILL.md`, `site/src/content/skills/shipflow.md`, `site/src/content/skills/sg-build.md`
-  - Validate with: metadata lint where applicable and `pnpm --dir shipflow-site build`.
+  - Validate with: metadata lint where applicable and `pnpm --dir shipglowz-site build`.
 
 ## Skill Run History
 

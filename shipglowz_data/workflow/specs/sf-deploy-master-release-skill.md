@@ -199,7 +199,7 @@ Create `skills/sg-deploy/SKILL.md` as a master lifecycle skill for releases. It 
   - Action: Add schema-compatible public skill page.
   - User story link: Public catalog includes the release orchestrator.
   - Depends on: Task 1
-  - Validate with: `pnpm --dir shipflow-site build`
+  - Validate with: `pnpm --dir shipglowz-site build`
   - Notes: No ShipGlowz governance metadata in runtime content.
 
 - [x] Task 4: Sync runtime links and validate
@@ -215,7 +215,7 @@ Create `skills/sg-deploy/SKILL.md` as a master lifecycle skill for releases. It 
   - Action: Run metadata, skill, and site validations; update this spec run history.
   - User story link: Proves the implementation meets the release orchestration contract.
   - Depends on: Tasks 1-4
-  - Validate with: `python3 tools/shipflow_metadata_lint.py specs/sg-deploy-master-release-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical`; `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `pnpm --dir shipflow-site build`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py specs/sg-deploy-master-release-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical`; `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `pnpm --dir shipglowz-site build`
   - Notes: `quick_validate.py` rejects ShipGlowz's `argument-hint` field; keep `argument-hint` for local skill consistency and record the validator incompatibility instead of weakening the local contract.
 
 ## Acceptance Criteria

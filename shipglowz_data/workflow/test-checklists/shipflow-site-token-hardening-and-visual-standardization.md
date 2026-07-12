@@ -13,13 +13,13 @@ scope: "workflow"
 owner: "Diane"
 proof_profile: "automated -> browser/manual"
 stack_profile: "astro"
-target_scope: "shipflow-site-token-hardening-and-visual-standardization"
+target_scope: "shipglowz-site-token-hardening-and-visual-standardization"
 confidence: medium
 risk_level: medium
 security_impact: "none"
 docs_impact: yes
 linked_systems:
-  - "shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md"
+  - "shipglowz_data/workflow/specs/shipglowz-site-token-hardening-and-visual-standardization.md"
   - "shipglowz_data/technical/design-system-authority.md"
   - "shipglowz_data/technical/guidelines.md"
   - "site/src/styles/global.css"
@@ -27,7 +27,7 @@ linked_systems:
   - "site/src/components/"
 evidence: []
 depends_on:
-  - artifact: "shipglowz_data/workflow/specs/shipflow-site-token-hardening-and-visual-standardization.md"
+  - artifact: "shipglowz_data/workflow/specs/shipglowz-site-token-hardening-and-visual-standardization.md"
     artifact_version: "1.0.0"
     required_status: ready
 supersedes: []

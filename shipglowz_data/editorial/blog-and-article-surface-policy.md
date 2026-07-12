@@ -82,7 +82,7 @@ A separate spec or explicit surface decision must define:
 - rendering route and `getCollection()` / `getStaticPaths()` behavior when dynamic pages are used
 - source contracts for claims
 - target audience and page intent
-- publication validation, including `pnpm --dir shipflow-site build`
+- publication validation, including `pnpm --dir shipglowz-site build`
 - internal link rules from `CONTENT_MAP.md`
 - claim review through `docs/editorial/claim-register.md`
 

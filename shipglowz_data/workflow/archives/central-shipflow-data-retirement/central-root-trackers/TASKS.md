@@ -1248,7 +1248,7 @@
 | ✅ | Dashboard : uptime par app + détection idle (24h+) + proposer stop direct | ✅ done |
 | ✅ | Config RAM : SHIPFLOW_MEM_WARN_GB, SHIPFLOW_PROCESS_LONG_RUNNING_HOURS, SHIPFLOW_MONITOR_TOP_N | ✅ done |
 | ✅ | Refactor dual-mode : menu_gum.sh (gum style + read -sn1) / menu_bash.sh (echo+read) | ✅ done |
-| ✅ | Extraction action handlers dans lib.sh + shipflow.sh réduit à 48 lignes | ✅ done |
+| ✅ | Extraction action handlers dans lib.sh + shipglowz.sh réduit à 48 lignes | ✅ done |
 | ✅ | ui_choose adaptatif : gum choose (≤5 items) / gum filter (>5 items) | ✅ done |
 | ✅ | Flush stdin + pause sans gum input (fix touches résiduelles) | ✅ done |
 | ✅ | Aplatir le sous-menu "More Options" (G) → toutes les commandes dans le menu principal | ✅ done |
