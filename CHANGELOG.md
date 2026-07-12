@@ -381,7 +381,7 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 
 ### Added
 - `README.md` now frames ShipFlow as a professional work framework built around decision contracts, not just a collection of skills
-- `shipflow-spec-driven-workflow.md` now documents the artifact doctrine, standard metadata frontmatter, business docs as decision contracts, documentation coherence, and adoption/migration rules
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` now documents the artifact doctrine, standard metadata frontmatter, business docs as decision contracts, documentation coherence, and adoption/migration rules
 - Business documentation (`BUSINESS.md`, `BRANDING.md`, personas, pricing, positioning, GTM docs) is now documented as technical decision infrastructure because it drives implementation, audits, shipping, and public claims
 
 ### Changed
@@ -411,14 +411,14 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 
 ### Changed
 - `README.md` now states the one-pass execution model explicitly: complete context before coding, no hidden dependency on chat history, and fresh-context escalation when needed
-- `shipflow-spec-driven-workflow.md` now documents that `101-sg-ready` and `102-sg-start` are the main points where a fresh context may be enforced for non-trivial execution
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` now documents that `101-sg-ready` and `102-sg-start` are the main points where a fresh context may be enforced for non-trivial execution
 - The workflow docs now treat prompt-and-correct as a bounded fallback, not the default operating mode
 - `CHANGELOG.md` records the fresh-context policy so the workflow shift is visible outside the skills themselves
 
 ## [2026-04-22] - Spec-driven workflow v3 and documentation cleanup
 
 ### Added
-- `shipflow-spec-driven-workflow.md` — living documentation for the ShipFlow V3 spec-driven workflow, including `700-sg-explore`, `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, and `104-sg-end`
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` — living documentation for the ShipFlow V3 spec-driven workflow, including `700-sg-explore`, `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, and `104-sg-end`
 - `archive/reports/README.md` and `archive/notes/README.md` — archive indexes for historical reports and obsolete notes
 
 ### Changed

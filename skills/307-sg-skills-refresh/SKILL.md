@@ -95,7 +95,7 @@ For each selected skill, read its `SKILL.md` and identify:
 - **Obvious 2025+ patterns**: signals the skill was recently refreshed — adjust research accordingly
 - **Likely gaps**: what could be new in the domain since ~6 months ago
 - **Governance gaps**: missing current ShipGlowz gates from Phase 0
-- **Language doctrine gaps**: compare touched sections against `GUIDELINES.md` and `shipglowz-spec-driven-workflow.md` when available. Internal skill contracts should be English; user-facing prompts and reports should use the active user/project language; French user-facing text needs proper accents; casual language mixing inside one artifact should be flagged unless it is a quoted source, quoted user prompt, legal text, external material, or stable machine-readable anchor.
+- **Language doctrine gaps**: compare touched sections against `GUIDELINES.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` when available. Internal skill contracts should be English; user-facing prompts and reports should use the active user/project language; French user-facing text needs proper accents; casual language mixing inside one artifact should be flagged unless it is a quoted source, quoted user prompt, legal text, external material, or stable machine-readable anchor.
 
 ---
 
@@ -152,7 +152,7 @@ For each returned report:
 7. If a refresh changes discoverability, lifecycle routing, workflow doctrine, public skill promises, or docs/help behavior, update or explicitly mark no impact for:
    - `skills/302-sg-help/SKILL.md`
    - `README.md`
-   - `shipglowz-spec-driven-workflow.md`
+   - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
    - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
    - `site/src/content/skills/<skill>.md`
 8. If a refresh changes invocation directories or runtime visibility, run `${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/shipglowz_sync_skills.sh --check --skill <skill-name>`.

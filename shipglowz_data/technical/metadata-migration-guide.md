@@ -16,7 +16,7 @@ docs_impact: yes
 linked_systems:
   - tools/shipglowz_metadata_lint.py
   - templates/artifacts/
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - skills/references/canonical-paths.md
   - docs/technical/
 depends_on: []
@@ -26,7 +26,7 @@ evidence:
   - "Updated on 2026-04-27 to resolve the metadata linter from the canonical ShipGlowz root"
   - "Added migration defaults for competitive intelligence and affiliate program registry artifacts."
 next_review: "unknown"
-next_step: "/sg-docs audit shipflow-metadata-migration-guide.md"
+next_step: "/300-sg-docs audit shipglowz_data/technical/metadata-migration-guide.md"
 ---
 
 # ShipGlowz Metadata Migration Guide

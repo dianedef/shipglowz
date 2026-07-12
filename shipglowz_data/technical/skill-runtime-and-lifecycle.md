@@ -43,12 +43,12 @@ linked_systems:
   - tools/audit_shipglowz_skills.py
   - specs/001-sg-build-autonomous-master-skill.md
   - specs/skill-reporting-modes-and-compact-reports.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - templates/artifacts/
   - docs/technical/
   - docs/editorial/
 depends_on:
-  - artifact: "shipglowz-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.18.0"
     required_status: draft
   - artifact: "skills/references/technical-docs-corpus.md"
@@ -107,7 +107,7 @@ next_step: "/300-sg-docs technical audit skills"
 
 ## Purpose
 
-This doc covers ShipGlowz skills, lifecycle flow, references, templates, model/topology decisions, and documentation gates. Read it before changing `skills/*/SKILL.md`, shared skill references, or `shipglowz-spec-driven-workflow.md`.
+This doc covers ShipGlowz skills, lifecycle flow, references, templates, model/topology decisions, and documentation gates. Read it before changing `skills/*/SKILL.md`, shared skill references, or `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
 
 ## Instruction Layering Policy
 
@@ -239,7 +239,7 @@ The canonical behavior contract for profile resolution, precedence, fallback, an
 | `tools/shipglowz_sync_skills.sh` | Shared current-user Claude/Codex skill runtime sync helper | Use for check/repair instead of inline symlink snippets |
 | `tools/audit_shipglowz_skills.py` | Versioned ShipGlowz skill execution-fidelity audit helper used by `900-shipglowz-core` and conversation follow-through gates | Keep read-only by default; audit findings classify risk but do not authorize broad edits without scenario-first triage |
 | `tools/skill_code_index_lint.py` | Numeric skill-code index validator | Run after changing `skills/references/skill-code-index.md` or the skill set |
-| `shipglowz-spec-driven-workflow.md` | Global workflow doctrine | Sequential shared file |
+| `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | Global workflow doctrine | Sequential shared file |
 | `templates/artifacts/*.md` | Durable artifact templates | Keep linter-compatible |
 | `AGENT.md`, `AGENTS.md` | Agent entrypoint and compatibility alias | `AGENT.md` canonical; `AGENTS.md` symlink only |
 
@@ -483,8 +483,8 @@ python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 bash -n tools/shipglowz_sync_skills.sh test_skill_runtime_sync.sh
 bash test_skill_runtime_sync.sh
 tools/shipglowz_sync_skills.sh --check --all
-python3 tools/shipglowz_metadata_lint.py skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md skills/references/spec-driven-development-discipline.md skills/references/technical-docs-corpus.md skills/references/editorial-content-corpus.md skills/references/subagent-roles/editorial-reader.md skills/references/skill-instruction-layering.md skills/references/skill-context-budget.md shipglowz-spec-driven-workflow.md AGENT.md
-rg -n "Governance Corpus Gate|305-sg-init.*bootstrap|300-sg-docs.*maintain|001-sg-build.*consume|004-sg-deploy|002-sg-maintain|007-sg-content|master-delegation-semantics|master-workflow-lifecycle|bug file|delegated sequential|subagent|parallelism|short natural-language|Execution Batches|reporting-contract|report=user|docs/technical|docs/editorial" skills/305-sg-init/SKILL.md skills/300-sg-docs/SKILL.md skills/004-sg-deploy/SKILL.md skills/002-sg-maintain/SKILL.md skills/007-sg-content/SKILL.md specs/001-sg-build-autonomous-master-skill.md shipglowz-spec-driven-workflow.md README.md skills/references/reporting-contract.md skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md
+python3 tools/shipglowz_metadata_lint.py skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md skills/references/spec-driven-development-discipline.md skills/references/technical-docs-corpus.md skills/references/editorial-content-corpus.md skills/references/subagent-roles/editorial-reader.md skills/references/skill-instruction-layering.md skills/references/skill-context-budget.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md AGENT.md
+rg -n "Governance Corpus Gate|305-sg-init.*bootstrap|300-sg-docs.*maintain|001-sg-build.*consume|004-sg-deploy|002-sg-maintain|007-sg-content|master-delegation-semantics|master-workflow-lifecycle|bug file|delegated sequential|subagent|parallelism|short natural-language|Execution Batches|reporting-contract|report=user|docs/technical|docs/editorial" skills/305-sg-init/SKILL.md skills/300-sg-docs/SKILL.md skills/004-sg-deploy/SKILL.md skills/002-sg-maintain/SKILL.md skills/007-sg-content/SKILL.md specs/001-sg-build-autonomous-master-skill.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md README.md skills/references/reporting-contract.md skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md
 ```
 
 Run focused `rg` checks for the affected skill contract and linked references.
@@ -498,7 +498,7 @@ Run focused `rg` checks for the affected skill contract and linked references.
 - Public-content skill changed -> check `editorial-content-corpus.md`, `docs/editorial/`, and workflow docs.
 - Governance corpus bootstrap or adoption changed -> check `skills/305-sg-init/SKILL.md`, `skills/300-sg-docs/SKILL.md`, `technical-docs-corpus.md`, `editorial-content-corpus.md`, `README.md`, and workflow docs.
 - Content lifecycle changed -> check `CONTENT_MAP.md`, `docs/editorial/`, public skill content, `README.md`, `docs/skill-launch-cheatsheet.md`, and workflow docs.
-- A lifecycle rule changed -> update `shipglowz-spec-driven-workflow.md`.
+- A lifecycle rule changed -> update `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
 - Report mode or final-report doctrine changed -> update `skills/references/reporting-contract.md`, `skills/references/chantier-tracking.md`, and affected master/audit skills.
 - A docs gate changed -> update `skills/300-sg-docs/SKILL.md`, `technical-docs-corpus.md`, and `code-docs-map.md`.
 - An editorial gate changed -> update `skills/300-sg-docs/SKILL.md`, `editorial-content-corpus.md`, `docs/editorial/`, and workflow docs.

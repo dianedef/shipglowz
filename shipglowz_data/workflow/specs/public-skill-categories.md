@@ -28,7 +28,7 @@ depends_on:
   - artifact: "specs/skill-taxonomy-and-chantier-sources.md"
     artifact_version: "1.1.0"
     required_status: "ready"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.3.0"
     required_status: "draft"
 supersedes: []
@@ -121,7 +121,7 @@ Definir une taxonomie publique separee des roles de chantier, puis l'appliquer a
 ## Dependencies
 
 - Runtime: Astro 6.4.8 from `shipflow-site/pnpm-lock.yaml`, content collections, Zod schema via the existing `astro:content` collection config.
-- Document contracts: `specs/skill-taxonomy-and-chantier-sources.md` pour la separation interne/public; `shipflow-spec-driven-workflow.md` pour le vocabulaire workflow.
+- Document contracts: `specs/skill-taxonomy-and-chantier-sources.md` pour la separation interne/public; `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` pour le vocabulaire workflow.
 - Metadata gaps: public skill pages use the Astro content schema, not ShipGlowz artifact metadata.
 - Fresh external docs: fresh-docs checked. Official Astro docs say content collection schemas validate frontmatter and provide typed content querying; the Zod schema utility supports enum validation for schema fields. Sources: https://docs.astro.build/en/guides/content-collections/ and https://docs.astro.build/en/reference/modules/astro-zod/
 

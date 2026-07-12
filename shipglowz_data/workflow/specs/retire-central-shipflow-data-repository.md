@@ -21,8 +21,8 @@ linked_systems:
   - "install.sh"
   - "lib.sh"
   - "README.md"
-  - "shipflow-metadata-migration-guide.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/technical/metadata-migration-guide.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "skills/references/canonical-paths.md"
   - "skills/references/master-workflow-lifecycle.md"
   - "skills/sg-init/references/bootstrap-workflow.md"
@@ -174,8 +174,8 @@ Retire `~/shipglowz_data` completely. Treat it as a migration source only, not a
 # Documentation Coherence
 
 - Update `README.md` install/data model sections.
-- Update `shipflow-metadata-migration-guide.md`.
-- Update `shipflow-spec-driven-workflow.md` if it still describes `shipglowz_data` as cross-project tracking.
+- Update `shipglowz_data/technical/metadata-migration-guide.md`.
+- Update `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` if it still describes `shipglowz_data` as cross-project tracking.
 - Update `skills/references/canonical-paths.md`.
 - Update `skills/sg-help/references/help-catalog.md`.
 - Update TUI README data-source documentation.
@@ -268,7 +268,7 @@ Retire `~/shipglowz_data` completely. Treat it as a migration source only, not a
   - Notes: If Bun is unavailable, report degraded validation and run static checks that are available.
 
 - [ ] Task 10: Update skill contracts, shared references, and docs.
-  - File: `skills/**`, `skills/references/**`, `README.md`, `shipflow-metadata-migration-guide.md`, `shipflow-spec-driven-workflow.md`.
+  - File: `skills/**`, `skills/references/**`, `README.md`, `shipglowz_data/technical/metadata-migration-guide.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
   - Action: Remove active central control-plane language and replace with project-local source-of-truth plus discovery/derived-cache language.
   - User story link: Skills must stop mentioning and depending on the central concept.
   - Depends on: Tasks 6-8.

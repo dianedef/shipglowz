@@ -51,7 +51,7 @@ depends_on:
   - artifact: "README.md"
     artifact_version: "0.5.1"
     required_status: "draft"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.8.1"
     required_status: "draft"
   - artifact: "docs/technical/code-docs-map.md"

@@ -33,10 +33,10 @@ linked_systems:
   - "skills/references/chantier-tracking.md"
   - "skills/references/reporting-contract.md"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "docs/technical/skill-runtime-and-lifecycle.md"
 depends_on:
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.11.0"
     required_status: "draft"
   - artifact: "skills/references/chantier-tracking.md"
@@ -112,7 +112,7 @@ Security maintenance is routed through existing owners:
 
 ## Validation Plan
 
-- `python3 tools/shipflow_metadata_lint.py specs/sg-maintain-project-maintenance-skill.md README.md shipflow-spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md skills/references/chantier-tracking.md`
+- `python3 tools/shipflow_metadata_lint.py specs/sg-maintain-project-maintenance-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md skills/references/chantier-tracking.md`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `tools/shipflow_sync_skills.sh --repair --skill sg-maintain`
 - `tools/shipflow_sync_skills.sh --check --skill sg-maintain`

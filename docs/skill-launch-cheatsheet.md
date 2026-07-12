@@ -18,10 +18,10 @@ linked_systems:
   - site/src/pages/skill-modes.astro
   - site/src/content/skills/
   - README.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - shipglowz_data/editorial/content-map.md
 depends_on:
-  - artifact: "shipglowz-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.17.0"
     required_status: draft
 supersedes: []

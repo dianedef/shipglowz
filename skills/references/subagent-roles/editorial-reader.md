@@ -63,7 +63,7 @@ Load contract sources only as needed for the changed surface:
 - `BRANDING.md`
 - `GTM.md`
 - `README.md`
-- `shipglowz-spec-driven-workflow.md`
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - relevant specs or verified behavior notes
 
 Load public runtime sources only as needed:

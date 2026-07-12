@@ -21,7 +21,7 @@ linked_systems:
   - "skills/*/SKILL.md"
   - "skills/references/*"
   - "templates/artifacts/*"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "README.md"
   - "AGENT.md"
   - "shipglowz_data/technical/context.md"
@@ -42,7 +42,7 @@ depends_on:
   - artifact: "skills/references/chantier-tracking.md"
     artifact_version: "0.5.0"
     required_status: "draft"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.18.1"
     required_status: "draft"
 supersedes: []
@@ -166,7 +166,7 @@ ShipGlowz documents that govern behavior should resolve to exactly one primary a
 ## Structural Debt and Extraction Targets
 
 - `skills/102-sg-start/SKILL.md`: mixed `SKILL.md` contract and multi-page execution playbook; low-risk target remains `execution-workflow.md`, but the local contract still embeds long model/topology prose. Recommendation: keep as is for this chantier and plan a future `102-sg-start` cleanup follow-up only if execution semantics change.
-- `shipflow-spec-driven-workflow.md`: mixes canonical workflow doctrine with user-facing command guidance. It is currently coherent as one contract but still close to the `contract`/`reference` boundary. Recommendation: split command-cheatsheet snippets to a dedicated reference once churn becomes high.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: mixes canonical workflow doctrine with user-facing command guidance. It is currently coherent as one contract but still close to the `contract`/`reference` boundary. Recommendation: split command-cheatsheet snippets to a dedicated reference once churn becomes high.
 - `README.md`: user onboarding and internal architecture context are mixed in one public-facing doc; it remains stable today and should be kept non-mixed by explicit section roles unless a dedicated public-facing architecture reference is added.
 
 # Scope In
@@ -220,7 +220,7 @@ ShipGlowz documents that govern behavior should resolve to exactly one primary a
   - `skills/references/decision-quality-contract.md`
   - `skills/references/skill-instruction-layering.md`
   - `skills/references/chantier-tracking.md`
-  - `shipflow-spec-driven-workflow.md`
+  - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - Local context and integration docs:
   - `README.md`
   - `AGENT.md`
@@ -246,14 +246,14 @@ ShipGlowz documents that govern behavior should resolve to exactly one primary a
 - `skills/*/SKILL.md`: their role descriptions and future compaction work depend on this taxonomy.
 - `skills/references/*`: shared references may need to split into true contracts versus support references.
 - `templates/artifacts/*`: template boundaries become easier to preserve when they are explicitly separated from doctrine.
-- `shipflow-spec-driven-workflow.md`: may need a short artifact-architecture explanation so lifecycle docs stay aligned.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: may need a short artifact-architecture explanation so lifecycle docs stay aligned.
 - `README.md`, `AGENT.md`, and technical context docs may need concise alignment language if they currently blur artifact roles.
 - Future chantiers on skill compaction, routing, docs architecture, or taxonomy should depend on this classification instead of re-deriving it ad hoc.
 
 # Documentation Coherence
 
 - Update `shipglowz_data/technical/skill-runtime-and-lifecycle.md` with the canonical taxonomy matrix.
-- Update `shipflow-spec-driven-workflow.md` with the canonical artifact taxonomy section.
+- Update `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` with the canonical artifact taxonomy section.
 - Keep `README.md` and `AGENT.md` unchanged in this chantier; re-open follow-up only if router guidance becomes ambiguous for the new taxonomy.
 - Update `skills/references/skill-instruction-layering.md` only if this taxonomy requires contract/reference boundary reclassification later.
 - Do not edit trackers such as `TASKS.md`, `AUDIT_LOG.md`, or legacy `PROJECTS.md`.
@@ -310,11 +310,11 @@ ShipGlowz documents that govern behavior should resolve to exactly one primary a
   - Notes: Do not implement all cleanups in this chantier unless they remain strictly local and non-controversial.
 
 - [x] Task 6: Align the core architecture docs.
-  - Files: `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipflow-spec-driven-workflow.md`, `README.md`, `AGENT.md`
+  - Files: `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `README.md`, `AGENT.md`
   - Action: Update only the docs needed to reflect the canonical artifact taxonomy and its most important distinctions.
   - User story link: Keeps the doctrine discoverable for future maintainers and agents.
   - Depends on: Tasks 1-5
-  - Validate with: `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/shipflow-artifact-taxonomy-for-skills-and-references.md shipglowz_data/technical/skill-runtime-and-lifecycle.md shipflow-spec-driven-workflow.md README.md AGENT.md`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/shipflow-artifact-taxonomy-for-skills-and-references.md shipglowz_data/technical/skill-runtime-and-lifecycle.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md README.md AGENT.md`
   - Notes: Skip unchanged docs; explain any intentional no-update decision in `Documentation Coherence`.
 
 # Acceptance Criteria
@@ -356,7 +356,7 @@ ShipGlowz documents that govern behavior should resolve to exactly one primary a
 - Read first:
   - `skills/references/decision-quality-contract.md`
   - `skills/references/skill-instruction-layering.md`
-  - `shipflow-spec-driven-workflow.md`
+  - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - `shipglowz_data/workflow/specs/compact-shipflow-skill-instructions.md`
   - `shipglowz_data/workflow/specs/audit-and-compact-skill-taxonomy-descriptions.md`
 - Keep the first implementation pass architectural. Do not begin by rewriting wording globally.

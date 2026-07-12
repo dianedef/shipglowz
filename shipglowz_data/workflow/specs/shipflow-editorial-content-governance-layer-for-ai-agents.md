@@ -24,7 +24,7 @@ linked_systems:
   - BRANDING.md
   - GTM.md
   - README.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - GUIDELINES.md
   - specs/sg-build-autonomous-master-skill.md
   - docs/editorial/
@@ -63,7 +63,7 @@ depends_on:
   - artifact: "README.md"
     artifact_version: "0.3.0"
     required_status: draft
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.6.0"
     required_status: draft
   - artifact: "specs/sg-build-autonomous-master-skill.md"
@@ -163,7 +163,7 @@ skills/references/editorial-content-corpus.md
 skills/references/subagent-roles/editorial-reader.md
 ```
 
-Then connect the layer to the existing content and documentation workflows by updating `CONTENT_MAP.md`, `templates/artifacts/content_map.md`, `skills/sg-docs/SKILL.md`, `skills/sg-repurpose/SKILL.md`, `skills/sg-audit-copy/SKILL.md`, `skills/sg-redact/SKILL.md`, `skills/sg-enrich/SKILL.md`, `README.md`, `shipflow-spec-driven-workflow.md`, and `site/src/pages/docs.astro`.
+Then connect the layer to the existing content and documentation workflows by updating `CONTENT_MAP.md`, `templates/artifacts/content_map.md`, `skills/sg-docs/SKILL.md`, `skills/sg-repurpose/SKILL.md`, `skills/sg-audit-copy/SKILL.md`, `skills/sg-redact/SKILL.md`, `skills/sg-enrich/SKILL.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `site/src/pages/docs.astro`.
 
 This chantier does not create a blog implementation. It defines how a future blog/article surface must be declared before agents write blog content, because the current repo has no dedicated blog directory or blog route.
 
@@ -225,7 +225,7 @@ Local docs and contracts to inspect before implementation:
 - `BRANDING.md`
 - `GTM.md`
 - `README.md`
-- `shipflow-spec-driven-workflow.md`
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - `GUIDELINES.md`
 - `specs/sg-build-autonomous-master-skill.md`
 - `specs/shipflow-technical-documentation-layer-for-ai-agents.md`
@@ -447,11 +447,11 @@ Anti-duplication rules:
   - Notes : Runtime content may be edited only within schema-compatible fields.
 
 - [x] Task 14: Update README, workflow docs, and public docs page.
-  - File : `README.md`, `shipflow-spec-driven-workflow.md`, `site/src/pages/docs.astro`
+  - File : `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `site/src/pages/docs.astro`
   - Action : Add concise references to editorial coherence, content governance, public claim safety, and Astro runtime-content schema boundaries.
   - User story link : Makes the editorial layer discoverable to operators and public readers without exposing internal machinery.
   - Depends on : Tasks 10 through 13.
-  - Validate with : `rg -n "editorial coherence|content governance|public content|claims|CONTENT_MAP|docs/editorial|Astro content" README.md shipflow-spec-driven-workflow.md site/src/pages/docs.astro`
+  - Validate with : `rg -n "editorial coherence|content governance|public content|claims|CONTENT_MAP|docs/editorial|Astro content" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md site/src/pages/docs.astro`
   - Notes : Keep public wording short; do not copy the internal gate.
 
 - [x] Task 15: Final validation and integration.

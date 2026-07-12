@@ -28,7 +28,7 @@ linked_systems:
   - "skills/references/chantier-tracking.md"
   - "docs/technical/skill-runtime-and-lifecycle.md"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "site/src/content/skills/sg-bug.md"
   - "skills/REFRESH_LOG.md"
 depends_on:
@@ -133,7 +133,7 @@ sg-bug -> sg-test -> bug dossier -> sg-fix -> sg-test --retest -> sg-verify -> s
 - `tools/shipflow_sync_skills.sh --repair --skill sg-bug`
 - `tools/shipflow_sync_skills.sh --check --skill sg-bug`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
-- `python3 tools/shipflow_metadata_lint.py specs/sg-bug-professional-bug-loop-orchestrator.md README.md shipflow-spec-driven-workflow.md docs/technical skills/references/chantier-tracking.md`
+- `python3 tools/shipflow_metadata_lint.py specs/sg-bug-professional-bug-loop-orchestrator.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical skills/references/chantier-tracking.md`
 - `pnpm --dir shipflow-site build`
 - Focused `rg` checks for `sg-bug`, bug routing, and stale duplicate ownership wording.
 

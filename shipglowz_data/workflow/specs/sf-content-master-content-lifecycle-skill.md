@@ -35,7 +35,7 @@ linked_systems:
   - docs/skill-launch-cheatsheet.md
   - docs/technical/skill-runtime-and-lifecycle.md
   - README.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - site/src/content/skills/sg-content.md
   - site/src/pages/skill-modes.astro
 depends_on:
@@ -48,7 +48,7 @@ depends_on:
   - artifact: "skills/references/editorial-content-corpus.md"
     artifact_version: "1.1.0"
     required_status: active
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.14.0"
     required_status: draft
   - artifact: "docs/technical/skill-runtime-and-lifecycle.md"
@@ -195,7 +195,7 @@ Required updates:
 - `skills/sg-content/SKILL.md`: new master skill contract.
 - `site/src/content/skills/sg-content.md`: public skill page.
 - `skills/sg-help/SKILL.md`: skill list, lifecycle matrix, examples, and routing hints.
-- `README.md` and `shipflow-spec-driven-workflow.md`: official workflow doctrine and launch cheatsheet.
+- `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: official workflow doctrine and launch cheatsheet.
 - `docs/skill-launch-cheatsheet.md` and `site/src/pages/skill-modes.astro`: public launch reference.
 - `CONTENT_MAP.md`: add the content lifecycle entrypoint and routing rule.
 - `docs/technical/skill-runtime-and-lifecycle.md`: add the master content lifecycle to skill runtime docs.
@@ -259,11 +259,11 @@ No update required:
   - Notes: Keep public wording short.
 
 - [x] Task 6: Update workflow and content doctrine.
-  - File: `README.md`, `shipflow-spec-driven-workflow.md`, `CONTENT_MAP.md`
+  - File: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `CONTENT_MAP.md`
   - Action: Add the content lifecycle entrypoint and routing rule without duplicating skill internals.
   - User story link: Keeps the official workflow coherent.
   - Depends on: Task 5.
-  - Validate with: `rg -n "sg-content|content lifecycle|content management" README.md shipflow-spec-driven-workflow.md CONTENT_MAP.md`
+  - Validate with: `rg -n "sg-content|content lifecycle|content management" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md CONTENT_MAP.md`
   - Notes: Shared files; edit sequentially.
 
 - [x] Task 7: Update technical runtime docs.
@@ -300,15 +300,15 @@ Structural checks:
 - `test -f skills/sg-content/SKILL.md`
 - `test -f site/src/content/skills/sg-content.md`
 - `rg -n "Trace category|Process role|CONTENT_MAP|editorial-content-corpus|surface missing: blog|Editorial Update Plan|Claim Impact Plan" skills/sg-content/SKILL.md`
-- `rg -n "sg-content" README.md shipflow-spec-driven-workflow.md docs/skill-launch-cheatsheet.md skills/sg-help/SKILL.md docs/technical/skill-runtime-and-lifecycle.md CONTENT_MAP.md site/src/pages/skill-modes.astro site/src/content/skills/sg-content.md`
+- `rg -n "sg-content" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/skill-launch-cheatsheet.md skills/sg-help/SKILL.md docs/technical/skill-runtime-and-lifecycle.md CONTENT_MAP.md site/src/pages/skill-modes.astro site/src/content/skills/sg-content.md`
 
 Validation commands:
 
 - `${SHIPGLOWZ_ROOT:-$HOME/shipglowz}/tools/shipflow_sync_skills.sh --check --skill sg-content`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
-- `python3 tools/shipflow_metadata_lint.py specs/sg-content-master-content-lifecycle-skill.md README.md shipflow-spec-driven-workflow.md CONTENT_MAP.md docs/technical docs/editorial docs/skill-launch-cheatsheet.md`
+- `python3 tools/shipflow_metadata_lint.py specs/sg-content-master-content-lifecycle-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md CONTENT_MAP.md docs/technical docs/editorial docs/skill-launch-cheatsheet.md`
 - `pnpm --dir shipflow-site build`
-- `rg -n "secret|token|credential|private key|BEGIN .*KEY" skills/sg-content/SKILL.md site/src/content/skills/sg-content.md README.md shipflow-spec-driven-workflow.md CONTENT_MAP.md docs/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md site/src/pages/skill-modes.astro`
+- `rg -n "secret|token|credential|private key|BEGIN .*KEY" skills/sg-content/SKILL.md site/src/content/skills/sg-content.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md CONTENT_MAP.md docs/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md site/src/pages/skill-modes.astro`
 
 Verification:
 

@@ -53,8 +53,10 @@ Record the ownership decisions, consumer evidence, preservation status, and rema
 | --- | --- | --- | --- | --- | --- |
 | `AGENT.md` | entrypoint | README, technical maps, agent workflows | root entrypoint | `keep-root` | Canonical agent entrypoint; no mutation. |
 | `AGENTS.md` | compatibility | agent tooling convention | `AGENT.md` | `compat-facade` | Valid symlink to `AGENT.md`; preserve as compatibility alias. |
-| `shipflow-metadata-migration-guide.md` | compatibility | legacy ShipFlow path consumers | `shipglowz-metadata-migration-guide.md` | `compat-facade` | Pre-existing symlink; preserve as compatibility alias. |
-| `shipflow-spec-driven-workflow.md` | compatibility | legacy ShipFlow path consumers | `shipglowz-spec-driven-workflow.md` | `compat-facade` | Pre-existing symlink; preserve as compatibility alias. |
+| `shipglowz_data/technical/metadata-migration-guide.md` | canonical doctrine + compatibility | broad tool/spec references | `shipglowz_data/technical/metadata-migration-guide.md` | `compat-facade` | Source moved to the technical corpus; root path is a symlink. |
+| `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | canonical doctrine + compatibility | broad skill/spec references | `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | `compat-facade` | Source moved to the workflow playbook corpus; root path is a symlink. |
+| `shipglowz_data/technical/metadata-migration-guide.md` | compatibility | legacy ShipFlow path consumers | `shipglowz_data/technical/metadata-migration-guide.md` | `compat-facade` | Compatibility symlink retained through the canonical ShipGlowz alias. |
+| `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | compatibility | legacy ShipFlow path consumers | `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | `compat-facade` | Compatibility symlink retained through the canonical ShipGlowz alias. |
 | `CLAUDE.md` | bootstrap/instructions | agent runtime | root instructions | `keep-root` | Tool-native entrypoint; no migration. |
 | `README.md` | public/operator surface | broad repository links | root README | `keep-root` | Public/operator overview; existing worktree modification treated as pre-existing. |
 | `CHANGELOG.md` | public history | release readers | root changelog | `keep-root` | Public project changelog; no migration. |
@@ -69,14 +71,14 @@ Record the ownership decisions, consumer evidence, preservation status, and rema
 | `TEST_LOG.md` | test evidence index | test workflow references | `shipglowz_data/workflow/test-checklists/` or project test surface | `collision-needs-review` | Placement depends on the current test evidence contract; no reduction without a dedicated review. |
 | `concurrent.md` | workflow coordination | previous audit and workflow references | `shipglowz_data/workflow/concurrent.md` | `archived` | Compatibility facade moved to `archive/root-documentation/`; canonical workflow note remains active. |
 | `conversation-shipflow-questions-contextuelles-des-skills.md` | historical conversation | archive/history readers | `archive/` or conversation archive policy | `collision-needs-review` | Historical content has no proven canonical destination in this phase. |
-| `shipglowz-metadata-migration-guide.md` | governance doctrine | README, AGENT, skills, tools | root migration guide | `keep-root` | Explicitly allowed governance doctrine and active migration entrypoint. |
-| `shipglowz-spec-driven-workflow.md` | governance doctrine | README, skills, specs | root workflow doctrine | `keep-root` | Explicitly linked workflow doctrine; no migration. |
+| `shipglowz_data/technical/metadata-migration-guide.md` | governance doctrine | README, AGENT, skills, tools | root migration guide | `keep-root` | Explicitly allowed governance doctrine and active migration entrypoint. |
+| `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | governance doctrine | README, skills, specs | root workflow doctrine | `keep-root` | Explicitly linked workflow doctrine; no migration. |
 
 ## Required Scenario Results
 
 ### DOC-ROOT-01
 
-The current root inventory is 11 Markdown paths: 8 regular files and 3 compatibility symlinks. The six legacy governance documents, two install aliases, and scratch/history files are now outside the root. No unclassified root Markdown path remains in this audit.
+The current root inventory is 11 Markdown paths: 6 regular files and 5 compatibility symlinks. The six legacy governance documents, two install aliases, and scratch/history files are now outside the root; the two canonical doctrine sources also live under `shipglowz_data/`. No unclassified root Markdown path remains in this audit.
 
 ### DOC-ROOT-02
 

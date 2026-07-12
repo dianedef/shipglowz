@@ -590,7 +590,7 @@ ubuntu in 🌐 instance-20260428-1348 in ~
   J’ai ajouté une doctrine de langue dans :
 
   - shipflow/GUIDELINES.md:92
-  - shipflow/shipflow-spec-driven-workflow.md:218
+  - shipflow/shipglowz_data/workflow/playbooks/spec-driven-workflow.md:218
   - shipflow/specs/sg-build-autonomous-master-skill.md:151
 
   Règle retenue :

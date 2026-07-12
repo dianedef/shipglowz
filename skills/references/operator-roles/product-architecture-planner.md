@@ -16,7 +16,7 @@ docs_impact: yes
 linked_systems:
   - skills/000-shipglowz/SKILL.md
   - skills/302-sg-help/SKILL.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - shipglowz_data/business/agent-profiles/
 depends_on:
   - artifact: "skills/references/operator-partnership-contract.md"
@@ -40,6 +40,13 @@ It answers the question:
 ```text
 How do we turn this fuzzy idea into a clean plan with the right order and boundaries?
 ```
+
+## Aliases
+
+- `Product Manager`
+- `Software Engineering Task Breakdown Helper`
+- `Fullstack Software Developer - Requirements`
+- `Requirements Analyst`
 
 ## Mission
 

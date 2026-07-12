@@ -101,7 +101,7 @@ Use these when the issue is mostly about documentation truth, ownership, and sys
 | `#drift` | divergence between code, docs, and public surfaces to dominate the decision | `shipglowz_data/technical/code-docs-map.md` |
 | `#owner` | artifact or decision ownership to dominate the decision | `skills/references/canonical-paths.md` |
 | `#freshness` | document or claim recency to dominate the decision | `shipglowz_data/editorial/content-map.md` |
-| `#traceability` | trace links between decision, source, implementation, and proof | `shipglowz-spec-driven-workflow.md` |
+| `#traceability` | trace links between decision, source, implementation, and proof | `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` |
 | `#entrypoint` | the fastest correct entrypoint doc or workflow to dominate the decision | `AGENT.md` |
 | `#contract` | non-optional rules and invariants to dominate the decision | `skills/references/decision-quality-contract.md` |
 | `#public-docs` | public-facing docs and external readability to dominate the decision | `shipglowz_data/editorial/content-map.md` |

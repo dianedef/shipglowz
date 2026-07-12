@@ -205,7 +205,7 @@ Run all required checks for changed surfaces:
 
 ```bash
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
-python3 tools/shipglowz_metadata_lint.py specs/<spec>.md README.md shipglowz-spec-driven-workflow.md shipglowz_data/editorial/content-map.md shipglowz_data/technical shipglowz_data/editorial
+python3 tools/shipglowz_metadata_lint.py specs/<spec>.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/editorial/content-map.md shipglowz_data/technical shipglowz_data/editorial
 pnpm --dir shipflow-site build
 ```
 
@@ -221,7 +221,7 @@ Verify current-user runtime links before verification:
 
 - Update `skills/302-sg-help/SKILL.md` when discoverability or lifecycle routing changed.
 - Update explicit links to `question-contract.md` and `operator-partnership-contract.md` in affected owner skills when collaboration doctrine changed.
-- Update `README.md` and `shipglowz-spec-driven-workflow.md` when official workflow doctrine changed.
+- Update `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` when official workflow doctrine changed.
 - Update `shipglowz_data/technical/skill-runtime-and-lifecycle.md` and `shipglowz_data/technical/code-docs-map.md` (fallback legacy `docs/technical/*`) when mapped technical behavior changed.
 - Update `site/src/content/skills/<slug>.md` when the skill is public.
 

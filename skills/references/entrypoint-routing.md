@@ -30,7 +30,7 @@ linked_systems:
   - skills/references/question-contract.md
   - docs/skill-launch-cheatsheet.md
   - README.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 depends_on:
   - artifact: "skills/references/master-delegation-semantics.md"
     artifact_version: "1.2.0"

@@ -35,7 +35,7 @@ linked_systems:
   - "skills/sg-help/SKILL.md"
   - "skills/sg-help/references/help-catalog.md"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "shipglowz_data/technical/skill-runtime-and-lifecycle.md"
   - "skills/REFRESH_LOG.md"
 depends_on:

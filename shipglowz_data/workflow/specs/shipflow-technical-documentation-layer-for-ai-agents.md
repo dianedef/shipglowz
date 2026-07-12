@@ -25,8 +25,8 @@ linked_systems:
   - ARCHITECTURE.md
   - GUIDELINES.md
   - README.md
-  - shipflow-spec-driven-workflow.md
-  - shipflow-metadata-migration-guide.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
+  - shipglowz_data/technical/metadata-migration-guide.md
   - docs/technical/
   - skills/sg-docs/SKILL.md
   - skills/references/
@@ -53,10 +53,10 @@ depends_on:
   - artifact: "README.md"
     artifact_version: "0.2.0"
     required_status: draft
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.5.0"
     required_status: draft
-  - artifact: "shipflow-metadata-migration-guide.md"
+  - artifact: "shipglowz_data/technical/metadata-migration-guide.md"
     artifact_version: "0.3.0"
     required_status: draft
   - artifact: "CONTENT_MAP.md"
@@ -75,7 +75,7 @@ supersedes: []
 evidence:
   - "Exploration subagent Euclid, 2026-05-01: ShipGlowz has strong agent/workflow documentation but lacks a canonical docs/technical layer and code-docs map."
   - "Spec drafting subagent Ohm, 2026-05-01: proposed a full implementation plan with sequential foundations, disjoint technical-doc waves, and final sequential integration."
-  - "Local inventory: AGENT.md, CLAUDE.md, CONTEXT.md, CONTEXT-FUNCTION-TREE.md, ARCHITECTURE.md, GUIDELINES.md, README.md, shipflow-spec-driven-workflow.md, shipflow-metadata-migration-guide.md, skills/references, templates/artifacts, tools/codebase-mcp, and local/README.md."
+  - "Local inventory: AGENT.md, CLAUDE.md, CONTEXT.md, CONTEXT-FUNCTION-TREE.md, ARCHITECTURE.md, GUIDELINES.md, README.md, shipglowz_data/workflow/playbooks/spec-driven-workflow.md, shipglowz_data/technical/metadata-migration-guide.md, skills/references, templates/artifacts, tools/codebase-mcp, and local/README.md."
   - "Fresh-docs checked: OpenAI Codex AGENTS.md guide, Anthropic Claude Code memory and best practices, GitHub Copilot custom instructions, agents.md, llms.txt, and ADR references."
   - "User decisions, 2026-05-01: AGENT.md remains canonical; AGENTS.md is symlink compatibility only; technical_module_context is linted; docs/technical remains internal-only; Technical Reader plans after every wave plus end verification; no stale-doc shipping exception; no per-file last_verified_against in v1."
   - "User decision 2026-05-01: rename the generic technical reader terminology to Technical Reader so it can coexist cleanly with the separate Editorial Reader role, without removing any technical documentation responsibilities."
@@ -114,7 +114,7 @@ ShipGlowz must provide a code-proximate technical documentation layer: `docs/tec
 
 - If a code change touches a mapped code area and no impacted doc appears in the `Documentation Update Plan`, the gate reports a docs-planning failure.
 - If a technical doc references a missing file, missing command, or stale invariant, `sg-docs audit` or the implementation review reports it as stale.
-- If an agent attempts parallel edits on shared files such as `docs/technical/code-docs-map.md`, `AGENT.md`, `CONTEXT.md`, `GUIDELINES.md`, or `shipflow-spec-driven-workflow.md`, the work is blocked or rerouted to sequential integration.
+- If an agent attempts parallel edits on shared files such as `docs/technical/code-docs-map.md`, `AGENT.md`, `CONTEXT.md`, `GUIDELINES.md`, or `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, the work is blocked or rerouted to sequential integration.
 - If the Technical Reader edits docs directly outside an explicit assignment, the workflow treats that as role misuse.
 - If a technical doc includes secrets, tokens, private credentials, sensitive logs, or contradictory agent instructions, verification fails and the content must be removed.
 - If `technical_module_context` is introduced without metadata-linter compatibility, the implementation remains incomplete.
@@ -129,8 +129,8 @@ ShipGlowz already has strong orientation and workflow documentation:
 - `CONTEXT-FUNCTION-TREE.md` helps navigate major shell functions.
 - `ARCHITECTURE.md` describes system structure, boundaries, and invariants.
 - `GUIDELINES.md` describes technical patterns and anti-patterns.
-- `shipflow-spec-driven-workflow.md` describes the spec-first doctrine.
-- `shipflow-metadata-migration-guide.md` documents artifact metadata and frontmatter.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` describes the spec-first doctrine.
+- `shipglowz_data/technical/metadata-migration-guide.md` documents artifact metadata and frontmatter.
 - `skills/references/*.md` contains specialized operational references.
 - `templates/artifacts/*.md` contains artifact templates.
 - `tools/codebase-mcp/README.md`, `tools/codebase-mcp/TIPS.md`, and `local/README.md` document specific subsystems.
@@ -162,7 +162,7 @@ templates/artifacts/technical_module_context.md
 skills/references/technical-docs-corpus.md
 ```
 
-Then connect the layer to the existing workflow by updating `skills/sg-docs/SKILL.md`, `AGENT.md`, `CONTEXT.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `GUIDELINES.md`, and `tools/shipflow_metadata_lint.py`.
+Then connect the layer to the existing workflow by updating `skills/sg-docs/SKILL.md`, `AGENT.md`, `CONTEXT.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `GUIDELINES.md`, and `tools/shipflow_metadata_lint.py`.
 
 `AGENT.md` remains the canonical agent entrypoint. `sg-docs init` must create and maintain `AGENT.md`. `AGENTS.md` is allowed only as compatibility with agent tools that expect that filename, and it must be a symlink to `AGENT.md`, not a second maintained source.
 
@@ -239,8 +239,8 @@ Local docs to inspect before implementation:
 - `ARCHITECTURE.md`
 - `GUIDELINES.md`
 - `README.md`
-- `shipflow-spec-driven-workflow.md`
-- `shipflow-metadata-migration-guide.md`
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
+- `shipglowz_data/technical/metadata-migration-guide.md`
 - `skills/references/canonical-paths.md`
 - `skills/references/chantier-tracking.md`
 - `skills/references/documentation-freshness-gate.md`
@@ -324,7 +324,7 @@ Use this durable split:
 - `CONTEXT.md`: operational navigation map.
 - `CONTEXT-FUNCTION-TREE.md`: function map for large scripts.
 - `GUIDELINES.md`: general technical doctrine.
-- `shipflow-spec-driven-workflow.md`: spec-first workflow.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: spec-first workflow.
 - `specs/*.md`: chantier specs.
 - `docs/technical/*.md`: durable subsystem docs.
 - `docs/technical/code-docs-map.md`: code paths to docs, validations, and triggers.
@@ -390,7 +390,7 @@ Freshness rules:
   - Fichier : `templates/artifacts/technical_module_context.md`
   - Action : Add the standard template for subsystem technical docs.
   - User story link : Standardizes code-proximate docs for reliable agent consumption.
-  - Depends on : Task 1 plus review of `templates/artifacts/*.md` and `shipflow-metadata-migration-guide.md`.
+  - Depends on : Task 1 plus review of `templates/artifacts/*.md` and `shipglowz_data/technical/metadata-migration-guide.md`.
   - Validate with : `rg -n "Purpose|Owned files|Entrypoints|Invariants|Validation|Maintenance Rule|Technical Reader checklist" templates/artifacts/technical_module_context.md`
   - Notes : This is an official linted artifact type and must include required ShipGlowz frontmatter fields.
 
@@ -422,7 +422,7 @@ Freshness rules:
   - Fichier : `docs/technical/skill-runtime-and-lifecycle.md`
   - Action : Document `SKILL.md` files, references, templates, lifecycle skills, role boundaries, and documentation gates.
   - User story link : Allows agents to modify skills without breaking ShipGlowz doctrine.
-  - Depends on : Tasks 3 and 4 plus reading `skills/*/SKILL.md`, `skills/references/`, and `shipflow-spec-driven-workflow.md`.
+  - Depends on : Tasks 3 and 4 plus reading `skills/*/SKILL.md`, `skills/references/`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
   - Validate with : `rg -n "SKILL.md|sg-spec|sg-start|sg-ready|sg-verify|references|lifecycle|Maintenance Rule" docs/technical/skill-runtime-and-lifecycle.md`
   - Notes : Must include Technical Reader diagnoses, executor/integrator applies.
 
@@ -430,7 +430,7 @@ Freshness rules:
   - Fichier : `docs/technical/artifact-metadata-and-linter.md`
   - Action : Document artifact frontmatter, templates, metadata schema, and `tools/shipflow_metadata_lint.py`.
   - User story link : Lets agents create or modify artifacts without breaking metadata validation.
-  - Depends on : Task 3 and reading `shipflow-metadata-migration-guide.md`, `templates/artifacts/`, and `tools/shipflow_metadata_lint.py`.
+  - Depends on : Task 3 and reading `shipglowz_data/technical/metadata-migration-guide.md`, `templates/artifacts/`, and `tools/shipflow_metadata_lint.py`.
   - Validate with : `rg -n "metadata|frontmatter|artifact|template|shipflow_metadata_lint|Validation|Maintenance Rule" docs/technical/artifact-metadata-and-linter.md`
   - Notes : `technical_module_context` is a linted artifact type; document the linter contract and required fields.
 
@@ -507,11 +507,11 @@ Freshness rules:
   - Notes : Keep the section short.
 
 - [x] Task 17: Update the spec-driven workflow.
-  - Fichier : `shipflow-spec-driven-workflow.md`
+  - Fichier : `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action : Add the role of technical docs in the spec-first cycle, Technical Reader handoff, executor/integrator updates, and gates.
   - User story link : Formalizes when and how code-proximate docs are updated.
   - Depends on : Tasks 4 and 13.
-  - Validate with : `rg -n "Documentation Update Gate|Documentation Update Plan|docs/technical|Technical Reader|executor|integrator" shipflow-spec-driven-workflow.md`
+  - Validate with : `rg -n "Documentation Update Gate|Documentation Update Plan|docs/technical|Technical Reader|executor|integrator" shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes : Preserve the user decision that Technical Reader diagnoses and executor/integrator applies.
 
 - [x] Task 18: Add maintenance rules to guidelines.
@@ -531,11 +531,11 @@ Freshness rules:
   - Notes : Do not treat this as optional unless the linter already supports the artifact type.
 
 - [x] Task 20: Finalize cross-links and integration.
-  - Fichier : `docs/technical/code-docs-map.md`, `AGENT.md`, `CONTEXT.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `GUIDELINES.md`
+  - Fichier : `docs/technical/code-docs-map.md`, `AGENT.md`, `CONTEXT.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `GUIDELINES.md`
   - Action : Resolve duplicate content, link gaps, stale references, and shared-map accuracy.
   - User story link : Ensures a fresh agent can navigate the full layer without broken links or contradictions.
   - Depends on : All previous tasks.
-  - Validate with : `rg -n "TODO|TBD|PLACEHOLDER" docs/technical templates/artifacts skills/references AGENT.md CONTEXT.md README.md shipflow-spec-driven-workflow.md GUIDELINES.md`
+  - Validate with : `rg -n "TODO|TBD|PLACEHOLDER" docs/technical templates/artifacts skills/references AGENT.md CONTEXT.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md GUIDELINES.md`
   - Notes : Final sequential integration only.
 
 ## Acceptance Criteria
@@ -554,7 +554,7 @@ Freshness rules:
 - Code changes cannot ship unless mapped technical documentation updates accompany the change.
 - Shared files are sequential by default.
 - Parallel work is limited to spec-defined disjoint files.
-- `AGENT.md`, `CONTEXT.md`, `README.md`, `shipflow-spec-driven-workflow.md`, and `GUIDELINES.md` point to the layer without becoming mega-docs.
+- `AGENT.md`, `CONTEXT.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `GUIDELINES.md` point to the layer without becoming mega-docs.
 - `AGENT.md` remains canonical, and `AGENTS.md` is absent or a symlink to `AGENT.md`.
 - `docs/technical/` remains internal-only in v1.
 - Technical docs do not include per-file `last_verified_against`; freshness appears in scheduled audit traces and `sg-docs audit` results with affected doc, evidence, owner, and follow-up.
@@ -583,7 +583,7 @@ Coherence checks:
 
 Skill/workflow checks:
 
-- `rg -n "technical docs|docs/technical|code-docs-map|Documentation Update Plan" skills/sg-docs/SKILL.md shipflow-spec-driven-workflow.md`
+- `rg -n "technical docs|docs/technical|code-docs-map|Documentation Update Plan" skills/sg-docs/SKILL.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - Confirm the Technical Reader role is diagnostic and not the main docs executor.
 - Confirm the spec-gated parallelism rule is present.
 - Confirm the workflow requires a `Documentation Update Plan` after every code-changing wave and during end verification.
@@ -600,7 +600,7 @@ Security checks:
 Technical Reader simulation:
 
 - Given a fictive diff on `lib.sh`, the Technical Reader should identify `docs/technical/runtime-cli.md` and `docs/technical/code-docs-map.md`.
-- Given a fictive diff on `skills/sg-docs/SKILL.md`, the Technical Reader should identify `docs/technical/skill-runtime-and-lifecycle.md`, `skills/references/technical-docs-corpus.md`, and possibly `shipflow-spec-driven-workflow.md`.
+- Given a fictive diff on `skills/sg-docs/SKILL.md`, the Technical Reader should identify `docs/technical/skill-runtime-and-lifecycle.md`, `skills/references/technical-docs-corpus.md`, and possibly `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
 - Given a fictive diff on `local/`, the Technical Reader should identify `docs/technical/local-tunnels-and-mcp-login.md`.
 - Given a fictive diff on `tools/shipflow_metadata_lint.py`, the Technical Reader should identify `docs/technical/artifact-metadata-and-linter.md`.
 
@@ -651,7 +651,7 @@ Safe waves, only after `/sg-ready`:
 - Wave 0, sequential foundation: `docs/technical/README.md`, `docs/technical/code-docs-map.md`, `templates/artifacts/technical_module_context.md`, `skills/references/technical-docs-corpus.md`.
 - Wave 1, parallel only if each executor owns one file: `docs/technical/runtime-cli.md`, `docs/technical/local-tunnels-and-mcp-login.md`, `docs/technical/installer-and-user-scope.md`.
 - Wave 2, parallel only if each executor owns one file: `docs/technical/skill-runtime-and-lifecycle.md`, `docs/technical/artifact-metadata-and-linter.md`, `docs/technical/codebase-mcp.md`, `docs/technical/public-site-and-content-runtime.md`, `docs/technical/decisions.md`.
-- Wave 3, sequential integration: `skills/sg-docs/SKILL.md`, `AGENT.md`, `CONTEXT.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `GUIDELINES.md`, and `tools/shipflow_metadata_lint.py`.
+- Wave 3, sequential integration: `skills/sg-docs/SKILL.md`, `AGENT.md`, `CONTEXT.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `GUIDELINES.md`, and `tools/shipflow_metadata_lint.py`.
 - Wave 4, sequential final gate: cross-links, final `code-docs-map.md`, metadata lint, docs audit, and lifecycle verification.
 
 Execution decisions:
@@ -666,15 +666,15 @@ Execution decisions:
 
 Read first before editing:
 
-- `AGENT.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `GUIDELINES.md`, and `shipflow-spec-driven-workflow.md`.
-- `shipflow-metadata-migration-guide.md`, `templates/artifacts/*.md`, and `tools/shipflow_metadata_lint.py` before creating `technical_module_context`.
+- `AGENT.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `GUIDELINES.md`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
+- `shipglowz_data/technical/metadata-migration-guide.md`, `templates/artifacts/*.md`, and `tools/shipflow_metadata_lint.py` before creating `technical_module_context`.
 - The owned code area before writing each subsystem doc: `shipflow.sh`, `lib.sh`, `config.sh`, `install.sh`, `local/`, `skills/`, `tools/codebase-mcp/`, or `site/`.
 
 Implementation constraints:
 
 - No new package is expected for v1; prefer Markdown, existing templates, `rg`, shell checks, and the existing metadata linter.
 - Avoid a generated mega-doc, duplicated architecture text, hidden public-site routing, and a second maintained agent entrypoint.
-- Keep shared files sequential: `docs/technical/code-docs-map.md`, `AGENT.md`, `CONTEXT.md`, `GUIDELINES.md`, `shipflow-spec-driven-workflow.md`, and `tools/shipflow_metadata_lint.py`.
+- Keep shared files sequential: `docs/technical/code-docs-map.md`, `AGENT.md`, `CONTEXT.md`, `GUIDELINES.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `tools/shipflow_metadata_lint.py`.
 
 Security execution notes:
 

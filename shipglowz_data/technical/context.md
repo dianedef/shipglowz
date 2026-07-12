@@ -13,7 +13,7 @@ confidence: "high"
 risk_level: "medium"
 security_impact: "none"
 docs_impact: "yes"
-linked_systems: ["cli/shipglowz.sh", "cli/lib.sh", "cli/config.sh", "cli/install.sh", "local/local.sh", "skills/", "skills/references/app-blueprints.md", "skills/app-blueprints/", "shipglowz-spec-driven-workflow.md", "shipglowz_data/technical/context-function-tree.md", "shipglowz_data/editorial/content-map.md", "shipglowz_data/technical/", "shipglowz_data/business/project-competitors-and-inspirations.md", "shipglowz_data/business/affiliate-programs.md"]
+linked_systems: ["cli/shipglowz.sh", "cli/lib.sh", "cli/config.sh", "cli/install.sh", "local/local.sh", "skills/", "skills/references/app-blueprints.md", "skills/app-blueprints/", "shipglowz_data/workflow/playbooks/spec-driven-workflow.md", "shipglowz_data/technical/context-function-tree.md", "shipglowz_data/editorial/content-map.md", "shipglowz_data/technical/", "shipglowz_data/business/project-competitors-and-inspirations.md", "shipglowz_data/business/affiliate-programs.md"]
 depends_on: []
 supersedes: []
 evidence: ["README.md", "CLAUDE.md", "shipglowz_data/editorial/content-map.md", function extraction from core shell scripts, "shipglowz_data/technical/* as code-proximate subsystem documentation", "Business registries added for project competitors/inspirations and affiliate programs."]
@@ -55,8 +55,8 @@ ShipGlowz combine deux couches :
 - `tui/`: cockpit terminal optionnel en lecture seule pour projets, taches, audits, specs et diagnostics.
 - `templates/artifacts/`: templates d'artefacts versionnes.
 - `tools/shipglowz_metadata_lint.py`: linter des frontmatters ShipGlowz.
-- `shipglowz-spec-driven-workflow.md`: doctrine de workflow.
-- `shipglowz-metadata-migration-guide.md`: doctrine de migration metadata.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: doctrine de workflow.
+- `shipglowz_data/technical/metadata-migration-guide.md`: doctrine de migration metadata.
 - `shipglowz_data/editorial/content-map.md`: carte des surfaces de contenu, pages piliers, cocons semantiques et destinations de repurposing.
 - `shipglowz_data/technical/`: couche interne de documentation technique proche du code.
 - wrappers shell de racine (`shipglowz.sh`, `lib.sh`, `config.sh`, `install.sh`, `shipflow_devserver_*`): surfaces de compatibilite depreciees; la source canonique runtime reste `cli/`.
@@ -196,8 +196,8 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 - Changer la publication web : `cli/lib.sh` autour de `action_publish`.
 - Changer les tunnels locaux : `local/local.sh` et `local/dev-tunnel.sh`.
 - Changer le mode Flutter Web interactif : `cli/lib.sh` autour de `action_flutter_web`, puis `local/remote-helpers.sh` si le tunnel doit découvrir de nouveaux ports.
-- Changer le workflow d'agent : `skills/` + `shipglowz-spec-driven-workflow.md`.
-- Changer les regles metadata : `skills/300-sg-docs/SKILL.md`, `tools/shipglowz_metadata_lint.py`, `shipglowz-metadata-migration-guide.md`, `templates/artifacts/`.
+- Changer le workflow d'agent : `skills/` + `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
+- Changer les regles metadata : `skills/300-sg-docs/SKILL.md`, `tools/shipglowz_metadata_lint.py`, `shipglowz_data/technical/metadata-migration-guide.md`, `templates/artifacts/`.
 - Changer la documentation technique proche du code : `shipglowz_data/technical/code-docs-map.md` puis le doc primaire dans `shipglowz_data/technical/`.
 - Changer l'UI shell (sélecteurs, menus, headers) : `cli/lib.sh` autour des primitives `ui_choose`, `ui_filter_choose`, `ui_text_center`, `ui_list_filter`, `ui_traffic_color`.
 - Changer la TUI (dashboard, filtres, tri, statuts) : `tui/src/statusMaps.ts` (mappings partagés), `tui/src/sources/` (lecture/parsing), `tui/src/viewModels/dashboard.ts` (logique de vue), `tui/src/views/dashboardView.ts` (rendu).
@@ -211,8 +211,8 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 
 - CLI principal : `CLAUDE.md`, `shipglowz_data/technical/context-function-tree.md`, `cli/shipglowz.sh`, `cli/lib.sh`.
 - Install / bootstrap : `cli/install.sh`, `cli/config.sh`, `README.md`.
-- Skill / workflow : `README.md`, `shipglowz-spec-driven-workflow.md`, puis la skill cible.
-- Metadata docs : `shipglowz-metadata-migration-guide.md`, `skills/300-sg-docs/SKILL.md`, `tools/shipglowz_metadata_lint.py`.
+- Skill / workflow : `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, puis la skill cible.
+- Metadata docs : `shipglowz_data/technical/metadata-migration-guide.md`, `skills/300-sg-docs/SKILL.md`, `tools/shipglowz_metadata_lint.py`.
 - Docs techniques / code change : `shipglowz_data/technical/code-docs-map.md`, puis le doc primaire mappe.
 - Tunnels / acces local : `local/README.md`, `local/local.sh`, `local/dev-tunnel.sh`.
 - Produit / business / site : `shipglowz_data/business/business.md`, `shipglowz_data/business/product.md`, `shipglowz_data/branding/branding.md`, `shipglowz_data/business/gtm.md`, puis les registres `shipglowz_data/business/project-competitors-and-inspirations.md` et `shipglowz_data/business/affiliate-programs.md` si la tache touche marche, inspirations, differenciation ou monetisation partenaire.
@@ -228,8 +228,8 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 - [content-map.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/editorial/content-map.md)
 - [technical/README.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/technical/README.md)
 - [technical/code-docs-map.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/technical/code-docs-map.md)
-- [shipglowz-spec-driven-workflow.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz-spec-driven-workflow.md)
-- [shipglowz-metadata-migration-guide.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz-metadata-migration-guide.md)
+- [shipglowz_data/workflow/playbooks/spec-driven-workflow.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/workflow/playbooks/spec-driven-workflow.md)
+- [shipglowz_data/technical/metadata-migration-guide.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/technical/metadata-migration-guide.md)
 - [business/business.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/business/business.md)
 - [business/product.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/business/product.md)
 - [business/branding.md](${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/branding/branding.md)

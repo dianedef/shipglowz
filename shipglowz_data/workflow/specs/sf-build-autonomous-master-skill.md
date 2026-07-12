@@ -47,7 +47,7 @@ linked_systems:
   - docs/editorial/
   - CONTENT_MAP.md
   - GUIDELINES.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - README.md
   - TASKS.md
 depends_on:
@@ -66,7 +66,7 @@ depends_on:
   - artifact: "README.md"
     artifact_version: "0.8.0"
     required_status: "draft"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.14.0"
     required_status: "draft"
   - artifact: "skills/references/chantier-tracking.md"
@@ -107,9 +107,9 @@ evidence:
   - "sg-ready 2026-05-01: blocked on dependency metadata alignment and ShipGlowz language doctrine for internal contracts."
   - "User decision 2026-05-02: sg-build must consume project-local technical and editorial governance corpora instead of relying on conversation memory or manual per-project governance chantiers."
   - "sg-ship 2026-05-02: governance corpus integration shipped; sg-init bootstraps project corpus layers, sg-docs owns technical/editorial corpus creation and audit, and sg-build consumes those layers through gates and readers."
-  - "sg-ready 2026-05-02: revalidated and blocked on dependency metadata drift after README.md and shipflow-spec-driven-workflow.md version updates."
-  - "sg-spec 2026-05-02: refreshed sg-build dependency metadata after README.md 0.5.0 and shipflow-spec-driven-workflow.md 0.8.0 became the active artifacts."
-  - "README.md 0.7.1 and shipflow-spec-driven-workflow.md 0.12.0 keep sg-build aligned on browser evidence routing, governance corpus ownership, report modes, and business-context decision questions."
+  - "sg-ready 2026-05-02: revalidated and blocked on dependency metadata drift after README.md and shipglowz_data/workflow/playbooks/spec-driven-workflow.md version updates."
+  - "sg-spec 2026-05-02: refreshed sg-build dependency metadata after README.md 0.5.0 and shipglowz_data/workflow/playbooks/spec-driven-workflow.md 0.8.0 became the active artifacts."
+  - "README.md 0.7.1 and shipglowz_data/workflow/playbooks/spec-driven-workflow.md 0.12.0 keep sg-build aligned on browser evidence routing, governance corpus ownership, report modes, and business-context decision questions."
   - "sg-ready 2026-05-02: validated the reconciled spec after dependency metadata, governance corpus ownership, and browser evidence routing updates."
   - "sg-ready 2026-05-02: revalidated official OpenAI Codex docs freshness, behavior contract, language doctrine, adversarial risk, and security gates before sg-start."
   - "User decision 2026-05-04: sg-build Plan Mode questions must include precise context, the root problem, business stakes, a best-practice recommendation, and decision options suitable for a business owner rather than a technical operator."
@@ -191,7 +191,7 @@ Create a new lifecycle skill, `sg-build`, as the user-facing orchestrator for en
 - Define a plain-text fallback when integrated prompt tooling is unavailable.
 - Define gates that block `sg-start`, `sg-end`, or `sg-ship` when contract or proof is insufficient.
 - Document how `sg-build` interacts with `sg-end` and `sg-ship`.
-- Update `sg-help`, `shipflow-spec-driven-workflow.md`, and relevant user-facing docs.
+- Update `sg-help`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and relevant user-facing docs.
 - Add or update a local `TASKS.md` entry during implementation if the chantier is not already visible.
 
 ## Scope Out
@@ -247,8 +247,8 @@ Create a new lifecycle skill, `sg-build`, as the user-facing orchestrator for en
 - Local runtime: ShipGlowz skill system, markdown specs, git, project checks, and existing `sg-end` / `sg-ship` mechanisms.
 - Codex runtime: subagents are available in Codex CLI/app only when requested or authorized; for `sg-build`, command invocation is the explicit bounded delegation request for the current chantier. Subagents inherit parent sandbox and approval controls and may fail if fresh approval cannot be surfaced in non-interactive mode. Parallelism remains optional and spec-gated.
 - Prompt runtime: integrated question tooling such as `AskUserQuestion` may be unavailable; `sg-build` must provide a plain-text fallback.
-- Document contracts: `BUSINESS.md` 1.1.0 reviewed, `PRODUCT.md` 1.1.0 reviewed, `GUIDELINES.md` 1.3.0 reviewed, `BRANDING.md` 1.0.0 reviewed, `README.md` 0.5.0 draft, `shipflow-spec-driven-workflow.md` 0.8.0 draft, `skills/references/chantier-tracking.md` 0.1.0 draft, `skills/references/technical-docs-corpus.md` 1.1.0 active, `skills/references/editorial-content-corpus.md` 1.1.0 active, `docs/technical/code-docs-map.md` 1.0.0 reviewed, and `CONTENT_MAP.md` 0.3.0 draft.
-- Draft dependency acceptance: `README.md`, `shipflow-spec-driven-workflow.md`, `CONTENT_MAP.md`, and `skills/references/chantier-tracking.md` are still draft but are active ShipGlowz governance docs for this chantier; their exact versions are recorded and no dependency is marked stale.
+- Document contracts: `BUSINESS.md` 1.1.0 reviewed, `PRODUCT.md` 1.1.0 reviewed, `GUIDELINES.md` 1.3.0 reviewed, `BRANDING.md` 1.0.0 reviewed, `README.md` 0.5.0 draft, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` 0.8.0 draft, `skills/references/chantier-tracking.md` 0.1.0 draft, `skills/references/technical-docs-corpus.md` 1.1.0 active, `skills/references/editorial-content-corpus.md` 1.1.0 active, `docs/technical/code-docs-map.md` 1.0.0 reviewed, and `CONTENT_MAP.md` 0.3.0 draft.
+- Draft dependency acceptance: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `CONTENT_MAP.md`, and `skills/references/chantier-tracking.md` are still draft but are active ShipGlowz governance docs for this chantier; their exact versions are recorded and no dependency is marked stale.
 - Fresh external docs: fresh-docs checked on 2026-05-02 against official OpenAI documentation: Codex Subagents (`https://developers.openai.com/codex/subagents`), Codex CLI subagents (`https://developers.openai.com/codex/cli/features#subagents`), Codex approvals and sandbox controls (`https://developers.openai.com/codex/agent-approvals-security#sandbox-and-approvals`), Codex network access (`https://developers.openai.com/codex/agent-approvals-security#network-access-`), and Codex config reference (`https://developers.openai.com/codex/config-reference#configtoml`). Decision: the spec may rely on bounded Codex subagents because invoking `sg-build` is the explicit delegation request for the current chantier; the skill must keep fan-out to one write-capable subagent at a time except ready `Execution Batches`, preserve parent approvals/sandbox, and avoid unbounded external access without a separate gate.
 
 ## Invariants
@@ -283,7 +283,7 @@ Create a new lifecycle skill, `sg-build`, as the user-facing orchestrator for en
 - Chantier tracking: `sg-build` writes its own run trace when one unique spec exists and keeps lifecycle substeps visible.
 - Task tracking: `sg-end` remains responsible for final `TASKS.md` and `CHANGELOG.md` closure updates; `sg-build` calls it at the right time instead of reimplementing that logic.
 - Shipping: `sg-ship` remains responsible for commit and push; `sg-build` must pass a bounded staging scope and must not use `all-dirty` unless explicitly requested.
-- Help/docs: `sg-help` and `shipflow-spec-driven-workflow.md` present `sg-build` as the recommended end-user entrypoint while preserving atomic skills for expert use and manual recovery.
+- Help/docs: `sg-help` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` present `sg-build` as the recommended end-user entrypoint while preserving atomic skills for expert use and manual recovery.
 - README/public docs: public documentation must explain that `sg-build` asks useful questions, orchestrates gates, and is not uncontrolled autonomy.
 - Regression surface: existing code, design, docs, tests, public claims, security gates, runtime approvals, and dirty git state become explicit gates before closure or ship.
 
@@ -309,13 +309,13 @@ Create a new lifecycle skill, `sg-build`, as the user-facing orchestrator for en
 - `skills/sg-build/SKILL.md` and all role reference files are internal contracts and must be written in English. They may include labeled user-facing examples in French when useful.
 - `skills/references/chantier-tracking.md` must add `sg-build` as `Trace category: obligatoire` and `Process role: lifecycle`.
 - `skills/sg-help/SKILL.md` must add `sg-build` as the primary user-facing entrypoint and explain when to use atomic skills.
-- `shipflow-spec-driven-workflow.md` must add the recommended flow: `sg-build` for end users, atomic skills for expert control or manual recovery.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` must add the recommended flow: `sg-build` for end users, atomic skills for expert control or manual recovery.
 - `README.md` or public docs must mention that invoking `sg-build` authorizes bounded sequential delegation for the current chantier, that parallelism requires ready non-overlapping `Execution Batches`, that the skill asks useful questions for risky decisions, and that it orchestrates without drowning the user in technical detail.
 - Workflow and technical docs must not imply that using a subagent means running work in parallel. Parallelism is only simultaneous subagents from ready `Execution Batches`.
 - Internal role reference files must not be presented as user-facing commands.
 - `TASKS.md` should include implementation tracking during `sg-start` if the chantier is not already visible.
 - `CHANGELOG.md` must not be modified during spec or as a prerequisite for `sg-start`; `sg-end` aligns it after implementation and verification.
-- No known guide, FAQ, onboarding, pricing page, or screenshot outside `README.md`, `sg-help`, and `shipflow-spec-driven-workflow.md` is required for this chantier.
+- No known guide, FAQ, onboarding, pricing page, or screenshot outside `README.md`, `sg-help`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` is required for this chantier.
 
 ## Edge Cases
 
@@ -487,11 +487,11 @@ Create a new lifecycle skill, `sg-build`, as the user-facing orchestrator for en
   - Notes: Do not break existing classifications.
 
 - [ ] Task 10: Update help and workflow docs
-  - File: `skills/sg-help/SKILL.md`, `shipflow-spec-driven-workflow.md`, `README.md`
+  - File: `skills/sg-help/SKILL.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `README.md`
   - Action: Document `sg-build` as the recommended end-user entrypoint, explain that invocation authorizes bounded sequential delegation for the current chantier, explain that parallelism requires ready `Execution Batches`, and preserve atomic skills as expert/manual-recovery mode.
   - User story link: Makes the new model discoverable without exposing all internal plumbing.
   - Depends on: Tasks 1-9
-  - Validate with: `rg -n "sg-build|end-user|user-facing|delegated sequential|Execution Batches|spec-gated|subagent|sg-spec -> sg-ready|sg-end|sg-ship" skills/sg-help/SKILL.md shipflow-spec-driven-workflow.md README.md`
+  - Validate with: `rg -n "sg-build|end-user|user-facing|delegated sequential|Execution Batches|spec-gated|subagent|sg-spec -> sg-ready|sg-end|sg-ship" skills/sg-help/SKILL.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md README.md`
   - Notes: Public text must say `sg-build` asks useful questions, not that it acts without control.
 
 - [ ] Task 11: Add local task tracking without premature changelog
@@ -503,7 +503,7 @@ Create a new lifecycle skill, `sg-build`, as the user-facing orchestrator for en
   - Notes: `CHANGELOG.md` is updated only by `sg-end` after implementation and verification.
 
 - [ ] Task 12: Validate final coherence
-  - File: `specs/sg-build-autonomous-master-skill.md`, `skills/sg-build/SKILL.md`, `skills/references/subagent-roles/technical-reader.md`, `skills/references/subagent-roles/editorial-reader.md`, `skills/references/subagent-roles/sequential-executor.md`, `skills/references/subagent-roles/wave-executor.md`, `skills/references/subagent-roles/integrator.md`, `skills/sg-help/SKILL.md`, `skills/references/chantier-tracking.md`, `shipflow-spec-driven-workflow.md`, `README.md`
+  - File: `specs/sg-build-autonomous-master-skill.md`, `skills/sg-build/SKILL.md`, `skills/references/subagent-roles/technical-reader.md`, `skills/references/subagent-roles/editorial-reader.md`, `skills/references/subagent-roles/sequential-executor.md`, `skills/references/subagent-roles/wave-executor.md`, `skills/references/subagent-roles/integrator.md`, `skills/sg-help/SKILL.md`, `skills/references/chantier-tracking.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `README.md`
   - Action: Review the instructions as a fresh agent, verify gates are testable, verify language doctrine is respected, then rerun `/sg-ready sg-build Autonomous Master Skill`.
   - User story link: Proves the workflow can be implemented without chat history.
   - Depends on: Tasks 1-11
@@ -592,13 +592,13 @@ Create a new lifecycle skill, `sg-build`, as the user-facing orchestrator for en
 
 ## Execution Notes
 
-- Read first: `skills/sg-init/SKILL.md`, `skills/sg-docs/SKILL.md`, `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-browser/SKILL.md`, `skills/sg-auth-debug/SKILL.md`, `skills/sg-prod/SKILL.md`, `skills/sg-test/SKILL.md`, `skills/sg-end/SKILL.md`, `skills/sg-ship/SKILL.md`, `skills/references/chantier-tracking.md`, `skills/references/technical-docs-corpus.md`, `skills/references/editorial-content-corpus.md`, `shipflow-spec-driven-workflow.md`, `GUIDELINES.md`.
+- Read first: `skills/sg-init/SKILL.md`, `skills/sg-docs/SKILL.md`, `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-browser/SKILL.md`, `skills/sg-auth-debug/SKILL.md`, `skills/sg-prod/SKILL.md`, `skills/sg-test/SKILL.md`, `skills/sg-end/SKILL.md`, `skills/sg-ship/SKILL.md`, `skills/references/chantier-tracking.md`, `skills/references/technical-docs-corpus.md`, `skills/references/editorial-content-corpus.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `GUIDELINES.md`.
 - External docs checked for this spec on 2026-05-02: `https://developers.openai.com/codex/subagents`, `https://developers.openai.com/codex/cli/features#subagents`, `https://developers.openai.com/codex/agent-approvals-security#sandbox-and-approvals`, `https://developers.openai.com/codex/agent-approvals-security#network-access-`, `https://developers.openai.com/codex/config-reference#configtoml`.
 - Implement in this order: create `sg-build`; add question gate and language-aware fallback; add execution modes; create role files; add `Execution Batches` rules and no-opportunistic-parallelism stop condition; add spec/readiness loop; add Existing Chantier Check; add anti-regression gates; add Governance Corpus Gate; add model routing gate; add implementation/verify/browser-evidence/test orchestration; add end/ship integration; update chantier doctrine; update help/workflow/README; update `TASKS.md`; run readiness.
 - Packages to avoid: no new runtime package or SDK unless `sg-start` proves necessity and reruns the freshness gate.
 - Patterns to follow: existing skill frontmatter, canonical paths section, chantier tracking block, exact `Trace category` / `Process role` wording, standard `Chantier` final block, internal English contract language, and concise user-facing reports in the active user language.
 - Abstractions to avoid: do not build a second task registry, do not duplicate all checks from lifecycle skills, do not create a hidden state machine outside markdown skill instructions, and do not create a `reader.md` alias.
-- Commands to validate: `rg -n "sg-build" skills/sg-build/SKILL.md skills/sg-help/SKILL.md skills/references/chantier-tracking.md shipflow-spec-driven-workflow.md README.md`; `rg -n "Existing Chantier Check|Execution Modes|delegated sequential|Spec-Gated Parallelism|Execution Batches|Governance Corpus Gate|docs/technical|docs/editorial|technical-docs-corpus|editorial-content-corpus|CONTENT_MAP|Documentation Update Gate|Editorial Update Gate|pending final integration|pending final copy|invocation.*sg-build|Model Routing Gate|sg-model|Browser Evidence Routing|sg-browser|sg-auth-debug|sg-prod|sg-test|Question Gate|plain-text|sg-end|sg-ship|all-dirty|fresh-docs" skills/sg-build/SKILL.md`; `rg -n "Technical Reader Agent Contract|technical documentation corpus|technical-docs-corpus|docs/technical/code-docs-map|code-docs|Documentation Update Plan|Editorial Reader Agent Contract|editorial corpus|editorial-content-corpus|CONTENT_MAP|docs/editorial|Editorial Update Plan|Claim Impact Plan|Sequential Executor Contract|Wave Executor Contract|Integrator Contract" skills/references/subagent-roles`; `test ! -e skills/references/subagent-roles/reader.md`; `/sg-ready sg-build Autonomous Master Skill`.
+- Commands to validate: `rg -n "sg-build" skills/sg-build/SKILL.md skills/sg-help/SKILL.md skills/references/chantier-tracking.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md README.md`; `rg -n "Existing Chantier Check|Execution Modes|delegated sequential|Spec-Gated Parallelism|Execution Batches|Governance Corpus Gate|docs/technical|docs/editorial|technical-docs-corpus|editorial-content-corpus|CONTENT_MAP|Documentation Update Gate|Editorial Update Gate|pending final integration|pending final copy|invocation.*sg-build|Model Routing Gate|sg-model|Browser Evidence Routing|sg-browser|sg-auth-debug|sg-prod|sg-test|Question Gate|plain-text|sg-end|sg-ship|all-dirty|fresh-docs" skills/sg-build/SKILL.md`; `rg -n "Technical Reader Agent Contract|technical documentation corpus|technical-docs-corpus|docs/technical/code-docs-map|code-docs|Documentation Update Plan|Editorial Reader Agent Contract|editorial corpus|editorial-content-corpus|CONTENT_MAP|docs/editorial|Editorial Update Plan|Claim Impact Plan|Sequential Executor Contract|Wave Executor Contract|Integrator Contract" skills/references/subagent-roles`; `test ! -e skills/references/subagent-roles/reader.md`; `/sg-ready sg-build Autonomous Master Skill`.
 - Stop conditions: no unique interpretation of ship behavior, disagreement with lifecycle skill contracts, missing decision about touching existing behavior, missing governance corpus status before implementation, missing `Execution Batches` for requested parallelism, overlapping ownership, inability to preserve user changes in a dirty worktree, failed verification gate, docs/content contract contradiction, stale or mismatched dependency metadata, language doctrine violation in internal contracts, browser evidence routed to the wrong official skill, or public docs that imply autonomy without user decision gates.
 - Implementation boundary: do not alter existing lifecycle skill behavior unless required for discoverability, matrix registration, or explicitly listed documentation compatibility; `sg-build` should compose them first.
 
@@ -606,7 +606,7 @@ Create a new lifecycle skill, `sg-build`, as the user-facing orchestrator for en
 
 None
 
-Readiness note: ready after full reconciliation. The behavior contract, language doctrine, security gates, task order, governance corpus requirements, and browser evidence routing are coherent. The 2026-05-02 dependency metadata drift reported by sg-ready has been corrected: this spec now records `README.md` 0.5.0 and `shipflow-spec-driven-workflow.md` 0.8.0, consumes the shipped `sg-init`/`sg-docs` governance corpus lifecycle, and incorporates the `sg-browser` routing introduced by the active README/workflow docs.
+Readiness note: ready after full reconciliation. The behavior contract, language doctrine, security gates, task order, governance corpus requirements, and browser evidence routing are coherent. The 2026-05-02 dependency metadata drift reported by sg-ready has been corrected: this spec now records `README.md` 0.5.0 and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` 0.8.0, consumes the shipped `sg-init`/`sg-docs` governance corpus lifecycle, and incorporates the `sg-browser` routing introduced by the active README/workflow docs.
 
 ## Skill Run History
 
@@ -628,9 +628,9 @@ Readiness note: ready after full reconciliation. The behavior contract, language
 | 2026-05-01 17:57:02 UTC | sg-ready | GPT-5 Codex | Reviewed readiness after Technical Reader / Editorial Reader split and gate updates; blocked on dependency metadata alignment and ShipGlowz language doctrine for internal contracts | not ready | /sg-spec sg-build Autonomous Master Skill |
 | 2026-05-01 18:11:46 UTC | sg-spec | GPT-5 Codex | Resolved readiness blockers by aligning dependency metadata, rewriting internal contract sections in English, preserving accented French user-facing examples, and refreshing official Codex docs evidence | draft | /sg-ready sg-build Autonomous Master Skill |
 | 2026-05-01 18:18:07 UTC | sg-ready | GPT-5 Codex | Validated dependency metadata, language doctrine, behavior contract, task order, documentation gates, adversarial risks, security gates, and official Codex docs freshness | ready | /sg-start sg-build Autonomous Master Skill |
-| 2026-05-02 10:38:37 UTC | sg-ready | GPT-5 Codex | Revalidated readiness after governance corpus doc updates; blocked on dependency metadata drift for README.md and shipflow-spec-driven-workflow.md | not ready | /sg-spec sg-build Autonomous Master Skill |
-| 2026-05-02 10:43:55 UTC | sg-spec | GPT-5 Codex | Refreshed dependency metadata for README.md 0.5.0 and shipflow-spec-driven-workflow.md 0.8.0 after the readiness gate reported stale depends_on entries. | reviewed | /sg-ready sg-build Autonomous Master Skill |
-| 2026-05-02 10:47:34 UTC | sg-spec | GPT-5 Codex | Reconciled the material behavior changes in README.md 0.5.0 and shipflow-spec-driven-workflow.md 0.8.0 by adding sg-browser routing, sg-init/sg-docs corpus ownership, and explicit browser/manual evidence gates. | reviewed | /sg-ready sg-build Autonomous Master Skill |
+| 2026-05-02 10:38:37 UTC | sg-ready | GPT-5 Codex | Revalidated readiness after governance corpus doc updates; blocked on dependency metadata drift for README.md and shipglowz_data/workflow/playbooks/spec-driven-workflow.md | not ready | /sg-spec sg-build Autonomous Master Skill |
+| 2026-05-02 10:43:55 UTC | sg-spec | GPT-5 Codex | Refreshed dependency metadata for README.md 0.5.0 and shipglowz_data/workflow/playbooks/spec-driven-workflow.md 0.8.0 after the readiness gate reported stale depends_on entries. | reviewed | /sg-ready sg-build Autonomous Master Skill |
+| 2026-05-02 10:47:34 UTC | sg-spec | GPT-5 Codex | Reconciled the material behavior changes in README.md 0.5.0 and shipglowz_data/workflow/playbooks/spec-driven-workflow.md 0.8.0 by adding sg-browser routing, sg-init/sg-docs corpus ownership, and explicit browser/manual evidence gates. | reviewed | /sg-ready sg-build Autonomous Master Skill |
 | 2026-05-02 10:52:35 UTC | sg-ready | GPT-5 Codex | Validated structure, metadata, user-story fit, task order, docs/governance coherence, browser evidence routing, language doctrine, adversarial risks, and security gates after reconciliation. | ready | /sg-start sg-build Autonomous Master Skill |
 | 2026-05-02 11:01:15 UTC | sg-ready | GPT-5 Codex | Revalidated structure, metadata/dependency versions, user-story fit, task order, governance/browser evidence gates, language doctrine, adversarial/security risks, and official OpenAI Codex docs freshness. | ready | /sg-start sg-build Autonomous Master Skill |
 | 2026-05-02 14:20:51 UTC | sg-start | GPT-5 Codex | Implemented the sg-build master skill, created missing subagent role contracts, updated chantier-tracking doctrine, and aligned sg-help/workflow/README discoverability plus task tracking. | implemented | /sg-verify sg-build Autonomous Master Skill |
@@ -652,7 +652,7 @@ Readiness note: ready after full reconciliation. The behavior contract, language
 
 ## Current Chantier Flow
 
-- `sg-spec`: done; dependency metadata refreshed against current README.md 0.7.1 and shipflow-spec-driven-workflow.md 0.12.0, governance corpus ownership aligned to `sg-init`/`sg-docs`, browser evidence routing aligned to `sg-browser`, `sg-auth-debug`, `sg-prod`, and `sg-test`, and decision questions reframed for business operators.
+- `sg-spec`: done; dependency metadata refreshed against current README.md 0.7.1 and shipglowz_data/workflow/playbooks/spec-driven-workflow.md 0.12.0, governance corpus ownership aligned to `sg-init`/`sg-docs`, browser evidence routing aligned to `sg-browser`, `sg-auth-debug`, `sg-prod`, and `sg-test`, and decision questions reframed for business operators.
 - `sg-ready`: ready after full reconciliation and 2026-05-02 revalidation of dependency metadata, governance/browser evidence gates, language doctrine, adversarial/security risks, and official OpenAI Codex docs freshness.
 - `sg-start`: implemented; created `skills/sg-build/SKILL.md`, added role contracts, aligned workflow/help/docs, added business-context decision framing for Plan Mode questions, hardened successful post-verify end/ship orchestration, clarified delegated sequential consent plus subagent/parallelism boundaries, extracted shared master delegation semantics to `skills/references/master-delegation-semantics.md`, and reframed short confirmations as intent-based natural-language approvals rather than exact keyword matches.
 - `sg-verify`: verified for prior shipped waves; local metadata lint, skill budget audit, and diff whitespace checks passed for the latest confirmation-wording correction, with formal verify/ship still pending for the current unshipped scope.

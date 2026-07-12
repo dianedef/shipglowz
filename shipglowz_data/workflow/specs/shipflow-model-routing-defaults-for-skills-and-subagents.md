@@ -24,7 +24,7 @@ linked_systems:
   - "skills/references/master-delegation-semantics.md"
   - "skills/references/master-workflow-lifecycle.md"
   - "skills/shipflow/SKILL.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "README.md"
 depends_on:
   - artifact: "shipglowz_data/business/product.md"
@@ -106,7 +106,7 @@ Mettre a jour la doctrine ShipGlowz de routage modele pour faire de GPT-5.5 le d
 - Mettre a jour `skills/sg-model/SKILL.md` pour distinguer selection conversationnelle, selection de sous-agent, et recommandation de prochain run.
 - Mettre a jour `skills/sg-start/SKILL.md` pour aligner les defaults simples sur GPT-5.5 pour l'ambigu, le transverse, l'audit, la priorisation, les migrations docs/prompts, et les syntheses risque business.
 - Etendre `skills/references/master-delegation-semantics.md` avec une regle de mission subagent: modele et reasoning doivent etre explicites quand disponibles.
-- Mettre a jour `skills/references/master-workflow-lifecycle.md`, `shipflow-spec-driven-workflow.md`, `README.md`, et `shipglowz_data/technical/skill-runtime-and-lifecycle.md` si necessaire pour documenter les limites d'auto-selection.
+- Mettre a jour `skills/references/master-workflow-lifecycle.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `README.md`, et `shipglowz_data/technical/skill-runtime-and-lifecycle.md` si necessaire pour documenter les limites d'auto-selection.
 - Conserver les fallbacks rapides/economiques pour eviter GPT-5.5 sur les petits deltas.
 
 # Scope Out
@@ -157,7 +157,7 @@ Mettre a jour la doctrine ShipGlowz de routage modele pour faire de GPT-5.5 le d
 Docs a aligner:
 
 - `README.md`: expliquer les defaults modeles et la difference main conversation vs sous-agent.
-- `shipflow-spec-driven-workflow.md`: mettre a jour le flux `sg-model -> sg-start`.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: mettre a jour le flux `sg-model -> sg-start`.
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`: ajouter la regle de routage modele comme contrat technique.
 - `CHANGELOG.md`: noter le durcissement des defaults et la clarification auto-switch.
 - Eventuellement `docs/skill-launch-cheatsheet.md`: ajouter un exemple court pour `shipflow ...` et `/sg-model ...`.
@@ -214,11 +214,11 @@ Docs a aligner:
   - Notes : Garder la reference concise.
 
 - [ ] Tache 6 : Documenter le comportement pour l'operateur.
-  - Fichiers : `README.md`, `shipflow-spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `docs/skill-launch-cheatsheet.md`
+  - Fichiers : `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `docs/skill-launch-cheatsheet.md`
   - Action : Ajouter une explication courte: le modele courant peut recommander et router; les sous-agents peuvent recevoir des overrides si runtime disponible; sinon l'operateur lance le prochain run avec le modele recommande.
   - User story link : l'operateur comprend quoi attendre.
   - Depends on : Taches 2-5
-  - Validate with : `rg -n "GPT-5\\.5|sous-agent|subagent|auto-switch|model routing" README.md shipflow-spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md docs/skill-launch-cheatsheet.md`
+  - Validate with : `rg -n "GPT-5\\.5|sous-agent|subagent|auto-switch|model routing" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md docs/skill-launch-cheatsheet.md`
   - Notes : Eviter les promesses produit non supportees par le runtime.
 
 - [ ] Tache 7 : Ajouter l'entree changelog.
@@ -244,7 +244,7 @@ Docs a aligner:
 # Test Strategy
 
 - Static review:
-  - `rg -n "gpt-5\\.5|gpt-5\\.4-mini|gpt-5\\.3-codex|subagent|override|auto-switch" skills README.md shipflow-spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md`
+  - `rg -n "gpt-5\\.5|gpt-5\\.4-mini|gpt-5\\.3-codex|subagent|override|auto-switch" skills README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md`
 - Contract sanity:
   - Lire `skills/sg-model/references/model-routing.md` et verifier que chaque profil a primary, reasoning, fast fallback, cheap fallback.
   - Lire `skills/sg-start/SKILL.md` et verifier que les defaults simples ne contredisent pas la matrice.
@@ -272,7 +272,7 @@ Docs a aligner:
   - `skills/sg-model/SKILL.md`
   - `skills/sg-start/SKILL.md`
   - `skills/references/master-delegation-semantics.md`
-  - `shipflow-spec-driven-workflow.md`
+  - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - Approche:
   1. Mettre a jour la source unique `model-routing.md`.
   2. Aligner les consumers (`sg-model`, `sg-start`, master delegation/lifecycle).

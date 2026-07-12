@@ -26,7 +26,7 @@ linked_systems:
   - skills/references/decision-quality-contract.md
   - skills/references/spec-driven-development-discipline.md
   - docs/technical/skill-runtime-and-lifecycle.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - README.md
 depends_on:
   - artifact: "skills/references/decision-quality-contract.md"

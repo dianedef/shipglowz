@@ -39,9 +39,9 @@ linked_systems:
   - "docs/technical/code-docs-map.md"
   - "site/src/content/skills/sg-deploy.md"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
 depends_on:
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.9.0"
     required_status: "draft"
   - artifact: "docs/technical/skill-runtime-and-lifecycle.md"
@@ -120,7 +120,7 @@ Create `skills/sg-deploy/SKILL.md` as a master lifecycle skill for releases. It 
 - Support arguments such as no argument, `skip-check`, project name, URL, `--prod`, `--preview`, `--local`, and release-note intent.
 - Use project development mode to decide whether local checks are enough before hosted proof.
 - Route auth/session/callback proof to `sg-auth-debug`, non-auth browser proof to `sg-browser`, durable manual QA to `sg-test`, and deployment truth to `sg-prod`.
-- Update `skills/sg-help/SKILL.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `docs/technical/skill-runtime-and-lifecycle.md`, and public skill content.
+- Update `skills/sg-help/SKILL.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/technical/skill-runtime-and-lifecycle.md`, and public skill content.
 - Sync current-user runtime skill links.
 - Run skill budget, metadata, and site build validations.
 
@@ -187,11 +187,11 @@ Create `skills/sg-deploy/SKILL.md` as a master lifecycle skill for releases. It 
   - Notes: Keep the body under the skill budget threshold.
 
 - [x] Task 2: Update discoverability and docs
-  - File: `skills/sg-help/SKILL.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `docs/technical/skill-runtime-and-lifecycle.md`
+  - File: `skills/sg-help/SKILL.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/technical/skill-runtime-and-lifecycle.md`
   - Action: Replace stale deploy wording and name `sg-deploy` as the release orchestrator.
   - User story link: Operators can find the new release loop.
   - Depends on: Task 1
-  - Validate with: `rg -n "sg-deploy|deploy" skills/sg-help/SKILL.md README.md shipflow-spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
+  - Validate with: `rg -n "sg-deploy|deploy" skills/sg-help/SKILL.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
   - Notes: Do not overstate release safety.
 
 - [x] Task 3: Add public skill content
@@ -215,7 +215,7 @@ Create `skills/sg-deploy/SKILL.md` as a master lifecycle skill for releases. It 
   - Action: Run metadata, skill, and site validations; update this spec run history.
   - User story link: Proves the implementation meets the release orchestration contract.
   - Depends on: Tasks 1-4
-  - Validate with: `python3 tools/shipflow_metadata_lint.py specs/sg-deploy-master-release-skill.md README.md shipflow-spec-driven-workflow.md docs/technical`; `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `pnpm --dir shipflow-site build`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py specs/sg-deploy-master-release-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical`; `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `pnpm --dir shipflow-site build`
   - Notes: `quick_validate.py` rejects ShipGlowz's `argument-hint` field; keep `argument-hint` for local skill consistency and record the validator incompatibility instead of weakening the local contract.
 
 ## Acceptance Criteria

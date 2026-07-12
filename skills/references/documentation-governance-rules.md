@@ -22,7 +22,7 @@ linked_systems:
   - shipglowz_data/technical/code-docs-map.md
   - shipglowz_data/editorial/content-map.md
   - shipglowz_data/technical/artifact-metadata-and-linter.md
-  - shipglowz-metadata-migration-guide.md
+  - shipglowz_data/technical/metadata-migration-guide.md
 depends_on:
   - artifact: "skills/references/project-governance-rules.md"
     artifact_version: "1.0.0"

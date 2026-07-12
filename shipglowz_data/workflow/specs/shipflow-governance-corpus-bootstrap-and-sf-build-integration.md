@@ -29,7 +29,7 @@ linked_systems:
   - CONTENT_MAP.md
   - AGENT.md
   - README.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - GUIDELINES.md
   - docs/technical/skill-runtime-and-lifecycle.md
   - docs/technical/public-site-and-content-runtime.md
@@ -59,7 +59,7 @@ depends_on:
   - artifact: "CONTENT_MAP.md"
     artifact_version: "0.3.0"
     required_status: draft
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.7.0"
     required_status: draft
   - artifact: "specs/sg-build-autonomous-master-skill.md"
@@ -159,7 +159,7 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
 - Clarify first-run behavior for `sg-docs technical` when `docs/technical/code-docs-map.md` does not exist yet.
 - Clarify first-run behavior for `sg-docs editorial` when `docs/editorial/README.md` does not exist yet.
 - Update `specs/sg-build-autonomous-master-skill.md` to include a `Governance Corpus Gate` before implementation and concrete corpus paths in Technical Reader and Editorial Reader instructions.
-- Update `README.md` and `shipflow-spec-driven-workflow.md` to explain the division of responsibilities: `sg-init` bootstraps, `sg-docs` maintains, `sg-build` consumes.
+- Update `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` to explain the division of responsibilities: `sg-init` bootstraps, `sg-docs` maintains, `sg-build` consumes.
 - Update technical docs that map skill/workflow changes.
 - Validate metadata, skill budget, path coverage, and no-public-leak constraints.
 
@@ -182,7 +182,7 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
 - Technical governance is applicable to code projects by default; if no code area can be mapped, the technical map must record an explicit non-coverage reason.
 - Editorial governance is applicable when public pages, README public promises, docs, FAQ, skill pages, pricing, support copy, blog/article intent, or runtime content surfaces exist.
 - A missing editorial layer may be valid for an internal-only project, but the workflow must state `no editorial surfaces detected` or equivalent.
-- Shared files are sequential: `skills/sg-init/SKILL.md`, `skills/sg-docs/SKILL.md`, `specs/sg-build-autonomous-master-skill.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `CONTENT_MAP.md`, `AGENT.md`, and `docs/technical/code-docs-map.md`.
+- Shared files are sequential: `skills/sg-init/SKILL.md`, `skills/sg-docs/SKILL.md`, `specs/sg-build-autonomous-master-skill.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `CONTENT_MAP.md`, `AGENT.md`, and `docs/technical/code-docs-map.md`.
 - Generated docs must pass `tools/shipflow_metadata_lint.py` unless the target is framework runtime content with its own schema.
 - The bootstrap must not depend on a network service or external package.
 
@@ -190,7 +190,7 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
 
 - Local runtime: Markdown specs, ShipGlowz skills, `rg`, shell checks, git, and `tools/shipflow_metadata_lint.py`.
 - Existing shipped doctrine: `docs/technical/`, `docs/editorial/`, `technical-docs-corpus.md`, `editorial-content-corpus.md`, and their shipped specs.
-- Workflow docs: `shipflow-spec-driven-workflow.md`, `README.md`, `GUIDELINES.md`, and `CONTENT_MAP.md`.
+- Workflow docs: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `README.md`, `GUIDELINES.md`, and `CONTENT_MAP.md`.
 - Future consumer: `specs/sg-build-autonomous-master-skill.md`, because the actual `skills/sg-build/SKILL.md` does not exist yet.
 - Fresh external docs: not needed for this spec because the work is local Markdown workflow, local scaffolding, and existing ShipGlowz skill doctrine. If implementation changes Astro runtime content schema or introduces a new framework integration, rerun the Documentation Freshness Gate for that specific change.
 
@@ -223,7 +223,7 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
 - Update `skills/sg-init/SKILL.md` so new projects receive or explicitly skip the two governance corpora as part of initialization.
 - Update `skills/sg-docs/SKILL.md` so the official docs workflow can bootstrap, update, and audit both corpora for new and existing projects.
 - Update `specs/sg-build-autonomous-master-skill.md` so `sg-build` references the shipped corpus paths and has a pre-implementation governance gate.
-- Update `README.md` and `shipflow-spec-driven-workflow.md` so users understand: `sg-init` bootstraps, `sg-docs` owns docs, `sg-build` consumes.
+- Update `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` so users understand: `sg-init` bootstraps, `sg-docs` owns docs, `sg-build` consumes.
 - Update `docs/technical/skill-runtime-and-lifecycle.md` because skill lifecycle behavior changes.
 - Update `docs/technical/public-site-and-content-runtime.md` only if public content routing or editorial surface behavior changes.
 - Do not update `CHANGELOG.md` during `sg-spec`; `sg-end` owns changelog preparation.
@@ -315,11 +315,11 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
   - Notes: Do not create the role files in this chantier unless readiness explicitly requires moving that work out of the sg-build chantier.
 
 - [ ] Task 10: Update workflow doctrine for responsibility split
-  - File: `shipflow-spec-driven-workflow.md`
+  - File: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Add a concise section or paragraph stating `sg-init` bootstraps governance corpora, `sg-docs` maintains/audits them, and `sg-build` consumes them during gates.
   - User story link: Prevents operators and agents from rerunning the governance specs manually per project.
   - Depends on: Tasks 1-9
-  - Validate with: `rg -n "sg-init.*bootstrap|sg-docs.*maintain|sg-build.*consume|governance corpus|docs/technical|docs/editorial" shipflow-spec-driven-workflow.md`
+  - Validate with: `rg -n "sg-init.*bootstrap|sg-docs.*maintain|sg-build.*consume|governance corpus|docs/technical|docs/editorial" shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: Keep the doc concise; do not duplicate full `sg-docs` instructions.
 
 - [ ] Task 11: Update README discoverability
@@ -339,11 +339,11 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
   - Notes: Update `docs/technical/public-site-and-content-runtime.md` only if public content routing rules change.
 
 - [ ] Task 13: Run validation checks
-  - File: `skills/sg-init/SKILL.md`, `skills/sg-docs/SKILL.md`, `specs/sg-build-autonomous-master-skill.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `docs/technical/`
+  - File: `skills/sg-init/SKILL.md`, `skills/sg-docs/SKILL.md`, `specs/sg-build-autonomous-master-skill.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/technical/`
   - Action: Run metadata lint, targeted rg checks, skill budget audit, and public-site build if public docs or site content changed.
   - User story link: Proves the workflow integration is coherent and does not break existing shipped layers.
   - Depends on: Tasks 1-12
-  - Validate with: `python3 tools/shipflow_metadata_lint.py specs docs AGENT.md CONTENT_MAP.md README.md shipflow-spec-driven-workflow.md GUIDELINES.md && python3 tools/skill_budget_audit.py --skills-root skills --format markdown && pnpm --dir shipflow-site build`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py specs docs AGENT.md CONTENT_MAP.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md GUIDELINES.md && python3 tools/skill_budget_audit.py --skills-root skills --format markdown && pnpm --dir shipflow-site build`
   - Notes: Site build is required only if implementation touches `site/` or public docs pages, but safe to run as final proof.
 
 ## Acceptance Criteria
@@ -364,7 +364,7 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
 
 ## Test Strategy
 
-- Static metadata: run `python3 tools/shipflow_metadata_lint.py specs docs AGENT.md CONTENT_MAP.md README.md shipflow-spec-driven-workflow.md GUIDELINES.md`.
+- Static metadata: run `python3 tools/shipflow_metadata_lint.py specs docs AGENT.md CONTENT_MAP.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md GUIDELINES.md`.
 - Skill compliance: run `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`.
 - Targeted rg checks: verify `sg-init`, `sg-docs`, and the `sg-build` spec contain the new governance corpus language and concrete paths.
 - Site build: run `pnpm --dir shipflow-site build` if README, public docs pages, `shipflow-site/`, or public content changed.
@@ -389,7 +389,7 @@ Integrate the shipped governance corpus into ShipGlowz's creation and orchestrat
 
 ## Execution Notes
 
-- Read first: `skills/sg-init/SKILL.md`, `skills/sg-docs/SKILL.md`, `specs/sg-build-autonomous-master-skill.md`, `shipflow-spec-driven-workflow.md`, `README.md`, `docs/technical/skill-runtime-and-lifecycle.md`.
+- Read first: `skills/sg-init/SKILL.md`, `skills/sg-docs/SKILL.md`, `specs/sg-build-autonomous-master-skill.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `README.md`, `docs/technical/skill-runtime-and-lifecycle.md`.
 - Start with `sg-init` because future project creation is the adoption entrypoint.
 - Then update `sg-docs` because it owns the reusable corpus creation and audit behavior.
 - Then amend the `sg-build` spec so the future implementation starts from current corpus doctrine.

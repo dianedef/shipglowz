@@ -41,7 +41,7 @@ linked_systems:
   - "site/src/pages/skills/index.astro"
   - "site/src/pages/skills/[slug].astro"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
 depends_on:
   - artifact: "BUSINESS.md"
     artifact_version: "1.1.0"
@@ -67,7 +67,7 @@ depends_on:
   - artifact: "README.md"
     artifact_version: "0.5.1"
     required_status: "draft"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.8.1"
     required_status: "draft"
   - artifact: "CONTENT_MAP.md"
@@ -168,7 +168,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
 - Run `python3 tools/shipflow_metadata_lint.py` on changed ShipGlowz artifacts and at least the chantier spec.
 - Update `skills/sg-help/SKILL.md` when the new skill should be discoverable in the help matrix, role matrix, lifecycle notes, or skill-system cheatsheet.
 - Update public skill surfaces when public skill discovery changes: `site/src/content/skills/<slug>.md`, `site/src/pages/skills/index.astro`, `site/src/pages/skills/[slug].astro`, and `site/src/content.config.ts` as applicable.
-- Update `README.md` and `shipflow-spec-driven-workflow.md` when the skill changes official workflow doctrine, recommended entrypoints, or lifecycle routing.
+- Update `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` when the skill changes official workflow doctrine, recommended entrypoints, or lifecycle routing.
 - Update `CONTENT_MAP.md` and `docs/editorial/` gates when public skill promises, skill page roles, public claims, categories, or content-routing rules change.
 - Use `docs/technical/code-docs-map.md` to determine technical documentation impact for `skills/**/SKILL.md`, `site/**`, `CONTENT_MAP.md`, and `specs/**`.
 - Run focused public-site checks when public skill content changes, including `pnpm --dir shipflow-site build` and relevant `rg` checks for schema, internal-only leaks, stale skill names, and public claim drift.
@@ -194,7 +194,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
 - The skill is public by default: creation or material modification requires a public skill page path unless the user explicitly approves an internal-only exception in the spec.
 - Invocation rename policy is strict: if implementation proposes renaming the invocation key, the flow must block and require explicit user approval before any rename edits.
 - New skill creation is high risk because it changes the agent operating surface and public catalog; default to spec-first.
-- Shared files are sequential integration surfaces: `skills/sg-help/SKILL.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `CONTENT_MAP.md`, `docs/editorial/**`, `docs/technical/code-docs-map.md`, `site/src/content.config.ts`, and public hub copy.
+- Shared files are sequential integration surfaces: `skills/sg-help/SKILL.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `CONTENT_MAP.md`, `docs/editorial/**`, `docs/technical/code-docs-map.md`, `site/src/content.config.ts`, and public hub copy.
 - Parallel edits to multiple skill pages are allowed only when a ready spec assigns exclusive files and no shared schema, hub, docs, map, or claim file changes in the same wave.
 - `sg-skills-refresh` must remain additive and conservative; it must not rewrite a skill from scratch.
 - `skill_budget_audit.py` is mandatory when a skill is added, renamed, or materially expanded.
@@ -241,7 +241,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
 ## Documentation Coherence
 
 - Internal help: update `skills/sg-help/SKILL.md` when `sg-skill-build` is added, when its role changes, or when the lifecycle notes need to show the skill-creation path.
-- Workflow docs: update `shipflow-spec-driven-workflow.md` when `sg-skill-build` becomes an official recommended entrypoint or changes lifecycle doctrine.
+- Workflow docs: update `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` when `sg-skill-build` becomes an official recommended entrypoint or changes lifecycle doctrine.
 - README: update when public onboarding, skill list, workflow examples, or official artifact maps mention the skill lifecycle.
 - Technical docs: update `docs/technical/skill-runtime-and-lifecycle.md` for the new master skill role and any lifecycle or validation gates; update `docs/technical/code-docs-map.md` only if the map itself needs a new trigger, validation command, or subsystem row.
 - Public skill page: create or update `site/src/content/skills/sg-skill-build.md` if the skill is public-facing; follow `site/src/content.config.ts` exactly and omit ShipGlowz governance metadata.
@@ -270,7 +270,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
   - Action: Re-read this spec, search existing skills for overlap with `sg-build`, `sg-skills-refresh`, and system `skill-creator`, then confirm that the new ShipGlowz skill name remains `sg-skill-build`.
   - User story link: Prevents duplicate or confusing skill entrypoints.
   - Depends on: None
-  - Validate with: `rg -n "sg-skill-build|skill-build|skills-refresh|skill-creator|sg-build" skills specs site/src/content/skills README.md shipflow-spec-driven-workflow.md`
+  - Validate with: `rg -n "sg-skill-build|skill-build|skills-refresh|skill-creator|sg-build" skills specs site/src/content/skills README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: If a better name is proposed, stop for explicit user approval before renaming the target.
 
 - [x] Task 2: Create the master skill contract
@@ -314,11 +314,11 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
   - Notes: Keep help concise; avoid duplicating the full master skill body.
 
 - [x] Task 7: Update workflow and repo docs if the entrypoint becomes official
-  - File: `README.md`, `shipflow-spec-driven-workflow.md`
+  - File: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Add the skill-maintenance lifecycle where official workflows are listed, or record a no-impact justification if the skill remains maintainer-only and not a recommended public entrypoint.
   - User story link: Keeps official docs aligned with the new master skill.
   - Depends on: Tasks 2-6
-  - Validate with: `rg -n "sg-skill-build|skill maintenance|skill creation|skills-refresh|skill budget" README.md shipflow-spec-driven-workflow.md`
+  - Validate with: `rg -n "sg-skill-build|skill maintenance|skill creation|skills-refresh|skill budget" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: If edited, bump artifact metadata according to `sg-docs` versioning rules.
 
 - [x] Task 8: Update technical documentation impact
@@ -350,7 +350,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
   - Action: Run the focused validation set for skill, spec, docs, and public site changes.
   - User story link: Proves the skill is discoverable, metadata-valid, and publicly renderable.
   - Depends on: Tasks 2-10
-  - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/sg-skill-build-master-skill.md README.md shipflow-spec-driven-workflow.md CONTENT_MAP.md docs/technical docs/editorial`; `pnpm --dir shipflow-site build`; `rg -n "docs/technical|secret|token|credential" shipflow-site/src CONTENT_MAP.md`
+  - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/sg-skill-build-master-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md CONTENT_MAP.md docs/technical docs/editorial`; `pnpm --dir shipflow-site build`; `rg -n "docs/technical|secret|token|credential" shipflow-site/src CONTENT_MAP.md`
   - Notes: Review sensitive keyword matches manually; generic policy warnings are not automatically failures.
 
 - [x] Task 12: Verify, close docs/help coherence, and ship
@@ -372,7 +372,7 @@ Create a new master skill, `sg-skill-build`, that orchestrates the skill-mainten
 - [ ] AC 7: Given the public skill catalog is built, when `/skills` is generated, then the new skill appears in the intended category or has an explicit no-public-page decision.
 - [ ] AC 8: Given public skill copy changes, when editorial gates run, then `Editorial Update Plan` and `Claim Impact Plan` are produced when needed, and unsupported claims are downgraded or blocked.
 - [ ] AC 9: Given internal help is read, when `sg-help` lists skills and workflows, then it includes `sg-skill-build` or explicitly explains why it is not exposed.
-- [ ] AC 10: Given official workflow docs are read, when `sg-skill-build` changes lifecycle doctrine, then README and `shipflow-spec-driven-workflow.md` are updated or explicitly marked no-impact.
+- [ ] AC 10: Given official workflow docs are read, when `sg-skill-build` changes lifecycle doctrine, then README and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` are updated or explicitly marked no-impact.
 - [ ] AC 11: Given technical docs are mapped, when `skills/**/SKILL.md` and `site/**` change, then `docs/technical/skill-runtime-and-lifecycle.md`, `docs/technical/public-site-and-content-runtime.md`, and `docs/technical/code-docs-map.md` are reviewed through a `Documentation Update Plan`.
 - [ ] AC 12: Given validation is complete, when `sg-verify` runs, then it verifies the skill behavior contract, budget audit result, docs/help coherence, public site coherence, and ship scope.
 - [ ] AC 13: Given unrelated dirty files exist, when `sg-ship` is requested, then they are excluded unless the user explicitly authorizes the broader ship scope.

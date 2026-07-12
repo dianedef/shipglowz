@@ -26,7 +26,7 @@ linked_systems:
   - shipglowz_data/technical/skill-runtime-and-lifecycle.md
   - shipglowz_data/technical/code-docs-map.md
   - README.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - site/src/content/skills/
 depends_on:
   - artifact: "skills/references/canonical-paths.md"
@@ -123,7 +123,7 @@ Create `skills/sg-product-entitlements/SKILL.md` as a domain skill backed by `sk
 - Define mode detection for read-only contract, audit, compliance review, support-runbook framing, provider/manual/LTD/access-code work, backend guard work, and spec/build routing.
 - Define clear handoffs to `sg-auth-debug`, `sg-local-cloud-sync`, `sg-spec`, `sg-ready`, `sg-start`/`sg-build`, `sg-verify`, `sg-docs`, `sg-prod`, and `sg-test`.
 - Update `skills/sg-local-cloud-sync/SKILL.md` with entitlement-gated sync handoff language only; do not move sync doctrine into the new skill.
-- Add or update skill discoverability surfaces: `skills/sg-help/references/help-catalog.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, and `shipglowz_data/technical/code-docs-map.md`.
+- Add or update skill discoverability surfaces: `skills/sg-help/references/help-catalog.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, and `shipglowz_data/technical/code-docs-map.md`.
 - Add public skill content under `site/src/content/skills/` if existing public skill pages are current and the content model accepts the entry.
 - Repair/check current-user runtime links for `$HOME/.claude/skills/sg-product-entitlements` and `$HOME/.codex/skills/sg-product-entitlements`.
 - Validate with scenario-first pressure checks, skill budget audit, runtime link check, metadata lint, docs/site checks, targeted stale-route checks, and diff hygiene.
@@ -218,7 +218,7 @@ Fresh external docs verdict: `fresh-docs not needed` for this spec because it de
 ## Documentation Coherence
 
 - Add the new skill to `skills/sg-help/references/help-catalog.md`.
-- Update `README.md` and `shipflow-spec-driven-workflow.md` where skill routing lists or domain capability summaries mention auth, billing, access, product gates, or sync.
+- Update `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` where skill routing lists or domain capability summaries mention auth, billing, access, product gates, or sync.
 - Update `shipglowz_data/technical/skill-runtime-and-lifecycle.md` and `shipglowz_data/technical/code-docs-map.md`.
 - Add `site/src/content/skills/sg-product-entitlements.md` if current public skill-page patterns support it.
 - Avoid copying the full product entitlements playbook into every doc; link to the canonical reference.
@@ -247,7 +247,7 @@ Fresh external docs verdict: `fresh-docs not needed` for this spec because it de
 3. Encode mode detection for read-only contract, audit/compliance, provider/manual/LTD/access-code work, backend guard work, support-runbook framing, and implementation routing.
 4. Add explicit handoffs to `sg-auth-debug`, `sg-local-cloud-sync`, `sg-spec`, `sg-ready`, `sg-start`/`sg-build`, `sg-verify`, `sg-prod`, `sg-test`, and `sg-docs`.
 5. Update `skills/sg-local-cloud-sync/SKILL.md` with a short entitlement-gated sync integration note and stop/handoff language.
-6. Update help/discoverability surfaces: `skills/sg-help/references/help-catalog.md`, `README.md`, `shipflow-spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, and `shipglowz_data/technical/code-docs-map.md`.
+6. Update help/discoverability surfaces: `skills/sg-help/references/help-catalog.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, and `shipglowz_data/technical/code-docs-map.md`.
 7. Add public skill page `site/src/content/skills/sg-product-entitlements.md` if public skill pages are currently part of the repo and buildable.
 8. Run runtime repair/check with `tools/shipflow_sync_skills.sh --repair --skill sg-product-entitlements` and `tools/shipflow_sync_skills.sh --check --skill sg-product-entitlements`.
 9. Run skill budget audit, metadata lint, targeted `rg` scenario checks, public site build if public content changed, and `git diff --check`.

@@ -72,7 +72,7 @@ Load on demand:
 - `$SHIPFLOW_ROOT/skills/references/documentation-freshness-gate.md` when documentation depends on current external framework, SDK, provider, runtime, schema, auth, deployment, or API behavior.
 - `$SHIPFLOW_ROOT/skills/references/skill-context-budget.md` only when scope touches `skills/`, skill discovery metadata, or Codex/Claude skill compliance.
 - `$SHIPFLOW_ROOT/skills/references/private-data-repo-contract.md` when scope touches durable private operator data, `~/.shipglowz/private/data/`, private project fiches, or bootstrap/install docs that mention the private data repository.
-- `$SHIPFLOW_ROOT/shipglowz-metadata-migration-guide.md` when mode is metadata/migrate-frontmatter.
+- `$SHIPFLOW_ROOT/shipglowz_data/technical/metadata-migration-guide.md` when mode is metadata/migrate-frontmatter.
 - `$SHIPFLOW_ROOT/shipglowz_data/workflow/playbooks/project-import-playbook.md` and `$SHIPFLOW_ROOT/shipglowz_data/workflow/checklists/project-import-checklist.md` when mode is `add-project` or `add-project update`.
 
 ## Execution Contract

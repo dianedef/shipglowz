@@ -35,7 +35,7 @@ linked_systems:
   - site/src/pages/skills/index.astro
   - docs/skill-launch-cheatsheet.md
   - README.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - shipglowz_data/technical/skill-runtime-and-lifecycle.md
 depends_on:
   - artifact: "skills/references/master-workflow-lifecycle.md"
@@ -107,7 +107,7 @@ Create `skills/sg-onboarding/SKILL.md` as the ShipGlowz entrypoint for onboardin
 
 - Create `skills/sg-onboarding/SKILL.md`.
 - Create public skill page `site/src/content/skills/sg-onboarding.md`.
-- Update router/help docs, public site pages, `README.md`, `docs/skill-launch-cheatsheet.md`, `shipflow-spec-driven-workflow.md`, and `shipglowz_data/technical/skill-runtime-and-lifecycle.md` for discoverability.
+- Update router/help docs, public site pages, `README.md`, `docs/skill-launch-cheatsheet.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `shipglowz_data/technical/skill-runtime-and-lifecycle.md` for discoverability.
 - Sync current-user Claude/Codex runtime links for `sg-onboarding`.
 - Define onboarding principles from the WinFlowz flow: independent modules, dependency-aware order, why/how copy, status badges, active/current states, skipped-state visibility, refresh/recheck actions, defer/resume paths, and completion grouping.
 - Define routing to `sg-design`, `sg-build`, `sg-test`, `sg-docs`, `sg-content`, `sg-browser`, and `sg-verify` when the onboarding work crosses into their owner domains.
@@ -173,7 +173,7 @@ Required updates:
 - `site/src/pages/skills/index.astro`
 - `README.md`
 - `docs/skill-launch-cheatsheet.md`
-- `shipflow-spec-driven-workflow.md`
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
 
 No project product docs are changed by the skill creation itself. Future `sg-onboarding` runs must assess docs, FAQ, README, support copy, changelog, screenshots, and public pages for the target product feature.
@@ -201,9 +201,9 @@ No project product docs are changed by the skill creation itself. Future `sg-onb
   - Validate with: `test -f site/src/content/skills/sg-onboarding.md`
 
 - [x] Task 3: Update discoverability docs.
-  - Files: `skills/shipflow/SKILL.md`, `skills/references/entrypoint-routing.md`, `skills/sg-help/references/help-catalog.md`, `site/src/content/skills/shipflow.md`, `site/src/pages/skill-modes.astro`, `site/src/pages/skills/index.astro`, `README.md`, `docs/skill-launch-cheatsheet.md`, `shipflow-spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
+  - Files: `skills/shipflow/SKILL.md`, `skills/references/entrypoint-routing.md`, `skills/sg-help/references/help-catalog.md`, `site/src/content/skills/shipflow.md`, `site/src/pages/skill-modes.astro`, `site/src/pages/skills/index.astro`, `README.md`, `docs/skill-launch-cheatsheet.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
   - Action: Add `sg-onboarding` as the activation/onboarding entrypoint without overstating it as a UI design replacement.
-  - Validate with: `rg -n "sg-onboarding|onboarding|activation" skills/shipflow/SKILL.md skills/references/entrypoint-routing.md skills/sg-help/references/help-catalog.md site/src/content/skills/shipflow.md site/src/pages/skill-modes.astro site/src/pages/skills/index.astro README.md docs/skill-launch-cheatsheet.md shipflow-spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md`
+  - Validate with: `rg -n "sg-onboarding|onboarding|activation" skills/shipflow/SKILL.md skills/references/entrypoint-routing.md skills/sg-help/references/help-catalog.md site/src/content/skills/shipflow.md site/src/pages/skill-modes.astro site/src/pages/skills/index.astro README.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md`
 
 - [x] Task 4: Sync runtime links.
   - Files: `$HOME/.claude/skills/sg-onboarding`, `$HOME/.codex/skills/sg-onboarding`
@@ -252,10 +252,10 @@ No project product docs are changed by the skill creation itself. Future `sg-onb
 - `test -f skills/sg-onboarding/SKILL.md`
 - `test -f site/src/content/skills/sg-onboarding.md`
 - `rg -n "name: sg-onboarding|Activation Principles|Onboarding Contract|First success|Proof Paths|Stop Conditions" skills/sg-onboarding/SKILL.md`
-- `rg -n "sg-onboarding|onboarding|activation" skills/shipflow/SKILL.md skills/references/entrypoint-routing.md skills/sg-help/references/help-catalog.md site/src/content/skills/shipflow.md site/src/pages/skill-modes.astro site/src/pages/skills/index.astro README.md docs/skill-launch-cheatsheet.md shipflow-spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md site/src/content/skills/sg-onboarding.md`
+- `rg -n "sg-onboarding|onboarding|activation" skills/shipflow/SKILL.md skills/references/entrypoint-routing.md skills/sg-help/references/help-catalog.md site/src/content/skills/shipflow.md site/src/pages/skill-modes.astro site/src/pages/skills/index.astro README.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md site/src/content/skills/sg-onboarding.md`
 - `tools/shipflow_sync_skills.sh --check --skill sg-onboarding`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
-- `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/sg-onboarding-user-activation-skill.md shipglowz_data/technical/skill-runtime-and-lifecycle.md docs/skill-launch-cheatsheet.md shipflow-spec-driven-workflow.md README.md skills/references/entrypoint-routing.md skills/sg-help/references/help-catalog.md`
+- `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/sg-onboarding-user-activation-skill.md shipglowz_data/technical/skill-runtime-and-lifecycle.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md README.md skills/references/entrypoint-routing.md skills/sg-help/references/help-catalog.md`
 - `pnpm --dir shipflow-site build`
 - `rg -n "BEGIN .*KEY|PRIVATE KEY|PASSWORD=|SECRET=|TOKEN=|CREDENTIAL=" skills/sg-onboarding/SKILL.md site/src/content/skills/sg-onboarding.md`
 

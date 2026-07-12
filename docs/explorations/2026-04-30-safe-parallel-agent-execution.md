@@ -19,7 +19,7 @@ linked_systems:
   - skills/sg-start/SKILL.md
   - skills/sg-build/SKILL.md
   - specs/sg-build-autonomous-master-skill.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 evidence:
   - "OpenAI Codex subagents docs: subagents can run in parallel and Codex consolidates results."
   - "OpenAI Codex subagents docs: Codex only spawns subagents when explicitly asked; subagents inherit sandbox and approval controls."
@@ -115,7 +115,7 @@ Task 1 -> skills/sg-build/SKILL.md
 Task 2 -> skills/sg-build/SKILL.md
 Task 3 -> skills/sg-build/SKILL.md
 Task 4 -> skills/sg-build/SKILL.md
-Task 9 -> skills/sg-help/SKILL.md, shipflow-spec-driven-workflow.md, README.md
+Task 9 -> skills/sg-help/SKILL.md, shipglowz_data/workflow/playbooks/spec-driven-workflow.md, README.md
 ```
 
 This is ordered, but not parallel-safe. Many tasks target the same file, and one task can name several files. A fresh executor can infer sequencing, but the spec does not force an explicit graph.
@@ -196,7 +196,7 @@ Proposed contract:
   - Agent: worker
   - Write files:
     - `README.md`
-    - `shipflow-spec-driven-workflow.md`
+    - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Read-only context:
     - `skills/sg-build/SKILL.md`
   - Depends on: Batch A
@@ -268,7 +268,7 @@ Scope should include:
 - update `sg-spec` to require `Execution Batches` for non-trivial multi-agent work,
 - update `sg-ready` to reject unsafe or missing batch graphs,
 - update `sg-start` to consume the batch graph instead of deriving everything ad hoc,
-- update `shipflow-spec-driven-workflow.md`,
+- update `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`,
 - optionally add a tiny lint/check script later, but only after the markdown contract is stable.
 
 ## Exploration Status

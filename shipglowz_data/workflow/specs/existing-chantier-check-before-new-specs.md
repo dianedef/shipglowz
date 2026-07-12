@@ -22,7 +22,7 @@ linked_systems:
   - skills/sg-ready/SKILL.md
   - skills/sg-start/SKILL.md
   - skills/references/chantier-tracking.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - specs/
 depends_on:
   - artifact: "BUSINESS.md"
@@ -34,7 +34,7 @@ depends_on:
   - artifact: "GUIDELINES.md"
     artifact_version: "1.2.0"
     required_status: "reviewed"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.4.0"
     required_status: "draft"
   - artifact: "skills/references/chantier-tracking.md"
@@ -100,7 +100,7 @@ Ajouter un `Existing Chantier Check` canonique aux skills qui creent, mettent a 
 - Mettre a jour `skills/sg-ready/SKILL.md` pour signaler une spec qui semble duplicate ou qui devrait continuer un chantier existant.
 - Mettre a jour `skills/sg-start/SKILL.md` pour bloquer si une spec ready semble entrer en conflit avec une autre spec active couvrant la meme promesse.
 - Mettre a jour `skills/references/chantier-tracking.md` pour formaliser la doctrine "continue existing by default".
-- Mettre a jour `shipflow-spec-driven-workflow.md` pour documenter la decision nouvelle spec vs continuation.
+- Mettre a jour `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` pour documenter la decision nouvelle spec vs continuation.
 - Definir les criteres de comparaison: user story, resultat attendu, linked systems, fichiers/surfaces cibles, statut, `next_step`, `Current Chantier Flow`, et evidence.
 - Definir la question utilisateur quand plusieurs specs restent plausibles.
 
@@ -126,7 +126,7 @@ Ajouter un `Existing Chantier Check` canonique aux skills qui creent, mettent a 
 ## Dependencies
 
 - Project contracts: `BUSINESS.md` 1.1.0 reviewed, `PRODUCT.md` 1.1.0 reviewed, `GUIDELINES.md` 1.2.0 reviewed.
-- Workflow contracts: `shipflow-spec-driven-workflow.md` 0.4.0 draft, `skills/references/chantier-tracking.md` 0.1.0 draft.
+- Workflow contracts: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` 0.4.0 draft, `skills/references/chantier-tracking.md` 0.1.0 draft.
 - Runtime: markdown specs in `specs/`, `rg`, current filesystem, and lifecycle skill instructions.
 - Fresh external docs: fresh-docs not needed. This change is local to ShipGlowz markdown workflow doctrine and does not depend on external framework, SDK, API, auth, build, deployment, or integration behavior.
 
@@ -145,7 +145,7 @@ Ajouter un `Existing Chantier Check` canonique aux skills qui creent, mettent a 
 - `sg-start`: uses the check as a final guard before implementation.
 - `sg-build`: benefits from the global doctrine but still needs its own orchestration gate.
 - `chantier-tracking.md`: becomes stricter about reuse vs creation.
-- `shipflow-spec-driven-workflow.md`: must teach users and agents that new spec is not the default when a chantier exists.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: must teach users and agents that new spec is not the default when a chantier exists.
 
 ## Documentation Coherence
 
@@ -153,7 +153,7 @@ Ajouter un `Existing Chantier Check` canonique aux skills qui creent, mettent a 
 - `skills/sg-ready/SKILL.md` must include duplicate/continuation risk in readiness.
 - `skills/sg-start/SKILL.md` must route back if the selected spec is not the obvious owner.
 - `skills/references/chantier-tracking.md` must add the canonical rule.
-- `shipflow-spec-driven-workflow.md` must explain the decision tree.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` must explain the decision tree.
 - README/help docs are optional for this narrow internal rule unless implementation touches public workflow docs.
 - `CHANGELOG.md` is not part of this spec phase; `sg-end` handles it after implementation.
 
@@ -201,19 +201,19 @@ Ajouter un `Existing Chantier Check` canonique aux skills qui creent, mettent a 
   - Notes: Preserve existing trace categories and role matrix.
 
 - [ ] Task 5: Update workflow docs
-  - File: `shipflow-spec-driven-workflow.md`
+  - File: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Document the decision tree for update existing vs create new spec.
   - User story link: Makes the behavior understandable to future agents and operators.
   - Depends on: Tasks 1-4
-  - Validate with: `rg -n "Existing Chantier|continue existing|new spec|same user story|same outcome" shipflow-spec-driven-workflow.md`
+  - Validate with: `rg -n "Existing Chantier|continue existing|new spec|same user story|same outcome" shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: Keep this concise and operational.
 
 - [ ] Task 6: Validate no duplicate creation path remains undocumented
-  - File: `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/references/chantier-tracking.md`, `shipflow-spec-driven-workflow.md`
+  - File: `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/references/chantier-tracking.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Relire comme un agent frais et verify that creation, readiness, and start all preserve the same doctrine.
   - User story link: Ensures the rule is not only documented in one place.
   - Depends on: Tasks 1-5
-  - Validate with: `rg -n "Existing Chantier|continue existing|duplicate|new spec|ambiguous" skills/sg-spec/SKILL.md skills/sg-ready/SKILL.md skills/sg-start/SKILL.md skills/references/chantier-tracking.md shipflow-spec-driven-workflow.md`
+  - Validate with: `rg -n "Existing Chantier|continue existing|duplicate|new spec|ambiguous" skills/sg-spec/SKILL.md skills/sg-ready/SKILL.md skills/sg-start/SKILL.md skills/references/chantier-tracking.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: Rerun `/sg-ready Existing Chantier Check Before New Specs`.
 
 ## Acceptance Criteria
@@ -245,7 +245,7 @@ Ajouter un `Existing Chantier Check` canonique aux skills qui creent, mettent a 
 
 ## Execution Notes
 
-- Read first: `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/references/chantier-tracking.md`, `shipflow-spec-driven-workflow.md`.
+- Read first: `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/references/chantier-tracking.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
 - Implement in this order: sg-spec gate, sg-ready gate, sg-start guard, chantier doctrine, workflow docs, final coherence pass.
 - Matching heuristic: compare title/slug, user story, minimal behavior, linked systems, files/surfaces, status, `next_step`, `Current Chantier Flow`, and recent `Skill Run History`.
 - Stop conditions: multiple candidates with no clear winner, stale spec used as active dependency without review, or proposed new spec with same user story/outcome as an active chantier.

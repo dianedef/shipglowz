@@ -31,7 +31,7 @@ linked_systems:
   - README.md
   - site/src/content/skills/sg-browser.md
   - GUIDELINES.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - docs/technical/skill-runtime-and-lifecycle.md
 depends_on:
   - artifact: "GUIDELINES.md"
@@ -43,7 +43,7 @@ depends_on:
   - artifact: "skills/references/playwright-mcp-runtime.md"
     artifact_version: "1.1.0"
     required_status: "active"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.8.0"
     required_status: "draft"
   - artifact: "docs/technical/code-docs-map.md"
@@ -152,10 +152,10 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
 
 - Runtime: Playwright MCP through the current Codex/Claude MCP config, configured with an existing Chromium executable or explicit Chromium fallback.
 - Runtime tools: `mcp__playwright__browser_navigate`, `browser_snapshot`, `browser_take_screenshot`, `browser_console_messages`, `browser_network_requests`, `browser_resize`, `browser_click`, `browser_fill_form`, and related Playwright MCP tools when available.
-- Document contracts: `GUIDELINES.md` 1.3.0, `docs/technical/skill-runtime-and-lifecycle.md` 1.3.0, `skills/references/playwright-mcp-runtime.md` 1.1.0, `shipflow-spec-driven-workflow.md` 0.8.0, `docs/technical/code-docs-map.md` 1.0.0.
+- Document contracts: `GUIDELINES.md` 1.3.0, `docs/technical/skill-runtime-and-lifecycle.md` 1.3.0, `skills/references/playwright-mcp-runtime.md` 1.1.0, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` 0.8.0, `docs/technical/code-docs-map.md` 1.0.0.
 - Skill dependencies: `sg-auth-debug`, `sg-test`, `sg-prod`, `sg-verify`, `sg-start`, `sg-fix`, `sg-help`.
 - Fresh external docs: checked 2026-05-02 through Context7 `/microsoft/playwright-mcp`. Current docs support navigation, snapshots, screenshots, console/network tools, click/fill interactions, headless/browser options, executable-path style launch configuration, isolated mode, and user-data-dir controls.
-- Metadata gaps: none blocking for this spec. `shipflow-spec-driven-workflow.md` is draft, so implementation must update or explicitly no-impact the workflow doc according to the docs map.
+- Metadata gaps: none blocking for this spec. `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` is draft, so implementation must update or explicitly no-impact the workflow doc according to the docs map.
 
 ## Invariants
 
@@ -182,7 +182,7 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
 
 - `skills/sg-help/SKILL.md` must list `/sg-browser` with concise usage and distinguish it from `/sg-auth-debug`, `/sg-test`, and `/sg-prod`.
 - `README.md` should add a generic browser verification path near the existing auth/browser diagnostic path.
-- `shipflow-spec-driven-workflow.md` should mention `sg-browser` only where support/source skills or validation evidence paths are listed.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` should mention `sg-browser` only where support/source skills or validation evidence paths are listed.
 - `docs/technical/skill-runtime-and-lifecycle.md` should mention `sg-browser` as the generic Playwright MCP consumer and preserve the shared runtime preflight invariant.
 - `skills/sg-auth-debug/SKILL.md` should point non-auth browser checks to `sg-browser`, while retaining auth ownership.
 - `skills/sg-test/SKILL.md` should route direct tool-collected browser evidence to `sg-browser` when no durable manual test log is needed.
@@ -296,11 +296,11 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
   - Notes: Update `updated` and evidence metadata if implementation changes the doc.
 
 - [x] Task 12: Update workflow doctrine if the skill catalog is described there
-  - File: `shipflow-spec-driven-workflow.md`
+  - File: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Add `sg-browser` only where support/source skills or validation evidence paths are listed.
   - User story link: Keeps lifecycle routing coherent for future agents.
   - Depends on: Tasks 1-11
-  - Validate with: `python3 tools/shipflow_metadata_lint.py shipflow-spec-driven-workflow.md`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: If the file does not mention comparable skill routing, record a no-impact justification instead of forcing a broad rewrite.
 
 - [x] Task 13: Run skill validation and routing checks
@@ -309,7 +309,7 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
   - User story link: Proves the new skill is discoverable and not over budget.
   - Depends on: Tasks 1-12
   - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
-  - Notes: Also run `python3 tools/shipflow_metadata_lint.py specs/sg-browser-general-browser-verification-skill.md skills/sg-browser/references/browser-evidence.md docs/technical/skill-runtime-and-lifecycle.md shipflow-spec-driven-workflow.md` after relevant files exist.
+  - Notes: Also run `python3 tools/shipflow_metadata_lint.py specs/sg-browser-general-browser-verification-skill.md skills/sg-browser/references/browser-evidence.md docs/technical/skill-runtime-and-lifecycle.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md` after relevant files exist.
 
 ## Acceptance Criteria
 
@@ -334,7 +334,7 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
 - Integration: Run `python3 tools/skill_budget_audit.py --skills-root skills --format markdown` after adding the skill.
 - Integration: Run metadata lint for this spec, the new reference, and touched technical docs.
 - Integration: Run targeted `rg` commands from the implementation tasks to prove routing language exists.
-- Integration: Run `rg -n "[àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ]" skills/sg-browser/SKILL.md skills/sg-browser/references/browser-evidence.md docs/technical/skill-runtime-and-lifecycle.md shipflow-spec-driven-workflow.md` after implementation; any match in internal contract prose must be justified as quoted user-facing text or localized example.
+- Integration: Run `rg -n "[àâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ]" skills/sg-browser/SKILL.md skills/sg-browser/references/browser-evidence.md docs/technical/skill-runtime-and-lifecycle.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md` after implementation; any match in internal contract prose must be justified as quoted user-facing text or localized example.
 - Manual: After MCP reload if needed, invoke a safe browser check against `https://example.com` or a local disposable page and verify the report includes runtime, target, evidence, verdict, and limits.
 - Manual: Simulate triage prompts for auth, preview-push, production mutation, stale MCP runtime, and French user-facing output without clicking unsafe actions.
 
@@ -349,7 +349,7 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
 
 ## Execution Notes
 
-- Read first: `GUIDELINES.md`, `shipflow-spec-driven-workflow.md`, `docs/technical/code-docs-map.md`, `docs/technical/skill-runtime-and-lifecycle.md`, `skills/references/playwright-mcp-runtime.md`, `skills/sg-auth-debug/SKILL.md`, `skills/sg-test/SKILL.md`, `skills/sg-prod/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-fix/SKILL.md`, `skills/sg-help/SKILL.md`.
+- Read first: `GUIDELINES.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/technical/code-docs-map.md`, `docs/technical/skill-runtime-and-lifecycle.md`, `skills/references/playwright-mcp-runtime.md`, `skills/sg-auth-debug/SKILL.md`, `skills/sg-test/SKILL.md`, `skills/sg-prod/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-fix/SKILL.md`, `skills/sg-help/SKILL.md`.
 - Use `skill-creator` guidance for concise skill design and progressive disclosure through references.
 - Implementation order: create the new skill and reference first, then update routing in existing skills, then update README/workflow/technical docs, then run validation.
 - Use existing ShipGlowz skill patterns: frontmatter, canonical path loading, chantier classification, compact skill bodies, references for repeated detail, and explicit final `Chantier` blocks when tracing applies.

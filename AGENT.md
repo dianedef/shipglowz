@@ -37,15 +37,15 @@ Ce fichier est le point d'entree rapide pour un agent qui arrive dans le repo. I
 
 ## Route By Task
 
-- Pour tout fichier interne ShipGlowz, resoudre depuis `${SHIPFLOW_ROOT:-$HOME/shipglowz}`. Cela inclut `skills/`, `skills/references/`, `templates/`, `tools/`, `shipglowz-spec-driven-workflow.md` et `shipglowz-metadata-migration-guide.md`. Le repo courant ne sert de racine que pour les artefacts et le code du projet audite ou modifie.
+  - Pour tout fichier interne ShipGlowz, resoudre depuis `${SHIPFLOW_ROOT:-$HOME/shipglowz}`. Cela inclut `skills/`, `skills/references/`, `templates/`, `tools/`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` et `shipglowz_data/technical/metadata-migration-guide.md`. Le repo courant ne sert de racine que pour les artefacts et le code du projet audite ou modifie.
 - Si la tache touche la creation d'une app ou l'utilisation du Blueprint Gate (consommation), lire `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` puis `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`; le Blueprint Gate appartient à `001-sg-build`.
 - Si la tache touche l'extraction d'un blueprint depuis une app existante (creation/maintenance interne ShipGlowz), lire `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` puis `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`; la creation d'un blueprint appartient à `009-sg-skill-build`.
 - Si la tache touche le CLI principal, commencer par `shipglowz.sh`, `lib.sh`, puis `shipglowz_data/technical/context.md`.
 - Si la tache touche le setup serveur ou Codex, lire `install.sh`, `config.sh`, puis `shipglowz_data/technical/context.md`.
 - Si la tache touche les tunnels SSH locaux, lire `local/local.sh`, `local/dev-tunnel.sh`, puis `shipglowz_data/technical/context-function-tree.md`.
 - Si la tache touche Blacksmith, runners CI, Testboxes, logs CI, APK/AAB Android, SSH Access runner ou debugging de build GitHub Actions, lire `shipglowz_data/technical/blacksmith.md`; pour une verification deploy/logs, router via `skills/sg-prod/SKILL.md`, et pour une release complete via `skills/sg-deploy/SKILL.md`.
-- Si la tache touche les skills, lire `README.md`, `shipglowz-spec-driven-workflow.md`, puis les `skills/*/SKILL.md` concernes.
-- Si la tache touche la metadata des docs, lire `$SHIPFLOW_ROOT/shipglowz-metadata-migration-guide.md`, `$SHIPFLOW_ROOT/tools/shipglowz_metadata_lint.py`, puis `$SHIPFLOW_ROOT/skills/sg-docs/SKILL.md`.
+- Si la tache touche les skills, lire `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, puis les `skills/*/SKILL.md` concernes.
+  - Si la tache touche la metadata des docs, lire `$SHIPFLOW_ROOT/shipglowz_data/technical/metadata-migration-guide.md`, `$SHIPFLOW_ROOT/tools/shipglowz_metadata_lint.py`, puis `$SHIPFLOW_ROOT/skills/300-sg-docs/SKILL.md`.
 - Si la tache touche un code area mappe, lire `shipglowz_data/technical/code-docs-map.md`, puis le doc primaire dans `shipglowz_data/technical/`. `AGENT.md` reste canonique; `AGENTS.md` ne doit etre qu'un symlink de compatibilite vers `AGENT.md`.
 - Si la tache touche contenu, repurposing, blog, docs publiques, landing pages ou cocons semantiques, lire `shipglowz_data/editorial/content-map.md`, puis `skills/sg-repurpose/SKILL.md` si la demande transforme une source en contenu.
 - Si la tache touche produit, audience, priorites ou scope, lire `shipglowz_data/business/business.md`, `shipglowz_data/business/product.md`, puis `shipglowz_data/business/gtm.md` si la demande touche la promesse publique.
@@ -59,8 +59,8 @@ Ce fichier est le point d'entree rapide pour un agent qui arrive dans le repo. I
 - `shipglowz_data/technical/context.md`: architecture, entry points, flux, hotspots, invariants, ou modifier quoi.
 - `shipglowz_data/technical/context-function-tree.md`: arbre de fonctions des scripts principaux.
 - `shipglowz_data/editorial/content-map.md`: surfaces de contenu, pages piliers, cocons semantiques, destinations de repurposing.
-- `shipglowz-spec-driven-workflow.md`: doctrine de travail spec-first et artefacts.
-- `shipglowz-metadata-migration-guide.md`: doctrine de migration frontmatter.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: doctrine de travail spec-first et artefacts.
+- `shipglowz_data/technical/metadata-migration-guide.md`: doctrine de migration frontmatter.
 - `shipglowz_data/technical/README.md`: index interne des docs techniques proches du code.
 - `shipglowz_data/technical/code-docs-map.md`: map code -> docs, validations et triggers de mise a jour.
 - `shipglowz_data/technical/blacksmith.md`: Blacksmith CI, APK builds, logs, Run History, Metrics, SSH Access, Testboxes.

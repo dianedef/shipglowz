@@ -20,7 +20,7 @@ linked_systems:
   - skills/references/shipglowz-terms.md
   - skills/references/operator-roles/
   - shipglowz_data/business/agent-profiles/
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - README.md
 depends_on:
   - artifact: "skills/references/operator-partnership-contract.md"
@@ -105,6 +105,9 @@ When a profile activation is present:
 Known aliases:
 
 - `%TrafficManager`, `%traffic-manager`, `profile=traffic-manager`, and `profil=traffic-manager` resolve to `shipglowz_data/business/agent-profiles/tariq.md`.
+- `%TechnicalReviewer`, `%technical-reviewer`, `profile=technical-reviewer`, and `profil=technical-reviewer` resolve to `shipglowz_data/business/agent-profiles/technical-reviewer.md`.
+- `%QAVerifier`, `%qa-verifier`, `profile=qa-verifier`, and `profil=qa-verifier` resolve to `shipglowz_data/business/agent-profiles/qa-verifier.md`.
+- `%Neovim`, `%NeovimSpecialist`, `%neovim-specialist`, `profile=neovim-specialist`, and `profil=neovim-specialist` resolve to `shipglowz_data/business/agent-profiles/neovim-specialist.md`.
 
 ## Precedence Rules
 

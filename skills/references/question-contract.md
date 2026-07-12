@@ -20,7 +20,7 @@ linked_systems:
   - skills/references/entrypoint-routing.md
   - skills/references/reporting-contract.md
   - docs/technical/skill-runtime-and-lifecycle.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 depends_on:
   - artifact: "skills/references/decision-quality-contract.md"
     artifact_version: "1.1.0"

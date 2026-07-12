@@ -112,7 +112,7 @@ Explicit feature hints use the `#feature:<term>` form only. They are routing hin
 | `#drift` | Recenter on code-doc divergence, stale surfaces, and misaligned contracts | `$SHIPFLOW_ROOT/shipglowz_data/technical/code-docs-map.md` |
 | `#owner` | Recenter on ownership of the artifact, source, or decision layer | `$SHIPFLOW_ROOT/skills/references/canonical-paths.md` |
 | `#freshness` | Recenter on whether the document or claim is still current enough to trust | `$SHIPFLOW_ROOT/shipglowz_data/editorial/content-map.md` |
-| `#traceability` | Recenter on linking decision, source, implementation, and proof | `$SHIPFLOW_ROOT/shipglowz-spec-driven-workflow.md` |
+| `#traceability` | Recenter on linking decision, source, implementation, and proof | `$SHIPFLOW_ROOT/shipglowz_data/workflow/playbooks/spec-driven-workflow.md` |
 | `#entrypoint` | Recenter on the fastest correct documentation or workflow entrypoint | `$SHIPFLOW_ROOT/AGENT.md` |
 | `#contract` | Recenter on non-optional rules, invariants, and governing constraints | `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md` |
 | `#public-docs` | Recenter on public-facing docs, readability, and declared external surfaces | `$SHIPFLOW_ROOT/shipglowz_data/editorial/content-map.md` |

@@ -19,7 +19,7 @@ linked_systems:
   - skills/references/master-workflow-lifecycle.md
   - skills/references/master-delegation-semantics.md
   - skills/references/skill-execution-fidelity.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - README.md
 depends_on:
   - artifact: "skills/references/decision-quality-contract.md"

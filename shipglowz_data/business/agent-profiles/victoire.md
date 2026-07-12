@@ -17,7 +17,7 @@ linked_systems:
   - skills/references/operator-roles/growth-operations-lead.md
   - skills/000-shipglowz/SKILL.md
   - skills/302-sg-help/SKILL.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 depends_on:
   - artifact: "skills/references/operator-roles/growth-operations-lead.md"
     artifact_version: "1.0.0"

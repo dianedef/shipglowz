@@ -23,11 +23,11 @@ linked_systems:
   - "skills/references/chantier-tracking.md"
   - "skills/sg-help/SKILL.md"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "docs/technical/skill-runtime-and-lifecycle.md"
   - "site/src/content/skills/sg-maintain.md"
 depends_on:
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.11.0"
     required_status: draft
 supersedes:
@@ -93,10 +93,10 @@ maintenance intake -> triage -> existing chantier/spec gate -> spec/readiness wh
 
 ## Validation Plan
 
-- `python3 tools/shipflow_metadata_lint.py specs/sg-maintain-master-lifecycle-skill.md README.md shipflow-spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md skills/references/chantier-tracking.md`
+- `python3 tools/shipflow_metadata_lint.py specs/sg-maintain-master-lifecycle-skill.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md skills/references/chantier-tracking.md`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `tools/shipflow_sync_skills.sh --check --skill sg-maintain`
-- `rg -n "sg-maintain.*lifecycle|sg-maintain.*ship|delegated sequential|spec-gated parallel" skills/sg-maintain/SKILL.md README.md shipflow-spec-driven-workflow.md skills/sg-help/SKILL.md docs/technical/skill-runtime-and-lifecycle.md site/src/content/skills/sg-maintain.md`
+- `rg -n "sg-maintain.*lifecycle|sg-maintain.*ship|delegated sequential|spec-gated parallel" skills/sg-maintain/SKILL.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md skills/sg-help/SKILL.md docs/technical/skill-runtime-and-lifecycle.md site/src/content/skills/sg-maintain.md`
 - `pnpm --dir shipflow-site build`
 
 ## Skill Run History

@@ -22,14 +22,14 @@ linked_systems:
   - templates/artifacts/spec.md
   - skills/*/SKILL.md
   - skills/sg-help/SKILL.md
-  - shipflow-spec-driven-workflow.md
-  - shipflow-metadata-migration-guide.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
+  - shipglowz_data/technical/metadata-migration-guide.md
   - README.md
 depends_on:
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.3.0"
     required_status: "draft"
-  - artifact: "shipflow-metadata-migration-guide.md"
+  - artifact: "shipglowz_data/technical/metadata-migration-guide.md"
     artifact_version: "0.2.0"
     required_status: "draft"
   - artifact: "README.md"
@@ -41,7 +41,7 @@ evidence:
   - "User decision 2026-04-27: add the GPT model used to launch/create the spec in metadata."
 - "User decision 2026-04-27: this concerns every skill, but every skill does not necessarily write into a spec."
 - "User clarification 2026-04-27: this spec was created before the chantier registry tracker existed, so it should be migrated into the new registry shape and execution should continue."
-  - "Repo investigation 2026-04-27: shipflow-spec-driven-workflow.md and shipflow-metadata-migration-guide.md currently have status draft."
+  - "Repo investigation 2026-04-27: shipglowz_data/workflow/playbooks/spec-driven-workflow.md and shipglowz_data/technical/metadata-migration-guide.md currently have status draft."
   - "Repo investigation 2026-04-27: TASKS.md, AUDIT_LOG.md, and PROJECTS.md are operational trackers; specs are durable ShipGlowz artifacts."
 next_step: "None"
 ---
@@ -124,8 +124,8 @@ Ajouter au schema de spec ShipGlowz des metadata de modele (`source_model`, puis
 ## Dependencies
 
 - Runtime: markdown, YAML frontmatter, skills ShipGlowz existantes.
-- Document contracts: `shipflow-spec-driven-workflow.md`, `shipflow-metadata-migration-guide.md`, `README.md`.
-- Dependency status alignment: `shipflow-spec-driven-workflow.md` is currently `status: draft` with `artifact_version: "0.3.0"`; `shipflow-metadata-migration-guide.md` is currently `status: draft` with `artifact_version: "0.2.0"`; this spec therefore requires `draft` for both instead of incorrectly requiring `active`.
+- Document contracts: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/metadata-migration-guide.md`, `README.md`.
+- Dependency status alignment: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` is currently `status: draft` with `artifact_version: "0.3.0"`; `shipglowz_data/technical/metadata-migration-guide.md` is currently `status: draft` with `artifact_version: "0.2.0"`; this spec therefore requires `draft` for both instead of incorrectly requiring `active`.
 - Metadata debt: `README.md` has no ShipGlowz frontmatter in the inspected state, so this spec records `artifact_version: "unknown"` and `required_status: "unknown"` rather than inventing an active status.
 - Fresh external docs: fresh-docs not needed, because the change is local to ShipGlowz markdown conventions and skill instructions.
 
@@ -153,7 +153,7 @@ Ajouter au schema de spec ShipGlowz des metadata de modele (`source_model`, puis
 - `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-end/SKILL.md` et `skills/sg-ship/SKILL.md` doivent decrire leur mise a jour obligatoire de l'historique quand une spec est presente.
 - Toutes les autres `skills/*/SKILL.md` doivent etre inventoriees et classees pour savoir si elles appliquent le bloc final `Chantier` en obligatoire, conditionnel ou non-applicable.
 - `skills/sg-help/SKILL.md` doit expliquer la doctrine: `specs/` est le registre global des chantiers spec-first.
-- `README.md` ou `shipflow-spec-driven-workflow.md` doit documenter la lecture du flux depuis une spec.
+- `README.md` ou `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` doit documenter la lecture du flux depuis une spec.
 - `CHANGELOG.md` doit mentionner la nouvelle tracabilite des chantiers.
 
 ## Edge Cases
@@ -250,11 +250,11 @@ Ajouter au schema de spec ShipGlowz des metadata de modele (`source_model`, puis
   - Notes: Les lifecycle skills deja couvertes par Tasks 4-9 ne doivent pas etre reeditees en doublon ici; cette task applique les categories restantes.
 
 - [x] Task 11: Documenter la doctrine dans le workflow public interne
-  - File: `shipflow-spec-driven-workflow.md`
+  - File: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Expliquer que `specs/` est le registre global des chantiers et que chaque spec garde son historique de skill runs; inclure la regle obligatoire, conditionnel, non-applicable.
   - User story link: Permet de retrouver la regle sans ouvrir les skills.
   - Depends on: Task 10
-  - Validate with: `rg -n "Skill Run History|registre global des chantiers|specs/|conditionnel|non-applicable" shipflow-spec-driven-workflow.md`
+  - Validate with: `rg -n "Skill Run History|registre global des chantiers|specs/|conditionnel|non-applicable" shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: Ne pas transformer la doc en manuel exhaustif.
 
 - [x] Task 12: Ajouter une entree changelog
@@ -278,7 +278,7 @@ Ajouter au schema de spec ShipGlowz des metadata de modele (`source_model`, puis
 - [ ] AC 9: Given `sg-ready` a statue sur une spec, when le report final est lu, then il contient `Verdict sg-ready: ...` et un bloc `Chantier` avec la prochaine etape.
 - [ ] AC 10: Given `sg-start` implemente seulement une partie du chantier, when il trace son passage, then le resultat est `partial` ou equivalent et la prochaine etape reste explicite.
 - [ ] AC 11: Given l'utilisatrice veut savoir si `sg-ready`, `sg-start`, `sg-verify`, `sg-end` ou `sg-ship` a deja ete lance, when elle ouvre la spec du chantier, then l'information est visible sans relire la conversation.
-- [ ] AC 12: Given `shipflow-spec-driven-workflow.md` and `shipflow-metadata-migration-guide.md` remain `status: draft`, when `/sg-ready` evaluates this spec, then `depends_on.required_status` matches `draft` and does not falsely require `active`.
+- [ ] AC 12: Given `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` and `shipglowz_data/technical/metadata-migration-guide.md` remain `status: draft`, when `/sg-ready` evaluates this spec, then `depends_on.required_status` matches `draft` and does not falsely require `active`.
 
 ## Test Strategy
 
@@ -300,7 +300,7 @@ Ajouter au schema de spec ShipGlowz des metadata de modele (`source_model`, puis
 ## Execution Notes
 
 - Read first: `templates/artifacts/spec.md`, `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-end/SKILL.md`, `skills/sg-ship/SKILL.md`.
-- Then read: `skills/sg-help/SKILL.md`, `shipflow-spec-driven-workflow.md`, `shipflow-metadata-migration-guide.md`, `README.md`.
+- Then read: `skills/sg-help/SKILL.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/metadata-migration-guide.md`, `README.md`.
 - Inventory command: `find skills -maxdepth 2 -name SKILL.md | sort`.
 - Initial observed inventory on 2026-04-27: `skills/name/SKILL.md`, `skills/sg-audit-a11y/SKILL.md`, `skills/sg-audit-code/SKILL.md`, `skills/sg-audit-components/SKILL.md`, `skills/sg-audit-copy/SKILL.md`, `skills/sg-audit-copywriting/SKILL.md`, `skills/sg-audit-design-tokens/SKILL.md`, `skills/sg-audit-design/SKILL.md`, `skills/sg-audit-gtm/SKILL.md`, `skills/sg-audit-seo/SKILL.md`, `skills/sg-audit-translate/SKILL.md`, `skills/sg-audit/SKILL.md`, `skills/sg-auth-debug/SKILL.md`, `skills/sg-backlog/SKILL.md`, `skills/sg-changelog/SKILL.md`, `skills/sg-check/SKILL.md`, `skills/sg-context/SKILL.md`, `skills/sg-deps/SKILL.md`, `skills/sg-design-playground/SKILL.md`, `skills/sg-docs/SKILL.md`, `skills/sg-end/SKILL.md`, `skills/sg-enrich/SKILL.md`, `skills/sg-explore/SKILL.md`, `skills/sg-fix/SKILL.md`, `skills/sg-help/SKILL.md`, `skills/sg-init/SKILL.md`, `skills/sg-market-study/SKILL.md`, `skills/sg-migrate/SKILL.md`, `skills/sg-model/SKILL.md`, `skills/sg-perf/SKILL.md`, `skills/sg-priorities/SKILL.md`, `skills/sg-prod/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-redact/SKILL.md`, `skills/sg-repurpose/SKILL.md`, `skills/sg-research/SKILL.md`, `skills/sg-resume/SKILL.md`, `skills/sg-review/SKILL.md`, `skills/sg-scaffold/SKILL.md`, `skills/sg-ship/SKILL.md`, `skills/sg-skills-refresh/SKILL.md`, `skills/sg-spec/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-status/SKILL.md`, `skills/sg-tasks/SKILL.md`, `skills/sg-test/SKILL.md`, `skills/sg-veille/SKILL.md`, `skills/sg-verify/SKILL.md`.
 - Suggested baseline categories for Task 2: obligatoire: `sg-spec`, `sg-ready`, `sg-start`, `sg-verify`, `sg-end`, `sg-ship`; conditionnel: audit, docs, check, fix, deps, perf, migrate, scaffold, content, research, backlog/task/status-adjacent skills when tied to a concrete chantier; non-applicable: pure help/discovery/session utility runs unless a chantier is explicitly active.

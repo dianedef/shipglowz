@@ -96,7 +96,7 @@ Load additionally when relevant:
 - `shipglowz_data/business/business.md`
 - `shipglowz_data/technical/code-docs-map.md`
 - `shipglowz_data/technical/guidelines.md`
-- `shipglowz-spec-driven-workflow.md`
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 
 Use this bundle for phase planning, slice definition, dependency mapping, sequencing, and execution framing.
 
@@ -148,6 +148,22 @@ Load additionally when relevant:
 - `README.md`
 
 Use this bundle for acquisition-channel arbitration, source-to-landing fit, tracking readiness, conversion measurement, paid/organic sequencing, affiliate/referral opportunities, and traffic-quality tradeoffs.
+
+### `neovim-specialist` -> `Neovim Specialist`
+
+Default bundle:
+
+- `shipglowz_data/technical/external-platforms/neovim.md`
+- `/home/claude/dotfiles/nvim/README.md`
+- `/home/claude/dotfiles/nvim/FILES.md`
+
+Load additionally when relevant:
+
+- `/home/claude/dotfiles/nvim/MyNeovim/lazy-lock.json`
+- `/home/claude/dotfiles/nvim/MyNeovimTermux/`
+- `shipglowz_data/technical/code-docs-map.md`
+
+Use this bundle for Neovim/Lua configuration, plugin compatibility, LSP/Treesitter setup, headless validation, and workstation-versus-Termux profile decisions.
 
 ## Missing Context Rule
 

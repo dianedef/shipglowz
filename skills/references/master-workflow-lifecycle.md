@@ -29,7 +29,7 @@ linked_systems:
   - skills/references/chantier-tracking.md
   - skills/references/app-blueprints.md
   - docs/technical/skill-runtime-and-lifecycle.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - README.md
 depends_on:
   - artifact: "skills/references/decision-quality-contract.md"

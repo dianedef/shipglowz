@@ -27,7 +27,7 @@
   12   │ - ECOSYSTEM-AND-PORTS.md : ports + PM2, utile mais ancien/draft.
   11   │ - local/README.md : tunnels locaux et OAuth MCP distant.
   10   │ - tools/codebase-mcp/README.md : MCP codebase, outils, usage.
-   9   │ - shipglowz-metadata-migration-guide.md : contrat metadata/linter/templates.                                                                       8   │ - skills/references/canonical-paths.md : références techniques ciblées, mais
+   9   │ - shipglowz_data/technical/metadata-migration-guide.md : contrat metadata/linter/templates.                                                                       8   │ - skills/references/canonical-paths.md : références techniques ciblées, mais
    7   │ │ dispersées.                                                                                                                                     6   │ │ │                                                                                                                                               5   │ │ │
    4   │ │ │                                                                                                                                               3   │ │ │ │                                                                        - Les Reader produit ou met à jour le Documentation Update Plan à        la fin de
    2   │ │ chaque wave ou gros bloc séquentiel.                                           - Le Sequential Executor ou l’Integrator applique les updates        de docs

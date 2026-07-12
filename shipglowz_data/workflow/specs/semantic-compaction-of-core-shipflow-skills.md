@@ -27,7 +27,7 @@ linked_systems:
   - "skills/103-sg-verify/SKILL.md"
   - "skills/104-sg-end/SKILL.md"
   - "skills/references/*"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "shipglowz_data/technical/skill-runtime-and-lifecycle.md"
   - "shipglowz_data/workflow/specs/shipflow-artifact-taxonomy-for-skills-and-references.md"
   - "shipglowz_data/workflow/specs/compact-shipflow-skill-instructions.md"
@@ -174,7 +174,7 @@ The pilot is mandatory because it tests the method across the three highest-risk
 - `skills/references/master-delegation-semantics.md`: sequential and parallel delegation semantics.
 - `skills/references/master-workflow-lifecycle.md`: master lifecycle skeleton.
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`: docs surface for runtime skill role alignment.
-- `shipflow-spec-driven-workflow.md`: docs surface for spec-first lifecycle alignment.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: docs surface for spec-first lifecycle alignment.
 
 # Invariants
 
@@ -197,7 +197,7 @@ The pilot is mandatory because it tests the method across the three highest-risk
 # Documentation Coherence
 
 - Update `shipglowz_data/technical/skill-runtime-and-lifecycle.md` if core role boundaries change materially.
-- Update `shipflow-spec-driven-workflow.md` only if lifecycle doctrine or command guidance changes.
+- Update `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` only if lifecycle doctrine or command guidance changes.
 - Do not update `README.md` unless user-facing public command promises change.
 - Do not update `AGENT.md` unless entrypoint routing instructions become stale.
 - Changelog and task tracker updates belong to `104-sg-end` / `005-sg-ship`, not this spec.
@@ -254,7 +254,7 @@ The pilot is mandatory because it tests the method across the three highest-risk
   - Notes: Use one bounded execution batch with skill-local edits only; if any touched skill requires a shared-reference rewrite, stop Batch A and move that doctrine to Task 6 instead of widening the write set in-flight.
 
 - [x] Task 6: Batch B, shared contracts and docs integration.
-  - Files: `skills/references/skill-instruction-layering.md`, relevant `skills/references/*.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipflow-spec-driven-workflow.md`
+  - Files: `skills/references/skill-instruction-layering.md`, relevant `skills/references/*.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Move or clarify reusable semantic doctrine discovered during skill edits.
   - User story link: Keeps shared doctrine in the right artifact type.
   - Depends on: Task 4 and any batch that discovers shared-reference drift.

@@ -32,7 +32,7 @@ linked_systems:
   - skills/sg-bug/SKILL.md
   - skills/sg-audit*/SKILL.md
   - docs/technical/skill-runtime-and-lifecycle.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 depends_on:
   - artifact: "docs/technical/code-docs-map.md"
     artifact_version: "1.0.0"

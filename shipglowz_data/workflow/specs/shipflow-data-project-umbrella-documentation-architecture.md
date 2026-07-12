@@ -26,7 +26,7 @@ linked_systems:
   - skills/sg-content/SKILL.md
   - skills/sg-ship/SKILL.md
   - skills/sg-verify/SKILL.md
-  - shipflow-metadata-migration-guide.md
+  - shipglowz_data/technical/metadata-migration-guide.md
   - tools/shipflow_metadata_lint.py
   - docs/technical/
   - CONTENT_MAP.md
@@ -47,7 +47,7 @@ depends_on:
   - artifact: "CONTENT_MAP.md"
     artifact_version: "0.6.0"
     required_status: draft
-  - artifact: "shipflow-metadata-migration-guide.md"
+  - artifact: "shipglowz_data/technical/metadata-migration-guide.md"
     artifact_version: "0.3.0"
     required_status: draft
   - artifact: "skills/references/canonical-paths.md"
@@ -236,7 +236,7 @@ The central structure is illustrative only. It must not be implemented or used a
 ## Dependencies
 
 - `skills/references/canonical-paths.md` must be updated to define project umbrella resolution.
-- `shipflow-metadata-migration-guide.md` must be updated to classify old root docs and new umbrella docs.
+- `shipglowz_data/technical/metadata-migration-guide.md` must be updated to classify old root docs and new umbrella docs.
 - `tools/shipflow_metadata_lint.py` must accept the new canonical locations.
 - `sg-init`, `sg-docs`, `sg-content`, `sg-tasks`, `sg-help`, `sg-verify`, `sg-ship`, and audit skills must be updated or explicitly declared no-impact.
 - Owner-skill routing must be explicit: non-owner skills route non-compliant document layouts to `sg-docs`; bootstrap/adoption routes to `sg-init`; `sg-docs` performs reorganization or writes the migration plan.
@@ -279,7 +279,7 @@ Update or audit:
 - `ARCHITECTURE.md`
 - `AGENT.md`
 - `CONTEXT.md`
-- `shipflow-metadata-migration-guide.md`
+- `shipglowz_data/technical/metadata-migration-guide.md`
 - `skills/references/canonical-paths.md`
 - `skills/sg-init/SKILL.md`
 - `skills/sg-docs/SKILL.md`
@@ -327,7 +327,7 @@ Update or audit:
   - Notes: `workflow/` covers specs, bugs, audits, reviews, verification, and project-level trackers.
 
 - [ ] Task 2b: Lock root discovery exceptions.
-  - File: `skills/references/canonical-paths.md`, `shipflow-metadata-migration-guide.md`
+  - File: `skills/references/canonical-paths.md`, `shipglowz_data/technical/metadata-migration-guide.md`
   - Action: Record that `AGENT.md`, `CLAUDE.md`, and `README.md` remain at repo root, while `AGENTS.md` is a symlink to `AGENT.md`.
   - User story link: Agent/tool discovery must keep working while governance docs move.
   - Depends on: User decision on 2026-05-10.
@@ -335,7 +335,7 @@ Update or audit:
   - Notes: Root `BUSINESS.md`, `CONTENT_MAP.md`, and similar governance docs are not exceptions.
 
 - [ ] Task 3: Create a path migration matrix.
-  - File: `shipflow-metadata-migration-guide.md`
+  - File: `shipglowz_data/technical/metadata-migration-guide.md`
   - Action: Map current paths to new umbrella paths, including root exceptions.
   - User story link: Migration must be deterministic across projects.
   - Depends on: Tasks 1-2.
@@ -367,7 +367,7 @@ Update or audit:
   - Notes: Route to `sg-init` for first bootstrap/adoption; route to `sg-docs` for update, audit, and reorganization.
 
 - [ ] Task 7: Add `sg-docs` reorganization behavior.
-  - File: `skills/sg-docs/SKILL.md`, `shipflow-metadata-migration-guide.md`
+  - File: `skills/sg-docs/SKILL.md`, `shipglowz_data/technical/metadata-migration-guide.md`
   - Action: Define how `sg-docs` inventories scattered Markdown, classifies ownership, moves or stages moves into project-local `shipglowz_data/`, and reports conflicts.
   - User story link: The document owner skill must fix bad organization, not only report it.
   - Depends on: Tasks 3-6.

@@ -24,7 +24,7 @@ linked_systems:
   - site/src/content/skills/sg-design-from-scratch.md
   - docs/skill-launch-cheatsheet.md
   - docs/technical/skill-runtime-and-lifecycle.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 depends_on:
   - artifact: "skills/sg-design-playground/SKILL.md"
     artifact_version: "local"
@@ -173,9 +173,9 @@ None for this skill creation. Naming is resolved as `sg-design-from-scratch`.
   - Validate with: `rg -n "sg-design-from-scratch|No design token system detected" skills/sg-design-playground/SKILL.md`
 
 - [x] Task 4: Add public and internal discoverability.
-  - Files: `site/src/content/skills/sg-design-from-scratch.md`, `skills/sg-help/SKILL.md`, `docs/skill-launch-cheatsheet.md`, `shipflow-spec-driven-workflow.md`, `docs/technical/skill-runtime-and-lifecycle.md`
+  - Files: `site/src/content/skills/sg-design-from-scratch.md`, `skills/sg-help/SKILL.md`, `docs/skill-launch-cheatsheet.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/technical/skill-runtime-and-lifecycle.md`
   - Action: Add the new skill to public skill content, help, launch routing, and skill runtime docs.
-  - Validate with: `rg -n "sg-design-from-scratch|Design from Scratch" site/src/content/skills skills/sg-help/SKILL.md docs/skill-launch-cheatsheet.md shipflow-spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
+  - Validate with: `rg -n "sg-design-from-scratch|Design from Scratch" site/src/content/skills skills/sg-help/SKILL.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
 
 - [x] Task 5: Sync runtime links and validate.
   - Files: `~/.claude/skills/sg-design-from-scratch`, `~/.codex/skills/sg-design-from-scratch`
@@ -198,10 +198,10 @@ None for this skill creation. Naming is resolved as `sg-design-from-scratch`.
 - `test -f skills/sg-design-from-scratch/SKILL.md`
 - `test -f site/src/content/skills/sg-design-from-scratch.md`
 - `rg -n "5 font|3 chromatic|5 font-size|modular ratio|Utopia|clamp|sg-design-playground|sg-audit-design-tokens|Unblock" skills/sg-design-from-scratch/SKILL.md`
-- `rg -n "sg-design-from-scratch|Design from Scratch" site/src/content/skills skills/sg-help/SKILL.md docs/skill-launch-cheatsheet.md shipflow-spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
+- `rg -n "sg-design-from-scratch|Design from Scratch" site/src/content/skills skills/sg-help/SKILL.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
 - `"${SHIPGLOWZ_ROOT:-$HOME/shipglowz}/tools/shipflow_sync_skills.sh" --check --skill sg-design-from-scratch`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
-- `python3 tools/shipflow_metadata_lint.py specs/sg-design-from-scratch-design-system-skill.md docs/skill-launch-cheatsheet.md shipflow-spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
+- `python3 tools/shipflow_metadata_lint.py specs/sg-design-from-scratch-design-system-skill.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
 - `pnpm --dir shipflow-site build`
 - `rg -n "BEGIN .*KEY|PRIVATE KEY|PASSWORD=|SECRET=|TOKEN=|CREDENTIAL=" skills/sg-design-from-scratch/SKILL.md site/src/content/skills/sg-design-from-scratch.md`
 

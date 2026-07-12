@@ -22,7 +22,7 @@ linked_systems:
   - skills/references/question-contract.md
   - skills/references/design-system-token-contract.md
   - skills/704-sg-model/references/model-routing.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - README.md
 depends_on:
   - artifact: "skills/references/question-contract.md"

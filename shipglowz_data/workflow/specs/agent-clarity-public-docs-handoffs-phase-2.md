@@ -22,7 +22,7 @@ linked_systems:
   - "skills/302-sg-help/references/help-catalog.md"
   - "shipglowz_data/technical/skill-runtime-and-lifecycle.md"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "docs/skill-launch-cheatsheet.md"
   - "shipglowz_data/workflow/TASKS.md"
   - "tools/shipflow_metadata_lint.py"
@@ -61,7 +61,7 @@ This phase must make public and repo-visible guidance say the same thing about s
 
 - `skills/302-sg-help/SKILL.md` and `skills/302-sg-help/references/help-catalog.md` make the help boundary and next-owner routing explicit in examples that fresh agents are likely to copy.
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md` documents the public/docs handoff taxonomy so future edits preserve `explains vs routes vs invokes vs owns execution`.
-- `README.md`, `shipflow-spec-driven-workflow.md`, and `docs/skill-launch-cheatsheet.md` use coherent wording for runtime invocation, skill discovery, and owner-skill handoff.
+- `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `docs/skill-launch-cheatsheet.md` use coherent wording for runtime invocation, skill discovery, and owner-skill handoff.
 - The existing OpenCode/KiloCode runtime-pages backlog item is kept explicitly nested under this phase instead of floating as an isolated docs note.
 
 ## Error Behavior
@@ -85,7 +85,7 @@ This phase must make public and repo-visible guidance say the same thing about s
   - `skills/302-sg-help/references/help-catalog.md`
   - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
   - `README.md`
-  - `shipflow-spec-driven-workflow.md`
+  - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - `docs/skill-launch-cheatsheet.md`
 - task-tracker clarification linking the broader phase and the OpenCode/KiloCode runtime-pages slice
 
@@ -98,7 +98,7 @@ This phase must make public and repo-visible guidance say the same thing about s
 
 ## Test Contract
 
-- `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/agent-clarity-public-docs-handoffs-phase-2.md shipglowz_data/technical/skill-runtime-and-lifecycle.md README.md shipflow-spec-driven-workflow.md docs/skill-launch-cheatsheet.md skills/302-sg-help/references/help-catalog.md`
+- `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/agent-clarity-public-docs-handoffs-phase-2.md shipglowz_data/technical/skill-runtime-and-lifecycle.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/skill-launch-cheatsheet.md skills/302-sg-help/references/help-catalog.md`
 - targeted `rg` checks for `explains`, `routes`, `invokes`, `owns execution`, `skill({ name: "shipflow" })`, `OpenCode`, `KiloCode`, and `continue`
 - focused drift scan across the touched surfaces for contradictory skill-invocation examples
 

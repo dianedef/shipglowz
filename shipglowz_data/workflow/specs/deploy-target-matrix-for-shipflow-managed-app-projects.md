@@ -27,7 +27,7 @@ linked_systems:
   - "shipglowz_data/business/product.md"
   - "shipglowz_data/business/gtm.md"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
 depends_on:
   - artifact: "shipglowz_data/business/business.md"
     artifact_version: "1.2.0"
@@ -155,14 +155,14 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
 
 - `004-sg-deploy` may need a target-selection contract or argument model that consumes the reference without pretending to decide in a vacuum.
 - `000-shipflow` and `skills/references/entrypoint-routing.md` may need explicit routing language for deploy-target advice.
-- `README.md`, `shipflow-spec-driven-workflow.md`, and any public docs that discuss app deployment may need a platform recommendation section.
+- `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and any public docs that discuss app deployment may need a platform recommendation section.
 - Future deploy playbooks or target-specific docs should derive from the matrix instead of inventing their own ranking.
 - If the matrix is absent or stale, operator trust degrades because ShipGlowz appears opinionated without a durable basis.
 
 ## Documentation Coherence
 
 - Update `README.md` only if deploy target recommendation is part of the public operator story.
-- Update `shipflow-spec-driven-workflow.md` if deploy substrates become an explicit supported decision lane.
+- Update `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` if deploy substrates become an explicit supported decision lane.
 - Update `004-sg-deploy` docs/help/public surfaces if target-aware deploy routing is introduced.
 - Add the canonical matrix as `skills/references/deploy-target-matrix.md`, then make every other surface point back to it.
 - Public docs must avoid claiming deeper platform automation than actually exists.
@@ -202,7 +202,7 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
   - Notes: do not duplicate matrix internals inside the router.
 
 - [ ] Task 4: Align public/operator docs.
-  - File: `README.md`, `shipflow-spec-driven-workflow.md`, and any relevant public docs/help surfaces selected during implementation.
+  - File: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and any relevant public docs/help surfaces selected during implementation.
   - Action: Add compact target recommendation guidance that points back to the canonical matrix without overstating certainty or implementation depth.
   - User story link: keeps public and operator guidance consistent.
   - Depends on: Task 1

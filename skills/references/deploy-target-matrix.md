@@ -18,7 +18,7 @@ linked_systems:
   - skills/000-shipglowz/SKILL.md
   - skills/references/entrypoint-routing.md
   - README.md
-  - shipglowz-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - shipglowz_data/workflow/research/codesphere-fit-for-shipflow-workflows.md
   - shipglowz_data/workflow/research/codesphere-vs-railway-vs-render-vs-flyio-for-shipflow.md
 depends_on:

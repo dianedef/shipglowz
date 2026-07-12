@@ -23,7 +23,7 @@ linked_systems:
   - skills/*/SKILL.md
   - specs/
   - templates/artifacts/spec.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 depends_on:
   - artifact: "specs/specs-as-chantier-registry.md"
     artifact_version: "1.0.0"
@@ -141,7 +141,7 @@ Etendre la doctrine avec une seconde taxonomie interne: la categorie de tracing 
 - Downstream systems: `sg-ready`, `sg-start`, `sg-verify`, `sg-end`, `sg-ship` continuent le cycle apres creation de la spec.
 - Cross-cutting checks: audits, deps, perf, tests, prod, migrations et debug auth doivent evaluer le potentiel chantier a la fin du rapport.
 - Operational trackers: `TASKS.md` et `AUDIT_LOG.md` peuvent rester utiles pour les audits, mais ne remplacent pas le chantier quand une vraie decision/spec est necessaire.
-- Documentation impact: `sg-help` et `shipflow-spec-driven-workflow.md` doivent expliquer les deux axes: tracing category et process role.
+- Documentation impact: `sg-help` et `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` doivent expliquer les deux axes: tracing category et process role.
 
 ## Documentation Coherence
 
@@ -149,7 +149,7 @@ Etendre la doctrine avec une seconde taxonomie interne: la categorie de tracing 
 - `skills/sg-help/SKILL.md` doit afficher une matrice lisible des roles internes.
 - `skills/sg-spec/SKILL.md` doit accepter une entree provenant d'une skill source et reprendre son contexte sans le perdre.
 - Les skills sources doivent inclure le bloc `Chantier potentiel`.
-- `shipflow-spec-driven-workflow.md` doit expliquer le flux: source skill -> chantier potentiel -> `sg-spec` -> `sg-ready` -> `sg-start`.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` doit expliquer le flux: source skill -> chantier potentiel -> `sg-spec` -> `sg-ready` -> `sg-start`.
 - `CHANGELOG.md` doit mentionner l'ajout du role `source-de-chantier`.
 
 ## Edge Cases
@@ -238,11 +238,11 @@ Etendre la doctrine avec une seconde taxonomie interne: la categorie de tracing 
   - Notes: `continue` avait une categorie chantier manquante pendant l'investigation; il faut la normaliser ou l'exclure explicitement.
 
 - [x] Task 10: Mettre a jour le workflow spec-driven
-  - File: `shipflow-spec-driven-workflow.md`
+  - File: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Ajouter le flux `source skill -> Chantier potentiel -> sg-spec -> sg-ready -> sg-start -> sg-verify -> sg-end/sg-ship`.
   - User story link: Rend le processus transmissible a un agent frais.
   - Depends on: Tasks 1-9
-  - Validate with: `rg -n "Chantier potentiel|source skill|source-de-chantier|sg-spec" shipflow-spec-driven-workflow.md`
+  - Validate with: `rg -n "Chantier potentiel|source skill|source-de-chantier|sg-spec" shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: Ne pas inclure la taxonomie du site public.
 
 - [x] Task 11: Ajouter la validation de coherence

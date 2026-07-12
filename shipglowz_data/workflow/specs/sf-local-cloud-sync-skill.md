@@ -25,7 +25,7 @@ linked_systems:
   - skills/sg-help/references/help-catalog.md
   - shipglowz_data/technical/skill-runtime-and-lifecycle.md
   - shipglowz_data/technical/code-docs-map.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - README.md
   - site/src/content/skills/sg-local-cloud-sync.md
 depends_on:
@@ -154,7 +154,7 @@ Create `sg-local-cloud-sync` as a domain skill with compact activation rules and
 
 ## Documentation Coherence
 
-- Update README and `shipflow-spec-driven-workflow.md` to name the new skill in routing tables and lifecycle summaries.
+- Update README and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` to name the new skill in routing tables and lifecycle summaries.
 - Update `shipglowz_data/technical/skill-runtime-and-lifecycle.md` and `shipglowz_data/technical/code-docs-map.md` for skill inventory and owned references.
 - Update `skills/sg-help/references/help-catalog.md`.
 - Add public page `site/src/content/skills/sg-local-cloud-sync.md`.
@@ -179,7 +179,7 @@ Create `sg-local-cloud-sync` as a domain skill with compact activation rules and
 3. Create `skills/sg-local-cloud-sync/references/ux-security-checklist.md` with user-visible sync/save states, sensitive-data policy, tenant/account boundaries, logging, retry, and abuse controls.
 4. Create `skills/sg-local-cloud-sync/references/flutter-implementation-checklist.md` for Flutter/Riverpod/local-store/provider proof details.
 5. Add `site/src/content/skills/sg-local-cloud-sync.md`.
-6. Update `skills/sg-help/references/help-catalog.md`, `README.md`, and `shipflow-spec-driven-workflow.md`.
+6. Update `skills/sg-help/references/help-catalog.md`, `README.md`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
 7. Update `shipglowz_data/technical/skill-runtime-and-lifecycle.md` and `shipglowz_data/technical/code-docs-map.md`.
 8. Repair/check current-user runtime symlinks with `tools/shipflow_sync_skills.sh --repair --skill sg-local-cloud-sync` and `--check`.
 9. Run validation commands from the skill and spec, then update `Skill Run History`.

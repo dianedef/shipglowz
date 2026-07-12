@@ -28,7 +28,7 @@ linked_systems:
   - "tools/shipflow_sync_skills.sh"
   - "shipglowz_data/technical/skill-runtime-and-lifecycle.md"
   - "shipglowz_data/technical/code-docs-map.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
 depends_on:
   - artifact: "docs/explorations/2026-05-16-skill-instruction-compaction.md"
     artifact_version: "1.0.0"
@@ -54,7 +54,7 @@ depends_on:
   - artifact: "skills/references/reporting-contract.md"
     artifact_version: "1.2.0"
     required_status: "active"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.17.0"
     required_status: "draft"
 supersedes: []
@@ -172,7 +172,7 @@ If one pilot file proves unsafe to compact in this run, substitute the next high
   - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
   - `shipglowz_data/technical/code-docs-map.md`
   - `shipglowz_data/technical/guidelines.md`
-  - `shipflow-spec-driven-workflow.md`
+  - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - Local tools:
   - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
   - `python3 tools/shipflow_metadata_lint.py <changed-artifacts>`
@@ -196,7 +196,7 @@ If one pilot file proves unsafe to compact in this run, substitute the next high
 - `tools/skill_budget_audit.py`: may stay unchanged if existing output is sufficient; update only if body compaction needs clearer before/after reporting.
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`: must describe layered skill instructions and any new reference.
 - `shipglowz_data/technical/code-docs-map.md`: update only if validation commands, code path mappings, or docs triggers change.
-- `shipflow-spec-driven-workflow.md`: update only if the general workflow doctrine changes, not for pilot implementation details.
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: update only if the general workflow doctrine changes, not for pilot implementation details.
 - `sg-help` and public site skill pages: no required change unless user-facing skill routing or public promises change.
 - Runtime symlinks: changing skill bodies should not require repair, but current-user visibility must be checked after material skill changes.
 
@@ -205,7 +205,7 @@ If one pilot file proves unsafe to compact in this run, substitute the next high
 - Required documentation update: `shipglowz_data/technical/skill-runtime-and-lifecycle.md` must mention the skill layering contract and body-size compaction policy.
 - Required documentation update: `skills/references/skill-context-budget.md` must clarify that discovery descriptions are currently compliant, while body-size risk is handled by layered references.
 - Conditional documentation update: `shipglowz_data/technical/code-docs-map.md` only if the map's validation or trigger language changes.
-- Conditional documentation update: `shipflow-spec-driven-workflow.md` only if lifecycle doctrine changes.
+- Conditional documentation update: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` only if lifecycle doctrine changes.
 - No public README or site update is required unless the implementation changes user-facing skill names, public promises, or recommended commands.
 - Operational trackers (`TASKS.md`, `AUDIT_LOG.md`, `PROJECTS.md`) are not edited by this spec.
 

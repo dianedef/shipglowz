@@ -16,10 +16,10 @@ docs_impact: yes
 linked_systems:
   - templates/artifacts/
   - tools/shipglowz_metadata_lint.py
-  - shipglowz-metadata-migration-guide.md
+  - shipglowz_data/technical/metadata-migration-guide.md
   - shipglowz_data/editorial/
 depends_on:
-  - artifact: "shipglowz-metadata-migration-guide.md"
+  - artifact: "shipglowz_data/technical/metadata-migration-guide.md"
     artifact_version: "0.2.0"
     required_status: draft
 supersedes: []
@@ -47,7 +47,7 @@ This doc covers ShipGlowz artifact frontmatter, templates, and `tools/shipglowz_
 | `templates/artifacts/competitive_intelligence.md` | Template for project competitors, alternatives, inspirations, and anti-patterns | Official linted artifact type for business research registries |
 | `templates/artifacts/affiliate_program_registry.md` | Template for affiliate, referral, partner, sponsorship, and disclosure tracking | Official linted artifact type; never store secrets in generated files |
 | `tools/shipglowz_metadata_lint.py` | Dependency-free frontmatter validator | Keep standard-library only |
-| `shipglowz-metadata-migration-guide.md` | Human procedure for metadata adoption | Update when schema behavior changes |
+| `shipglowz_data/technical/metadata-migration-guide.md` | Human procedure for metadata adoption | Update when schema behavior changes |
 
 ## Entrypoints
 

@@ -28,7 +28,7 @@ linked_systems:
   - templates/artifacts/bug_record.md
   - tools/shipflow_metadata_lint.py
   - README.md
-  - shipflow-spec-driven-workflow.md
+  - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - CHANGELOG.md
   - site/src/content/skills/sg-test.md
   - site/src/content/skills/sg-fix.md
@@ -48,7 +48,7 @@ depends_on:
   - artifact: "GUIDELINES.md"
     artifact_version: "1.0.0"
     required_status: "reviewed"
-  - artifact: "shipflow-spec-driven-workflow.md"
+  - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.3.0"
     required_status: "draft"
 supersedes: []
@@ -149,7 +149,7 @@ Introduire une architecture de bug tracking ShipGlowz en trois couches: `TEST_LO
 ## Dependencies
 
 - Runtime: markdown, YAML frontmatter pour `bugs/*.md`, conventions de nommage `BUG-YYYY-MM-DD-NNN`, relecture de fichiers avant ecriture.
-- Document contracts: `PRODUCT.md` 1.1.0, `BUSINESS.md` 1.1.0, `BRANDING.md` 1.0.0, `GUIDELINES.md` 1.0.0, `shipflow-spec-driven-workflow.md` 0.3.0.
+- Document contracts: `PRODUCT.md` 1.1.0, `BUSINESS.md` 1.1.0, `BRANDING.md` 1.0.0, `GUIDELINES.md` 1.0.0, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` 0.3.0.
 - Skill dependencies: `sg-test`, `sg-fix`, `sg-verify`, `sg-ship`, `sg-help`, `sg-docs`, and optionally `sg-auth-debug` when browser auth evidence is involved.
 - Documentation surfaces: `README.md`, `skills/sg-test/README.md`, public skill content under `site/src/content/skills/`, and `CHANGELOG.md`.
 - Metadata gaps: `BUGS.md` and `TEST_LOG.md` intentionally remain tracker files and should not be migrated to artifact frontmatter.
@@ -216,7 +216,7 @@ Bug ID generation invariant:
 - `skills/sg-docs/SKILL.md` must include this bug model in documentation-coherence audits and preserve the tracker-vs-artifact distinction.
 - `skills/sg-help/SKILL.md` must expose the professional bug loop and file roles.
 - `templates/artifacts/bug_record.md` must define the per-bug dossier format.
-- `README.md` and `shipflow-spec-driven-workflow.md` must mention the professional bug loop.
+- `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` must mention the professional bug loop.
 - `CHANGELOG.md` must record the new bug-management doctrine.
 - `site/src/content/skills/sg-test.md`, `site/src/content/skills/sg-fix.md`, `site/src/content/skills/sg-verify.md`, `site/src/content/skills/sg-ship.md`, and `site/src/content/skills/sg-docs.md` must stay aligned if they describe bug, verification, shipping or documentation behavior.
 
@@ -320,11 +320,11 @@ Bug ID generation invariant:
   - Notes: Avoid promising external tracker sync.
 
 - [ ] Task 11: Update workflow doctrine
-  - File: `shipflow-spec-driven-workflow.md`
+  - File: `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Action: Add a concise section explaining `sg-test -> bug dossier -> sg-fix -> sg-test --retest -> sg-verify -> sg-ship`, with file roles, status lifecycle summary and evidence size rules.
   - User story link: Makes the doctrine visible outside individual skills.
   - Depends on: Tasks 3-9
-  - Validate with: `rg -n "Professional Bug|bug dossier|test-evidence|sg-test --retest|closed-without-retest" shipflow-spec-driven-workflow.md`
+  - Validate with: `rg -n "Professional Bug|bug dossier|test-evidence|sg-test --retest|closed-without-retest" shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: Keep this as workflow doctrine, not an exhaustive bug-tracker manual.
 
 - [ ] Task 12: Update README

@@ -70,7 +70,7 @@ evidence:
   - "Updated on 2026-06-28 to clarify public/docs runtime handoffs: helpers explain, the router hands off, owner skills execute, and OpenCode/KiloCode internal calls are not manual commands."
   - "Updated on 2026-06-29 to add Tariq as a named profile for acquisition-channel arbitration and traffic measurement discipline."
 next_review: "unknown"
-next_step: "/300-sg-docs audit shipglowz-spec-driven-workflow.md"
+next_step: "/300-sg-docs audit shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
 ---
 
 # ShipGlowz V3: Spec-Driven Workflow
@@ -313,7 +313,7 @@ After every code-changing execution wave, the Reader must produce a `Documentati
 
 The Reader diagnoses impact; an executor or integrator applies updates. A mapped code change must either update the impacted technical doc or record a no-impact justification. There is no stale-doc shipping exception for mapped technical docs.
 
-Shared files are sequential integration files by default: `shipglowz_data/technical/code-docs-map.md`, `AGENT.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/guidelines.md`, `shipglowz-spec-driven-workflow.md`, and `tools/shipglowz_metadata_lint.py`. Parallel documentation work is allowed only when a ready spec defines disjoint file ownership.
+Shared files are sequential integration files by default: `shipglowz_data/technical/code-docs-map.md`, `AGENT.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/guidelines.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `tools/shipglowz_metadata_lint.py`. Parallel documentation work is allowed only when a ready spec defines disjoint file ownership.
 
 `AGENT.md` remains the canonical agent entrypoint. `AGENTS.md`, when present, is a compatibility symlink to `AGENT.md`, not a second maintained Markdown source. `shipglowz_data/technical/` remains internal-only in v1 and must not be published to the public site.
 
@@ -511,7 +511,7 @@ The linter is intentionally dependency-free. It checks the default ShipGlowz art
 
 When a skill runs from a project repository, ShipGlowz-owned docs, tools, references, templates, and skill-local `references/*` still resolve from `${SHIPGLOWZ_ROOT:-${SHIPFLOW_ROOT:-$HOME/shipglowz}}`. Only project artifacts and source files resolve from the current project root.
 
-This decision-contract layer is wired into the active ShipGlowz workflow: agent routing (`AGENT.md`), project orientation (`shipglowz_data/technical/context.md`), documentation doctrine (`README.md`, this file, `shipglowz-metadata-migration-guide.md`), the `300-sg-docs` skill, and `tools/shipglowz_metadata_lint.py`.
+This decision-contract layer is wired into the active ShipGlowz workflow: agent routing (`AGENT.md`), project orientation (`shipglowz_data/technical/context.md`), documentation doctrine (`README.md`, this file, `shipglowz_data/technical/metadata-migration-guide.md`), the `300-sg-docs` skill, and `tools/shipglowz_metadata_lint.py`.
 
 ## Language Doctrine
 
@@ -530,7 +530,7 @@ Stable machine-readable anchors stay English even in localized artifacts: `Statu
 
 Do not rewrite old mixed-language artifacts only for language cleanup. Apply the doctrine to new artifacts and to touched sections when the change is already in scope.
 
-For existing projects with legacy docs, follow [`shipglowz-metadata-migration-guide.md`](./shipglowz-metadata-migration-guide.md) and prefer additive frontmatter migration before deeper document rewrites.
+For existing projects with legacy docs, follow [`shipglowz_data/technical/metadata-migration-guide.md`](./shipglowz_data/technical/metadata-migration-guide.md) and prefer additive frontmatter migration before deeper document rewrites.
 
 For legacy migration, the official default scope is active context docs and decision contracts when they exist at root (`CONTEXT.md`, `CONTEXT-FUNCTION-TREE.md`, `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, `GTM.md`, `ARCHITECTURE.md`, `CONTENT_MAP.md`, `GUIDELINES.md`) plus root `specs/*.md`, but only as migration sources. The final location is the project-local `shipglowz_data/` tree. Do not expand the migration endlessly to every old markdown file unless that file is part of the active ShipGlowz documentation set.
 
@@ -593,8 +593,8 @@ Documentation role map:
 - `shipglowz_data/editorial/content-map.md` -> editorial map for blog, docs, landing pages, semantic clusters, and repurposing destinations
 - `shipglowz_data/editorial/` -> content governance for public content, claims, page intent, editorial update gates, and Astro runtime-content schema boundaries
 - `CLAUDE.md` -> critical repository constraints and rules
-- `shipglowz-spec-driven-workflow.md` -> ShipGlowz work doctrine
-- `shipglowz-metadata-migration-guide.md` -> frontmatter migration procedure
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` -> ShipGlowz work doctrine
+- `shipglowz_data/technical/metadata-migration-guide.md` -> frontmatter migration procedure
 - `shipglowz_data/business/business.md` -> business/product contract: for whom, what problem, what value, what model
 - `shipglowz_data/branding/branding.md` -> brand contract: tone, posture, vocabulary, claims
 - `shipglowz_data/business/gtm.md` -> public promise and sales contract: offer, funnel, objections, proof, channels, KPIs
@@ -739,7 +739,7 @@ evidence:
   - "current product positioning"
 linked_artifacts:
   - "shipglowz_data/branding/branding.md"
-  - "shipglowz-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
 depends_on: []
 supersedes: []
 next_review: "2026-05-25"

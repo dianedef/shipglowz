@@ -25,7 +25,7 @@ depends_on:
 supersedes: []
 evidence:
   - "Operator decision on 2026-05-24: maintain a global source corpus for Freshness Gate and project-local usage docs for precise project adoption."
-  - "Initial common provider set added: Vercel, Firecrawl, Convex, Clerk, Firebase, Google Cloud, Supabase, Sentry, Astro, Python, Bash, and Gum."
+  - "Initial common provider set added: Vercel, Firecrawl, Convex, Clerk, Firebase, Google Cloud, Supabase, Sentry, Astro, Python, Bash, Gum, and Neovim."
   - "Operator decision on 2026-05-24: project-local provider usage notes are conditional on local risk/complexity, not mandatory per technology."
   - "Operator decision on 2026-05-24: provider usage notes resolve from the governance root, which is the monorepo root for monorepos."
   - "CrewAI global platform note added for agent orchestration, tools, memory, structured outputs, and dependency freshness."
@@ -106,7 +106,8 @@ Each provider note should include:
 - `google-cloud.md`
 - `gum.md`
 - `lemonsqueezy.md`
-- `python.md`
+  - `python.md`
+  - `neovim.md`
 - `sentry.md`
 - `supabase.md`
 - `vercel.md`

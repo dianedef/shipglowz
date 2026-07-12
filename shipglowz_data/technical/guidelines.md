@@ -17,7 +17,7 @@ linked_systems:
   - "config.sh"
   - "local/"
   - "skills/"
-  - "shipglowz-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "templates/artifacts/"
   - "shipglowz_data/technical/"
   - "shipglowz_data/technical/design-system-authority.md"
@@ -109,7 +109,7 @@ This file defines stable engineering and documentation rules for working inside 
 - `shipglowz_data/technical/` is internal-only in v1.
 - The Reader produces a `Documentation Update Plan` after every code-changing execution wave and again during end verification.
 - The Reader diagnoses docs impact; an executor or integrator applies the docs update.
-- Shared files stay sequential by default: `shipglowz_data/technical/code-docs-map.md`, `AGENT.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/guidelines.md`, `shipglowz-spec-driven-workflow.md`, and `tools/shipglowz_metadata_lint.py`.
+- Shared files stay sequential by default: `shipglowz_data/technical/code-docs-map.md`, `AGENT.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/guidelines.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `tools/shipglowz_metadata_lint.py`.
 - Parallel technical-doc edits are allowed only when a ready spec defines disjoint file ownership.
 - Technical docs may link to architecture, context, specs, and decisions, but must not copy their full content.
 - Technical docs do not include per-file `last_verified_against` fields in v1.

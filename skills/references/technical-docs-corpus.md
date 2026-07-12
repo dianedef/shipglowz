@@ -87,7 +87,7 @@ This reference tells ShipGlowz skills how to use the internal `shipglowz_data/te
 
 ## Documentation Update Plan
 
-Use the format defined in `shipglowz_data/technical/code-docs-map.md`. The owner role is usually `executor` for the subsystem doc and `integrator` for shared files such as `code-docs-map.md`, `AGENT.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/guidelines.md`, and `shipglowz-spec-driven-workflow.md`.
+Use the format defined in `shipglowz_data/technical/code-docs-map.md`. The owner role is usually `executor` for the subsystem doc and `integrator` for shared files such as `code-docs-map.md`, `AGENT.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/guidelines.md`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
 
 ## External Platform Corpus
 

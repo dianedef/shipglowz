@@ -18,7 +18,7 @@ linked_systems:
   - shipglowz_data/technical/
   - shipglowz_data/editorial/
   - shipglowz_data/business/
-  - shipglowz-metadata-migration-guide.md
+  - shipglowz_data/technical/metadata-migration-guide.md
 depends_on:
   - artifact: "skills/references/technical-docs-corpus.md"
     artifact_version: "1.5.0"

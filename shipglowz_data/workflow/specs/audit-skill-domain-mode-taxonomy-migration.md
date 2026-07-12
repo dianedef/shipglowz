@@ -25,7 +25,7 @@ linked_systems:
   - "skills/302-sg-help/references/help-catalog.md"
   - "skills/109-sg-auth-debug/SKILL.md"
   - "README.md"
-  - "shipflow-spec-driven-workflow.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "shipglowz_data/technical/skill-runtime-and-lifecycle.md"
   - "plugins/shipflow/assets/pack-catalog.json"
   - "plugins/shipflow/skills/shipflow/references/pack-catalog.md"
@@ -123,7 +123,7 @@ Migrate audit-named skills in controlled batches. Keep numeric codes stable, ren
   - `skills/*/SKILL.md`
   - skill-local references
   - `README.md`
-  - `shipflow-spec-driven-workflow.md`
+  - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
   - `shipglowz_data/editorial/*`
   - `plugins/shipflow/assets/pack-catalog.json`
@@ -196,7 +196,7 @@ Pressure scenarios:
 Update these live documentation surfaces during implementation:
 
 - `README.md`
-- `shipflow-spec-driven-workflow.md`
+- `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
 - `shipglowz_data/editorial/content-map.md`
 - `shipglowz_data/editorial/README.md`

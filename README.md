@@ -142,8 +142,8 @@ It helps operators run apps on servers, but its deeper job is to reduce ambiguit
 - [shipglowz_data/technical/guidelines.md](./shipglowz_data/technical/guidelines.md) — technical rules, preferred patterns, anti-patterns, and validation expectations
 - [shipglowz_data/technical/terminal-tui.md](./shipglowz_data/technical/terminal-tui.md) — internal contract for the optional read-only terminal dashboard
 - [CLAUDE.md](./CLAUDE.md) — repository constraints and coding guidance
-- [shipglowz-spec-driven-workflow.md](./shipglowz-spec-driven-workflow.md) — ShipGlowz V3 workflow for `700-sg-explore`, `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, and `104-sg-end`
-- [shipglowz-metadata-migration-guide.md](./shipglowz-metadata-migration-guide.md) — how to adopt ShipGlowz metadata and versioning in an existing project
+- [Workflow doctrine](./shipglowz_data/workflow/playbooks/spec-driven-workflow.md) — ShipGlowz V3 workflow for `700-sg-explore`, `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, and `104-sg-end`
+- [Metadata migration guide](./shipglowz_data/technical/metadata-migration-guide.md) — how to adopt ShipGlowz metadata and versioning in an existing project
 - [skills/references/canonical-paths.md](./skills/references/canonical-paths.md) — path resolution rules for ShipGlowz-owned tools, references, templates, and project-local artifacts
 - [skills/references/private-data-repo-contract.md](./skills/references/private-data-repo-contract.md) — contract for the separate private data repository used for durable operator-managed data under `~/.shipglowz/private/data/`
 - Runtime port and PM2 behavior is documented in [shipglowz_data/technical/runtime-cli.md](./shipglowz_data/technical/runtime-cli.md); the historical root note is archived under [archive/root-documentation/ECOSYSTEM-AND-PORTS.md](./archive/root-documentation/ECOSYSTEM-AND-PORTS.md).
@@ -847,7 +847,7 @@ This layer is wired into the documentation workflow, agent routing, project cont
 
 ShipGlowz-owned files are resolved from `${SHIPFLOW_ROOT:-$HOME/shipglowz}` even when a skill is running inside another repository. Project artifacts and source files are the only paths resolved from the current project root.
 
-For legacy projects, use the migration playbook in [`shipglowz-metadata-migration-guide.md`](./shipglowz-metadata-migration-guide.md) before normalizing old docs.
+For legacy projects, use the migration playbook in [`shipglowz_data/technical/metadata-migration-guide.md`](./shipglowz_data/technical/metadata-migration-guide.md) before normalizing old docs.
 
 By default it checks `shipglowz_data/`, `docs/`, `AGENT.md`, and legacy root artifact names such as `BUSINESS.md`, `CONTEXT.md`, `CONTENT_MAP.md`, `TASKS.md`, or `AUDIT_LOG.md`. Legacy root ShipGlowz artifacts and project-local trackers fail layout compliance and must be moved to their canonical `shipglowz_data/` location. Pass explicit files or folders to validate a narrower scope.
 
@@ -960,7 +960,7 @@ shipglowz/
 ├── README.md
 ├── CLAUDE.md
 ├── CHANGELOG.md
-├── shipglowz-spec-driven-workflow.md
+├── shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 ├── shipglowz-site/
 ├── docs/
 ├── tui/
