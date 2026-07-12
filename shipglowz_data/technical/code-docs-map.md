@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.5.0"
+artifact_version: "1.7.0"
 project: ShipGlowz
 created: "2026-05-01"
-updated: "2026-06-28"
+updated: "2026-07-12"
 status: reviewed
 source_skill: 102-sg-start
 scope: code-docs-map
@@ -33,6 +33,8 @@ evidence:
   - "900-shipglowz-core internal skill and tools/audit_shipglowz_skills.py mapped to skill runtime docs."
   - "Design-system authority artifact and drift checker mapped for UI token/theme governance."
   - "Operator/question doctrine references mapped so skill collaboration behavior updates stay discoverable."
+  - "Project governance topology audit mapped as the mechanical preflight for 300-sg-docs."
+  - "900-shipglowz-core focused contract regression proof mapped beside the generic skill audit."
 next_review: "2026-06-18"
 next_step: "/300-sg-docs technical audit"
 ---
@@ -68,6 +70,8 @@ Shared files in this map are sequential integration files. Do not assign concurr
 | `tools/design_system_drift_check.py`, UI source paths such as `shipglowz-site/src/styles/**`, `shipglowz-site/src/components/**`, app `src/**`, `app/**`, `pages/**`, `components/**`, `lib/**` | Design-system authority | `shipglowz_data/technical/design-system-authority.md` | `shipglowz_data/branding/branding.md`, `shipglowz_data/technical/guidelines.md`, `skills/references/design-system-token-contract.md` | `python3 tools/design_system_drift_check.py --changed --format markdown`; project build/lint; browser or device proof when visual behavior changes | Token/theme source, component bridge, layout/motion authority, visual constants, mobile safe-area/IME behavior, or design-system drift rules change |
 | `templates/artifacts/**` | Artifact metadata and linter | `shipglowz_data/technical/artifact-metadata-and-linter.md` | `shipglowz_data/technical/metadata-migration-guide.md` | `python3 tools/shipglowz_metadata_lint.py templates/artifacts` | Template field, artifact type, or required metadata changes |
 | `tools/shipglowz_metadata_lint.py` | Artifact metadata and linter | `shipglowz_data/technical/artifact-metadata-and-linter.md` | `shipglowz_data/technical/metadata-migration-guide.md` | `python3 tools/shipglowz_metadata_lint.py --help`; targeted lint command | Required fields, statuses, artifact types, default targets, or parse behavior changes |
+| `tools/audit_shipglowz_skills.py`, `tools/test_900_shipglowz_core_contract.py` | Skill execution fidelity | `skills/900-shipglowz-core/SKILL.md` | `skills/references/skill-execution-fidelity.md`, `skills/references/skill-instruction-layering.md` | `python3 -m unittest tools.test_900_shipglowz_core_contract`; `python3 tools/audit_shipglowz_skills.py` | Generic audit classifications, sg-core critique-to-repair routing, followability proof, or focused completion semantics change |
+| `tools/audit_project_governance_topology.py`, `tools/test_audit_project_governance_topology.py` | Project governance topology | `skills/300-sg-docs/SKILL.md` | `skills/references/canonical-paths.md`, `skills/references/monorepo-governance-topology.md` | `python3 -m unittest tools.test_audit_project_governance_topology`; fixture and target-project CLI runs | Canonical corpus detection, legacy/nested corpus classification, compatibility entrypoints, standalone exceptions, or migration routing changes |
 | `tools/codebase-mcp/**` | Codebase MCP | `shipglowz_data/technical/codebase-mcp.md` | `tools/codebase-mcp/README.md`, `tools/codebase-mcp/TIPS.md` | Python syntax check and focused MCP tool behavior review | Context budget, tool names, file indexing, memory, or setup behavior changes |
 | `shipglowz-site/**` | Public site and content runtime | `shipglowz_data/technical/public-site-and-content-runtime.md` | `shipglowz_data/editorial/content-map.md`, `shipglowz-site/README.md` | `npm --prefix shipglowz-site run build` when practical | Public route, public docs, skill page, content boundary, or publishing behavior changes |
 | `shipglowz_data/editorial/content-map.md` | Public content routing | `shipglowz_data/technical/public-site-and-content-runtime.md` | `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | Metadata lint; link/path review | Public surface role, content destination, or cross-surface update rule changes |

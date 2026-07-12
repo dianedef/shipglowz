@@ -52,6 +52,10 @@ Use `report=agent` for blocked runs, handoff, or explicit verbose request.
 - `add-project update`, `project refresh`, `refresh project`, `update project` -> `ADD PROJECT UPDATE MODE`
 - empty args -> `AUTO MODE`
 
+## Always-On Governance Preflight
+
+Before mode selection, run `python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/audit_project_governance_topology.py" .`. Continue normally on `compliant`; enter layout migration on `migration-required`; resolve bootstrap/ownership on `review-required`. Do not report narrow docs work complete while this gate is unresolved.
+
 ## Required References
 
 Always load:
@@ -157,8 +161,9 @@ Stop and report `blocked` when:
 Run focused checks for touched surfaces:
 
 ```bash
-python3 tools/shipglowz_metadata_lint.py <changed-artifacts>
-rg -n "Maintenance Rule|Validation|Owned Files|Entrypoints" shipglowz_data/technical templates/artifacts/technical_module_context.md
+python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/audit_project_governance_topology.py" .
+python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/shipglowz_metadata_lint.py" <changed-artifacts>
+rg -n "Maintenance Rule|Validation|Owned Files|Entrypoints" shipglowz_data/technical "${SHIPFLOW_ROOT:-$HOME/shipglowz}/templates/artifacts/technical_module_context.md"
 rg -n "Editorial Update Plan|Claim Impact Plan|pending final copy|surface missing|Astro content schema" shipglowz_data/editorial docs/editorial
 test ! -e AGENTS.md || { test -L AGENTS.md && test "$(readlink AGENTS.md)" = "AGENT.md"; }
 ```
@@ -175,13 +180,13 @@ Use these checks to confirm the source docs were intentionally converted into fa
 When the scope touches skill discovery or skill docs policy:
 
 ```bash
-python3 tools/skill_budget_audit.py --skills-root skills --format markdown
-tools/shipglowz_sync_skills.sh --check --all
-rg -n "Report Modes|Required References|Validation|Stop Conditions" skills/[0-9][0-9][0-9]-*/SKILL.md skills/*/SKILL.md
+python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/skill_budget_audit.py" --skills-root "${SHIPFLOW_ROOT:-$HOME/shipglowz}/skills" --format markdown
+"${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/shipglowz_sync_skills.sh" --check --all
+rg -n "Report Modes|Required References|Validation|Stop Conditions" "${SHIPFLOW_ROOT:-$HOME/shipglowz}"/skills/[0-9][0-9][0-9]-*/SKILL.md "${SHIPFLOW_ROOT:-$HOME/shipglowz}"/skills/*/SKILL.md
 ```
 
 When the scope touches public skill pages or docs rendered by the site:
 
 ```bash
-pnpm --dir shipglowz-site build
+pnpm --dir "${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz-site" build
 ```

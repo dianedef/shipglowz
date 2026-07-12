@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.7.0"
+artifact_version: "0.8.1"
 project: ShipGlowz
 created: "2026-05-16"
-updated: "2026-06-28"
+updated: "2026-07-12"
 status: draft
 source_skill: 102-sg-start
 scope: 300-sg-docs-mode-playbooks
@@ -31,6 +31,7 @@ evidence:
   - "Operator decision on 2026-06-28: docs init for empty repositories must produce an explicit bootstrap contract instead of a generic README-only result."
   - "Operator decision on 2026-06-28: when bootstrap facts are missing, docs init should ask precise numbered questions instead of stopping as blocked."
   - "Operator decision on 2026-06-28: docs skill should support an explicit duplicate-governance audit mode to decide whether duplicated docs are justified, mergeable, or migration debt."
+  - "Operator decision on 2026-07-12: topology migration must be tool-triggered before narrow update work and include every legacy shipflow_data corpus."
 next_review: "2026-06-16"
 next_step: "/103-sg-verify Compact ShipGlowz Skill Instructions"
 ---
@@ -287,7 +288,7 @@ Prioritize user-risk docs (install, auth, billing, migration, API, troubleshooti
 
 ## UPDATE MODE
 
-Run silent audit first, then apply selected remediations.
+Run a silent documentation audit, then apply selected remediations.
 
 Required gates:
 
@@ -317,7 +318,7 @@ Priority buckets:
 
 ## LAYOUT MIGRATION MODE
 
-Move root legacy ShipGlowz artifacts and nested monorepo `shipglowz_data/` copies into canonical governance-root `shipglowz_data/` paths without destructive overwrite.
+Move root legacy artifacts, every `shipflow_data/` corpus, and non-standalone nested `shipglowz_data/` copies into the governance-root `shipglowz_data/` without destructive overwrite.
 
 Rules:
 

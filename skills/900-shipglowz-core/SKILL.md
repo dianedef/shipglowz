@@ -23,7 +23,7 @@ When attached to a unique chantier spec, append a current `900-shipglowz-core` r
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
 Default to `report=user`: concise, outcome-first, and in the operator's active language. Use `report=agent` only for detailed handoffs, blocked runs, or explicit verbose requests.
-When issues are found, `report=user` may keep the output compact, but it must still include `Observed problem`, `System cause`, `Prevention rule`, and `Contract/tooling improvement proposal`. Do not collapse a confirmed issue into a bare finding list without the system-improvement output.
+When issues are found, keep `report=user` compact while preserving the `System-Improvement Output` below.
 
 ## Mission
 
@@ -41,10 +41,6 @@ When the operator asks to modify the ShipGlowz CLI or TUI from another conversat
 
 It also protects cross-skill invariants such as product governance: declared products should not rely on ad hoc URL discovery, improvised delivery framing, or unsupported public claims when the project corpus is supposed to hold that truth.
 
-When an execution-fidelity issue is confirmed, completion is not just the local observation. The skill must also produce the reusable system-improvement output: `Observed problem`, `System cause`, `Prevention rule`, and the narrowest justified `Contract/tooling improvement proposal`.
-
-Operator critiques about passivity, slowness, weak initiative, or over-reliance on explicit instructions are not ordinary conversation feedback. In `900-shipglowz-core`, treat them as default ShipGlowz-improvement triggers. Unless the operator explicitly asks for read-only diagnosis, the skill should assume an edit pass is wanted on the narrowest justified system layer.
-
 Use it when Diane or a ShipGlowz maintainer wants to:
 
 - audit whether local skills expose mission, scope, stop, validation, reference, and report signals clearly;
@@ -54,11 +50,9 @@ Use it when Diane or a ShipGlowz maintainer wants to:
 
 ## Scope Gate
 
-Default to read-only analysis. Do not edit skills, docs, plugins, marketplace files, runtime config, or project code unless the operator explicitly asks for an edit pass or a lifecycle skill has already provided a ready spec.
+Audit, packaging, and help requests are read-only unless the operator asks for edits or a lifecycle skill provides a ready spec. An operator critique of ShipGlowz execution authorizes a bounded repair at the narrowest justified ShipGlowz layer unless the operator says `read-only`, `audit only`, or otherwise forbids edits.
 
 Target binding rule: when `900-shipglowz-core` is invoked, the default edit target is the ShipGlowz system under `$SHIPFLOW_ROOT`, not the repository currently open in the conversation. A project repo mentioned implicitly by surrounding discussion, shell location, or recent file edits does not override that default. Only an explicit operator instruction that names the project/repository should redirect the target away from ShipGlowz itself.
-
-Exception: when the operator invokes `900-shipglowz-core` to criticize ShipGlowz passivity, slowness, missed initiative, weak owner-skill routing, or excessive need for explicit instructions, treat that criticism itself as explicit authorization to improve the ShipGlowz system on the narrowest justified layer unless the operator says `read-only`, `audit only`, or otherwise forbids edits.
 
 This skill is internal-only:
 
@@ -89,15 +83,9 @@ For local skill-quality audits:
 python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/audit_shipglowz_skills.py"
 ```
 
-5. Treat `hard` findings as completion blockers until fixed or disproven.
-6. Treat `review` findings as scenario-first triage items, not automatic rewrite permission.
-7. Treat `style` findings as optional consistency improvements unless a pressure scenario shows Codex is likely to miss the gate.
-8. For each confirmed `hard` or `review` finding, convert the finding into system-improvement output before claiming completion:
-   - `Observed problem`: the concrete failure or risky behavior that was actually seen
-   - `System cause`: the violated invariant, missing contract, hidden gate, or tooling gap that made the issue possible
-   - `Prevention rule`: the durable rule that should stop the same class of failure from recurring
-   - `Contract/tooling improvement proposal`: the narrowest justified improvement locus, such as a local skill section, a shared reference, or the audit tool
-9. Do not rewrite skills from audit output unless a ready spec or explicit operator instruction authorizes an edit pass.
+5. Treat the helper as baseline evidence only: `hard` findings block completion until fixed or disproven; `review` findings need scenario-first triage; `style` findings do not justify standalone churn.
+6. Do not claim an observed execution failure fixed from the generic audit alone. Require focused mechanical or pressure-scenario proof for that failure class.
+7. Do not rewrite skills from audit output unless a ready spec or explicit operator instruction authorizes an edit pass.
 
 ## System-Improvement Output
 
@@ -112,6 +100,8 @@ Required fields:
 
 System-improvement output must be scenario-first. Do not stop at wording criticism, generic "be more careful" advice, or a broad rewrite suggestion without naming the pressure scenario and the narrowest improvement locus that would prevent recurrence.
 
+Before editing from an observed execution failure: name the pressure scenario, apply the shared `Followability Gate`, choose the narrowest owner layer, and define focused mechanical or scenario proof. A passing generic audit is not completion proof for the observed failure.
+
 Prefer the smallest justified target:
 
 - local skill contract when the issue is owned by one skill
@@ -121,13 +111,6 @@ Prefer the smallest justified target:
 For skill-improvement requests, default to shared-reference improvement first. Only edit a local skill body first when the behavior is activation-critical and unique to that owner skill.
 
 Style-only findings do not require full system-improvement output unless a pressure scenario shows that the style gap is likely to cause a real execution failure.
-
-When the observed problem is agent passivity or slow escalation:
-
-- do not stop at self-critique
-- do not ask the operator to name the file or doctrine to edit
-- identify the smallest durable owner layer yourself
-- edit before reporting unless a stop condition blocks the change
 
 ## Packaging Workflow
 
@@ -155,7 +138,8 @@ Stop and report `blocked` when:
 Validate this skill after edits with:
 
 ```bash
-rg -n "Mission|Scope Gate|Required References|Stop Conditions|Validation|Report Modes|ShipGlowz-Owned Tool Preflight|audit_shipflow_skills" skills/900-shipglowz-core/SKILL.md skills/references/canonical-paths.md
+rg -n "Mission|Scope Gate|Required References|Stop Conditions|Validation|Report Modes|ShipGlowz-Owned Tool Preflight|audit_shipglowz_skills|Followability Gate" skills/900-shipglowz-core/SKILL.md skills/references/canonical-paths.md
+python3 -m unittest tools.test_900_shipglowz_core_contract
 python3 tools/audit_shipglowz_skills.py
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 tools/shipglowz_sync_skills.sh --check --skill 900-shipglowz-core

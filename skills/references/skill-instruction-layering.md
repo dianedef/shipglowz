@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-05-16"
-updated: "2026-07-07"
+updated: "2026-07-12"
 status: active
 source_skill: 009-sg-skill-build
 scope: skill-instruction-layering
@@ -35,6 +35,7 @@ evidence:
   - "Repeated top-level doctrine across long skills was identified as instruction dilution risk."
   - "User decision 2026-06-10: keep SKILL.md contracts short and move detailed playbooks, examples, matrices, and edge cases to references."
   - "User decision 2026-07-07: for any skill-creation or skill-improvement work, improve the shared reference layer first and only add local skill wording when the behavior is truly owner-specific."
+  - "User decision 2026-07-12: every skill change must preserve compaction and practical followability instead of adding repeated warning prose."
 next_review: "2026-06-24"
 next_step: "/103-sg-verify skill instruction layering"
 ---
@@ -139,6 +140,10 @@ If a pilot skill still exceeds 500 lines after safe extraction:
 4. Optionally substitute a fallback pilot from the approved list when required by the spec.
 
 Safety beats line-count reduction.
+
+## Followability Gate
+
+Every skill modification must pass two questions before completion: does the change prevent the target failure, and can a fresh agent still identify and follow the next required action from the activation body? If the answer is only achieved by adding more prose, move the doctrine to the narrowest shared reference, keep one local directive, and add a mechanical or scenario-first check instead of another warning block.
 
 ## Validation After Compaction
 

@@ -4,6 +4,36 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 
 ---
 
+## 2026-07-12 — 900-shipglowz-core
+
+**Added:**
+- [proof] Focused regression checks for critique-to-repair followability
+
+**Updated:**
+- [scope] One unambiguous audit-only versus bounded-repair rule
+- [compaction] One owner definition for system-improvement output
+- [validation] Generic audit classified as baseline evidence, not scenario proof
+
+**New phases:**
+- None
+
+**Sources:** 0 URLs consulted (local contracts and observed conversation failure)
+
+## 2026-07-12 — 300-sg-docs
+
+**Added:**
+- [preflight] Deterministic project-governance topology audit with focused fixture tests
+
+**Updated:**
+- [activation] One command-backed topology gate replaces repeated warning prose
+- [layout migration] Legacy `shipflow_data/` and non-standalone nested corpora route explicitly to canonical migration
+- [validation] ShipGlowz-owned tools resolve from the canonical installation root
+
+**New phases:**
+- None
+
+**Sources:** 0 URLs consulted (local ShipGlowz governance and observed execution failure)
+
 ## 2026-07-08 — 305-sg-init
 
 **Added:**
