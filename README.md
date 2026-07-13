@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.13.2"
+artifact_version: "0.14.0"
 project: "ShipGlowz"
 created: "2026-04-25"
-updated: "2026-06-29"
+updated: "2026-07-13"
 status: draft
 source_skill: 300-sg-docs
 scope: readme
@@ -1022,6 +1022,6 @@ The current Codex plugin alpha is outside the repository at `/home/claude/plugin
 
 ## Status
 
-The root of this repository is intentionally kept for living documentation.
+The canonical internal governance corpus lives under `shipglowz_data/`. The repository root keeps runtime/bootstrap entrypoints and the explicitly documented compatibility, public-reference, QA/bug, and historical surfaces.
 
-Older plans, implementation summaries, and one-off reports have been moved into [`archive/`](./archive/).
+Older plans, implementation summaries, and one-off reports live in [`archive/`](./archive/) as inactive history, not current doctrine.

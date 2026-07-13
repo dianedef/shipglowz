@@ -1,17 +1,18 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "0.1.0"
+artifact_version: "0.1.1"
 project: "ShipFlow"
 created: "2026-05-11"
 created_at: "2026-05-11 09:48:06 UTC"
-updated: "2026-05-11"
-updated_at: "2026-05-11 09:48:06 UTC"
+updated: "2026-07-13"
+updated_at: "2026-07-13 09:35:38 UTC"
 status: draft
-source_skill: sg-spec
+source_skill: 100-sg-spec
 source_model: "GPT-5 Codex"
 scope: "FRP preview tunnel POC"
 owner: "Diane"
+confidence: "high"
 user_story: "En tant qu'operateur ShipFlow, je veux tester FRP comme couche de tunnel preview isolee, afin de savoir s'il peut remplacer ou completer les tunnels SSH locaux sans affaiblir la securite."
 risk_level: "high"
 security_impact: "yes"

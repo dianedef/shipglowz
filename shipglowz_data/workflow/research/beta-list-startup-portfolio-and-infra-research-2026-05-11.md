@@ -2,9 +2,9 @@
 artifact: research
 project: "ShipFlow"
 created: "2026-05-11"
-updated: "2026-05-11"
+updated: "2026-07-13"
 status: dispatched
-source_skill: sg-research
+source_skill: 203-sg-research
 scope: "Betalist startup roundup + DataForSEO + Web-Analytics"
 confidence: "medium"
 risk_level: "low"

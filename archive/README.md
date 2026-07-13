@@ -20,12 +20,13 @@ See [`reports/`](./reports/) for dated implementation summaries, phase reports, 
 
 See [`notes/`](./notes/) for one-off prompts, brainstorming notes, and obsolete workflow drafts.
 
-## Living Documentation
+## Current Documentation Routes
 
-Current documentation lives at the root of ShipFlow:
+- [README.md](../README.md) - public/operator overview
+- [CLAUDE.md](../CLAUDE.md) - repository guidance and constraints
+- [spec-driven-workflow.md](../shipglowz_data/workflow/playbooks/spec-driven-workflow.md) - canonical spec-driven workflow
+- [runtime-cli.md](../shipglowz_data/technical/runtime-cli.md) - current port and PM2 behavior
+- [ECOSYSTEM-AND-PORTS.md](root-documentation/ECOSYSTEM-AND-PORTS.md) - historical port and PM2 material only
+- [local/README.md](../local/README.md) - local tunnel setup
 
-- [README.md](../README.md) - Main project overview
-- [CLAUDE.md](../CLAUDE.md) - Repository guidance and constraints
-- [shipflow-spec-driven-workflow.md](../shipflow-spec-driven-workflow.md) - ShipFlow V3 workflow
-- [ECOSYSTEM-AND-PORTS.md](root-documentation/ECOSYSTEM-AND-PORTS.md) - Historical port and PM2 ecosystem behavior
-- [local/README.md](../local/README.md) - Local tunnel setup
+Nothing under `archive/` is active doctrine or a canonical workflow source.

@@ -26,6 +26,10 @@ LEGACY_ROOT_FILES = {
     "PRODUCT.md",
     "TASKS.md",
 }
+LEGACY_ROOT_DIRS = {
+    "research",
+    "specs",
+}
 GENERATED_ROOT_NAMES = {
     ".astro",
     ".playwright-mcp",
@@ -109,6 +113,9 @@ def audit(root: Path) -> TopologyReport:
 
     migration.extend(
         path.name for path in sorted(root.iterdir()) if path.is_file() and path.name in LEGACY_ROOT_FILES
+    )
+    migration.extend(
+        path.name for path in sorted(root.iterdir()) if path.is_dir() and path.name in LEGACY_ROOT_DIRS
     )
 
     agents = root / "AGENTS.md"

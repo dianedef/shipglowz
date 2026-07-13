@@ -2,9 +2,9 @@
 artifact: research
 project: "ShipFlow workspace"
 created: "2026-05-11"
-updated: "2026-05-11"
+updated: "2026-07-13"
 status: reviewed
-source_skill: sg-research
+source_skill: 203-sg-research
 scope: "BetaList startup scan: MemoKee, SEORCE, Sansara, PixGrid, TonimusAI, Listo, Aftersay, Serial Subscriptions, AniJam, Cepien AI"
 confidence: "medium"
 risk_level: "medium"

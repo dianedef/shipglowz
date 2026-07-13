@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.1.1"
 project: ShipGlowz
 created: "2026-07-08"
-updated: "2026-07-11"
+updated: "2026-07-12"
 status: active
 source_skill: 307-sg-skills-refresh
 scope: private-data-repo-contract
@@ -80,6 +80,7 @@ Examples:
 
 - declarative mail-management state such as `mail-admin/`
 - short-retention mail review queues such as `mail-intake/`
+- an explicitly approved, local-only raw mail source under `mail-source/` when the source must stay beside the private workflow runtime
 - project fiches under `projects/`
 - short-retention, redacted source-routing records under `source-cache/` while a project is still unknown
 - private analysis reports that should remain outside public repositories
@@ -99,6 +100,7 @@ Do not use this repository for:
 - The important distinction is not "versioned vs not versioned" but durable reference state vs short-retention working state.
 - Working-state folders must declare their own cleanup policy so the private repo does not become an unbounded archive.
 - `source-cache/` is pre-assignment working state, not the canonical home of a source-derived asset. Once a project is chosen, write the durable pack, email sequence, or other derivative to that project's governed repository.
+- `mail-source/` is never a versioned email library: it must remain ignored by Git, local-only, bounded to the approved operator source, and separate from `mail-intake/` metadata.
 
 ## Clone Contract
 

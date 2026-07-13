@@ -13,7 +13,7 @@ confidence: medium
 
 ## Sources prises en compte
 
-- Rapport source: `~/shipflow/research/beta-list-startup-portfolio-and-infra-research-2026-05-11.md`
+- Rapport source migré: `shipglowz_data/workflow/research/beta-list-startup-portfolio-and-infra-research-2026-05-11.md`
 - Projets: `~/shipglowz_data/PROJECTS.md`, `~/shipglowz_data/CLAUDE.md`, dossiers `~/shipglowz_data/projects/*`
 - Serveur: PM2 montre `contentflow_app` et `contentflow_lab` actifs.
 - Correction canonique: `contentflow` est le projet canonique; `contentflowz` est à ignorer.

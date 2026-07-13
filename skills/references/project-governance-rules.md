@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-06-30"
-updated: "2026-06-30"
+updated: "2026-07-13"
 status: active
 source_skill: 900-shipglowz-core
 scope: governed-project-rules
@@ -27,12 +27,14 @@ linked_systems:
   - skills/references/monorepo-governance-topology.md
 depends_on:
   - artifact: "skills/references/canonical-paths.md"
-    artifact_version: "1.3.0"
+    artifact_version: "1.4.0"
     required_status: active
   - artifact: "shipglowz_data/README.md"
     artifact_version: "1.0.0"
     required_status: reviewed
 supersedes: []
+evidence:
+  - "Operator clarification on 2026-07-13: root review must apply governance and architecture ownership contracts rather than a minimal-entry count."
 evidence:
   - "Operator request 2026-06-30: provide one reusable `#rules` recentering tag so agents can reload the full governance rule set for a ShipGlowz-governed project."
   - "Repeated execution drift came from rules being split across entrypoints, corpus docs, and monorepo topology without a compact synthesis."
@@ -52,15 +54,21 @@ A ShipGlowz-governed project must keep one canonical governance corpus, one clea
 
 ## Minimum Required Structure
 
-At the governance root, keep only the compatibility entrypoints and the canonical corpus:
+At the governance root, keep the compatibility entrypoints, canonical corpus, and explicitly owned operational or historical surfaces:
 
 - `AGENT.md`
 - `AGENTS.md` as a symlink to `AGENT.md` when present
 - `CLAUDE.md` when repo-specific execution constraints exist
 - `README.md`
 - `shipglowz_data/`
+- optional `CHANGELOG.md`
+- `TEST_LOG.md`, optional `BUGS.md`, and `bugs/` when the project uses the professional bug workflow
+- `docs/` for public or semi-public references that are not internal governance records
+- `archive/` for indexed historical material that is no longer active doctrine
 
 Treat root legacy governance files such as `BUSINESS.md`, `PRODUCT.md`, `ARCHITECTURE.md`, `CONTENT_MAP.md`, `CONTEXT.md`, `TASKS.md`, and `AUDIT_LOG.md` as migration debt, not compliant destinations for new work.
+
+Root `specs/` and `research/` are migration sources. Conversation captures and exploration reports follow their owner-skill destination contracts; when `800-tmux-capture-conversation` or `700-sg-explore` selects `docs/conversations/` or `docs/explorations/`, those paths are intentional project records rather than duplicate governance doctrine.
 
 ## Canonical Corpus Rules
 

@@ -1,10 +1,10 @@
 ---
 artifact: architecture_context
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: "shipflow"
 created: "2026-04-26"
-updated: "2026-06-26"
+updated: "2026-07-13"
 status: reviewed
 source_skill: manual
 scope: architecture
@@ -39,6 +39,7 @@ evidence:
   - "CLAUDE.md documents PM2 caching, port allocation, idempotence, and validation rules"
   - "2026-05-11 decision record project-governance-layout formalizes root-vs-shipglowz_data placement."
   - "2026-06-11 design-system authority contract separates brand direction from code-level token/theme authority."
+  - "Operator clarification 2026-07-13 distinguishes canonical governance records from root QA/bug, public-reference, and inactive archive surfaces."
 depends_on:
   - artifact: "shipglowz_data/technical/guidelines.md"
     artifact_version: "1.0.0"
@@ -118,7 +119,9 @@ The repo is not split into small services. It is centered around shell-based orc
   - `shipglowz_data/technical/` and `shipglowz_data/workflow/specs/`: subsystem technical contracts and durable workflow contracts.
   - Editorial/public pages under `shipglowz_data/editorial/` and `shipglowz-site/`: public messaging, onboarding surfaces, and operator guides.
 
-- Project root Markdown is intentionally narrow. `README.md`, `AGENT.md`, `AGENTS.md` as a compatibility symlink, optional `CLAUDE.md`, and optional public `CHANGELOG.md` may stay at the root. ShipGlowz governance artifacts such as business, product, brand, GTM, content map, context, architecture, guidelines, specs, bugs, research, reviews, audits, and verification reports belong under `shipglowz_data/`.
+- Project root Markdown is intentionally narrow. `README.md`, `AGENT.md`, `AGENTS.md` as a compatibility symlink, optional `CLAUDE.md`, and optional public `CHANGELOG.md` may stay at the root. The professional bug workflow is an explicit operational exception: compact `TEST_LOG.md`, optional `BUGS.md`, and per-bug records under `bugs/` remain project-root work surfaces. ShipGlowz governance artifacts such as business, product, brand, GTM, content map, context, architecture, guidelines, specs, research, reviews, audits, and verification reports belong under `shipglowz_data/`.
+
+- `docs/` holds public or semi-public references plus owner-skill project records such as raw conversation captures and exploration reports. `archive/` may retain indexed inactive history, but archived content is never active doctrine. Root `specs/` and `research/` are migration sources.
 
 - Legacy root files such as `BUSINESS.md`, `CONTENT_MAP.md`, `CONTEXT.md`, `GUIDELINES.md`, `TASKS.md`, or `AUDIT_LOG.md` are migration sources only. They are not compliant final locations once the project adopts the `shipglowz_data/` corpus.
 

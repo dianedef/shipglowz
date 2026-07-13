@@ -90,3 +90,15 @@
 - Bug pointer: BUG-2026-05-02-003 -> bugs/BUG-2026-05-02-003.md
 - Evidence pointer: chat confirmation, no raw IP or key material stored
 - Follow-up: none; verified by sf-verify on 2026-05-02
+## 2026-07-13 - Mail Intelligence structured AI classification
+
+- Scope: daily-mail-intake-review-v2.md / Task 4
+- Environment: local Neovim + Mail Intelligence
+- Tester: user
+- Source: 107-sg-test
+- Status: fail
+- Confidence: high
+- Result summary: action `a` crashed because the configured Avante ACP provider `codex` was incorrectly looked up as an HTTP provider.
+- Bug pointer: BUG-2026-07-13-001 -> bugs/BUG-2026-07-13-001.md
+- Evidence pointer: chat-provided Neovim stack trace; no private email content stored
+- Follow-up: /106-sg-fix BUG-2026-07-13-001
