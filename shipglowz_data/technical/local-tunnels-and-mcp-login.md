@@ -1,7 +1,7 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.1.1"
 project: ShipGlowz
 created: "2026-05-01"
 updated: "2026-07-13"
@@ -33,6 +33,7 @@ evidence:
   - "Clerk CLI OAuth callback tunnel added for remote clerk auth login."
   - "Local auth flows grouped under a single tunnel menu entry."
   - "Password-authenticated saved connections can be promoted to independently verified per-device SSH keys without transferring private material."
+  - "Android Termux is an explicit local tunnel surface with pkg-based dependency guidance."
 next_review: "2026-06-01"
 next_step: "/sg-docs technical audit local"
 ---
@@ -57,7 +58,7 @@ Blacksmith SSH Access is intentionally separate from these OAuth callback tunnel
 | `local/turso-login.sh` | Remote Turso CLI login flow, headless-first with optional callback tunnel mode | Do not read or store Turso token contents |
 | `local/turso-ssh.sh` | Remote Turso CLI auth transfer and optional schema checks | Copy official CLI config only; never print token contents |
 | `local/remote-helpers.sh` | SSH target, identity, public-key installation, key-only verification, and remote port helpers | Validate inputs before building SSH args; private keys never reach remote stdin |
-| `local/install.sh`, `local/install_local.ps1` | Local installer scripts | Keep platform-specific assumptions explicit |
+| `local/install.sh`, `local/install_local.ps1` | Local installer scripts | Keep Termux, Linux, macOS, WSL, and Windows assumptions explicit |
 | `local/README.md` | Operator-facing setup and troubleshooting | Update when commands or flow change |
 
 ## Entrypoints
@@ -180,6 +181,8 @@ shipflow-turso-ssh
 - The startup session scan is operator feedback only; set `SHIPFLOW_NO_ANIMATION=1` to disable the animated TTY loader.
 - Local menu screens should use the shared local header treatment:
   `ShipGlowz DevServer` in yellow, padded boxed header, then the screen title.
+- Android Termux must be detected before generic Linux. Missing dependencies
+  must be reported with `pkg install openssh autossh`, never `sudo apt`.
 
 ## Failure Modes
 
@@ -218,6 +221,7 @@ shipflow-turso-ssh
 ```bash
 bash -n local/local.sh local/dev-tunnel.sh local/mcp-login.sh local/clerk-login.sh local/blacksmith-login.sh local/turso-login.sh local/turso-ssh.sh local/remote-helpers.sh local/install.sh
 bash tests/local/ssh-key-promotion.sh
+bash tests/local/install-termux.sh
 rg -n "validate_connection_target|validate_identity_file|check_local_port_free|parse_mcp_oauth_port_from_text|parse_clerk_oauth_port_from_text|shipflow-clerk-login|shipflow-turso-login|shipflow-turso-ssh" local/
 ```
 
@@ -229,6 +233,7 @@ PowerShell changes require a separate syntax/manual review on a PowerShell-capab
 - MCP, Clerk, or Blacksmith OAuth flow changed -> review `README.md`, `local/README.md`,
   and the public remote MCP guide if user-visible.
 - SSH parsing or key promotion changed -> run `tests/local/ssh-key-promotion.sh` plus an adversarial pass for option injection, malformed paths, private/public mismatch, ControlMaster reuse, and state rollback.
+- Local installation changed -> run `tests/local/install-termux.sh` and retain a real Termux device check for Android tunnel behavior.
 
 ## Maintenance Rule
 

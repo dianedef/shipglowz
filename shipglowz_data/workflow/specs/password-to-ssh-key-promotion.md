@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.1.1"
+artifact_version: "1.1.3"
 project: "ShipGlowz"
 created: "2026-07-13"
 created_at: "2026-07-13 17:37:20 UTC"
 updated: "2026-07-13"
-updated_at: "2026-07-13 17:49:31 UTC"
+updated_at: "2026-07-13 20:37:47 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: "GPT-5 Codex"
@@ -20,14 +20,14 @@ docs_impact: yes
 linked_systems: ["local/local.sh", "local/remote-helpers.sh", "local/install.sh", "local/install_local.ps1", "local/README.md", "local/README_WINDOWS.md", "shipglowz_data/technical/local-tunnels-and-mcp-login.md", "shipglowz_data/technical/context-function-tree.md"]
 depends_on:
   - artifact: "shipglowz_data/technical/local-tunnels-and-mcp-login.md"
-    artifact_version: "1.1.0"
+    artifact_version: "1.1.1"
     required_status: reviewed
   - artifact: "shipglowz_data/workflow/explorations/2026-07-13-ssh-key-promotion.md"
     artifact_version: "1.0.1"
     required_status: reviewed
 supersedes: []
 evidence: ["Operator decision on 2026-07-13 to test password-first pairing during server migration", "Existing password and key auth modes in local/local.sh", "Existing password ControlMaster reuse in local/remote-helpers.sh", "Current official OpenSSH manuals for ssh-keygen, ssh_config, and authorized_keys behavior"]
-next_step: "/107-sg-test password-to-ssh-key-promotion on the new server"
+next_step: "/107-sg-test password-to-ssh-key-promotion from Android Termux on the retained QA server"
 ---
 
 # Spec: Password-To-SSH-Key Promotion
@@ -75,7 +75,7 @@ Add a local-first promotion operation that validates or generates an identity, s
 
 ## Scope In
 
-- Bash flow for Linux, macOS, and WSL in `local/local.sh`.
+- Bash flow for Linux, macOS, WSL, and Android Termux in `local/local.sh`.
 - Reusable validation, generation, installation, and verification helpers in `local/remote-helpers.sh`.
 - Promotion prompt after successful password server setup and a permanent current-connection menu action.
 - Existing identity selection or non-overwriting dedicated Ed25519 generation.
@@ -121,7 +121,7 @@ Add a local-first promotion operation that validates or generates an identity, s
 - Auth/session proof: covered by the isolated OpenSSH argument contract and real-server checklist rather than browser auth tooling.
 - Contract/integration proof: `SSHKEY-A01` public-only stdin; `SSHKEY-A02` key-only fresh args; `SSHKEY-A03` deduplication; `SSHKEY-A04` state rollback; `SSHKEY-A05` key mismatch rejection; `SSHKEY-A06` no overwrite.
 - Provider evidence: local OpenSSH plus the operator's new server for the manual gate.
-- Device-native proof: `urls` promotion and one real tunnel after closing the password master session.
+- Device-native proof: Android Termux `urls` promotion and one real tunnel after closing the password master session.
 
 ## Dependencies
 
@@ -236,7 +236,7 @@ Add a local-first promotion operation that validates or generates an identity, s
 - Security impact: high, mitigated by local-only private keys, stdin public data, strict validation, preservation, independent proof, and state rollback.
 - Lockout: prevented by retaining password mode until proof succeeds.
 - Secret exposure: prevented by APIs accepting validated public paths/data and assertions on remote stdin/output.
-- Compatibility: nonstandard server policies fail explicitly without global changes or `sudo`.
+- Compatibility: nonstandard server policies fail explicitly without global changes or `sudo`; Termux installation uses `pkg` rather than Debian/Ubuntu instructions.
 - Product confusion: French UX/docs consistently say one key per device and never describe private-key synchronization.
 
 ## Execution Notes
@@ -249,7 +249,7 @@ Add a local-first promotion operation that validates or generates an identity, s
 
 ## Open Questions
 
-None. V1 targets Bash/WSL, generates an explicitly unencrypted dedicated key only by operator choice, supports existing agent-backed keys, and leaves server password policy unchanged.
+None. V1 targets Bash on Linux, macOS, WSL, and Android Termux, generates an explicitly unencrypted dedicated key only by operator choice, supports existing agent-backed keys, and leaves server password policy unchanged.
 
 ## Skill Run History
 
@@ -261,14 +261,15 @@ None. V1 targets Bash/WSL, generates an explicitly unencrypted dedicated key onl
 | 2026-07-13 17:41:30 UTC | 101-sg-ready | GPT-5 Codex | Re-ran structure, security, freshness, adversarial, and proof-contract review | ready | /102-sg-start password-to-ssh-key-promotion |
 | 2026-07-13 17:48:22 UTC | 102-sg-start | GPT-5 Codex | Implemented local public-key promotion, fresh key-only verification, state rollback, tests, docs, and manual checklist | implemented; local checks pass, real new-server proof pending | /103-sg-verify password-to-ssh-key-promotion |
 | 2026-07-13 17:49:31 UTC | 103-sg-verify | GPT-5 Codex | Verified automated behavior, security invariants, docs, metadata, checklist structure, and existing CLI regressions | partial: SSHKEY-M01 through SSHKEY-M05 require the operator's new server | /107-sg-test password-to-ssh-key-promotion on the new server |
+| 2026-07-13 20:37:47 UTC | 107-sg-test | GPT-5 Codex | Created a retained Hetzner QA VM and exercised password promotion, idempotence, two distinct identities, permissions, and a Linux tunnel after closing the password master; added explicit Termux installer support after detecting the platform gap | partial: SSHKEY-M01, M02, M04, and M05 pass; SSHKEY-M03 still requires the real Android Termux device | /107-sg-test password-to-ssh-key-promotion from Android Termux on the retained QA server |
 
 ## Current Chantier Flow
 
 - `100-sg-spec`: done.
 - `101-sg-ready`: ready.
 - `102-sg-start`: implemented; auto-verify skipped because real-server manual proof is required.
-- `103-sg-verify`: partial; automated and contract proof pass, real-server scenarios are not run.
+- `103-sg-verify`: partial; automated proof and four real-server scenarios pass, while Android Termux tunnel proof remains not run.
 - `104-sg-end`: not launched.
 - `005-sg-ship`: not launched.
 
-Next step: `/107-sg-test password-to-ssh-key-promotion on the new server`
+Next step: `/107-sg-test password-to-ssh-key-promotion from Android Termux on the retained QA server`

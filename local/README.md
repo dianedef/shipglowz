@@ -16,6 +16,12 @@ brew install autossh
 sudo apt install autossh
 ```
 
+**Android (Termux) :**
+```bash
+pkg update
+pkg install git openssh autossh
+```
+
 **Windows :**
 Voir [README_WINDOWS.md](./README_WINDOWS.md) pour les 3 options disponibles:
 - ✅ **WSL** (recommandé) - Support complet avec menu interactif
@@ -26,7 +32,7 @@ Voir [README_WINDOWS.md](./README_WINDOWS.md) pour les 3 options disponibles:
 
 ### Installation rapide (recommandé)
 
-**Linux / macOS / WSL:**
+**Linux / macOS / WSL / Android Termux:**
 ```bash
 # Cloner le repo
 git clone <votre-repo> ~/shipglowz
@@ -56,6 +62,10 @@ cd $env:USERPROFILE\shipglowz\local
 ```
 
 Le script Windows vous demandera aussi de choisir entre **clé SSH / agent** et **mot de passe SSH** pour la cible `hetzner`.
+
+Sur Android, exécutez ces commandes directement dans Termux. L'installateur
+détecte Termux, utilise `~/.bashrc` et indique les dépendances `pkg` adaptées;
+aucun `sudo` n'est requis.
 
 Le script installe automatiquement :
 - ✅ Connexion distante ShipGlowz si `SHIPGLOWZ_SSH_REMOTE_HOST` est fourni

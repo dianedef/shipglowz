@@ -102,3 +102,16 @@
 - Bug pointer: BUG-2026-07-13-001 -> shipglowz_data/workflow/bugs/BUG-2026-07-13-001.md
 - Evidence pointer: chat-provided Neovim stack trace; no private email content stored
 - Follow-up: /107-sg-test --retest BUG-2026-07-13-001
+
+## 2026-07-13 - Password-to-SSH-key promotion on retained Hetzner QA server
+
+- Scope: shipglowz_data/workflow/specs/password-to-ssh-key-promotion.md
+- Environment: retained Hetzner QA VM plus isolated Linux local-device homes; Android Termux pending
+- Tester: Codex tooling
+- Source: 107-sg-test
+- Status: blocked
+- Confidence: high
+- Result summary: SSHKEY-M01, M02, M04, and M05 passed; Linux key-mode tunnel proof passed after closing the password master, but required Android Termux scenario SSHKEY-M03 is not run.
+- Bug pointer: BUG-2026-07-13-002 -> shipglowz_data/workflow/bugs/BUG-2026-07-13-002.md
+- Evidence pointer: shipglowz_data/workflow/test-checklists/password-to-ssh-key-promotion.md; provider VM retained by operator request; no host, password, token, or key material recorded
+- Follow-up: /107-sg-test password-to-ssh-key-promotion from Android Termux on the retained QA server

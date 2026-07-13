@@ -1,7 +1,7 @@
 ---
 artifact: checklist
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-07-13"
 updated: "2026-07-13"
@@ -19,11 +19,12 @@ linked_systems:
   - shipglowz_data/technical/runtime-cli.md
 depends_on:
   - artifact: "shipglowz_data/workflow/playbooks/server-disk-hygiene-and-migration-playbook.md"
-    artifact_version: "1.0.0"
+    artifact_version: "1.1.0"
     required_status: draft
 supersedes: []
 evidence:
   - "Checklist created from the 2026-07-13 disk-pressure diagnosis and targeted cleanup."
+  - "ACP process-ownership checks added after the Avante npm wrapper left native children under PID 1."
 next_review: "2026-07-20"
 next_step: "Complete this checklist during new-server provisioning."
 ---
@@ -84,6 +85,9 @@ Use during server provisioning, migration cutover, monthly maintenance, or recov
 - [ ] Terminate confirmed stale trees child-first with `SIGTERM`
 - [ ] Recheck before using `SIGKILL`
 - [ ] Verify global tool upgrades left no old deleted binaries open
+- [ ] Verify editor ACP adapters launch a process they can terminate directly
+- [ ] Run one ACP launch-and-stop lifecycle test and confirm the spawned PID exits
+- [ ] Confirm clean editor exit leaves no new ACP process under PPID 1
 - [ ] Schedule a reboot when deleted system/global binaries cannot be released safely in-session
 
 ### Cache And Temporary Hygiene
@@ -131,7 +135,7 @@ This checklist is complete only when protected data is verified, before/after me
 
 ## Linked Playbook
 
-- [server-disk-hygiene-and-migration-playbook.md](/home/claude/shipglowz/shipglowz_data/workflow/playbooks/server-disk-hygiene-and-migration-playbook.md)
+- [server-disk-hygiene-and-migration-playbook.md](../playbooks/server-disk-hygiene-and-migration-playbook.md)
 
 ## Exceptions
 

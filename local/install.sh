@@ -20,8 +20,11 @@ IS_WSL=false
 IS_WINDOWS=false
 IS_MACOS=false
 IS_LINUX=false
+IS_TERMUX=false
 
-if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null; then
+if [ -n "${TERMUX_VERSION:-}" ] || [[ "${PREFIX:-}" == */com.termux/* ]]; then
+    IS_TERMUX=true
+elif grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null; then
     IS_WSL=true
     IS_WINDOWS=true
 elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "win32" ]]; then
@@ -43,7 +46,9 @@ echo -e "${BLUE}🚀 Installation ShipGlowz - Configuration Locale${NC}"
 echo ""
 
 # Afficher le système détecté
-if [ "$IS_WSL" = true ]; then
+if [ "$IS_TERMUX" = true ]; then
+    echo -e "${GREEN}✓ Système détecté: Android / Termux${NC}"
+elif [ "$IS_WSL" = true ]; then
     echo -e "${GREEN}✓ Système détecté: Windows WSL${NC}"
 elif [ "$IS_WINDOWS" = true ]; then
     echo -e "${YELLOW}⚠ Système détecté: Windows (Git Bash)${NC}"
@@ -62,7 +67,9 @@ if ! command -v autossh &> /dev/null; then
     echo -e "${RED}   ✗ autossh non installé${NC}"
     echo -e "${YELLOW}   Installation requise:${NC}"
 
-    if [ "$IS_MACOS" = true ]; then
+    if [ "$IS_TERMUX" = true ]; then
+        echo -e "${YELLOW}     pkg install openssh autossh${NC}"
+    elif [ "$IS_MACOS" = true ]; then
         echo -e "${YELLOW}     brew install autossh${NC}"
     elif [ "$IS_WSL" = true ]; then
         echo -e "${YELLOW}     sudo apt update && sudo apt install autossh${NC}"

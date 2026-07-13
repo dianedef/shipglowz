@@ -1,7 +1,7 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-07-13"
 updated: "2026-07-13"
@@ -20,13 +20,14 @@ linked_systems:
   - shipglowz_data/technical/blacksmith.md
 depends_on:
   - artifact: "shipglowz_data/workflow/checklists/server-disk-hygiene-and-migration-checklist.md"
-    artifact_version: "1.0.0"
+    artifact_version: "1.1.0"
     required_status: draft
 supersedes: []
 evidence:
   - "2026-07-13 incident: a 75 GB server reached 87% usage with only 9.5 GB free."
   - "The incident inventory found 493,169 Flox upgrade-check logs, PM2 restart storms, stale orphaned codex-acp and Playwright processes, old temporary files, and multiple development caches."
   - "A targeted non-DevServer cleanup increased available space from 9.5 GB to 12 GB without deleting PNPM stores or project sources."
+  - "The Avante Codex ACP adapter was changed to launch its native platform binary directly so editor cleanup owns the process it terminates."
 next_review: "2026-07-20"
 next_step: "/300-sg-docs review server disk hygiene and migration playbook after the new server hand-off"
 ---
@@ -240,6 +241,16 @@ After global upgrades:
 5. verify that only current binary paths remain open
 
 Do not repeatedly upgrade global tooling without a process-restart step.
+
+For editor ACP integrations, verify process ownership as part of setup:
+
+- prefer launching the platform-native agent binary when a package-manager wrapper spawns a child without forwarding termination signals
+- keep a documented wrapper fallback for installations whose package layout cannot be resolved safely
+- confirm the editor has both an explicit stop action and a clean-exit hook
+- run a launch-and-stop regression that proves the exact spawned PID exits
+- after a forced crash, audit PPID 1 agent processes before starting another large batch
+
+On the 2026-07-13 server, Avante launched the npm `codex-acp` JavaScript wrapper. Avante correctly terminated its direct child, but the wrapper's native child survived under PID 1. Launching the installed native binary directly restored one-process ownership and made Avante's existing stop and exit cleanup effective.
 
 ### 8. Prune Tool Caches Through Their Owners
 
