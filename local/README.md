@@ -100,6 +100,7 @@ Le menu offre :
 - 🛑 **Arrêter les tunnels** - Arrête tous les tunnels en cours
 - 📊 **Statut** - Vérifie l'état des tunnels actifs
 - 🔄 **Redémarrer** - Redémarre tous les tunnels
+- 🔑 **Installer une clé SSH sur ce serveur** - Remplace une connexion par mot de passe par une clé propre à cet appareil
 - 🔐 **Authentifications distantes** - Regroupe MCP Codex, Clerk CLI, Blacksmith et Turso
 
 Le sous-menu **Authentifications distantes** lance les flows OAuth ou headless
@@ -227,9 +228,23 @@ Choisissez `c) Configurer nouveau serveur`, entrez une IP valide, un domaine ave
 
 En mode mot de passe, ShipGlowz demande le mot de passe à l'ouverture de la première connexion, puis conserve une session SSH locale réutilisable pendant huit heures. Les tunnels et les logins OAuth s'y attachent sans redemander le mot de passe. Le mot de passe n'est jamais enregistré dans `~/.shipglowz`.
 
+Après une connexion par mot de passe réussie, le menu propose d'installer une clé SSH. Vous pouvez sélectionner une clé privée locale existante ou laisser ShipGlowz générer une clé Ed25519 dédiée. Dans les deux cas, seule la clé publique est envoyée au serveur et ajoutée sans remplacer les entrées existantes de `~/.ssh/authorized_keys`.
+
+ShipGlowz teste ensuite une nouvelle connexion qui interdit le mot de passe et ne réutilise pas la session SSH précédente. La connexion enregistrée ne passe en mode clé que si ce test réussit. En cas d'échec, le mode mot de passe reste actif et récupérable.
+
+Utilisez une clé différente sur chaque appareil. Il ne faut pas synchroniser ou copier une clé privée entre le PC principal, un laptop ou un téléphone : chaque appareil installe sa propre clé publique, ce qui permet de révoquer un appareil sans casser les autres accès.
+
+La clé dédiée générée par le menu est sans passphrase afin de fonctionner avec les tunnels `autossh` non interactifs. Son fichier privé reste local sous `~/.ssh/` avec des permissions restrictives. Pour utiliser une clé existante protégée par passphrase, chargez-la d'abord dans l'agent :
+
+```bash
+ssh-add ~/.ssh/ma-cle
+```
+
+Cette fonctionnalité ne modifie pas `/etc/ssh/sshd_config` et ne désactive jamais automatiquement l'authentification par mot de passe du serveur.
+
 Si vous êtes connecté au serveur distant et ne connaissez plus l'IP publique à utiliser, ouvrez le menu ShipGlowz distant et choisissez `c) Local Setup`.
 
-La clé SSH n'a pas besoin d'avoir un nom standard si le menu connaît son chemin ou si `~/.ssh/config` sait déjà quelle clé utiliser. Pour un nom simple sans `/`, ShipGlowz cherche dans le dossier courant, dans `~/.ssh/`, puis dans votre dossier home, et sauvegarde ensuite le chemin absolu trouvé. Si vous changez de serveur ou de méthode d'authentification, repassez par `c) Configurer nouveau serveur` plutôt que de modifier les fichiers à la main: le même enregistrement est utilisé par les tunnels d'applications et par le login OAuth MCP.
+La clé SSH n'a pas besoin d'avoir un nom standard si le menu connaît son chemin ou si `~/.ssh/config` sait déjà quelle clé utiliser. Pour un nom simple sans `/`, ShipGlowz cherche dans le dossier courant, dans `~/.ssh/`, puis dans votre dossier home, et sauvegarde ensuite le chemin absolu trouvé. Pour promouvoir la connexion actuelle plus tard, relancez `urls` puis choisissez `k) Installer une clé SSH sur ce serveur`. Le même enregistrement est utilisé par les tunnels d'applications et par les logins distants.
 
 ### Workflow
 

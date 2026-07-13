@@ -130,13 +130,15 @@ ssh-keygen -t ed25519 -C "votre_email@example.com"
 
 ### Ajouter la clé au serveur
 
+Le parcours automatisé `Installer une clé SSH sur ce serveur` est disponible avec le menu Bash sous WSL. La version PowerShell native conserve pour l'instant le parcours manuel ci-dessous.
+
 **PowerShell:**
 ```powershell
 # Copier la clé publique dans le presse-papiers
 Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | clip
 
 # Se connecter au serveur
-ssh root@5.75.134.202
+ssh root@SERVER_IP
 
 # Sur le serveur, ajouter la clé
 echo "COLLEZ_VOTRE_CLE_ICI" >> ~/.ssh/authorized_keys
@@ -148,9 +150,11 @@ echo "COLLEZ_VOTRE_CLE_ICI" >> ~/.ssh/authorized_keys
 cat ~/.ssh/id_ed25519.pub
 
 # Se connecter et ajouter
-ssh root@5.75.134.202
+ssh root@SERVER_IP
 echo "COLLEZ_VOTRE_CLE_ICI" >> ~/.ssh/authorized_keys
 ```
+
+Créez une paire différente sur chaque appareil et ne copiez jamais le fichier privé entre Windows, WSL ou un autre poste. Seul le contenu du fichier `.pub` doit être ajouté au serveur.
 
 ---
 

@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.0.10"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-05-01"
-updated: "2026-06-21"
+updated: "2026-07-13"
 status: reviewed
 source_skill: sg-start
 scope: local-tunnels-and-mcp-login
@@ -32,6 +32,7 @@ evidence:
   - "Turso remote login helper accepts browser-provided headless JWT/token."
   - "Clerk CLI OAuth callback tunnel added for remote clerk auth login."
   - "Local auth flows grouped under a single tunnel menu entry."
+  - "Password-authenticated saved connections can be promoted to independently verified per-device SSH keys without transferring private material."
 next_review: "2026-06-01"
 next_step: "/sg-docs technical audit local"
 ---
@@ -40,7 +41,7 @@ next_step: "/sg-docs technical audit local"
 
 ## Purpose
 
-This doc covers the local tools that connect a workstation to a remote ShipGlowz server: app tunnels, saved SSH connection state, remote PM2 and Flutter Web `tmux` port discovery, `shipflow-mcp-login` for remote Codex MCP OAuth callbacks, `shipflow-clerk-login` for remote Clerk CLI OAuth callbacks, `shipflow-blacksmith-login` for remote Blacksmith CLI OAuth callbacks, `shipflow-turso-login` for remote Turso CLI login, and `shipflow-turso-ssh` for Turso CLI auth transfer and schema proof.
+This doc covers the local tools that connect a workstation to a remote ShipGlowz server: app tunnels, saved SSH connection state, password-to-key promotion, remote PM2 and Flutter Web `tmux` port discovery, `shipflow-mcp-login` for remote Codex MCP OAuth callbacks, `shipflow-clerk-login` for remote Clerk CLI OAuth callbacks, `shipflow-blacksmith-login` for remote Blacksmith CLI OAuth callbacks, `shipflow-turso-login` for remote Turso CLI login, and `shipflow-turso-ssh` for Turso CLI auth transfer and schema proof.
 
 Blacksmith SSH Access is intentionally separate from these OAuth callback tunnels. It connects a local terminal directly to an ephemeral Blacksmith runner for a live GitHub Actions job; it does not use `shipflow-blacksmith-login` and does not require a ShipGlowz server install.
 
@@ -55,7 +56,7 @@ Blacksmith SSH Access is intentionally separate from these OAuth callback tunnel
 | `local/blacksmith-login.sh` | Remote Blacksmith OAuth login tunnel flow | Do not read or store Blacksmith token contents |
 | `local/turso-login.sh` | Remote Turso CLI login flow, headless-first with optional callback tunnel mode | Do not read or store Turso token contents |
 | `local/turso-ssh.sh` | Remote Turso CLI auth transfer and optional schema checks | Copy official CLI config only; never print token contents |
-| `local/remote-helpers.sh` | SSH target, identity, and remote port helper functions | Validate inputs before building SSH args |
+| `local/remote-helpers.sh` | SSH target, identity, public-key installation, key-only verification, and remote port helpers | Validate inputs before building SSH args; private keys never reach remote stdin |
 | `local/install.sh`, `local/install_local.ps1` | Local installer scripts | Keep platform-specific assumptions explicit |
 | `local/README.md` | Operator-facing setup and troubleshooting | Update when commands or flow change |
 
@@ -67,6 +68,7 @@ Blacksmith SSH Access is intentionally separate from these OAuth callback tunnel
 - `shipflow-blacksmith-login`: launches remote `blacksmith auth login` and opens a temporary callback tunnel.
 - `shipflow-turso-login`: launches remote `turso auth login --headless` by default, opens/prints the auth URL, accepts the browser-provided JWT/token when Turso shows one, stores it through the official remote CLI, then verifies `turso auth whoami`.
 - Local `urls` menu entry `Authentifications distantes`: grouped wrapper for MCP Codex, Clerk CLI, Blacksmith, Turso login, ContentFlow checks, and fallback session copy.
+- Local `urls` menu entry `Installer une clé SSH sur ce serveur`: selects or generates a per-device local identity, installs only its public record, verifies a fresh publickey-only connection, and promotes saved auth state.
 - `shipflow-turso-ssh [db-name]`: copies local Turso CLI config to the remote server, verifies `turso auth whoami`, and optionally checks ContentFlow tables.
 - `local/dev-tunnel.sh`: direct tunnel helper for scripted or simplified flows.
 
@@ -81,6 +83,16 @@ local/local.sh
   -> validate local port availability
   -> start autossh tunnels
   -> show localhost URLs
+```
+
+```text
+password-to-key promotion
+  -> select an existing local identity or generate dedicated Ed25519
+  -> derive and validate exactly one public-key record
+  -> send public data through existing SSH stdin
+  -> append by public blob without replacing authorized_keys
+  -> verify with ControlPath=none and password fallbacks disabled
+  -> update saved auth state only after proof
 ```
 
 ```text
@@ -156,6 +168,11 @@ shipflow-turso-ssh
   Blacksmith feature that relies on the triggering user's GitHub SSH keys and a
   per-job SSH command from the `Setup runner` step.
 - Saved connection state is shared by app tunnels, MCP login, and Blacksmith login.
+- Each local device owns a distinct private key. ShipGlowz may authorize multiple device public keys on the same remote account but never synchronizes private keys.
+- Password-to-key promotion sends only a validated single-line public record over SSH stdin. Public records with `authorized_keys` options, multiple lines, unsupported types, or a mismatch with the selected private identity are rejected before remote mutation.
+- Remote key installation preserves all existing `authorized_keys` entries, deduplicates by the base64 public blob, and enforces mode `700` on `~/.ssh` and `600` on `authorized_keys`.
+- The final key proof disables connection sharing with `ControlPath=none`, disables password and keyboard-interactive authentication, and forces the selected identity. Saved auth state remains unchanged when this proof fails.
+- Dedicated generated keys are Ed25519 and unencrypted only after an explicit operator warning because background tunnels cannot answer passphrase prompts. Existing protected keys require `ssh-agent` for batch use.
 - Key/agent SSH calls run in batch mode so menu scans fail visibly instead of
   blocking on hidden prompts. Password SSH opens a local OpenSSH master session
   first, then all commands and background tunnels reuse it through a protected
@@ -182,6 +199,8 @@ shipflow-turso-ssh
   cannot be opened; display the SSH detail (timeout, refused connection, bad
   credentials, or host-key error) rather than treating it as an empty PM2 list.
 - A malformed SSH identity path or target can become an SSH option if validation regresses.
+- A mismatched `.pub` file, passphrase-protected key absent from `ssh-agent`, nonstandard remote authorized-key policy, or unwritable remote home blocks promotion and leaves the previous saved auth mode active.
+- An active password ControlMaster can create a false positive unless key verification explicitly disables `ControlPath`; this is a blocking security invariant.
 - Duplicate local ports should block before creating partial tunnels.
 - A stale Flutter Web registry entry should be ignored by local tunnel tools
   when its `tmux` session is no longer active.
@@ -189,6 +208,8 @@ shipflow-turso-ssh
 ## Security Notes
 
 - Never document or log private hosts, private keys, tokens, callback payloads, cookies, or provider secrets.
+- Never transfer a private key to the server or between devices. Only the validated public record may reach the remote install command.
+- Never replace `authorized_keys`, edit `known_hosts`, change `sshd_config`, or disable password authentication as an implicit pairing side effect.
 - Treat saved connection files as local operator state, not public documentation.
 - Provider names must be validated before they are passed to remote commands.
 
@@ -196,6 +217,7 @@ shipflow-turso-ssh
 
 ```bash
 bash -n local/local.sh local/dev-tunnel.sh local/mcp-login.sh local/clerk-login.sh local/blacksmith-login.sh local/turso-login.sh local/turso-ssh.sh local/remote-helpers.sh local/install.sh
+bash tests/local/ssh-key-promotion.sh
 rg -n "validate_connection_target|validate_identity_file|check_local_port_free|parse_mcp_oauth_port_from_text|parse_clerk_oauth_port_from_text|shipflow-clerk-login|shipflow-turso-login|shipflow-turso-ssh" local/
 ```
 
@@ -206,7 +228,7 @@ PowerShell changes require a separate syntax/manual review on a PowerShell-capab
 - `local/` changed -> review this doc and `local/README.md`.
 - MCP, Clerk, or Blacksmith OAuth flow changed -> review `README.md`, `local/README.md`,
   and the public remote MCP guide if user-visible.
-- SSH parsing changed -> run an adversarial validation pass for option injection and malformed key paths.
+- SSH parsing or key promotion changed -> run `tests/local/ssh-key-promotion.sh` plus an adversarial pass for option injection, malformed paths, private/public mismatch, ControlMaster reuse, and state rollback.
 
 ## Maintenance Rule
 

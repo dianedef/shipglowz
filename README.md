@@ -94,7 +94,7 @@ It helps operators run apps on servers, but its deeper job is to reduce ambiguit
 - manage long-running processes with PM2
 - assign and persist project ports
 - expose apps through Caddy and DuckDNS
-- support local access through SSH tunnel tooling
+- support local access through SSH tunnel tooling, including password-first pairing promoted safely to a per-device SSH key
 - run Flutter Web preview sessions in `tmux` with ShipGlowz-triggered hot reload
 
 ### Structured AI workflows

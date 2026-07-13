@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.1.13"
+artifact_version: "0.1.14"
 project: "shipflow"
 created: "2026-04-25"
-updated: "2026-05-22"
+updated: "2026-07-13"
 status: draft
 source_skill: manual
 scope: "context"
@@ -16,7 +16,7 @@ docs_impact: "yes"
 linked_systems: ["shipglowz.sh", "lib.sh", "cli/shipglowz_devserver_gum.sh", "cli/shipglowz_devserver_bash.sh", "config.sh", "install.sh", "local/local.sh", "local/dev-tunnel.sh"]
 depends_on: []
 supersedes: []
-evidence: ["Function extraction from shipglowz.sh, lib.sh, config.sh, install.sh, local/local.sh, local/dev-tunnel.sh", "Blacksmith setup menu helpers added to lib.sh", "Blacksmith OAuth callback tunnel added to local tooling", "Blacksmith SSH Access guide added to the setup menu", "Codex MCP on-demand launcher added to lib.sh", "Grouped root menu and submenu wrappers added to menu frontends", "Root menu shortcuts aligned with visible menu labels", "Disk overview helpers added to the Health Check monitor", "Agent history and cache cleanup helpers added to disk cleanup", "PM2 log cleanup/rotation and disk usage detail helpers added", "Turso setup menu helpers added to lib.sh", "Clerk CLI OAuth callback tunnel added to local tooling", "Local tunnel auth flows grouped under one authentication submenu"]
+evidence: ["Function extraction from shipglowz.sh, lib.sh, config.sh, install.sh, local/local.sh, local/dev-tunnel.sh", "Blacksmith setup menu helpers added to lib.sh", "Blacksmith OAuth callback tunnel added to local tooling", "Blacksmith SSH Access guide added to the setup menu", "Codex MCP on-demand launcher added to lib.sh", "Grouped root menu and submenu wrappers added to menu frontends", "Root menu shortcuts aligned with visible menu labels", "Disk overview helpers added to the Health Check monitor", "Agent history and cache cleanup helpers added", "PM2 log cleanup/rotation and disk usage detail helpers added", "Turso setup menu helpers added to lib.sh", "Clerk CLI OAuth callback tunnel added to local tooling", "Local tunnel auth flows grouped under one authentication submenu", "Password-to-key promotion helpers and local menu flow added with independent key-only verification"]
 next_step: "/sg-docs update CONTEXT-FUNCTION-TREE.md"
 ---
 
@@ -114,8 +114,17 @@ connection management
   -> load_current_connection
   -> save_current_connection
   -> add_saved_connection
+  -> promote_connection_state_to_key
+  -> install_ssh_key_for_current_server
   -> get_saved_connections
   -> select_connection
+
+SSH key promotion helpers (`local/remote-helpers.sh`)
+  -> validate_ssh_public_key_file
+  -> prepare_identity_public_key
+  -> generate_shipglowz_identity
+  -> install_remote_ssh_public_key
+  -> verify_ssh_key_only
 
 remote session info
   -> fetch_server_session_info

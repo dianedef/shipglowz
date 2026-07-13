@@ -236,6 +236,188 @@ validate_identity_file() {
     resolve_identity_path "$identity_file" >/dev/null
 }
 
+ssh_public_key_type_allowed() {
+    case "${1:-}" in
+        ssh-ed25519|sk-ssh-ed25519@openssh.com|ecdsa-sha2-nistp256|ecdsa-sha2-nistp384|ecdsa-sha2-nistp521|sk-ecdsa-sha2-nistp256@openssh.com|ssh-rsa)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+validate_ssh_public_key_file() {
+    local public_key_file="$1"
+    [ -f "$public_key_file" ] && [ -r "$public_key_file" ] || return 1
+    [ "$(awk 'END { print NR }' "$public_key_file")" -eq 1 ] || return 1
+
+    local key_type key_blob key_comment
+    IFS=' ' read -r key_type key_blob key_comment < "$public_key_file" || return 1
+    ssh_public_key_type_allowed "$key_type" || return 1
+    [[ "$key_blob" =~ ^[A-Za-z0-9+/]+={0,3}$ ]] || return 1
+    command -v ssh-keygen >/dev/null 2>&1 || return 1
+    ssh-keygen -lf "$public_key_file" >/dev/null 2>&1
+}
+
+ssh_public_key_blob() {
+    local public_key_file="$1"
+    validate_ssh_public_key_file "$public_key_file" || return 1
+    awk '{ print $2 }' "$public_key_file"
+}
+
+ssh_public_key_fingerprint() {
+    local public_key_file="$1"
+    validate_ssh_public_key_file "$public_key_file" || return 1
+    ssh-keygen -lf "$public_key_file" -E sha256 2>/dev/null | awk '{ print $2; exit }'
+}
+
+prepare_identity_public_key() {
+    local identity_file="$1"
+    local output_file="$2"
+    local resolved_identity derived_file source_public
+
+    resolved_identity="$(resolve_identity_path "$identity_file")" || return 1
+    command -v ssh-keygen >/dev/null 2>&1 || return 1
+    derived_file="$(mktemp "${TMPDIR:-/tmp}/shipglowz-derived-key.XXXXXX")" || return 1
+    chmod 600 "$derived_file" 2>/dev/null || true
+
+    if ! ssh-keygen -y -f "$resolved_identity" > "$derived_file" 2>/dev/null; then
+        rm -f "$derived_file"
+        return 1
+    fi
+    validate_ssh_public_key_file "$derived_file" || {
+        rm -f "$derived_file"
+        return 1
+    }
+
+    source_public="${resolved_identity}.pub"
+    if [ -f "$source_public" ]; then
+        if ! validate_ssh_public_key_file "$source_public" ||
+            [ "$(ssh_public_key_blob "$source_public")" != "$(ssh_public_key_blob "$derived_file")" ]; then
+            rm -f "$derived_file"
+            return 1
+        fi
+        cp "$source_public" "$output_file" || {
+            rm -f "$derived_file"
+            return 1
+        }
+    else
+        cp "$derived_file" "$output_file" || {
+            rm -f "$derived_file"
+            return 1
+        }
+    fi
+
+    rm -f "$derived_file"
+    chmod 600 "$output_file" 2>/dev/null || true
+    validate_ssh_public_key_file "$output_file"
+}
+
+shipglowz_identity_target_slug() {
+    local target="${1:-server}"
+    target="${target#*@}"
+    target="$(printf '%s' "$target" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9._-]/-/g; s/^-*//; s/-*$//')"
+    printf '%s\n' "${target:-server}"
+}
+
+shipglowz_available_identity_path() {
+    local target="$1"
+    local ssh_dir="${HOME:?}/.ssh"
+    local slug base candidate suffix=1
+    slug="$(shipglowz_identity_target_slug "$target")"
+    base="$ssh_dir/shipglowz_${slug}_ed25519"
+    candidate="$base"
+
+    while [ -e "$candidate" ] || [ -e "${candidate}.pub" ]; do
+        suffix=$((suffix + 1))
+        [ "$suffix" -le 99 ] || return 1
+        candidate="${base}_${suffix}"
+    done
+    printf '%s\n' "$candidate"
+}
+
+generate_shipglowz_identity() {
+    local target="$1"
+    local identity_file="${2:-}"
+    command -v ssh-keygen >/dev/null 2>&1 || return 1
+
+    mkdir -p "$HOME/.ssh" || return 1
+    chmod 700 "$HOME/.ssh" 2>/dev/null || true
+    if [ -z "$identity_file" ]; then
+        identity_file="$(shipglowz_available_identity_path "$target")" || return 1
+    else
+        identity_file="$(normalize_identity_path "$identity_file")"
+    fi
+    [ ! -e "$identity_file" ] && [ ! -e "${identity_file}.pub" ] || return 1
+
+    ssh-keygen -q -t ed25519 -N "" -C "shipglowz:$(shipglowz_identity_target_slug "$target")" -f "$identity_file" || return 1
+    chmod 600 "$identity_file" 2>/dev/null || true
+    chmod 644 "${identity_file}.pub" 2>/dev/null || true
+    printf '%s\n' "$identity_file"
+}
+
+ssh_authorized_key_install_command() {
+    cat <<'EOF'
+set -eu
+umask 077
+IFS= read -r shipglowz_public_key
+[ -n "$shipglowz_public_key" ]
+shipglowz_key_blob=$(printf '%s\n' "$shipglowz_public_key" | awk '{ print $2 }')
+[ -n "$shipglowz_key_blob" ]
+mkdir -p "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
+touch "$HOME/.ssh/authorized_keys"
+chmod 600 "$HOME/.ssh/authorized_keys"
+if awk -v blob="$shipglowz_key_blob" '{ for (i = 1; i <= NF; i++) if ($i == blob) found = 1 } END { exit found ? 0 : 1 }' "$HOME/.ssh/authorized_keys"; then
+    printf '%s\n' present
+else
+    if [ -s "$HOME/.ssh/authorized_keys" ]; then
+        printf '\n' >> "$HOME/.ssh/authorized_keys"
+    fi
+    printf '%s\n' "$shipglowz_public_key" >> "$HOME/.ssh/authorized_keys"
+    printf '%s\n' installed
+fi
+EOF
+}
+
+install_remote_ssh_public_key() {
+    local public_key_file="$1"
+    validate_ssh_public_key_file "$public_key_file" || return 1
+    [ -n "${REMOTE_HOST:-}" ] || return 1
+    run_remote_ssh "$(ssh_authorized_key_install_command)" < "$public_key_file"
+}
+
+ssh_key_only_args() {
+    local identity_file="$1"
+    local resolved_identity
+    resolved_identity="$(resolve_identity_path "$identity_file")" || return 1
+
+    while IFS= read -r arg; do
+        [ -n "$arg" ] && printf '%s\n' "$arg"
+    done < <(ssh_base_args)
+    printf '%s\n' \
+        "-o" "ControlMaster=no" \
+        "-o" "ControlPath=none" \
+        "-o" "BatchMode=yes" \
+        "-o" "PasswordAuthentication=no" \
+        "-o" "KbdInteractiveAuthentication=no" \
+        "-o" "PreferredAuthentications=publickey" \
+        "-o" "PubkeyAuthentication=yes" \
+        "-i" "$resolved_identity" \
+        "-o" "IdentitiesOnly=yes"
+}
+
+verify_ssh_key_only() {
+    local identity_file="$1"
+    [ -n "${REMOTE_HOST:-}" ] || return 1
+    local args=()
+    while IFS= read -r arg; do
+        args+=("$arg")
+    done < <(ssh_key_only_args "$identity_file")
+    ssh "${args[@]}" "$REMOTE_HOST" "echo shipglowz-key-ok" >/dev/null
+}
+
 ssh_auth_mode() {
     local mode="${SSH_AUTH_METHOD:-key}"
     case "$mode" in

@@ -107,6 +107,73 @@ add_saved_connection() {
     echo "$record" >> "$CONNECTIONS_FILE"
 }
 
+promote_connection_state_to_key() {
+    local target="$1"
+    local identity_file="$2"
+    local resolved_identity state_backup state_stage
+    resolved_identity="$(resolve_identity_path "$identity_file")" || return 1
+    mkdir -p "$CONFIG_DIR" || return 1
+    chmod 700 "$CONFIG_DIR" 2>/dev/null || true
+    state_backup="$(mktemp -d "$CONFIG_DIR/.state-backup.XXXXXX")" || return 1
+    state_stage="$(mktemp -d "$CONFIG_DIR/.state-stage.XXXXXX")" || {
+        rm -rf "$state_backup"
+        return 1
+    }
+
+    local file name
+    for file in "$CURRENT_AUTH_METHOD_FILE" "$CURRENT_IDENTITY_FILE" "$CONNECTIONS_FILE"; do
+        name="${file##*/}"
+        if [ -e "$file" ]; then
+            cp -p "$file" "$state_backup/$name" || {
+                rm -rf "$state_backup" "$state_stage"
+                return 1
+            }
+        else
+            touch "$state_backup/$name.absent"
+        fi
+    done
+
+    if ! printf '%s\n' key > "$state_stage/current_auth_method" ||
+        ! printf '%s\n' "$resolved_identity" > "$state_stage/current_identity_file"; then
+        rm -rf "$state_backup" "$state_stage"
+        return 1
+    fi
+    if [ -f "$CONNECTIONS_FILE" ]; then
+        if ! awk -F'|' -v connection="$target" '$1 != connection { print $0 }' "$CONNECTIONS_FILE" > "$state_stage/connections.conf"; then
+            rm -rf "$state_backup" "$state_stage"
+            return 1
+        fi
+    else
+        : > "$state_stage/connections.conf"
+    fi
+    if ! printf '%s|key|%s\n' "$target" "$resolved_identity" >> "$state_stage/connections.conf"; then
+        rm -rf "$state_backup" "$state_stage"
+        return 1
+    fi
+    chmod 600 "$state_stage/current_auth_method" "$state_stage/current_identity_file" "$state_stage/connections.conf" 2>/dev/null || true
+
+    local failed=0
+    mv "$state_stage/current_auth_method" "$CURRENT_AUTH_METHOD_FILE" || failed=1
+    [ "$failed" -eq 0 ] && mv "$state_stage/current_identity_file" "$CURRENT_IDENTITY_FILE" || failed=1
+    [ "$failed" -eq 0 ] && mv "$state_stage/connections.conf" "$CONNECTIONS_FILE" || failed=1
+
+    if [ "$failed" -ne 0 ]; then
+        for file in "$CURRENT_AUTH_METHOD_FILE" "$CURRENT_IDENTITY_FILE" "$CONNECTIONS_FILE"; do
+            name="${file##*/}"
+            if [ -f "$state_backup/$name" ]; then
+                cp -p "$state_backup/$name" "$file" 2>/dev/null || true
+            else
+                rm -f "$file"
+            fi
+        done
+        rm -rf "$state_backup" "$state_stage"
+        return 1
+    fi
+
+    rm -rf "$state_backup" "$state_stage"
+    return 0
+}
+
 # Get saved connections
 get_saved_connections() {
     if [ -f "$CONNECTIONS_FILE" ]; then
@@ -214,6 +281,116 @@ normalize_menu_choice() {
     choice=$(printf '%s' "$choice" | tr '[:upper:]' '[:lower:]')
 
     printf '%s' "$choice"
+}
+
+install_ssh_key_for_current_server() {
+    local_screen_header "Installer une clé SSH"
+    if [ -z "${REMOTE_HOST:-}" ]; then
+        echo -e "${RED}✗ Aucun serveur n'est configuré.${NC}"
+        echo -e "${YELLOW}  Configure d'abord une connexion avec l'option c.${NC}"
+        return 1
+    fi
+
+    echo -e "${BLUE}Serveur actuel:${NC} ${GREEN}$REMOTE_HOST${NC}"
+    echo -e "${YELLOW}La clé privée restera sur cet appareil. Seule la clé publique sera envoyée.${NC}"
+    echo -e "${YELLOW}Utilise une clé différente sur chaque appareil.${NC}"
+    echo ""
+    local_menu_line "e" "Utiliser une clé locale existante"
+    local_menu_line "g" "Générer une clé Ed25519 dédiée"
+    local_menu_line "x" "Retour"
+    echo ""
+    prompt_inline "${YELLOW}Choix ?${NC} "
+    local key_choice=""
+    read_menu_choice key_choice
+
+    local identity_file=""
+    case "$key_choice" in
+        e)
+            prompt_inline "${YELLOW}Chemin de la clé privée locale:${NC} "
+            read -r identity_file
+            identity_file="$(normalize_identity_input "$identity_file")"
+            identity_file="$(resolve_identity_path "$identity_file")" || {
+                echo -e "${RED}✗ Clé privée introuvable.${NC}"
+                return 1
+            }
+            ;;
+        g)
+            echo ""
+            echo -e "${YELLOW}La clé dédiée sera créée sans passphrase pour fonctionner avec les tunnels non interactifs.${NC}"
+            echo -e "${YELLOW}Son fichier privé sera protégé en lecture pour ton compte uniquement.${NC}"
+            prompt_inline "${YELLOW}Continuer ? [o/N]${NC} "
+            local generate_confirm=""
+            read -r generate_confirm
+            generate_confirm="$(normalize_menu_choice "$generate_confirm")"
+            case "$generate_confirm" in o|oui|y|yes) ;; *) echo -e "${YELLOW}Génération annulée.${NC}"; return 0 ;; esac
+            identity_file="$(generate_shipglowz_identity "$REMOTE_HOST")" || {
+                echo -e "${RED}✗ Impossible de générer la clé dédiée.${NC}"
+                return 1
+            }
+            echo -e "${GREEN}✓ Clé créée: $identity_file${NC}"
+            ;;
+        x|q)
+            return 0
+            ;;
+        *)
+            echo -e "${RED}✗ Choix invalide.${NC}"
+            return 1
+            ;;
+    esac
+
+    local public_key_file
+    public_key_file="$(mktemp "${TMPDIR:-/tmp}/shipglowz-public-key.XXXXXX")" || return 1
+    chmod 600 "$public_key_file" 2>/dev/null || true
+    if ! prepare_identity_public_key "$identity_file" "$public_key_file"; then
+        rm -f "$public_key_file"
+        echo -e "${RED}✗ La clé publique est invalide ou ne correspond pas à la clé privée.${NC}"
+        return 1
+    fi
+
+    local fingerprint
+    fingerprint="$(ssh_public_key_fingerprint "$public_key_file")" || {
+        rm -f "$public_key_file"
+        echo -e "${RED}✗ Impossible de calculer l'empreinte de la clé.${NC}"
+        return 1
+    }
+    echo -e "${BLUE}Empreinte:${NC} ${GREEN}$fingerprint${NC}"
+    prompt_inline "${YELLOW}Installer cette clé publique sur $REMOTE_HOST ? [o/N]${NC} "
+    local install_confirm=""
+    read -r install_confirm
+    install_confirm="$(normalize_menu_choice "$install_confirm")"
+    case "$install_confirm" in
+        o|oui|y|yes) ;;
+        *) rm -f "$public_key_file"; echo -e "${YELLOW}Installation annulée.${NC}"; return 0 ;;
+    esac
+
+    echo -e "${BLUE}Installation de la clé publique...${NC}"
+    local install_result
+    if ! install_result="$(install_remote_ssh_public_key "$public_key_file" 2>&1)"; then
+        rm -f "$public_key_file"
+        echo -e "${RED}✗ Installation distante impossible.${NC}"
+        [ -n "$install_result" ] && echo -e "${YELLOW}  Détail SSH: ${install_result//$'\n'/ }${NC}"
+        return 1
+    fi
+    rm -f "$public_key_file"
+
+    echo -e "${BLUE}Vérification avec une nouvelle connexion par clé uniquement...${NC}"
+    if ! verify_ssh_key_only "$identity_file"; then
+        echo -e "${RED}✗ La clé a pu être ajoutée, mais la connexion par clé seule a échoué.${NC}"
+        echo -e "${YELLOW}  La connexion ShipGlowz reste dans son mode précédent.${NC}"
+        echo -e "${YELLOW}  Si la clé a une passphrase, charge-la avec: ssh-add $identity_file${NC}"
+        return 1
+    fi
+
+    if ! promote_connection_state_to_key "$REMOTE_HOST" "$identity_file"; then
+        echo -e "${RED}✗ La clé fonctionne, mais l'état local n'a pas pu être mis à jour.${NC}"
+        echo -e "${YELLOW}  Relance cette action; la clé publique distante ne sera pas dupliquée.${NC}"
+        return 1
+    fi
+
+    SSH_AUTH_METHOD="key"
+    SSH_IDENTITY_FILE="$(resolve_identity_path "$identity_file")"
+    echo -e "${GREEN}✓ Connexion promue vers la clé SSH ($install_result).${NC}"
+    echo -e "${GREEN}✓ Les tunnels utiliseront désormais cette clé sans mot de passe serveur.${NC}"
 }
 
 print_remote_app_warmup_hint() {
@@ -445,7 +622,23 @@ configure_new_server() {
     else
         echo -e "${BLUE}Méthode: ${GREEN}clé SSH / agent${NC}"
     fi
-    save_and_activate_connection "$target" "$identity_file" "$auth_method"
+    if ! save_and_activate_connection "$target" "$identity_file" "$auth_method"; then
+        return 1
+    fi
+
+    if [ "$auth_method" = "password" ]; then
+        echo ""
+        prompt_inline "${YELLOW}Installer maintenant une clé SSH pour ne plus saisir le mot de passe ? [o/N]${NC} "
+        local promote_now=""
+        read -r promote_now
+        promote_now="$(normalize_menu_choice "$promote_now")"
+        case "$promote_now" in
+            o|oui|y|yes)
+                install_ssh_key_for_current_server
+                ;;
+        esac
+    fi
+    return 0
 }
 
 # Menu to select/add connection
@@ -789,6 +982,7 @@ show_menu() {
     local_menu_line "s" "📊 Statut des tunnels"
     local_menu_line "r" "🔄 Redémarrer les tunnels"
     local_menu_line "c" "🌐 Configurer nouveau serveur"
+    local_menu_line "k" "🔑 Installer une clé SSH sur ce serveur"
     local_menu_line "o" "🔐 Authentifications distantes"
     echo ""
     local_menu_line "l" "🔌 Choisir une connexion enregistrée"
@@ -1431,6 +1625,10 @@ main() {
                 ;;
             c)
                 configure_new_server
+                pause
+                ;;
+            k)
+                install_ssh_key_for_current_server
                 pause
                 ;;
             o)
