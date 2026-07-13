@@ -49,14 +49,14 @@ owner_routes:
   - `/home/claude/conversation-obstacles-creation-de-notre-set-de-skills.md`
   - `/home/claude/conversation-sg-prod-dernier-run-blacksmith-ci.md`
   - `/home/claude/shipflow/conversation-shipflow-questions-contextuelles-des-skills.md`
-  - `/home/claude/shipflow/docs/conversations/conversation-sg-build-architecture-skills-20260504.md`
+  - `/home/claude/shipflow/shipglowz_data/workflow/conversations/conversation-sg-build-architecture-skills-20260504.md`
 - Fixtures reviewed:
   - `/home/claude/shipflow/shipglowz_data/workflow/conversations/fixtures/conversation-audit-sample-issues.md`
   - `/home/claude/shipflow/shipglowz_data/workflow/conversations/fixtures/conversation-audit-sample-clean.md`
 - Skipped by default:
   - non-conversation markdown not explicitly selected
   - cache/document noise classes (`.cargo`, `.bun`, `.cache`, `.npm`, `.rustup`, `.pub-cache`, `node_modules`)
-  - ordinary project docs (`README.md`, `CHANGELOG.md`, `TEST_LOG.md`, `CLAUDE.md`, `AGENT.md`) unless explicitly selected
+  - ordinary project docs (`README.md`, `CHANGELOG.md`, `shipglowz_data/workflow/TEST_LOG.md`, `CLAUDE.md`, `AGENT.md`) unless explicitly selected
 
 ## sg-verify Coverage Addendum
 
@@ -64,7 +64,7 @@ owner_routes:
 - Additional candidate paths found by the verifier:
   - `/home/claude/shipflow/site/src/content/conversation-sg-build-master-skill-2026-05-01.md`
   - `/home/claude/shipflow_app/site/src/content/conversation-sg-build-master-skill-2026-05-01.md`
-  - `/home/claude/winflowz/docs/conversations/conversation-sg-prod-dernier-run-blacksmith-ci-20260528-200007.md`
+  - `/home/claude/winflowz/shipglowz_data/workflow/conversations/conversation-sg-prod-dernier-run-blacksmith-ci-20260528-200007.md`
 - Verification treatment:
   - all three were passed through `tools/shipflow_conversation_audit.py`;
   - classifier findings: `0` for each;
@@ -101,7 +101,7 @@ Result summary:
   - unsafe: true
   - finding_count: 1
   - categories: over_reporting
-- `/home/claude/shipflow/docs/conversations/conversation-sg-build-architecture-skills-20260504.md`
+- `/home/claude/shipflow/shipglowz_data/workflow/conversations/conversation-sg-build-architecture-skills-20260504.md`
   - unsafe: true
   - finding_count: 0
   - categories: none

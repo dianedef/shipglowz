@@ -17,6 +17,7 @@ LEGACY_ROOT_FILES = {
     "AUDIT_LOG.md",
     "BRANDING.md",
     "BUSINESS.md",
+    "BUGS.md",
     "CONTENT_MAP.md",
     "CONTEXT-FUNCTION-TREE.md",
     "CONTEXT.md",
@@ -25,9 +26,12 @@ LEGACY_ROOT_FILES = {
     "INSPIRATION.md",
     "PRODUCT.md",
     "TASKS.md",
+    "TEST_LOG.md",
 }
 LEGACY_ROOT_DIRS = {
     "archive",
+    "bugs",
+    "docs",
     "research",
     "specs",
 }

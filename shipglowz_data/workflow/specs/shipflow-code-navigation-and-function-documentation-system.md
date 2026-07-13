@@ -103,7 +103,7 @@ ShipGlowz already has a strong technical documentation layer: `code-docs-map.md`
 The current gap appears when the operator uses product language rather than file paths. In the WinFlowz IME example, the word `swipe` required searching code, tests, docs, specs, and bugs before the behavior could be understood. That is acceptable once, but not as a repeated operating model across 20+ projects. The system needs an explicit recovery path:
 
 ```text
-operator term -> project glossary / behavior index -> subsystem doc -> code entrypoints -> key functions -> tests/specs/bugs/decisions
+operator term -> project glossary / behavior index -> subsystem doc -> code entrypoints -> key functions -> tests/specs/shipglowz_data/workflow/bugs/decisions
 ```
 
 The current documentation also does not define when to use comments, generated API docs, behavior references, ADRs, or code-docs-map rows. Without a standard, agents will either over-document every function or keep producing local one-off notes that do not compound across the portfolio.
@@ -163,7 +163,7 @@ The external documentation model informs the split:
 - Comments are required only on high-cognitive-load symbols: arbitration, dispatch, security boundaries, lifecycle state, concurrency, persistence, external side effects, error recovery, or non-obvious product behavior.
 - Generated docs are optional and stack-specific; they must support navigation rather than become another stale artifact.
 - Every behavior index must have one canonical owner artifact.
-- Behavior docs must link to tests/specs/bugs/decisions but not duplicate their full content.
+- Behavior docs must link to tests/specs/shipglowz_data/workflow/bugs/decisions but not duplicate their full content.
 - Source comments must not contain secrets, private payloads, raw logs, or stale implementation walkthroughs.
 - In monorepos, behavior docs live under the root `shipglowz_data/technical/`, scoped by surface when needed.
 - Shared ShipGlowz references and templates are sequential integration files.
@@ -403,7 +403,7 @@ Manual proof:
 - Resolve meanings from the behavior index without raw `rg` as the first step.
 - Open the mapped behavior doc.
 - Open the mapped source functions.
-- Confirm the mapped tests/specs/bugs/decisions are linked.
+- Confirm the mapped tests/specs/shipglowz_data/workflow/bugs/decisions are linked.
 - Confirm unmapped terms produce a governance gap rather than silent broad search.
 
 ## Risks

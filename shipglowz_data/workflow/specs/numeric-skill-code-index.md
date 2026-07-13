@@ -23,7 +23,7 @@ linked_systems:
   - skills/shipflow/SKILL.md
   - skills/sg-help/SKILL.md
   - skills/sg-help/references/help-catalog.md
-  - docs/skill-launch-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - shipglowz_data/technical/skill-runtime-and-lifecycle.md
   - tools/skill_code_index_lint.py
 depends_on:
@@ -111,7 +111,7 @@ Ajouter une couche canonique de decouverte numerique dans `skills/references/ski
 ## Dependencies
 
 - Runtime: Markdown et Python standard library.
-- Document contracts: `skill-runtime-and-lifecycle.md`, `entrypoint-routing.md`, `docs/skill-launch-cheatsheet.md`.
+- Document contracts: `skill-runtime-and-lifecycle.md`, `entrypoint-routing.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`.
 - Metadata gaps: aucun.
 
 ## Invariants
@@ -132,7 +132,7 @@ Ajouter une couche canonique de decouverte numerique dans `skills/references/ski
 - `skills/references/skill-code-index.md` devient la source de verite.
 - `skills/shipflow/SKILL.md` doit expliquer la resolution des codes.
 - `skills/sg-help/SKILL.md` et `skills/sg-help/references/help-catalog.md` doivent pointer vers l'index.
-- `docs/skill-launch-cheatsheet.md` doit resumer les familles numeriques.
+- `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md` doit resumer les familles numeriques.
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md` et `code-docs-map.md` doivent documenter la surface.
 - `CHANGELOG.md` doit mentionner la nouvelle couche de decouverte.
 
@@ -179,11 +179,11 @@ Ajouter une couche canonique de decouverte numerique dans `skills/references/ski
   - Notes: Ne pas dupliquer toute la table dans `SKILL.md`.
 
 - [x] Task 5: Mettre a jour les docs techniques et la cheatsheet
-  - File: `docs/skill-launch-cheatsheet.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipglowz_data/technical/code-docs-map.md`, `CHANGELOG.md`
+  - File: `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipglowz_data/technical/code-docs-map.md`, `CHANGELOG.md`
   - Action: Documenter la couche de decouverte numerique et sa validation.
   - User story link: Les futurs agents savent ou maintenir les codes.
   - Depends on: Tasks 2-4
-  - Validate with: `rg -n "skill-code-index|skill_code_index_lint|00-shipflow|01-sg-build" docs/skill-launch-cheatsheet.md shipglowz_data/technical/skill-runtime-and-lifecycle.md shipglowz_data/technical/code-docs-map.md CHANGELOG.md`
+  - Validate with: `rg -n "skill-code-index|skill_code_index_lint|00-shipflow|01-sg-build" shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md shipglowz_data/technical/skill-runtime-and-lifecycle.md shipglowz_data/technical/code-docs-map.md CHANGELOG.md`
   - Notes: No public-site category change in this pass.
 
 ## Acceptance Criteria
@@ -231,7 +231,7 @@ Ajouter une couche canonique de decouverte numerique dans `skills/references/ski
 
 ## Execution Notes
 
-- Read first: `skills/references/skill-code-index.md` once created, `skills/shipflow/SKILL.md`, `skills/sg-help/SKILL.md`, `docs/skill-launch-cheatsheet.md`.
+- Read first: `skills/references/skill-code-index.md` once created, `skills/shipflow/SKILL.md`, `skills/sg-help/SKILL.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`.
 - Validate with: commands in Test Strategy.
 - Stop conditions: a runtime requires renaming skills, duplicate code pressure appears, or the user rejects frequency-first master codes.
 

@@ -12,8 +12,8 @@ Target:
                        Omit to capture the current tmux pane.
 
 Preset:
-  --preset shipflow|docs  Output routing profile. `000-shipglowz` routes to shipglowz_data/workflow/conversations/.
-                         `docs` routes to <project>/docs/conversations/. If omitted, docs is used.
+  --preset shipflow|docs  Output routing profile. `shipflow` routes to the ShipGlowz-owned canonical conversation corpus.
+                         Legacy alias `docs` routes to <project>/shipglowz_data/workflow/conversations/. It never creates root docs/.
   shipflow|docs           Shortcut positional preset.
 
 Optional:
@@ -80,7 +80,7 @@ validate_shipflow_preset_output() {
   local allowed_dir="$root/shipglowz_data/workflow/conversations"
 
   if ! ensure_path_under_dir "$output" "$allowed_dir"; then
-    fail "shipflow preset output must stay under $allowed_dir (got: $output). Use the docs preset for project-local conversation files."
+    fail "shipflow preset output must stay under $allowed_dir (got: $output). Use the legacy docs preset alias for canonical project-local conversation files."
   fi
 }
 
@@ -570,9 +570,9 @@ if [ -z "$DESTINATION" ]; then
   else
     PROJECT_ROOT=$(infer_project_root_from_raw "$TMP_RAW" "$PWD")
     if [ -n "$PROJECT_ROOT" ] && [ "$PROJECT_ROOT" != "$PWD" ]; then
-      DESTINATION="${PROJECT_ROOT}/docs/conversations/${SLUG}.md"
+      DESTINATION="${PROJECT_ROOT}/shipglowz_data/workflow/conversations/${SLUG}.md"
     elif [ -n "$PROJECT_ROOT" ] && [ -d "$PROJECT_ROOT/.git" ]; then
-      DESTINATION="${PROJECT_ROOT}/docs/conversations/${SLUG}.md"
+      DESTINATION="${PROJECT_ROOT}/shipglowz_data/workflow/conversations/${SLUG}.md"
     else
       DESTINATION="./${SLUG}.md"
     fi

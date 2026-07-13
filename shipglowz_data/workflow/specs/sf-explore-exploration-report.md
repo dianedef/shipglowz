@@ -99,7 +99,7 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
 - Modifier `skills/sg-explore/SKILL.md` pour expliquer quand creer, mettre a jour ou ne pas creer un rapport selon le seuil explicite de deux criteres substantiels.
 - Garder `Trace category: non-applicable` pour l'ecriture dans les specs, car `sg-explore` ne doit pas modifier `Skill Run History`.
 - Reclasser ou affiner le role process de `sg-explore` dans la doctrine pour representer son role pre-decision sans lui donner le droit de creer une spec.
-- Ajouter une regle de chemin pour les rapports: preferer `docs/explorations/YYYY-MM-DD-slug.md` si `docs/` existe, sinon `explorations/YYYY-MM-DD-slug.md`; pour le repo ShipGlowz lui-meme, autoriser `research/` seulement comme legacy et preferer la nouvelle convention pour les nouveaux rapports.
+- Ajouter une regle de chemin pour les rapports: preferer `shipglowz_data/workflow/explorations/YYYY-MM-DD-slug.md` si `docs/` existe, sinon `explorations/YYYY-MM-DD-slug.md`; pour le repo ShipGlowz lui-meme, autoriser `research/` seulement comme legacy et preferer la nouvelle convention pour les nouveaux rapports.
 - Capturer les recherches internet effectuees pendant l'exploration dans une section dediee du rapport, avec URL, titre, date de consultation et role de la source dans le raisonnement.
 - Ajouter des instructions de redaction: ne jamais persister en clair les secrets, tokens, cookies, cles privees, donnees client ou extraits de logs sensibles; utiliser des resumes et placeholders comme `[REDACTED_TOKEN]`.
 - Mettre a jour `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` pour ajouter `exploration_report` a la doctrine des artifacts et clarifier sa relation avec `research_report`, `decision_record` et `spec`.
@@ -247,7 +247,7 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
 - [ ] AC 7: Given `sg-explore` writes an exploration report, when chantier tracking is inspected, then no chantier spec `Skill Run History` is modified by `sg-explore`.
 - [ ] AC 8: Given a future spec is created from an exploration, when the spec is drafted, then it can reference the exploration report in `depends_on` or `evidence`.
 - [ ] AC 9: Given the new template is inspected, when a fresh agent opens it, then it can distinguish `exploration_report` from `research_report`, `decision_record` and `spec`.
-- [ ] AC 10: Given the output path is selected, when the project has `docs/`, then the report path is under `docs/explorations/`; otherwise it is under `explorations/`.
+- [ ] AC 10: Given the output path is selected, when the project has `docs/`, then the report path is under `shipglowz_data/workflow/explorations/`; otherwise it is under `explorations/`.
 - [ ] AC 11: Given report writing fails, when `sg-explore` ends, then the user sees a non-silent failure with recovery content or a concrete next step.
 - [ ] AC 12: Given the exploration input contains a fake token, cookie, private key marker, customer email or sensitive log excerpt, when the report is written, then the report contains a redacted placeholder or summary and does not contain the raw sensitive value.
 

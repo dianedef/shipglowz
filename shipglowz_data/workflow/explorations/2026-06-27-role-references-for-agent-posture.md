@@ -15,7 +15,7 @@ security_impact: none
 docs_impact: yes
 linked_systems:
   - skills/references/shipflow-terms.md
-  - docs/focus-tags-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md
   - skills/references/entrypoint-routing.md
   - skills/references/skill-instruction-layering.md
   - skills/references/subagent-roles/
@@ -42,7 +42,7 @@ Would it be useful to add precise reference-based roles, for example `%SEO-speci
 - `skills/700-sg-explore/SKILL.md` - exploration mode and report threshold.
 - `skills/references/canonical-paths.md` - canonical path resolution for ShipFlow-owned references.
 - `skills/references/shipflow-terms.md` - current canonical focus tag taxonomy.
-- `docs/focus-tags-cheatsheet.md` - public explanation of focus tags.
+- `shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md` - public explanation of focus tags.
 - `skills/references/entrypoint-routing.md` - routing effects of tags and owner-skill selection.
 - `skills/references/subagent-roles/technical-reader.md` - existing read-only execution role pattern.
 - `skills/references/subagent-roles/editorial-reader.md` - existing editorial reader role pattern.

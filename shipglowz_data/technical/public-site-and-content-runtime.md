@@ -17,7 +17,7 @@ linked_systems:
   - shipglowz-site/
   - shipglowz_data/editorial/content-map.md
   - README.md
-  - docs/skill-launch-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - shipglowz_data/editorial/
 depends_on:
   - artifact: "shipglowz_data/editorial/content-map.md"
@@ -31,7 +31,7 @@ evidence:
   - "shipglowz_data/editorial/content-map.md and shipglowz-site directory inventory."
   - "shipglowz_data/editorial added for public-content governance and Astro schema policy."
   - "Skill modes page expanded into a public launch cheatsheet for master and supporting skill modes."
-  - "docs/skill-launch-cheatsheet.md added as the Markdown reference for the public launch cheatsheet."
+  - "shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md added as the Markdown reference for the public launch cheatsheet."
   - "Public docs page now needs to present the project governance layout decision."
   - "French locale added for primary public routes while public skill contracts remain intentionally English for agent reliability."
 next_review: "2026-06-01"
@@ -52,7 +52,7 @@ This doc covers the Astro public site under `shipglowz-site/`, public skill cont
 | `shipglowz-site/src/pages/**` | Public routes | Public copy must match product and GTM contracts |
 | `shipglowz-site/src/content/articles/**` | Indexed blog article source | Keep frontmatter within the `articles` schema and claims within editorial contracts |
 | `shipglowz-site/src/content/skills/**` | Public skill pages | Summarize outcomes, not internal prompt bodies; keep skill contract language in English by default for agent reliability |
-| `docs/skill-launch-cheatsheet.md` | Markdown skill launch reference | Keep aligned with `/skill-modes`, README workflow, and public skill pages |
+| `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md` | Markdown skill launch reference | Keep aligned with `/skill-modes`, README workflow, and public skill pages |
 | `shipglowz_data/editorial/content-map.md` | Content surface and repurposing map | Update when public surfaces or routing rules change |
 | `shipglowz_data/technical/decisions/project-governance-layout.md` | Canonical root-vs-shipglowz_data layout decision | Keep public docs aligned when compliance or migration rules change |
 | `shipglowz_data/editorial/**` | Public-content governance | Use for claim register, page intent, editorial gate, and Astro schema policy |
@@ -65,7 +65,7 @@ This doc covers the Astro public site under `shipglowz-site/`, public skill cont
 - `shipglowz-site/src/pages/blog/index.astro`, `shipglowz-site/src/pages/blog/[slug].astro`: indexed blog hub and article route.
 - `shipglowz-site/src/pages/skill-modes.astro`: public launch cheatsheet and skill mode tutorial.
 - `shipglowz-site/src/content/articles/`: collection-backed article content.
-- `docs/skill-launch-cheatsheet.md`: Markdown version of the launch cheatsheet.
+- `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`: Markdown version of the launch cheatsheet.
 - `shipglowz-site/src/pages/skills/index.astro`, `shipglowz-site/src/pages/skills/[slug].astro`, and `shipglowz-site/src/content/skills/`: public skill surfaces.
 - `shipglowz_data/editorial/content-map.md`: source of truth for content surface roles and update triggers.
 - `shipglowz_data/editorial/README.md`: editorial governance entrypoint.

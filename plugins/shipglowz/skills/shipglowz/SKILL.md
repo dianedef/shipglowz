@@ -196,11 +196,9 @@ The complete-corpus checkout includes only the skill/runtime corpus:
 - `templates/`
 - `tools/`
 - `shipglowz_data/`
-- `docs/`
 - `local/`
-- `bugs/`
 
-It intentionally excludes the public site, TUI app, archives, research folders, generated builds, and dependency directories.
+It intentionally excludes the public site, TUI app, generated builds, and dependency directories. Canonical archives, research, operator guides, and bug workflow records remain inside `shipglowz_data/`.
 
 If the target already exists and is a Git repo, update it by fetching and checking out the requested ref. If the target exists and is not a Git repo, stop and ask before changing anything.
 

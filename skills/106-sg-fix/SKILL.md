@@ -86,11 +86,11 @@ Before asking the operator for logs, reproduction detail, screenshots, status, o
 
 ## BUG-ID And Bug Memory
 
-Direct bug fixes still require durable bug memory. `106-sg-fix` must finish with a bug reference and one Markdown bug file under `bugs/*.md` unless the issue is a narrow minor exception.
+Direct bug fixes still require durable bug memory. `106-sg-fix` must finish with a bug reference and one Markdown bug file under `shipglowz_data/workflow/bugs/*.md` unless the issue is a narrow minor exception.
 
 Minor exceptions are limited to typo/copy-only fixes, purely cosmetic visual defects with no state/permission/data/interaction consequence, or duplicates of an already-tracked `BUG-ID` with no new diagnosis or fix history. Never use the exception for auth, data, workflow, permission, API, redirect, cache, payment, external effect, or stateful UI bugs.
 
-When a `BUG-ID` exists, open `bugs/BUG-ID.md` right before intake and treat it as source of truth. If no bug file exists and no exception applies, create or reserve a new durable bug record before or during the direct fix flow using the procedure in `bug-fix-workflow.md`.
+When a `BUG-ID` exists, open `shipglowz_data/workflow/bugs/BUG-ID.md` right before intake and treat it as source of truth. If no bug file exists and no exception applies, create or reserve a new durable bug record before or during the direct fix flow using the procedure in `bug-fix-workflow.md`.
 
 ## Security And Data Gates
 
@@ -130,7 +130,7 @@ Use the report shape in `bug-fix-workflow.md`: classification, reason, user stor
 - A direct fix must not bypass durable process, root cause, owner routing, shared structure, or proof.
 - A direct visual fix must defend design-system coherence; unexplained hardcoded sizes, offsets, breakpoints, z-indexes, colors, font sizes, spacings, animation timings, IME/keyboard insets, or overlay positions are not acceptable proof of repair.
 - For UI/design fixes, run `python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/design_system_drift_check.py" --changed --format markdown` or route the gap explicitly; unresolved new drift keeps the bug at most `fix-attempted`.
-- Do not close a bug without retest evidence in `bugs/BUG-ID.md`.
+- Do not close a bug without retest evidence in `shipglowz_data/workflow/bugs/BUG-ID.md`.
 - Do not treat a local retest as closure evidence when project mode requires Vercel preview-push validation.
 
 ## Validation

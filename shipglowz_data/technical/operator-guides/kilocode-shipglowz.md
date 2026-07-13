@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.1"
 project: ShipGlowz
 created: "2026-06-28"
-updated: "2026-06-28"
+updated: "2026-07-13"
 status: reviewed
 source_skill: 300-sg-docs
 scope: kilocode-runtime-docs
@@ -16,16 +16,17 @@ docs_impact: yes
 linked_systems:
   - ".agents/skills/shipglowz/SKILL.md"
   - "README.md"
-  - "docs/skill-launch-cheatsheet.md"
+  - "shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md"
 depends_on:
   - artifact: ".agents/skills/shipglowz/SKILL.md"
     artifact_version: "unknown"
     required_status: "unknown"
-supersedes: []
+supersedes:
+  - docs/kilocode-shipglowz.md
 evidence:
   - "Repository docs already state that KiloCode-style runtimes should use natural language or the runtime skill picker."
   - "The repository proves a generic OpenCode-compatible shim at `.agents/skills/shipglowz/SKILL.md`, but no dedicated KiloCode shim path."
-next_step: "/300-sg-docs audit docs/kilocode-shipglowz.md"
+next_step: "/300-sg-docs audit shipglowz_data/technical/operator-guides/kilocode-shipglowz.md"
 ---
 
 # ShipGlowz in KiloCode

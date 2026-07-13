@@ -50,7 +50,7 @@ Use it when you need to know what the browser actually saw without opening a ful
 
 - It is read-only by default.
 - It does not diagnose login, OAuth, cookies, sessions, callbacks, tenants, providers, or protected routes; use `109-sg-auth-debug`.
-- It does not replace guided manual QA, retests, `TEST_LOG.md`, bug files, or optional `BUGS.md` triage views; use `107-sg-test`.
+- It does not replace guided manual QA, retests, `shipglowz_data/workflow/TEST_LOG.md`, bug files, or optional `shipglowz_data/workflow/BUGS.md` triage views; use `107-sg-test`.
 - It does not discover deployment URLs, inspect Vercel status, or read runtime logs; use `405-sg-prod`.
 - It does not click destructive or production-mutating actions without explicit approval.
 

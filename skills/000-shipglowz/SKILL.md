@@ -110,7 +110,7 @@ When the ambiguity is between adjacent lifecycle owners, prefer the earliest unr
 
 When the ambiguity is between proof lanes, prefer the narrowest evidence owner:
 
-- guided manual QA, retest logging, `TEST_LOG.md`, or bug-state update -> `107-sg-test`
+- guided manual QA, retest logging, `shipglowz_data/workflow/TEST_LOG.md`, or bug-state update -> `107-sg-test`
 - one-off non-auth browser-visible proof -> `108-sg-browser`
 - auth/session/callback/protected-route proof -> `109-sg-auth-debug`
 

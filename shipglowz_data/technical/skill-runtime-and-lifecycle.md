@@ -76,7 +76,7 @@ evidence:
   - "600-sg-local-cloud-sync added as the local-to-cloud data promotion, merge, sync UX, and security contract skill."
   - "001-sg-build delegated sequential subagent consent clarified; subagents and parallelism are distinct runtime concepts."
   - "Master delegation semantics extracted to skills/references/master-delegation-semantics.md and cited by master/orchestrator skills."
-  - "Master workflow lifecycle extracted to skills/references/master-workflow-lifecycle.md; bug work items now use bugs/*.md as source of truth and BUGS.md as optional/generated triage."
+  - "Master workflow lifecycle extracted to skills/references/master-workflow-lifecycle.md; bug work items now use shipglowz_data/workflow/bugs/*.md as source of truth and shipglowz_data/workflow/BUGS.md as optional/generated triage."
   - "000-shipglowz <instruction> documented as the primary non-technical router with direct main-thread handoff to selected skills."
   - "300-sg-docs init clarified as the governance bootstrap lane for empty or near-empty repositories, with explicit bootstrap README and code-docs-map behavior."
   - "Shared operator/question doctrine clarified: the operator is not a fallback coder, but is the right source for business-critical framing questions when repository evidence is insufficient."
@@ -422,7 +422,7 @@ Content lifecycle flow:
 - Skills should load `skills/references/question-contract.md` before user-facing questions. They ask only when the answer changes route, scope, risk, validation, closure, ship posture, public claims, or technical/product/editorial direction; otherwise they proceed by the best-practice default only when it is clear, low-risk, reversible, context-compatible, and verifiable.
 - Skills should not use the operator as a substitute for local technical inspection. They should, however, ask precise numbered business/product/audience/framing questions when those facts are operator-owned and materially improve the work.
 - When skill bodies are edited or compacted, treat top-level `SKILL.md` as the activation contract. Keep required section labels (`Canonical Paths`, `Trace category`, `Process role`, `Report Modes`) and local non-negotiables there; move only supporting detail to references.
-- Bug work uses one Markdown bug file under `bugs/*.md` as the durable source of truth. `BUGS.md`, when present, is an optional compact/generated/triage view and must not override the bug file.
+- Bug work uses one Markdown bug file under `shipglowz_data/workflow/bugs/*.md` as the durable source of truth. `shipglowz_data/workflow/BUGS.md`, when present, is an optional compact/generated/triage view and must not override the bug file.
 - Short natural-language confirmations after diagnosis or proposal continue the current chantier in delegated sequential mode by intent rather than exact keyword, not parallel fan-out.
 - Fresh context is preferred for non-trivial spec-first execution when available.
 - ShipGlowz-owned references resolve from `$SHIPFLOW_ROOT`, not the project repo.
@@ -497,7 +497,7 @@ Run focused `rg` checks for the affected skill contract and linked references.
   and `skills/109-sg-auth-debug/references/playwright-auth.md`.
 - Public-content skill changed -> check `editorial-content-corpus.md`, `docs/editorial/`, and workflow docs.
 - Governance corpus bootstrap or adoption changed -> check `skills/305-sg-init/SKILL.md`, `skills/300-sg-docs/SKILL.md`, `technical-docs-corpus.md`, `editorial-content-corpus.md`, `README.md`, and workflow docs.
-- Content lifecycle changed -> check `CONTENT_MAP.md`, `docs/editorial/`, public skill content, `README.md`, `docs/skill-launch-cheatsheet.md`, and workflow docs.
+- Content lifecycle changed -> check `CONTENT_MAP.md`, `docs/editorial/`, public skill content, `README.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, and workflow docs.
 - A lifecycle rule changed -> update `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
 - Report mode or final-report doctrine changed -> update `skills/references/reporting-contract.md`, `skills/references/chantier-tracking.md`, and affected master/audit skills.
 - A docs gate changed -> update `skills/300-sg-docs/SKILL.md`, `technical-docs-corpus.md`, and `code-docs-map.md`.

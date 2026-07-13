@@ -71,7 +71,7 @@
 | 🟠 | Durable Exploration Reports for `sg-explore` | ✅ done |
 | ✅ | Skill description budget compliance: audit script, descriptions compactes et checks `sg-docs`/`sg-skills-refresh` scoppés | ✅ done |
 | ✅ | Patch global des skills pour résoudre les références et outils internes depuis le root canonique ShipFlow | ✅ done |
-| ✅ | Créer `sg-test` pour guider les tests manuels, loguer `TEST_LOG.md` et ouvrir `BUGS.md` | ✅ done |
+| ✅ | Créer `sg-test` pour guider les tests manuels, loguer `shipglowz_data/workflow/TEST_LOG.md` et ouvrir `shipglowz_data/workflow/BUGS.md` | ✅ done |
 | 🟠 | Implémenter Professional Bug Management avec index compact, dossiers bug et preuves séparées | ✅ done |
 | 🟠 | Durcir `sg-fix` pour exiger une trace bug durable même en fix direct, sauf exception mineure explicitement justifiée | ✅ done |
 | ✅ | Créer `sg-bug` comme orchestrateur de boucle bug (`sg-test -> dossier -> sg-fix -> retest -> sg-verify -> sg-ship`) et aligner docs/help/site | ✅ done |
@@ -121,7 +121,7 @@
 | 🟢 | Étudier `models.dev` comme source externe pour actualiser la référence `sg-model` sans hardcoder prix, limites, capacités et fenêtres de contexte | 💤 deferred |
 | 🟢 | Étudier OpenPostern comme inspiration pour les skills de codage et veille technologique: vendor-risk score, CVE/NVD, CISA KEV, SSL/TLS, DNS, headers HTTP, news sécurité IA et recommandations actionnables | 💤 deferred |
 | 🟢 | Étudier Alpic comme inspiration pour packager, déployer, monitorer et distribuer des MCP servers / ChatGPT Apps liés aux skills ShipFlow | 💤 deferred |
-| 🟢 | Idée à cadrer : créer une brique partagée de journaux opérationnels append-only (`OPERATIONS_LOG.md` / `DEPENDENCY_LOG.md`) pour tracer les runs importants sans remplacer `specs/`, `bugs/`, `TASKS.md` ni `CHANGELOG.md` | 💤 deferred |
+| 🟢 | Idée à cadrer : créer une brique partagée de journaux opérationnels append-only (`OPERATIONS_LOG.md` / `DEPENDENCY_LOG.md`) pour tracer les runs importants sans remplacer `specs/`, `shipglowz_data/workflow/bugs/`, `TASKS.md` ni `CHANGELOG.md` | 💤 deferred |
 | 🟢 | Cadrer plus tard le mécanisme de synchronisation `project repo -> master` pour `shipglowz_data` (symlink, copie, index généré, ingestion web app ou autre) dans une spec dédiée | 💤 deferred |
 | 🟢 | Décider au niveau ShipGlowz si les projets doivent séparer le backlog d'exécution (`shipglowz_data/workflow/TASKS.md`) et la roadmap éditoriale/contenu dans un artefact canonique distinct, puis si validé: définir le nouvel artefact, mettre à jour la doctrine canonique, adapter les skills qui écrivent aujourd'hui dans `TASKS.md`, et prévoir la migration des projets existants | ✅ done |
 

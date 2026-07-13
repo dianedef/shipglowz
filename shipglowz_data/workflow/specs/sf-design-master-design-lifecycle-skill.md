@@ -29,7 +29,7 @@ linked_systems:
   - skills/shipflow/SKILL.md
   - skills/references/entrypoint-routing.md
   - site/src/content/skills/sg-design.md
-  - docs/skill-launch-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - docs/technical/skill-runtime-and-lifecycle.md
   - README.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
@@ -205,7 +205,7 @@ None. The user explicitly requested recreating the master design skill and confi
   - Validate with: `test -f site/src/content/skills/sg-design.md` and `tools/shipflow_sync_skills.sh --check --skill sg-design`
 
 - [x] Task 4: Update routing and help surfaces.
-  - Files: `skills/shipflow/SKILL.md`, `skills/references/entrypoint-routing.md`, `skills/sg-help/SKILL.md`, `README.md`, `docs/skill-launch-cheatsheet.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/technical/skill-runtime-and-lifecycle.md`
+  - Files: `skills/shipflow/SKILL.md`, `skills/references/entrypoint-routing.md`, `skills/sg-help/SKILL.md`, `README.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/technical/skill-runtime-and-lifecycle.md`
   - Action: Make `sg-design` the recommended master entrypoint for design-related operator requests.
   - Validate with: `rg -n "sg-design" <changed files>`
 
@@ -234,10 +234,10 @@ None. The user explicitly requested recreating the master design skill and confi
 - `test -f skills/sg-design/SKILL.md`
 - `test -f site/src/content/skills/sg-design.md`
 - `rg -n "name: sg-design|Design Intent Routing|Token Implementation Handoff|sg-audit-design-tokens|sg-design-from-scratch|sg-browser" skills/sg-design/SKILL.md`
-- `rg -n "sg-design" skills/shipflow/SKILL.md skills/references/entrypoint-routing.md skills/sg-help/SKILL.md README.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md site/src/content/skills`
+- `rg -n "sg-design" skills/shipflow/SKILL.md skills/references/entrypoint-routing.md skills/sg-help/SKILL.md README.md shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md site/src/content/skills`
 - `"${SHIPGLOWZ_ROOT:-$HOME/shipglowz}/tools/shipflow_sync_skills.sh" --check --skill sg-design`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
-- `python3 tools/shipflow_metadata_lint.py specs/sg-design-master-design-lifecycle-skill.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
+- `python3 tools/shipflow_metadata_lint.py specs/sg-design-master-design-lifecycle-skill.md shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/technical/skill-runtime-and-lifecycle.md`
 - `pnpm --dir shipglowz-site build`
 - `rg -n "BEGIN .*KEY|PRIVATE KEY|PASSWORD=|SECRET=|TOKEN=|CREDENTIAL=" skills/sg-design/SKILL.md site/src/content/skills/sg-design.md`
 

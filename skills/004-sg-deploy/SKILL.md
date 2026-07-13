@@ -52,7 +52,7 @@ Orchestrate existing skills; do not duplicate their internals.
 - `405-sg-prod` owns deployment discovery, provider state, build logs, runtime logs, live health, Sentry runtime correlation when configured, and Blacksmith Run History/Logs/Metrics/SSH escalation.
 - `108-sg-browser` owns non-auth page-level browser proof after the deployment URL is known.
 - `109-sg-auth-debug` owns login, OAuth, cookies, sessions, callbacks, tenants, and protected-route proof.
-- `107-sg-test` owns guided manual QA, durable `TEST_LOG.md`, bug files under `bugs/*.md`, and optional `BUGS.md` triage updates.
+- `107-sg-test` owns guided manual QA, durable `shipglowz_data/workflow/TEST_LOG.md`, bug files under `shipglowz_data/workflow/bugs/*.md`, and optional `shipglowz_data/workflow/BUGS.md` triage updates.
 - `103-sg-verify` owns final user-story and coherence verification.
 - `304-sg-changelog` owns release-note generation.
 

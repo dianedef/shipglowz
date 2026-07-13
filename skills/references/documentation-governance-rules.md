@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: ShipGlowz
 created: "2026-06-30"
 updated: "2026-07-13"
@@ -36,6 +36,7 @@ evidence:
   - "Operator clarification 2026-07-13: root compliance must distinguish canonical workflow records from explicitly owned operational, public-reference, and historical surfaces."
   - "Operator request 2026-06-30: add `#docs` for documentation architecture, metadata, and structure compliance."
   - "Operator decision 2026-07-13: classify root archive content, preserve useful history canonically, and delete content without durable value."
+  - "Operator decision 2026-07-13: migrate docs, bug dossiers, bug triage, and QA logs into canonical shipglowz_data families."
 next_review: "2026-07-14"
 next_step: "/300-sg-docs audit shared documentation-governance-rules reference"
 ---
@@ -58,8 +59,8 @@ Documentation in a ShipGlowz-governed project must live in the canonical place, 
 - Keep durable business, product, brand, GTM, competitor, and affiliate docs in `shipglowz_data/business/`.
 - Keep specs, audits, trackers, reviews, evidence, playbooks, and checklists in `shipglowz_data/workflow/`.
 - Keep `AGENT.md`, `CLAUDE.md`, and `README.md` as entrypoints or compatibility surfaces, not as the full canonical corpus.
-- Keep the professional bug workflow's compact `TEST_LOG.md`, optional `BUGS.md`, and `bugs/` records as an explicit operational exception; these are not duplicate governance doctrine.
-- Keep `docs/` for public or semi-public references and owner-skill project records such as conversation captures and exploration reports. Keep useful inactive history under `shipglowz_data/workflow/archives/`; root `archive/`, internal specs, and research are migration sources.
+- Keep the professional bug workflow's compact `shipglowz_data/workflow/TEST_LOG.md`, optional `shipglowz_data/workflow/BUGS.md`, and `shipglowz_data/workflow/bugs/` records inside the canonical workflow corpus.
+- Keep conversation captures and exploration reports under `shipglowz_data/workflow/`, operator guides under `shipglowz_data/technical/operator-guides/`, and useful inactive history under `shipglowz_data/workflow/archives/`. Root `archive/`, `bugs/`, `docs/`, `specs/`, and `research/` are migration sources.
 
 ## Metadata Rules
 

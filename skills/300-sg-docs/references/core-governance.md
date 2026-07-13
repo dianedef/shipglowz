@@ -180,8 +180,8 @@ Do not enforce frontmatter on operational trackers:
 - `shipglowz_data/editorial/ROADMAP.md`
 - `shipglowz_data/workflow/AUDIT_LOG.md`
 - Legacy central `PROJECTS.md` files are migration evidence only.
-- `TEST_LOG.md`
-- `BUGS.md`
+- `shipglowz_data/workflow/TEST_LOG.md`
+- `shipglowz_data/workflow/BUGS.md`
 
 If a tracker contains durable decision content, extract that decision into a versioned ShipGlowz artifact and keep the tracker as pointer/task.
 
@@ -214,9 +214,9 @@ If a workflow genuinely requires a generated artifact to persist, that persisten
 
 Documentation must preserve the professional bug model:
 
-- `bugs/BUG-ID.md` is source of truth
-- `BUGS.md` is optional/generated triage view
-- `TEST_LOG.md` is compact QA tracker
+- `shipglowz_data/workflow/bugs/BUG-ID.md` is source of truth
+- `shipglowz_data/workflow/BUGS.md` is optional/generated triage view
+- `shipglowz_data/workflow/TEST_LOG.md` is compact QA tracker
 - heavy proof belongs in `test-evidence/BUG-ID/` with redaction
 
 ## Design-System Governance Rule

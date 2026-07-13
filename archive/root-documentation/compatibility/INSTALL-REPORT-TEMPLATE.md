@@ -1,1 +1,0 @@
-shipglowz_data/workflow/templates/INSTALL-REPORT-TEMPLATE.md

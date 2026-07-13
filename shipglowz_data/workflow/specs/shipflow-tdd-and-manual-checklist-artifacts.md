@@ -68,7 +68,7 @@ En tant qu'opératrice ShipGlowz, je veux que les specs et le TDD génèrent des
 
 ## Minimal Behavior Contract
 
-ShipGlowz must extend its spec-driven lifecycle with a stack-agnostic test-driven contract layer: specs and execution skills define the strongest practical proof ladder for the detected surface, choose a validation level proportional to the change risk, prioritize automated and agent-run proof, then generate a durable manual checklist file only for proof that remains human, provider-specific, environment-specific, or device-only. The operator can edit that file directly by marking scenarios `PASS`, `FAIL`, `BLOCKED`, `N/A`, or leaving `NOT_RUN`, with optional observed notes and evidence pointers. `sg-test` must consume that file as source of truth, write compact `TEST_LOG.md` entries, and create or update `bugs/BUG-ID.md` for failing scenarios. The easy edge case is hard-coding the lifecycle to one technology, running heavy checks for trivial edits, or generating a large checklist that becomes another dead document; required scenarios must be scoped, statused, stack-aware, and consumed mechanically by the skills.
+ShipGlowz must extend its spec-driven lifecycle with a stack-agnostic test-driven contract layer: specs and execution skills define the strongest practical proof ladder for the detected surface, choose a validation level proportional to the change risk, prioritize automated and agent-run proof, then generate a durable manual checklist file only for proof that remains human, provider-specific, environment-specific, or device-only. The operator can edit that file directly by marking scenarios `PASS`, `FAIL`, `BLOCKED`, `N/A`, or leaving `NOT_RUN`, with optional observed notes and evidence pointers. `sg-test` must consume that file as source of truth, write compact `shipglowz_data/workflow/TEST_LOG.md` entries, and create or update `shipglowz_data/workflow/bugs/BUG-ID.md` for failing scenarios. The easy edge case is hard-coding the lifecycle to one technology, running heavy checks for trivial edits, or generating a large checklist that becomes another dead document; required scenarios must be scoped, statused, stack-aware, and consumed mechanically by the skills.
 
 ## Success Behavior
 
@@ -90,7 +90,7 @@ ShipGlowz must extend its spec-driven lifecycle with a stack-agnostic test-drive
 
 ## Problem
 
-ShipGlowz currently handles manual proof mostly through chat prompts and compact `TEST_LOG.md` entries. That creates friction for the operator, encourages copy-paste, and gives agents weak durable state. It also makes TDD feel separate from spec-driven development, even though manual proof should be part of the same test contract.
+ShipGlowz currently handles manual proof mostly through chat prompts and compact `shipglowz_data/workflow/TEST_LOG.md` entries. That creates friction for the operator, encourages copy-paste, and gives agents weak durable state. It also makes TDD feel separate from spec-driven development, even though manual proof should be part of the same test contract.
 
 ## Solution
 
@@ -102,7 +102,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 - Define a canonical project path for generated checklists: `shipglowz_data/workflow/test-checklists/<scope>.md`.
 - Update spec creation rules so non-trivial specs include a stack-agnostic `Test Contract` and link to a checklist when manual proof is expected.
 - Update `sg-start` execution rules so TDD/test-first work creates or updates checklist artifacts when human/device-only proof remains.
-- Update `sg-test` to read checklist files, normalize statuses, write compact `TEST_LOG.md`, and create/update bug records for failed rows.
+- Update `sg-test` to read checklist files, normalize statuses, write compact `shipglowz_data/workflow/TEST_LOG.md`, and create/update bug records for failed rows.
 - Update `sg-verify` to treat required checklist scenarios as verification evidence and block/partial when required rows are unresolved.
 - Define a generic proof ladder plus stack profiles for common ShipGlowz surfaces such as Flutter apps, Astro sites, Python services/scripts, API contracts, auth/browser flows, provider integrations, and device/native behavior.
 - Add validation proportionality rules so small low-risk edits can use targeted checks or explicit no-impact reasoning instead of automatic full-stack checks.
@@ -111,8 +111,8 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 ## Scope Out
 
 - No full test runner implementation for Flutter, Astro, Python, Playwright, Patrol, Maestro, Firebase Test Lab, Pact, CodeRabbit, Semgrep, or CodeQL in this spec.
-- No migration of historical `TEST_LOG.md` entries.
-- No replacement of `bugs/BUG-ID.md`; checklists point to bug files, they do not become bug dossiers.
+- No migration of historical `shipglowz_data/workflow/TEST_LOG.md` entries.
+- No replacement of `shipglowz_data/workflow/bugs/BUG-ID.md`; checklists point to bug files, they do not become bug dossiers.
 - No automatic mutation of production data during checklist execution.
 
 ## Constraints
@@ -124,7 +124,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 - `sg-test` and `sg-verify` must rely on a small parser/helper for status normalization, required/optional row interpretation, duplicate scenario detection, and safe evidence-path checks.
 - Validation must be proportional to risk, changed surface, and project contract; heavier checks need a reason, not habit.
 - CI must be proportional too: app, site, backend, docs, skills, and workflow checks should be split by path filters instead of one push triggering every expensive job.
-- `TEST_LOG.md` remains compact; full failed context belongs in `bugs/BUG-ID.md`.
+- `shipglowz_data/workflow/TEST_LOG.md` remains compact; full failed context belongs in `shipglowz_data/workflow/bugs/BUG-ID.md`.
 - Sensitive evidence must be redacted and stored by pointer, not pasted raw.
 - Existing dirty worktree changes must not be reverted or overwritten during implementation.
 
@@ -148,7 +148,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 ## Links & Consequences
 
 - Upstream systems: `sg-spec`, `sg-ready`, `sg-start`, `sg-test`, `sg-verify`, bug lifecycle, spec-driven development discipline.
-- Downstream systems: `TEST_LOG.md`, `bugs/BUG-ID.md`, `test-evidence/BUG-ID/`, final ship readiness, operator workflow.
+- Downstream systems: `shipglowz_data/workflow/TEST_LOG.md`, `shipglowz_data/workflow/bugs/BUG-ID.md`, `test-evidence/BUG-ID/`, final ship readiness, operator workflow.
 - Cross-cutting checks: redaction, path safety, metadata lint, skill runtime sync, public skill docs if behavior promises change.
 - CI consequences: `.github/workflows/**` may need surface-specific path filters, required-check review, and workflow dispatch support so docs/spec/skill pushes do not trigger app builds or APK jobs.
 
@@ -189,7 +189,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
   - User story link: Keeps generated checklists durable and auditable.
   - Depends on: Task 1
   - Validate with: `python3 tools/shipflow_metadata_lint.py templates/artifacts/manual_test_checklist.md`
-  - Notes: Do not lint `TEST_LOG.md`.
+  - Notes: Do not lint `shipglowz_data/workflow/TEST_LOG.md`.
 
 - [ ] Task 3: Add stack-agnostic Test Contract and checklist generation rules to spec creation
   - File: `skills/sg-spec/references/spec-creation-workflow.md`
@@ -241,7 +241,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 
 - [ ] Task 7: Update sg-test checklist consumption
   - File: `skills/sg-test/SKILL.md`, `tools/shipflow_checklist_status.py`
-  - Action: Add checklist mode: read a checklist file through the parser/helper, normalize statuses, ask only for missing actionable details, append compact `TEST_LOG.md`, and create/update bug files for failed required rows.
+  - Action: Add checklist mode: read a checklist file through the parser/helper, normalize statuses, ask only for missing actionable details, append compact `shipglowz_data/workflow/TEST_LOG.md`, and create/update bug files for failed required rows.
   - User story link: Lets the operator fill the file and lets agents continue from it.
   - Depends on: Task 1
   - Validate with: `rg -n "manual_test_checklist|test-checklists|PASS|FAIL|BLOCKED|NOT_RUN|checklist mode" skills/sg-test/SKILL.md`
@@ -265,7 +265,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 
 - [ ] Task 10: Update docs/help/public pages if public promise changes
   - File: `skills/sg-test/README.md`, `skills/sg-help/references/help-catalog.md`, `site/src/content/skills/sg-test.md` if present
-  - Action: Explain checklist files, operator-fill workflow, bug routing, and relation to `TEST_LOG.md`.
+  - Action: Explain checklist files, operator-fill workflow, bug routing, and relation to `shipglowz_data/workflow/TEST_LOG.md`.
   - User story link: Makes the workflow discoverable.
   - Depends on: Tasks 7 and 8
   - Validate with: `rg -n "checklist|test-checklists|PASS|FAIL|BLOCKED|TEST_LOG" skills/sg-test/README.md skills/sg-help/references/help-catalog.md site/src/content/skills/sg-test.md`
@@ -275,8 +275,8 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 
 - [ ] AC 1: Given a non-trivial spec has manual/device/provider-only proof, when `sg-spec` completes, then the spec contains a stack-agnostic `Test Contract` with detected surface, automated proof, agent-run browser/auth proof, contract/integration proof when relevant, manual checklist path, and unresolved proof gaps.
 - [ ] AC 2: Given a checklist file is generated, when metadata lint runs, then the checklist template and any generated sample pass lint or have a documented tracker exception.
-- [ ] AC 3: Given the operator fills a required row as `PASS`, when `sg-test` consumes the checklist, then it records a compact `TEST_LOG.md` pass pointer without asking for duplicate chat input.
-- [ ] AC 4: Given the operator fills a required row as `FAIL`, when `sg-test` consumes the checklist, then it creates or updates `bugs/BUG-ID.md`, writes a compact `TEST_LOG.md` pointer, and links the bug ID in the checklist or report.
+- [ ] AC 3: Given the operator fills a required row as `PASS`, when `sg-test` consumes the checklist, then it records a compact `shipglowz_data/workflow/TEST_LOG.md` pass pointer without asking for duplicate chat input.
+- [ ] AC 4: Given the operator fills a required row as `FAIL`, when `sg-test` consumes the checklist, then it creates or updates `shipglowz_data/workflow/bugs/BUG-ID.md`, writes a compact `shipglowz_data/workflow/TEST_LOG.md` pointer, and links the bug ID in the checklist or report.
 - [ ] AC 5: Given a required row is `BLOCKED` or `NOT_RUN`, when `sg-verify` runs, then verification is `partial`, `not verified`, or `blocked` with a concrete next action.
 - [ ] AC 6: Given a checklist jumps to manual/device/provider proof while cheaper stack-appropriate proof is available, when `sg-verify` runs, then it flags the proof ladder gap.
 - [ ] AC 7: Given all required checklist rows are `PASS` and automated/browser proof passed, when `sg-verify` runs, then manual proof does not require chat copy-paste and can be cited from the checklist.

@@ -81,7 +81,7 @@ python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 For ShipGlowz docs/specs/content-map artifacts:
 
 ```bash
-python3 tools/shipglowz_metadata_lint.py shipglowz_data/workflow/specs README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/editorial/content-map.md shipglowz_data/business/business.md shipglowz_data/business/product.md shipglowz_data/branding/branding.md shipglowz_data/business/gtm.md shipglowz_data/business/project-competitors-and-inspirations.md shipglowz_data/business/affiliate-programs.md shipglowz_data/technical/context.md shipglowz_data/technical shipglowz_data/editorial docs/skill-launch-cheatsheet.md
+python3 tools/shipglowz_metadata_lint.py shipglowz_data/workflow/specs README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/editorial/content-map.md shipglowz_data/business/business.md shipglowz_data/business/product.md shipglowz_data/branding/branding.md shipglowz_data/business/gtm.md shipglowz_data/business/project-competitors-and-inspirations.md shipglowz_data/business/affiliate-programs.md shipglowz_data/technical/context.md shipglowz_data/technical shipglowz_data/editorial shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
 ```
 
 For public site or runtime content:

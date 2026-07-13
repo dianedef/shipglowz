@@ -42,7 +42,7 @@ If the browser objective can be satisfied only by auth/session analysis, durable
 
 Do not use it as the specialist for auth, manual QA, deployment discovery, production logs, or code fixes:
 - Auth, OAuth, cookies, sessions, callbacks, tenants, and protected-route breaks route to `/109-sg-auth-debug`.
-- Full manual QA campaigns, retests, `TEST_LOG.md`, bug files, and optional `BUGS.md` triage views route to `/107-sg-test`.
+- Full manual QA campaigns, retests, `shipglowz_data/workflow/TEST_LOG.md`, bug files, and optional `shipglowz_data/workflow/BUGS.md` triage views route to `/107-sg-test`.
 - Deployment URL discovery, Vercel status, build logs, runtime logs, and live deploy readiness route to `/405-sg-prod`.
 - Actionable code bugs route to `/106-sg-fix` or `/102-sg-start`.
 
@@ -177,7 +177,7 @@ Redact secrets, cookies, tokens, credentials, private emails, account identifier
 
 If a screenshot or snapshot may expose sensitive data, summarize the relevant visible state instead of embedding or persisting the sensitive evidence.
 
-If a finding crosses the chantier threshold, report `Chantier potentiel` and route to `/100-sg-spec`. Do not write `BUGS.md`, `bugs/`, `TEST_LOG.md`, `TASKS.md`, `AUDIT_LOG.md`, or `PROJECTS.md` from this skill.
+If a finding crosses the chantier threshold, report `Chantier potentiel` and route to `/100-sg-spec`. Do not write `shipglowz_data/workflow/BUGS.md`, `shipglowz_data/workflow/bugs/`, `shipglowz_data/workflow/TEST_LOG.md`, `TASKS.md`, `AUDIT_LOG.md`, or `PROJECTS.md` from this skill.
 
 ## Final Report Shape
 

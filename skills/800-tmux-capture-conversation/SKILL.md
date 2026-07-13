@@ -43,11 +43,11 @@ Do not accept the tmux window name as the final title when it is generic (`node`
 ### Presets
 
 - `000-shipglowz`: route inferred destination to `shipglowz_data/workflow/conversations/` under governance root. Keep this output private to the chantier workflow (no publication).
-- `docs`: keep the legacy default behavior under the project docs folder.
+- `docs`: deprecated preset alias that routes to the project-local canonical `shipglowz_data/workflow/conversations/` directory.
 
-Use `--preset shipflow` or pass `000-shipglowz` as the first positional preset.
+Use `--preset shipflow` or pass `000-shipglowz` as the first positional preset for the ShipGlowz-owned root. The legacy `docs` alias remains accepted only for compatibility and never creates a root `docs/` directory.
 
-The `000-shipglowz` preset is a protected ShipGlowz-owned evidence route. It must resolve to `${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/workflow/conversations/`, not to the current project's governance root. If an explicit `--destination` for the `000-shipglowz` preset points outside that directory, including a relative `shipglowz_data/workflow/conversations/...` path from a product repo, the script must fail before writing. Use the `docs` preset for intentionally project-local conversation notes.
+The `000-shipglowz` preset is a protected ShipGlowz-owned evidence route. It must resolve to `${SHIPFLOW_ROOT:-$HOME/shipglowz}/shipglowz_data/workflow/conversations/`, not to the current project's governance root. If an explicit `--destination` for the `000-shipglowz` preset points outside that directory, including a relative `shipglowz_data/workflow/conversations/...` path from a product repo, the script must fail before writing. Use the legacy `docs` alias for intentionally project-local conversation notes; it still writes under the project's canonical workflow corpus.
 
 When no destination is supplied, prefer the project that the captured conversation is about, not the shell's incidental current directory. Use this priority:
 
@@ -58,7 +58,7 @@ When no destination is supplied, prefer the project that the captured conversati
 
 For `docs` or no preset:
 
-- project-root destinations write under `<project-root>/docs/conversations/` by default.
+- project-root destinations write under `<project-root>/shipglowz_data/workflow/conversations/` by default.
 - create that directory if needed.
 - write directly under `$HOME` only when the transcript has no identifiable project and the command was actually run from `$HOME`.
 
@@ -73,7 +73,7 @@ The confirmation prompt must include the inferred title and full destination. It
 1. Extract the tab number from the request when present. If absent, plan to capture the current tmux pane.
 2. Infer missing values:
    - title: use the user's requested title when present; otherwise infer a concise transcript title from captured conversation content, falling back to tmux window metadata only when the content has no usable subject.
-   - destination: use the user's path when present; otherwise infer the project root from transcript paths or the command working directory and write to `docs/conversations/<title-slug>-YYYYMMDD-HHMMSS.md`.
+   - destination: use the user's path when present; otherwise infer the project root from transcript paths or the command working directory and write to `shipglowz_data/workflow/conversations/<title-slug>-YYYYMMDD-HHMMSS.md`.
 3. Confirm before writing unless the user already explicitly approved the inferred destination in the current request.
    - Tell the user the chosen title and destination.
    - Surface the capture mode and the first/last detected prompts when available so the operator can sanity-check the pane.

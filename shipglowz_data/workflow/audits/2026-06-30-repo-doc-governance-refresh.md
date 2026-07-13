@@ -57,7 +57,7 @@ Recentrer le repo sur sa structure documentaire canonique et rendre explicite ce
 
 - `ECOSYSTEM-AND-PORTS.md` is still a legacy root note and should be merged into the technical layer with preservation proof.
 - Other root docs such as `FAQ.md`, `INSTALL-REPORT-TEMPLATE.md`, and `INSTALL-RUN-TRACE.md` still need an ownership/placement decision.
-- Root `bugs/` vs `shipglowz_data/workflow/bugs/` should be audited explicitly in a dedicated bug-governance pass.
+- Root `shipglowz_data/workflow/bugs/` vs `shipglowz_data/workflow/bugs/` should be audited explicitly in a dedicated bug-governance pass.
 
 ## Preservation Ledger
 

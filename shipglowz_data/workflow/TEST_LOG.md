@@ -35,7 +35,7 @@
 - Status: pass
 - Confidence: high
 - Result summary: Top-level menu startup completed in 0.495s and isolated Gum render in 0.246s; Health blank input stayed on process/options view and explicit `g` was required for Aggressive Cleanup.
-- Bug pointer: BUG-2026-05-08-001 -> bugs/BUG-2026-05-08-001.md; BUG-2026-05-08-002 -> bugs/BUG-2026-05-08-002.md
+- Bug pointer: BUG-2026-05-08-001 -> shipglowz_data/workflow/bugs/BUG-2026-05-08-001.md; BUG-2026-05-08-002 -> shipglowz_data/workflow/bugs/BUG-2026-05-08-002.md
 - Evidence pointer: `/tmp/sg-test-shipflow-start.out`, `/tmp/sg-test-menu-gum.out`, `/tmp/sg-test-health-blank.out`, `/tmp/sg-test-health-g.out`
 - Follow-up: none; both bugs closed by this retest.
 
@@ -48,7 +48,7 @@
 - Status: pass
 - Confidence: high
 - Result summary: `env_stop` stopped a PM2-only/orphan-style app by name; isolated `batch_stop_all` stopped the temporary PM2-only app; generated ecosystem config contains crash-loop limits.
-- Bug pointer: BUG-2026-05-06-001 -> bugs/BUG-2026-05-06-001.md
+- Bug pointer: BUG-2026-05-06-001 -> shipglowz_data/workflow/bugs/BUG-2026-05-06-001.md
 - Evidence pointer: local PM2 commands with temporary `shipflow_retest_*` app names; no secrets or private payloads stored
 - Follow-up: completed by `/sg-verify BUG-2026-05-06-001` on 2026-05-08; no further retest required for this bug.
 
@@ -61,7 +61,7 @@
 - Status: pass
 - Confidence: high
 - Result summary: ShipFlow restart for `nococaine` detected the Flutter Web command and PM2 launched the app online on port `3002`.
-- Bug pointer: BUG-2026-05-04-004 -> bugs/BUG-2026-05-04-004.md
+- Bug pointer: BUG-2026-05-04-004 -> shipglowz_data/workflow/bugs/BUG-2026-05-04-004.md
 - Evidence pointer: chat-provided restart log; no secrets or private payloads stored
 - Follow-up: `/sg-verify BUG-2026-05-04-004`
 
@@ -74,7 +74,7 @@
 - Status: pass
 - Confidence: high
 - Result summary: Operator invoked `$sf-skill-build hi` and confirmed the skill was recognized by Codex.
-- Bug pointer: BUG-2026-05-03-001 -> bugs/BUG-2026-05-03-001.md
+- Bug pointer: BUG-2026-05-03-001 -> shipglowz_data/workflow/bugs/BUG-2026-05-03-001.md
 - Evidence pointer: chat confirmation; no secrets or private runtime data stored
 - Follow-up: `/sg-verify BUG-2026-05-03-001`
 
@@ -87,7 +87,7 @@
 - Status: pass
 - Confidence: high
 - Result summary: Operator confirmed the ShipFlow local SSH connection now works after the bare identity filename fix.
-- Bug pointer: BUG-2026-05-02-003 -> bugs/BUG-2026-05-02-003.md
+- Bug pointer: BUG-2026-05-02-003 -> shipglowz_data/workflow/bugs/BUG-2026-05-02-003.md
 - Evidence pointer: chat confirmation, no raw IP or key material stored
 - Follow-up: none; verified by sf-verify on 2026-05-02
 ## 2026-07-13 - Mail Intelligence structured AI classification
@@ -99,6 +99,6 @@
 - Status: fail
 - Confidence: high
 - Result summary: first run crashed on the ACP provider lookup; after that fix, Avante received the source but ended with `-32603 Internal error`.
-- Bug pointer: BUG-2026-07-13-001 -> bugs/BUG-2026-07-13-001.md
+- Bug pointer: BUG-2026-07-13-001 -> shipglowz_data/workflow/bugs/BUG-2026-07-13-001.md
 - Evidence pointer: chat-provided Neovim stack trace; no private email content stored
 - Follow-up: /107-sg-test --retest BUG-2026-07-13-001

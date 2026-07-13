@@ -26,7 +26,7 @@ linked_systems:
   - skills/000-shipflow/SKILL.md
   - skills/302-sg-help/SKILL.md
   - skills/302-sg-help/references/help-catalog.md
-  - docs/skill-launch-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - tools/shipflow_sync_skills.sh
   - tools/skill_budget_audit.py
   - tools/skill_code_index_lint.py
@@ -162,7 +162,7 @@ Perform a controlled runtime identity migration from unprefixed names to three-d
 - `tools/skill_code_index_lint.py`: currently validates two-digit discovery labels and must be updated for three-digit runtime identity coverage.
 - `skills/references/skill-code-index.md`: source of mapping and family semantics.
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md` and `skills/references/entrypoint-routing.md`: currently describe numeric codes as discovery-only and must be changed.
-- `skills/000-shipflow/SKILL.md`, `skills/302-sg-help/SKILL.md`, `skills/302-sg-help/references/help-catalog.md`, and `docs/skill-launch-cheatsheet.md`: user-facing help surfaces for invocation.
+- `skills/000-shipflow/SKILL.md`, `skills/302-sg-help/SKILL.md`, `skills/302-sg-help/references/help-catalog.md`, and `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`: user-facing help surfaces for invocation.
 - `agents/openai.yaml` files present under `shipflow`, `sg-bug`, `sg-deploy`, `sg-maintain`, `sg-platform-parity`, `tmux-capture-conversation`, and `clean-conversation-transcript`.
 
 ## Invariants
@@ -189,7 +189,7 @@ Perform a controlled runtime identity migration from unprefixed names to three-d
 - Update `skills/references/skill-code-index.md` from two-digit discovery labels to three-digit runtime identities.
 - Update `skills/000-shipflow/SKILL.md` and `skills/references/entrypoint-routing.md` so numeric names are first-class runtime skill names.
 - Update `skills/302-sg-help/SKILL.md` and `skills/302-sg-help/references/help-catalog.md` so help queries return the new examples.
-- Update `docs/skill-launch-cheatsheet.md` and `README.md` if they list direct skill invocation examples.
+- Update `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md` and `README.md` if they list direct skill invocation examples.
 - Update `shipglowz_data/technical/skill-runtime-and-lifecycle.md` and `shipglowz_data/technical/code-docs-map.md` for the new runtime identity policy and validation commands.
 - Update `CHANGELOG.md` during closure, not during spec creation.
 - Consider public site skill pages only if the site currently exposes skill slugs or invocation keys for these skills.
@@ -239,7 +239,7 @@ Perform a controlled runtime identity migration from unprefixed names to three-d
   - Notes: Known files exist under seven current skills.
 
 - [x] Task 5: Update routing, help, docs, and lifecycle contracts
-  - File: `skills/000-shipflow/SKILL.md`, `skills/references/entrypoint-routing.md`, `skills/302-sg-help/SKILL.md`, `skills/302-sg-help/references/help-catalog.md`, `docs/skill-launch-cheatsheet.md`, `README.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipglowz_data/technical/code-docs-map.md`
+  - File: `skills/000-shipflow/SKILL.md`, `skills/references/entrypoint-routing.md`, `skills/302-sg-help/SKILL.md`, `skills/302-sg-help/references/help-catalog.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, `README.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipglowz_data/technical/code-docs-map.md`
   - Action: Replace discovery-only two-digit language with three-digit runtime identity language and update examples.
   - User story link: Operators and future agents learn the new direct names instead of stale `$sf-*` examples.
   - Depends on: Tasks 1-4

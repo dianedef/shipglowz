@@ -14,7 +14,6 @@ from pathlib import Path
 
 
 BASE_DEFAULT_TARGETS = (
-    "docs",
     "shipglowz_data",
     "AGENT.md",
     "CONTEXT.md",
@@ -28,6 +27,8 @@ BASE_DEFAULT_TARGETS = (
     "GUIDELINES.md",
     "TASKS.md",
     "AUDIT_LOG.md",
+    "BUGS.md",
+    "TEST_LOG.md",
 )
 LEGACY_ROOT_CANONICAL = {
     "AUDIT_LOG.md": "shipglowz_data/workflow/AUDIT_LOG.md",
@@ -35,6 +36,7 @@ LEGACY_ROOT_CANONICAL = {
     "ARCHITECTURE.md": "shipglowz_data/technical/architecture.md",
     "BRANDING.md": "shipglowz_data/branding/branding.md",
     "BUSINESS.md": "shipglowz_data/business/business.md",
+    "BUGS.md": "shipglowz_data/workflow/BUGS.md",
     "CONTENT_MAP.md": "shipglowz_data/editorial/content-map.md",
     "CONTEXT-FUNCTION-TREE.md": "shipglowz_data/technical/context-function-tree.md",
     "CONTEXT.md": "shipglowz_data/technical/context.md",
@@ -43,6 +45,7 @@ LEGACY_ROOT_CANONICAL = {
     "INSPIRATION.md": "shipglowz_data/business/project-competitors-and-inspirations.md",
     "PRODUCT.md": "shipglowz_data/business/product.md",
     "TASKS.md": "shipglowz_data/workflow/TASKS.md",
+    "TEST_LOG.md": "shipglowz_data/workflow/TEST_LOG.md",
 }
 VALID_STATUSES = {"draft", "reviewed", "ready", "active", "stale", "superseded"}
 VALID_CONFIDENCE = {"low", "medium", "high", "unknown"}
@@ -171,10 +174,7 @@ OFFICIAL_ARTIFACT_PATHS = {
 
 
 def default_targets() -> list[str]:
-    targets = list(BASE_DEFAULT_TARGETS)
-    if Path("bugs").is_dir():
-        targets.append("bugs")
-    return targets
+    return list(BASE_DEFAULT_TARGETS)
 
 
 def parse_args() -> argparse.Namespace:
@@ -182,7 +182,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "paths",
         nargs="*",
-        help="Files or directories to lint. Defaults to standard ShipGlowz artifact paths and includes bugs/ when that directory exists.",
+        help="Files or directories to lint. Defaults to canonical ShipGlowz artifact paths plus supported root entrypoints and legacy-root guards.",
     )
     parser.add_argument(
         "--all-markdown",

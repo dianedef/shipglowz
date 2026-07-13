@@ -169,7 +169,7 @@ Use these classifications precisely:
 - behavior indexes exist for mapped high-recovery-cost behaviors
 - ambiguous terms are called out instead of silently merged
 - key symbols linked from a behavior index have comment coverage when their logic is cognitively dense
-- linked tests/specs/bugs/decisions still resolve
+- linked tests/specs/shipglowz_data/workflow/bugs/decisions still resolve
 - stale navigation is reported as drift, not silently ignored
 
 ## Maintenance Rule

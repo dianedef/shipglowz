@@ -1,7 +1,7 @@
 ---
 artifact: audit_report
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: "shipflow"
 created: "2026-07-11"
 updated: "2026-07-13"
@@ -30,8 +30,8 @@ evidence:
   - "Root Markdown inventory and consumer search executed on 2026-07-11 from /home/claude/shipflow."
   - "The repository worktree already contained unrelated user changes; shared files were not rewritten."
   - "The four phase-2 debt files were compared with current canonical technical, editorial, and workflow surfaces before classification."
-  - "Reverification on 2026-07-13 confirmed seven direct root Markdown paths, canonical workflow artifacts, archived historical notes, repaired central routes, and a valid AGENTS.md compatibility symlink."
-  - "The 2026-07-13 300-sg-docs follow-up expanded the inventory to top-level documentary directories, migrated root specs/research/archive, preserved owner-skill docs destinations, and strengthened the topology audit against this drift."
+  - "Reverification on 2026-07-13 confirmed five direct root Markdown paths, canonical workflow artifacts, archived historical notes, repaired central routes, and a valid AGENTS.md compatibility symlink."
+  - "The 2026-07-13 300-sg-docs follow-up expanded the inventory to top-level documentary directories, migrated root specs/research/archive/docs/bugs, and strengthened the topology audit against this drift."
 next_step: "/103-sg-verify shipflow documentation governance cleanup phase 2"
 ---
 
@@ -39,7 +39,7 @@ next_step: "/103-sg-verify shipflow documentation governance cleanup phase 2"
 
 ## Purpose
 
-Record the ownership decisions, consumer evidence, preservation status, and remaining migration debt for the root documentation pass. This audit is the durable checklist for `DOC-ROOT-01` through `DOC-ROOT-05`.
+Record the ownership decisions, consumer evidence, preservation status, and remaining migration debt for the root documentation pass. This audit is the durable checklist for `DOC-ROOT-01` through `DOC-ROOT-07`.
 
 ## Execution Contract
 
@@ -58,21 +58,19 @@ Record the ownership decisions, consumer evidence, preservation status, and rema
 | `CLAUDE.md` | bootstrap/instructions | agent runtime | root instructions | `keep-root` | Tool-native entrypoint; no migration. |
 | `README.md` | public/operator surface | broad repository links | root README | `keep-root` | Public/operator overview; existing worktree modification treated as pre-existing. |
 | `CHANGELOG.md` | public history | release readers | root changelog | `keep-root` | Public project changelog; no migration. |
-| `BUGS.md` | workflow triage view | bug workflow references | root operational exception plus `bugs/` dossiers | `keep-root` | The professional bug contract owns this optional compact/generated triage view. It is not canonical doctrine. |
-| `TEST_LOG.md` | QA tracker | test workflow references | root operational exception plus `shipglowz_data/workflow/test-checklists/` | `keep-root` | The professional test contract owns this compact scenario history. Durable manual scenarios remain canonical under `shipglowz_data/workflow/test-checklists/`. |
 
 ## Top-Level Documentary Surfaces
 
 | Surface | Contract role | Verdict | Action / proof |
 | --- | --- | --- | --- |
 | `shipglowz_data/` | canonical governance and workflow corpus | `keep-root` | Canonical owner. |
-| `docs/` | public/semi-public references and owner-skill project records | `keep-root` | Cheatsheets and OpenCode/KiloCode references are intentional; `docs/conversations/` and `docs/explorations/` are owned output paths of `800-tmux-capture-conversation` and `700-sg-explore`. |
-| `archive/` | legacy historical surface | `migrate-to-canonical` | Useful history moved to `shipglowz_data/workflow/archives/repository-history/`; conversations moved to `docs/conversations/`; duplicate, generated, empty-facade, and scratch material deleted; root directory removed. |
-| `bugs/` | professional bug workflow dossiers | `keep-root` | Explicit operational exception owned by `003-sg-bug` and `107-sg-test`. |
+| `docs/` | legacy mixed documentation surface | `migrate-to-canonical` | Conversations moved to `shipglowz_data/workflow/conversations/`, explorations to `shipglowz_data/workflow/explorations/`, and operator guides to `shipglowz_data/technical/operator-guides/`; root directory removed. |
+| `archive/` | legacy historical surface | `migrate-to-canonical` | Useful history moved to `shipglowz_data/workflow/archives/repository-history/`; conversations moved to `shipglowz_data/workflow/conversations/`; duplicate, generated, empty-facade, and scratch material deleted; root directory removed. |
+| `bugs/` | legacy bug workflow surface | `migrate-to-canonical` | Dossiers moved to `shipglowz_data/workflow/bugs/`; root directory removed and producer contracts updated. |
 | `specs/` | legacy governance source | `migrate-to-canonical` | `frp-preview-tunnel-poc.md` moved to `shipglowz_data/workflow/specs/`; the empty source directory is removed. |
 | `research/` | legacy governance source | `migrate-to-canonical` | Both research reports moved to `shipglowz_data/workflow/research/`; the empty source directory is removed. |
-| `docs/conversations/` | raw conversation capture output | `keep-root` | Explicit destination contract in `800-tmux-capture-conversation`; downstream cleaned/audited records may separately live under `shipglowz_data/workflow/`. |
-| `docs/explorations/` | exploration report output | `keep-root` | Explicit project destination selected by the `700-sg-explore` contract when `docs/` exists. |
+| `shipglowz_data/workflow/conversations/` | raw conversation capture output | `canonical` | Explicit destination contract in `800-tmux-capture-conversation`; downstream cleaned/audited records may separately live under `shipglowz_data/workflow/`. |
+| `shipglowz_data/workflow/explorations/` | exploration report output | `canonical` | Explicit destination selected by the `700-sg-explore` contract. |
 
 ## Migrated And Archived Decisions
 
@@ -87,13 +85,13 @@ Record the ownership decisions, consumer evidence, preservation status, and rema
 | `INSTALLATION-OWNERSHIP-SPEC.md` | canonical workflow spec plus `shipglowz_data/workflow/archives/repository-history/root-documentation/` preservation | `archived` | Active references use the canonical spec; historical source remains canonically archived. |
 | `TASKS.md` and `AUDIT_LOG.md` | `shipglowz_data/workflow/` | `archived` | Empty root facades are absent; canonical trackers remain active. |
 | `concurrent.md` | `shipglowz_data/workflow/concurrent.md` | `archived` | Root facade is absent and the workflow note remains canonical. |
-| `conversation-shipflow-questions-contextuelles-des-skills.md` | `docs/conversations/` | `migrate-to-owned-surface` | Raw conversation capture moved to the destination owned by the conversation workflow. |
+| `conversation-shipflow-questions-contextuelles-des-skills.md` | `shipglowz_data/workflow/conversations/` | `migrate-to-owned-surface` | Raw conversation capture moved to the destination owned by the conversation workflow. |
 
 ## Required Scenario Results
 
 ### DOC-ROOT-01
 
-The direct root inventory is seven Markdown paths: six regular files (`AGENT.md`, `BUGS.md`, `CHANGELOG.md`, `CLAUDE.md`, `README.md`, `TEST_LOG.md`) and one compatibility symlink (`AGENTS.md -> AGENT.md`). This count is not a repository-topology verdict. The top-level documentary-surface inventory above separately classifies `shipglowz_data/`, `docs/`, `bugs/`, and the migrated legacy sources `archive/`, `specs/`, and `research/`.
+The direct root inventory is five Markdown paths: four regular files (`AGENT.md`, `CHANGELOG.md`, `CLAUDE.md`, `README.md`) and one compatibility symlink (`AGENTS.md -> AGENT.md`). The top-level documentary-surface inventory separately classifies `shipglowz_data/` and the migrated legacy sources `archive/`, `bugs/`, `docs/`, `specs/`, and `research/`.
 
 ### DOC-ROOT-02
 
@@ -118,6 +116,20 @@ The later integrator pass updated `README.md`, `AGENT.md`, `shipglowz_data/techn
 - The audit, canonical install artifacts, README, AGENT, context, technical index, and code-docs map pass targeted ShipGlowz metadata validation.
 - Former root paths for the four named phase-2 debts are absent; repository searches resolve surviving mentions to canonical or archive paths, historical audits, or explicit migration evidence.
 - The unrelated worktree change in `skills/references/private-data-repo-contract.md` remains outside this verification and was not modified.
+
+### DOC-ROOT-06
+
+- Root `docs/` is absent.
+- Conversation captures and exploration reports are under their canonical workflow families.
+- OpenCode, KiloCode, focus-tag, and skill-launch guides are indexed under `shipglowz_data/technical/operator-guides/`.
+- Capture scripts, tests, plugin bootstrap, README, and public-site links use the canonical paths; the deprecated `docs` capture preset resolves to the canonical conversation destination without recreating `docs/`.
+
+### DOC-ROOT-07
+
+- Root `bugs/`, `BUGS.md`, and `TEST_LOG.md` are absent.
+- Bug dossiers, the bug triage view, and the QA log are preserved under `shipglowz_data/workflow/`.
+- Bug, fix, test, verify, deploy, ship, and artifact-template contracts use canonical workflow paths.
+- The topology audit and metadata guard reject recreation of the legacy root surfaces.
 
 ## Deferred Actions
 
@@ -153,14 +165,33 @@ test ! -e AGENTS.md || { test -L AGENTS.md && test "$(readlink AGENTS.md)" = "AG
 passed
 
 find . -maxdepth 1 -name '*.md' -printf '%f\\t%y\\t%l\\n' | sort
-AGENT.md, AGENTS.md -> AGENT.md, BUGS.md, CHANGELOG.md, CLAUDE.md, README.md, TEST_LOG.md
+AGENT.md, AGENTS.md -> AGENT.md, CHANGELOG.md, CLAUDE.md, README.md
 
 Top-level ownership result:
-archive/ absent; specs/ absent; research/ absent; docs/ retained by owner-skill contracts; bugs/ retained by the professional bug contract; useful history retained under shipglowz_data/workflow/archives/.
+archive/ absent; bugs/ absent; docs/ absent; specs/ absent; research/ absent; useful history retained under shipglowz_data/workflow/archives/; active documentation and workflow records retained under canonical shipglowz_data families.
+
+2026-07-13 DOC-ROOT-06/07 validation:
+python3 tools/audit_project_governance_topology.py .
+Governance topology: compliant
+
+python3 -m unittest tools.test_audit_project_governance_topology
+Ran 12 tests - OK
+
+bash test_conversation_audit_storage.sh
+Conversation audit storage tests: 4 passed, 0 failed
+
+python3 tools/shipglowz_metadata_lint.py <16 governed migration artifacts>
+ShipGlowz metadata lint passed: 16 file(s) checked.
+
+Preservation comparison against HEAD before migration:
+4 conversation captures, 5 exploration reports, and 3 bug dossiers are byte-identical.
+BUGS.md and TEST_LOG.md preserve their records with only canonical path substitutions.
+The 4 operator guides preserve their bodies with migration metadata, canonical-path substitutions, and two repaired guide links.
 
 Migration preservation diff:
 The FRP spec body is unchanged; only migration metadata, the current skill identifier, and the previously missing required confidence field changed.
 Both research report bodies are unchanged; only updated dates and current 203-sg-research identifiers changed.
+Archive migration proof: 15 of 16 preserved historical files are byte-identical to their pre-migration blobs; `plan_migration.md` differs only by a final newline normalization. Two conversation captures were moved without content changes. Deleted compatibility symlinks resolve to canonical workflow artifacts; all other deletions are classified in the repository-history ledger.
 
 Historical SHA-256 comparison from the parent of migration commit f1f90b7:
 ECOSYSTEM-AND-PORTS.md = shipglowz_data/workflow/archives/repository-history/root-documentation/ECOSYSTEM-AND-PORTS.md = ab9793a75005124f230eff087faddacba7d1ca24f9093bb4ec649c86011bca6b

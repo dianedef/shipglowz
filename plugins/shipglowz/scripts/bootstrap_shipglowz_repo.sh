@@ -37,9 +37,7 @@ configure_sparse_checkout() {
     templates \
     tools \
     shipglowz_data \
-    docs \
-    local \
-    bugs
+    local
 }
 
 if [[ -d "$target_dir/.git" ]]; then

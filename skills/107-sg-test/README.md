@@ -47,9 +47,9 @@ The skill is not meant to replace automated tests. It covers the human-facing an
 - a focused manual test campaign
 - step-by-step instructions for the user
 - structured result choices such as pass, error page, infinite loading, wrong redirect, missing data, or custom observation
-- a compact `TEST_LOG.md` entry that records the campaign outcome
-- a compact `BUGS.md` entry when the reported result fails
-- a detailed `bugs/BUG-ID.md` bug file for the failing case
+- a compact `shipglowz_data/workflow/TEST_LOG.md` entry that records the campaign outcome
+- a compact `shipglowz_data/workflow/BUGS.md` entry when the reported result fails
+- a detailed `shipglowz_data/workflow/bugs/BUG-ID.md` bug file for the failing case
 - a redacted `test-evidence/BUG-ID/` location when evidence is too large or sensitive for inline storage
 - a clean route into `106-sg-fix` when the bug is actionable
 
@@ -116,14 +116,14 @@ That gives future agents the reproduction steps, expected behavior, environment,
 
 ShipGlowz uses a bug-file-first model:
 
-- `TEST_LOG.md` is the compact campaign log. It answers what was tested, when, and whether the run passed or failed.
-- `bugs/BUG-ID.md` is the detailed Markdown source of truth. It holds reproduction steps, expected and observed behavior, diagnosis notes, fix attempts, retest history, and closure criteria.
-- `BUGS.md`, when present, is an optional compact/generated triage index. It lists actionable bugs, status, severity, owner, and pointers to bug files.
+- `shipglowz_data/workflow/TEST_LOG.md` is the compact campaign log. It answers what was tested, when, and whether the run passed or failed.
+- `shipglowz_data/workflow/bugs/BUG-ID.md` is the detailed Markdown source of truth. It holds reproduction steps, expected and observed behavior, diagnosis notes, fix attempts, retest history, and closure criteria.
+- `shipglowz_data/workflow/BUGS.md`, when present, is an optional compact/generated triage index. It lists actionable bugs, status, severity, owner, and pointers to bug files.
 - `test-evidence/BUG-ID/` stores redacted screenshots, logs, HAR, dumps, or other supporting material when the evidence is too large to keep inline.
 
 The split is deliberate: the bug file holds durable detail, while the optional index stays scannable.
 
-`TEST_LOG.md` should record campaigns and scenario outcomes:
+`shipglowz_data/workflow/TEST_LOG.md` should record campaigns and scenario outcomes:
 
 ```markdown
 ## 2026-04-26 - Google Auth
@@ -132,17 +132,17 @@ The split is deliberate: the bug file holds durable detail, while the optional i
 - Environment: preview
 - Status: fail
 - Result summary: Infinite loading after Google callback
-- Bug pointer: BUG-2026-04-26-001 -> bugs/BUG-2026-04-26-001.md
+- Bug pointer: BUG-2026-04-26-001 -> shipglowz_data/workflow/bugs/BUG-2026-04-26-001.md
 - Follow-up: /106-sg-fix BUG-2026-04-26-001
 ```
 
-`BUGS.md` should record actionable defects as a compact index:
+`shipglowz_data/workflow/BUGS.md` should record actionable defects as a compact index:
 
 ```markdown
-- BUG-2026-04-26-001 | open | high | Infinite loading after Google callback | last-tested: 2026-04-26 | bug-file: bugs/BUG-2026-04-26-001.md
+- BUG-2026-04-26-001 | open | high | Infinite loading after Google callback | last-tested: 2026-04-26 | bug-file: shipglowz_data/workflow/bugs/BUG-2026-04-26-001.md
 ```
 
-The matching bug file lives in `bugs/BUG-2026-04-26-001.md`, and any redacted evidence lives under `test-evidence/BUG-2026-04-26-001/`.
+The matching bug file lives in `shipglowz_data/workflow/bugs/BUG-2026-04-26-001.md`, and any redacted evidence lives under `test-evidence/BUG-2026-04-26-001/`.
 
 ## Status Lifecycle
 
@@ -172,7 +172,7 @@ Evidence rules:
 
 - keep screenshots, HAR, stack traces, logs, and dumps redacted before persistence
 - store larger evidence under `test-evidence/BUG-ID/`
-- never inline raw secrets, cookies, tokens, private data, or production PII in `TEST_LOG.md`, optional `BUGS.md`, or the bug file
+- never inline raw secrets, cookies, tokens, private data, or production PII in `shipglowz_data/workflow/TEST_LOG.md`, optional `shipglowz_data/workflow/BUGS.md`, or the bug file
 
 ## Typical Examples
 

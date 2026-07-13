@@ -44,7 +44,7 @@ next_step: "/103-sg-verify Compact ShipGlowz Skill Instructions"
 5. Verify metadata/versioned contracts and `depends_on` coherence.
 6. Verify fresh external docs gate when dependency behavior matters.
 7. Verify completeness (tasks, acceptance criteria, expected files).
-8. Verify bug gate from `bugs/*.md` (+ optional `BUGS.md` index).
+8. Verify bug gate from `shipglowz_data/workflow/bugs/*.md` (+ optional `shipglowz_data/workflow/BUGS.md` index).
 9. Verify correctness against code/tests/invariants/linked consequences.
 10. Verify Flutter mobile proof ladder when Flutter UI or APK/device evidence is in scope.
 11. Verify coherence (project patterns, language doctrine, docs coherence).
@@ -106,7 +106,7 @@ Critical domains require current official/contextual references before confident
 
 ## Bug Gate
 
-Source of truth is `bugs/*.md`. `BUGS.md` is optional index only.
+Source of truth is `shipglowz_data/workflow/bugs/*.md`. `shipglowz_data/workflow/BUGS.md` is optional index only.
 
 Verdicts:
 

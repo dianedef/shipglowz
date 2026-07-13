@@ -58,7 +58,7 @@ evidence:
   - "Updated on 2026-05-04 to add 007-sg-content as the master content lifecycle entrypoint."
   - "Updated on 2026-05-04 to clarify 001-sg-build delegated sequential subagent consent and separate subagents from parallelism."
   - "Updated on 2026-05-04 to extract shared master delegation semantics to skills/references/master-delegation-semantics.md."
-  - "Updated on 2026-05-04 to extract the shared master workflow lifecycle and clarify that bugs/*.md files are bug source of truth while BUGS.md is optional/generated triage."
+  - "Updated on 2026-05-04 to extract the shared master workflow lifecycle and clarify that shipglowz_data/workflow/bugs/*.md files are bug source of truth while shipglowz_data/workflow/BUGS.md is optional/generated triage."
   - "Updated on 2026-05-04 to document 000-shipglowz <instruction> as the primary non-technical router with direct main-thread handoff to selected skills."
   - "Updated on 2026-05-05 to document shared question/default doctrine across skills."
   - "Updated on 2026-05-06 to add 006-sg-design as the master design lifecycle entrypoint."
@@ -801,10 +801,10 @@ This lets existing work become traceable without pretending it was originally pr
 
 ShipGlowz uses a bug-file-first record model so tests, triage, and evidence stay readable across sessions:
 
-- `TEST_LOG.md` is the compact campaign log.
+- `shipglowz_data/workflow/TEST_LOG.md` is the compact campaign log.
 - `shipglowz_data/workflow/test-checklists/<scope>.md` is the operator-fillable manual checklist when a spec needs durable manual, provider, environment, or device proof.
-- `bugs/BUG-ID.md` is the detailed Markdown source of truth for one bug work item.
-- `BUGS.md`, when present, is only a compact optional/generated triage index that points to bug files.
+- `shipglowz_data/workflow/bugs/BUG-ID.md` is the detailed Markdown source of truth for one bug work item.
+- `shipglowz_data/workflow/BUGS.md`, when present, is only a compact optional/generated triage index that points to bug files.
 - `test-evidence/BUG-ID/` stores redacted supporting evidence when material is too large or too sensitive for inline markdown.
 
 The standard bug loop is:
@@ -822,7 +822,7 @@ Each stage has a narrow job:
 - `103-sg-verify` checks whether the remaining bug state still blocks release.
 - `005-sg-ship` consumes the final bug state when deciding whether the ship is clean, partial-risk, or blocked.
 
-The direct-fix path does not bypass this memory layer. If `106-sg-fix` is the first skill to touch an actionable bug, it should create or reuse a `BUG-ID` and create `bugs/BUG-ID.md` before ending the run. It may also update `BUGS.md` when that optional index exists or is generated for triage. The only normal exceptions are narrow copy-only, cosmetic-only, or duplicate cases, and the final report should name the exception explicitly.
+The direct-fix path does not bypass this memory layer. If `106-sg-fix` is the first skill to touch an actionable bug, it should create or reuse a `BUG-ID` and create `shipglowz_data/workflow/bugs/BUG-ID.md` before ending the run. It may also update `shipglowz_data/workflow/BUGS.md` when that optional index exists or is generated for triage. The only normal exceptions are narrow copy-only, cosmetic-only, or duplicate cases, and the final report should name the exception explicitly.
 
 Canonical bug states stay explicit:
 
@@ -846,7 +846,7 @@ Closure rules are conservative:
 
 Evidence rules are strict:
 
-- keep `TEST_LOG.md` and optional `BUGS.md` compact
+- keep `shipglowz_data/workflow/TEST_LOG.md` and optional `shipglowz_data/workflow/BUGS.md` compact
 - keep large logs, HAR, screenshots, dumps, and traces out of the index files
 - redact secrets, cookies, tokens, private emails, request headers, and production PII before persisting evidence
 - store larger redacted material under `test-evidence/BUG-ID/`
@@ -866,9 +866,9 @@ Typical routed outcomes:
 - direct: `106-sg-fix -> 103-sg-verify -> 104-sg-end`
 - spec-first: `100-sg-spec -> 101-sg-ready -> 102-sg-start -> 103-sg-verify -> 104-sg-end`
 
-When `107-sg-test` finds a failure first, the bug should already exist as a bug file under `bugs/`. `106-sg-fix` should read that bug file instead of rebuilding context from chat history.
+When `107-sg-test` finds a failure first, the bug should already exist as a bug file under `shipglowz_data/workflow/bugs/`. `106-sg-fix` should read that bug file instead of rebuilding context from chat history.
 
-When `106-sg-fix` is the first skill to touch a bug, it should usually create that bug file itself instead of leaving the correction documented only in chat history or git diff. `BUGS.md` can be updated as an optional triage view. Only narrow minor exceptions such as copy-only or purely cosmetic fixes may skip bug-file creation, and that exception should be stated explicitly in the final report.
+When `106-sg-fix` is the first skill to touch a bug, it should usually create that bug file itself instead of leaving the correction documented only in chat history or git diff. `shipglowz_data/workflow/BUGS.md` can be updated as an optional triage view. Only narrow minor exceptions such as copy-only or purely cosmetic fixes may skip bug-file creation, and that exception should be stated explicitly in the final report.
 
 When the bug is auth or browser-session related, run `109-sg-auth-debug` before coding from theory. It consumes the bug report or spec, reproduces with Playwright where possible, and isolates failures across Clerk, OAuth, Google login, YouTube OAuth, Convex auth propagation, cookies, callbacks, protected routes, and Flutter web auth bridges. Its output should route back into `106-sg-fix`, `102-sg-start`, or `103-sg-verify` with evidence rather than guesses.
 

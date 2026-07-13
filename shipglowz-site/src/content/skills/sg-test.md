@@ -23,9 +23,9 @@ what_you_give:
 what_you_get:
   - "Step-by-step manual test instructions"
   - "Structured result choices for common failure modes"
-  - "A compact TEST_LOG.md record for the campaign"
-  - "A compact BUGS.md index entry when the test fails"
-  - "A per-bug dossier under bugs/BUG-ID.md"
+  - "A compact shipglowz_data/workflow/TEST_LOG.md record for the campaign"
+  - "A compact shipglowz_data/workflow/BUGS.md index entry when the test fails"
+  - "A per-bug dossier under shipglowz_data/workflow/bugs/BUG-ID.md"
   - "Redacted evidence references under test-evidence/BUG-ID/ when needed"
   - "A route into sg-browser when a narrow non-auth browser check is enough"
   - "A clean route into sg-fix or sg-auth-debug when the failure needs diagnosis"
@@ -134,9 +134,9 @@ sg-spec
 
 The skill should preserve three different kinds of memory:
 
-- `TEST_LOG.md` for compact campaigns, scenarios, environments, and results
-- `BUGS.md` for a compact bug index with status, severity, owner, and links
-- `bugs/BUG-ID.md` for the full dossier, including reproduction, expected and observed behavior, diagnosis, fixes, retests, and next action
+- `shipglowz_data/workflow/TEST_LOG.md` for compact campaigns, scenarios, environments, and results
+- `shipglowz_data/workflow/BUGS.md` for a compact bug index with status, severity, owner, and links
+- `shipglowz_data/workflow/bugs/BUG-ID.md` for the full dossier, including reproduction, expected and observed behavior, diagnosis, fixes, retests, and next action
 
 Evidence that is too large or sensitive should be redacted and stored by path in `test-evidence/BUG-ID/`, not pasted into the trackers. That split matters. A test is evidence. A bug is work to resolve. Keeping them separate makes future agent sessions more precise.
 

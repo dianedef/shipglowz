@@ -25,7 +25,7 @@ linked_systems:
   - skills/shipflow/SKILL.md
   - README.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
-  - docs/skill-launch-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - docs/technical/skill-runtime-and-lifecycle.md
   - site/src/content/skills/shipflow.md
   - site/src/content/skills/sg-build.md
@@ -117,7 +117,7 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
   - Validate with: `rg -n "question-contract|compatible with the current" skills/sg-build/SKILL.md skills/shipflow/SKILL.md`
 
 - [x] Task 4: Update docs and public surfaces.
-  - Files: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/skill-launch-cheatsheet.md`, `docs/technical/skill-runtime-and-lifecycle.md`, `skills/sg-help/SKILL.md`, `site/src/content/skills/shipflow.md`, `site/src/content/skills/sg-build.md`
+  - Files: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, `docs/technical/skill-runtime-and-lifecycle.md`, `skills/sg-help/SKILL.md`, `site/src/content/skills/shipflow.md`, `site/src/content/skills/sg-build.md`
   - Validate with: metadata lint where applicable and `pnpm --dir shipglowz-site build`.
 
 ## Skill Run History

@@ -36,7 +36,7 @@ depends_on:
   - artifact: "shipglowz_data/workflow/specs/compact-shipflow-skill-instructions.md"
     artifact_version: "1.0.0"
     required_status: "ready"
-  - artifact: "docs/explorations/2026-05-16-skill-instruction-compaction.md"
+  - artifact: "shipglowz_data/workflow/explorations/2026-05-16-skill-instruction-compaction.md"
     artifact_version: "1.0.0"
     required_status: "draft"
   - artifact: "skills/references/skill-instruction-layering.md"
@@ -164,7 +164,7 @@ This phase is intentionally line-count targeted. Skills that are under 500 lines
 
 - Prior phase:
   - `shipglowz_data/workflow/specs/compact-shipflow-skill-instructions.md`
-  - `docs/explorations/2026-05-16-skill-instruction-compaction.md`
+  - `shipglowz_data/workflow/explorations/2026-05-16-skill-instruction-compaction.md`
   - `skills/references/skill-instruction-layering.md`
   - `skills/references/skill-context-budget.md`
 - Shared references:

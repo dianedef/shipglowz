@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "1.3.0"
+artifact_version: "1.3.1"
 project: ShipGlowz
 created: "2026-06-27"
-updated: "2026-06-29"
+updated: "2026-07-13"
 status: reviewed
 source_skill: 300-sg-docs
 scope: focus-tags-cheatsheet
@@ -29,12 +29,13 @@ depends_on:
   - artifact: "skills/references/shipglowz-terms.md"
     artifact_version: "1.0.0"
     required_status: active
-supersedes: []
+supersedes:
+  - docs/focus-tags-cheatsheet.md
 evidence:
   - "Public focus-tag families requested on 2026-06-27 so the operator can recenter the agent without invoking a full skill."
   - "Focus tags are now defined canonically in skills/references/shipglowz-terms.md and loaded by entrypoint-routing."
 next_review: "2026-07-11"
-next_step: "/300-sg-docs audit docs/focus-tags-cheatsheet.md"
+next_step: "/300-sg-docs audit shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md"
 ---
 
 # Focus Tags Cheatsheet

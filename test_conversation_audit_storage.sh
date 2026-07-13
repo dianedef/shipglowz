@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCRIPT="$ROOT_DIR/skills/tmux-capture-conversation/scripts/capture_tmux_conversation.sh"
+SCRIPT="$ROOT_DIR/skills/800-tmux-capture-conversation/scripts/capture_tmux_conversation.sh"
 SHIPFLOW_ROOT_UNDER_TEST="${SHIPFLOW_ROOT:-$ROOT_DIR}"
 
 pass_count=0
@@ -65,7 +65,7 @@ need_tmux
 
 tmp_project=$(mktemp -d)
 trap 'rm -rf "$tmp_project"' EXIT
-mkdir -p "$tmp_project/.git" "$tmp_project/shipglowz_data/workflow/conversations" "$tmp_project/docs/conversations"
+mkdir -p "$tmp_project/.git" "$tmp_project/shipglowz_data/workflow/conversations"
 
 shipflow_output=$(
   cd "$tmp_project"
@@ -88,12 +88,12 @@ assert_fails_with \
 
 docs_output=$(
   cd "$tmp_project"
-  SHIPFLOW_ROOT="$SHIPFLOW_ROOT_UNDER_TEST" "$SCRIPT" --preset docs --title "Project Docs Conversation" --destination docs/conversations/project-note.md --dry-run
+  SHIPFLOW_ROOT="$SHIPFLOW_ROOT_UNDER_TEST" "$SCRIPT" --preset docs --title "Project Docs Conversation" --destination shipglowz_data/workflow/conversations/project-note.md --dry-run
 )
 assert_contains \
-  "docs preset still allows explicit project-local docs destination" \
+  "legacy docs preset routes to canonical project-local destination" \
   "$docs_output" \
-  "Destination: $tmp_project/docs/conversations/project-note.md"
+  "Destination: $tmp_project/shipglowz_data/workflow/conversations/project-note.md"
 
 printf '\nConversation audit storage tests: %s passed, %s failed\n' "$pass_count" "$fail_count"
 [ "$fail_count" -eq 0 ]

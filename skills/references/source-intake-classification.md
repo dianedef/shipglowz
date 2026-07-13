@@ -294,7 +294,7 @@ Stop or ask a targeted question when:
 Validate references after edits with:
 
 ```bash
-rg -n "#source|source-intake-classification|Source type|Source-Inspiration|Owner skill" skills/references/source-intake-classification.md skills/references/shipglowz-terms.md skills/references/entrypoint-routing.md skills/000-shipglowz/SKILL.md skills/007-sg-content/SKILL.md skills/202-sg-repurpose/SKILL.md skills/emailing/SKILL.md docs/focus-tags-cheatsheet.md
+rg -n "#source|source-intake-classification|Source type|Source-Inspiration|Owner skill" skills/references/source-intake-classification.md skills/references/shipglowz-terms.md skills/references/entrypoint-routing.md skills/000-shipglowz/SKILL.md skills/007-sg-content/SKILL.md skills/202-sg-repurpose/SKILL.md skills/emailing/SKILL.md shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 python3 tools/shipglowz_metadata_lint.py skills/references/source-intake-classification.md skills/references/private-memory-store.md
 ```

@@ -31,10 +31,10 @@ example_prompts:
   - "/sg-bug --ship BUG-2026-05-03-001"
 argument_modes:
   - argument: "no argument"
-    effect: "Summarizes actionable bug state from BUGS.md and recent dossiers."
+    effect: "Summarizes actionable bug state from shipglowz_data/workflow/BUGS.md and recent dossiers."
     consequence: "Continues the highest-priority safe bug action when possible instead of editing records in the master thread."
   - argument: "BUG-ID"
-    effect: "Reads BUGS.md and bugs/BUG-ID.md, then continues based on status and severity when safe."
+    effect: "Reads shipglowz_data/workflow/BUGS.md and shipglowz_data/workflow/bugs/BUG-ID.md, then continues based on status and severity when safe."
     consequence: "Keeps the dossier as the source of truth."
   - argument: "--retest BUG-ID"
     effect: "Continues through sg-test --retest BUG-ID."
@@ -61,9 +61,9 @@ order: 18
 
 The professional bug model already splits work into compact trackers and detailed dossiers:
 
-- `TEST_LOG.md` records manual test runs.
-- `BUGS.md` keeps the compact bug index.
-- `bugs/BUG-ID.md` holds the full dossier.
+- `shipglowz_data/workflow/TEST_LOG.md` records manual test runs.
+- `shipglowz_data/workflow/BUGS.md` keeps the compact bug index.
+- `shipglowz_data/workflow/bugs/BUG-ID.md` holds the full dossier.
 - `test-evidence/BUG-ID/` stores redacted larger evidence when needed.
 
 `sg-bug` sits above the phase skills and answers one question:

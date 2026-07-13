@@ -146,7 +146,7 @@ ShipGlowz currently mixes several ownership models:
 
 - Some project decision docs live at repo root, for example `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, `GTM.md`, `GUIDELINES.md`, and `CONTENT_MAP.md`.
 - Technical docs live under `docs/technical/`, while editorial docs can live under `docs/editorial/`, `CONTENT_MAP.md`, public content folders, or research notes.
-- Chantiers live under `specs/`, bugs under `bugs/`, and trackers under `TASKS.md`, `AUDIT_LOG.md`, or `${SHIPGLOWZ_DATA_DIR:-$HOME/shipglowz_data}`.
+- Chantiers live under `specs/`, bugs under `shipglowz_data/workflow/bugs/`, and trackers under `TASKS.md`, `AUDIT_LOG.md`, or `${SHIPGLOWZ_DATA_DIR:-$HOME/shipglowz_data}`.
 - Older workflows created or preserved project `TASKS.md` symlinks pointing into `shipglowz_data`.
 - Some docs say project decision docs should stay in project repos and should not be duplicated into `shipglowz_data`; the new requested architecture keeps that project ownership and groups those docs under one project-local `shipglowz_data/` umbrella.
 
@@ -179,7 +179,7 @@ Proposed default project structure:
 │   │   └── gtm.md
 │   └── workflow/
 │       ├── specs/
-│       ├── bugs/
+│       ├── shipglowz_data/workflow/bugs/
 │       ├── audits/
 │       ├── reviews/
 │       └── verification/
@@ -339,7 +339,7 @@ Update or audit:
   - Action: Map current paths to new umbrella paths, including root exceptions.
   - User story link: Migration must be deterministic across projects.
   - Depends on: Tasks 1-2.
-  - Validate with: Matrix covers `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, `GTM.md`, `CONTENT_MAP.md`, `docs/technical/`, `docs/editorial/`, `specs/`, `bugs/`, `TASKS.md`, `AUDIT_LOG.md`, `PROJECTS.md`, and root discovery exceptions.
+  - Validate with: Matrix covers `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, `GTM.md`, `CONTENT_MAP.md`, `docs/technical/`, `docs/editorial/`, `specs/`, `shipglowz_data/workflow/bugs/`, `TASKS.md`, `AUDIT_LOG.md`, `PROJECTS.md`, and root discovery exceptions.
   - Notes: Preserve case and metadata decisions explicitly.
 
 - [ ] Task 4: Update canonical path doctrine.

@@ -190,7 +190,7 @@ Only bootstrap/install owners need the clone contract. Most help answers should 
 Note: `/103-sg-verify` now includes guided next-step prompting when verdict is not ready (`corriger maintenant`, `repasser par spec`, `stop/reprendre`).
 Note: `/109-sg-auth-debug` is the required diagnostic path for auth bugs that need browser evidence before implementation.
 Note: `/108-sg-browser` is the generic browser evidence path for non-auth page assertions; use `/109-sg-auth-debug` for auth/session/provider issues, `/405-sg-prod` for deployment truth, and `/107-sg-test` for durable manual QA logs.
-Note: `/107-sg-test` sits after verification and before shipping when a human needs to confirm the real user flow; it writes compact `TEST_LOG.md`, durable bug files under `bugs/`, and optional compact `BUGS.md` triage views when needed.
+Note: `/107-sg-test` sits after verification and before shipping when a human needs to confirm the real user flow; it writes compact `shipglowz_data/workflow/TEST_LOG.md`, durable bug files under `shipglowz_data/workflow/bugs/`, and optional compact `shipglowz_data/workflow/BUGS.md` triage views when needed.
 Note: `/107-sg-test` supports a `checklist-first` mode: when a spec defines `shipglowz_data/workflow/test-checklists/<scope>.md`, required scenarios from the parsed checklist become the authoritative source for manual proof; optional rows are run only if needed.
 Note: `/003-sg-bug` is the recommended entrypoint when you want the whole professional bug loop executed from a `BUG-ID`, retest, closure question, or ship-risk question.
 Note: `/102-sg-start` now reuses the `704-sg-model` routing matrix and can choose `single-agent` vs `multi-agent` execution with explicit file ownership and per-group model overrides.
@@ -214,16 +214,16 @@ Note: User-facing skill questions follow the shared question contract: ask only 
 Flow:
 1. `/003-sg-bug [BUG-ID or summary]` continues the safest lifecycle action when possible.
 2. `/107-sg-test [scope]` detects a fail and logs a compact test pointer.
-3. `bugs/BUG-ID.md` is the full bug file and source of truth (repro, expected/observed, diagnosis, Fix Attempts, Retest History, redaction state, next step).
-4. `BUGS.md`, when present, is only a compact optional/generated triage row (`BUG-ID`, status, severity, last-tested, bug file path).
+3. `shipglowz_data/workflow/bugs/BUG-ID.md` is the full bug file and source of truth (repro, expected/observed, diagnosis, Fix Attempts, Retest History, redaction state, next step).
+4. `shipglowz_data/workflow/BUGS.md`, when present, is only a compact optional/generated triage row (`BUG-ID`, status, severity, last-tested, bug file path).
 5. `/106-sg-fix BUG-ID` appends diagnosis + fix attempts; when no `BUG-ID` exists yet, `106-sg-fix` should usually create one rather than leaving the bug memory only in chat or git history.
 6. `/107-sg-test --retest BUG-ID` appends Retest History in the bug file and updates status (`open` or `fixed-pending-verify`).
 7. `/103-sg-verify` and `/005-sg-ship` gate optimistic closure when open high/critical bugs remain.
 
 File roles:
-- `TEST_LOG.md`: tracker of manual test runs (compact pointers only).
-- `bugs/BUG-ID.md`: durable bug file and source of truth.
-- `BUGS.md`: optional compact tracker/triage view of bug state.
+- `shipglowz_data/workflow/TEST_LOG.md`: tracker of manual test runs (compact pointers only).
+- `shipglowz_data/workflow/bugs/BUG-ID.md`: durable bug file and source of truth.
+- `shipglowz_data/workflow/BUGS.md`: optional compact tracker/triage view of bug state.
 - `test-evidence/BUG-ID/`: optional redacted heavy evidence only.
 
 ### Chantier Registry

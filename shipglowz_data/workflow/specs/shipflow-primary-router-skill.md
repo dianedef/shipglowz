@@ -25,7 +25,7 @@ linked_systems:
   - skills/sg-help/SKILL.md
   - README.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
-  - docs/skill-launch-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - docs/technical/skill-runtime-and-lifecycle.md
   - site/src/content/skills/shipflow.md
 depends_on:
@@ -130,14 +130,14 @@ Create `shipflow` as a thin primary router backed by a shared `entrypoint-routin
   - Validate with: `rg -n "shipflow|entrypoint-routing|master-skill-in-subagent|direct handoff" skills/sg-help/SKILL.md skills/references/chantier-tracking.md skills/references/master-delegation-semantics.md`
 
 - [x] Task 5: Update docs and public surfaces.
-  - File: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `docs/skill-launch-cheatsheet.md`, `docs/technical/skill-runtime-and-lifecycle.md`, `site/src/content/skills/shipflow.md`
+  - File: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, `docs/technical/skill-runtime-and-lifecycle.md`, `site/src/content/skills/shipflow.md`
   - Action: Present `shipflow` as the recommended non-technical first command.
-  - Validate with: `rg -n "shipflow|ShipGlowz primary|direct handoff|sg-build|sg-maintain|sg-bug|sg-deploy|sg-content|sg-skill-build" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md site/src/content/skills/shipflow.md`
+  - Validate with: `rg -n "shipflow|ShipGlowz primary|direct handoff|sg-build|sg-maintain|sg-bug|sg-deploy|sg-content|sg-skill-build" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md site/src/content/skills/shipflow.md`
 
 - [x] Task 6: Validate the skill lifecycle.
   - File: changed skill, reference, spec, docs, and public surfaces
   - Action: Run budget audit, metadata lint, runtime sync check, focused route checks, and site build.
-  - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/shipflow-primary-router-skill.md skills/references/entrypoint-routing.md skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md skills/references/chantier-tracking.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md docs/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md`; `tools/shipflow_sync_skills.sh --check --skill shipflow`; `pnpm --dir shipglowz-site build`
+  - Validate with: `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/shipflow-primary-router-skill.md skills/references/entrypoint-routing.md skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md skills/references/chantier-tracking.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md docs/technical/skill-runtime-and-lifecycle.md`; `tools/shipflow_sync_skills.sh --check --skill shipflow`; `pnpm --dir shipglowz-site build`
 
 ## Acceptance Criteria
 
@@ -168,7 +168,7 @@ Create `shipflow` as a thin primary router backed by a shared `entrypoint-routin
 
 ## Execution Notes
 
-- Read first: `skills/sg-skill-build/SKILL.md`, `skills/references/master-delegation-semantics.md`, `skills/references/master-workflow-lifecycle.md`, `docs/skill-launch-cheatsheet.md`, `skills/sg-help/SKILL.md`, and representative public skill pages.
+- Read first: `skills/sg-skill-build/SKILL.md`, `skills/references/master-delegation-semantics.md`, `skills/references/master-workflow-lifecycle.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, `skills/sg-help/SKILL.md`, and representative public skill pages.
 - Stop conditions: invalid skill name, runtime sync blocked by non-symlink path, budget audit hard failure, metadata lint failure, site build failure, or docs that imply nested master execution.
 
 ## Open Questions

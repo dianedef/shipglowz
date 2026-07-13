@@ -51,7 +51,7 @@ evidence:
   - "Candidate conversation files found: /home/claude/conversation-obstacles-creation-de-notre-set-de-skills.md"
   - "Candidate conversation files found: /home/claude/conversation-sg-prod-dernier-run-blacksmith-ci.md"
   - "Candidate conversation files found: /home/claude/shipflow/conversation-shipflow-questions-contextuelles-des-skills.md"
-  - "Candidate conversation files found: /home/claude/shipflow/docs/conversations/conversation-sg-build-architecture-skills-20260504.md"
+  - "Candidate conversation files found: /home/claude/shipflow/shipglowz_data/workflow/conversations/conversation-sg-build-architecture-skills-20260504.md"
 next_step: "None"
 ---
 
@@ -103,11 +103,11 @@ Create an operational audit chantier that uses `sg-conversation-audit` and direc
 - Discover relevant conversation Markdown files under `/home/claude` with conservative filters:
   - include files whose names or parent folders indicate conversations/transcripts;
   - include explicit user-provided paths;
-  - include `shipflow/docs/conversations/*.md`;
+  - include `shipflow/shipglowz_data/workflow/conversations/*.md`;
   - include canonical `shipglowz_data/workflow/conversations/**/*.md`.
 - Exclude by default:
   - package caches such as `.cargo`, `.bun`, `.cache`, `node_modules`, `.npm`, `.rustup`, `.pub-cache`;
-  - normal project docs such as `README.md`, `CHANGELOG.md`, `TEST_LOG.md`, `CLAUDE.md`, and `AGENT.md` unless explicitly selected.
+  - normal project docs such as `README.md`, `CHANGELOG.md`, `shipglowz_data/workflow/TEST_LOG.md`, `CLAUDE.md`, and `AGENT.md` unless explicitly selected.
 - Produce one aggregate audit report in `shipglowz_data/workflow/conversation-audits/`.
 - Classify findings using `sg-conversation-audit` categories plus a human synthesis pass for:
   - followability gaps;
@@ -209,7 +209,7 @@ Create an operational audit chantier that uses `sg-conversation-audit` and direc
   - `/home/claude/conversation-obstacles-creation-de-notre-set-de-skills.md`
   - `/home/claude/conversation-sg-prod-dernier-run-blacksmith-ci.md`
   - `/home/claude/shipflow/conversation-shipflow-questions-contextuelles-des-skills.md`
-  - `/home/claude/shipflow/docs/conversations/conversation-sg-build-architecture-skills-20260504.md`
+  - `/home/claude/shipflow/shipglowz_data/workflow/conversations/conversation-sg-build-architecture-skills-20260504.md`
 
 ## Invariants
 
@@ -232,7 +232,7 @@ Create an operational audit chantier that uses `sg-conversation-audit` and direc
 - If the audit finds only operational skill gaps, documentation updates may be limited to internal skills/references.
 - If the audit changes public skill behavior or discoverability, update:
   - `README.md`
-  - `docs/skill-launch-cheatsheet.md`
+  - `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`
   - `skills/sg-help/references/help-catalog.md`
   - relevant `site/src/content/skills/*.md`
 - The audit report itself is private workflow documentation, not public content.
@@ -345,7 +345,7 @@ Create an operational audit chantier that uses `sg-conversation-audit` and direc
   - `skills/references/reporting-contract.md`
   - `skills/references/question-contract.md`
 - Initial corpus command:
-  - `find /home/claude -maxdepth 5 -type f -name '*.md' \( -iname '*conversation*' -o -iname '*transcript*' -o -path '*/docs/conversations/*' -o -path '*/shipglowz_data/workflow/conversations/*' \) -not -path '*/node_modules/*' -not -path '/home/claude/.cargo/*' -not -path '/home/claude/.bun/*' -not -path '/home/claude/.cache/*'`
+  - `find /home/claude -maxdepth 5 -type f -name '*.md' \( -iname '*conversation*' -o -iname '*transcript*' -o -path '*/shipglowz_data/workflow/conversations/*' -o -path '*/shipglowz_data/workflow/conversations/*' \) -not -path '*/node_modules/*' -not -path '/home/claude/.cargo/*' -not -path '/home/claude/.bun/*' -not -path '/home/claude/.cache/*'`
 - Parallelization plan:
   - Batch A: top-level `/home/claude/conversation-*.md`
   - Batch B: ShipGlowz repo conversation exports under `/home/claude/shipflow/**/conversation*.md`

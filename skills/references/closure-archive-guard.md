@@ -58,7 +58,7 @@ Before marking work complete, compare the changed artifact with the durable sour
 Examples:
 
 - spec delta -> canonical spec or current chantier spec
-- bug fix state -> `bugs/BUG-ID.md` status and retest history
+- bug fix state -> `shipglowz_data/workflow/bugs/BUG-ID.md` status and retest history
 - task completion -> `shipglowz_data/workflow/TASKS.md`
 - public behavior change -> README, help, site content, docs, or support copy
 - skill behavior change -> runtime skill links, help/discovery docs, and relevant shared references

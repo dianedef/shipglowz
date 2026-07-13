@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.9.0"
+artifact_version: "1.10.0"
 project: ShipGlowz
 created: "2026-05-01"
-updated: "2026-06-30"
+updated: "2026-07-13"
 status: reviewed
 source_skill: sg-start
 scope: technical-docs-index
@@ -35,6 +35,7 @@ evidence:
   - "GitHub Actions technical note added for CI cost, cache, monorepo trigger, and workflow topology guardrails."
   - "Codex plugin packaging note added for the lightweight shipflow plugin and sparse source bootstrap."
   - "Design-system authority technical artifact added for declaring project canonical token/theme/component sources."
+  - "Operator guides migrated from root docs into shipglowz_data/technical/operator-guides/."
 next_review: "2026-06-18"
 next_step: "/sg-docs technical audit"
 ---
@@ -53,6 +54,7 @@ This layer complements the existing docs:
 - `shipglowz_data/technical/external-platforms/` stores global external provider notes used by the Freshness Gate.
 - `shipglowz_data/workflow/specs/*.md` stay chantier contracts and run history.
 - `shipglowz_data/technical/*.md` documents durable subsystem behavior near the code.
+- `shipglowz_data/technical/operator-guides/` stores canonical operator-facing Markdown references.
 
 It does not share canonical ownership with random root notes. When a root technical document overlaps this layer, the technical layer wins and the root note should be treated as migration debt or a compatibility facade until a preservation pass finishes.
 
@@ -69,6 +71,7 @@ It does not share canonical ownership with random root notes. When a root techni
 | Doc | Open when the task touches |
 | --- | --- |
 | `code-docs-map.md` | Any code change, Reader pass, final integration, or docs gate |
+| `operator-guides/README.md` | Operator-facing Markdown guides, launch cheatsheets, focus tags, OpenCode, or KiloCode usage |
 | `runtime-cli.md` | `shipglowz.sh`, `lib.sh`, `config.sh`, PM2/Flox/Caddy/DuckDNS flows |
 | `terminal-tui.md` | `tui/`, read-only dashboard behavior, task/audit/spec readers, and operator visibility rules |
 | `local-tunnels-and-mcp-login.md` | `local/`, SSH tunnels, remote helper scripts, MCP OAuth login |

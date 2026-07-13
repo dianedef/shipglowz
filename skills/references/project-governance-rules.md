@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: ShipGlowz
 created: "2026-06-30"
 updated: "2026-07-13"
@@ -38,6 +38,7 @@ evidence:
   - "Repeated execution drift came from rules being split across entrypoints, corpus docs, and monorepo topology without a compact synthesis."
   - "Operator clarification on 2026-07-13: root review must apply governance and architecture ownership contracts rather than a minimal-entry count."
   - "Operator decision on 2026-07-13: useful archive content belongs in the canonical corpus; duplicate, generated, empty-facade, and unreferenced scratch material should be deleted."
+  - "Operator decision on 2026-07-13: root docs and bug workflow surfaces are not exceptions to the canonical shipglowz_data corpus."
 next_review: "2026-07-14"
 next_step: "/300-sg-docs audit shared project-governance-rules reference"
 ---
@@ -62,12 +63,10 @@ At the governance root, keep the compatibility entrypoints, canonical corpus, an
 - `README.md`
 - `shipglowz_data/`
 - optional `CHANGELOG.md`
-- `TEST_LOG.md`, optional `BUGS.md`, and `bugs/` when the project uses the professional bug workflow
-- `docs/` for public or semi-public references that are not internal governance records
 
 Treat root legacy governance files such as `BUSINESS.md`, `PRODUCT.md`, `ARCHITECTURE.md`, `CONTENT_MAP.md`, `CONTEXT.md`, `TASKS.md`, and `AUDIT_LOG.md` as migration debt, not compliant destinations for new work.
 
-Root `archive/`, `specs/`, and `research/` are migration sources. Useful inactive history belongs under `shipglowz_data/workflow/archives/`; disposable or duplicate material should be deleted after classification. Conversation captures and exploration reports follow their owner-skill destination contracts; when `800-tmux-capture-conversation` or `700-sg-explore` selects `docs/conversations/` or `docs/explorations/`, those paths are intentional project records rather than duplicate governance doctrine.
+Root `archive/`, `bugs/`, `docs/`, `specs/`, `research/`, `BUGS.md`, and `TEST_LOG.md` are migration sources. Useful inactive history belongs under `shipglowz_data/workflow/archives/`; bug and QA state belongs under `shipglowz_data/workflow/`; conversation captures and exploration reports belong under their canonical workflow families; operator guides belong under `shipglowz_data/technical/operator-guides/`.
 
 ## Canonical Corpus Rules
 

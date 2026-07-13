@@ -60,7 +60,7 @@ This doc covers ShipGlowz artifact frontmatter, templates, and `tools/shipglowz_
 - The linter uses Python standard library only.
 - Active ShipGlowz artifacts carry `metadata_schema_version`, `artifact_version`, `status`, `source_skill`, `scope`, `risk_level`, `security_impact`, `docs_impact`, `depends_on`, and related governance fields.
 - Reviewed, ready, or active artifacts should not stay at `0.x` versions.
-- Operational trackers such as `TASKS.md`, `AUDIT_LOG.md`, `PROJECTS.md`, `TEST_LOG.md`, and `BUGS.md` are not decision artifacts.
+- Operational trackers such as `TASKS.md`, `AUDIT_LOG.md`, `PROJECTS.md`, `shipglowz_data/workflow/TEST_LOG.md`, and `shipglowz_data/workflow/BUGS.md` are not decision artifacts.
 - `technical_module_context` is an official linted artifact type in v1.
 - `editorial_content_context` is an official linted artifact type for `shipglowz_data/editorial/` governance docs and requires content surfaces, claim register, page intent, and next review metadata.
 - `competitive_intelligence` is an official linted artifact type for project-level competitor, alternative, inspiration, and anti-pattern registries.

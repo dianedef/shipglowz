@@ -34,7 +34,7 @@ evidence:
   - "004-sg-deploy added as a lifecycle release orchestrator."
   - "002-sg-maintain promoted from recurring maintenance source-de-chantier to lifecycle master skill."
   - "Compact user-facing reporting contract added with explicit agent handoff mode."
-  - "Master workflow lifecycle reference added: bug work items use bugs/*.md as source of truth; BUGS.md is optional/generated/triage view."
+  - "Master workflow lifecycle reference added: bug work items use shipglowz_data/workflow/bugs/*.md as source of truth; shipglowz_data/workflow/BUGS.md is optional/generated/triage view."
   - "Final report timestamp moved into a shared reporting brick loaded through reporting-contract.md."
   - "006-sg-design added as an obligatoire lifecycle master skill."
   - "003-sg-bug clarified as bug lifecycle execution through owner skills and bounded subagents."

@@ -22,7 +22,7 @@ linked_systems:
   - "skills/references/code-navigation-and-function-docs.md"
   - "skills/references/technical-docs-corpus.md"
   - "skills/references/shipglowz-terms.md"
-  - "docs/focus-tags-cheatsheet.md"
+  - "shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md"
   - "shipglowz_data/technical/context.md"
   - "shipglowz_data/technical/context-function-tree.md"
   - "shipglowz_data/technical/code-docs-map.md"
@@ -41,7 +41,7 @@ depends_on:
   - artifact: "skills/references/shipglowz-terms.md"
     artifact_version: "1.2.0"
     required_status: "active"
-  - artifact: "docs/focus-tags-cheatsheet.md"
+  - artifact: "shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md"
     artifact_version: "1.3.0"
     required_status: "reviewed"
   - artifact: "shipglowz_data/technical/context.md"
@@ -177,7 +177,7 @@ Add an optional `#feature:<term>` inline hint with a deliberately narrow contrac
 - `skills/references/technical-docs-corpus.md`
 - `skills/references/code-navigation-and-function-docs.md`
 - `skills/references/shipglowz-terms.md`
-- `docs/focus-tags-cheatsheet.md`
+- `shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md`
 - `shipglowz_data/technical/context.md`
 - `shipglowz_data/technical/context-function-tree.md`
 - `shipglowz_data/technical/code-docs-map.md`
@@ -205,7 +205,7 @@ Add an optional `#feature:<term>` inline hint with a deliberately narrow contrac
   - `skills/references/entrypoint-routing.md` for the current tag-driven routing posture
 - Downstream:
   - `skills/302-sg-help/SKILL.md` for help wording and examples
-  - `docs/focus-tags-cheatsheet.md` for the tag catalog
+  - `shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md` for the tag catalog
   - `shipglowz_data/technical/context.md` for operator-facing navigation guidance
   - `shipglowz_data/technical/code-docs-map.md` if a term family gains a mapped docs route or reveals drift
 - Cross-validations:
@@ -217,7 +217,7 @@ Add an optional `#feature:<term>` inline hint with a deliberately narrow contrac
 
 - Update `skills/references/shipglowz-terms.md` to define `#feature:` as a navigation hint tag family.
 - Update `skills/references/entrypoint-routing.md` so the tag is read before broad search and remains distinct from `%Profile`.
-- Update `docs/focus-tags-cheatsheet.md` so operators can discover the syntax and its canonical source.
+- Update `shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md` so operators can discover the syntax and its canonical source.
 - Update `skills/302-sg-help/SKILL.md` with a concise explanation and example.
 - Update `shipglowz_data/technical/context.md` if the operator-facing navigation summary should mention the new hint.
 - `None` for public-content surfaces unless the project later decides to expose the syntax externally.
@@ -237,7 +237,7 @@ Add an optional `#feature:<term>` inline hint with a deliberately narrow contrac
 
 1. `skills/references/entrypoint-routing.md`: add `#feature:` to the focus-tag family and define its precedence relative to broad search, plain-language recovery, and `%Profile`. Validation: `rg -n "#feature:|%Profile|focus-tag" skills/references/entrypoint-routing.md`.
 2. `skills/references/shipglowz-terms.md`: register `#feature:` as the canonical navigation-hint tag family and point to the routing contract. Validation: `rg -n "#feature:|navigation-hint|routing contract" skills/references/shipglowz-terms.md`.
-3. `docs/focus-tags-cheatsheet.md`: document the tag in the user-facing tag catalog with one concrete example. Validation: `rg -n "#feature:|feature tag" docs/focus-tags-cheatsheet.md`.
+3. `shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md`: document the tag in the user-facing tag catalog with one concrete example. Validation: `rg -n "#feature:|feature tag" shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md`.
 4. `skills/references/code-navigation-and-function-docs.md`: add explicit guidance that a valid `#feature:<term>` should enter the behavior-index layer before broad repository search. Validation: `rg -n "#feature:|behavior index|broad repo search" skills/references/code-navigation-and-function-docs.md`.
 5. `skills/302-sg-help/SKILL.md`: add the short help note that explains when to use `#feature:<term>` and when not to. Validation: `rg -n "#feature:|help|focus tag" skills/302-sg-help/SKILL.md`.
 6. `shipglowz_data/technical/context.md`: add or adjust the operator-facing navigation summary so the tag is discoverable from the technical context map. Validation: `rg -n "#feature:|behavior index|context" shipglowz_data/technical/context.md`.
@@ -271,7 +271,7 @@ Add an optional `#feature:<term>` inline hint with a deliberately narrow contrac
 ## Recommended Implementation Plan
 
 1. Update `skills/references/entrypoint-routing.md` to recognize explicit `#feature:<term>` tokens and explain precedence.
-2. Update `skills/references/shipglowz-terms.md` and `docs/focus-tags-cheatsheet.md` so the tag is canonical and discoverable.
+2. Update `skills/references/shipglowz-terms.md` and `shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md` so the tag is canonical and discoverable.
 3. Update `skills/references/code-navigation-and-function-docs.md` and `shipglowz_data/technical/context.md` so the tag is integrated into the navigation stack.
 4. Update `skills/302-sg-help/SKILL.md` with the short operator-facing explanation and example.
 5. Validate normal, ambiguous, malformed, and unmapped behavior with scenario-style proof.
@@ -286,7 +286,7 @@ Add an optional `#feature:<term>` inline hint with a deliberately narrow contrac
 
 ## Execution Notes
 
-- Read order: `skills/references/entrypoint-routing.md` -> `skills/references/code-navigation-and-function-docs.md` -> `skills/references/shipglowz-terms.md` -> `docs/focus-tags-cheatsheet.md` -> `skills/302-sg-help/SKILL.md` -> `shipglowz_data/technical/context.md`.
+- Read order: `skills/references/entrypoint-routing.md` -> `skills/references/code-navigation-and-function-docs.md` -> `skills/references/shipglowz-terms.md` -> `shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md` -> `skills/302-sg-help/SKILL.md` -> `shipglowz_data/technical/context.md`.
 - Keep the change narrow: update the canonical routing docs first, then propagate wording to help and context surfaces.
 - Treat `/home/claude/shipglowz` as the ShipGlowz routing corpus and `/home/claude/shipglowz/shipglowz_data/technical/winglowz_app/` as the canonical pilot corpus for `swipe`.
 - Treat the ShipGlowz corpus as the source of truth for both the routing rule and the migrated pilot artifacts.

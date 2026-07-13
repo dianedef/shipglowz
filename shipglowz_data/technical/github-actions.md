@@ -209,7 +209,7 @@ If branch protection still requires path-specific checks directly, document a mi
 Minimum scope matrix for path-driven workflow ownership:
 
 - **Docs/site edits**: `shipglowz_data/**`, `docs/**`, `README.md`, `CLAUDE.md`, `AGENT.md`, `site/**`
-- **Governance/surface updates**: `CHANGELOG.md`, `BUGS.md`, `TASKS.md`, `BUG-*.md`, `shipglowz_data/workflow/**`
+- **Governance/surface updates**: `CHANGELOG.md`, `shipglowz_data/workflow/BUGS.md`, `TASKS.md`, `BUG-*.md`, `shipglowz_data/workflow/**`
 - **Skill/runtimes edits**: `skills/**`, `tools/**`, `templates/**`, `site/src/content/skills/**`, `site/src/content/reference/**`
 - **App/backend edits**: project paths that actually build/deploy (for example, `apps/**`, `packages/**`, `src/**`, `api/**`, `functions/**`)
 

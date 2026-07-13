@@ -236,7 +236,7 @@ The exact filenames may change if implementation finds a clearer local conventio
 
 - [ ] Task 5: Extract `sg-test` manual QA workflow detail.
   - File: `skills/sg-test/SKILL.md`, `skills/sg-test/references/manual-qa-workflow.md`
-  - Action: Move detailed scenario generation, prompt shape, logging procedure, retest handling, and platform-specific ladders into a local reference while keeping no-invented-results, durable `TEST_LOG.md`, bug-file behavior, project-mode gates, and routing visible.
+  - Action: Move detailed scenario generation, prompt shape, logging procedure, retest handling, and platform-specific ladders into a local reference while keeping no-invented-results, durable `shipglowz_data/workflow/TEST_LOG.md`, bug-file behavior, project-mode gates, and routing visible.
   - User story link: preserves manual QA integrity while making the activation contract easier to follow.
   - Depends on: Task 1.
   - Validate with: `rg -n "Trace category|Process role|Never invent test results|TEST_LOG|BUG-|project-development-mode|manual-qa-workflow|Final Report" skills/sg-test/SKILL.md`.

@@ -17,7 +17,7 @@ linked_systems:
   - skills/
   - skills/000-shipglowz/SKILL.md
   - skills/302-sg-help/SKILL.md
-  - docs/skill-launch-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - tools/skill_code_index_lint.py
   - skills/900-shipglowz-core/SKILL.md
 depends_on:

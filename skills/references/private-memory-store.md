@@ -17,7 +17,7 @@ linked_systems:
   - skills/references/source-intake-classification.md
   - shipglowz_data/business/portfolio-project-pitch-links.md
   - skills/references/shipglowz-terms.md
-  - docs/focus-tags-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md
   - skills/references/email-sequence-storage.md
 depends_on:
   - artifact: "skills/references/source-intake-classification.md"
@@ -183,7 +183,7 @@ Stop and ask before persisting when:
 Validate references after edits with:
 
 ```bash
-python3 tools/shipglowz_metadata_lint.py skills/references/private-memory-store.md skills/references/source-intake-classification.md shipglowz_data/business/portfolio-project-pitch-links.md docs/focus-tags-cheatsheet.md skills/references/shipglowz-terms.md
-rg -n "private-memory-store|SHIPGLOWZ_PRIVATE_ROOT|SHIPFLOW_PRIVATE_ROOT|\\.shipglowz/private/data|project-pitches|projects/|source-cache" skills/references shipglowz_data/business docs/focus-tags-cheatsheet.md
+python3 tools/shipglowz_metadata_lint.py skills/references/private-memory-store.md skills/references/source-intake-classification.md shipglowz_data/business/portfolio-project-pitch-links.md shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md skills/references/shipglowz-terms.md
+rg -n "private-memory-store|SHIPGLOWZ_PRIVATE_ROOT|SHIPFLOW_PRIVATE_ROOT|\\.shipglowz/private/data|project-pitches|projects/|source-cache" skills/references shipglowz_data/business shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md
 test -d "${SHIPGLOWZ_PRIVATE_ROOT:-${SHIPFLOW_PRIVATE_ROOT:-$HOME/.shipglowz/private/data}}"
 ```

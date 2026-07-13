@@ -48,7 +48,7 @@ evidence:
   - "User decision 2026-05-29: tmux-capture-conversation should get a ShipGlowz preset such as `shipflow` that stores relevant conversations in one canonical place for future analysis."
   - "User decision 2026-05-29: the conversation-audit skill should be able to export first, then analyze and propose auto-evolution/correction of ShipGlowz."
   - "Observed transcript: /home/claude/conversation-sg-prod-dernier-run-blacksmith-ci.md shows `sg-prod` reporting a clear CI compile failure instead of immediately fixing or routing the actionable defect."
-  - "Observed transcript: /home/claude/shipflow/docs/conversations/conversation-sg-build-architecture-skills-20260504.md shows the desired master-skill UX: less plumbing exposed, subagents by default, and concise user-facing reports."
+  - "Observed transcript: /home/claude/shipflow/shipglowz_data/workflow/conversations/conversation-sg-build-architecture-skills-20260504.md shows the desired master-skill UX: less plumbing exposed, subagents by default, and concise user-facing reports."
 next_step: "None"
 ---
 
@@ -207,7 +207,7 @@ Add a canonical conversation export preset and a new `sg-conversation-audit` lif
 
 ## Documentation Coherence
 
-- Update `README.md` and/or `docs/skill-launch-cheatsheet.md` if `sg-conversation-audit` becomes a public/operator skill.
+- Update `README.md` and/or `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md` if `sg-conversation-audit` becomes a public/operator skill.
 - Add `site/src/content/skills/sg-conversation-audit.md` if public skill pages are maintained for all active skills.
 - Update `shipglowz_data/editorial/content-map.md` if a new public skill page or public docs section is added.
 - Update `skills/sg-help/references/help-catalog.md` so users can discover the audit workflow.
@@ -300,11 +300,11 @@ Add a canonical conversation export preset and a new `sg-conversation-audit` lif
   - Notes: Keep each skill's ownership boundaries intact.
 
 - [ ] Task 10: Update discovery and public/operator docs
-  - File: `README.md`, `docs/skill-launch-cheatsheet.md`, `skills/sg-help/references/help-catalog.md`, `site/src/content/skills/sg-conversation-audit.md` if public skill pages are required.
+  - File: `README.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, `skills/sg-help/references/help-catalog.md`, `site/src/content/skills/sg-conversation-audit.md` if public skill pages are required.
   - Action: Explain when to use conversation audit, how export+audit works, and that private transcripts stay workflow artifacts.
   - User story link: Makes the workflow discoverable without exposing internal transcript content.
   - Depends on: Tasks 5 and 8
-  - Validate with: `rg -n "sg-conversation-audit|conversation audit|conversation-audits|tmux-capture-conversation shipflow" README.md docs/skill-launch-cheatsheet.md skills/sg-help/references/help-catalog.md site/src/content/skills`
+  - Validate with: `rg -n "sg-conversation-audit|conversation audit|conversation-audits|tmux-capture-conversation shipflow" README.md shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md skills/sg-help/references/help-catalog.md site/src/content/skills`
   - Notes: Run site build if public content changes.
 
 ## Acceptance Criteria
@@ -335,7 +335,7 @@ Add a canonical conversation export preset and a new `sg-conversation-audit` lif
 - Manual:
   - one operator review of the first real audit report to calibrate severity and usefulness
 - Regression:
-  - ensure default tmux capture behavior still writes to `docs/conversations/` for non-preset captures
+  - ensure default tmux capture behavior still writes to `shipglowz_data/workflow/conversations/` for non-preset captures
   - ensure `clean-conversation-transcript` remains independent and is not forced into every audit run
 
 ## Risks
@@ -359,7 +359,7 @@ Add a canonical conversation export preset and a new `sg-conversation-audit` lif
   - `skills/sg-verify/SKILL.md`
 - Useful evidence examples:
   - `/home/claude/conversation-sg-prod-dernier-run-blacksmith-ci.md`
-  - `docs/conversations/conversation-sg-build-architecture-skills-20260504.md`
+  - `shipglowz_data/workflow/conversations/conversation-sg-build-architecture-skills-20260504.md`
   - `conversation-shipflow-questions-contextuelles-des-skills.md`
 - Implementation approach:
   1. Add storage/preset support to the capture helper.

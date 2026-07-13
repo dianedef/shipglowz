@@ -82,7 +82,7 @@ shipglowz_data/
 
   workflow/
     specs/
-    bugs/
+    shipglowz_data/workflow/bugs/
     research/
     reviews/
     audits/
@@ -145,7 +145,7 @@ Nested `apps/foo/shipglowz_data/` or sibling `foo_app/shipglowz_data/` directori
 | `TASKS.md` | `shipglowz_data/workflow/TASKS.md` |
 | `AUDIT_LOG.md` | `shipglowz_data/workflow/AUDIT_LOG.md` |
 | `specs/*.md` | `shipglowz_data/workflow/specs/*.md` |
-| `bugs/*.md` | `shipglowz_data/workflow/bugs/*.md` |
+| `shipglowz_data/workflow/bugs/*.md` | `shipglowz_data/workflow/bugs/*.md` |
 | `research/*.md` | `shipglowz_data/workflow/research/*.md` |
 | `reviews/*.md` | `shipglowz_data/workflow/reviews/*.md` |
 | `audits/*.md` | `shipglowz_data/workflow/audits/*.md` |

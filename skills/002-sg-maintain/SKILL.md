@@ -47,8 +47,8 @@ Use the shared skeleton for intake, work item resolution, readiness, model/topol
 - Package manager signals: !`ls -1 package.json package-lock.json yarn.lock pnpm-lock.yaml requirements.txt Pipfile.lock pyproject.toml 2>/dev/null || echo "none"`
 - Package scripts: !`node -e "const p=require('./package.json'); console.log(JSON.stringify(p.scripts||{}, null, 2))" 2>/dev/null || echo "no package.json scripts"`
 - Bug files: !`find bugs -maxdepth 1 -type f -name "BUG-*.md" 2>/dev/null | sort | tail -40 || echo "No bugs directory"`
-- Optional bug triage view: !`tail -80 BUGS.md 2>/dev/null || echo "No BUGS.md"`
-- Recent tests: !`tail -60 TEST_LOG.md 2>/dev/null || echo "No TEST_LOG.md"`
+- Optional bug triage view: !`tail -80 shipglowz_data/workflow/BUGS.md 2>/dev/null || echo "No shipglowz_data/workflow/BUGS.md"`
+- Recent tests: !`tail -60 shipglowz_data/workflow/TEST_LOG.md 2>/dev/null || echo "No shipglowz_data/workflow/TEST_LOG.md"`
 - Project-local tasks: !`head -80 shipglowz_data/workflow/TASKS.md 2>/dev/null || head -80 TASKS.md 2>/dev/null || echo "No project-local TASKS.md"`
 - Project-local audit log: !`tail -80 shipglowz_data/workflow/AUDIT_LOG.md 2>/dev/null || tail -80 AUDIT_LOG.md 2>/dev/null || echo "No project-local AUDIT_LOG.md"`
 - Active specs: !`find shipglowz_data/workflow/specs specs -maxdepth 1 -type f -name "*.md" 2>/dev/null | sort | head -60 || echo "No specs directory"`
@@ -225,7 +225,7 @@ ShipGlowz does not need a separate `400-sg-audit-security` yet. Security mainten
 
 `002-sg-maintain security` should:
 
-1. Check `bugs/*.md` first, then optional `BUGS.md` if present, for open high/critical security, auth, permissions, data, webhook, or secret issues.
+1. Check `shipglowz_data/workflow/bugs/*.md` first, then optional `shipglowz_data/workflow/BUGS.md` if present, for open high/critical security, auth, permissions, data, webhook, or secret issues.
 2. Check whether the project has auth, payments, webhooks, public APIs, multi-tenant data, admin actions, or production secrets.
 3. Run or route to `/402-sg-deps` for dependency/security posture and remediation proposals.
 4. Run or route to `/401-sg-audit-code report=agent` when code-level security review is needed.
@@ -308,7 +308,7 @@ Agent mode may add:
 
 - Maintenance is not complete until it is verified, shipped, ship-ready with `no-ship`, or blocked at a named gate.
 - Prefer "needs review" over "safe" when security evidence is partial.
-- Do not invent audit freshness. Use `AUDIT_LOG.md`, `bugs/*.md`, optional `BUGS.md`, `TEST_LOG.md`, specs, and command output.
+- Do not invent audit freshness. Use `AUDIT_LOG.md`, `shipglowz_data/workflow/bugs/*.md`, optional `shipglowz_data/workflow/BUGS.md`, `shipglowz_data/workflow/TEST_LOG.md`, specs, and command output.
 - Do not conflate `404-sg-migrate` and `402-sg-deps`: deps finds risk and drift; migrate executes breaking-change upgrade work.
 - Do not treat missing `SECURITY.md` as a blocker for small local tools, but report it for public, auth, payments, webhook, or multi-user products.
 - When maintenance reveals implementation work, execute it through bounded owner skills/subagents after the appropriate spec/readiness gate.

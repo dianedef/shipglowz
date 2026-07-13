@@ -142,12 +142,12 @@ Check for secrets:
 - if untracked `.env`, credential, or token files are not ignored, stop and warn
 - when using `all-dirty`, inspect the complete dirty file list before staging and explicitly exclude nothing unless it is a secret/safety issue; if a secret/safety issue is present, stop instead of partially staging
 
-## Step 3.5 — Pre-ship bug risk gate (`bugs/` + optional `BUGS.md`)
+## Step 3.5 — Pre-ship bug risk gate (`shipglowz_data/workflow/bugs/` + optional `shipglowz_data/workflow/BUGS.md`)
 
 Run a lightweight bug gate in both `quick` and `full` mode before checks/staging:
-- read `bugs/*.md` as the source of truth for known bug work items
-- read `BUGS.md` only as optional triage context when present
-- when a linked high-impact bug is found, open corresponding `bugs/BUG-ID.md` for confirmation
+- read `shipglowz_data/workflow/bugs/*.md` as the source of truth for known bug work items
+- read `shipglowz_data/workflow/BUGS.md` only as optional triage context when present
+- when a linked high-impact bug is found, open corresponding `shipglowz_data/workflow/bugs/BUG-ID.md` for confirmation
 - keep this check fast; do not run a heavy audit in quick mode
 
 Classify bug risk outcome for the ship report:

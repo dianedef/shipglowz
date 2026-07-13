@@ -28,7 +28,7 @@ linked_systems:
   - skills/400-sg-audit/SKILL.md
   - skills/references/master-delegation-semantics.md
   - skills/references/question-contract.md
-  - docs/skill-launch-cheatsheet.md
+  - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - README.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 depends_on:

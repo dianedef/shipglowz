@@ -19,7 +19,7 @@ security_impact: none
 docs_impact: yes
 linked_systems:
   - "README.md"
-  - "docs/skill-launch-cheatsheet.md"
+  - "shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md"
   - "docs/opencode-shipflow.md"
   - "docs/kilocode-shipflow.md"
   - ".opencode/skills/shipflow/SKILL.md"
@@ -63,7 +63,7 @@ ShipGlowz must publish one repo-visible page for OpenCode and one for KiloCode. 
 
 - `docs/opencode-shipflow.md` explains the proven OpenCode shim path and the operator-vs-runtime boundary.
 - `docs/kilocode-shipflow.md` explains the operator-vs-runtime boundary and documents KiloCode through the generic compatible path without inventing an unproven repo contract.
-- `README.md` and `docs/skill-launch-cheatsheet.md` link to the new runtime pages for discovery.
+- `README.md` and `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md` link to the new runtime pages for discovery.
 - The backlog item in `shipglowz_data/workflow/TASKS.md` can be closed once the pages exist and are linked.
 
 ## Error Behavior
@@ -103,8 +103,8 @@ Create two focused Markdown pages under `docs/`, one per runtime, and link them 
 
 ## Test Contract
 
-- `python3 tools/shipflow_metadata_lint.py docs/opencode-shipflow.md docs/kilocode-shipflow.md README.md docs/skill-launch-cheatsheet.md shipglowz_data/workflow/specs/opencode-and-kilocode-runtime-doc-pages.md`
-- `rg -n "OpenCode|KiloCode|skill\\(\\{ name: \\\"shipflow\\\" \\}\\)|\\.opencode/skills/shipflow|\\.agents/skills/shipflow|runtime skill picker" README.md docs/opencode-shipflow.md docs/kilocode-shipflow.md docs/skill-launch-cheatsheet.md`
+- `python3 tools/shipflow_metadata_lint.py docs/opencode-shipflow.md docs/kilocode-shipflow.md README.md shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md shipglowz_data/workflow/specs/opencode-and-kilocode-runtime-doc-pages.md`
+- `rg -n "OpenCode|KiloCode|skill\\(\\{ name: \\\"shipflow\\\" \\}\\)|\\.opencode/skills/shipflow|\\.agents/skills/shipflow|runtime skill picker" README.md docs/opencode-shipflow.md docs/kilocode-shipflow.md shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`
 
 ## Dependencies
 
@@ -125,7 +125,7 @@ Create two focused Markdown pages under `docs/`, one per runtime, and link them 
 
 ## Documentation Coherence
 
-- Update `README.md` and `docs/skill-launch-cheatsheet.md`.
+- Update `README.md` and `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`.
 - Keep `shipglowz_data/technical/skill-runtime-and-lifecycle.md` unchanged unless link drift appears during implementation.
 
 ## Edge Cases
@@ -139,7 +139,7 @@ Create two focused Markdown pages under `docs/`, one per runtime, and link them 
 - [x] Write the bounded spec for the runtime-pages follow-up.
 - [x] Create `docs/opencode-shipflow.md` with discovery, invocation, configuration, and limits.
 - [x] Create `docs/kilocode-shipflow.md` with discovery, invocation, configuration, and limits.
-- [x] Link the new runtime pages from `README.md` and `docs/skill-launch-cheatsheet.md`.
+- [x] Link the new runtime pages from `README.md` and `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`.
 - [x] Validate metadata and drift checks.
 
 ## Acceptance Criteria

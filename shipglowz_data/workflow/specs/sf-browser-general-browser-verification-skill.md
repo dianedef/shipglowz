@@ -127,7 +127,7 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
 ## Scope Out
 
 - Replace `sg-auth-debug` for Clerk, Supabase Auth, OAuth, callback, cookie, session, tenant, or protected-route debugging.
-- Replace `sg-test` for manual QA scenarios, `TEST_LOG.md`, `BUGS.md`, `bugs/`, durable retests, or user-flow test records.
+- Replace `sg-test` for manual QA scenarios, `shipglowz_data/workflow/TEST_LOG.md`, `shipglowz_data/workflow/BUGS.md`, `shipglowz_data/workflow/bugs/`, durable retests, or user-flow test records.
 - Replace `sg-prod` for discovering a deployment URL, waiting for Vercel, reading runtime logs, or diagnosing a production outage.
 - Fix application code directly; `sg-browser` detects and routes to `sg-fix` or `sg-start`.
 - Automate real Google/SSO/MFA login or bypass provider protection.
@@ -236,7 +236,7 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
   - Action: Route one-off browser proof to `sg-browser` when no guided manual QA log or bug dossier is needed; keep `sg-test` ownership over scenario planning, test logs, retests, and bug records.
   - User story link: Prevents `sg-test` from being used as a lightweight browser checker.
   - Depends on: Task 1
-  - Validate with: `rg -n "sg-browser|browser evidence|TEST_LOG.md|BUGS.md|sg-auth-debug" skills/sg-test/SKILL.md`
+  - Validate with: `rg -n "sg-browser|browser evidence|shipglowz_data/workflow/TEST_LOG.md|shipglowz_data/workflow/BUGS.md|sg-auth-debug" skills/sg-test/SKILL.md`
   - Notes: Keep the existing rule that results are not logged before evidence exists.
 
 - [x] Task 5: Update production and verification handoffs
@@ -321,7 +321,7 @@ Create `sg-browser` as the generic ShipGlowz skill for browser navigation, quick
 - [ ] AC 6: Given a production URL and an objective that only requires reading page state, when `sg-browser` runs, then it avoids mutating actions and reports only redacted relevant evidence.
 - [ ] AC 7: Given the requested check requires submitting a form, deleting, buying, publishing, sending an email, or changing account data, when no explicit approval exists, then `sg-browser` refuses or asks for approval and does not click through.
 - [ ] AC 8: Given a visible pass but severe console or network failures, when `sg-browser` reports, then the verdict is partial or risky rather than clean pass.
-- [ ] AC 9: Given a browser finding is actionable but narrow, when `sg-browser` finishes, then it routes to `/sg-fix <summary>` without writing `BUGS.md` or `bugs/` itself.
+- [ ] AC 9: Given a browser finding is actionable but narrow, when `sg-browser` finishes, then it routes to `/sg-fix <summary>` without writing `shipglowz_data/workflow/BUGS.md` or `shipglowz_data/workflow/bugs/` itself.
 - [ ] AC 10: Given the user asks for a full manual user-flow QA log, when `sg-browser` triages, then it routes to `/sg-test` because durable test logging is out of scope.
 - [ ] AC 11: Given a page-level browser check after `sg-prod` confirms a deployment URL, when `sg-browser` runs, then `sg-prod` remains the source of deployment truth and `sg-browser` remains the source of page observation.
 - [ ] AC 12: Given a future agent opens `sg-help`, when it searches for browser verification, then `/sg-browser` is listed and its boundary with `/sg-auth-debug`, `/sg-test`, and `/sg-prod` is clear.

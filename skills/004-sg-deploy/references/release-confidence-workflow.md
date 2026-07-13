@@ -48,7 +48,7 @@ Identify:
 - target environment: `local`, `preview`, `production`, or `unknown`
 - project development mode from `$SHIPFLOW_ROOT/skills/references/project-development-mode.md` plus `CLAUDE.md` or `SHIPFLOW.md`
 - whether the release touches auth, data, permissions, payments, webhooks, background jobs, migrations, public pages, docs, or external side effects
-- linked open high or critical bugs from `bugs/*.md`, using optional `BUGS.md` only as triage context when present
+- linked open high or critical bugs from `shipglowz_data/workflow/bugs/*.md`, using optional `shipglowz_data/workflow/BUGS.md` only as triage context when present
 
 Ask one targeted question only when the answer changes staging scope, target environment, skip-check risk, destructive side effects, or release framing.
 

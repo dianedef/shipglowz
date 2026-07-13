@@ -33,7 +33,7 @@ This skill follows that reference; local nuances below only narrow it. Bug-loop 
 
 Before resolving bug lifecycle state, load `$SHIPFLOW_ROOT/skills/references/master-workflow-lifecycle.md`.
 
-Use the shared bug work item model: one Markdown bug file under `bugs/*.md` is the source of truth for one bug work item. `BUGS.md`, when present, is only an optional compact/generated/triage view and must not override the bug file.
+Use the shared bug work item model: one Markdown bug file under `shipglowz_data/workflow/bugs/*.md` is the source of truth for one bug work item. `shipglowz_data/workflow/BUGS.md`, when present, is only an optional compact/generated/triage view and must not override the bug file.
 
 ## Proof-First Bug Gate
 
@@ -52,9 +52,9 @@ For `003-sg-bug`, use it when the bug reveals non-trivial future work beyond the
 - Git branch: !`git branch --show-current 2>/dev/null || echo "unknown"`
 - Git status: !`git status --short 2>/dev/null || echo "Not a git repo"`
 - ShipGlowz development mode: !`rg -n "ShipGlowz Development Mode|development_mode|validation_surface|ship_before_preview_test|post_ship_verification|deployment_provider" CLAUDE.md SHIPFLOW.md 2>/dev/null || echo "No project development mode documented"`
-- Bug files: !`find bugs -maxdepth 1 -type f -name "BUG-*.md" 2>/dev/null | sort | tail -40 || echo "No bugs directory"`
-- Optional bug triage view: !`tail -80 BUGS.md 2>/dev/null || echo "No BUGS.md"`
-- Recent test log: !`tail -60 TEST_LOG.md 2>/dev/null || echo "No TEST_LOG.md"`
+- Bug files: !`find shipglowz_data/workflow/bugs -maxdepth 1 -type f -name "BUG-*.md" 2>/dev/null | sort | tail -40 || echo "No canonical bugs directory"`
+- Optional bug triage view: !`tail -80 shipglowz_data/workflow/BUGS.md 2>/dev/null || echo "No shipglowz_data/workflow/BUGS.md"`
+- Recent test log: !`tail -60 shipglowz_data/workflow/TEST_LOG.md 2>/dev/null || echo "No shipglowz_data/workflow/TEST_LOG.md"`
 
 ## Mission
 
@@ -88,7 +88,7 @@ If the dominant job is broader than one bug loop, route instead of staying here:
 
 Orchestrate existing skills; do not duplicate their internals.
 
-- `107-sg-test` owns guided manual QA, failed-test capture, `TEST_LOG.md`, bug files under `bugs/*.md`, optional `BUGS.md` triage updates, and retests.
+- `107-sg-test` owns guided manual QA, failed-test capture, `shipglowz_data/workflow/TEST_LOG.md`, bug files under `shipglowz_data/workflow/bugs/*.md`, optional `shipglowz_data/workflow/BUGS.md` triage updates, and retests.
 - `106-sg-fix` owns bug diagnosis, direct/spec-first repair routing, and fix attempts.
 - `109-sg-auth-debug` owns auth, OAuth, sessions, callbacks, cookies, tenants, and protected-route browser diagnosis.
 - `108-sg-browser` owns narrow non-auth browser evidence.
@@ -102,7 +102,7 @@ Delegate or route to a narrower skill when that skill owns the phase. Stop with 
 
 Parse `$ARGUMENTS`:
 
-- empty -> inspect `bugs/*.md` and optional `BUGS.md`, then continue or recommend the highest-priority safe bug action.
+- empty -> inspect `shipglowz_data/workflow/bugs/*.md` and optional `shipglowz_data/workflow/BUGS.md`, then continue or recommend the highest-priority safe bug action.
 - `BUG-YYYY-MM-DD-NNN` -> read the bug file first, use the optional compact index only as secondary context, interpret status, and continue through the next lifecycle step when safe.
 - free text -> decide whether this is an observed failure needing `107-sg-test`, a narrow actionable bug needing `106-sg-fix`, or an ambiguous defect needing `100-sg-spec`; continue through that owner when safe.
 - `--fix BUG-ID` -> delegate to `106-sg-fix BUG-ID` after confirming the bug file exists.
@@ -117,8 +117,8 @@ If arguments include multiple bug IDs, ask which one to handle first unless the 
 
 When a `BUG-ID` is present:
 
-1. Open `bugs/BUG-ID.md` immediately before interpreting status.
-2. Re-read optional `BUGS.md` only if present, as secondary triage context.
+1. Open `shipglowz_data/workflow/bugs/BUG-ID.md` immediately before interpreting status.
+2. Re-read optional `shipglowz_data/workflow/BUGS.md` only if present, as secondary triage context.
 3. Extract:
    - title, status, severity, next step
    - reproduction, expected behavior, observed behavior
@@ -127,9 +127,9 @@ When a `BUG-ID` is present:
    - fix attempts
    - retest history
    - linked spec, task, commit, or release scope when present
-4. If `BUGS.md` and the bug file disagree, prefer the bug file for detailed evidence but report the inconsistency and route to the safest next step.
+4. If `shipglowz_data/workflow/BUGS.md` and the bug file disagree, prefer the bug file for detailed evidence but report the inconsistency and route to the safest next step.
 
-If optional `BUGS.md` references a missing bug file:
+If optional `shipglowz_data/workflow/BUGS.md` references a missing bug file:
 
 - keep or report the index row without treating it as durable proof
 - classify state as `needs-info`
@@ -212,8 +212,8 @@ For `--close BUG-ID`:
 
 - Never print or persist raw secrets, tokens, cookies, private keys, raw auth headers, private payloads, production PII, or sensitive screenshots.
 - Never print or persist raw Sentry payloads, breadcrumbs, replay contents, copied diagnostic payloads, headers, private URLs, user lists, or PII; keep only redacted issue/event pointers, commit/build header status, and short summaries.
-- Keep `TEST_LOG.md` and optional `BUGS.md` compact.
-- Keep full detail in `bugs/BUG-ID.md`.
+- Keep `shipglowz_data/workflow/TEST_LOG.md` and optional `shipglowz_data/workflow/BUGS.md` compact.
+- Keep full detail in `shipglowz_data/workflow/bugs/BUG-ID.md`.
 - Store only redacted large evidence under `test-evidence/BUG-ID/`.
 - Reject evidence paths that escape the repo with `..`.
 - Do not use UI visibility as proof of authorization.

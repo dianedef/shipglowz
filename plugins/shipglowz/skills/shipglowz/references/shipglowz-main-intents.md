@@ -24,7 +24,7 @@ Not bundled now:
 
 - ShipFlow `shipglowz_data/` workflow state
 - internal numbered skills as separate public skills
-- bug memory under `bugs/`
+- bug memory under `shipglowz_data/workflow/bugs/`
 - ShipFlow-specific tools under `tools/`
 - long internal references such as chantier tracking, reporting contracts, design-system contracts, observability contracts, and metadata linting
 

@@ -30,7 +30,7 @@ linked_systems:
   - "shipglowz_data/technical/code-docs-map.md"
   - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
 depends_on:
-  - artifact: "docs/explorations/2026-05-16-skill-instruction-compaction.md"
+  - artifact: "shipglowz_data/workflow/explorations/2026-05-16-skill-instruction-compaction.md"
     artifact_version: "1.0.0"
     required_status: "draft"
   - artifact: "shipglowz_data/technical/skill-runtime-and-lifecycle.md"
@@ -163,7 +163,7 @@ If one pilot file proves unsafe to compact in this run, substitute the next high
 ## Dependencies
 
 - Local references and docs:
-  - `docs/explorations/2026-05-16-skill-instruction-compaction.md`
+  - `shipglowz_data/workflow/explorations/2026-05-16-skill-instruction-compaction.md`
   - `skills/references/skill-context-budget.md`
   - `skills/references/canonical-paths.md`
   - `skills/references/chantier-tracking.md`
@@ -334,7 +334,7 @@ If one pilot file proves unsafe to compact in this run, substitute the next high
 
 - Spec depth: full, because the change touches multiple skills, shared references, validation, runtime visibility, and technical docs.
 - Read first:
-  - `docs/explorations/2026-05-16-skill-instruction-compaction.md`
+  - `shipglowz_data/workflow/explorations/2026-05-16-skill-instruction-compaction.md`
   - `skills/references/skill-context-budget.md`
   - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`
   - `shipglowz_data/technical/code-docs-map.md`

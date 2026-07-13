@@ -15,9 +15,9 @@ security_impact: yes
 docs_impact: yes
 linked_systems:
   - "skills/107-sg-test/SKILL.md"
-  - "TEST_LOG.md"
-  - "bugs/*.md"
-  - "BUGS.md"
+  - "shipglowz_data/workflow/TEST_LOG.md"
+  - "shipglowz_data/workflow/bugs/*.md"
+  - "shipglowz_data/workflow/BUGS.md"
 depends_on:
   - artifact: "skills/references/skill-instruction-layering.md"
     artifact_version: "1.0.0"
@@ -99,9 +99,9 @@ If the reply is vague, ask one follow-up question before logging failure:
 Tu étais sur quelle URL ou quel écran au moment du blocage, et qu'est-ce qui était visible ?
 ```
 
-## TEST_LOG.md Entry
+## shipglowz_data/workflow/TEST_LOG.md Entry
 
-Right before editing `TEST_LOG.md`, re-read it if it exists. If absent, create it. Append only this compact format:
+Right before editing `shipglowz_data/workflow/TEST_LOG.md`, re-read it if it exists. If absent, create it. Append only this compact format:
 
 ```markdown
 ## YYYY-MM-DD - [Feature or Flow]
@@ -113,14 +113,14 @@ Right before editing `TEST_LOG.md`, re-read it if it exists. If absent, create i
 - Status: [pass|fail|blocked|not run]
 - Confidence: [high|medium|low]
 - Result summary: [one short line]
-- Bug pointer: [none | BUG-ID -> bugs/BUG-ID.md]
+- Bug pointer: [none | BUG-ID -> shipglowz_data/workflow/bugs/BUG-ID.md]
 - Evidence pointer: [none | test-evidence/BUG-ID/... | external reference]
 - Follow-up: [none | /106-sg-fix BUG-ID | /107-sg-test --retest BUG-ID | next command]
 ```
 
 Rules:
 
-- `TEST_LOG.md` is a tracker, not a full bug file.
+- `shipglowz_data/workflow/TEST_LOG.md` is a tracker, not a full bug file.
 - Do not mark `pass` unless user or tooling confirmed the success condition.
 - Use `blocked` when the user could not run the scenario.
 - Use `not run` only for planned campaigns not executed.
@@ -130,9 +130,9 @@ Rules:
 
 When a scenario fails or `--retest BUG-ID` is used:
 
-- `TEST_LOG.md`: compact scenario history and pointers
-- `bugs/BUG-ID.md`: detailed Markdown source of truth
-- `BUGS.md`: optional compact/generated triage index when present or generated
+- `shipglowz_data/workflow/TEST_LOG.md`: compact scenario history and pointers
+- `shipglowz_data/workflow/bugs/BUG-ID.md`: detailed Markdown source of truth
+- `shipglowz_data/workflow/BUGS.md`: optional compact/generated triage index when present or generated
 - `test-evidence/BUG-ID/`: optional redacted large artifacts
 
 Canonical statuses: `open`, `needs-info`, `needs-repro`, `in-diagnosis`, `fix-attempted`, `fixed-pending-verify`, `closed`, `closed-without-retest`, `duplicate`, `wontfix`.
@@ -143,10 +143,10 @@ New IDs use `BUG-YYYY-MM-DD-NNN`.
 
 Before assigning:
 
-1. List `bugs/BUG-YYYY-MM-DD-*.md`.
-2. Re-read optional `BUGS.md` and collect same-day suffixes.
+1. List `shipglowz_data/workflow/bugs/BUG-YYYY-MM-DD-*.md`.
+2. Re-read optional `shipglowz_data/workflow/BUGS.md` and collect same-day suffixes.
 3. Pick the next suffix greater than every suffix found.
-4. Check whether `bugs/BUG-ID.md` exists immediately before writing.
+4. Check whether `shipglowz_data/workflow/bugs/BUG-ID.md` exists immediately before writing.
 5. If it exists, re-read once, increment, and retry.
 6. If collision repeats, stop and report collision.
 
@@ -160,12 +160,12 @@ Keep current: Summary, Reproduction, Expected, Observed, Evidence, Diagnosis Not
 
 For `--retest BUG-ID`:
 
-1. Read `bugs/BUG-ID.md` and optional `BUGS.md`.
+1. Read `shipglowz_data/workflow/bugs/BUG-ID.md` and optional `shipglowz_data/workflow/BUGS.md`.
 2. Re-run reproduction steps.
 3. Append one Retest History line.
 4. On pass, set `fixed-pending-verify`.
 5. On fail, set `open` or `needs-repro` when reproduction became unreliable.
-6. Write only compact pointers in `TEST_LOG.md` and optional `BUGS.md`.
+6. Write only compact pointers in `shipglowz_data/workflow/TEST_LOG.md` and optional `shipglowz_data/workflow/BUGS.md`.
 
 ## Severity Defaults
 
@@ -197,9 +197,9 @@ Scenario: [name]
 Evidence: [short summary]
 
 Files updated:
-- TEST_LOG.md (compact)
-- bugs/BUG-ID.md (bug file) [if applicable]
-- BUGS.md (optional compact triage index) [if applicable]
+- shipglowz_data/workflow/TEST_LOG.md (compact)
+- shipglowz_data/workflow/bugs/BUG-ID.md (bug file) [if applicable]
+- shipglowz_data/workflow/BUGS.md (optional compact triage index) [if applicable]
 - test-evidence/BUG-ID/... [optional, redacted only]
 
 Next step:

@@ -34,9 +34,9 @@ next_step: "/103-sg-verify Three Digit Runtime Skill Names"
 
 | Scenario ID | Surface | Scenario | Required | Expected | Status | Observed | Evidence pointer | Notes | Bug Link |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| RTN-001 | Codex picker | Reload or open a fresh Codex session and search `001`. | yes | `001-sg-build` is visible or invocable. | PASS | User reported `all pass`. | TEST_LOG.md | User confirmed live picker proof in chat. | |
-| RTN-002 | Claude Code picker | Reload or open a fresh Claude Code session and search `000`. | yes | `000-shipflow` is visible or invocable. | PASS | User reported `all pass`. | TEST_LOG.md | User confirmed live picker proof in chat. | |
-| RTN-003 | Runtime duplicate cleanup | Search `sg-build` after reload/new session. | yes | No active old ShipFlow symlink entry remains unless the session is using a known runtime cache. | PASS | User reported `all pass`. | TEST_LOG.md | Filesystem symlink cleanup was already proven; user confirmed live picker state. | |
+| RTN-001 | Codex picker | Reload or open a fresh Codex session and search `001`. | yes | `001-sg-build` is visible or invocable. | PASS | User reported `all pass`. | shipglowz_data/workflow/TEST_LOG.md | User confirmed live picker proof in chat. | |
+| RTN-002 | Claude Code picker | Reload or open a fresh Claude Code session and search `000`. | yes | `000-shipflow` is visible or invocable. | PASS | User reported `all pass`. | shipglowz_data/workflow/TEST_LOG.md | User confirmed live picker proof in chat. | |
+| RTN-003 | Runtime duplicate cleanup | Search `sg-build` after reload/new session. | yes | No active old ShipFlow symlink entry remains unless the session is using a known runtime cache. | PASS | User reported `all pass`. | shipglowz_data/workflow/TEST_LOG.md | Filesystem symlink cleanup was already proven; user confirmed live picker state. | |
 
 ## Evidence
 

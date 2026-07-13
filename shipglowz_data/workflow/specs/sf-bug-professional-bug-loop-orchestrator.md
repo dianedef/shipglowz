@@ -41,7 +41,7 @@ depends_on:
 supersedes: []
 evidence:
   - "User request 2026-05-03: create sg-bug because the professional bug loop is already defined but not orchestrated."
-  - "Professional Bug Management shipped the three-layer model: TEST_LOG.md, BUGS.md, bugs/BUG-ID.md, and test-evidence/BUG-ID/."
+  - "Professional Bug Management shipped the three-layer model: shipglowz_data/workflow/TEST_LOG.md, shipglowz_data/workflow/BUGS.md, shipglowz_data/workflow/bugs/BUG-ID.md, and test-evidence/BUG-ID/."
   - "Existing skills own individual phases: sg-test logs/retests, sg-fix fixes, sg-auth-debug and sg-browser gather evidence, sg-verify gates closure, sg-ship reports bug risk."
 next_step: "none"
 ---
@@ -74,7 +74,7 @@ sg-bug -> sg-test -> bug dossier -> sg-fix -> sg-test --retest -> sg-verify -> s
 
 - Create `skills/sg-bug/SKILL.md`.
 - Route bug intake from free text, `BUG-ID`, `--retest`, `--close`, `--ship`, and empty dashboard-like usage.
-- Read `BUGS.md` and `bugs/BUG-ID.md` when present.
+- Read `shipglowz_data/workflow/BUGS.md` and `shipglowz_data/workflow/bugs/BUG-ID.md` when present.
 - Pick the next command based on bug status, severity, project development mode, and evidence needs.
 - Preserve dossier-first behavior and redaction/security rules from Professional Bug Management.
 - Update help, workflow doctrine, technical lifecycle docs, public skill page, and chantier taxonomy.
@@ -100,7 +100,7 @@ sg-bug -> sg-test -> bug dossier -> sg-fix -> sg-test --retest -> sg-verify -> s
 ## Mode Contract
 
 - Empty arguments: summarize actionable open bugs and recommend the highest-priority next command.
-- `BUG-ID`: read `BUGS.md` and `bugs/BUG-ID.md`, interpret status, and route.
+- `BUG-ID`: read `shipglowz_data/workflow/BUGS.md` and `shipglowz_data/workflow/bugs/BUG-ID.md`, interpret status, and route.
 - Free text: route to `/sg-test [scope]` for observed failures needing durable capture, or `/sg-fix [summary]` only when the bug is already actionable enough for direct intake.
 - `--retest BUG-ID`: route to `/sg-test --retest BUG-ID`.
 - `--fix BUG-ID`: route to `/sg-fix BUG-ID`.
@@ -111,7 +111,7 @@ sg-bug -> sg-test -> bug dossier -> sg-fix -> sg-test --retest -> sg-verify -> s
 ## Stop Conditions
 
 - Missing or malformed `BUG-ID` dossier when the requested mode depends on it.
-- Conflicting `BUGS.md` index and dossier status without enough evidence to reconcile safely.
+- Conflicting `shipglowz_data/workflow/BUGS.md` index and dossier status without enough evidence to reconcile safely.
 - User asks to close a bug without retest evidence or visible exception.
 - Evidence includes secrets, cookies, tokens, private payloads, production PII, raw headers, or unredacted screenshots.
 - The next step would mutate production or run destructive reproduction without explicit approval.

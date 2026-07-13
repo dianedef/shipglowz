@@ -126,7 +126,7 @@ Only include sections that change the user's next decision:
 - chantier block only when a chantier is in scope or explicitly non-traced
 
 Translate internal gate names into their user consequence when possible. Prefer
-`⚠️ Limites: pas de BUGS.md, donc risque bug non evalue` over a bare
+`⚠️ Limites: pas de shipglowz_data/workflow/BUGS.md, donc risque bug non evalue` over a bare
 `Bug risk gate: not assessed` when the active user language is French.
 
 Omit empty or redundant lines such as `Reste a faire: none`, `Prochaine etape: none`, `Trace spec: ecrite`, and `Verdict <skill>` when the heading or status already says the same thing.

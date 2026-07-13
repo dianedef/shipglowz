@@ -1,1 +1,0 @@
-kilocode-shipglowz.md

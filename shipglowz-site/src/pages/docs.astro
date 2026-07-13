@@ -11,8 +11,8 @@ const coreDocs = [
   ["shipglowz_data/editorial/content-map.md", "Where content lives: docs, landing pages, semantic clusters, public surfaces, and repurposing destinations."],
   ["shipglowz_data/editorial/README.md", "How public content, claims, page intent, and Astro content schema boundaries stay aligned."],
   ["skills/references/decision-quality-contract.md", "Why ShipGlowz chooses correctness, security, maintainability, relevant performance, and proof before speed or convenience."],
-  ["docs/skill-launch-cheatsheet.md", "Markdown reference for master skills, supporting skills, and argument modes."],
-  ["docs/focus-tags-cheatsheet.md", "Public cheatsheet for lightweight recentering tags across business, content, governance, execution, and system focus."],
+  ["shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md", "Markdown reference for master skills, supporting skills, and argument modes."],
+  ["shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md", "Public cheatsheet for lightweight recentering tags across business, content, governance, execution, and system focus."],
   ["README.md (compat)", "Public overview, positioning, onboarding, and high-level framework story."],
   ["shipglowz_data/workflow/playbooks/spec-driven-workflow.md", "The execution doctrine behind sf-spec, sf-ready, sf-start, and sf-verify."]
 ];
@@ -131,7 +131,7 @@ const editorialPath = "/docs#editorial-governance";
             The public mode page now shows which master skill to launch first,
             which focused skills own narrower proof lanes, and which arguments
             switch a workflow instead of describing the task. The Markdown
-            reference lives in <code>docs/skill-launch-cheatsheet.md</code>.
+            reference lives in <code>shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md</code>.
           </p>
           <a class="doc-action" href="/skill-modes">Open the cheatsheet</a>
         </article>
@@ -283,8 +283,8 @@ const editorialPath = "/docs#editorial-governance";
           <h3>Direct fixes still leave bug memory</h3>
           <p>
             `sf-fix` can patch a local bug quickly, but the default is still a
-            durable `BUG-ID`, compact `BUGS.md` pointer, and detailed
-            `bugs/BUG-ID.md` dossier unless the issue is a narrow minor
+            durable `BUG-ID`, compact `shipglowz_data/workflow/BUGS.md` pointer, and detailed
+            `shipglowz_data/workflow/bugs/BUG-ID.md` dossier unless the issue is a narrow minor
             exception.
           </p>
           <a class="doc-action" href="/skills/sg-fix">Open sf-fix</a>
@@ -313,7 +313,7 @@ const editorialPath = "/docs#editorial-governance";
           correction message.
         </p>
         <div class="hero-actions">
-          <a class="button button-secondary" href="https://github.com/dianedef/ShipGlowz/blob/main/docs/focus-tags-cheatsheet.md">
+          <a class="button button-secondary" href="https://github.com/dianedef/ShipGlowz/blob/main/shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md">
             Open the full cheatsheet
           </a>
         </div>

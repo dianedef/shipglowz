@@ -1,7 +1,7 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.15.0"
+artifact_version: "0.16.0"
 project: "ShipGlowz"
 created: "2026-04-25"
 updated: "2026-07-13"
@@ -45,7 +45,7 @@ evidence:
   - "Added 002-sg-maintain as the recurring project maintenance orchestrator."
   - "Clarified 001-sg-build business-context decision questions."
   - "Added a public and repo-level skill launch cheatsheet for master skill modes."
-  - "Added docs/skill-launch-cheatsheet.md as the standalone Markdown reference."
+  - "Added shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md as the standalone Markdown reference."
   - "Clarified that 009-sg-skill-build routes fuzzy skill-maintenance ideas through 700-sg-explore before 100-sg-spec."
   - "Added 007-sg-content as the master content lifecycle entrypoint."
   - "Clarified 001-sg-build delegated sequential subagent consent and separated subagents from parallelism."
@@ -104,7 +104,7 @@ It helps operators run apps on servers, but its deeper job is to reduce ambiguit
 - spec-driven implementation flow
 - verification and remediation loops
 - proof-first testing with durable manual checklist artifacts under `shipglowz_data/workflow/test-checklists/`
-- professional bug management with compact `TEST_LOG.md`, one durable Markdown bug file per bug under `bugs/`, optional/generated `BUGS.md` triage views, and redacted `test-evidence/BUG-ID/` evidence
+- professional bug management with compact `shipglowz_data/workflow/TEST_LOG.md`, one durable Markdown bug file per bug under `shipglowz_data/workflow/bugs/`, optional/generated `shipglowz_data/workflow/BUGS.md` triage views, and redacted `test-evidence/BUG-ID/` evidence
 - audits across code, design, copy, SEO, GTM, deps, perf, and translation
 - documentation and research workflows
 - product registry and claim-coherence checks for declared products, sales surfaces, and proof-backed public copy
@@ -123,11 +123,11 @@ It helps operators run apps on servers, but its deeper job is to reduce ambiguit
 - [shipglowz_data/technical/codex-plugin-packaging.md](./shipglowz_data/technical/codex-plugin-packaging.md) — internal contract for the lightweight Codex plugin, sparse bootstrap, marketplace entry, and docs links
 - [.opencode/skills/shipglowz/SKILL.md](./.opencode/skills/shipglowz/SKILL.md) — OpenCode-compatible repository skill shim
 - [.agents/skills/shipglowz/SKILL.md](./.agents/skills/shipglowz/SKILL.md) — fallback OpenCode-compatible skill shim
-- [docs/opencode-shipglowz.md](./docs/opencode-shipglowz.md) — repo-visible OpenCode usage, discovery, and configuration page
-- [docs/kilocode-shipglowz.md](./docs/kilocode-shipglowz.md) — repo-visible KiloCode usage and compatibility-boundary page
+- [shipglowz_data/technical/operator-guides/opencode-shipglowz.md](./shipglowz_data/technical/operator-guides/opencode-shipglowz.md) — repo-visible OpenCode usage, discovery, and configuration page
+- [shipglowz_data/technical/operator-guides/kilocode-shipglowz.md](./shipglowz_data/technical/operator-guides/kilocode-shipglowz.md) — repo-visible KiloCode usage and compatibility-boundary page
 - [shipglowz_data/technical/public-site-and-content-runtime.md](./shipglowz_data/technical/public-site-and-content-runtime.md) — internal contract for the Astro public site and public/private documentation boundary
-- [docs/skill-launch-cheatsheet.md](./docs/skill-launch-cheatsheet.md) — Markdown cheatsheet for master skills, supporting skills, and argument modes
-- [docs/focus-tags-cheatsheet.md](./docs/focus-tags-cheatsheet.md) — public cheatsheet for lightweight recentering tags across business, content, governance, execution, and system focus such as `#partner`, `#offer`, `#growth`, `#clarity`, `#pitch`, `#portfolio`, `#rules`, `#docs`, `#canon`, `#ship`, `#vfbf`, and `#shipglow`
+- [shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md](./shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md) — Markdown cheatsheet for master skills, supporting skills, and argument modes
+- [shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md](./shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md) — public cheatsheet for lightweight recentering tags across business, content, governance, execution, and system focus such as `#partner`, `#offer`, `#growth`, `#clarity`, `#pitch`, `#portfolio`, `#rules`, `#docs`, `#canon`, `#ship`, `#vfbf`, and `#shipglow`
 - [skills/references/decision-quality-contract.md](./skills/references/decision-quality-contract.md) — shared doctrine for high-quality decisions, code, model routing, and fallback choices
 - [skills/references/shipglowz-terms.md](./skills/references/shipglowz-terms.md) — shared terminology and lightweight focus tags such as `#partner`, `#offer`, `#quality`, `#vfbf`, `#growth`, `#clarity`, `#pitch`, `#portfolio`, `#rules`, `#docs`, `#canon`, `#shipglow`, `#routing`, and `#proof`
 - [skills/references/operator-partnership-contract.md](./skills/references/operator-partnership-contract.md) — shared doctrine for agent autonomy, business-partner behavior, and business-aware initiative
@@ -216,7 +216,7 @@ When the complete local ShipGlowz corpus is needed, the plugin uses an explicit 
 /home/claude/plugins/shipglowz/scripts/bootstrap_shipglowz_repo.sh
 ```
 
-The bootstrap target defaults to `${SHIPGLOWZ_ROOT:-$HOME/.shipglowz/source}`. The legacy `SHIPFLOW_ROOT` fallback is still accepted. It includes `skills/`, `templates/`, `tools/`, `shipglowz_data/`, `docs/`, `local/`, and `bugs/`, and excludes public-site assets, terminal UI assets, archives, research, generated builds, and dependency directories. It must not run silently; cloning or updating source requires explicit operator approval.
+The bootstrap target defaults to `${SHIPGLOWZ_ROOT:-$HOME/.shipglowz/source}`. The legacy `SHIPFLOW_ROOT` fallback is still accepted. It includes `skills/`, `templates/`, `tools/`, `shipglowz_data/`, and `local/`, and excludes public-site assets, terminal UI assets, generated builds, and dependency directories. It must not run silently; cloning or updating source requires explicit operator approval.
 
 ### Install Privilege Model
 
@@ -286,7 +286,7 @@ The current repository is split by ownership, not only by technology:
 - `skills/` contains the ShipGlowz execution system and shared references.
 - `shipglowz_data/` is the canonical internal governance corpus for technical, editorial, business, and workflow artifacts.
 - `shipglowz-site/` is the public site runtime.
-- `docs/` holds repo-visible public or operator-facing supporting pages, not the canonical internal governance layer.
+- `shipglowz_data/technical/operator-guides/` holds repo-visible public or operator-facing Markdown references.
 
 If a root document duplicates a `shipglowz_data/` artifact, the `shipglowz_data/` artifact wins and the root file should be reduced to a compatibility facade or removed after preservation.
 
@@ -665,15 +665,15 @@ For product access, paid plans, premium gates, provider events, activation codes
 `601-sg-product-entitlements` keeps identity, provider events, durable entitlements, product-local mirrors, and data sync responsibilities separate. Use it before adding product gates or entitlement-backed data access, especially in suite products where duplicate local ledgers and stale mirrors can create security or support risk.
 
 If the bug is local and clear, `106-sg-fix` fixes it directly, then verifies.
-That fast path should still attach the bug to durable project memory with a `bugs/BUG-ID.md` bug file, unless the issue is an explicitly justified minor exception such as a copy-only or purely cosmetic fix. `BUGS.md`, when present, is only a compact optional/generated triage view.
+That fast path should still attach the bug to durable project memory with a `shipglowz_data/workflow/bugs/BUG-ID.md` bug file, unless the issue is an explicitly justified minor exception such as a copy-only or purely cosmetic fix. `shipglowz_data/workflow/BUGS.md`, when present, is only a compact optional/generated triage view.
 If the bug is ambiguous or non-trivial, `106-sg-fix` routes to `100-sg-spec -> 101-sg-ready -> 102-sg-start`.
 
 ShipGlowz keeps bug records split on purpose:
 
-- `TEST_LOG.md` stays compact and records what was tested and how it went.
+- `shipglowz_data/workflow/TEST_LOG.md` stays compact and records what was tested and how it went.
 - `shipglowz_data/workflow/test-checklists/<scope>.md` stores operator-fillable manual scenarios when proof cannot be fully automated.
-- `bugs/BUG-ID.md` holds the detailed source of truth for one bug work item.
-- `BUGS.md`, when present, stays compact as an optional/generated triage index that points to bug files.
+- `shipglowz_data/workflow/bugs/BUG-ID.md` holds the detailed source of truth for one bug work item.
+- `shipglowz_data/workflow/BUGS.md`, when present, stays compact as an optional/generated triage index that points to bug files.
 - `test-evidence/BUG-ID/` holds redacted evidence when screenshots, logs, or traces are too large or sensitive to inline.
 
 Technical documentation layer:
@@ -849,7 +849,7 @@ ShipGlowz-owned files are resolved from `${SHIPFLOW_ROOT:-$HOME/shipglowz}` even
 
 For legacy projects, use the migration playbook in [`shipglowz_data/technical/metadata-migration-guide.md`](./shipglowz_data/technical/metadata-migration-guide.md) before normalizing old docs.
 
-By default it checks `shipglowz_data/`, `docs/`, `AGENT.md`, and legacy root artifact names such as `BUSINESS.md`, `CONTEXT.md`, `CONTENT_MAP.md`, `TASKS.md`, or `AUDIT_LOG.md`. Legacy root ShipGlowz artifacts and project-local trackers fail layout compliance and must be moved to their canonical `shipglowz_data/` location. Pass explicit files or folders to validate a narrower scope.
+By default it checks canonical `shipglowz_data/` artifact families, `AGENT.md`, and legacy-root guards. Legacy root artifacts and workflow surfaces such as `BUSINESS.md`, `TASKS.md`, `BUGS.md`, `TEST_LOG.md`, `docs/`, or `bugs/` fail layout compliance and must be moved to their canonical `shipglowz_data/` location. Pass explicit files or folders to validate a narrower scope.
 
 For internal ShipGlowz files, this schema is mandatory for the active official artifact set. That set now includes `AGENT.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/context-function-tree.md`, `shipglowz_data/editorial/content-map.md`, and the decision contracts under `shipglowz_data/business/`, `shipglowz_data/technical/architecture.md`, `shipglowz_data/technical/guidelines.md`, and `shipglowz_data/business/gtm.md`, including the project competitors/inspirations and affiliate program registries when present. `CLAUDE.md` is supported as an optional active artifact when a project explicitly adopts it as the canonical repository guidance for Claude or multi-agent contributors. In that case, add ShipGlowz frontmatter and include it explicitly in metadata checks. For legacy project adoption, the default migration scope is intentionally narrower: active context docs when they exist, active decision contracts when they exist, and `shipglowz_data/workflow/specs/*.md`. Historical ad hoc docs can stay out of scope until they are promoted into the active ShipGlowz workflow.
 
@@ -962,7 +962,6 @@ shipglowz/
 ├── CHANGELOG.md
 ├── shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 ├── shipglowz-site/
-├── docs/
 ├── tui/
 ├── shipglowz_data/
 │   ├── business/
@@ -985,7 +984,7 @@ shipglowz/
 - `cli/install.sh` — installation and machine setup
 - `install-shipglowz.sh` — remote/bootstrap install helper
 - `shipglowz-site/` — Astro public website deployed to `https://shipglowz.com`
-- `docs/` — public or semi-public Markdown references such as the skill launch cheatsheet
+- `shipglowz_data/technical/operator-guides/` — public or semi-public Markdown references such as the skill launch cheatsheet
 - `tui/` — optional read-only terminal dashboard for ShipGlowz operators
 - `skills/` — ShipGlowz skill library
 - `local/` — local machine tunnel scripts and setup docs
@@ -1021,6 +1020,6 @@ The current Codex plugin alpha is outside the repository at `/home/claude/plugin
 
 ## Status
 
-The canonical internal governance corpus lives under `shipglowz_data/`. The repository root keeps runtime/bootstrap entrypoints and the explicitly documented compatibility, public-reference, and QA/bug surfaces.
+The canonical internal governance corpus lives under `shipglowz_data/`. The repository root keeps runtime/bootstrap entrypoints and explicitly documented compatibility files only.
 
 Useful older plans, implementation summaries, and one-off reports live under [`shipglowz_data/workflow/archives/`](./shipglowz_data/workflow/archives/repository-history/) as inactive history, not current doctrine. Classified duplicate, generated, empty-facade, and unreferenced scratch material is deleted instead of archived indefinitely.

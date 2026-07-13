@@ -48,6 +48,7 @@ Current runtime behavior belongs in `shipglowz_data/technical/`. Current workflo
 | `ECOSYSTEM-AND-PORTS.md`, `FAQ.md`, `INSTALLATION-OWNERSHIP-SPEC.md` | Preserved under `root-documentation/` | Historical root-documentation evidence; current owners live elsewhere. |
 | Two archived conversation captures | Moved to `docs/conversations/` | These are raw conversation records, not archive doctrine. |
 | Empty tracker facades | Deleted | Canonical trackers already exist under `shipglowz_data/workflow/`; the facades carried no independent state. |
+| Two archive compatibility symlinks | Deleted | Their canonical install template and run trace already exist under `shipglowz_data/workflow/`. |
 | Duplicate `menu_simple_color.sh` backups | Deleted | Byte-identical obsolete scratch copies; Git history remains available. |
 | `test.html` | Deleted | One-off scratch fixture with no consumer. |
 | `tmp_drift_latest.txt` | Deleted | Generated temporary drift output, not durable evidence. |

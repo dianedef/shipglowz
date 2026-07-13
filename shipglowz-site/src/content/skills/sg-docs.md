@@ -34,7 +34,7 @@ limits:
   - "It can improve documentation quality, but only the code proves real behavior"
   - "Docs still need product judgment when the underlying decision is unsettled"
   - "A local README refresh is not enough when the real issue is mixed governance layout or stale metadata contracts"
-  - "Bug workflow docs should be checked for coherence across TEST_LOG.md, BUGS.md, dossier formats, and public skill pages"
+  - "Bug workflow docs should be checked for coherence across shipglowz_data/workflow/TEST_LOG.md, shipglowz_data/workflow/BUGS.md, dossier formats, and public skill pages"
   - "Docs audits should also verify skill-budget coherence with the ShipGlowz skill budget audit script when skill docs change"
   - "Skill-contract changes still belong to sg-skill-build; sg-docs keeps the docs and public surfaces coherent"
 related_skills:
@@ -47,7 +47,7 @@ order: 350
 
 ## Documentation Coherence Checks
 
-`sg-docs` should look for bug-workflow drift as part of a normal docs audit. That means checking whether `TEST_LOG.md`, `BUGS.md`, dossier templates, and public skill pages still describe the same operating model.
+`sg-docs` should look for bug-workflow drift as part of a normal docs audit. That means checking whether `shipglowz_data/workflow/TEST_LOG.md`, `shipglowz_data/workflow/BUGS.md`, dossier templates, and public skill pages still describe the same operating model.
 
 If one page still implies the old tracker behavior, the docs result should call out the mismatch instead of silently accepting it.
 

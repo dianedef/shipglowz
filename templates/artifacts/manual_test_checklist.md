@@ -56,7 +56,7 @@ next_step: "/sg-test [scope]"
 
 ## Evidence Rules
 
-- Use repo-relative evidence paths only (`test-evidence/...` or `bugs/...`).
+- Use repo-relative evidence paths only (`test-evidence/...` or `shipglowz_data/workflow/bugs/...`).
 - No absolute paths, `..` segments, secrets, cookies, tokens, raw PII, or raw logs in this file.
 - For large or sensitive evidence, use `test-evidence/<BUG-ID>/` and link to that path only.
 
@@ -69,5 +69,5 @@ next_step: "/sg-test [scope]"
 
 ## Maintenance
 
-- This checklist is operator-owned evidence. Re-run `sf-test` to convert `FAIL`/`BLOCKED` rows into `bugs/BUG-ID.md` entries.
+- This checklist is operator-owned evidence. Re-run `sf-test` to convert `FAIL`/`BLOCKED` rows into `shipglowz_data/workflow/bugs/BUG-ID.md` entries.
 - Keep optional rows as guidance only; required rows block verification when unresolved (`FAIL`, `BLOCKED`, `NOT_RUN`).

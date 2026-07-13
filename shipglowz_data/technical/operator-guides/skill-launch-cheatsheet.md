@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "1.8.0"
+artifact_version: "1.8.1"
 project: ShipGlowz
 created: "2026-05-04"
-updated: "2026-06-29"
+updated: "2026-07-13"
 status: reviewed
 source_skill: 300-sg-docs
 scope: skill-launch-cheatsheet
@@ -24,7 +24,8 @@ depends_on:
   - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
     artifact_version: "0.17.0"
     required_status: draft
-supersedes: []
+supersedes:
+  - docs/skill-launch-cheatsheet.md
 evidence:
   - "Master skill contracts and public skill pages."
   - "Public launch cheatsheet in site/src/pages/skill-modes.astro."
@@ -42,7 +43,7 @@ evidence:
   - "310-sg-github-hygiene added as the git/GitHub sync, stale branch, PR drift, and Dependabot hygiene skill."
   - "Public/docs handoff clarity updated: numeric examples now match three-digit runtime names, and runtime invocation notes distinguish manual user commands from OpenCode/KiloCode internal calls."
   - "Added direct links to repo-visible OpenCode and KiloCode runtime pages."
-next_step: "/300-sg-docs audit docs/skill-launch-cheatsheet.md"
+next_step: "/300-sg-docs audit shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md"
 ---
 
 # Skill Launch Cheatsheet
@@ -97,8 +98,8 @@ Practical rule by runtime:
 
 Runtime-specific repo pages:
 
-- [OpenCode](./opencode-shipflow.md)
-- [KiloCode](./kilocode-shipflow.md)
+- [OpenCode](./opencode-shipglowz.md)
+- [KiloCode](./kilocode-shipglowz.md)
 
 ## Named Profiles
 

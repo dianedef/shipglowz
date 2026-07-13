@@ -160,7 +160,7 @@ Docs a aligner:
 - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: mettre a jour le flux `sg-model -> sg-start`.
 - `shipglowz_data/technical/skill-runtime-and-lifecycle.md`: ajouter la regle de routage modele comme contrat technique.
 - `CHANGELOG.md`: noter le durcissement des defaults et la clarification auto-switch.
-- Eventuellement `docs/skill-launch-cheatsheet.md`: ajouter un exemple court pour `shipflow ...` et `/sg-model ...`.
+- Eventuellement `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`: ajouter un exemple court pour `shipflow ...` et `/sg-model ...`.
 
 # Edge Cases
 
@@ -214,11 +214,11 @@ Docs a aligner:
   - Notes : Garder la reference concise.
 
 - [ ] Tache 6 : Documenter le comportement pour l'operateur.
-  - Fichiers : `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `docs/skill-launch-cheatsheet.md`
+  - Fichiers : `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/skill-runtime-and-lifecycle.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`
   - Action : Ajouter une explication courte: le modele courant peut recommander et router; les sous-agents peuvent recevoir des overrides si runtime disponible; sinon l'operateur lance le prochain run avec le modele recommande.
   - User story link : l'operateur comprend quoi attendre.
   - Depends on : Taches 2-5
-  - Validate with : `rg -n "GPT-5\\.5|sous-agent|subagent|auto-switch|model routing" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md docs/skill-launch-cheatsheet.md`
+  - Validate with : `rg -n "GPT-5\\.5|sous-agent|subagent|auto-switch|model routing" README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md shipglowz_data/technical/skill-runtime-and-lifecycle.md shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`
   - Notes : Eviter les promesses produit non supportees par le runtime.
 
 - [ ] Tache 7 : Ajouter l'entree changelog.

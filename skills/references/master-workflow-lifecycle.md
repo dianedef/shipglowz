@@ -47,7 +47,7 @@ depends_on:
 supersedes: []
 evidence:
   - "User decision 2026-05-04: master skills should share the same workflow skeleton instead of duplicating lifecycle doctrine."
-  - "User decision 2026-05-04: bug work uses one Markdown bug file per bug under bugs/*.md; BUGS.md is optional/generated/triage view, not the source of truth."
+  - "User decision 2026-05-04: bug work uses one Markdown bug file per bug under shipglowz_data/workflow/bugs/*.md; shipglowz_data/workflow/BUGS.md is optional/generated/triage view, not the source of truth."
   - "User decision 2026-05-04: user-facing questions should share a numbered, context-aware question/default contract."
   - "User decision 2026-05-06: 006-sg-design joins the master lifecycle set."
   - "User decision 2026-05-08: 003-sg-bug is a lifecycle executor through owner skills and bounded subagents, not a simple next-command router."
@@ -86,7 +86,7 @@ A master skill always pilots a single current work item unless it is explicitly 
 Supported work item types:
 
 - `chantier spec`: a `specs/*.md` file for non-trivial spec-first work.
-- `bug file`: one Markdown file under `bugs/*.md` for one bug work item.
+- `bug file`: one Markdown file under `shipglowz_data/workflow/bugs/*.md` for one bug work item.
 - `mini-contract`: a short in-report contract for narrow local work that is safe without a full spec.
 - `release scope`: the bounded set of files, commit, deployment target, and proof obligations for a release.
 - `audit finding set`: a read-only or source-de-chantier finding set that may recommend a future spec.
@@ -96,11 +96,11 @@ Supported work item types:
 The work item decides source of truth:
 
 - Spec-first work: `specs/*.md` is the source of truth and chantier registry.
-- Bug work: `bugs/*.md` is the source of truth for reproduction, status, diagnosis, fix attempts, retest history, closure, and residual risk.
-- Bug triage view: `BUGS.md`, when present, is only a compact optional/generated/triage index that points to bug files. It is not mandatory and must not override a bug file.
+- Bug work: `shipglowz_data/workflow/bugs/*.md` is the source of truth for reproduction, status, diagnosis, fix attempts, retest history, closure, and residual risk.
+- Bug triage view: `shipglowz_data/workflow/BUGS.md`, when present, is only a compact optional/generated/triage index that points to bug files. It is not mandatory and must not override a bug file.
 - Mini-contract work: the final report or active handoff contract is the source until the work either closes or is promoted to a spec or bug file.
 
-Do not create separate source-of-truth registries in `TASKS.md`, `AUDIT_LOG.md`, `PROJECTS.md` (legacy/compat only), `shipglowz_data`, or `BUGS.md`.
+Do not create separate source-of-truth registries in `TASKS.md`, `AUDIT_LOG.md`, `PROJECTS.md` (legacy/compat only), `shipglowz_data`, or `shipglowz_data/workflow/BUGS.md`.
 
 ## Shared Skeleton
 
@@ -132,8 +132,8 @@ Before asking a user-facing question, load `skills/references/question-contract.
 Before creating a new durable artifact, search for an existing matching work item:
 
 - `specs/*.md` for spec-first chantiers.
-- `bugs/*.md` for bug work items.
-- `BUGS.md` only as a secondary index if it exists.
+- `shipglowz_data/workflow/bugs/*.md` for bug work items.
+- `shipglowz_data/workflow/BUGS.md` only as a secondary index if it exists.
 - current release scope, audit scope, content target, or skill target for master-specific work.
 
 If exactly one work item owns the request, continue it. If several match, ask the user to choose. If none exists and the work is non-trivial, create or route to the correct durable artifact owner.
@@ -243,18 +243,18 @@ Do not end a successful post-verify master report with a manual `/104-sg-end`, `
 Use this vocabulary:
 
 - `bug work item`: the lifecycle unit for one bug.
-- `bug file`: the durable Markdown source of truth under `bugs/*.md`.
-- `bug index` or `triage view`: optional `BUGS.md` if present.
+- `bug file`: the durable Markdown source of truth under `shipglowz_data/workflow/bugs/*.md`.
+- `bug index` or `triage view`: optional `shipglowz_data/workflow/BUGS.md` if present.
 
 Avoid folder-like bug vocabulary in new shared doctrine and master-skill instructions. Existing legacy references should be cleaned when touched.
 
 Bug source-of-truth rules:
 
-- Read `bugs/BUG-ID.md` first when a bug ID is known.
-- Use `BUGS.md` only to discover candidate bug IDs or show a compact dashboard.
-- If `BUGS.md` disagrees with the bug file, the bug file wins and the index should be regenerated or reconciled.
-- If a bug file exists without `BUGS.md`, the bug still exists and can be routed.
-- If `BUGS.md` references a missing bug file, treat it as an index gap, not as durable evidence.
+- Read `shipglowz_data/workflow/bugs/BUG-ID.md` first when a bug ID is known.
+- Use `shipglowz_data/workflow/BUGS.md` only to discover candidate bug IDs or show a compact dashboard.
+- If `shipglowz_data/workflow/BUGS.md` disagrees with the bug file, the bug file wins and the index should be regenerated or reconciled.
+- If a bug file exists without `shipglowz_data/workflow/BUGS.md`, the bug still exists and can be routed.
+- If `shipglowz_data/workflow/BUGS.md` references a missing bug file, treat it as an index gap, not as durable evidence.
 
 ## Stop Conditions
 

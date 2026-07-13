@@ -86,6 +86,6 @@ Default target:
 ${SHIPFLOW_ROOT:-$HOME/.shipflow/source}
 ```
 
-The complete-corpus checkout is sparse and includes only the skill/runtime corpus: `skills/`, `templates/`, `tools/`, `shipglowz_data/`, `docs/`, `local/`, and `bugs/`. It excludes `site/`, `tui/`, archives, research folders, generated builds, and dependency directories.
+The complete-corpus checkout is sparse and includes only the skill/runtime corpus: `skills/`, `templates/`, `tools/`, `shipglowz_data/`, and `local/`. It excludes the public site, TUI, generated builds, and dependency directories; canonical workflow history and records remain inside `shipglowz_data/`.
 
 This keeps one source of truth. The repo remains versioned; the plugin stays small; hosted docs stay optional. The complete-corpus setup route still needs explicit operator approval because it uses network and writes to disk.
