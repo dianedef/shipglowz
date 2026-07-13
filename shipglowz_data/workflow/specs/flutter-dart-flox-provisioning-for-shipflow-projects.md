@@ -282,11 +282,11 @@ For the current local projects, the implementation should validate the repair pa
   - Notes: The optional global SDK menu can still be mentioned as secondary convenience, not required fix. Visible CLI diagnostics touched by this task should remain French with accents, matching current runtime UI.
 
 - [ ] Task 5: Add focused tests or shell smoke checks for pubspec runtime provisioning.
-  - File: `test_priority3.sh` or a new focused shell test file
+  - File: `tests/cli/json-error-handling.sh` or a new focused shell test file
   - Action: Add coverage for Flutter project detection, Dart project detection, config variables, package-token validation, and helper existence. If live Flox install is too heavy for default tests, make the live install smoke manual or guarded.
   - User story link: Prevents regression to a warning-only Flutter branch.
   - Depends on: Task 3
-  - Validate with: `./test_priority3.sh` or the new focused test command.
+  - Validate with: `./tests/cli/json-error-handling.sh` or the new focused test command.
   - Notes: Avoid requiring network-heavy Flutter downloads in the default fast test unless the environment explicitly opts in.
 
 - [ ] Task 6: Update runtime and installer documentation.

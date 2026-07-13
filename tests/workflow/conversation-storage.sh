@@ -2,8 +2,9 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCRIPT="$ROOT_DIR/skills/800-tmux-capture-conversation/scripts/capture_tmux_conversation.sh"
-SHIPFLOW_ROOT_UNDER_TEST="${SHIPFLOW_ROOT:-$ROOT_DIR}"
+REPO_ROOT="$(cd "$ROOT_DIR/../.." && pwd)"
+SCRIPT="$REPO_ROOT/skills/800-tmux-capture-conversation/scripts/capture_tmux_conversation.sh"
+SHIPFLOW_ROOT_UNDER_TEST="${SHIPFLOW_ROOT:-$REPO_ROOT}"
 
 pass_count=0
 fail_count=0

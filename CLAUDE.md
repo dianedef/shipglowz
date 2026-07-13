@@ -77,9 +77,9 @@ sf                    # or: shipglowz, or: ./cli/shipglowz.sh
 sudo ./cli/install.sh
 
 # Run tests
-./test_validation.sh  # Input validation
-./test_priority2.sh   # Caching, logging, config
-./test_priority3.sh   # jq, error handling
+./tests/cli/input-validation.sh       # Input validation
+./tests/cli/config-logging-cache.sh   # Caching, logging, config
+./tests/cli/json-error-handling.sh    # jq, error handling
 
 # Source library functions
 source cli/lib.sh
@@ -150,5 +150,5 @@ shipglowz/
 │   ├── local.sh
 │   └── install.sh
 ├── injectors/web-inspector.js  # Browser inspector
-└── test_*.sh                   # Test suites
+└── tests/                      # Test suites grouped by ownership
 ```

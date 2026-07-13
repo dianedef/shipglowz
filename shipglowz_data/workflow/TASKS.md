@@ -25,6 +25,8 @@
 
 ## Documentation contracts
 
+🟢 [ShipGlowz] task: Nettoyer la racine documentaire et migrer les suites de test vers une architecture par ownership | status: done | area: documentation-governance-root-cleanup
+
 | Pri | Task | Status |
 |-----|------|--------|
 | 🟠 | Relire et shipper les docs `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, `GTM.md`, `ARCHITECTURE.md`, `GUIDELINES.md` après la passe de durcissement en cours | 🔄 in progress |
@@ -156,7 +158,7 @@
 | 🟠 | Local MCP OAuth tunnel login: commande `shipflow-mcp-login`, intégration menu local, alias install, tests de validation et docs | ✅ done |
 | 🟠 | Split `lib.sh` hotspots around environment lifecycle, publishing, dashboard, inspector, and metadata helpers to reduce the 5,900+ line blast radius | 📋 todo |
 | 🟡 | Resolve the `site` production dependency advisory for Astro (`GHSA-j687-52p2-xcff`) through a planned Astro upgrade/migration | 📋 todo |
-| 🟡 | Fix `test_priority3.sh` so the PM2 jq parsing fixture passes or is explicitly skipped with an accurate reason | 📋 todo |
+| 🟡 | Fix `tests/cli/json-error-handling.sh` so the PM2 jq parsing fixture passes or is explicitly skipped with an accurate reason | 📋 todo |
 | ✅ | Validate DuckDNS publish inputs, encode DuckDNS update requests, harden secret writes, and remove the default public ImgBB upload key | ✅ done |
 | ✅ | Restore the Astro docs page build by moving dynamic GitHub URLs into frontmatter and escaping shell-style `${...}` text | ✅ done |
 | ✅ | Corriger la latence du menu ShipFlow et bloquer les auto-sélections dangereuses dans Health/cleanup (`BUG-2026-05-08-001`, `BUG-2026-05-08-002`) | ✅ done |

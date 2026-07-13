@@ -331,11 +331,11 @@ Make ShipGlowz the sole owner of Claude Code, OpenAI Codex, ShipGlowz MCP regist
   - Notes: Update install examples if they imply dotfiles is the AI workflow owner.
 
 - [ ] Task 15: Add focused install validation harness
-  - File: `test_validation.sh`
+  - File: `tests/cli/input-validation.sh`
   - Action: extend or add test scenarios using temporary homes to validate target user selection, eligibility filtering, invalid/rejected user handling, minimal npm/PATH fallback, JSON/TOML validity, alias idempotence, dotfiles overlap removal, and report output.
   - User story link: makes the ownership migration verifiable before shipping.
   - Depends on: Task 3 through Task 14
-  - Validate with: `bash test_validation.sh` and targeted `bash -n install.sh /home/ubuntu/dotfiles/install.sh /home/ubuntu/dotfiles/lib.sh`.
+  - Validate with: `bash tests/cli/input-validation.sh` and targeted `bash -n install.sh /home/ubuntu/dotfiles/install.sh /home/ubuntu/dotfiles/lib.sh`.
   - Notes: Do not run destructive user creation in the harness.
 
 ## Acceptance Criteria

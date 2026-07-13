@@ -1,7 +1,7 @@
 ---
 artifact: audit_report
 metadata_schema_version: "1.0"
-artifact_version: "1.3.0"
+artifact_version: "1.6.0"
 project: "shipflow"
 created: "2026-07-11"
 updated: "2026-07-13"
@@ -32,7 +32,8 @@ evidence:
   - "The four phase-2 debt files were compared with current canonical technical, editorial, and workflow surfaces before classification."
   - "Reverification on 2026-07-13 confirmed five direct root Markdown paths, canonical workflow artifacts, archived historical notes, repaired central routes, and a valid AGENTS.md compatibility symlink."
   - "The 2026-07-13 300-sg-docs follow-up expanded the inventory to top-level documentary directories, migrated root specs/research/archive/docs/bugs, and strengthened the topology audit against this drift."
-next_step: "/103-sg-verify shipflow documentation governance cleanup phase 2"
+  - "The 2026-07-13 test-layout follow-up moved all seven root test suites under ownership-based tests/ directories, renamed opaque priority suites, and updated active commands."
+next_step: "/005-sg-ship shipflow documentation governance cleanup phase 2"
 ---
 
 # Repo Documentation Governance Refresh Phase 2
@@ -131,9 +132,21 @@ The later integrator pass updated `README.md`, `AGENT.md`, `shipglowz_data/techn
 - Bug, fix, test, verify, deploy, ship, and artifact-template contracts use canonical workflow paths.
 - The topology audit and metadata guard reject recreation of the legacy root surfaces.
 
-## Deferred Actions
+## Follow-up Actions
 
 1. Keep `shipglowz_data/workflow/audits/2026-04-28-install-run-trace.md` historical; update only if future install evidence requires a new dated trace.
+2. Completed: repaired the three stale test contracts. Config/logging/cache passes `25/25`, Flox provisioning passes `22/22`, and project tracking passes `15/15` with a new idempotence assertion.
+3. Completed: audited the six root CLI compatibility launchers. `shipglowz.sh`, `lib.sh`, `config.sh`, and `install.sh` retain active compatibility consumers; the two unconsumed root `shipglowz_devserver_*` facades were removed and canonical `cli/` references were preserved.
+
+## 103-sg-verify Follow-up Findings
+
+- The phase-2 documentation scenarios pass: governance topology is compliant, all 12 topology tests pass, all 4 conversation-storage tests pass, metadata lint passes, and legacy documentary surfaces remain absent.
+- Repository-root test placement debt was resolved by moving seven useful suites under ownership-based `tests/` subdirectories and replacing opaque priority names with behavior-based names.
+- `tests/cli/config-logging-cache.sh` now uses canonical logging variables, fails closed on assertion errors, and passes `25/25`.
+- `tests/cli/json-error-handling.sh` targets canonical `cli/lib.sh` instead of the root compatibility facade and passes `33/33`.
+- `tests/runtime/flox-provisioning.sh` uses canonical override and session-name contracts and passes `22/22`.
+- `tests/governance/project-tracking-init.sh` targets `shipglowz_init_project`, validates actual symlink removal, and passes `15/15`; `shipglowz_init_project` now returns success explicitly when no changes are needed.
+- All seven relocated suites now pass, and the two unconsumed root devserver compatibility facades are absent.
 
 ## Stop Conditions Encountered
 
@@ -177,7 +190,7 @@ Governance topology: compliant
 python3 -m unittest tools.test_audit_project_governance_topology
 Ran 12 tests - OK
 
-bash test_conversation_audit_storage.sh
+bash tests/workflow/conversation-storage.sh
 Conversation audit storage tests: 4 passed, 0 failed
 
 python3 tools/shipglowz_metadata_lint.py <16 governed migration artifacts>
@@ -192,6 +205,9 @@ Migration preservation diff:
 The FRP spec body is unchanged; only migration metadata, the current skill identifier, and the previously missing required confidence field changed.
 Both research report bodies are unchanged; only updated dates and current 203-sg-research identifiers changed.
 Archive migration proof: 15 of 16 preserved historical files are byte-identical to their pre-migration blobs; `plan_migration.md` differs only by a final newline normalization. Two conversation captures were moved without content changes. Deleted compatibility symlinks resolve to canonical workflow artifacts; all other deletions are classified in the repository-history ledger.
+
+Final root-architecture verification on 2026-07-13:
+all seven ownership-based Bash suites pass (`25/25`, `68/68`, `33/33`, `15/15`, `22/22`, runtime sync, and `4/4` conversation storage); 12 topology unit tests pass; governance topology, Bash syntax, metadata lint, skill runtime sync `270/270`, and `git diff --check` pass; no root `test_*.sh` or root devserver facade remains.
 
 Historical SHA-256 comparison from the parent of migration commit f1f90b7:
 ECOSYSTEM-AND-PORTS.md = shipglowz_data/workflow/archives/repository-history/root-documentation/ECOSYSTEM-AND-PORTS.md = ab9793a75005124f230eff087faddacba7d1ca24f9093bb4ec649c86011bca6b

@@ -13,7 +13,7 @@ confidence: "medium"
 risk_level: "low"
 security_impact: "none"
 docs_impact: "yes"
-linked_systems: ["shipglowz.sh", "lib.sh", "shipglowz_devserver_gum.sh", "shipglowz_devserver_bash.sh", "config.sh", "install.sh", "local/local.sh", "local/dev-tunnel.sh"]
+linked_systems: ["shipglowz.sh", "lib.sh", "cli/shipglowz_devserver_gum.sh", "cli/shipglowz_devserver_bash.sh", "config.sh", "install.sh", "local/local.sh", "local/dev-tunnel.sh"]
 depends_on: []
 supersedes: []
 evidence: ["Function extraction from shipglowz.sh, lib.sh, config.sh, install.sh, local/local.sh, local/dev-tunnel.sh", "Blacksmith setup menu helpers added to lib.sh", "Blacksmith OAuth callback tunnel added to local tooling", "Blacksmith SSH Access guide added to the setup menu", "Codex MCP on-demand launcher added to lib.sh", "Grouped root menu and submenu wrappers added to menu frontends", "Root menu shortcuts aligned with visible menu labels", "Disk overview helpers added to the Health Check monitor", "Agent history and cache cleanup helpers added to disk cleanup", "PM2 log cleanup/rotation and disk usage detail helpers added", "Turso setup menu helpers added to lib.sh", "Clerk CLI OAuth callback tunnel added to local tooling", "Local tunnel auth flows grouped under one authentication submenu"]
@@ -31,7 +31,7 @@ Ce document sert de point d'entree rapide pour comprendre la structure fonctionn
 ```text
 shipglowz.sh
   -> source lib.sh
-  -> source shipglowz_devserver_gum.sh or shipglowz_devserver_bash.sh
+  -> source cli/shipglowz_devserver_gum.sh or cli/shipglowz_devserver_bash.sh
   -> main()
      -> run_menu_shortcut() for early codex/co launch
      -> check_prerequisites()
@@ -189,10 +189,10 @@ visible menu keys
   -> run_menu_shortcut
 
 menu frontends
-  -> shipglowz_devserver_gum.sh::_gum_run_menu
-  -> shipglowz_devserver_gum.sh::_gum_run_nested_menu
-  -> shipglowz_devserver_bash.sh::_bash_run_menu
-  -> shipglowz_devserver_bash.sh::_bash_run_nested_menu
+  -> cli/shipglowz_devserver_gum.sh::_gum_run_menu
+  -> cli/shipglowz_devserver_gum.sh::_gum_run_nested_menu
+  -> cli/shipglowz_devserver_bash.sh::_bash_run_menu
+  -> cli/shipglowz_devserver_bash.sh::_bash_run_nested_menu
   -> action_environments_menu
   -> action_tools_web_menu
   -> action_system_menu
@@ -407,7 +407,7 @@ health / dashboard
 
 logs / deploy / publish support
   -> view_environment_logs
-  -> shipflow_init_project
+  -> shipglowz_init_project
   -> deploy_github_project
 
 CLI action wrappers
@@ -454,7 +454,7 @@ Si tu dois modifier le comportement principal du CLI :
 1. `shipglowz.sh`
 2. `lib.sh`
 3. `config.sh`
-4. `shipglowz_devserver_gum.sh` or `shipglowz_devserver_bash.sh`
+4. `cli/shipglowz_devserver_gum.sh` or `cli/shipglowz_devserver_bash.sh`
 
 Si tu dois modifier le workflow local SSH :
 
@@ -538,4 +538,4 @@ Si tu dois modifier la TUI :
 
 - `lib.sh` combine logique metier, UI, operations systeme et menu wrappers. C'est pratique, mais c'est aussi le principal point de complexite du repo.
 - Les invalidations PM2 (`invalidate_pm2_cache`) sont critiques apres start/stop/delete.
-- Le frontend de menu est delegue a `shipglowz_devserver_gum.sh` ou `shipglowz_devserver_bash.sh`, non detailles ici.
+- Le frontend de menu est delegue a `cli/shipglowz_devserver_gum.sh` ou `cli/shipglowz_devserver_bash.sh`, non detailles ici.

@@ -8073,6 +8073,9 @@ view_environment_logs() {
 # Side Effects:
 #   - Removes legacy project TASKS.md symlinks that point into central shipglowz_data
 #   - Creates [project_dir]/CHANGELOG.md (if missing)
+#
+# Returns:
+#   0 - Tracking is initialized or already current
 # -----------------------------------------------------------------------------
 shipglowz_init_project() {
     local project_name="$1"
@@ -8299,6 +8302,8 @@ print(json.dumps(cfg, indent=2))
     if [ "$changed" -eq 1 ]; then
         echo -e "${GREEN}📋 Tracking ShipGlowz prêt pour $project_name${NC}"
     fi
+
+    return 0
 }
 
 # -----------------------------------------------------------------------------

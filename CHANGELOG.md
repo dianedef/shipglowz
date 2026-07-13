@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.4.1"
+artifact_version: "0.5.0"
 project: "shipflow"
 created: "2026-04-25"
-updated: "2026-06-28"
+updated: "2026-07-13"
 status: draft
 source_skill: 300-sg-docs
 scope: documentation
@@ -25,6 +25,18 @@ evidence: []
 next_step: "/300-sg-docs audit CHANGELOG.md"
 ---
 # ShipFlow Changelog
+
+## [2026-07-13]
+
+### Changed
+- Moved the seven root Bash regression suites into ownership-based `tests/cli`, `tests/runtime`, `tests/governance`, `tests/skills`, and `tests/workflow` directories, with behavior-based names and canonical `cli/` imports.
+- Consolidated active documentation, bug, audit, conversation, exploration, specification, research, and archive records under their canonical `shipglowz_data/` families.
+
+### Fixed
+- Repaired stale logging, Flox override, Flutter session-name, and project-tracking fixtures; all seven relocated suites now pass and `shipglowz_init_project` returns success when initialization is already current.
+
+### Removed
+- Removed unconsumed root `docs`, `bugs`, `archive`, `specs`, and `research` surfaces and the two unused root devserver compatibility launchers while preserving canonical content and CLI implementations.
 
 ## [2026-07-12]
 

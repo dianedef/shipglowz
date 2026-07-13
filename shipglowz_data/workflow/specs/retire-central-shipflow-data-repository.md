@@ -166,7 +166,7 @@ Retire `~/shipglowz_data` completely. Treat it as a migration source only, not a
 
 - Skills that used `PROJECTS.md` for selection need a shared discovery policy or helper so audit/status/check workflows do not each invent their own scanner.
 - Skills that mirrored audit/task summaries into central `TASKS.md` or `AUDIT_LOG.md` must stop writing those mirrors and instead keep results in project-local workflow trackers.
-- `shipflow_init_project` and `show_shipflow_menu` must stop creating central starter files.
+- `shipglowz_init_project` and `show_shipflow_menu` must stop creating central starter files.
 - Installer docs must stop telling users to clone `shipglowz_data.git` before install.
 - TUI source policy must continue to protect against symlink escapes and large/untrusted files while allowing discovered project roots.
 - The migration may reveal stale tasks that deserve backlog review, but the migration itself should not decide product priority beyond preserving content.
@@ -307,7 +307,7 @@ Retire `~/shipglowz_data` completely. Treat it as a migration source only, not a
 - [ ] CA 4: Given a central per-project task exists and is unique, when migration completes, then it appears in the owning project's local workflow corpus or an unresolved-project archive.
 - [ ] CA 5: Given a central file duplicates project-local content, when migration completes, then the inventory records the duplicate decision and no second active copy is created.
 - [ ] CA 6: Given the installer runs in a fresh temp home, when it completes, then it does not create `~/shipglowz_data`.
-- [ ] CA 7: Given `shipflow_init_project` or environment startup runs, when a project lacks central tracking, then ShipGlowz does not create `shipglowz_data/projects/<project>`.
+- [ ] CA 7: Given `shipglowz_init_project` or environment startup runs, when a project lacks central tracking, then ShipGlowz does not create `shipglowz_data/projects/<project>`.
 - [ ] CA 8: Given the TUI starts, when it reads data, then it uses discovered project-local corpora and does not require `/home/claude/shipglowz_data/PROJECTS.md`.
 - [ ] CA 9: Given an audit skill runs in global/workspace mode, when it selects projects, then selection comes from discovered project roots and project-local evidence, not central `PROJECTS.md`.
 - [ ] CA 10: Given an active skill/documentation file is searched, when `SHIPGLOWZ_DATA_DIR`, `$HOME/shipglowz_data`, `~/shipglowz_data`, `shipglowz_data/projects`, `external control-plane`, or central `PROJECTS.md` appears, then the occurrence is historical, transitional, or explicitly marked legacy.

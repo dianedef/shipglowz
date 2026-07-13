@@ -69,7 +69,7 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 
 ## Scope Out
 
-- `shipglowz.sh`, `shipglowz_devserver_gum.sh`, `shipglowz_devserver_bash.sh` (sauf consommation directe des helpers `ui_*`).
+- `cli/shipglowz.sh`, `cli/shipglowz_devserver_gum.sh`, `cli/shipglowz_devserver_bash.sh` (sauf consommation directe des helpers `ui_*`).
 - Tunnels SSH (`local/*.sh`), PM2, Caddy, Flox, DuckDNS.
 - `injectors/web-inspector.js`, `tui/src/main.ts`.
 - Changements de design tokens CSS/tokens du site public.
@@ -117,7 +117,7 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 
 ## Links & Consequences
 
-- `lib.sh` est sourcé par `shipglowz.sh`, `shipglowz_devserver_gum.sh`, `shipglowz_devserver_bash.sh`, et tous les `local/*.sh` qui utilisent `ui_*`. Tous les fichiers qui importent `ui_choose`/`ui_filter_choose` doivent continuer de fonctionner sans changement d’appel.
+- `cli/lib.sh` est sourcé par `cli/shipglowz.sh`, `cli/shipglowz_devserver_gum.sh`, `cli/shipglowz_devserver_bash.sh`, et tous les `local/*.sh` qui utilisent `ui_*`. Tous les fichiers qui importent `ui_choose`/`ui_filter_choose` doivent continuer de fonctionner sans changement d’appel.
 - `tui/src/sources/readers.ts` est consommé par `tui/src/main.ts` via `readDashboardData`. Tout découpage doit préserver le contrat de sortie `DashboardData`.
 - `tui/src/viewModels/dashboard.ts` construit `DashboardViewModel` utilisé par `dashboardView.ts`. Le mapping de statut déplacé doit rester importable sans breaking change.
 - `shipglowz_data/workflow/TASKS.md` doit être mis à jour avec les tâches de refactor.
@@ -144,7 +144,7 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 - proof_profile: manual + automated
 - proof_order:
   1. Automated: `bun run test` dans `tui/` après découpage de `readers.ts`.
-  2. Automated: `bash -n lib.sh` + tests shells existants (`test_priority2.sh`, `test_priority3.sh`, `test_validation.sh`).
+  2. Automated: `bash -n lib.sh` + tests shells existants (`tests/cli/config-logging-cache.sh`, `tests/cli/json-error-handling.sh`, `tests/cli/input-validation.sh`).
   3. Manual: ouvrir `s m n` et `s m r` dans le menu DevServer, vérifier l’apparition du widget et la latence perçue.
   4. Manual: TUI dashboard, vérifier la cohérence des couleurs de statut.
 - checklist_path: `shipglowz_data/workflow/test-checklists/devserver-ui-centralization.md` (à créer si nécessaire)
@@ -171,7 +171,7 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
   - Action : Remplacer les blocs de rendu lettré inline par des appels à `ui_letter_list` et `ui_back_label` ; réduire `ui_choose` à l’orchestration des chemins gum/fallback.
   - User story link : éliminer la duplication de rendu et réduire la latence perçue.
   - Depends on : Tâche 1
-  - Validate with : `bash -n lib.sh` + tests `test_validation.sh` + manuel `s m n`/`s m r`.
+  - Validate with : `bash -n lib.sh` + tests `tests/cli/input-validation.sh` + manuel `s m n`/`s m r`.
   - Notes : `grep -qiF` dans `ui_filter_choose` doit être remplacé par un helper bash insensible à la casse (e.g., `shopt -s nocasematch` + boucle, ou mapping pré-calculé).
 
 - [ ] Tâche 3 : Remplacer `grep -qiF` par un helper bash sans sous-processus
@@ -226,7 +226,7 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
   - Validate with : `source lib.sh && env_start test && list_all_environments` mesuré avec `time`.
 
 - [ ] Tâche 10 : Ajouter des tests ciblant la latence du sélecteur
-  - Fichier : `test_priority2.sh` ou nouveau `test_ui_choose.sh`
+  - Fichier : `tests/cli/config-logging-cache.sh` ou nouveau `test_ui_choose.sh`
   - Action : Ajouter un test mesurant le temps d’exécution de `ui_choose` sur 50 items en fallback bash ; warning si >100ms.
   - User story link : preuve de la latence améliorée.
   - Depends on : Tâches 1-3
@@ -247,8 +247,8 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 
 ## Test Strategy
 
-- Unit: tests Bash pour `ui_letter_list`, `ui_back_label`, `ui_list_filter`, `ui_text_center`, `ui_traffic_color` (nouveau fichier `test_ui_choose.sh` ou extension `test_priority2.sh`).
-- Integration: tests existants `test_validation.sh`, `test_priority2.sh`, `test_priority3.sh` doivent passer sans modification.
+- Unit: tests Bash pour `ui_letter_list`, `ui_back_label`, `ui_list_filter`, `ui_text_center`, `ui_traffic_color` (nouveau fichier `test_ui_choose.sh` ou extension `tests/cli/config-logging-cache.sh`).
+- Integration: tests existants `tests/cli/input-validation.sh`, `tests/cli/config-logging-cache.sh`, `tests/cli/json-error-handling.sh` doivent passer sans modification.
 - Integration TUI: `bun run test` dans `tui/` après découpage de `readers.ts`.
 - Manual: `s m n`, `s m r`, `Navigation` dans le menu DevServer ; vérifier latence perçue et absence de régression ergonomique.
 - Manual: TUI dashboard (`bun run dev` dans `tui/`), vérifier couleurs statut coherentes.
@@ -268,7 +268,7 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 - `grep -qiF` est le goulot principal dans `ui_filter_choose:L448` ; le remplacer avant d’optimiser d’autres chemins.
 - `gum style` en boucle fermée (`ui_choose:L534-540`) génère 5+ sous-processus par sélection courte ; pré-générer les chaînes colorées ou utiliser `gum style --list` si disponible.
 - Pour `readers.ts`, suivre le principe de responsabilité unique: un module pour la policy de lecture, un pour les records canoniques, un pour les résumés.
-- Stop condition: si un test existant (`test_priority2.sh`, `test_priority3.sh`, `test_validation.sh`) casse après refactor, arrêter et inspecter avant de continuer.
+- Stop condition: si un test existant (`tests/cli/config-logging-cache.sh`, `tests/cli/json-error-handling.sh`, `tests/cli/input-validation.sh`) casse après refactor, arrêter et inspecter avant de continuer.
 
 ## Open Questions
 

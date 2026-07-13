@@ -137,8 +137,8 @@ sudo ./cli/install.sh
 
 ```bash
 bash -n cli/install.sh local/install.sh local/turso-login.sh local/turso-ssh.sh
-bash -n tools/shipglowz_sync_skills.sh test_skill_runtime_sync.sh
-bash test_skill_runtime_sync.sh
+bash -n tools/shipglowz_sync_skills.sh tests/skills/runtime-sync.sh
+bash tests/skills/runtime-sync.sh
 tools/shipglowz_sync_skills.sh --check --all
 rg -n "resolve_install_components|install_ai_agent_clis_for_user|verify_ai_agent_clis_for_user|configure_aliases|configure_skills|configure_data|setup_user|collect_target_users|configure_codex|shipflow-turso-login|shipflow-turso-ssh" cli/install.sh local/
 ```

@@ -160,7 +160,7 @@ Le script doit vivre dans `local/` parce que c'est la couche qui connait la conn
 - `local/dev-tunnel.sh` contient deja des patterns de connexion et d'identite serveur; la nouvelle logique doit les suivre sans coupler le login OAuth aux tunnels PM2.
 - `local/install.sh` gere les alias locaux; il doit exposer la nouvelle commande si on veut une UX directe.
 - `install.sh` configure deja `vercel` et `supabase` dans Codex; la nouvelle feature depend de cette configuration mais ne doit pas la dupliquer inutilement.
-- `test_validation.sh` contient deja les tests de validation d'entrees shell sensibles; il doit couvrir le provider MCP pour eviter une regression d'injection de commande distante.
+- `tests/cli/input-validation.sh` contient deja les tests de validation d'entrees shell sensibles; il doit couvrir le provider MCP pour eviter une regression d'injection de commande distante.
 - `local/README.md` et `README.md` doivent distinguer configuration MCP, login OAuth MCP, et tunnels d'applications.
 - Impact securite: l'outil connecte un assistant distant a des comptes Vercel/Supabase utilisateur. Les messages doivent rappeler que l'operateur choisit le compte et l'organisation dans le navigateur officiel.
 
@@ -260,11 +260,11 @@ Le script doit vivre dans `local/` parce que c'est la couche qui connait la conn
   - Notes : Garder la distinction entre `vercel mcp` CLI et Vercel hosted MCP pour Codex.
 
 - [ ] Tache 10 : Ajouter validation syntaxique et tests de parsing
-  - Fichier : `test_validation.sh` ou nouveau test local dedie
+  - Fichier : `tests/cli/input-validation.sh` ou nouveau test local dedie
   - Action : Ajouter au minimum `bash -n local/mcp-login.sh local/local.sh local/install.sh`, des tests de `validate_mcp_provider_name`, et un test de parsing du port depuis une URL OAuth encodee.
   - User story link : Reduit le risque de casser le flow fragile port/URL.
   - Depends on : Taches 1, 2, 6, 7
-  - Validate with : `./test_validation.sh` ou commande de test dediee documentee.
+  - Validate with : `./tests/cli/input-validation.sh` ou commande de test dediee documentee.
   - Notes : Ne pas faire de vrai login OAuth dans les tests automatiques; inclure des providers invalides avec espace, newline, `;`, `$`, backtick, slash, quote, et `--config`.
 
 ## Acceptance Criteria
@@ -304,7 +304,7 @@ Le script doit vivre dans `local/` parce que c'est la couche qui connait la conn
 ## Risks
 
 - Security: l'outil facilite l'octroi d'acces Vercel/Supabase a Codex distant. Mitigation: afficher clairement le provider, utiliser les endpoints officiels, ne pas logger les tokens, et laisser l'utilisateur approuver dans le navigateur officiel.
-- Security: le provider generique est une entree non fiable qui pourrait devenir une injection de commande distante si elle est interpolee naivement. Mitigation: validation locale stricte, rejet avant SSH, pas de `eval`, passage d'argument ou quotation shell explicite, tests d'abus dans `test_validation.sh`.
+- Security: le provider generique est une entree non fiable qui pourrait devenir une injection de commande distante si elle est interpolee naivement. Mitigation: validation locale stricte, rejet avant SSH, pas de `eval`, passage d'argument ou quotation shell explicite, tests d'abus dans `tests/cli/input-validation.sh`.
 - OAuth fragility: les formats de sortie Codex ou URLs peuvent changer. Mitigation: parser plusieurs formes et afficher une erreur claire si aucune URL callback n'est detectee.
 - SSH cleanup: un mauvais cleanup peut laisser des tunnels. Mitigation: traps et tests d'interruption.
 - UX confusion: l'utilisateur peut lancer la commande sur le serveur au lieu du local. Mitigation: docs et message de preflight qui explique que la commande doit tourner localement.
@@ -325,7 +325,7 @@ Le script doit vivre dans `local/` parce que c'est la couche qui connait la conn
   - Ajouter docs et tests.
 - Commandes de validation minimales:
   - `bash -n local/mcp-login.sh local/local.sh local/install.sh`
-  - `./test_validation.sh` si le test y est ajoute
+  - `./tests/cli/input-validation.sh` si le test y est ajoute
   - test manuel `shipflow-mcp-login vercel` et `shipflow-mcp-login supabase` depuis une machine locale avec SSH fonctionnel.
 - Stop conditions / reroute:
   - Si Codex change la sortie OAuth et ne fournit plus d'URL localhost exploitable, stopper et documenter le nouveau flow au lieu de deviner.

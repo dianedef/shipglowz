@@ -22,7 +22,7 @@ linked_systems:
   - "lib.sh"
   - "shipglowz-site/package.json"
   - "shipglowz-site/pnpm-lock.yaml"
-  - "test_priority3.sh"
+  - "tests/cli/json-error-handling.sh"
   - "README.md"
   - "GUIDELINES.md"
   - "CHANGELOG.md"
@@ -47,7 +47,7 @@ evidence:
   - "sg-audit-code 2026-04-28 found install.sh uses live remote install scripts/direct downloads and needs pinned, verified install steps and strict failure behavior."
   - "sg-audit-code 2026-04-28 found lib.sh is 5900+ lines and spans lifecycle, publishing, dashboard, inspector, secrets, and metadata behavior."
   - "npm audit --omit=dev in site reported Astro <6.1.6 vulnerable to GHSA-j687-52p2-xcff; forced fix would move to Astro 6."
-  - "test_priority3.sh exits 0 but reports 32/33 because the PM2 jq parsing fixture fails."
+  - "tests/cli/json-error-handling.sh exits 0 but reports 32/33 because the PM2 jq parsing fixture fails."
   - "Direct audit fixes already applied: DuckDNS input validation, encoded DuckDNS update requests, hardened secret writes, no default ImgBB upload key, Astro docs page build fix, and added validation tests."
 next_step: "/sg-start Installer supply-chain hardening and ShipGlowz codebase risk reduction"
 ---
@@ -68,13 +68,13 @@ Story status: supported by `BUSINESS.md`, `PRODUCT.md`, `GUIDELINES.md`, `ARCHIT
 
 ## Minimal Behavior Contract
 
-When an operator prepares ShipGlowz for release after the code audit, the system must replace fragile installer and validation paths with explicit, verifiable behavior: external installer inputs are pinned or checked before privileged execution, the Astro site dependency advisory is resolved through a documented major-version migration path, the Priority 3 test suite reports pass/fail consistently with its exit code, and the first `lib.sh` decomposition reduces risk without changing CLI behavior. If any dependency download, migration, test fixture, or extraction step cannot be verified, the implementation must stop with an actionable diagnostic and leave runtime behavior unchanged; the easy-to-miss edge case is a "green" command that still reports a failed subtest or a successful install that skipped a broken remote download.
+When an operator prepares ShipGlowz for release after the code audit, the system must replace fragile installer and validation paths with explicit, verifiable behavior: external installer inputs are pinned or checked before privileged execution, the Astro site dependency advisory is resolved through a documented major-version migration path, the JSON and error-handling test suite reports pass/fail consistently with its exit code, and the first `lib.sh` decomposition reduces risk without changing CLI behavior. If any dependency download, migration, test fixture, or extraction step cannot be verified, the implementation must stop with an actionable diagnostic and leave runtime behavior unchanged; the easy-to-miss edge case is a "green" command that still reports a failed subtest or a successful install that skipped a broken remote download.
 
 ## Success Behavior
 
-- Preconditions: the repo is in the current mixed Bash + Astro shape, `install.sh`, `lib.sh`, `site/package*.json`, and `test_priority3.sh` exist, and the direct audit fixes from 2026-04-28 remain present.
+- Preconditions: the repo is in the current mixed Bash + Astro shape, `install.sh`, `lib.sh`, `site/package*.json`, and `tests/cli/json-error-handling.sh` exist, and the direct audit fixes from 2026-04-28 remain present.
 - Trigger: an implementer runs `/sg-start Installer supply-chain hardening and ShipGlowz codebase risk reduction`.
-- Operator-visible result: installer hardening changes are explicit in code and docs; the Astro advisory is resolved or deliberately blocked with evidence; `test_priority3.sh` produces an exit code matching its displayed result; the first `lib.sh` extraction has no user-visible behavior change.
+- Operator-visible result: installer hardening changes are explicit in code and docs; the Astro advisory is resolved or deliberately blocked with evidence; `tests/cli/json-error-handling.sh` produces an exit code matching its displayed result; the first `lib.sh` extraction has no user-visible behavior change.
 - System result: package lockfiles, shell scripts, and docs reflect the new contract; validation commands provide reliable pass/fail signals.
 - Proof of success: `bash -n`, shell test suites, `pnpm --dir shipglowz-site build`, `pnpm --dir shipglowz-site audit --prod`, and focused installer dry-run or syntax checks pass with no hidden failed subtests.
 
@@ -82,7 +82,7 @@ When an operator prepares ShipGlowz for release after the code audit, the system
 
 - Invalid or unverifiable external install source: fail before privileged install or config mutation; print the dependency name, expected verification, and recovery command.
 - Astro upgrade incompatibility: stop before shipping the dependency bump; keep the lockfile coherent; document the blocker in the spec or task tracker.
-- Priority 3 fixture mismatch: the test must exit non-zero if it displays a failed required assertion, or explicitly mark the assertion skipped with a reason and not count it as failure.
+- JSON and error-handling fixture mismatch: the test must exit non-zero if it displays a failed required assertion, or explicitly mark the assertion skipped with a reason and not count it as failure.
 - `lib.sh` extraction regression: revert only the new extraction in the implementer's branch or stop before commit; do not rewrite unrelated user changes.
 - Never acceptable: logging secrets, silently ignoring failed downloads, broad refactors of `lib.sh`, a forced Astro upgrade without build verification, or a test suite that reports failure while exiting 0.
 
@@ -92,7 +92,7 @@ The 2026-04-28 code audit found that ShipGlowz is useful and coherent, but not r
 
 ## Solution
 
-Implement a staged risk-reduction pass. First make installer execution fail closed and document the verification strategy for external sources. Then resolve the Astro advisory using official migration guidance and lockfile verification. Then fix the Priority 3 test signal. Finally perform only the first bounded `lib.sh` extraction that reduces future blast radius while preserving the current CLI contract.
+Implement a staged risk-reduction pass. First make installer execution fail closed and document the verification strategy for external sources. Then resolve the Astro advisory using official migration guidance and lockfile verification. Then fix the JSON and error-handling test signal. Finally perform only the first bounded `lib.sh` extraction that reduces future blast radius while preserving the current CLI contract.
 
 ## Scope In
 
@@ -100,7 +100,7 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
 - Add or update helper functions in `install.sh` only where they reduce repeated unsafe install patterns.
 - Upgrade or otherwise remediate `shipglowz-site` Astro vulnerability in `shipglowz-site/package.json` and `shipglowz-site/pnpm-lock.yaml`.
 - Update `shipglowz-site/src/content.config.ts` only if Astro 6 or Zod 4 requires it.
-- Fix `test_priority3.sh` so displayed results, counted failures, skipped optional checks, and process exit code agree.
+- Fix `tests/cli/json-error-handling.sh` so displayed results, counted failures, skipped optional checks, and process exit code agree.
 - Extract one bounded area from `lib.sh` only if the extraction has a clear source file, caller update, and regression test. Preferred first candidates are validation/security helpers or publish-related helpers already touched by the audit.
 - Update README/GUIDELINES/CHANGELOG or related docs when installer, dependency, or validation behavior changes.
 
@@ -132,7 +132,7 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
   - `GUIDELINES.md` 1.0.0 reviewed.
   - `ARCHITECTURE.md` 1.0.0 reviewed.
 - Runtime/tooling:
-  - Bash shell scripts: `install.sh`, `lib.sh`, `test_priority3.sh`.
+  - Bash shell scripts: `install.sh`, `lib.sh`, `tests/cli/json-error-handling.sh`.
   - Node/npm for `site`.
   - Astro in `shipglowz-site/package.json` and `shipglowz-site/pnpm-lock.yaml`.
 - Fresh external docs:
@@ -160,7 +160,7 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
 - `install.sh`: privileged external trust boundary. Changes affect first-time setup, user-local config, MCP setup, CLI availability, and support docs.
 - `lib.sh`: central runtime behavior. Extraction can break environment start/stop, publish, dashboard, inspector, and metadata menus if call boundaries are wrong.
 - `site/package*.json`: public docs/site build and dependency security posture.
-- `test_priority3.sh`: validation reliability for jq parsing, error handling, race fixes, and function docs.
+- `tests/cli/json-error-handling.sh`: validation reliability for jq parsing, error handling, race fixes, and function docs.
 - `README.md`, `GUIDELINES.md`, `CLAUDE.md`, `CHANGELOG.md`: may need updates if install commands, Node requirements, validation commands, or architectural routing change.
 - Master/local trackers: implementation may close the audit rows created by `sg-audit-code`, but this spec itself does not edit trackers.
 
@@ -179,7 +179,7 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
 - A checksum or signature source is unavailable.
 - `npm audit fix --force` upgrades Astro but breaks content collection schema validation.
 - Astro 6 requires Node 22.12.0 while current installer or docs imply a lower Node runtime.
-- `test_priority3.sh` has optional dependency checks that should skip rather than fail.
+- `tests/cli/json-error-handling.sh` has optional dependency checks that should skip rather than fail.
 - `lib.sh` extraction changes source order or global variables, breaking sourced functions.
 - Working tree contains unrelated user edits in the same files.
 - A successful command still contains failed subtest text in its output.
@@ -226,12 +226,12 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
   - Validate with: `pnpm --dir shipglowz-site install --frozen-lockfile`, `pnpm --dir shipglowz-site build`, and `pnpm --dir shipglowz-site audit --prod`.
   - Notes: Astro v6 upgrade docs call out Node 22.12.0+, Vite 7, and Zod 4; check local CI/runtime compatibility before finalizing.
 
-- [ ] Task 6: Fix Priority 3 test result semantics.
-  - File: `test_priority3.sh`
+- [ ] Task 6: Fix JSON and error-handling test result semantics.
+  - File: `tests/cli/json-error-handling.sh`
   - Action: Make required PM2 jq fixture checks pass, or mark unavailable prerequisites as skipped without counting them as failed; ensure any displayed failure exits non-zero.
   - User story link: gives operators trustworthy validation signals.
   - Depends on: none.
-  - Validate with: `./test_priority3.sh`; intentionally failing a required assertion in a temporary local copy should exit non-zero.
+  - Validate with: `./tests/cli/json-error-handling.sh`; intentionally failing a required assertion in a temporary local copy should exit non-zero.
   - Notes: preserve existing optional-dependency behavior where a skip is legitimate.
 
 - [ ] Task 7: Extract validation helpers from `lib.sh` into a dedicated module.
@@ -239,7 +239,7 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
   - Action: Create `lib/validation.sh` and move exactly these functions from `lib.sh`: `validate_project_path`, `validate_env_name`, `validate_duckdns_subdomain`, `validate_duckdns_token`, and `validate_public_ipv4`. Source `lib/validation.sh` from `lib.sh` after configuration is loaded and before any caller can invoke the validators. Keep function names and return semantics unchanged.
   - User story link: reduces blast radius without rewriting the CLI.
   - Depends on: Tasks 2 and 6 if extracting install/test-related shared helpers; otherwise independent.
-  - Validate with: `bash -n lib.sh shipglowz.sh`; `./test_validation.sh`; `./test_priority2.sh`; `./test_priority3.sh`.
+  - Validate with: `bash -n lib.sh shipglowz.sh`; `./tests/cli/input-validation.sh`; `./tests/cli/config-logging-cache.sh`; `./tests/cli/json-error-handling.sh`.
   - Notes: do not extract publish, dashboard, PM2, inspector, or metadata behavior in this chantier. If sourcing order breaks because validators call `error` before it is defined, keep the helpers in `lib.sh` and record the blocker instead of broadening the refactor.
 
 - [ ] Task 8: Update docs and release notes for changed contracts.
@@ -255,7 +255,7 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
   - Action: Run all validation commands. If they pass, mark the corresponding `### Audit: Code` rows for this chantier done in local and master task trackers, and append or update the code audit result in local and master audit logs.
   - User story link: proves the chantier is actually ready to ship.
   - Depends on: Tasks 1-8.
-  - Validate with: `bash -n ...`, `./test_validation.sh`, `./test_priority2.sh`, `./test_priority3.sh`, `cd shipglowz-site && pnpm install --frozen-lockfile && pnpm build && pnpm audit --prod`.
+  - Validate with: `bash -n ...`, `./tests/cli/input-validation.sh`, `./tests/cli/config-logging-cache.sh`, `./tests/cli/json-error-handling.sh`, `cd shipglowz-site && pnpm install --frozen-lockfile && pnpm build && pnpm audit --prod`.
   - Notes: if a command cannot run in the environment, document the exact blocker.
 
 ## Acceptance Criteria
@@ -264,8 +264,8 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
 - [ ] AC 2: Given a supported install path, when `bash -n install.sh` runs, then the script has no syntax errors.
 - [ ] AC 3: Given the Astro site dependencies are installed, when `npm audit --omit=dev` runs in `site/`, then it no longer reports `GHSA-j687-52p2-xcff` for Astro.
 - [ ] AC 4: Given the Astro dependency remediation is applied, when `pnpm build` runs in `shipglowz-site/`, then all static routes build successfully.
-- [ ] AC 5: Given `test_priority3.sh` prints any required test as failed, when the script exits, then the process exit code is non-zero.
-- [ ] AC 6: Given an optional Priority 3 prerequisite is unavailable, when `test_priority3.sh` runs, then the output marks it skipped or informational without counting it as a failed required test.
+- [ ] AC 5: Given `tests/cli/json-error-handling.sh` prints any required test as failed, when the script exits, then the process exit code is non-zero.
+- [ ] AC 6: Given an optional JSON/error-handling prerequisite is unavailable, when `tests/cli/json-error-handling.sh` runs, then the output marks it skipped or informational without counting it as a failed required test.
 - [ ] AC 7: Given the first `lib.sh` extraction is complete, when `shipglowz.sh` sources `lib.sh`, then existing public functions used by menus and tests remain callable.
 - [ ] AC 8: Given the audit fixes already applied, when regression tests run, then DuckDNS validation tests still pass and the inspector still has no default public ImgBB key.
 - [ ] AC 9: Given install behavior, dependency requirements, or module boundaries changed, when docs are read, then README/GUIDELINES/CLAUDE/CHANGELOG reflect implemented behavior and do not describe stale commands.
@@ -274,11 +274,11 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
 ## Test Strategy
 
 - Static shell checks:
-  - `bash -n lib.sh config.sh shipglowz.sh install.sh local/local.sh local/dev-tunnel.sh test_validation.sh test_priority2.sh test_priority3.sh`
+  - `bash -n lib.sh config.sh shipglowz.sh install.sh local/local.sh local/dev-tunnel.sh tests/cli/input-validation.sh tests/cli/config-logging-cache.sh tests/cli/json-error-handling.sh`
 - Existing shell tests:
-  - `./test_validation.sh`
-  - `./test_priority2.sh`
-  - `./test_priority3.sh`
+  - `./tests/cli/input-validation.sh`
+  - `./tests/cli/config-logging-cache.sh`
+  - `./tests/cli/json-error-handling.sh`
 - Site checks:
   - `cd shipglowz-site && pnpm install --frozen-lockfile`
   - `cd shipglowz-site && pnpm build`
@@ -287,7 +287,7 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
   - Use temporary local copies or controlled invalid URLs to prove checked-download helpers fail closed.
   - Do not run destructive privileged install flows on the shared workspace unless explicitly approved.
 - Regression review:
-  - Confirm direct audit fixes remain present in `lib.sh`, `config.sh`, `injectors/web-inspector.js`, and `test_validation.sh`.
+  - Confirm direct audit fixes remain present in `lib.sh`, `config.sh`, `injectors/web-inspector.js`, and `tests/cli/input-validation.sh`.
 
 ## Risks
 
@@ -304,13 +304,13 @@ Implement a staged risk-reduction pass. First make installer execution fail clos
   - `ARCHITECTURE.md`
   - `install.sh`
   - `lib.sh`
-  - `test_priority3.sh`
+  - `tests/cli/json-error-handling.sh`
   - `shipglowz-site/package.json`
   - `shipglowz-site/src/content.config.ts`
 - Implementation order:
   1. Installer map and failure model.
   2. Astro advisory remediation.
-  3. Priority 3 test semantics.
+  3. JSON and error-handling test semantics.
   4. Exact validator extraction from `lib.sh` to `lib/validation.sh`.
   5. Docs and final validation.
 - Packages to avoid:

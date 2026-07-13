@@ -258,11 +258,11 @@ The initial helper should prioritize current-user repair and install-time reuse.
   - Notes: Default mode should be `--check` if neither `--check` nor `--repair` is supplied.
 
 - [x] Task 3: Add focused runtime sync tests
-  - File: `test_skill_runtime_sync.sh`
+  - File: `tests/skills/runtime-sync.sh`
   - Action: Create a shell test using temporary ShipGlowz roots and target homes to verify check/repair behavior without touching real user runtime directories.
   - User story link: Proves the helper repairs visibility without risking operator files.
   - Depends on: Task 2
-  - Validate with: `bash test_skill_runtime_sync.sh`
+  - Validate with: `bash tests/skills/runtime-sync.sh`
   - Notes: Cover missing links, stale links, correct links, non-symlink collisions, invalid skill names, `--skill`, `--all`, and `--runtime` filtering.
 
 - [x] Task 4: Integrate installer skill linking with the helper
@@ -306,11 +306,11 @@ The initial helper should prioritize current-user repair and install-time reuse.
   - Notes: Public site content remains no-impact unless implementation changes public claims.
 
 - [x] Task 9: Run final validation suite
-  - File: `tools/shipflow_sync_skills.sh`, `test_skill_runtime_sync.sh`, `install.sh`, changed skills/docs/spec/bug files
+  - File: `tools/shipflow_sync_skills.sh`, `tests/skills/runtime-sync.sh`, `install.sh`, changed skills/docs/spec/bug files
   - Action: Run syntax, helper tests, skill budget, metadata lint, and targeted runtime link checks.
   - User story link: Proves the helper is safe, reusable, and visible to the lifecycle.
   - Depends on: Tasks 2-8
-  - Validate with: `bash -n tools/shipflow_sync_skills.sh install.sh test_skill_runtime_sync.sh`; `bash test_skill_runtime_sync.sh`; `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/shared-shipflow-skill-runtime-sync.md docs/technical/installer-and-user-scope.md docs/technical/skill-runtime-and-lifecycle.md docs/technical/code-docs-map.md shipglowz_data/workflow/bugs/BUG-2026-05-03-001.md`; `tools/shipflow_sync_skills.sh --check --all`
+  - Validate with: `bash -n tools/shipflow_sync_skills.sh install.sh tests/skills/runtime-sync.sh`; `bash tests/skills/runtime-sync.sh`; `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`; `python3 tools/shipflow_metadata_lint.py specs/shared-shipflow-skill-runtime-sync.md docs/technical/installer-and-user-scope.md docs/technical/skill-runtime-and-lifecycle.md docs/technical/code-docs-map.md shipglowz_data/workflow/bugs/BUG-2026-05-03-001.md`; `tools/shipflow_sync_skills.sh --check --all`
   - Notes: `pnpm --dir shipglowz-site build` is not required unless public site content changes.
 
 ## Acceptance Criteria
@@ -333,9 +333,9 @@ The initial helper should prioritize current-user repair and install-time reuse.
 ## Test Strategy
 
 - Shell syntax:
-  - `bash -n tools/shipflow_sync_skills.sh install.sh test_skill_runtime_sync.sh`
+  - `bash -n tools/shipflow_sync_skills.sh install.sh tests/skills/runtime-sync.sh`
 - Focused helper tests:
-  - `bash test_skill_runtime_sync.sh`
+  - `bash tests/skills/runtime-sync.sh`
 - Runtime drift checks:
   - `tools/shipflow_sync_skills.sh --check --all`
   - targeted `readlink -f` checks for `sg-build`, `sg-browser`, and `sg-skill-build`.

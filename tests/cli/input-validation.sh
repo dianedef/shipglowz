@@ -2,8 +2,9 @@
 
 # Test script for validation functions
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SHIPFLOW_TEST_ROOT="$SCRIPT_DIR"
-source "$SHIPFLOW_TEST_ROOT/lib.sh"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+SHIPFLOW_TEST_ROOT="$REPO_ROOT"
+source "$SHIPFLOW_TEST_ROOT/cli/lib.sh"
 source "$SHIPFLOW_TEST_ROOT/local/mcp-login.sh"
 source "$SHIPFLOW_TEST_ROOT/local/blacksmith-login.sh"
 

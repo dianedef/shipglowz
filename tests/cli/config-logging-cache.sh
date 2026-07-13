@@ -1,12 +1,17 @@
 #!/bin/bash
 
-# Test script for Priority 2 improvements
+# Configuration, structured logging, and PM2 cache regression tests.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/config.sh"
-source "$SCRIPT_DIR/lib.sh"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+export SHIPFLOW_ERROR_TRAPS=false
+export SHIPFLOW_STRICT_MODE=false
+source "$REPO_ROOT/cli/config.sh"
+source "$REPO_ROOT/cli/lib.sh"
+
+trap - ERR 2>/dev/null || true
 
 echo -e "${CYAN}╔══════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║${NC}      ${YELLOW}ShipFlow Priority 2 Tests${NC}           ${CYAN}║${NC}"
+echo -e "${CYAN}║${NC}   ${YELLOW}ShipFlow Config, Logging, Cache Tests${NC}   ${CYAN}║${NC}"
 echo -e "${CYAN}╚══════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -55,7 +60,10 @@ echo -e "${BLUE}Testing Structured Logging (#7)${NC}"
 echo ""
 
 # Clear test log
-TEST_LOG_FILE="/tmp/shipflow_test.log"
+TEST_LOG_FILE="$(mktemp)"
+export SHIPGLOWZ_LOG_DIR="$(dirname "$TEST_LOG_FILE")"
+export SHIPGLOWZ_LOG_FILE="$TEST_LOG_FILE"
+export SHIPGLOWZ_LOGGING_ENABLED="true"
 export SHIPFLOW_LOG_FILE="$TEST_LOG_FILE"
 export SHIPFLOW_LOGGING_ENABLED="true"
 rm -f "$TEST_LOG_FILE"
@@ -226,9 +234,9 @@ fi
 rm -f "$TEST_LOG_FILE"
 
 if [ $pass_count -eq $test_count ]; then
-    echo -e "${GREEN}✅ All Priority 2 tests passed!${NC}"
+    echo -e "${GREEN}✅ All config, logging, and cache tests passed!${NC}"
     exit 0
 else
     echo -e "${YELLOW}⚠️  Some tests skipped or failed${NC}"
-    exit 0
+    exit 1
 fi

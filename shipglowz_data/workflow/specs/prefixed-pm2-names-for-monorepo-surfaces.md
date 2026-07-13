@@ -108,7 +108,7 @@ Centralize name derivation in one helper and use it throughout the environment l
 ## Implementation Tasks
 
 - [x] Add and adopt centralized PM2 name derivation in `cli/lib.sh`.
-- [x] Add focused regression coverage in `test_validation.sh`.
+- [x] Add focused regression coverage in `tests/cli/input-validation.sh`.
 - [x] Migrate existing ecosystem configs and repair confirmed config defects.
 - [x] Update runtime documentation and run validation.
 
@@ -121,7 +121,7 @@ Centralize name derivation in one helper and use it throughout the environment l
 
 ## Test Strategy
 
-- Unit: focused shell assertions in `test_validation.sh`.
+- Unit: focused shell assertions in `tests/cli/input-validation.sh`.
 - Integration: load and audit all ecosystem configs with Node.js.
 - Manual: none.
 
@@ -131,7 +131,7 @@ Centralize name derivation in one helper and use it throughout the environment l
 
 ## Execution Notes
 
-- Validate with `bash -n cli/lib.sh test_validation.sh` and `bash test_validation.sh`.
+- Validate with `bash -n cli/lib.sh tests/cli/input-validation.sh` and `bash tests/cli/input-validation.sh`.
 - Do not restart PM2 apps as part of this migration.
 
 ## Open Questions

@@ -301,7 +301,7 @@ Flutter Web has two runtime paths:
 
 ```bash
 bash -n cli/shipglowz.sh cli/lib.sh cli/config.sh
-test_flox_runtime_provisioning.sh
+tests/runtime/flox-provisioning.sh
 rg -n "invalidate_pm2_cache" cli/lib.sh
 printf 'x\n' | env SHIPFLOW_PROJECTS_DIR=/tmp/shipflow-empty ./cli/shipglowz.sh u
 SHIPFLOW_CODEX_DRY_RUN=1 ./cli/shipglowz.sh codex --dir "$PWD" supabase playwright

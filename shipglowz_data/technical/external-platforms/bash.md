@@ -18,7 +18,7 @@ linked_systems:
   - lib.sh
   - install.sh
   - local/
-  - shipglowz_devserver_gum.sh
+  - cli/shipglowz_devserver_gum.sh
   - skills/references/documentation-freshness-gate.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"

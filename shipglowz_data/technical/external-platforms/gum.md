@@ -14,7 +14,7 @@ risk_level: medium
 security_impact: yes
 docs_impact: yes
 linked_systems:
-  - shipglowz_devserver_gum.sh
+  - cli/shipglowz_devserver_gum.sh
   - shipglowz_data/technical/terminal-tui.md
   - skills/references/documentation-freshness-gate.md
 depends_on:
@@ -37,7 +37,7 @@ next_step: "/sg-docs technical audit"
 
 This note is the global ShipGlowz/Chiclou cheat sheet for Gum-related freshness checks. Use it before relying on assumptions about Gum menu behavior, command output, exit codes, styling, spinners, tables, prompts, install methods, or Bash TUI scripts.
 
-It does not replace Gum documentation. It records the source map and ShipGlowz rules agents should use before changing `shipglowz_devserver_gum.sh`, installer Gum setup, or project-local Gum usage docs.
+It does not replace Gum documentation. It records the source map and ShipGlowz rules agents should use before changing `cli/shipglowz_devserver_gum.sh`, installer Gum setup, or project-local Gum usage docs.
 
 ## Source Map
 
@@ -111,12 +111,12 @@ rg -n "Freshness Gate|Source Map|ShipGlowz Decision Rules|Maintenance Rule" ship
 For menu changes:
 
 ```bash
-bash -n shipglowz_devserver_gum.sh
+bash -n cli/shipglowz_devserver_gum.sh
 ```
 
 ## Reader Checklist
 
-- `gum`, `shipglowz_devserver_gum.sh`, `gum choose`, `gum confirm`, `gum spin`, `gum table`, or installer Gum setup changed -> check Gum note.
+- `gum`, `cli/shipglowz_devserver_gum.sh`, `gum choose`, `gum confirm`, `gum spin`, `gum table`, or installer Gum setup changed -> check Gum note.
 - Prompt/cancel behavior changed -> test cancellation and empty selection.
 - Spinner wraps a command -> ensure failure output remains diagnosable.
 - Gum missing in environment -> verify fallback or blocked report.

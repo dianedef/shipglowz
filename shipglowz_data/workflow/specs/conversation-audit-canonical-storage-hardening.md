@@ -179,11 +179,11 @@ Harden the capture and audit contracts around `$SHIPGLOWZ_ROOT`. The capture scr
   - Validate with: focused `rg`.
 
 - [x] Task 4: Add focused path guard tests
-  - File: `test_conversation_audit_storage.sh`
+  - File: `tests/workflow/conversation-storage.sh`
   - Action: Add shell tests that exercise the path guard without requiring a live tmux write; use `--dry-run` where possible and expected-failure checks for invalid destinations.
   - User story link: Proves the prevention behavior from a fake project cwd.
   - Depends on: Task 1.
-  - Validate with: `./test_conversation_audit_storage.sh`.
+  - Validate with: `./tests/workflow/conversation-storage.sh`.
 
 ## Acceptance Criteria
 
@@ -196,7 +196,7 @@ Harden the capture and audit contracts around `$SHIPGLOWZ_ROOT`. The capture scr
 ## Test Strategy
 
 - `bash -n skills/tmux-capture-conversation/scripts/capture_tmux_conversation.sh`
-- `./test_conversation_audit_storage.sh`
+- `./tests/workflow/conversation-storage.sh`
 - `rg -n "SHIPGLOWZ_ROOT/shipglowz_data/workflow/conversations|outside|conversation-audits|external" skills/tmux-capture-conversation/SKILL.md skills/sg-conversation-audit/SKILL.md`
 - `python3 tools/shipflow_metadata_lint.py shipglowz_data/workflow/specs/conversation-audit-canonical-storage-hardening.md`
 
@@ -234,6 +234,6 @@ None. The user explicitly approved autonomous hardening.
 | sg-spec | complete | Ready spec created from user-approved storage hardening requirement. | Run `/sg-start conversation-audit-canonical-storage-hardening`. |
 | sg-ready | skipped | User requested autonomous continuation and scope is bounded by existing contracts. | Run implementation. |
 | sg-start | complete | Implemented guard, contracts, and focused tests. | Close chantier bookkeeping. |
-| sg-verify | complete | `./test_conversation_audit_storage.sh`, `bash -n`, metadata lint, skill budget audit, and runtime skill sync all passed. | Close chantier bookkeeping. |
+| sg-verify | complete | `./tests/workflow/conversation-storage.sh`, `bash -n`, metadata lint, skill budget audit, and runtime skill sync all passed. | Close chantier bookkeeping. |
 | sg-end | complete | TASKS and CHANGELOG updated for this chantier. | Ship targeted scope. |
 | sg-ship | complete | Targeted ship scope prepared; unrelated numeric skill-code-index changes excluded. | None. |

@@ -1,20 +1,21 @@
 #!/bin/bash
 
-# Test script for Priority 3 improvements
+# JSON parsing, error handling, and idempotence regression tests.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Disable error traps for testing
 export SHIPFLOW_ERROR_TRAPS=false
 export SHIPFLOW_STRICT_MODE=false
 
-source "$SCRIPT_DIR/config.sh"
-source "$SCRIPT_DIR/lib.sh"
+source "$REPO_ROOT/cli/config.sh"
+source "$REPO_ROOT/cli/lib.sh"
 
 # Disable ERR trap if it was set
 trap - ERR 2>/dev/null || true
 
 echo -e "${CYAN}╔══════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║${NC}      ${YELLOW}ShipFlow Priority 3 Tests${NC}           ${CYAN}║${NC}"
+echo -e "${CYAN}║${NC}  ${YELLOW}ShipFlow JSON and Error Handling Tests${NC}  ${CYAN}║${NC}"
 echo -e "${CYAN}╚══════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -160,7 +161,7 @@ echo ""
 # Check that functions have documentation headers
 check_function_docs() {
     local func_name=$1
-    local lib_file="$SCRIPT_DIR/lib.sh"
+    local lib_file="$REPO_ROOT/cli/lib.sh"
 
     # Find the function and check if there's a doc comment before it
     # Look within 35 lines before the function definition
@@ -186,13 +187,13 @@ run_test "env_remove has docs" check_function_docs "env_remove"
 run_test "resolve_project_path has docs" check_function_docs "resolve_project_path"
 
 # Check documentation quality
-doc_count=$(grep -c "# Description:" "$SCRIPT_DIR/lib.sh")
+doc_count=$(grep -c "# Description:" "$REPO_ROOT/cli/lib.sh")
 run_test "lib.sh has 10+ documented functions" test "$doc_count" -ge 10
 
 # Check for proper doc structure
-run_test "Docs have Arguments section" grep -q "# Arguments:" "$SCRIPT_DIR/lib.sh"
-run_test "Docs have Returns section" grep -q "# Returns:" "$SCRIPT_DIR/lib.sh"
-run_test "Docs have Example section" grep -q "# Example:" "$SCRIPT_DIR/lib.sh"
+run_test "Docs have Arguments section" grep -q "# Arguments:" "$REPO_ROOT/cli/lib.sh"
+run_test "Docs have Returns section" grep -q "# Returns:" "$REPO_ROOT/cli/lib.sh"
+run_test "Docs have Example section" grep -q "# Example:" "$REPO_ROOT/cli/lib.sh"
 
 echo ""
 
@@ -278,7 +279,7 @@ echo ""
 # Cleanup registered temp files will happen automatically via trap
 
 if [ $pass_count -eq $test_count ]; then
-    echo -e "${GREEN}✅ All Priority 3 tests passed!${NC}"
+    echo -e "${GREEN}✅ All JSON and error handling tests passed!${NC}"
     exit 0
 else
     echo -e "${YELLOW}⚠️  Some tests skipped (optional dependencies)${NC}"

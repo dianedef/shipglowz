@@ -2,7 +2,8 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-HELPER="$ROOT_DIR/tools/shipflow_sync_skills.sh"
+REPO_ROOT="$(cd "$ROOT_DIR/../.." && pwd)"
+HELPER="$REPO_ROOT/tools/shipflow_sync_skills.sh"
 TMP_DIR="$(mktemp -d)"
 
 cleanup() {

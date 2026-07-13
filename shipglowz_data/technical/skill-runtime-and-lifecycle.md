@@ -480,8 +480,8 @@ Content lifecycle flow:
 
 ```bash
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
-bash -n tools/shipglowz_sync_skills.sh test_skill_runtime_sync.sh
-bash test_skill_runtime_sync.sh
+bash -n tools/shipglowz_sync_skills.sh tests/skills/runtime-sync.sh
+bash tests/skills/runtime-sync.sh
 tools/shipglowz_sync_skills.sh --check --all
 python3 tools/shipglowz_metadata_lint.py skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md skills/references/spec-driven-development-discipline.md skills/references/technical-docs-corpus.md skills/references/editorial-content-corpus.md skills/references/subagent-roles/editorial-reader.md skills/references/skill-instruction-layering.md skills/references/skill-context-budget.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md AGENT.md
 rg -n "Governance Corpus Gate|305-sg-init.*bootstrap|300-sg-docs.*maintain|001-sg-build.*consume|004-sg-deploy|002-sg-maintain|007-sg-content|master-delegation-semantics|master-workflow-lifecycle|bug file|delegated sequential|subagent|parallelism|short natural-language|Execution Batches|reporting-contract|report=user|docs/technical|docs/editorial" skills/305-sg-init/SKILL.md skills/300-sg-docs/SKILL.md skills/004-sg-deploy/SKILL.md skills/002-sg-maintain/SKILL.md skills/007-sg-content/SKILL.md specs/001-sg-build-autonomous-master-skill.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md README.md skills/references/reporting-contract.md skills/references/master-delegation-semantics.md skills/references/master-workflow-lifecycle.md

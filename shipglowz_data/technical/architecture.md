@@ -1,7 +1,7 @@
 ---
 artifact: architecture_context
 metadata_schema_version: "1.0"
-artifact_version: "1.5.0"
+artifact_version: "1.6.0"
 project: "shipflow"
 created: "2026-04-26"
 updated: "2026-07-13"
@@ -20,6 +20,7 @@ linked_systems:
   - "skills/"
   - "templates/artifacts/"
   - "tools/shipglowz_metadata_lint.py"
+  - "tests/"
 external_dependencies:
   - "Flox"
   - "PM2"
@@ -85,6 +86,7 @@ The repo is not split into small services. It is centered around shell-based orc
 - `skills/`: task-specific workflows and governance behavior.
 - `templates/artifacts/`: normalized artifact structures.
 - `tools/shipglowz_metadata_lint.py`: executable metadata contract validator.
+- `tests/`: executable regression suites grouped by owning subsystem (`cli`, `governance`, `runtime`, `skills`, and `workflow`).
 
 ## Data And Control Flows
 
