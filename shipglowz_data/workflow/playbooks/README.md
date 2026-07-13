@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipFlow
 created: "2026-06-28"
-updated: "2026-06-28"
+updated: "2026-07-13"
 status: draft
 source_skill: 300-sg-docs
 scope: workflow-playbooks-index
@@ -26,6 +26,7 @@ supersedes: []
 evidence:
   - "Operator decision on 2026-06-28: ShipFlow needs reusable transversal playbooks and checklists for business domains shared across many sites and applications."
   - "Current corpus already stores test checklists under shipglowz_data/workflow/test-checklists but lacks a canonical home for reusable domain playbooks."
+  - "Server disk hygiene and migration playbook added after the 2026-07-13 disk-pressure incident."
 next_review: "2026-07-05"
 next_step: "/300-sg-docs update playbook migration inventory"
 ---
@@ -49,6 +50,7 @@ Use this folder when the document answers:
 - shared playbooks that one or more project-local checklists can instantiate
 - `seo-charge-referencement-web-playbook.md`
 - `project-import-playbook.md`
+- `server-disk-hygiene-and-migration-playbook.md`
 
 ## What Does Not Belong Here
 

@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipFlow
 created: "2026-06-28"
-updated: "2026-06-28"
+updated: "2026-07-13"
 status: draft
 source_skill: 300-sg-docs
 scope: workflow-checklists-index
@@ -26,6 +26,7 @@ supersedes: []
 evidence:
   - "Operator decision on 2026-06-28: ShipFlow needs reusable transversal checklists for business domains shared across many sites and applications."
   - "Current corpus only has test-checklists for execution proof, not a canonical reusable checklist library."
+  - "Server disk hygiene and migration checklist added after the 2026-07-13 disk-pressure incident."
 next_review: "2026-07-05"
 next_step: "/300-sg-docs update checklist migration inventory"
 ---
@@ -48,6 +49,7 @@ Use this folder when the document answers:
 - business-domain checklists paired to shared playbooks
 - `seo-charge-referencement-web-checklist.md`
 - `project-import-checklist.md`
+- `server-disk-hygiene-and-migration-checklist.md`
 
 ## What Does Not Belong Here
 

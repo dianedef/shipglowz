@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.0.16"
+artifact_version: "1.0.17"
 project: ShipGlowz
 created: "2026-05-01"
-updated: "2026-06-21"
+updated: "2026-07-13"
 status: reviewed
 source_skill: sg-start
 scope: runtime-cli
@@ -38,6 +38,7 @@ evidence:
   - "Health Check system monitor now shows disk capacity alongside memory."
   - "Disk cleanup now includes protected agent-history and agent-cache cleanup choices."
   - "Disk cleanup menus now target heavier real-world dev caches and workspace build artifacts such as Gradle caches, Dart analysis cache, pub cache, node_modules, venvs, and common frontend build directories."
+  - "Aggressive disk cleanup preserves PNPM homes, configured stores, and global PNPM binaries."
   - "Disk details and PM2 log cleanup/rotation added to explain and cap disk usage."
   - "Main menu session identity now renders inside the top status header."
   - "Subcommand screen headers now route through a shared modular header helper."
@@ -143,7 +144,8 @@ This doc covers the server-side CLI runtime: `cli/shipglowz.sh`, `cli/lib.sh`, a
   Dart analysis cache, pub cache, selected local editor/agent state, and
   common workspace artifacts (`node_modules`, `venv`, `.dart_tool`, build
   directories). It shows estimated recoverable space and protects auth,
-  config, skills, memories, source trees, and recent agent histories.
+  config, skills, memories, source trees, recent agent histories, PNPM homes,
+  configured PNPM stores, and PNPM global binaries.
 - `cli/lib.sh::disk_usage_details_menu`: read-only disk usage detail view for the
   largest PM2 log files, `$HOME` entries, project/work directories, and root
   filesystem entries.
@@ -279,8 +281,9 @@ Flutter Web has two runtime paths:
   cleanup is retention-based. Aggressive cleanup may remove regenerated build
   artifacts inside project trees, but not source files, git data, or primary
   repository structure.
-- Package-manager caches such as PNPM are disk cleanup targets, not RAM/process
-  cleanup targets.
+- Package-manager caches are disk cleanup targets, not RAM/process cleanup
+  targets; PNPM homes and stores are explicitly protected so aggressive cleanup
+  does not invalidate PNPM global binaries or downloaded packages.
 - PM2 logs can dominate disk usage; disk cleanup should expose their size, offer
   a confirmed flush, and configure rotation rather than relying on manual
   operator cleanup.

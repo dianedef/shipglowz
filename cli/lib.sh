@@ -1177,20 +1177,75 @@ cleanup_disk_light() {
 
 cleanup_disk_aggressive() {
     cleanup_disk_light
+    init_pnpm_protected_paths
     local path
     while IFS= read -r path; do
         [ -n "$path" ] || continue
-        rm -rf -- "$path" 2>/dev/null || true
+        cleanup_path_preserving_pnpm_data "$path"
     done < <(disk_cleanup_aggressive_paths)
 
     cleanup_workspace_build_artifacts
+}
+
+pnpm_protected_paths() {
+    printf '%s\n' \
+        "$HOME/.local/share/pnpm" \
+        "$HOME/.pnpm-store" \
+        "$HOME/.cache/pnpm"
+
+    [ -n "${PNPM_HOME:-}" ] && printf '%s\n' "$PNPM_HOME"
+
+    if command -v pnpm >/dev/null 2>&1; then
+        pnpm store path 2>/dev/null || true
+    fi
+}
+
+init_pnpm_protected_paths() {
+    PNPM_PROTECTED_PATHS=()
+
+    local path
+    while IFS= read -r path; do
+        case "$path" in
+            /*) PNPM_PROTECTED_PATHS+=("${path%/}") ;;
+        esac
+    done < <(pnpm_protected_paths)
+}
+
+cleanup_path_preserving_pnpm_data() {
+    local path="$1"
+    local protected_path child
+    local contains_pnpm_data=false
+
+    [ -e "$path" ] || return 0
+
+    for protected_path in "${PNPM_PROTECTED_PATHS[@]}"; do
+        case "$protected_path" in
+            "$path"|"$path"/*)
+                contains_pnpm_data=true
+                ;;
+        esac
+    done
+
+    if [ "$contains_pnpm_data" = false ]; then
+        rm -rf -- "$path" 2>/dev/null || true
+        return 0
+    fi
+
+    for protected_path in "${PNPM_PROTECTED_PATHS[@]}"; do
+        [ "$path" = "$protected_path" ] && return 0
+    done
+
+    if [ -d "$path" ]; then
+        while IFS= read -r -d '' child; do
+            cleanup_path_preserving_pnpm_data "$child"
+        done < <(find "$path" -mindepth 1 -maxdepth 1 -print0 2>/dev/null)
+    fi
 }
 
 disk_cleanup_light_paths() {
     printf '%s\n' \
         "$HOME/.cache/yarn" \
         "$HOME/.cache/pip" \
-        "$HOME/.cache/pnpm" \
         "$HOME/.cache/dotslash" \
         "$HOME/.npm/_cacache" \
         "$HOME/.npm/_npx" \
@@ -1214,8 +1269,7 @@ disk_cleanup_aggressive_paths() {
         "$HOME/.local/state/nvim" \
         "$HOME/.local/share/nvim" \
         "$HOME/.local/share/MyNeovim" \
-        "$HOME/.local/share/claude" \
-        "$HOME/.local/share/pnpm"
+        "$HOME/.local/share/claude"
 }
 
 disk_cleanup_workspace_patterns() {
@@ -1700,7 +1754,6 @@ disk_cleanup_menu() {
         echo -e "${YELLOW}This will remove:${NC}"
         echo -e "  ${CYAN}•${NC} ~/.cache/yarn"
         echo -e "  ${CYAN}•${NC} ~/.cache/pip"
-        echo -e "  ${CYAN}•${NC} ~/.cache/pnpm (PNPM disk cache)"
         echo -e "  ${CYAN}•${NC} ~/.cache/dotslash"
         echo -e "  ${CYAN}•${NC} ~/.npm/_cacache"
         echo -e "  ${CYAN}•${NC} ~/.npm/_npx"
@@ -1726,11 +1779,10 @@ disk_cleanup_menu() {
         echo -e "  ${CYAN}•${NC} ~/.local/state/augment"
         echo -e "  ${CYAN}•${NC} ~/.local/state/nvim, ~/.local/share/nvim, ~/.local/share/MyNeovim"
         echo -e "  ${CYAN}•${NC} ~/.local/share/claude"
-        echo -e "  ${CYAN}•${NC} ~/.local/share/pnpm (PNPM disk store/cache) ${RED}⚠️  casse les binaires pnpm globaux (kc, ...)${NC}"
         echo -e "  ${CYAN}•${NC} common project artifacts in home workspaces: node_modules, venv/.venv, .dart_tool, build, dist, .astro, .vite, .next, .nuxt, .turbo, pytest/mypy/ruff caches"
         echo -e "  ${CYAN}•${NC} Rust/Tauri target/ build artifacts"
         echo -e "  ${CYAN}•${NC} PM2 daemon/app logs + pm2-logrotate"
-        echo -e "${GREEN}Protected:${NC} git repos, source files, auth/config, skills, memories, Flutter SDK, Rust toolchains, Google Cloud SDK."
+        echo -e "${GREEN}Protected:${NC} PNPM home/stores and global binaries, git repos, source files, auth/config, skills, memories, Flutter SDK, Rust toolchains, Google Cloud SDK."
         echo ""
         if [ "$before_level" = "critical" ] || [ "$before_level" = "high" ]; then
             echo -e "${RED}This cleanup is recommended: current disk pressure is ${before_level}.${NC}"
