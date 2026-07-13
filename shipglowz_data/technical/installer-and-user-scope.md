@@ -104,6 +104,8 @@ sudo ./cli/install.sh
 - The current user-space agent install path uses `pnpm add -g` inside
   `PNPM_HOME`, so the installer follows the package registry version current at
   install time instead of shipping pinned local binaries.
+- The system Node.js install path targets Node.js 24.x through the NodeSource
+  `setup_24.x` bootstrap before installing `nodejs`.
 - Symlinks and aliases should be idempotent and updated consistently. The managed bash aliases include `shipflow`/`sf`/`s`, Claude/Codex launch shortcuts, reload helpers, and `ch` for clearing the current terminal plus tmux pane history (`clear; tmux clear-history`).
 - Helper command wrappers under `/usr/local/bin` should point back to scripts in
   `$SHIPFLOW_ROOT`; do not duplicate helper logic into generated files.

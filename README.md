@@ -397,7 +397,7 @@ Notes:
   stable is not a valid fallback.
 
 ShipGlowz also installs the terminal tooling commonly needed to operate those integrations:
-- `node` / Node.js (from NodeSource if needed)
+- `node` / Node.js 24 LTS (from NodeSource if needed)
 - `pm2`
 - `vercel`
 - `convex`

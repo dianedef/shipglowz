@@ -13,6 +13,7 @@ This site is the public explanation, docs, FAQ, pricing hypothesis, blog, and sk
 ## Commands
 
 ```bash
+corepack enable
 pnpm install
 pnpm dev
 ```
@@ -23,6 +24,11 @@ Build for production:
 pnpm build
 pnpm preview
 ```
+
+## Runtime
+
+- Node.js 24.x
+- pnpm 11.8.0 via the `packageManager` pin
 
 ## Structure
 

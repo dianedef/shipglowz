@@ -61,6 +61,7 @@ This doc covers the Astro public site under `shipglowz-site/`, public skill cont
 ## Entrypoints
 
 - `npm --prefix shipglowz-site run build`: public site build.
+- `shipglowz-site/package.json`: Node.js 24 and pnpm runtime contract for the Astro site.
 - `shipglowz-site/src/pages/docs.astro`: public docs overview.
 - `shipglowz-site/src/pages/blog/index.astro`, `shipglowz-site/src/pages/blog/[slug].astro`: indexed blog hub and article route.
 - `shipglowz-site/src/pages/skill-modes.astro`: public launch cheatsheet and skill mode tutorial.
@@ -74,6 +75,7 @@ This doc covers the Astro public site under `shipglowz-site/`, public skill cont
 ## Invariants
 
 - `shipglowz_data/technical/` is internal-only in v1.
+- The Astro site runtime is pinned to Node.js 24.x in `shipglowz-site/package.json`.
 - Public site copy must not expose private implementation details, private URLs, tokens, internal logs, or operator-only instructions.
 - Public claims must be backed by product, business, brand, GTM, workflow docs, or observed behavior.
 - Public claims that touch sensitive areas must pass the editorial claim register.

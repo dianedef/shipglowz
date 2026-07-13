@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "description": "Optional read-only ShipGlowz terminal dashboard (Bun + OpenTUI)",
+  "engines": {
+    "node": ">=24 <25"
+  },
   "scripts": {
     "dev": "bun run src/main.ts",
     "typecheck": "tsc --noEmit",
