@@ -18,7 +18,7 @@ linked_systems:
   - skills/109-sg-auth-debug/SKILL.md
   - skills/109-sg-auth-debug/references/clerk.md
   - skills/109-sg-auth-debug/references/convex-clerk.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
     artifact_version: "0.1.0"
@@ -98,7 +98,7 @@ A project using Clerk should maintain `<governance-root>/shipglowz_data/technica
 - Convex/Supabase/Firebase/backend integration notes
 - validation surface and browser/auth proof route
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

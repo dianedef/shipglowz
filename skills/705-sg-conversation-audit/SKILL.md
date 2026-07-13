@@ -62,7 +62,7 @@ Audit stored ShipGlowz conversation transcripts into private governance reports 
 2. Validate redaction gate before reading raw transcript content.
 3. Derive a cleaned classifier input that removes obvious terminal chrome, command output, diffs, JSON payloads, and long log/search noise while preserving user/agent turns.
 4. Classify the cleaned view with deterministic categories (below), while keeping raw unsafe detection tied to the original transcript.
-5. Write report to `$SHIPFLOW_ROOT/shipglowz_data/workflow/conversation-audits/<slug>.md` using template `templates/artifacts/conversation_audit.md`.
+5. Write report to `$SHIPFLOW_ROOT/shipglowz_data/workflow/conversation-audits/<slug>.md` using template `templates/conversation_audit.md`.
 6. Run the ShipGlowz Core follow-through gate below before final reporting.
 7. Print top findings + evidence summary + routing recommendation + any automatic skill-contract audit result.
 
@@ -148,7 +148,7 @@ Load:
 - `skills/references/reporting-contract.md`
 - `skills/references/actionable-failure-contract.md`
 - `skills/references/spec-driven-development-discipline.md`
-- `templates/artifacts/conversation_audit.md`
+- `templates/conversation_audit.md`
 
 ## Report Modes
 

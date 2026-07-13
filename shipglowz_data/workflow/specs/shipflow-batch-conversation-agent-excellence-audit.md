@@ -199,7 +199,7 @@ Create an operational audit chantier that uses `sg-conversation-audit` and direc
 
 - `skills/sg-conversation-audit/SKILL.md`
 - `tools/shipflow_conversation_audit.py`
-- `templates/artifacts/conversation_audit.md`
+- `templates/conversation_audit.md`
 - `skills/references/actionable-failure-contract.md`
 - `skills/references/decision-quality-contract.md`
 - `skills/references/reporting-contract.md`
@@ -339,7 +339,7 @@ Create an operational audit chantier that uses `sg-conversation-audit` and direc
 - Read first:
   - `skills/sg-conversation-audit/SKILL.md`
   - `tools/shipflow_conversation_audit.py`
-  - `templates/artifacts/conversation_audit.md`
+  - `templates/conversation_audit.md`
   - `skills/references/actionable-failure-contract.md`
   - `skills/references/decision-quality-contract.md`
   - `skills/references/reporting-contract.md`

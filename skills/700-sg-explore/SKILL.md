@@ -70,7 +70,7 @@ Chemin du rapport:
 - Ne pas écrire de nouveau rapport durable dans `research/`, `dist/`, `tmp/`, ou à la racine du repo.
 
 Structure du rapport:
-- Demarrer du template `$SHIPFLOW_ROOT/templates/artifacts/exploration_report.md` si disponible.
+- Demarrer du template `$SHIPFLOW_ROOT/templates/exploration_report.md` si disponible.
 - Ne pas omettre les champs frontmatter ShipGlowz requis: `metadata_schema_version`, `artifact_version`, `project`, `created`, `updated`, `status`, `source_skill`, `scope`, `owner`, `confidence`, `risk_level`, `security_impact`, `docs_impact`, `linked_systems`, `evidence`, `depends_on`, `supersedes` et `next_step`.
 - Si un rapport existant manque ces champs, les completer pendant la mise a jour au lieu de propager le format incomplet.
 

@@ -46,7 +46,7 @@ Can ShipFlow show the end date/time of the current 5-hour and weekly usage windo
 - Local Codex session JSONL events - confirmed Codex records reset timestamps under `rate_limits.primary.resets_at` for the 5-hour window and `rate_limits.secondary.resets_at` for the weekly window.
 - `install.sh`, `README.md`, and `specs/codex-tui-thread-context-status.md` - confirmed ShipFlow owns the default Codex TUI configuration and can keep native status line defaults aligned.
 - `install.sh` and `.claude/statusline-starship.sh` - confirmed ShipFlow already owns a Claude Code custom status line path through `statusLine.command`, and the shell renderer can calculate arbitrary local signals.
-- `skills/sg-explore/SKILL.md` and `templates/artifacts/exploration_report.md` - used to persist this exploration as a durable report without implementing the feature.
+- `skills/sg-explore/SKILL.md` and `templates/exploration_report.md` - used to persist this exploration as a durable report without implementing the feature.
 
 ## Internet Research
 

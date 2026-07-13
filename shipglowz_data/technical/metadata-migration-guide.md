@@ -15,7 +15,7 @@ security_impact: unknown
 docs_impact: yes
 linked_systems:
   - tools/shipglowz_metadata_lint.py
-  - templates/artifacts/
+  - templates/
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
   - skills/references/canonical-paths.md
   - docs/technical/
@@ -361,7 +361,7 @@ If the dependency changes later, ShipGlowz can flag potential drift instead of r
 When a file needs deeper restructuring, use the skill-aligned templates in:
 
 ```text
-templates/artifacts/
+templates/
 ```
 
 Do not use templates to overwrite a healthy existing document structure just because the headings are different.

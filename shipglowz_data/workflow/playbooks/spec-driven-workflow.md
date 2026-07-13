@@ -27,7 +27,7 @@ linked_systems:
   - skills/references/entrypoint-routing.md
   - skills/references/decision-quality-contract.md
   - skills/references/operator-partnership-contract.md
-  - templates/artifacts/
+  - templates/
   - tools/shipglowz_metadata_lint.py
   - skills/references/canonical-paths.md
   - shipglowz_data/technical/
@@ -287,7 +287,7 @@ ShipGlowz maintains an internal code-proximate technical documentation layer und
 
 - `shipglowz_data/technical/README.md` indexes subsystem technical docs.
 - `shipglowz_data/technical/code-docs-map.md` maps code paths to primary technical docs, secondary docs, required validation, and docs update triggers.
-- `templates/artifacts/technical_module_context.md` is the standard template for subsystem docs.
+- `templates/technical_module_context.md` is the standard template for subsystem docs.
 - `skills/references/technical-docs-corpus.md` tells skills how to load the layer without polluting context.
 
 This layer does not replace `shipglowz_data/technical/architecture.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/guidelines.md`, specs, or decision records. It gives agents the closest durable technical context for a code area.
@@ -478,7 +478,7 @@ Location rule:
 - `shipglowz_data/business/business.md`, `shipglowz_data/branding/branding.md`, `shipglowz_data/editorial/content-map.md`, `shipglowz_data/technical/guidelines.md`, project competitor/inspiration registries, affiliate/referral/partner registries, specs, research, and decision records should be edited and versioned in the repo they affect, not duplicated into an external master data directory.
 - If `shipglowz_data` needs visibility, add a reference or inventory entry, not a second canonical copy.
 
-Skill-aligned artifact templates live in `templates/artifacts/`. They should encode the structures expected by the active skills (`100-sg-spec`, `101-sg-ready`, `103-sg-verify`, `703-sg-review`, `203-sg-research`) instead of replacing those conventions. The current templates cover:
+Skill-aligned artifact templates live in `templates/`. They should encode the structures expected by the active skills (`100-sg-spec`, `101-sg-ready`, `103-sg-verify`, `703-sg-review`, `203-sg-research`) instead of replacing those conventions. The current templates cover:
 
 - `context`
 - `spec`

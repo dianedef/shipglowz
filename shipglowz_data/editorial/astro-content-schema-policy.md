@@ -101,7 +101,7 @@ This matches the current implementation: `site/src/pages/skills/[slug].astro` ca
 ## Governance Content Rules
 
 - `docs/editorial/**` uses ShipGlowz metadata and is linted as `editorial_content_context`.
-- `templates/artifacts/editorial_content_context.md` is the template for future editorial governance artifacts.
+- `templates/editorial_content_context.md` is the template for future editorial governance artifacts.
 - Runtime content and governance content are separate. Do not solve governance traceability by polluting Astro content frontmatter.
 
 ## Failure Behavior

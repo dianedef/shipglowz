@@ -17,7 +17,7 @@ linked_systems:
   - skills/references/documentation-freshness-gate.md
   - skills/references/technical-docs-corpus.md
   - shipglowz_data/technical/code-docs-map.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "skills/references/documentation-freshness-gate.md"
     artifact_version: "unknown"
@@ -69,7 +69,7 @@ Read the relevant global platform note when a task depends on:
 - dependency upgrades where release notes may imply code or configuration changes
 - an `sg-deps`, `sg-audit-code`, `sg-migrate`, `sg-prod`, `sg-auth-debug`, `sg-verify`, or future `sg-tech-watch` decision
 
-Then read the governance-root usage note if one exists or if project-specific provider behavior affects the decision. If the project clearly needs a local note but has none, report a documentation gap and recommend creating one from `templates/artifacts/project_platform_usage.md`.
+Then read the governance-root usage note if one exists or if project-specific provider behavior affects the decision. If the project clearly needs a local note but has none, report a documentation gap and recommend creating one from `templates/project_platform_usage.md`.
 
 ## Freshness Policy
 

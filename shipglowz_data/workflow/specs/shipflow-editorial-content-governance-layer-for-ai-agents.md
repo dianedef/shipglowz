@@ -28,8 +28,8 @@ linked_systems:
   - GUIDELINES.md
   - specs/sg-build-autonomous-master-skill.md
   - docs/editorial/
-  - templates/artifacts/content_map.md
-  - templates/artifacts/editorial_content_context.md
+  - templates/content_map.md
+  - templates/editorial_content_context.md
   - skills/references/subagent-roles/editorial-reader.md
   - skills/sg-docs/SKILL.md
   - skills/sg-repurpose/SKILL.md
@@ -158,12 +158,12 @@ docs/editorial/
 Add two supporting artifacts:
 
 ```text
-templates/artifacts/editorial_content_context.md
+templates/editorial_content_context.md
 skills/references/editorial-content-corpus.md
 skills/references/subagent-roles/editorial-reader.md
 ```
 
-Then connect the layer to the existing content and documentation workflows by updating `CONTENT_MAP.md`, `templates/artifacts/content_map.md`, `skills/sg-docs/SKILL.md`, `skills/sg-repurpose/SKILL.md`, `skills/sg-audit-copy/SKILL.md`, `skills/sg-redact/SKILL.md`, `skills/sg-enrich/SKILL.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `site/src/pages/docs.astro`.
+Then connect the layer to the existing content and documentation workflows by updating `CONTENT_MAP.md`, `templates/content_map.md`, `skills/sg-docs/SKILL.md`, `skills/sg-repurpose/SKILL.md`, `skills/sg-audit-copy/SKILL.md`, `skills/sg-redact/SKILL.md`, `skills/sg-enrich/SKILL.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `site/src/pages/docs.astro`.
 
 This chantier does not create a blog implementation. It defines how a future blog/article surface must be declared before agents write blog content, because the current repo has no dedicated blog directory or blog route.
 
@@ -176,10 +176,10 @@ This chantier does not create a blog implementation. It defines how a future blo
 - Create `docs/editorial/editorial-update-gate.md` with `Editorial Update Plan`, `Claim Impact Plan`, statuses, pending-final-copy rules, and parallelism constraints.
 - Create `docs/editorial/astro-content-schema-policy.md` for Astro 5 content collections, frontmatter schema constraints, and build validation.
 - Create `docs/editorial/blog-and-article-surface-policy.md` to handle the currently missing blog surface and prevent agents from inventing paths.
-- Create `templates/artifacts/editorial_content_context.md` for durable editorial governance artifacts outside app-rendered runtime content.
+- Create `templates/editorial_content_context.md` for durable editorial governance artifacts outside app-rendered runtime content.
 - Create `skills/references/editorial-content-corpus.md` for skills and agents that need to load the editorial layer.
 - Create `skills/references/subagent-roles/editorial-reader.md` as the read-only role contract for public-content and claim impact analysis.
-- Update `CONTENT_MAP.md` and `templates/artifacts/content_map.md` to point to `docs/editorial/`, declared surfaces, claim register, page intents, and update gates.
+- Update `CONTENT_MAP.md` and `templates/content_map.md` to point to `docs/editorial/`, declared surfaces, claim register, page intents, and update gates.
 - Update content/documentation skills so they use the editorial layer before changing public content or claims.
 - Update README, workflow docs, and the public docs Astro page with a concise mention of editorial coherence.
 - Define safe execution waves and explicit no-overlap rules for editorial content edits.
@@ -234,7 +234,7 @@ Local docs and contracts to inspect before implementation:
 - `skills/sg-audit-copy/SKILL.md`
 - `skills/sg-redact/SKILL.md`
 - `skills/sg-enrich/SKILL.md`
-- `templates/artifacts/content_map.md`
+- `templates/content_map.md`
 
 Astro site files to inspect before writing public-surface docs:
 
@@ -303,7 +303,7 @@ Durable split:
 - `docs/editorial/editorial-update-gate.md`: lifecycle gate and plan formats.
 - `docs/editorial/astro-content-schema-policy.md`: Astro schema/routing constraints for public content.
 - `docs/editorial/blog-and-article-surface-policy.md`: rules for the currently missing blog/article surface.
-- `templates/artifacts/editorial_content_context.md`: template for governance artifacts, not runtime content.
+- `templates/editorial_content_context.md`: template for governance artifacts, not runtime content.
 - `skills/references/editorial-content-corpus.md`: compact loading list for content skills and agents.
 - `skills/references/subagent-roles/editorial-reader.md`: read-only agent role contract for public-content surface and claim impact analysis.
 - `README.md`: repo and public overview; short pointer only.
@@ -391,11 +391,11 @@ Anti-duplication rules:
   - Notes : This chantier may prepare blog governance, not implement the blog.
 
 - [x] Task 8: Create the editorial content context template.
-  - File : `templates/artifacts/editorial_content_context.md`
+  - File : `templates/editorial_content_context.md`
   - Action : Add a ShipGlowz metadata-bearing template for editorial governance artifacts outside runtime content.
   - User story link : Standardizes future editorial docs without polluting Astro collection schemas.
   - Depends on : Tasks 1 through 7.
-  - Validate with : `rg -n "artifact: editorial_content_context|metadata_schema_version|artifact_version|depends_on|content_surfaces|claim_register|page_intent|runtime content" templates/artifacts/editorial_content_context.md`
+  - Validate with : `rg -n "artifact: editorial_content_context|metadata_schema_version|artifact_version|depends_on|content_surfaces|claim_register|page_intent|runtime content" templates/editorial_content_context.md`
   - Notes : Do not require this frontmatter inside `site/src/content/**`.
 
 - [x] Task 9: Create the editorial content corpus reference.
@@ -415,11 +415,11 @@ Anti-duplication rules:
   - Notes : Do not create `skills/references/subagent-roles/reader.md` as an alias.
 
 - [x] Task 10: Update CONTENT_MAP and content map template.
-  - File : `CONTENT_MAP.md`, `templates/artifacts/content_map.md`
+  - File : `CONTENT_MAP.md`, `templates/content_map.md`
   - Action : Add `docs/editorial/`, public surface map, page intent map, claim register, editorial update gate, Astro schema policy, and blog/article surface policy.
   - User story link : Connects the governance layer to the canonical content map.
   - Depends on : Tasks 1 through 9b.
-  - Validate with : `rg -n "docs/editorial|public-surface-map|page-intent|claim-register|editorial-update-gate|Astro content schema|blog-and-article" CONTENT_MAP.md templates/artifacts/content_map.md`
+  - Validate with : `rg -n "docs/editorial|public-surface-map|page-intent|claim-register|editorial-update-gate|Astro content schema|blog-and-article" CONTENT_MAP.md templates/content_map.md`
   - Notes : Shared files; sequential edit only.
 
 - [x] Task 11: Update sg-docs for editorial governance.
@@ -455,11 +455,11 @@ Anti-duplication rules:
   - Notes : Keep public wording short; do not copy the internal gate.
 
 - [x] Task 15: Final validation and integration.
-  - File : `specs/shipflow-editorial-content-governance-layer-for-ai-agents.md`, `docs/editorial/`, `templates/artifacts/editorial_content_context.md`, `skills/references/editorial-content-corpus.md`, `skills/references/subagent-roles/editorial-reader.md`, modified skills/docs/site files
+  - File : `specs/shipflow-editorial-content-governance-layer-for-ai-agents.md`, `docs/editorial/`, `templates/editorial_content_context.md`, `skills/references/editorial-content-corpus.md`, `skills/references/subagent-roles/editorial-reader.md`, modified skills/docs/site files
   - Action : Run metadata lint, static `rg` validations, and the Astro build when dependencies are available.
   - User story link : Proves the layer does not break ShipGlowz artifacts or the public Astro site.
   - Depends on : All previous tasks.
-  - Validate with : `$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py specs/shipflow-editorial-content-governance-layer-for-ai-agents.md docs/editorial templates/artifacts/editorial_content_context.md && test -f skills/references/subagent-roles/editorial-reader.md && test ! -e skills/references/subagent-roles/reader.md && cd shipglowz-site && pnpm build`
+  - Validate with : `$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py specs/shipflow-editorial-content-governance-layer-for-ai-agents.md docs/editorial templates/editorial_content_context.md && test -f skills/references/subagent-roles/editorial-reader.md && test ! -e skills/references/subagent-roles/reader.md && cd shipglowz-site && pnpm build`
   - Notes : If build cannot run, report the exact dependency blocker and run static schema checks.
 
 ## Acceptance Criteria
@@ -489,7 +489,7 @@ Structural checks:
 - `test -f docs/editorial/editorial-update-gate.md`
 - `test -f docs/editorial/astro-content-schema-policy.md`
 - `test -f docs/editorial/blog-and-article-surface-policy.md`
-- `test -f templates/artifacts/editorial_content_context.md`
+- `test -f templates/editorial_content_context.md`
 - `test -f skills/references/editorial-content-corpus.md`
 - `test -f skills/references/subagent-roles/editorial-reader.md`
 - `test ! -e skills/references/subagent-roles/reader.md`
@@ -497,7 +497,7 @@ Structural checks:
 
 Coherence checks:
 
-- `rg -n "TODO|TBD|PLACEHOLDER" docs/editorial templates/artifacts/editorial_content_context.md skills/references/editorial-content-corpus.md`
+- `rg -n "TODO|TBD|PLACEHOLDER" docs/editorial templates/editorial_content_context.md skills/references/editorial-content-corpus.md`
 - Compare `docs/editorial/public-surface-map.md` against `find site/src/pages -maxdepth 2 -type f` and `site/src/content/skills/`.
 - Check that blog/article policy states no blog path is currently declared.
 - Check that README and `site/src/pages/docs.astro` mention the editorial layer without reproducing internal role details.
@@ -555,7 +555,7 @@ Safe waves after `/sg-ready`:
 
 - Wave 0, sequential foundation: `docs/editorial/README.md`, public surface map, page intent map, claim register, gate, Astro schema policy, blog policy, `skills/references/editorial-content-corpus.md`, and `skills/references/subagent-roles/editorial-reader.md`.
 - Wave 1, parallel only if assigned as exclusive files: page intent map and claim register may be drafted by separate agents after the index exists.
-- Wave 2, sequential shared integration: `CONTENT_MAP.md`, `templates/artifacts/content_map.md`, all skill files, README, workflow docs, and public docs page.
+- Wave 2, sequential shared integration: `CONTENT_MAP.md`, `templates/content_map.md`, all skill files, README, workflow docs, and public docs page.
 - Wave 3, final validation: metadata lint, static checks, Astro build.
 
 Packages:

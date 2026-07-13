@@ -94,5 +94,5 @@ For technical-doc changes, also use the code-docs map:
 
 ```bash
 python3 tools/shipglowz_metadata_lint.py shipglowz_data/technical
-rg -n "Maintenance Rule|Validation|Owned Files|Entrypoints" shipglowz_data/technical templates/artifacts/technical_module_context.md
+rg -n "Maintenance Rule|Validation|Owned Files|Entrypoints" shipglowz_data/technical templates/technical_module_context.md
 ```

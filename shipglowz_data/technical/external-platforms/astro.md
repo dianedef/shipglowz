@@ -17,7 +17,7 @@ linked_systems:
   - skills/references/documentation-freshness-gate.md
   - shipglowz_data/technical/public-site-and-content-runtime.md
   - shipglowz_data/editorial/content-map.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
     artifact_version: "0.1.0"
@@ -94,7 +94,7 @@ A project using Astro should maintain `<governance-root>/shipglowz_data/technica
 - image/content/integration notes
 - validation commands and preview/prod proof route
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

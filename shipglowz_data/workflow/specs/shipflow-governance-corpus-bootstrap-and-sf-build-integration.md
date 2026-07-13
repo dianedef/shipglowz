@@ -33,9 +33,9 @@ linked_systems:
   - GUIDELINES.md
   - docs/technical/skill-runtime-and-lifecycle.md
   - docs/technical/public-site-and-content-runtime.md
-  - templates/artifacts/technical_module_context.md
-  - templates/artifacts/editorial_content_context.md
-  - templates/artifacts/content_map.md
+  - templates/technical_module_context.md
+  - templates/editorial_content_context.md
+  - templates/content_map.md
   - tools/shipflow_metadata_lint.py
 depends_on:
   - artifact: "BUSINESS.md"

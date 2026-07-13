@@ -31,6 +31,7 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 ### Changed
 - Moved the seven root Bash regression suites into ownership-based `tests/cli`, `tests/runtime`, `tests/governance`, `tests/skills`, and `tests/workflow` directories, with behavior-based names and canonical `cli/` imports.
 - Consolidated active documentation, bug, audit, conversation, exploration, specification, research, and archive records under their canonical `shipglowz_data/` families.
+- Flattened the single-child template hierarchy so all 25 artifact templates now live directly under `templates/`.
 
 ### Fixed
 - Repaired stale logging, Flox override, Flutter session-name, and project-tracking fixtures; all seven relocated suites now pass and `shipglowz_init_project` returns success when initialization is already current.

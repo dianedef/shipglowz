@@ -44,7 +44,7 @@ linked_systems:
   - specs/001-sg-build-autonomous-master-skill.md
   - specs/skill-reporting-modes-and-compact-reports.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
-  - templates/artifacts/
+  - templates/
   - docs/technical/
   - docs/editorial/
 depends_on:
@@ -240,7 +240,7 @@ The canonical behavior contract for profile resolution, precedence, fallback, an
 | `tools/audit_shipglowz_skills.py` | Versioned ShipGlowz skill execution-fidelity audit helper used by `900-shipglowz-core` and conversation follow-through gates | Keep read-only by default; audit findings classify risk but do not authorize broad edits without scenario-first triage |
 | `tools/skill_code_index_lint.py` | Numeric skill-code index validator | Run after changing `skills/references/skill-code-index.md` or the skill set |
 | `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | Global workflow doctrine | Sequential shared file |
-| `templates/artifacts/*.md` | Durable artifact templates | Keep linter-compatible |
+| `templates/*.md` | Durable artifact templates | Keep linter-compatible |
 | `AGENT.md`, `AGENTS.md` | Agent entrypoint and compatibility alias | `AGENT.md` canonical; `AGENTS.md` symlink only |
 
 ## Canonical Artifact Taxonomy

@@ -154,7 +154,7 @@ Before creating a new bug, search for an open bug with clearly matching reproduc
 
 ## Bug File Updates
 
-For a new bug, create from `templates/artifacts/bug_record.md`. For existing bugs, append only; never erase history.
+For a new bug, create from `templates/bug_record.md`. For existing bugs, append only; never erase history.
 
 Keep current: Summary, Reproduction, Expected, Observed, Evidence, Diagnosis Notes, Fix Attempts, Retest History, and Redaction Status.
 

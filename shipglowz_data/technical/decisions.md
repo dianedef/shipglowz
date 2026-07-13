@@ -14,7 +14,7 @@ risk_level: medium
 security_impact: yes
 docs_impact: yes
 linked_systems:
-  - templates/artifacts/decision_record.md
+  - templates/decision_record.md
   - shipglowz_data/technical/architecture.md
   - shipglowz_data/technical/guidelines.md
   - shipglowz_data/workflow/specs/
@@ -43,7 +43,7 @@ This doc explains where durable technical decisions live and how they differ fro
 
 | Path | Role | Edit notes |
 | --- | --- | --- |
-| `templates/artifacts/decision_record.md` | Template for ADR-style decisions | Keep metadata linter-compatible |
+| `templates/decision_record.md` | Template for ADR-style decisions | Keep metadata linter-compatible |
 | `shipglowz_data/technical/architecture.md` | Global structure and boundaries | Store current architecture, not every historical debate |
 | `shipglowz_data/technical/guidelines.md` | General technical doctrine | Store durable rules and anti-patterns |
 | `shipglowz_data/workflow/specs/*.md` | Chantiers and run history | Store task-specific decisions and evidence |
@@ -52,7 +52,7 @@ This doc explains where durable technical decisions live and how they differ fro
 
 ## Entrypoints
 
-- `templates/artifacts/decision_record.md`: start here when a durable ADR-style decision artifact is needed.
+- `templates/decision_record.md`: start here when a durable ADR-style decision artifact is needed.
 - `shipglowz_data/technical/architecture.md`: update when a decision changes global structure, system boundaries, or architectural invariants.
 - `shipglowz_data/technical/guidelines.md`: update when a decision becomes a general engineering or documentation rule.
 - `shipglowz_data/workflow/specs/*.md`: link the decision when it governs a specific chantier.
@@ -87,8 +87,8 @@ This doc explains where durable technical decisions live and how they differ fro
 ## Validation
 
 ```bash
-python3 tools/shipglowz_metadata_lint.py templates/artifacts/decision_record.md shipglowz_data/technical/decisions shipglowz_data/technical/architecture.md shipglowz_data/technical/guidelines.md shipglowz_data/workflow/specs
-rg -n "decision|rationale|consequences|templates/artifacts/decision_record.md" shipglowz_data/technical/decisions.md
+python3 tools/shipglowz_metadata_lint.py templates/decision_record.md shipglowz_data/technical/decisions shipglowz_data/technical/architecture.md shipglowz_data/technical/guidelines.md shipglowz_data/workflow/specs
+rg -n "decision|rationale|consequences|templates/decision_record.md" shipglowz_data/technical/decisions.md
 ```
 
 ## Reader Checklist

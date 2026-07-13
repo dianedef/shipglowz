@@ -17,7 +17,7 @@ security_impact: yes
 docs_impact: yes
 evidence:
   - "tools/shipflow_conversation_audit.py"
-  - "templates/artifacts/conversation_audit.md"
+  - "templates/conversation_audit.md"
   - "skills/references/actionable-failure-contract.md"
   - "skills/sg-conversation-audit/SKILL.md"
 depends_on: []

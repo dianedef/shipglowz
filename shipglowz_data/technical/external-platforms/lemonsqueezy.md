@@ -15,7 +15,7 @@ security_impact: yes
 docs_impact: yes
 linked_systems:
   - skills/references/documentation-freshness-gate.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
   - shipglowz_data/technical/external-platforms/README.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
@@ -123,7 +123,7 @@ A Lemon Squeezy usage note should maintain:
 - manual/provider smoke checklist
 - MCP/CLI status: official, third-party, blocked, or intentionally not used
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

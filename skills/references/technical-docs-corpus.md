@@ -18,8 +18,8 @@ linked_systems:
   - shipglowz_data/technical/code-docs-map.md
   - shipglowz_data/technical/design-system-authority.md
   - shipglowz_data/technical/external-platforms/
-  - templates/artifacts/project_platform_usage.md
-  - templates/artifacts/technical_module_context.md
+  - templates/project_platform_usage.md
+  - templates/technical_module_context.md
   - skills/300-sg-docs/SKILL.md
 depends_on:
   - artifact: "shipglowz_data/technical/code-docs-map.md"
@@ -71,8 +71,8 @@ This reference tells ShipGlowz skills how to use the internal `shipglowz_data/te
 - report nested app/package `shipglowz_data/` directories as migration debt unless a standalone-project exception is documented
 - record an explicit `non-coverage` reason when no major code area can be mapped
 - verify that every major code area in `code-docs-map.md` has a primary technical doc or explicit non-coverage reason
-- scaffold missing subsystem docs from `templates/artifacts/technical_module_context.md`
-- scaffold missing behavior indexes from `templates/artifacts/technical_behavior_index.md` when a complex term family has repeated recovery cost
+- scaffold missing subsystem docs from `templates/technical_module_context.md`
+- scaffold missing behavior indexes from `templates/technical_behavior_index.md` when a complex term family has repeated recovery cost
 - check stale path references, missing validations, missing `Maintenance Rule` sections, and missing Reader triggers
 - check whether complex term families have a behavior index or an explicit no-coverage reason
 - check whether mapped behavior indexes link to key symbols, tests, specs/bugs, and decisions or an explicit no-decision reason
@@ -95,7 +95,7 @@ Global provider notes live under `shipglowz_data/technical/external-platforms/`.
 
 Provider usage lives under the governance root at `shipglowz_data/technical/platforms/<provider>.md`. In a monorepo, the same note can cover one app/package or multiple surfaces; use explicit scope and path references instead of duplicating notes under each subdirectory. These files document actual adoption: environments, validation surface, domains/callback expectations, env var keys, MCP/CLI evidence route, and local exceptions.
 
-Do not require one usage note per technology. Create one from `templates/artifacts/project_platform_usage.md` only when local usage changes the agent's decisions or proof route. For standard, low-risk usage where the code/config plus the global platform note are enough, record `not needed - standard usage covered by code/config and global note` instead of creating filler documentation.
+Do not require one usage note per technology. Create one from `templates/project_platform_usage.md` only when local usage changes the agent's decisions or proof route. For standard, low-risk usage where the code/config plus the global platform note are enough, record `not needed - standard usage covered by code/config and global note` instead of creating filler documentation.
 
 Use the global note to decide what current external sources to check. Use the governance-root usage note to decide whether local, preview, production, MCP, CLI, browser, or manual proof is authoritative for that project or monorepo surface.
 

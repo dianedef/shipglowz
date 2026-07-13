@@ -28,7 +28,7 @@ linked_systems:
   - "skills/*/SKILL.md"
   - "skills/*/references/*.md"
   - "skills/references/*.md"
-  - "templates/artifacts/*.md"
+  - "templates/*.md"
 depends_on:
   - artifact: "shipglowz_data/workflow/specs/shipflow-skill-execution-fidelity-plugin-pilot.md"
     artifact_version: "1.0.0"

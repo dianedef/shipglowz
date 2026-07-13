@@ -18,7 +18,7 @@ linked_systems:
   - "local/"
   - "skills/"
   - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
-  - "templates/artifacts/"
+  - "templates/"
   - "shipglowz_data/technical/"
   - "shipglowz_data/technical/design-system-authority.md"
 security_impact: yes

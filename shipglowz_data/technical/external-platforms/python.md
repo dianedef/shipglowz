@@ -18,7 +18,7 @@ linked_systems:
   - tools/skill_budget_audit.py
   - tools/codebase-mcp/
   - skills/references/documentation-freshness-gate.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
     artifact_version: "0.1.0"
@@ -94,7 +94,7 @@ A project using Python should maintain `<governance-root>/shipglowz_data/technic
 - subprocess/file-write/security constraints
 - CI/deploy runtime expectations
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

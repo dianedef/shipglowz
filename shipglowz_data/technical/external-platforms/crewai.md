@@ -17,7 +17,7 @@ linked_systems:
   - skills/references/documentation-freshness-gate.md
   - skills/references/technical-docs-corpus.md
   - shipglowz_data/technical/external-platforms/README.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
     artifact_version: "0.5.0"
@@ -97,7 +97,7 @@ A project using CrewAI should maintain `<governance-root>/shipglowz_data/technic
 - validation commands and integration smoke tests
 - security boundaries for prompts, tools, secrets, user data, and external network access
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

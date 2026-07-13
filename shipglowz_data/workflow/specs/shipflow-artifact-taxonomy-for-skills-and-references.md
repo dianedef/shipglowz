@@ -20,7 +20,7 @@ docs_impact: "yes"
 linked_systems:
   - "skills/*/SKILL.md"
   - "skills/references/*"
-  - "templates/artifacts/*"
+  - "templates/*"
   - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "README.md"
   - "AGENT.md"
@@ -160,7 +160,7 @@ ShipGlowz documents that govern behavior should resolve to exactly one primary a
 | `skills/100-sg-spec/SKILL.md` | `master-workflow` | Owns the spec intake and reading gate for durable work |
 | `skills/references/canonical-paths.md` | `contract` | Defines mandatory path-resolution rule and exception policy |
 | `shipglowz_data/technical/context.md` | `reference` | Context map used to orient local decisions and routing |
-| `templates/artifacts/spec.md` | `template` | Artifact structure for durable spec creation |
+| `templates/spec.md` | `template` | Artifact structure for durable spec creation |
 | `shipglowz_data/workflow/specs/shipflow-artifact-taxonomy-for-skills-and-references.md` | `record` | Durable result and mapping for this chantier |
 
 ## Structural Debt and Extraction Targets
@@ -245,7 +245,7 @@ ShipGlowz documents that govern behavior should resolve to exactly one primary a
 
 - `skills/*/SKILL.md`: their role descriptions and future compaction work depend on this taxonomy.
 - `skills/references/*`: shared references may need to split into true contracts versus support references.
-- `templates/artifacts/*`: template boundaries become easier to preserve when they are explicitly separated from doctrine.
+- `templates/*`: template boundaries become easier to preserve when they are explicitly separated from doctrine.
 - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: may need a short artifact-architecture explanation so lifecycle docs stay aligned.
 - `README.md`, `AGENT.md`, and technical context docs may need concise alignment language if they currently blur artifact roles.
 - Future chantiers on skill compaction, routing, docs architecture, or taxonomy should depend on this classification instead of re-deriving it ad hoc.
@@ -295,10 +295,10 @@ ShipGlowz documents that govern behavior should resolve to exactly one primary a
 
 - [x] Task 4: Map representative ShipGlowz artifacts to primary types.
   - File: `shipglowz_data/workflow/specs/shipflow-artifact-taxonomy-for-skills-and-references.md`
-  - Action: Classify representative files such as `AGENT.md`, `skills/000-shipflow/SKILL.md`, `skills/001-sg-build/SKILL.md`, `skills/100-sg-spec/SKILL.md`, `skills/references/canonical-paths.md`, `shipglowz_data/technical/context.md`, `templates/artifacts/*`, and durable specs.
+  - Action: Classify representative files such as `AGENT.md`, `skills/000-shipflow/SKILL.md`, `skills/001-sg-build/SKILL.md`, `skills/100-sg-spec/SKILL.md`, `skills/references/canonical-paths.md`, `shipglowz_data/technical/context.md`, `templates/*`, and durable specs.
   - User story link: Proves the taxonomy works on real files and not only on theory.
   - Depends on: Task 3
-  - Validate with: `rg -n "AGENT.md|000-shipflow|001-sg-build|100-sg-spec|canonical-paths|context.md|templates/artifacts|shipglowz_data/workflow/specs" shipglowz_data/workflow/specs/shipflow-artifact-taxonomy-for-skills-and-references.md`
+  - Validate with: `rg -n "AGENT.md|000-shipflow|001-sg-build|100-sg-spec|canonical-paths|context.md|templates|shipglowz_data/workflow/specs" shipglowz_data/workflow/specs/shipflow-artifact-taxonomy-for-skills-and-references.md`
   - Notes: Each mapped artifact must receive one primary type only.
 
 - [x] Task 5: Identify structural debt and extraction targets.

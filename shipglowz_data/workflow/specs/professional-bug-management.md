@@ -25,7 +25,7 @@ linked_systems:
   - skills/sg-ship/SKILL.md
   - skills/sg-help/SKILL.md
   - skills/sg-docs/SKILL.md
-  - templates/artifacts/bug_record.md
+  - templates/bug_record.md
   - tools/shipflow_metadata_lint.py
   - README.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
@@ -121,7 +121,7 @@ Introduire une architecture de bug tracking ShipGlowz en trois couches: `shipglo
 - Mettre a jour `sg-ship` pour avertir ou bloquer quand des bugs high/critical lies au scope restent ouverts.
 - Mettre a jour `sg-docs` pour auditer et documenter le modele bug sans ajouter de frontmatter aux trackers operationnels.
 - Documenter les limites de taille, la politique de preuves, la redaction et les surfaces publiques de skills.
-- Ajouter les templates necessaires dans `templates/artifacts/`.
+- Ajouter les templates necessaires dans `templates/`.
 
 ## Scope Out
 
@@ -215,7 +215,7 @@ Bug ID generation invariant:
 - `skills/sg-ship/SKILL.md` must define how linked high/critical bugs affect quick/full shipping reports.
 - `skills/sg-docs/SKILL.md` must include this bug model in documentation-coherence audits and preserve the tracker-vs-artifact distinction.
 - `skills/sg-help/SKILL.md` must expose the professional bug loop and file roles.
-- `templates/artifacts/bug_record.md` must define the per-bug dossier format.
+- `templates/bug_record.md` must define the per-bug dossier format.
 - `README.md` and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` must mention the professional bug loop.
 - `CHANGELOG.md` must record the new bug-management doctrine.
 - `site/src/content/skills/sg-test.md`, `site/src/content/skills/sg-fix.md`, `site/src/content/skills/sg-verify.md`, `site/src/content/skills/sg-ship.md`, and `site/src/content/skills/sg-docs.md` must stay aligned if they describe bug, verification, shipping or documentation behavior.
@@ -240,11 +240,11 @@ Bug ID generation invariant:
 ## Implementation Tasks
 
 - [ ] Task 1: Add the bug dossier artifact template
-  - File: `templates/artifacts/bug_record.md`
+  - File: `templates/bug_record.md`
   - Action: Create a ShipGlowz artifact template for `shipglowz_data/workflow/bugs/BUG-ID.md` with frontmatter, reproduction, expected, observed, evidence, diagnosis notes, fix attempts, retest history, related shipglowz_data/workflow/bugs/artifacts, status lifecycle notes, redaction status, and closure criteria.
   - User story link: Gives every bug a durable detailed home without bloating indexes.
   - Depends on: None
-  - Validate with: `sed -n '1,280p' templates/artifacts/bug_record.md`
+  - Validate with: `sed -n '1,280p' templates/bug_record.md`
   - Notes: Include `artifact: bug_record`, canonical statuses, redaction guidance and no raw-secret rule.
 
 - [ ] Task 2: Add bug record metadata lint support
@@ -252,7 +252,7 @@ Bug ID generation invariant:
   - Action: Accept `artifact: bug_record`, require the bug-specific frontmatter fields needed by the template, and include `shipglowz_data/workflow/bugs/` in default targets only when that directory exists or when the path is explicitly passed.
   - User story link: Keeps detailed bug dossiers structured and reviewable by fresh agents.
   - Depends on: Task 1
-  - Validate with: `SHIPGLOWZ_ROOT="${SHIPGLOWZ_ROOT:-$HOME/shipglowz}" "$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py" templates/artifacts/bug_record.md`
+  - Validate with: `SHIPGLOWZ_ROOT="${SHIPGLOWZ_ROOT:-$HOME/shipglowz}" "$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py" templates/bug_record.md`
   - Notes: Do not lint `shipglowz_data/workflow/BUGS.md` or `shipglowz_data/workflow/TEST_LOG.md` as artifacts.
 
 - [ ] Task 3: Define compact test and bug tracking doctrine in `sg-test`
@@ -394,7 +394,7 @@ Bug ID generation invariant:
 - [ ] CA 7: Given a fix attempt exists but no retest has passed, when closure is reported, then the status is not `closed`; it is `fix-attempted`, `fixed-pending-verify` after a passing retest, or `closed-without-retest` only with explicit reason and residual risk.
 - [ ] CA 8: Given a retest still fails, when `sg-test --retest BUG-ID` records the result, then the bug remains or returns to `open` and the failed retest is appended without deleting prior fix attempts.
 - [ ] CA 9: Given an existing legacy `shipglowz_data/workflow/BUGS.md`, when a new bug is created, then the legacy content is preserved and the new index entry stays compact with a link to the dossier.
-- [ ] CA 10: Given `tools/shipflow_metadata_lint.py` is run on `templates/artifacts/bug_record.md`, then the template passes metadata lint with `artifact: bug_record`.
+- [ ] CA 10: Given `tools/shipflow_metadata_lint.py` is run on `templates/bug_record.md`, then the template passes metadata lint with `artifact: bug_record`.
 - [ ] CA 11: Given `sg-verify` checks a scope with linked open high/critical bugs, when the verification report is produced, then it states whether bug state blocks closure or leaves a partial-risk verdict.
 - [ ] CA 12: Given `sg-ship` is invoked for a scope with linked open high/critical bugs, when the ship report is produced, then it does not claim product/user-story closure and explicitly reports `blocked`, `partial-risk` or `not assessed`.
 - [ ] CA 13: Given docs are updated, when README, workflow docs, help, public skill pages and changelog are searched, then they no longer describe `shipglowz_data/workflow/BUGS.md` as the full bug dossier location.
@@ -403,7 +403,7 @@ Bug ID generation invariant:
 ## Test Strategy
 
 - Unit: Add or update targeted metadata-linter coverage only if the repo already has a test harness for `tools/shipflow_metadata_lint.py`; otherwise validate by running the linter directly on the new template.
-- Integration: Run metadata lint against `templates/artifacts/bug_record.md`; if sample fixtures are added, also lint a sample `shipglowz_data/workflow/bugs/BUG-ID.md`.
+- Integration: Run metadata lint against `templates/bug_record.md`; if sample fixtures are added, also lint a sample `shipglowz_data/workflow/bugs/BUG-ID.md`.
 - Manual: Simulate a failed `sg-test` in a disposable project or fixture, verify compact `shipglowz_data/workflow/TEST_LOG.md`, compact `shipglowz_data/workflow/BUGS.md`, `shipglowz_data/workflow/bugs/BUG-ID.md`, redacted evidence references, then simulate `sg-fix BUG-ID`, `sg-test --retest BUG-ID`, `sg-verify`, and a quick `sg-ship` report with an open high/critical bug.
 - Regression: Verify existing `sg-test` pass/blocked/not-run paths still keep `shipglowz_data/workflow/TEST_LOG.md` compact and do not create bug dossiers unnecessarily.
 - Documentation: Run the `rg` validation commands from implementation tasks and verify public docs do not contradict the new three-layer model.
@@ -419,13 +419,13 @@ Bug ID generation invariant:
 
 ## Execution Notes
 
-- Read first: `skills/sg-test/SKILL.md`, `skills/sg-fix/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-ship/SKILL.md`, `skills/sg-docs/SKILL.md`, `templates/artifacts/spec.md`, `tools/shipflow_metadata_lint.py`.
+- Read first: `skills/sg-test/SKILL.md`, `skills/sg-fix/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-ship/SKILL.md`, `skills/sg-docs/SKILL.md`, `templates/spec.md`, `tools/shipflow_metadata_lint.py`.
 - Implementation approach: create the template and metadata support first; then update the workflow skills in the order `sg-test`, `sg-fix`, `sg-verify`, `sg-ship`, `sg-docs`; then update help, README, workflow docs, public skill pages and changelog.
 - Packages: do not add runtime packages. `tools/shipflow_metadata_lint.py` must remain Python standard library only.
 - Patterns to follow: additive markdown edits, re-read before editing trackers, explicit status transitions, explicit evidence limits, no frontmatter for `shipglowz_data/workflow/TEST_LOG.md` or `shipglowz_data/workflow/BUGS.md`, ShipGlowz-owned paths from `${SHIPGLOWZ_ROOT:-$HOME/shipglowz}`.
 - Data flow: observation or failed test -> compact `shipglowz_data/workflow/TEST_LOG.md` entry -> compact `shipglowz_data/workflow/BUGS.md` index pointer -> detailed `shipglowz_data/workflow/bugs/BUG-ID.md` dossier -> optional redacted evidence under `test-evidence/BUG-ID/` -> fix attempt -> retest -> verify -> ship risk report.
 - Abstractions to avoid: no global bug registry, no external issue tracker adapter, no UI, no central evidence database, no generated migration of all old bugs.
-- Validate with: metadata lint for the new template, `rg` checks listed in tasks, manual dry-run against a fixture or temporary project, and final `tools/shipflow_metadata_lint.py specs/professional-bug-management.md templates/artifacts/bug_record.md` after implementation.
+- Validate with: metadata lint for the new template, `rg` checks listed in tasks, manual dry-run against a fixture or temporary project, and final `tools/shipflow_metadata_lint.py specs/professional-bug-management.md templates/bug_record.md` after implementation.
 - Stop conditions: unclear status lifecycle change, uncertainty about storing sensitive evidence, conflict with an existing project-specific bug tracker, repeated ID collision, or any pressure to close a bug without retest or visible exception.
 
 ## Open Questions

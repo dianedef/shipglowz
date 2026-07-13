@@ -244,11 +244,11 @@ Add a canonical conversation export preset and a new `sg-conversation-audit` lif
   - Notes: Preserve existing `--destination` override behavior.
 
 - [ ] Task 3: Add conversation audit report template
-  - File: `templates/artifacts/conversation_audit.md`
+  - File: `templates/conversation_audit.md`
   - Action: Define frontmatter, source transcript refs, finding table, categories, severity, evidence snippets, affected skills, recommended owner route, and safety notes.
   - User story link: Makes audit results durable and comparable over time.
   - Depends on: None
-  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/artifacts/conversation_audit.md`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/conversation_audit.md`
   - Notes: Add metadata lint support if a new artifact type is required.
 
 - [ ] Task 4: Add metadata lint support for conversation audits if needed
@@ -256,7 +256,7 @@ Add a canonical conversation export preset and a new `sg-conversation-audit` lif
   - Action: Accept `artifact: conversation_audit` with required metadata fields, or document reuse of an existing artifact type.
   - User story link: Keeps audit outputs compliant with ShipGlowz artifact governance.
   - Depends on: Task 3
-  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/artifacts/conversation_audit.md`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/conversation_audit.md`
   - Notes: Avoid broad lint churn.
 
 - [ ] Task 5: Create `sg-conversation-audit`

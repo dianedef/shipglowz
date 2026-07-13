@@ -826,7 +826,7 @@ Cross-cutting skills write only when the run is attached to one clear chantier;
 helper skills such as `302-sg-help`, `704-sg-model`, `308-sg-status`, and `303-sg-resume` do not
 write spec history.
 
-ShipGlowz provides skill-aligned artifact templates in `templates/artifacts/` and a dependency-free linter:
+ShipGlowz provides skill-aligned artifact templates in `templates/` and a dependency-free linter:
 
 - `business_context.md`
 - `brand_context.md`

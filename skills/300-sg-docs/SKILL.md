@@ -163,7 +163,7 @@ Run focused checks for touched surfaces:
 ```bash
 python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/audit_project_governance_topology.py" .
 python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/shipglowz_metadata_lint.py" <changed-artifacts>
-rg -n "Maintenance Rule|Validation|Owned Files|Entrypoints" shipglowz_data/technical "${SHIPFLOW_ROOT:-$HOME/shipglowz}/templates/artifacts/technical_module_context.md"
+rg -n "Maintenance Rule|Validation|Owned Files|Entrypoints" shipglowz_data/technical "${SHIPFLOW_ROOT:-$HOME/shipglowz}/templates/technical_module_context.md"
 rg -n "Editorial Update Plan|Claim Impact Plan|pending final copy|surface missing|Astro content schema" shipglowz_data/editorial docs/editorial
 test ! -e AGENTS.md || { test -L AGENTS.md && test "$(readlink AGENTS.md)" = "AGENT.md"; }
 ```

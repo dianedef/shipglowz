@@ -16,7 +16,7 @@ docs_impact: yes
 linked_systems:
   - shipglowz_data/workflow/specs/shipflow-code-navigation-and-function-documentation-system.md
   - skills/references/code-navigation-and-function-docs.md
-  - templates/artifacts/technical_behavior_index.md
+  - templates/technical_behavior_index.md
 depends_on:
   - artifact: "skills/references/code-navigation-and-function-docs.md"
     artifact_version: "1.0.0"

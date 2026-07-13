@@ -25,8 +25,8 @@ linked_systems:
   - "skills/references/project-governance-rules.md"
   - "shipglowz_data/technical/code-docs-map.md"
   - "shipglowz_data/technical/README.md"
-  - "templates/artifacts/technical_module_context.md"
-  - "templates/artifacts/decision_record.md"
+  - "templates/technical_module_context.md"
+  - "templates/decision_record.md"
   - "tools/shipflow_metadata_lint.py"
   - "WinFlowz"
 depends_on:
@@ -134,7 +134,7 @@ The external documentation model informs the split:
 - Define the canonical roles and interactions of `context.md`, `context-function-tree.md`, and `code-docs-map.md` inside the new navigation system.
 - Extend `technical-docs-corpus.md` so agents know how to resolve `operator term -> behavior -> code` before falling back to broad search.
 - Extend `documentation-governance-rules.md` and `project-governance-rules.md` with behavior-index and function-comment coverage rules.
-- Add one or more templates under `templates/artifacts/` for behavior/domain navigation, such as `technical_behavior_index.md` or `technical_domain_model.md`.
+- Add one or more templates under `templates/` for behavior/domain navigation, such as `technical_behavior_index.md` or `technical_domain_model.md`.
 - Update `tools/shipflow_metadata_lint.py` if the new artifact type needs first-class metadata validation.
 - Update `300-sg-docs` technical mode so it can bootstrap and audit behavior indexes, not only path maps.
 - Update `301-sg-context` or its references if needed so context priming reads behavior navigation artifacts for term-based requests.
@@ -205,8 +205,8 @@ The external documentation model informs the split:
   - `skills/300-sg-docs/SKILL.md`
   - `skills/301-sg-context/SKILL.md`
   - `shipglowz_data/technical/code-docs-map.md`
-  - `templates/artifacts/technical_module_context.md`
-  - `templates/artifacts/decision_record.md`
+  - `templates/technical_module_context.md`
+  - `templates/decision_record.md`
 - WinFlowz pilot contracts:
   - `/home/claude/winflowz/shipglowz_data/technical/winflowz_app/code-docs-map.md`
   - `/home/claude/winflowz/winflowz_app/docs/technical/android-native.md`
@@ -277,11 +277,11 @@ Expected updates include:
   - Notes: Keep this compact enough for skill loading; put bulky examples in templates or project docs.
 
 - [ ] Task 2: Add behavior navigation artifact templates.
-  - File: `templates/artifacts/technical_behavior_index.md`, optionally `templates/artifacts/technical_domain_model.md`
+  - File: `templates/technical_behavior_index.md`, optionally `templates/technical_domain_model.md`
   - Action: Add reusable templates for term aliases, behavior summaries, entrypoints, key symbols, tests, specs, bugs, decisions, docs, ambiguity notes, and maintenance rules.
   - User story link: Lets every project create the same navigable structure instead of ad hoc notes.
   - Depends on: Task 1.
-  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/artifacts/technical_behavior_index.md templates/artifacts/technical_domain_model.md`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/technical_behavior_index.md templates/technical_domain_model.md`
   - Notes: Use one template if two artifacts would create unnecessary overlap.
 
 - [ ] Task 3: Make new artifact types lintable if needed.
@@ -384,10 +384,10 @@ Proof path: `contract-first`.
 Validation commands for ShipGlowz implementation:
 
 ```bash
-python3 tools/shipflow_metadata_lint.py skills/references/code-navigation-and-function-docs.md templates/artifacts/technical_behavior_index.md shipglowz_data/workflow/specs/shipflow-code-navigation-and-function-documentation-system.md
+python3 tools/shipflow_metadata_lint.py skills/references/code-navigation-and-function-docs.md templates/technical_behavior_index.md shipglowz_data/workflow/specs/shipflow-code-navigation-and-function-documentation-system.md
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 tools/shipflow_sync_skills.sh --check --all
-rg -n "behavior index|operator term|function documentation|source comment|code navigation" skills/references skills/300-sg-docs templates/artifacts shipglowz_data/technical
+rg -n "behavior index|operator term|function documentation|source comment|code navigation" skills/references skills/300-sg-docs templates shipglowz_data/technical
 ```
 
 Validation commands for WinFlowz pilot:
@@ -425,7 +425,7 @@ Read first:
 - `skills/300-sg-docs/SKILL.md`
 - `skills/300-sg-docs/references/mode-playbooks.md`
 - `shipglowz_data/technical/code-docs-map.md`
-- `templates/artifacts/technical_module_context.md`
+- `templates/technical_module_context.md`
 - `/home/claude/winflowz/shipglowz_data/technical/winflowz_app/code-docs-map.md`
 - `/home/claude/winflowz/winflowz_app/docs/technical/android-native.md`
 - `/home/claude/winflowz/winflowz_app/android/app/src/main/kotlin/com/winflowz_app/winflowz_app/ime/WinFlowzKeyboardView.kt`

@@ -1,7 +1,7 @@
 ---
 artifact: architecture_context
 metadata_schema_version: "1.0"
-artifact_version: "1.6.0"
+artifact_version: "1.7.0"
 project: "shipflow"
 created: "2026-04-26"
 updated: "2026-07-13"
@@ -18,7 +18,7 @@ linked_systems:
   - "install.sh"
   - "local/local.sh"
   - "skills/"
-  - "templates/artifacts/"
+  - "templates/"
   - "tools/shipglowz_metadata_lint.py"
   - "tests/"
 external_dependencies:
@@ -43,6 +43,7 @@ evidence:
   - "Operator clarification 2026-07-13 distinguishes canonical governance records from root QA/bug, public-reference, and inactive archive surfaces."
   - "Operator decision 2026-07-13 moves useful repository history into shipglowz_data/workflow/archives and rejects a root archive surface."
   - "Operator decision 2026-07-13 rejects root docs and bug workflow exceptions in favor of one canonical shipglowz_data corpus."
+  - "Operator decision 2026-07-13 flattens the single-child templates/artifacts hierarchy into templates/."
 depends_on:
   - artifact: "shipglowz_data/technical/guidelines.md"
     artifact_version: "1.0.0"
@@ -84,7 +85,7 @@ The repo is not split into small services. It is centered around shell-based orc
 - `config.sh`: configuration source and validation layer.
 - `local/`: local access and tunnel management.
 - `skills/`: task-specific workflows and governance behavior.
-- `templates/artifacts/`: normalized artifact structures.
+- `templates/`: normalized artifact structures.
 - `tools/shipglowz_metadata_lint.py`: executable metadata contract validator.
 - `tests/`: executable regression suites grouped by owning subsystem (`cli`, `governance`, `runtime`, `skills`, and `workflow`).
 

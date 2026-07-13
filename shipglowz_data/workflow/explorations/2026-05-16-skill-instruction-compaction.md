@@ -17,7 +17,7 @@ linked_systems:
   - "skills/"
   - "skills/references/"
   - "shipglowz_data/technical/context.md"
-  - "templates/artifacts/"
+  - "templates/"
 evidence:
   - "skills/*/SKILL.md total: 20155 lines"
   - "Long skills observed: sg-docs 941 lines, sg-audit-design 843 lines, sg-init 718 lines, sg-audit-code 653 lines, sg-audit-copywriting 641 lines, sg-verify 571 lines"

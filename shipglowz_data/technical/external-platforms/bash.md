@@ -91,7 +91,7 @@ A project using Bash as a real runtime/tooling surface should maintain `<governa
 - validation commands
 - privilege boundaries and rollback/cleanup policy
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

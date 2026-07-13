@@ -16,7 +16,7 @@ docs_impact: yes
 linked_systems:
   - skills/references/documentation-freshness-gate.md
   - shipglowz_data/technical/firebase-firestore-oidc-ci-playbook.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
     artifact_version: "0.1.0"
@@ -98,7 +98,7 @@ A project using Google Cloud should maintain `<governance-root>/shipglowz_data/t
 - secret-manager and credential storage policy
 - validation commands and audit/log evidence route
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

@@ -92,7 +92,7 @@ A project using Gum should maintain `<governance-root>/shipglowz_data/technical/
 - commands used and expected stdout/exit behavior
 - validation smoke scenarios
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

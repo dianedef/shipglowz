@@ -19,7 +19,7 @@ security_impact: none
 docs_impact: yes
 linked_systems:
   - specs/
-  - templates/artifacts/spec.md
+  - templates/spec.md
   - skills/*/SKILL.md
   - skills/sg-help/SKILL.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
@@ -148,7 +148,7 @@ Ajouter au schema de spec ShipGlowz des metadata de modele (`source_model`, puis
 
 ## Documentation Coherence
 
-- `templates/artifacts/spec.md` doit montrer les nouveaux champs `created_at`, `updated_at`, `source_model` et la section `Skill Run History`.
+- `templates/spec.md` doit montrer les nouveaux champs `created_at`, `updated_at`, `source_model` et la section `Skill Run History`.
 - `skills/sg-spec/SKILL.md` doit creer ces champs et cette section.
 - `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-end/SKILL.md` et `skills/sg-ship/SKILL.md` doivent decrire leur mise a jour obligatoire de l'historique quand une spec est presente.
 - Toutes les autres `skills/*/SKILL.md` doivent etre inventoriees et classees pour savoir si elles appliquent le bloc final `Chantier` en obligatoire, conditionnel ou non-applicable.
@@ -170,11 +170,11 @@ Ajouter au schema de spec ShipGlowz des metadata de modele (`source_model`, puis
 ## Implementation Tasks
 
 - [x] Task 1: Mettre a jour le template de spec
-  - File: `templates/artifacts/spec.md`
+  - File: `templates/spec.md`
   - Action: Ajouter `created_at`, `updated_at`, `source_model`, puis une section `Skill Run History` avec colonnes Date UTC, Skill, Model, Action, Result, Next step.
   - User story link: Permet aux nouvelles specs de s'auto-documenter des leur creation.
   - Depends on: None
-  - Validate with: `rg -n "source_model|Skill Run History|created_at|updated_at" templates/artifacts/spec.md`
+  - Validate with: `rg -n "source_model|Skill Run History|created_at|updated_at" templates/spec.md`
   - Notes: Garder un template lisible et compatible avec les specs existantes.
 
 - [x] Task 2: Inventorier tous les fichiers de skills existants
@@ -299,7 +299,7 @@ Ajouter au schema de spec ShipGlowz des metadata de modele (`source_model`, puis
 
 ## Execution Notes
 
-- Read first: `templates/artifacts/spec.md`, `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-end/SKILL.md`, `skills/sg-ship/SKILL.md`.
+- Read first: `templates/spec.md`, `skills/sg-spec/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-verify/SKILL.md`, `skills/sg-end/SKILL.md`, `skills/sg-ship/SKILL.md`.
 - Then read: `skills/sg-help/SKILL.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/metadata-migration-guide.md`, `README.md`.
 - Inventory command: `find skills -maxdepth 2 -name SKILL.md | sort`.
 - Initial observed inventory on 2026-04-27: `skills/name/SKILL.md`, `skills/sg-audit-a11y/SKILL.md`, `skills/sg-audit-code/SKILL.md`, `skills/sg-audit-components/SKILL.md`, `skills/sg-audit-copy/SKILL.md`, `skills/sg-audit-copywriting/SKILL.md`, `skills/sg-audit-design-tokens/SKILL.md`, `skills/sg-audit-design/SKILL.md`, `skills/sg-audit-gtm/SKILL.md`, `skills/sg-audit-seo/SKILL.md`, `skills/sg-audit-translate/SKILL.md`, `skills/sg-audit/SKILL.md`, `skills/sg-auth-debug/SKILL.md`, `skills/sg-backlog/SKILL.md`, `skills/sg-changelog/SKILL.md`, `skills/sg-check/SKILL.md`, `skills/sg-context/SKILL.md`, `skills/sg-deps/SKILL.md`, `skills/sg-design-playground/SKILL.md`, `skills/sg-docs/SKILL.md`, `skills/sg-end/SKILL.md`, `skills/sg-enrich/SKILL.md`, `skills/sg-explore/SKILL.md`, `skills/sg-fix/SKILL.md`, `skills/sg-help/SKILL.md`, `skills/sg-init/SKILL.md`, `skills/sg-market-study/SKILL.md`, `skills/sg-migrate/SKILL.md`, `skills/sg-model/SKILL.md`, `skills/sg-perf/SKILL.md`, `skills/sg-priorities/SKILL.md`, `skills/sg-prod/SKILL.md`, `skills/sg-ready/SKILL.md`, `skills/sg-redact/SKILL.md`, `skills/sg-repurpose/SKILL.md`, `skills/sg-research/SKILL.md`, `skills/sg-resume/SKILL.md`, `skills/sg-review/SKILL.md`, `skills/sg-scaffold/SKILL.md`, `skills/sg-ship/SKILL.md`, `skills/sg-skills-refresh/SKILL.md`, `skills/sg-spec/SKILL.md`, `skills/sg-start/SKILL.md`, `skills/sg-status/SKILL.md`, `skills/sg-tasks/SKILL.md`, `skills/sg-test/SKILL.md`, `skills/sg-veille/SKILL.md`, `skills/sg-verify/SKILL.md`.

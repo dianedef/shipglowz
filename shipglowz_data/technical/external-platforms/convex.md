@@ -17,7 +17,7 @@ linked_systems:
   - skills/references/documentation-freshness-gate.md
   - skills/109-sg-auth-debug/references/convex-clerk.md
   - skills/109-sg-auth-debug/references/convex-tooling.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
     artifact_version: "0.1.0"
@@ -100,7 +100,7 @@ A project using Convex should maintain `<governance-root>/shipglowz_data/technic
 - scheduled function, cron, action, and webhook side effects
 - validation commands and dashboard/MCP/CLI evidence route
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

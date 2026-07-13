@@ -77,7 +77,7 @@ It does not share canonical ownership with random root notes. When a root techni
 | `local-tunnels-and-mcp-login.md` | `local/`, SSH tunnels, remote helper scripts, MCP OAuth login |
 | `skill-runtime-and-lifecycle.md` | `skills/`, lifecycle skills, references, templates, Reader/Executor rules |
 | `agent-clarity-pass-playbook.md` | Future agent-clarity hardening passes across overlapping skills, batching rules, and first-screen boundary method |
-| `artifact-metadata-and-linter.md` | `templates/artifacts/`, `tools/shipglowz_metadata_lint.py`, frontmatter contracts |
+| `artifact-metadata-and-linter.md` | `templates/`, `tools/shipglowz_metadata_lint.py`, frontmatter contracts |
 | `codebase-mcp.md` | `tools/codebase-mcp/` |
 | `public-site-and-content-runtime.md` | `site/`, `shipglowz_data/editorial/content-map.md`, public/private doc boundaries |
 | `installer-and-user-scope.md` | `install.sh`, root/user setup, aliases, skill links, MCP config |
@@ -112,8 +112,8 @@ The layer does not create one doc per file. Small legacy files such as menu fron
 Run the checks listed in `code-docs-map.md` for the changed paths. At minimum, technical-doc changes should pass:
 
 ```bash
-rg -n "Maintenance Rule|Validation|Owned Files|Entrypoints" shipglowz_data/technical templates/artifacts/technical_module_context.md
-python3 tools/shipglowz_metadata_lint.py shipglowz_data/technical templates/artifacts/technical_module_context.md
+rg -n "Maintenance Rule|Validation|Owned Files|Entrypoints" shipglowz_data/technical templates/technical_module_context.md
+python3 tools/shipglowz_metadata_lint.py shipglowz_data/technical templates/technical_module_context.md
 ```
 
 ## Maintenance Rule

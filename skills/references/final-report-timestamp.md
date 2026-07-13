@@ -17,7 +17,7 @@ linked_systems:
   - skills/references/reporting-contract.md
   - skills/references/chantier-tracking.md
   - skills/*/SKILL.md
-  - templates/artifacts/*.md
+  - templates/*.md
 depends_on: []
 supersedes: []
 evidence:

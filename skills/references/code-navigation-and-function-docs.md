@@ -18,7 +18,7 @@ linked_systems:
   - skills/references/documentation-governance-rules.md
   - skills/references/project-governance-rules.md
   - skills/300-sg-docs/SKILL.md
-  - templates/artifacts/technical_behavior_index.md
+  - templates/technical_behavior_index.md
   - shipglowz_data/technical/code-docs-map.md
 depends_on:
   - artifact: "skills/references/technical-docs-corpus.md"

@@ -291,7 +291,7 @@ Créer les fichiers de contexte business/marque dans le dossier `shipglowz_data/
 
 `shipglowz_data/business/business.md`, `shipglowz_data/branding/branding.md`, `shipglowz_data/editorial/content-map.md` et `shipglowz_data/technical/guidelines.md` sont des artefacts ShipGlowz, pas de simples notes. Les anciens fichiers racine (`BUSINESS.md`, `BRANDING.md`, `CONTENT_MAP.md`, `GUIDELINES.md`, `CONTEXT.md`, `CONTEXT-FUNCTION-TREE.md`, `PRODUCT.md`, `GTM.md`, `ARCHITECTURE.md`) ne servent que de sources de migration quand ils existent encore. Ils ne sont pas des emplacements finaux conformes. Les artefacts doivent commencer par un frontmatter YAML ShipGlowz avec `metadata_schema_version`, `artifact_version`, `status`, `confidence`, `risk_level`, `evidence`, `next_review`, `depends_on` et `supersedes`. À l'initialisation, utiliser `metadata_schema_version: "1.0"` et `artifact_version: "0.1.0"` tant que le contenu n'a pas été revu explicitement par l'utilisateur; passer à `artifact_version: "1.0.0"` seulement si les réponses utilisateur couvrent les décisions essentielles sans placeholder.
 
-Les registres `shipglowz_data/business/project-competitors-and-inspirations.md` et `shipglowz_data/business/affiliate-programs.md` sont optionnels. `305-sg-init` ne les crée pas par défaut pour tous les projets. Si l'un d'eux existe déjà, reporter son statut et le faire valider par `/300-sg-docs update` ou le linter ShipGlowz. Si l'utilisateur demande explicitement une initialisation marché/affiliation, utiliser les templates `templates/artifacts/competitive_intelligence.md` et `templates/artifacts/affiliate_program_registry.md`; sinon reporter `absent optionnel`.
+Les registres `shipglowz_data/business/project-competitors-and-inspirations.md` et `shipglowz_data/business/affiliate-programs.md` sont optionnels. `305-sg-init` ne les crée pas par défaut pour tous les projets. Si l'un d'eux existe déjà, reporter son statut et le faire valider par `/300-sg-docs update` ou le linter ShipGlowz. Si l'utilisateur demande explicitement une initialisation marché/affiliation, utiliser les templates `templates/competitive_intelligence.md` et `templates/affiliate_program_registry.md`; sinon reporter `absent optionnel`.
 
 #### 5a. shipglowz_data/business/business.md
 
@@ -686,7 +686,7 @@ See `${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/codebase-mcp/README.md` for full to
 
 #### 5d. shipglowz_data/editorial/content-map.md
 
-Générer automatiquement depuis les dossiers détectés (`src/content`, `content`, `docs`, `app`, `pages`, routes marketing, collections Astro/MDX, changelog, FAQ/support si présents). Utiliser `templates/artifacts/content_map.md` comme structure.
+Générer automatiquement depuis les dossiers détectés (`src/content`, `content`, `docs`, `app`, `pages`, routes marketing, collections Astro/MDX, changelog, FAQ/support si présents). Utiliser `templates/content_map.md` comme structure.
 
 `[project_dir]/shipglowz_data/editorial/content-map.md` doit cartographier :
 - blog et articles
@@ -705,8 +705,8 @@ After `shipglowz_data/editorial/content-map.md` generation or skip decision, det
 Load these ShipGlowz-owned references from `$SHIPFLOW_ROOT` before creating or auditing governance files:
 - `skills/references/technical-docs-corpus.md`
 - `skills/references/editorial-content-corpus.md`
-- `templates/artifacts/technical_module_context.md`
-- `templates/artifacts/editorial_content_context.md`
+- `templates/technical_module_context.md`
+- `templates/editorial_content_context.md`
 
 Detect:
 - code areas: `package.json`, lockfiles, `src/`, `app/`, `pages/`, `components/`, `lib/`, `convex/`, `supabase/`, `server/`, `api/`, `*.sh`, `*.py`, `*.ts`, `*.tsx`, `*.js`, `*.jsx`, `*.astro`, `*.vue`, or framework config files

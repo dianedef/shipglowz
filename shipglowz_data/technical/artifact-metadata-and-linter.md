@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: ShipGlowz
 created: "2026-05-01"
-updated: "2026-05-11"
+updated: "2026-07-13"
 status: reviewed
 source_skill: sg-start
 scope: artifact-metadata-and-linter
@@ -14,7 +14,7 @@ risk_level: high
 security_impact: yes
 docs_impact: yes
 linked_systems:
-  - templates/artifacts/
+  - templates/
   - tools/shipglowz_metadata_lint.py
   - shipglowz_data/technical/metadata-migration-guide.md
   - shipglowz_data/editorial/
@@ -27,6 +27,7 @@ evidence:
   - "Metadata migration guide, templates, and linter source."
   - "editorial_content_context added for shipglowz_data/editorial governance artifacts."
   - "competitive_intelligence and affiliate_program_registry added for project business registries."
+  - "Operator decision 2026-07-13 flattened the single-child templates/artifacts hierarchy into templates/."
 next_review: "2026-06-01"
 next_step: "/sg-docs technical audit metadata"
 ---
@@ -41,11 +42,11 @@ This doc covers ShipGlowz artifact frontmatter, templates, and `tools/shipglowz_
 
 | Path | Role | Edit notes |
 | --- | --- | --- |
-| `templates/artifacts/*.md` | Artifact templates | Keep frontmatter fields compatible with linter |
-| `templates/artifacts/technical_module_context.md` | Template for subsystem technical docs | Official linted artifact type |
-| `templates/artifacts/editorial_content_context.md` | Template for editorial governance docs | Official linted artifact type for public-content governance |
-| `templates/artifacts/competitive_intelligence.md` | Template for project competitors, alternatives, inspirations, and anti-patterns | Official linted artifact type for business research registries |
-| `templates/artifacts/affiliate_program_registry.md` | Template for affiliate, referral, partner, sponsorship, and disclosure tracking | Official linted artifact type; never store secrets in generated files |
+| `templates/*.md` | Artifact templates | Keep frontmatter fields compatible with linter |
+| `templates/technical_module_context.md` | Template for subsystem technical docs | Official linted artifact type |
+| `templates/editorial_content_context.md` | Template for editorial governance docs | Official linted artifact type for public-content governance |
+| `templates/competitive_intelligence.md` | Template for project competitors, alternatives, inspirations, and anti-patterns | Official linted artifact type for business research registries |
+| `templates/affiliate_program_registry.md` | Template for affiliate, referral, partner, sponsorship, and disclosure tracking | Official linted artifact type; never store secrets in generated files |
 | `tools/shipglowz_metadata_lint.py` | Dependency-free frontmatter validator | Keep standard-library only |
 | `shipglowz_data/technical/metadata-migration-guide.md` | Human procedure for metadata adoption | Update when schema behavior changes |
 
@@ -85,9 +86,9 @@ This doc covers ShipGlowz artifact frontmatter, templates, and `tools/shipglowz_
 
 ```bash
 python3 tools/shipglowz_metadata_lint.py --help
-python3 tools/shipglowz_metadata_lint.py shipglowz_data/technical templates/artifacts/technical_module_context.md skills/references/technical-docs-corpus.md
-python3 tools/shipglowz_metadata_lint.py shipglowz_data/editorial templates/artifacts/editorial_content_context.md skills/references/editorial-content-corpus.md
-python3 tools/shipglowz_metadata_lint.py shipglowz_data/business templates/artifacts/competitive_intelligence.md templates/artifacts/affiliate_program_registry.md
+python3 tools/shipglowz_metadata_lint.py shipglowz_data/technical templates/technical_module_context.md skills/references/technical-docs-corpus.md
+python3 tools/shipglowz_metadata_lint.py shipglowz_data/editorial templates/editorial_content_context.md skills/references/editorial-content-corpus.md
+python3 tools/shipglowz_metadata_lint.py shipglowz_data/business templates/competitive_intelligence.md templates/affiliate_program_registry.md
 ```
 
 ## Reader Checklist

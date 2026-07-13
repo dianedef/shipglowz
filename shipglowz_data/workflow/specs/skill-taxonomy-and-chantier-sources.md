@@ -22,7 +22,7 @@ linked_systems:
   - skills/sg-help/SKILL.md
   - skills/*/SKILL.md
   - specs/
-  - templates/artifacts/spec.md
+  - templates/spec.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
 depends_on:
   - artifact: "specs/specs-as-chantier-registry.md"
@@ -31,7 +31,7 @@ depends_on:
   - artifact: "skills/references/chantier-tracking.md"
     artifact_version: "0.1.0"
     required_status: "draft"
-  - artifact: "templates/artifacts/spec.md"
+  - artifact: "templates/spec.md"
     artifact_version: "0.1.0"
     required_status: "draft"
 supersedes: []
@@ -122,7 +122,7 @@ Etendre la doctrine avec une seconde taxonomie interne: la categorie de tracing 
 ## Dependencies
 
 - Runtime: markdown, YAML frontmatter, instructions de skills ShipGlowz.
-- Document contracts: `specs/specs-as-chantier-registry.md`, `skills/references/chantier-tracking.md`, `templates/artifacts/spec.md`.
+- Document contracts: `specs/specs-as-chantier-registry.md`, `skills/references/chantier-tracking.md`, `templates/spec.md`.
 - Metadata gaps: `skills/references/chantier-tracking.md` est encore `status: draft`; cette spec depend de sa forme actuelle et devra le mettre a jour.
 - Fresh external docs: fresh-docs not needed, because the change is local to ShipGlowz process and markdown skill instructions.
 
@@ -287,7 +287,7 @@ Etendre la doctrine avec une seconde taxonomie interne: la categorie de tracing 
 
 ## Execution Notes
 
-- Read first: `skills/references/chantier-tracking.md`, `skills/sg-help/SKILL.md`, `specs/specs-as-chantier-registry.md`, `templates/artifacts/spec.md`.
+- Read first: `skills/references/chantier-tracking.md`, `skills/sg-help/SKILL.md`, `specs/specs-as-chantier-registry.md`, `templates/spec.md`.
 - Then inspect representative sources: `skills/sg-deps/SKILL.md`, `skills/sg-perf/SKILL.md`, `skills/sg-audit/SKILL.md`, `skills/sg-check/SKILL.md`, `skills/sg-prod/SKILL.md`, `skills/sg-browser/SKILL.md`.
 - Suggested taxonomy baseline:
   - `lifecycle`: `sg-spec`, `sg-ready`, `sg-start`, `sg-verify`, `sg-end`, `sg-ship`.

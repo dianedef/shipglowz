@@ -27,7 +27,7 @@ linked_systems:
   - skills/sg-verify/SKILL.md
   - skills/sg-verify/references/verification-gates.md
   - skills/references/spec-driven-development-discipline.md
-  - templates/artifacts/
+  - templates/
   - tools/shipflow_metadata_lint.py
   - tools/shipflow_checklist_status.py
 depends_on:
@@ -37,7 +37,7 @@ depends_on:
   - artifact: "skills/references/decision-quality-contract.md"
     artifact_version: "1.0.0"
     required_status: active
-  - artifact: "templates/artifacts/spec.md"
+  - artifact: "templates/spec.md"
     artifact_version: "0.1.0"
     required_status: draft
 supersedes: []
@@ -98,7 +98,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 
 ## Scope In
 
-- Add `templates/artifacts/manual_test_checklist.md`.
+- Add `templates/manual_test_checklist.md`.
 - Define a canonical project path for generated checklists: `shipglowz_data/workflow/test-checklists/<scope>.md`.
 - Update spec creation rules so non-trivial specs include a stack-agnostic `Test Contract` and link to a checklist when manual proof is expected.
 - Update `sg-start` execution rules so TDD/test-first work creates or updates checklist artifacts when human/device-only proof remains.
@@ -157,7 +157,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 - Update `sg-test` README and public skill page if they describe manual QA prompts but not checklist files.
 - Update `sg-help` catalog if it describes `sg-test` as chat-only guided manual QA.
 - Update `spec-driven-development-discipline.md` to include stack-agnostic proof ladders and checklist artifacts as part of proof-first/TDD.
-- Update `templates/artifacts/spec.md` or `sg-spec` workflow so future specs know where `Test Contract` and checklist links belong.
+- Update `templates/spec.md` or `sg-spec` workflow so future specs know where `Test Contract` and checklist links belong.
 
 ## Edge Cases
 
@@ -176,11 +176,11 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 ## Implementation Tasks
 
 - [ ] Task 1: Add manual checklist artifact template
-  - File: `templates/artifacts/manual_test_checklist.md`
+  - File: `templates/manual_test_checklist.md`
   - Action: Define frontmatter, status vocabulary, scenario table, operator-fill rules, redaction rules, evidence pointer rules, and maintenance rule.
   - User story link: Gives the operator a file to fill instead of replying in chat.
   - Depends on: None
-  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/artifacts/manual_test_checklist.md`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/manual_test_checklist.md`
   - Notes: Use statuses `NOT_RUN`, `PASS`, `FAIL`, `BLOCKED`, `N/A`.
 
 - [ ] Task 2: Teach metadata lint the new artifact type
@@ -188,7 +188,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
   - Action: Accept `artifact: manual_test_checklist` with required metadata fields.
   - User story link: Keeps generated checklists durable and auditable.
   - Depends on: Task 1
-  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/artifacts/manual_test_checklist.md`
+  - Validate with: `python3 tools/shipflow_metadata_lint.py templates/manual_test_checklist.md`
   - Notes: Do not lint `shipglowz_data/workflow/TEST_LOG.md`.
 
 - [ ] Task 3: Add stack-agnostic Test Contract and checklist generation rules to spec creation
@@ -200,11 +200,11 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
   - Notes: Specs should link the checklist path when one is generated.
 
 - [ ] Task 4: Update spec template with Test Contract placeholder
-  - File: `templates/artifacts/spec.md`
+  - File: `templates/spec.md`
   - Action: Add `Test Contract` after `Acceptance Criteria` or before `Test Strategy`, with manual checklist link and stack-agnostic proof ladder fields.
   - User story link: Makes future specs mechanically consistent.
   - Depends on: Task 3
-  - Validate with: `rg -n "Test Contract|Manual checklist|Proof ladder" templates/artifacts/spec.md`
+  - Validate with: `rg -n "Test Contract|Manual checklist|Proof ladder" templates/spec.md`
   - Notes: Keep the template concise.
 
 - [ ] Task 5: Update TDD/proof discipline reference
@@ -316,7 +316,7 @@ Introduce a durable `manual_test_checklist` artifact and teach `sg-spec`, `sg-st
 
 ## Execution Notes
 
-- Read first: `skills/sg-test/SKILL.md`, `skills/sg-spec/references/spec-creation-workflow.md`, `skills/sg-start/references/execution-workflow.md`, `skills/sg-verify/SKILL.md`, `skills/sg-verify/references/verification-gates.md`, `templates/artifacts/spec.md`, `templates/artifacts/bug_record.md`, `tools/shipflow_metadata_lint.py`.
+- Read first: `skills/sg-test/SKILL.md`, `skills/sg-spec/references/spec-creation-workflow.md`, `skills/sg-start/references/execution-workflow.md`, `skills/sg-verify/SKILL.md`, `skills/sg-verify/references/verification-gates.md`, `templates/spec.md`, `templates/bug_record.md`, `tools/shipflow_metadata_lint.py`.
 - Validate with: metadata lint for changed artifacts, `rg` checks in tasks, `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`, `tools/shipflow_sync_skills.sh --check --all`, and site build if public content changes.
 - Stop conditions: unclear checklist path, inability to preserve operator edits, unsafe evidence handling, manual checklist replacing automated tests, validation or CI becoming either too weak for risk or too heavy by habit, branch protection conflicting with skipped path-filtered workflows, or stack-agnostic proof ladder weakened.
 

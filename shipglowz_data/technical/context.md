@@ -53,7 +53,7 @@ ShipGlowz combine deux couches :
 - `local/`: outils locaux d'acces a un serveur ShipGlowz.
 - `skills/`: skills ShipGlowz pour exploration, spec, execution, verif, docs, audits.
 - `tui/`: cockpit terminal optionnel en lecture seule pour projets, taches, audits, specs et diagnostics.
-- `templates/artifacts/`: templates d'artefacts versionnes.
+- `templates/`: templates d'artefacts versionnes.
 - `tools/shipglowz_metadata_lint.py`: linter des frontmatters ShipGlowz.
 - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`: doctrine de workflow.
 - `shipglowz_data/technical/metadata-migration-guide.md`: doctrine de migration metadata.
@@ -197,7 +197,7 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 - Changer les tunnels locaux : `local/local.sh` et `local/dev-tunnel.sh`.
 - Changer le mode Flutter Web interactif : `cli/lib.sh` autour de `action_flutter_web`, puis `local/remote-helpers.sh` si le tunnel doit découvrir de nouveaux ports.
 - Changer le workflow d'agent : `skills/` + `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
-- Changer les regles metadata : `skills/300-sg-docs/SKILL.md`, `tools/shipglowz_metadata_lint.py`, `shipglowz_data/technical/metadata-migration-guide.md`, `templates/artifacts/`.
+- Changer les regles metadata : `skills/300-sg-docs/SKILL.md`, `tools/shipglowz_metadata_lint.py`, `shipglowz_data/technical/metadata-migration-guide.md`, `templates/`.
 - Changer la documentation technique proche du code : `shipglowz_data/technical/code-docs-map.md` puis le doc primaire dans `shipglowz_data/technical/`.
 - Changer l'UI shell (sélecteurs, menus, headers) : `cli/lib.sh` autour des primitives `ui_choose`, `ui_filter_choose`, `ui_text_center`, `ui_list_filter`, `ui_traffic_color`.
 - Changer la TUI (dashboard, filtres, tri, statuts) : `tui/src/statusMaps.ts` (mappings partagés), `tui/src/sources/` (lecture/parsing), `tui/src/viewModels/dashboard.ts` (logique de vue), `tui/src/views/dashboardView.ts` (rendu).

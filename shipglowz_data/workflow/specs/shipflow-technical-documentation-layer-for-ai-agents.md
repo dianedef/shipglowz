@@ -30,7 +30,7 @@ linked_systems:
   - docs/technical/
   - skills/sg-docs/SKILL.md
   - skills/references/
-  - templates/artifacts/
+  - templates/
   - tools/shipflow_metadata_lint.py
   - tools/codebase-mcp/
   - local/
@@ -75,7 +75,7 @@ supersedes: []
 evidence:
   - "Exploration subagent Euclid, 2026-05-01: ShipGlowz has strong agent/workflow documentation but lacks a canonical docs/technical layer and code-docs map."
   - "Spec drafting subagent Ohm, 2026-05-01: proposed a full implementation plan with sequential foundations, disjoint technical-doc waves, and final sequential integration."
-  - "Local inventory: AGENT.md, CLAUDE.md, CONTEXT.md, CONTEXT-FUNCTION-TREE.md, ARCHITECTURE.md, GUIDELINES.md, README.md, shipglowz_data/workflow/playbooks/spec-driven-workflow.md, shipglowz_data/technical/metadata-migration-guide.md, skills/references, templates/artifacts, tools/codebase-mcp, and local/README.md."
+  - "Local inventory: AGENT.md, CLAUDE.md, CONTEXT.md, CONTEXT-FUNCTION-TREE.md, ARCHITECTURE.md, GUIDELINES.md, README.md, shipglowz_data/workflow/playbooks/spec-driven-workflow.md, shipglowz_data/technical/metadata-migration-guide.md, skills/references, templates, tools/codebase-mcp, and local/README.md."
   - "Fresh-docs checked: OpenAI Codex AGENTS.md guide, Anthropic Claude Code memory and best practices, GitHub Copilot custom instructions, agents.md, llms.txt, and ADR references."
   - "User decisions, 2026-05-01: AGENT.md remains canonical; AGENTS.md is symlink compatibility only; technical_module_context is linted; docs/technical remains internal-only; Technical Reader plans after every wave plus end verification; no stale-doc shipping exception; no per-file last_verified_against in v1."
   - "User decision 2026-05-01: rename the generic technical reader terminology to Technical Reader so it can coexist cleanly with the separate Editorial Reader role, without removing any technical documentation responsibilities."
@@ -132,7 +132,7 @@ ShipGlowz already has strong orientation and workflow documentation:
 - `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` describes the spec-first doctrine.
 - `shipglowz_data/technical/metadata-migration-guide.md` documents artifact metadata and frontmatter.
 - `skills/references/*.md` contains specialized operational references.
-- `templates/artifacts/*.md` contains artifact templates.
+- `templates/*.md` contains artifact templates.
 - `tools/codebase-mcp/README.md`, `tools/codebase-mcp/TIPS.md`, and `local/README.md` document specific subsystems.
 
 The gap is that this documentation is fragmented and mostly macro-level. It orients agents, but it does not systematically answer: which technical doc follows which code area, which invariants belong to a subsystem, which validations are required, which docs must be checked after a code change, and which docs are shared enough to forbid parallel edits.
@@ -158,7 +158,7 @@ docs/technical/
 Add two supporting artifacts:
 
 ```text
-templates/artifacts/technical_module_context.md
+templates/technical_module_context.md
 skills/references/technical-docs-corpus.md
 ```
 
@@ -166,7 +166,7 @@ Then connect the layer to the existing workflow by updating `skills/sg-docs/SKIL
 
 `AGENT.md` remains the canonical agent entrypoint. `sg-docs init` must create and maintain `AGENT.md`. `AGENTS.md` is allowed only as compatibility with agent tools that expect that filename, and it must be a symlink to `AGENT.md`, not a second maintained source.
 
-`templates/artifacts/technical_module_context.md` becomes an official linted ShipGlowz artifact type. `tools/shipflow_metadata_lint.py` must recognize it and enforce the required frontmatter fields used by governance artifacts, including at least `artifact`, `metadata_schema_version`, `artifact_version`, `status`, `risk_level`, and `docs_impact`.
+`templates/technical_module_context.md` becomes an official linted ShipGlowz artifact type. `tools/shipflow_metadata_lint.py` must recognize it and enforce the required frontmatter fields used by governance artifacts, including at least `artifact`, `metadata_schema_version`, `artifact_version`, `status`, `risk_level`, and `docs_impact`.
 
 The external research supports this direction:
 
@@ -183,7 +183,7 @@ The external research supports this direction:
 - Create `docs/technical/README.md`.
 - Create `docs/technical/code-docs-map.md`.
 - Create initial subsystem docs for runtime CLI, local tunnels and MCP login, skill runtime and lifecycle, artifact metadata and linter, codebase MCP, public site and content runtime, installer and user scope, and decisions.
-- Create `templates/artifacts/technical_module_context.md`.
+- Create `templates/technical_module_context.md`.
 - Create `skills/references/technical-docs-corpus.md`.
 - Add a technical-docs generation/audit contract to `skills/sg-docs/SKILL.md`.
 - Connect the technical layer to the Technical Reader and the `Documentation Update Gate`.
@@ -244,7 +244,7 @@ Local docs to inspect before implementation:
 - `skills/references/canonical-paths.md`
 - `skills/references/chantier-tracking.md`
 - `skills/references/documentation-freshness-gate.md`
-- `templates/artifacts/*.md`
+- `templates/*.md`
 - `tools/codebase-mcp/README.md`
 - `tools/codebase-mcp/TIPS.md`
 - `local/README.md`
@@ -258,7 +258,7 @@ Code to inspect before writing subsystem docs:
 - `local/`
 - `skills/*/SKILL.md`
 - `skills/references/`
-- `templates/artifacts/`
+- `templates/`
 - `tools/shipflow_metadata_lint.py`
 - `tools/codebase-mcp/`
 - `site/`
@@ -328,7 +328,7 @@ Use this durable split:
 - `specs/*.md`: chantier specs.
 - `docs/technical/*.md`: durable subsystem docs.
 - `docs/technical/code-docs-map.md`: code paths to docs, validations, and triggers.
-- `templates/artifacts/technical_module_context.md`: template for new subsystem docs.
+- `templates/technical_module_context.md`: template for new subsystem docs.
 - `skills/references/technical-docs-corpus.md`: skill-facing reference for loading the technical layer.
 
 Source-of-truth rules:
@@ -387,11 +387,11 @@ Freshness rules:
   - Notes : Shared critical file; sequential edits only.
 
 - [x] Task 3: Create the technical module template.
-  - Fichier : `templates/artifacts/technical_module_context.md`
+  - Fichier : `templates/technical_module_context.md`
   - Action : Add the standard template for subsystem technical docs.
   - User story link : Standardizes code-proximate docs for reliable agent consumption.
-  - Depends on : Task 1 plus review of `templates/artifacts/*.md` and `shipglowz_data/technical/metadata-migration-guide.md`.
-  - Validate with : `rg -n "Purpose|Owned files|Entrypoints|Invariants|Validation|Maintenance Rule|Technical Reader checklist" templates/artifacts/technical_module_context.md`
+  - Depends on : Task 1 plus review of `templates/*.md` and `shipglowz_data/technical/metadata-migration-guide.md`.
+  - Validate with : `rg -n "Purpose|Owned files|Entrypoints|Invariants|Validation|Maintenance Rule|Technical Reader checklist" templates/technical_module_context.md`
   - Notes : This is an official linted artifact type and must include required ShipGlowz frontmatter fields.
 
 - [x] Task 4: Create the skill-facing technical docs corpus reference.
@@ -430,7 +430,7 @@ Freshness rules:
   - Fichier : `docs/technical/artifact-metadata-and-linter.md`
   - Action : Document artifact frontmatter, templates, metadata schema, and `tools/shipflow_metadata_lint.py`.
   - User story link : Lets agents create or modify artifacts without breaking metadata validation.
-  - Depends on : Task 3 and reading `shipglowz_data/technical/metadata-migration-guide.md`, `templates/artifacts/`, and `tools/shipflow_metadata_lint.py`.
+  - Depends on : Task 3 and reading `shipglowz_data/technical/metadata-migration-guide.md`, `templates/`, and `tools/shipflow_metadata_lint.py`.
   - Validate with : `rg -n "metadata|frontmatter|artifact|template|shipflow_metadata_lint|Validation|Maintenance Rule" docs/technical/artifact-metadata-and-linter.md`
   - Notes : `technical_module_context` is a linted artifact type; document the linter contract and required fields.
 
@@ -462,8 +462,8 @@ Freshness rules:
   - Fichier : `docs/technical/decisions.md`
   - Action : Create an index/bridge for ADRs and durable architectural decisions.
   - User story link : Helps agents distinguish durable decisions, conventions, and chantier-specific choices.
-  - Depends on : Task 3 plus reading `templates/artifacts/decision_record.md`, `ARCHITECTURE.md`, and relevant specs.
-  - Validate with : `rg -n "ADR|decision|context|consequences|templates/artifacts/decision_record.md" docs/technical/decisions.md`
+  - Depends on : Task 3 plus reading `templates/decision_record.md`, `ARCHITECTURE.md`, and relevant specs.
+  - Validate with : `rg -n "ADR|decision|context|consequences|templates/decision_record.md" docs/technical/decisions.md`
   - Notes : Index decisions; do not replace ADRs.
 
 - [x] Task 13: Add technical-docs contract to `sg-docs`.
@@ -535,14 +535,14 @@ Freshness rules:
   - Action : Resolve duplicate content, link gaps, stale references, and shared-map accuracy.
   - User story link : Ensures a fresh agent can navigate the full layer without broken links or contradictions.
   - Depends on : All previous tasks.
-  - Validate with : `rg -n "TODO|TBD|PLACEHOLDER" docs/technical templates/artifacts skills/references AGENT.md CONTEXT.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md GUIDELINES.md`
+  - Validate with : `rg -n "TODO|TBD|PLACEHOLDER" docs/technical templates skills/references AGENT.md CONTEXT.md README.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md GUIDELINES.md`
   - Notes : Final sequential integration only.
 
 ## Acceptance Criteria
 
 - `docs/technical/README.md` exists and lists subsystem technical docs.
 - `docs/technical/code-docs-map.md` exists and maps code paths to subsystem docs, validations, and update triggers.
-- `templates/artifacts/technical_module_context.md` exists and standardizes technical docs.
+- `templates/technical_module_context.md` exists and standardizes technical docs.
 - `technical_module_context` is recognized by `tools/shipflow_metadata_lint.py` as an official linted artifact type with required governance frontmatter.
 - `skills/references/technical-docs-corpus.md` exists and explains how skills should use the layer.
 - Each major subsystem has a technical doc or an explicit non-coverage reason.
@@ -568,14 +568,14 @@ Structural checks:
 
 - `test -f docs/technical/README.md`
 - `test -f docs/technical/code-docs-map.md`
-- `test -f templates/artifacts/technical_module_context.md`
+- `test -f templates/technical_module_context.md`
 - `test -f skills/references/technical-docs-corpus.md`
 - `test ! -e AGENTS.md || { test -L AGENTS.md && test "$(readlink AGENTS.md)" = "AGENT.md"; }`
-- `rg -n "Maintenance Rule|Validation|Owned files|Entrypoints" docs/technical templates/artifacts/technical_module_context.md`
+- `rg -n "Maintenance Rule|Validation|Owned files|Entrypoints" docs/technical templates/technical_module_context.md`
 
 Coherence checks:
 
-- `rg -n "TODO|TBD|PLACEHOLDER" docs/technical templates/artifacts skills/references`
+- `rg -n "TODO|TBD|PLACEHOLDER" docs/technical templates skills/references`
 - Compare `docs/technical/code-docs-map.md` against real repo top-level areas.
 - Check that every major area has a primary doc or a reason for non-coverage.
 - Check that entrypoint docs link to `docs/technical/` without duplicating it.
@@ -648,7 +648,7 @@ Final integration:
 
 Safe waves, only after `/sg-ready`:
 
-- Wave 0, sequential foundation: `docs/technical/README.md`, `docs/technical/code-docs-map.md`, `templates/artifacts/technical_module_context.md`, `skills/references/technical-docs-corpus.md`.
+- Wave 0, sequential foundation: `docs/technical/README.md`, `docs/technical/code-docs-map.md`, `templates/technical_module_context.md`, `skills/references/technical-docs-corpus.md`.
 - Wave 1, parallel only if each executor owns one file: `docs/technical/runtime-cli.md`, `docs/technical/local-tunnels-and-mcp-login.md`, `docs/technical/installer-and-user-scope.md`.
 - Wave 2, parallel only if each executor owns one file: `docs/technical/skill-runtime-and-lifecycle.md`, `docs/technical/artifact-metadata-and-linter.md`, `docs/technical/codebase-mcp.md`, `docs/technical/public-site-and-content-runtime.md`, `docs/technical/decisions.md`.
 - Wave 3, sequential integration: `skills/sg-docs/SKILL.md`, `AGENT.md`, `CONTEXT.md`, `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `GUIDELINES.md`, and `tools/shipflow_metadata_lint.py`.
@@ -667,7 +667,7 @@ Execution decisions:
 Read first before editing:
 
 - `AGENT.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `GUIDELINES.md`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
-- `shipglowz_data/technical/metadata-migration-guide.md`, `templates/artifacts/*.md`, and `tools/shipflow_metadata_lint.py` before creating `technical_module_context`.
+- `shipglowz_data/technical/metadata-migration-guide.md`, `templates/*.md`, and `tools/shipflow_metadata_lint.py` before creating `technical_module_context`.
 - The owned code area before writing each subsystem doc: `shipglowz.sh`, `lib.sh`, `config.sh`, `install.sh`, `local/`, `skills/`, `tools/codebase-mcp/`, or `site/`.
 
 Implementation constraints:

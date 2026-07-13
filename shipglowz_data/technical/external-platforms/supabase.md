@@ -18,7 +18,7 @@ linked_systems:
   - skills/references/supabase-auth.md
   - skills/references/supabase-db.md
   - skills/references/supabase-storage.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
     artifact_version: "0.1.0"
@@ -103,7 +103,7 @@ A project using Supabase should maintain `<governance-root>/shipglowz_data/techn
 - migration/generation commands
 - MCP/CLI/dashboard evidence route
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

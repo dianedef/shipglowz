@@ -18,7 +18,7 @@ linked_systems:
   - skills/references/sentry-observability.md
   - skills/405-sg-prod/SKILL.md
   - skills/103-sg-verify/SKILL.md
-  - templates/artifacts/project_platform_usage.md
+  - templates/project_platform_usage.md
 depends_on:
   - artifact: "shipglowz_data/technical/external-platforms/README.md"
     artifact_version: "0.1.0"
@@ -96,7 +96,7 @@ A project using Sentry should maintain `<governance-root>/shipglowz_data/technic
 - monitor/alert ownership
 - issue/event evidence route for `sg-prod`, `sg-fix`, and `sg-verify`
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 

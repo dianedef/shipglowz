@@ -19,7 +19,7 @@ security_impact: yes
 docs_impact: yes
 linked_systems:
   - "skills/sg-explore/SKILL.md"
-  - "templates/artifacts/exploration_report.md"
+  - "templates/exploration_report.md"
   - "skills/references/chantier-tracking.md"
   - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
   - "skills/sg-help/SKILL.md"
@@ -28,10 +28,10 @@ depends_on:
   - artifact: "skills/sg-explore/SKILL.md"
     artifact_version: "unknown"
     required_status: "active"
-  - artifact: "templates/artifacts/research_report.md"
+  - artifact: "templates/research_report.md"
     artifact_version: "0.1.0"
     required_status: "active"
-  - artifact: "templates/artifacts/decision_record.md"
+  - artifact: "templates/decision_record.md"
     artifact_version: "0.1.0"
     required_status: "active"
   - artifact: "skills/references/chantier-tracking.md"
@@ -45,7 +45,7 @@ evidence:
   - "User request on 2026-04-29: sg-explore should not leave substantial research and brainstorming only in conversation history."
   - "skills/sg-explore/SKILL.md currently says exploration may create reflection documents if asked, but has no default durable artifact or template."
   - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md says reusable ShipGlowz artifacts should be traceable through metadata, evidence, status, risk, and next step."
-  - "templates/artifacts/research_report.md exists for source-backed research, but the requested artifact is a pre-decision exploration report, not a general research report."
+  - "templates/research_report.md exists for source-backed research, but the requested artifact is a pre-decision exploration report, not a general research report."
   - "sg-ready on 2026-04-29 blocked the draft because the substantial-exploration threshold was undefined and redaction/security requirements were not task-level or acceptance-testable."
 next_step: "None"
 ---
@@ -95,7 +95,7 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
 
 ## Scope In
 
-- Creer `templates/artifacts/exploration_report.md` avec frontmatter ShipGlowz, sections de contexte, options, recherches web, non-decisions, risques, inconnues, redaction et handoff.
+- Creer `templates/exploration_report.md` avec frontmatter ShipGlowz, sections de contexte, options, recherches web, non-decisions, risques, inconnues, redaction et handoff.
 - Modifier `skills/sg-explore/SKILL.md` pour expliquer quand creer, mettre a jour ou ne pas creer un rapport selon le seuil explicite de deux criteres substantiels.
 - Garder `Trace category: non-applicable` pour l'ecriture dans les specs, car `sg-explore` ne doit pas modifier `Skill Run History`.
 - Reclasser ou affiner le role process de `sg-explore` dans la doctrine pour representer son role pre-decision sans lui donner le droit de creer une spec.
@@ -128,7 +128,7 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
 ## Dependencies
 
 - Runtime: Markdown files and existing ShipGlowz skill execution conventions; no new package runtime needed.
-- Document contracts: `skills/sg-explore/SKILL.md`, `templates/artifacts/research_report.md`, `templates/artifacts/decision_record.md`, `skills/references/chantier-tracking.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `skills/sg-help/SKILL.md`.
+- Document contracts: `skills/sg-explore/SKILL.md`, `templates/research_report.md`, `templates/decision_record.md`, `skills/references/chantier-tracking.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, and `skills/sg-help/SKILL.md`.
 - Fresh external docs: fresh-docs not needed; this change concerns local ShipGlowz documentation, templates and skill behavior, not an external framework, SDK, API, auth flow, build system or service integration.
 - Security dependency: no external security library is required; mitigation is procedural and must be encoded in the skill instructions, artifact template, acceptance criteria and manual test scenarios.
 - Metadata gaps: several existing ShipGlowz docs have `artifact_version: unknown`; this spec records that debt without blocking the draft.
@@ -157,7 +157,7 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
 - Update `skills/sg-help/SKILL.md` role matrix and help text so users understand that `sg-explore` can write exploration reports without writing chantier spec history.
 - Update `skills/references/chantier-tracking.md` to clarify that `non-applicable` means non-applicable for spec trace, not necessarily unable to write a non-spec artifact.
 - Update `site/src/content/skills/sg-explore.md` so public docs mention durable exploration reports.
-- Add `templates/artifacts/exploration_report.md` and reference it from the workflow artifact template list.
+- Add `templates/exploration_report.md` and reference it from the workflow artifact template list.
 - Changelog update is likely needed when the implementation is completed, but this spec does not edit `CHANGELOG.md`.
 
 ## Edge Cases
@@ -173,11 +173,11 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
 ## Implementation Tasks
 
 - [ ] Task 1: Add the exploration report artifact template.
-  - File: `templates/artifacts/exploration_report.md`
+  - File: `templates/exploration_report.md`
   - Action: Create a ShipGlowz frontmatter template with sections for starting question, context read, internet research, problem framing, option space, comparison, emerging recommendation, non-decisions, rejected paths, risks, redaction review, decision inputs for spec, handoff and exploration run history.
   - User story link: Gives durable structure to exploration work before decisions are formalized.
   - Depends on: None
-  - Validate with: `test -f templates/artifacts/exploration_report.md && rg -n "artifact: exploration_report|Internet Research|Option Space|Decision Inputs For Spec|Handoff|Redaction" templates/artifacts/exploration_report.md`
+  - Validate with: `test -f templates/exploration_report.md && rg -n "artifact: exploration_report|Internet Research|Option Space|Decision Inputs For Spec|Handoff|Redaction" templates/exploration_report.md`
   - Notes: The template should resemble ShipGlowz artifact metadata, not application content schemas.
 
 - [ ] Task 2: Update `sg-explore` behavior and thresholds.
@@ -193,7 +193,7 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
   - Action: Add a durable-report safety rule that treats prompts, files read, logs and copied external content as untrusted for persistence; require redaction or summarization of secrets, tokens, cookies, private keys, customer data and sensitive logs before writing an `exploration_report`.
   - User story link: Preserves durable exploration memory without turning the report into a sensitive-data leak.
   - Depends on: Task 2
-  - Validate with: `rg -n "redaction|REDACTED|secret|token|cookie|customer data|logs" skills/sg-explore/SKILL.md templates/artifacts/exploration_report.md`
+  - Validate with: `rg -n "redaction|REDACTED|secret|token|cookie|customer data|logs" skills/sg-explore/SKILL.md templates/exploration_report.md`
   - Notes: This is the security gate that makes `security_impact: yes` mitigated; do not rely on the UI or final prose alone.
 
 - [ ] Task 4: Clarify chantier tracking doctrine for exploration artifacts.
@@ -233,7 +233,7 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
   - Action: Run the metadata linter against the new template and affected docs; inspect whether the linter already accepts `artifact: exploration_report` or whether no code change is required.
   - User story link: Ensures the new artifact follows the framework's metadata contract.
   - Depends on: Tasks 1-7
-  - Validate with: `SHIPGLOWZ_ROOT="${SHIPGLOWZ_ROOT:-$HOME/shipglowz}" "$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py" templates/artifacts/exploration_report.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
+  - Validate with: `SHIPGLOWZ_ROOT="${SHIPGLOWZ_ROOT:-$HOME/shipglowz}" "$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py" templates/exploration_report.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
   - Notes: Only modify the linter if validation proves it rejects the new artifact type.
 
 ## Acceptance Criteria
@@ -254,7 +254,7 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
 ## Test Strategy
 
 - Unit: None, because this is primarily skill/documentation behavior unless implementation discovers a parser or linter branch that must be changed.
-- Integration: Run metadata lint on `templates/artifacts/exploration_report.md` and relevant workflow docs after implementation.
+- Integration: Run metadata lint on `templates/exploration_report.md` and relevant workflow docs after implementation.
 - Manual: Simulate four `/sg-explore` outputs: trivial no-report, substantial report creation from two threshold criteria, continuation of an existing report, and sensitive-input redaction with fake secrets/logs.
 - Regression: Search for `sg-explore` doctrine mentions to ensure the new artifact is consistently documented and still cannot write spec history.
 
@@ -267,9 +267,9 @@ Ajouter a ShipGlowz un artifact `exploration_report` et faire evoluer `sg-explor
 
 ## Execution Notes
 
-- Read first: `skills/sg-explore/SKILL.md`, `templates/artifacts/research_report.md`, `templates/artifacts/decision_record.md`, `skills/references/chantier-tracking.md`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
-- Validate with: `rg -n "exploration_report|docs/explorations|sg-explore -> exploration_report -> sg-spec|Redaction|REDACTED|secret|token|trois fichiers|deux options" templates/artifacts skills/sg-explore/SKILL.md skills/references/chantier-tracking.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md skills/sg-help/SKILL.md site/src/content/skills/sg-explore.md`
-- Validate metadata with: `SHIPGLOWZ_ROOT="${SHIPGLOWZ_ROOT:-$HOME/shipglowz}" "$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py" templates/artifacts/exploration_report.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
+- Read first: `skills/sg-explore/SKILL.md`, `templates/research_report.md`, `templates/decision_record.md`, `skills/references/chantier-tracking.md`, and `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`.
+- Validate with: `rg -n "exploration_report|docs/explorations|sg-explore -> exploration_report -> sg-spec|Redaction|REDACTED|secret|token|trois fichiers|deux options" templates skills/sg-explore/SKILL.md skills/references/chantier-tracking.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md skills/sg-help/SKILL.md site/src/content/skills/sg-explore.md`
+- Validate metadata with: `SHIPGLOWZ_ROOT="${SHIPGLOWZ_ROOT:-$HOME/shipglowz}" "$SHIPGLOWZ_ROOT/tools/shipflow_metadata_lint.py" templates/exploration_report.md shipglowz_data/workflow/playbooks/spec-driven-workflow.md`
 - Implementation order: template first, `sg-explore` threshold behavior second, redaction safeguards third, doctrine/help/public docs fourth, validation last.
 - Stop conditions: if existing uncommitted edits in any target file conflict with this spec's expected edits, inspect and preserve them instead of overwriting; if linter rejects unknown artifact types, decide whether to update the linter or constrain the artifact name before proceeding.
 

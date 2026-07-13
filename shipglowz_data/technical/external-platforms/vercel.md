@@ -101,7 +101,7 @@ A project using Vercel should maintain `<governance-root>/shipglowz_data/technic
 - verification commands or evidence route
 - known provider-specific risks or exceptions
 
-Use `templates/artifacts/project_platform_usage.md` as the starter structure.
+Use `templates/project_platform_usage.md` as the starter structure.
 
 ## Security Notes
 
