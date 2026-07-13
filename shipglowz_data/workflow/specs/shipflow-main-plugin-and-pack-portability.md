@@ -116,7 +116,7 @@ Product rule: do not expose a multi-pack public product by default. The near-ter
 - The bootstrap script may clone/update the repo only after explicit operator approval.
 - The default target is `${SHIPGLOWZ_ROOT:-$HOME/.shipflow/source}`.
 - The checkout includes `skills/`, `templates/`, `tools/`, `shipglowz_data/`, `docs/`, `local/`, and `bugs/`.
-- The checkout excludes `site/`, `tui/`, `archive/`, `research/`, generated builds, and dependency directories.
+- The checkout excludes `site/`, `tui/`, `shipglowz_data/workflow/archives/`, generated builds, and dependency directories.
 
 ## Reference Strategy
 

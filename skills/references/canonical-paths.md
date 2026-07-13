@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.4.0"
+artifact_version: "1.5.0"
 project: ShipGlowz
 created: "2026-04-27"
 updated: "2026-07-13"
@@ -26,6 +26,7 @@ evidence:
   - "Operator decision on 2026-05-24: monorepos must keep one governance corpus at the monorepo root instead of repeating shipglowz_data in each app/package."
   - "Operator decision on 2026-06-28: generated build and preview folders such as .vercel/output remain disposable local outputs, not canonical project artifacts."
   - "Operator clarification on 2026-07-13: root compliance is determined by documentary and architecture ownership contracts, with explicit QA, bug, public-reference, and historical exceptions."
+  - "Operator decision on 2026-07-13: archived governance history must resolve under shipglowz_data/workflow/archives instead of a root archive directory."
 next_review: "2026-05-27"
 next_step: "/103-sg-verify canonical path policy"
 ---
@@ -75,14 +76,13 @@ ShipGlowz skills often run from a project repository, but ShipGlowz-owned tools 
   - `BUGS.md` (optional compact/generated triage view)
   - `bugs/` (per-bug operational records)
   - `docs/` (public or semi-public references and owner-skill project records)
-  - `archive/` (indexed inactive history only)
 
 - `shipglowz_data/` remains the project governance corpus for this phase; the external `${SHIPFLOW_DATA_DIR:-$HOME/shipglowz_data}` is legacy, read-only, and not used as project-document source of truth.
 - Monorepo rule: keep exactly one canonical `shipglowz_data/` at the monorepo root. Do not create parallel `shipglowz_data/` directories inside `apps/*`, `packages/*`, or sibling app/site/lab folders unless that subdirectory is intentionally a separately cloned and shipped standalone project.
 - When running from a monorepo subdirectory, source files resolve from the target subdirectory but governance artifacts resolve from the monorepo root `shipglowz_data/`.
 - If both a monorepo root `shipglowz_data/` and nested subproject `shipglowz_data/` directories exist, treat nested copies as migration debt unless the repo documents a standalone exception.
 - `shipglowz_data/workflow/` holds project-level workflow artifacts such as `specs/`, `bugs/`, `audits/`, `reviews/`, `verification/`, and project-local operational trackers.
-- Root `specs/` and `research/` are migration sources. Conversation captures and exploration reports follow the destination contract of their owner skill; `docs/conversations/` and `docs/explorations/` are valid when those workflows select them.
+- Root `archive/`, `specs/`, and `research/` are migration sources. Preserve useful inactive history under `shipglowz_data/workflow/archives/<bounded-scope>/` and delete classified disposable material. Conversation captures and exploration reports follow the destination contract of their owner skill; `docs/conversations/` and `docs/explorations/` are valid when those workflows select them.
 - `shipglowz_data/workflow/playbooks/` holds reusable transversal operating playbooks shared across projects or business domains.
 - `shipglowz_data/workflow/checklists/` holds reusable non-test checklists paired to shared playbooks.
 - `shipglowz_data/workflow/test-checklists/` holds executed manual proof artifacts, not the reusable checklist library.

@@ -98,7 +98,7 @@
 - Source: 107-sg-test
 - Status: fail
 - Confidence: high
-- Result summary: action `a` crashed because the configured Avante ACP provider `codex` was incorrectly looked up as an HTTP provider.
+- Result summary: first run crashed on the ACP provider lookup; after that fix, Avante received the source but ended with `-32603 Internal error`.
 - Bug pointer: BUG-2026-07-13-001 -> bugs/BUG-2026-07-13-001.md
 - Evidence pointer: chat-provided Neovim stack trace; no private email content stored
-- Follow-up: /106-sg-fix BUG-2026-07-13-001
+- Follow-up: /107-sg-test --retest BUG-2026-07-13-001

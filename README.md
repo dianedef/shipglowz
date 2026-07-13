@@ -1,7 +1,7 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.14.0"
+artifact_version: "0.15.0"
 project: "ShipGlowz"
 created: "2026-04-25"
 updated: "2026-07-13"
@@ -146,10 +146,10 @@ It helps operators run apps on servers, but its deeper job is to reduce ambiguit
 - [Metadata migration guide](./shipglowz_data/technical/metadata-migration-guide.md) — how to adopt ShipGlowz metadata and versioning in an existing project
 - [skills/references/canonical-paths.md](./skills/references/canonical-paths.md) — path resolution rules for ShipGlowz-owned tools, references, templates, and project-local artifacts
 - [skills/references/private-data-repo-contract.md](./skills/references/private-data-repo-contract.md) — contract for the separate private data repository used for durable operator-managed data under `~/.shipglowz/private/data/`
-- Runtime port and PM2 behavior is documented in [shipglowz_data/technical/runtime-cli.md](./shipglowz_data/technical/runtime-cli.md); the historical root note is archived under [archive/root-documentation/ECOSYSTEM-AND-PORTS.md](./archive/root-documentation/ECOSYSTEM-AND-PORTS.md).
+- Runtime port and PM2 behavior is documented in [shipglowz_data/technical/runtime-cli.md](./shipglowz_data/technical/runtime-cli.md); the historical root note is preserved under [repository history](./shipglowz_data/workflow/archives/repository-history/root-documentation/ECOSYSTEM-AND-PORTS.md).
 - [local/README.md](./local/README.md) — local tunnel setup
 - [tools/codebase-mcp/README.md](./tools/codebase-mcp/README.md) — local MCP server for codebase context management
-- [archive/README.md](./archive/README.md) — historical docs and old reports
+- [repository-history/README.md](./shipglowz_data/workflow/archives/repository-history/README.md) — classified historical docs, migration records, and preservation ledger
 
 ## Private Data Repo
 
@@ -969,8 +969,7 @@ shipglowz/
 │   ├── editorial/
 │   ├── workflow/
 │   ├── technical/
-│   └── archives/
-├── archive/
+│   └── workflow/archives/
 ├── skills/
 ├── local/
 ├── tools/
@@ -993,7 +992,7 @@ shipglowz/
 - `tools/codebase-mcp/` — optional MCP server for token-efficient codebase work
 - `templates/` — ShipGlowz artifact templates
 - `shipglowz_data/workflow/research/` — research notes and evaluations
-- `archive/` — historical plans, reports, and obsolete documents kept for reference
+- `shipglowz_data/workflow/archives/` — classified inactive history retained inside the canonical governance corpus
 
 The current Codex plugin alpha is outside the repository at `/home/claude/plugins/shipglowz/`. It should stay small and use the public GitHub repo plus sparse checkout when full local skill/reference access is needed.
 
@@ -1022,6 +1021,6 @@ The current Codex plugin alpha is outside the repository at `/home/claude/plugin
 
 ## Status
 
-The canonical internal governance corpus lives under `shipglowz_data/`. The repository root keeps runtime/bootstrap entrypoints and the explicitly documented compatibility, public-reference, QA/bug, and historical surfaces.
+The canonical internal governance corpus lives under `shipglowz_data/`. The repository root keeps runtime/bootstrap entrypoints and the explicitly documented compatibility, public-reference, and QA/bug surfaces.
 
-Older plans, implementation summaries, and one-off reports live in [`archive/`](./archive/) as inactive history, not current doctrine.
+Useful older plans, implementation summaries, and one-off reports live under [`shipglowz_data/workflow/archives/`](./shipglowz_data/workflow/archives/repository-history/) as inactive history, not current doctrine. Classified duplicate, generated, empty-facade, and unreferenced scratch material is deleted instead of archived indefinitely.

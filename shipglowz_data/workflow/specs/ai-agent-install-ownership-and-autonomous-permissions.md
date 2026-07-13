@@ -43,7 +43,7 @@ depends_on:
     artifact_version: "0.1.0"
     required_status: "draft"
 supersedes:
-  - "archive/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md"
+  - "shipglowz_data/workflow/archives/repository-history/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md"
   - "specs/install-user-targeting.md"
 evidence:
   - "shipflow/install.sh configure deja ~/.claude/settings.json, ~/.codex/config.toml, MCP, skills et aliases pour root puis tous les comptes /home/*."
@@ -194,7 +194,7 @@ Make ShipGlowz the sole owner of Claude Code, OpenAI Codex, ShipGlowz MCP regist
 - Update `dotfiles/README.md`:
   - Remove claims that dotfiles installs/configures Claude Code, Codex, or Claude/Codex MCP.
   - Explain that dotfiles prepares generic tooling and that ShipGlowz handles AI/code agent workflow.
-- Keep the archived `archive/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md` as historical evidence; this spec is the canonical contract.
+- Keep `shipglowz_data/workflow/archives/repository-history/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md` as historical evidence; this spec is the canonical contract.
 - Update `specs/install-user-targeting.md`:
   - Mark as superseded or point to this spec.
 - Update `CHANGELOG.md` after implementation.
@@ -223,7 +223,7 @@ Make ShipGlowz the sole owner of Claude Code, OpenAI Codex, ShipGlowz MCP regist
   - Action: mark the draft as superseded by `specs/ai-agent-install-ownership-and-autonomous-permissions.md` and remove any remaining open decision that conflicts with this spec.
   - User story link: gives agents one canonical contract for ownership.
   - Depends on: None
-  - Validate with: `rg -n "superseded|ai-agent-install-ownership" shipglowz_data/workflow/specs/ai-agent-install-ownership-and-autonomous-permissions.md archive/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md`
+  - Validate with: `rg -n "superseded|ai-agent-install-ownership" shipglowz_data/workflow/specs/ai-agent-install-ownership-and-autonomous-permissions.md shipglowz_data/workflow/archives/repository-history/root-documentation/INSTALLATION-OWNERSHIP-SPEC.md`
   - Notes: Do not delete the historical context.
 
 - [ ] Task 2: Consolidate user targeting into this chantier

@@ -1,7 +1,7 @@
 ---
 artifact: audit_report
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: "shipflow"
 created: "2026-07-11"
 updated: "2026-07-13"
@@ -31,7 +31,7 @@ evidence:
   - "The repository worktree already contained unrelated user changes; shared files were not rewritten."
   - "The four phase-2 debt files were compared with current canonical technical, editorial, and workflow surfaces before classification."
   - "Reverification on 2026-07-13 confirmed seven direct root Markdown paths, canonical workflow artifacts, archived historical notes, repaired central routes, and a valid AGENTS.md compatibility symlink."
-  - "The 2026-07-13 300-sg-docs follow-up expanded the inventory to top-level documentary directories, migrated root specs/research, preserved owner-skill docs destinations, and strengthened the topology audit against this drift."
+  - "The 2026-07-13 300-sg-docs follow-up expanded the inventory to top-level documentary directories, migrated root specs/research/archive, preserved owner-skill docs destinations, and strengthened the topology audit against this drift."
 next_step: "/103-sg-verify shipflow documentation governance cleanup phase 2"
 ---
 
@@ -67,7 +67,7 @@ Record the ownership decisions, consumer evidence, preservation status, and rema
 | --- | --- | --- | --- |
 | `shipglowz_data/` | canonical governance and workflow corpus | `keep-root` | Canonical owner. |
 | `docs/` | public/semi-public references and owner-skill project records | `keep-root` | Cheatsheets and OpenCode/KiloCode references are intentional; `docs/conversations/` and `docs/explorations/` are owned output paths of `800-tmux-capture-conversation` and `700-sg-explore`. |
-| `archive/` | indexed inactive history | `keep-root` | Allowed historical surface; `archive/README.md` states that archived material is not active doctrine and routes current docs canonically. |
+| `archive/` | legacy historical surface | `migrate-to-canonical` | Useful history moved to `shipglowz_data/workflow/archives/repository-history/`; conversations moved to `docs/conversations/`; duplicate, generated, empty-facade, and scratch material deleted; root directory removed. |
 | `bugs/` | professional bug workflow dossiers | `keep-root` | Explicit operational exception owned by `003-sg-bug` and `107-sg-test`. |
 | `specs/` | legacy governance source | `migrate-to-canonical` | `frp-preview-tunnel-poc.md` moved to `shipglowz_data/workflow/specs/`; the empty source directory is removed. |
 | `research/` | legacy governance source | `migrate-to-canonical` | Both research reports moved to `shipglowz_data/workflow/research/`; the empty source directory is removed. |
@@ -80,20 +80,20 @@ Record the ownership decisions, consumer evidence, preservation status, and rema
 | --- | --- | --- | --- |
 | `shipglowz-metadata-migration-guide.md` and legacy `shipflow-metadata-migration-guide.md` | `shipglowz_data/technical/metadata-migration-guide.md` | `migrate-to-canonical` | Root aliases are absent; README, AGENT, context, and code-docs map use the canonical path. |
 | `shipglowz-spec-driven-workflow.md` and legacy `shipflow-spec-driven-workflow.md` | `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` | `migrate-to-canonical` | Root aliases are absent; README, AGENT, context, and code-docs map use the canonical path. |
-| `ECOSYSTEM-AND-PORTS.md` | `shipglowz_data/technical/runtime-cli.md` plus `archive/root-documentation/ECOSYSTEM-AND-PORTS.md` | `archived` | Current runtime route is in README; the historical source remains available from both archive indexes. |
-| `FAQ.md` | `archive/root-documentation/FAQ.md` | `archived` | Historical internal guidance is preserved separately from the site-owned public FAQ. |
+| `ECOSYSTEM-AND-PORTS.md` | `shipglowz_data/technical/runtime-cli.md` plus `shipglowz_data/workflow/archives/repository-history/root-documentation/ECOSYSTEM-AND-PORTS.md` | `archived` | Current runtime route is in README; historical source is preserved inside the canonical archive corpus. |
+| `FAQ.md` | `shipglowz_data/workflow/archives/repository-history/root-documentation/FAQ.md` | `archived` | Historical internal guidance is preserved separately from the site-owned public FAQ. |
 | `INSTALL-REPORT-TEMPLATE.md` | `shipglowz_data/workflow/templates/INSTALL-REPORT-TEMPLATE.md` | `migrate-to-canonical` | Canonical template exists and the former root alias is absent. |
 | `INSTALL-RUN-TRACE.md` | `shipglowz_data/workflow/audits/2026-04-28-install-run-trace.md` | `archived` | Historical trace exists at the dated canonical audit path and the former root alias is absent. |
-| `INSTALLATION-OWNERSHIP-SPEC.md` | canonical workflow spec plus `archive/root-documentation/` preservation | `archived` | Active references use the canonical spec; historical source remains archived. |
+| `INSTALLATION-OWNERSHIP-SPEC.md` | canonical workflow spec plus `shipglowz_data/workflow/archives/repository-history/root-documentation/` preservation | `archived` | Active references use the canonical spec; historical source remains canonically archived. |
 | `TASKS.md` and `AUDIT_LOG.md` | `shipglowz_data/workflow/` | `archived` | Empty root facades are absent; canonical trackers remain active. |
 | `concurrent.md` | `shipglowz_data/workflow/concurrent.md` | `archived` | Root facade is absent and the workflow note remains canonical. |
-| `conversation-shipflow-questions-contextuelles-des-skills.md` | `archive/root-documentation/` | `archived` | Historical conversation is outside the active root surface. |
+| `conversation-shipflow-questions-contextuelles-des-skills.md` | `docs/conversations/` | `migrate-to-owned-surface` | Raw conversation capture moved to the destination owned by the conversation workflow. |
 
 ## Required Scenario Results
 
 ### DOC-ROOT-01
 
-The direct root inventory is seven Markdown paths: six regular files (`AGENT.md`, `BUGS.md`, `CHANGELOG.md`, `CLAUDE.md`, `README.md`, `TEST_LOG.md`) and one compatibility symlink (`AGENTS.md -> AGENT.md`). This count is not a repository-topology verdict. The top-level documentary-surface inventory above separately classifies `shipglowz_data/`, `docs/`, `archive/`, `bugs/`, and the migrated legacy sources `specs/` and `research/`.
+The direct root inventory is seven Markdown paths: six regular files (`AGENT.md`, `BUGS.md`, `CHANGELOG.md`, `CLAUDE.md`, `README.md`, `TEST_LOG.md`) and one compatibility symlink (`AGENTS.md -> AGENT.md`). This count is not a repository-topology verdict. The top-level documentary-surface inventory above separately classifies `shipglowz_data/`, `docs/`, `bugs/`, and the migrated legacy sources `archive/`, `specs/`, and `research/`.
 
 ### DOC-ROOT-02
 
@@ -106,11 +106,11 @@ The four named phase-2 debts have explicit decisions and consumer evidence:
 
 ### DOC-ROOT-03
 
-The two workflow artifacts are preserved under canonical workflow paths without root facades. `ECOSYSTEM-AND-PORTS.md` and `FAQ.md` are preserved under `archive/root-documentation/`; current runtime documentation uses `shipglowz_data/technical/runtime-cli.md`. No phase-2 source was discarded without a named destination.
+The workflow artifacts are preserved under canonical workflow paths without root facades. `ECOSYSTEM-AND-PORTS.md` and `FAQ.md` are preserved under `shipglowz_data/workflow/archives/repository-history/root-documentation/`; current runtime documentation uses `shipglowz_data/technical/runtime-cli.md`. The archive migration ledger records every preserved or intentionally deleted source.
 
 ### DOC-ROOT-04
 
-The later integrator pass updated `README.md`, `AGENT.md`, `shipglowz_data/technical/context.md`, and `shipglowz_data/technical/code-docs-map.md` to use canonical workflow and metadata-guide paths. The governance follow-up also aligned `architecture.md`, canonical-path rules, project/documentation governance rules, and `archive/README.md` on the explicit root exceptions and canonical workflow ownership. README routes current port/PM2 behavior to `shipglowz_data/technical/runtime-cli.md` and historical context to the archive.
+The later integrator pass updated `README.md`, `AGENT.md`, `shipglowz_data/technical/context.md`, and `shipglowz_data/technical/code-docs-map.md` to use canonical workflow and metadata-guide paths. The governance follow-up also aligned `architecture.md`, canonical-path rules, project/documentation governance rules, and the canonical repository-history index. README routes current port/PM2 behavior to `shipglowz_data/technical/runtime-cli.md` and historical context to `shipglowz_data/workflow/archives/`.
 
 ### DOC-ROOT-05
 
@@ -156,15 +156,15 @@ find . -maxdepth 1 -name '*.md' -printf '%f\\t%y\\t%l\\n' | sort
 AGENT.md, AGENTS.md -> AGENT.md, BUGS.md, CHANGELOG.md, CLAUDE.md, README.md, TEST_LOG.md
 
 Top-level ownership result:
-specs/ absent; research/ absent; docs/ retained by owner-skill contracts; archive/ retained as indexed inactive history; bugs/ retained by the professional bug contract.
+archive/ absent; specs/ absent; research/ absent; docs/ retained by owner-skill contracts; bugs/ retained by the professional bug contract; useful history retained under shipglowz_data/workflow/archives/.
 
 Migration preservation diff:
 The FRP spec body is unchanged; only migration metadata, the current skill identifier, and the previously missing required confidence field changed.
 Both research report bodies are unchanged; only updated dates and current 203-sg-research identifiers changed.
 
 Historical SHA-256 comparison from the parent of migration commit f1f90b7:
-ECOSYSTEM-AND-PORTS.md = archive/root-documentation/ECOSYSTEM-AND-PORTS.md = ab9793a75005124f230eff087faddacba7d1ca24f9093bb4ec649c86011bca6b
-FAQ.md = archive/root-documentation/FAQ.md = 1579c94d5a7518a5f7ecec950884a9a1a22a6c93053091cb1c314bb31f463c87
+ECOSYSTEM-AND-PORTS.md = shipglowz_data/workflow/archives/repository-history/root-documentation/ECOSYSTEM-AND-PORTS.md = ab9793a75005124f230eff087faddacba7d1ca24f9093bb4ec649c86011bca6b
+FAQ.md = shipglowz_data/workflow/archives/repository-history/root-documentation/FAQ.md = 1579c94d5a7518a5f7ecec950884a9a1a22a6c93053091cb1c314bb31f463c87
 INSTALL-REPORT-TEMPLATE.md = shipglowz_data/workflow/templates/INSTALL-REPORT-TEMPLATE.md = b272a20733634f04ea277c85d79ee978ccd5aab0d3af94dc1ee134bdfb8ff24d
 INSTALL-RUN-TRACE.md = shipglowz_data/workflow/audits/2026-04-28-install-run-trace.md = beae689b0b1b32a6167f544b19cf133d76d20dc2e91b57aa70eea25e8a88a731
 ```

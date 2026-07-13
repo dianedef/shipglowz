@@ -47,12 +47,20 @@ class GovernanceTopologyAuditTests(unittest.TestCase):
         self.assertEqual(report.status, "migration-required")
         self.assertEqual(report.migration_sources, ["research", "specs"])
 
-    def test_allows_operational_and_historical_root_directories(self) -> None:
+    def test_allows_owned_operational_root_directories(self) -> None:
         temp, root = self.project()
         self.addCleanup(temp.cleanup)
-        for name in ("archive", "bugs", "docs"):
+        for name in ("bugs", "docs"):
             (root / name).mkdir()
         self.assertEqual(audit(root).status, "compliant")
+
+    def test_root_archive_requires_canonical_migration(self) -> None:
+        temp, root = self.project()
+        self.addCleanup(temp.cleanup)
+        (root / "archive").mkdir()
+        report = audit(root)
+        self.assertEqual(report.status, "migration-required")
+        self.assertEqual(report.migration_sources, ["archive"])
 
     def test_accepts_exact_agents_symlink_and_rejects_regular_file(self) -> None:
         temp, root = self.project()

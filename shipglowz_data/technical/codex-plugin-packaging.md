@@ -86,7 +86,7 @@ Current product posture: ShipGlowz is single-plugin-first. The public experience
 4. The bootstrap script clones or updates `https://github.com/dianedef/ShipGlowz.git` with Git sparse checkout enabled.
 5. The checkout target defaults to `${SHIPFLOW_ROOT:-$HOME/.shipflow/source}`.
 6. The sparse checkout includes `skills/`, `templates/`, `tools/`, `shipglowz_data/`, `docs/`, `local/`, and `bugs/`.
-7. The sparse checkout excludes `site/`, `tui/`, `archive/`, `research/`, generated builds, and dependency directories.
+7. The sparse checkout excludes `site/`, `tui/`, `shipglowz_data/workflow/archives/`, generated builds, and dependency directories.
 
 For pack maintenance:
 

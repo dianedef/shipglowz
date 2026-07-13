@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: ShipGlowz
 created: "2026-06-30"
 updated: "2026-07-13"
@@ -34,10 +34,10 @@ depends_on:
     required_status: reviewed
 supersedes: []
 evidence:
-  - "Operator clarification on 2026-07-13: root review must apply governance and architecture ownership contracts rather than a minimal-entry count."
-evidence:
   - "Operator request 2026-06-30: provide one reusable `#rules` recentering tag so agents can reload the full governance rule set for a ShipGlowz-governed project."
   - "Repeated execution drift came from rules being split across entrypoints, corpus docs, and monorepo topology without a compact synthesis."
+  - "Operator clarification on 2026-07-13: root review must apply governance and architecture ownership contracts rather than a minimal-entry count."
+  - "Operator decision on 2026-07-13: useful archive content belongs in the canonical corpus; duplicate, generated, empty-facade, and unreferenced scratch material should be deleted."
 next_review: "2026-07-14"
 next_step: "/300-sg-docs audit shared project-governance-rules reference"
 ---
@@ -54,7 +54,7 @@ A ShipGlowz-governed project must keep one canonical governance corpus, one clea
 
 ## Minimum Required Structure
 
-At the governance root, keep the compatibility entrypoints, canonical corpus, and explicitly owned operational or historical surfaces:
+At the governance root, keep the compatibility entrypoints, canonical corpus, and explicitly owned operational surfaces:
 
 - `AGENT.md`
 - `AGENTS.md` as a symlink to `AGENT.md` when present
@@ -64,11 +64,10 @@ At the governance root, keep the compatibility entrypoints, canonical corpus, an
 - optional `CHANGELOG.md`
 - `TEST_LOG.md`, optional `BUGS.md`, and `bugs/` when the project uses the professional bug workflow
 - `docs/` for public or semi-public references that are not internal governance records
-- `archive/` for indexed historical material that is no longer active doctrine
 
 Treat root legacy governance files such as `BUSINESS.md`, `PRODUCT.md`, `ARCHITECTURE.md`, `CONTENT_MAP.md`, `CONTEXT.md`, `TASKS.md`, and `AUDIT_LOG.md` as migration debt, not compliant destinations for new work.
 
-Root `specs/` and `research/` are migration sources. Conversation captures and exploration reports follow their owner-skill destination contracts; when `800-tmux-capture-conversation` or `700-sg-explore` selects `docs/conversations/` or `docs/explorations/`, those paths are intentional project records rather than duplicate governance doctrine.
+Root `archive/`, `specs/`, and `research/` are migration sources. Useful inactive history belongs under `shipglowz_data/workflow/archives/`; disposable or duplicate material should be deleted after classification. Conversation captures and exploration reports follow their owner-skill destination contracts; when `800-tmux-capture-conversation` or `700-sg-explore` selects `docs/conversations/` or `docs/explorations/`, those paths are intentional project records rather than duplicate governance doctrine.
 
 ## Canonical Corpus Rules
 

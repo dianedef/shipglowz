@@ -27,6 +27,7 @@ LEGACY_ROOT_FILES = {
     "TASKS.md",
 }
 LEGACY_ROOT_DIRS = {
+    "archive",
     "research",
     "specs",
 }
