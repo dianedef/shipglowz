@@ -1665,6 +1665,7 @@ ENV
 
 configure_command_wrappers() {
     local shipglowz_target="$SHIPGLOWZ_INSTALL_ROOT/shipglowz.sh"
+    local gsc_target="$SHIPGLOWZ_INSTALL_ROOT/shipglowz-gsc.sh"
     local turso_login_target="$SHIPGLOWZ_INSTALL_ROOT/local/turso-login.sh"
     local turso_ssh_target="$SHIPGLOWZ_INSTALL_ROOT/local/turso-ssh.sh"
     local bin_dir="/usr/local/bin"
@@ -1674,6 +1675,10 @@ configure_command_wrappers() {
     ln -sf "$shipglowz_target" "$bin_dir/shipflow"
     ln -sf "$shipglowz_target" "$bin_dir/sg"
     ln -sf "$shipglowz_target" "$bin_dir/sf"
+    if [ -f "$gsc_target" ]; then
+        ln -sf "$gsc_target" "$bin_dir/shipglowz-gsc"
+        ln -sf "$gsc_target" "$bin_dir/gsc"
+    fi
     if [ -f "$turso_login_target" ]; then
         ln -sf "$turso_login_target" "$bin_dir/shipflow-turso-login"
         ln -sf "$turso_login_target" "$bin_dir/turso-login"
@@ -1682,7 +1687,7 @@ configure_command_wrappers() {
         ln -sf "$turso_ssh_target" "$bin_dir/shipflow-turso-ssh"
         ln -sf "$turso_ssh_target" "$bin_dir/turso-ssh"
     fi
-    chmod +x "$bin_dir/shipglowz" "$bin_dir/shipflow" "$bin_dir/sg" "$bin_dir/sf" "$bin_dir/shipflow-turso-login" "$bin_dir/turso-login" "$bin_dir/shipflow-turso-ssh" "$bin_dir/turso-ssh" 2>/dev/null || true
+    chmod +x "$bin_dir/shipglowz" "$bin_dir/shipflow" "$bin_dir/sg" "$bin_dir/sf" "$bin_dir/shipglowz-gsc" "$bin_dir/gsc" "$bin_dir/shipflow-turso-login" "$bin_dir/turso-login" "$bin_dir/shipflow-turso-ssh" "$bin_dir/turso-ssh" 2>/dev/null || true
 
     if [ -x "$bin_dir/shipglowz" ] && [ -x "$bin_dir/sg" ]; then
         echo -e "  ${GREEN}✅ Commandes système disponibles :${NC} /usr/local/bin/shipglowz et /usr/local/bin/sg"
@@ -1694,6 +1699,9 @@ configure_command_wrappers() {
     fi
     if [ -x "$bin_dir/shipflow-turso-ssh" ]; then
         echo -e "  ${GREEN}✅ Commande Turso SSH disponible :${NC} /usr/local/bin/shipflow-turso-ssh"
+    fi
+    if [ -x "$bin_dir/shipglowz-gsc" ]; then
+        echo -e "  ${GREEN}✅ Commande Google Search Console disponible :${NC} /usr/local/bin/shipglowz-gsc"
     fi
 }
 

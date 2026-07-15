@@ -390,6 +390,7 @@ over SSH. ShipGlowz does not install the unofficial Blacksmith MCP by default an
 does not patch project workflows automatically from this menu.
 
 Notes:
+- `shipglowz-gsc` is the ShipGlowz-owned, read-only Google Search Console CLI. It uses an operator-supplied Google OAuth desktop-client JSON and stores its refresh token only in `~/.config/shipglowz/gsc/` with owner-only permissions. It never enables the third-party GSC MCP or submits sitemaps. Run `shipglowz-gsc --help` after installation; see `shipglowz_data/technical/google-search-console-cli.md` for setup and commands.
 - `dataforseo` is configured but disabled by default in Codex unless
   `SHIPFLOW_ENABLE_DATAFORSEO_MCP=1` and credentials are available.
 - `playwright` MCP points to the local Playwright Chromium/Headless Shell
