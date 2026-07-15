@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: "ShipGlowz"
 created: "2026-07-15"
 created_at: "2026-07-15 07:29:01 UTC"
 updated: "2026-07-15"
-updated_at: "2026-07-15 08:26:12 UTC"
+updated_at: "2026-07-15 16:04:23 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: "gpt-5.5 high"
@@ -23,8 +23,10 @@ linked_systems:
   - "skills/references/design-inspiration-library.md"
   - "skills/references/design-inspiration/"
   - "tools/capture_design_inspiration.py"
+  - "tools/capture_design_inspiration_playwright.js"
   - "tools/test_capture_design_inspiration.py"
   - "skills/006-sg-design/SKILL.md"
+  - "skills/006-sg-design/references/design-inspiration-library-operations.md"
   - "skills/007-sg-content/SKILL.md"
   - "skills/200-sg-redact/SKILL.md"
   - "skills/206-sg-audit-copy/SKILL.md"
@@ -34,6 +36,7 @@ linked_systems:
   - "shipglowz_data/business/project-competitors-and-inspirations.md"
   - "shipglowz_data/editorial/content-map.md"
   - "shipglowz_data/technical/code-docs-map.md"
+  - "shipglowz_data/technical/skill-runtime-and-lifecycle.md"
 depends_on:
   - artifact: "shipglowz_data/workflow/explorations/2026-07-13-sales-page-reference-library.md"
     artifact_version: "1.2.0"
@@ -76,7 +79,7 @@ Sales Page Reference Library
 
 ## Status
 
-Implemented, verified locally, and shipped on `origin/main`. The chantier includes the private inspiration-library contract, synthetic capture tool/tests/fixtures, bounded Inspiration Gate wiring, docs-map/runtime updates, README mention, and the exploration/spec pair; no live third-party capture was run in public proof.
+The original library was implemented, verified locally, and shipped on `origin/main`. A post-ship correction now adds operator-facing `/006-sg-design library add|approve|list|status` modes, safe candidate promotion, bounded index synchronization, and optional existing-Wayback metadata; that correction awaits re-verification and ship. No live third-party capture was run in public proof.
 
 ## User Story
 
@@ -84,7 +87,7 @@ As a ShipGlowz operator, I want to capture sales pages once as structured text a
 
 ## Minimal Behavior Contract
 
-The system accepts a bounded list of public sales-page URLs or one explicit URL, loads each page without storing credentials or private session data, extracts visible structured page text into Markdown, captures a full-page desktop visual as `full-page.webp`, derives `thumbnail.webp` and ordered image segments automatically, and writes a searchable `record.yaml` with source, status, taxonomy, provenance, and checksums into a private rights-aware corpus. If capture fails or is only partial, it still records the attempted source, reason, and safe retry route without fabricating missing artifacts. The easiest edge case to miss is treating a competitor, market, or positioning reference as the same thing as this reusable creative library; this corpus is for design/copy study and must stay separate from project-local business inspiration registries.
+The system accepts a bounded list of public sales-page URLs or one explicit URL, including `/006-sg-design library add <url>` as the normal operator-facing route. It loads each page without storing credentials or private session data, extracts visible structured page text into Markdown, captures a full-page desktop visual as `full-page.webp`, derives `thumbnail.webp` and ordered image segments automatically, and writes a searchable `record.yaml` with source, status, taxonomy, provenance, and checksums into a private rights-aware corpus. New records remain `candidate`; `/006-sg-design library approve <id>` requires a review summary plus transferable and anti-copy guidance, then atomically synchronizes `record.yaml` and `index.yaml`. An optional existing Wayback URL is retained only as metadata; no archive request is made. If capture fails or is only partial, it still records the attempted source, reason, and safe retry route without fabricating missing artifacts. The easiest edge case to miss is treating a competitor, market, or positioning reference as the same thing as this reusable creative library; this corpus is for design/copy study and must stay separate from project-local business inspiration registries.
 
 ## Success Behavior
 
@@ -395,6 +398,9 @@ No update is required to `shipglowz_data/business/project-competitors-and-inspir
 - [ ] AC 13: Given docs are updated, when metadata lint and targeted rg checks run, then the new tool/reference family is discoverable in the technical docs map and skill runtime docs.
 - [ ] AC 14: Given no final forty-URL list is present in the repo, when implementation validation runs, then the feature is still provable with synthetic fixtures and an optional private live sample; batch import remains a run-time operation using `--input`.
 - [ ] AC 15: Given implementation completes, when `103-sg-verify` runs, then it can verify storage safety, source-derived asset separation, skill integration, capture behavior, and docs coherence against this spec.
+- [x] AC 16: Given an operator invokes `/006-sg-design library add <public URL>`, when the private capture succeeds, then the skill reports a candidate reference ID and one approval action without writing source material to the public repository.
+- [x] AC 17: Given an operator invokes `/006-sg-design library approve <reference-id>` with a review summary, transferable pattern, and anti-copy constraint, then the candidate becomes `approved` and `index.yaml` is synchronized without normal manual YAML editing.
+- [x] AC 18: Given a Wayback URL is supplied or known, when a reference is added, then it is retained as optional metadata and no Internet Archive request is required or performed.
 
 ## Test Strategy
 
@@ -454,6 +460,15 @@ No update is required to `shipglowz_data/business/project-competitors-and-inspir
 - Static-site/runtime exception:
   - This is a local CLI/tooling and skill-contract chantier, not a deployed runtime app. Sentry, deployed diagnostics/log-copy, and Paris/UTC build-time headers are not applicable unless a later implementation adds a long-running service or public UI.
 
+## Post-Ship Correction: Operator Library Modes
+
+- [x] Extend `006-sg-design` with `library add <url>`, optional known `wayback <archive-url>`, `library approve <id>`, `library list`, and `library status` activation semantics.
+- [x] Add curation promotion support to `tools/capture_design_inspiration.py`; require a review summary, at least one transferable pattern, and at least one anti-copy constraint before changing `candidate` to `approved`.
+- [x] Synchronize the bounded private `index.yaml` atomically from `record.yaml` during approval, and add read-only list/status output.
+- [x] Add synthetic tests for add metadata, promotion/index synchronization, incomplete-review refusal, and redacted list output.
+- [x] Update the shared contract, help catalog, and runtime/lifecycle documentation.
+- [ ] Re-run `103-sg-verify`, `104-sg-end`, and `005-sg-ship` for this correction before calling the chantier shipped.
+
 ## Open Questions
 
 None. The storage/privacy decision is resolved by defining a separate private inspiration corpus outside `~/.shipglowz/private/data/`; the absence of the final forty URLs does not block implementation because the tool must accept a run-time URL file and prove behavior with synthetic fixtures/private smoke.
@@ -468,14 +483,16 @@ None. The storage/privacy decision is resolved by defining a separate private in
 | 2026-07-15 08:18:18 UTC | 103-sg-verify | gpt-5.5 high | Verified all 15 acceptance criteria, local proof stack, storage/privacy/copyright invariants, skill integration, docs coherence, runtime sync, and public-repo leakage boundaries; no live third-party capture was run. | verified | /104-sg-end sales-page-reference-library |
 | 2026-07-15 08:21:38 UTC | 104-sg-end | gpt-5.4 medium | Closed the verified chantier bookkeeping, reconciled the spec status/current flow with the live dirty scope, and prepared the bounded `/005-sg-ship` handoff without touching TASKS or CHANGELOG. | closed | /005-sg-ship sales-page-reference-library |
 | 2026-07-15 08:26:12 UTC | 005-sg-ship | gpt-5.4 medium | Ran bounded pre-ship checks, confirmed runtime visibility and storage-leakage constraints, and prepared the exact chantier file set for commit/push to `origin/main`. | shipped | none |
+| 2026-07-15 14:41:01 UTC | 001-sg-build | gpt-5.6-sol | Replaced the Python Playwright runtime dependency with the shared global Playwright Node runtime, installed Chromium once in the current server user's shared cache, and proved a complete live browser bundle against a local synthetic page. | implemented | /103-sg-verify sales-page-reference-library shared Playwright runtime correction |
+| 2026-07-15 16:04:23 UTC | 001-sg-build | gpt-5.5 codex | Implemented the operator-facing 006-sg-design library modes, safe candidate approval with atomic private-index synchronization, bounded list/status output, and optional Wayback metadata without archive creation; focused synthetic tests and metadata checks passed. | implemented | /103-sg-verify sales-page-reference-library operator library modes correction |
 
 ## Current Chantier Flow
 
 - `100-sg-spec`: done, draft spec created with no open blocking questions.
 - `101-sg-ready`: ready, strict readiness review passed and freshness source links recorded.
-- `102-sg-start`: implemented, local code/docs/skill integration checks passed; no live third-party capture was run.
-- `103-sg-verify`: verified, all required local proof passed and no implementation-only remediation was needed.
-- `104-sg-end`: closed, bounded ship handoff prepared and no unrelated dirty files were found in the current chantier scope.
-- `005-sg-ship`: shipped, bounded pre-ship checks passed and the verified chantier file set is committed/pushed without private corpus artifacts.
+- `102-sg-start`: implemented, including the shared-Playwright-runtime and operator-library-mode corrections; focused unit, CLI, and synthetic-browser proof passed.
+- `103-sg-verify`: prior release verified; re-verification of both post-ship corrections is pending.
+- `104-sg-end`: prior release closed; correction closure is pending re-verification.
+- `005-sg-ship`: prior release shipped; both corrections remain unshipped.
 
-Next step: none; chantier shipped on `origin/main`.
+Next step: `/103-sg-verify sales-page-reference-library shared Playwright runtime and operator library modes corrections`.

@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.5.0"
+artifact_version: "0.6.0"
 project: ShipGlowz
 created: "2026-05-16"
-updated: "2026-06-23"
+updated: "2026-07-15"
 status: draft
 source_skill: 102-sg-start
 scope: 302-sg-help-help-catalog
@@ -30,6 +30,7 @@ evidence:
   - "2026-06-11 added design-system authority discovery for UI/design workflow help."
   - "2026-06-11 added 310-sg-github-hygiene for git/GitHub sync drift, stale branches, and Dependabot hygiene."
   - "2026-06-23 added App Blueprints help section for blueprint system explanation."
+  - "2026-07-15 added 006-sg-design private inspiration-library operator modes."
 next_review: "2026-06-16"
 next_step: "/103-sg-verify Compact ShipGlowz Skill Instructions Phase 2"
 ---
@@ -144,7 +145,7 @@ Only bootstrap/install owners need the clone contract. Most help answers should 
 | `/900-shipglowz-core` | Internal operator audit tool for ShipGlowz skill execution fidelity and plugin-packaging readiness | `audit`, `packaging`, `help`, `report=agent` |
 | `/002-sg-maintain` | Master maintenance lifecycle from triage through delegated fixes, verification, and ship | `quick`, `full`, `security`, `global`, `no-ship` |
 | `/007-sg-content` | Master content lifecycle for strategy, repurposing, drafting, enrichment, project-aware quality scoring, audits, docs, validation, and ship routing | `plan`, `repurpose`, `draft`, `enrich`, `audit`, `seo`, `editorial`, `apply`, `ship`, `score`, `quality gate`, `grille projet` |
-| `/006-sg-design` | Master design lifecycle for UI/UX, tokens, playgrounds, a11y, implementation, proof, and ship routing | `tokens`, `audit`, `playground`, page/route, or natural-language design goal |
+| `/006-sg-design` | Master design lifecycle for UI/UX, tokens, playgrounds, a11y, private inspiration-library curation, implementation, proof, and ship routing | `library add <url>`, `library approve <id>`, `library list`, `library status`, `tokens`, `audit`, `playground`, page/route, or natural-language design goal |
 | `/008-sg-end-user` | End-user experience skill for UX/UI clarity, friction, trust, activation, onboarding, recovery, docs impact, and proof routing | `<feature, flow, screen, shipped change, or end-user audit target>` |
 | `/600-sg-local-cloud-sync` | Local-to-cloud data sync contract for promotion, merge, sync UX, sensitive-data policy, and proof routing | `<project, feature, data domains, or sync question>` |
 | `/601-sg-product-entitlements` | Product access lifecycle contract for entitlement ownership, provider events, backend gates, support flows, and sync handoffs | `<project or feature with access, plans, provider events, or support questions>` |

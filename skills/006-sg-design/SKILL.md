@@ -1,7 +1,7 @@
 ---
 name: 006-sg-design
-description: "UI/UX design lifecycle."
-argument-hint: <design question | audit | tokens | playground | redesign | migration | page/route>
+description: "UI/UX design lifecycle and private inspiration-library curation."
+argument-hint: <design question | library add <url> | library approve <id> | library list | audit | tokens | playground | redesign | migration | page/route>
 ---
 
 Primary artifact type: `master-workflow`.
@@ -50,6 +50,16 @@ Load `$SHIPFLOW_ROOT/skills/references/design-system-token-contract.md` before U
 ## Inspiration Gate
 
 For new visual direction, landing/sales-page design, major redesign, or an explicit inspiration request, load `$SHIPFLOW_ROOT/skills/references/design-inspiration-library.md`. Read and filter only the private `index.yaml`, present at most five reference IDs with fit reasons, and require operator selection before loading a bundle or treating a reference as direction. Record selected reference IDs in the active spec or design artifact, summarize transferable patterns and anti-copy constraints, and never load the whole corpus by default. Routine fixes, token migrations, and narrow audits skip this gate unless requested; competitor, pricing, positioning, and differentiation work routes to `shipglowz_data/business/project-competitors-and-inspirations.md`.
+
+## Inspiration Library Modes
+
+`006-sg-design` owns the operator-facing curation modes for the private library. Load `$SHIPFLOW_ROOT/skills/006-sg-design/references/design-inspiration-library-operations.md` before interpreting `library` arguments or invoking the capture tool.
+
+- `library add <public-url> [wayback <existing-archive-url>]`: capture one explicit public page as a private `candidate`; report the reference ID, capture status, and one simple approval action. Never auto-approve and never ask Wayback to archive the page.
+- `library approve <reference-id>`: inspect the private candidate bundle, obtain/restate a concise review summary plus what to borrow and what not to copy, then promote it with the curation command. This updates both `record.yaml` and bounded `index.yaml` atomically.
+- `library list` or `library status`: list safe bounded summaries or status counts from `index.yaml`; do not load every bundle. Use this before asking for design-direction selection when useful.
+
+These modes are direct private-library operations, not a project competitor or business-inspiration workflow. They may create source-derived material only in the canonical private corpus and only after the operator gives an explicit public URL.
 
 Load `$SHIPFLOW_ROOT/skills/006-sg-design/references/design-lifecycle-routing.md` before choosing a specialist owner, asking a routing question, or sequencing a design lifecycle.
 

@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.24.0"
+artifact_version: "1.25.0"
 project: ShipGlowz
 created: "2026-05-01"
-updated: "2026-06-28"
+updated: "2026-07-15"
 status: reviewed
 source_skill: 102-sg-start
 scope: skill-runtime-and-lifecycle
@@ -102,6 +102,7 @@ evidence:
   - "310-sg-github-hygiene added as the git/GitHub sync, stale branch, PR drift, and Dependabot hygiene skill."
   - "Public/docs handoff clarity updated: helper docs now distinguish explains vs routes vs invokes vs owns execution, and runtime docs clarify that OpenCode/KiloCode internal calls are not manual operator commands."
   - "Rights-aware private design-inspiration corpus and bounded Inspiration Gate added for design and copy workflows."
+  - "006-sg-design library add, approve, list, and status modes added for safe private-corpus curation and index synchronization."
 next_review: "2026-06-01"
 next_step: "/300-sg-docs technical audit skills"
 ---
@@ -424,6 +425,8 @@ eligible design or copy intent
 ```
 
 The source-derived corpus resolves from `${SHIPGLOWZ_INSPIRATION_LIBRARY_DIR:-${SHIPGLOWZ_PRIVATE_DIR:-$HOME/.shipglowz/private}/design-inspiration-library}` and stays outside public repositories. The public repo contains only contracts, schemas, tool code, and synthetic fixtures. Competitor, pricing, positioning, differentiation, and market work continues to use `shipglowz_data/business/project-competitors-and-inspirations.md`.
+
+`006-sg-design` also owns the direct private-library entrypoint: `library add <url>`, optional known `wayback <archive-url>`, `library approve <id>`, `library list`, and `library status`. Add creates a `candidate`; approval requires curation/anti-copy review and atomically updates the record plus `index.yaml`; Wayback remains metadata only and never triggers or blocks an archive request.
 
 ## Invariants
 

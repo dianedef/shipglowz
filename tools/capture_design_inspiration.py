@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Capture rights-aware design references into a private corpus.
 
-Live captures use Playwright when it is installed. Synthetic fixture captures are
-strictly no-network and use a deterministic Pillow renderer so the storage,
+Live captures use the server's shared global Playwright Node installation.
+Synthetic fixture captures are strictly no-network and use a deterministic Pillow renderer so the storage,
 text, image, segmentation, checksum, and index contracts remain locally
 testable without fetching or committing third-party material.
 """
@@ -15,6 +15,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import textwrap
@@ -102,6 +103,13 @@ class CaptureResult:
     reason: str | None = None
     warnings: list[str] = field(default_factory=list)
     unsupported_elements: list[str] = field(default_factory=list)
+
+
+@dataclass(frozen=True)
+class NodePlaywrightRuntime:
+    node_path: Path
+    cli_path: Path
+    package_json: Path
 
 
 def utc_now() -> str:
@@ -456,35 +464,104 @@ def render_synthetic_fixture(blocks: list[TextBlock]) -> Image.Image:
     return image
 
 
-def browser_markdown(page: Any, source_url: str) -> tuple[str, list[str]]:
-    entries = page.locator("body").evaluate(
-        """
-        body => {
-          const selectors = 'h1,h2,h3,h4,h5,h6,p,li,button,label,a,nav,input,textarea,select';
-          const boilerplate = /(?:^|[-_ ])(?:cookie|consent|gdpr|cmp-banner|privacy-banner)(?:$|[-_ ])/i;
-          return [...body.querySelectorAll(selectors)].filter(el => {
-            const style = window.getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
-            const identity = `${el.id || ''} ${el.className || ''}`;
-            return style.display !== 'none' && style.visibility !== 'hidden' &&
-              el.getAttribute('aria-hidden') !== 'true' && rect.width > 0 && rect.height > 0 &&
-              !boilerplate.test(identity);
-          }).map((el, order) => ({
-            order,
-            tag: el.tagName.toLowerCase(),
-            text: (el.innerText || el.getAttribute('aria-label') || el.getAttribute('placeholder') || el.getAttribute('name') || '').replace(/\\s+/g, ' ').trim(),
-            href: el.tagName.toLowerCase() === 'a' ? el.getAttribute('href') : null
-          })).filter(item => item.text);
-        }
-        """
-    )
+def markdown_from_browser_entries(entries: list[dict[str, Any]], source_url: str) -> str:
     blocks = [TextBlock(int(item["order"]), str(item["tag"]), str(item["text"]), item.get("href")) for item in entries]
     if not blocks:
         raise CaptureToolError("empty_visible_text", "page did not expose visible semantic text")
-    unsupported = page.locator("video,canvas,[role=carousel],.carousel,.slider").evaluate_all(
-        "els => [...new Set(els.map(el => el.tagName.toLowerCase() + (el.getAttribute('role') ? ':' + el.getAttribute('role') : '')))]"
+    return markdown_for_blocks(blocks, source_url)
+
+
+def discover_node_playwright_runtime() -> NodePlaywrightRuntime:
+    cli = shutil.which("playwright")
+    if not cli:
+        raise CaptureToolError(
+            "playwright_cli_unavailable",
+            "Shared Playwright CLI was not found in PATH. Install Playwright once in the server's global Node prefix and expose its playwright binary in PATH.",
+        )
+    node = shutil.which("node")
+    if not node:
+        raise CaptureToolError(
+            "node_unavailable",
+            "Node.js was not found in PATH. Expose the server's shared Node binary before using live capture.",
+        )
+
+    resolver = (
+        "const fs=require('node:fs');const {createRequire}=require('node:module');"
+        "const cli=fs.realpathSync(process.argv[1]);"
+        "process.stdout.write(createRequire(cli).resolve('playwright/package.json'));"
     )
-    return markdown_for_blocks(blocks, source_url), [str(item) for item in unsupported]
+    try:
+        completed = subprocess.run(
+            [node, "-e", resolver, cli],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise CaptureToolError(
+            "playwright_package_unavailable",
+            "The shared Playwright package could not be resolved from the global CLI. Repair the global Node installation; do not install it in this project.",
+        ) from exc
+    package_json = Path(completed.stdout.strip()) if completed.returncode == 0 and completed.stdout.strip() else None
+    if package_json is None or not package_json.is_file():
+        raise CaptureToolError(
+            "playwright_package_unavailable",
+            "The playwright CLI exists, but its Node package is missing or not resolvable. Repair the shared global Playwright installation; do not install it in this project.",
+        )
+    return NodePlaywrightRuntime(Path(node).resolve(), Path(cli).resolve(), package_json.resolve())
+
+
+def run_node_capture(runtime: NodePlaywrightRuntime, url: str, png_path: Path) -> dict[str, Any]:
+    helper = Path(__file__).with_name("capture_design_inspiration_playwright.js").resolve()
+    if not helper.is_file():
+        raise CaptureToolError("playwright_bridge_missing", f"Playwright bridge helper is missing: {helper}")
+    command = [
+        str(runtime.node_path),
+        str(helper),
+        str(runtime.package_json),
+        str(png_path),
+        str(DEFAULT_VIEWPORT_WIDTH),
+        str(DEFAULT_VIEWPORT_HEIGHT),
+    ]
+    try:
+        completed = subprocess.run(
+            command,
+            input=json.dumps({"url": url}),
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=110,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise CaptureToolError("network_timeout", "browser bridge timed out before capture completed") from exc
+    except OSError as exc:
+        raise CaptureToolError("browser_error", "shared Playwright browser bridge could not be started") from exc
+
+    try:
+        payload = json.loads(completed.stdout)
+    except (json.JSONDecodeError, TypeError) as exc:
+        raise CaptureToolError(
+            "playwright_bridge_error",
+            "Playwright bridge returned no valid structured result. Verify that the shared CLI/package versions are consistent.",
+        ) from exc
+    if not isinstance(payload, dict):
+        raise CaptureToolError("playwright_bridge_error", "Playwright bridge returned an invalid structured result")
+    if completed.returncode != 0 or not payload.get("ok"):
+        code = str(payload.get("code", "browser_error"))
+        messages = {
+            "playwright_browser_unavailable": (
+                "The shared Playwright package is available, but its Chromium browser is missing from the shared cache. "
+                "Install Chromium once for the server-wide Playwright installation, then retry."
+            ),
+            "network_timeout": "page load timed out after 45 seconds",
+            "playwright_package_unavailable": (
+                "The shared Playwright package could not be loaded by Node. Repair the global installation; do not install it in this project."
+            ),
+            "browser_error": "shared Playwright browser capture failed; inspect the server-wide Playwright installation and browser runtime libraries",
+        }
+        raise CaptureToolError(code if code in messages else "browser_error", messages.get(code, messages["browser_error"]))
+    return payload
 
 
 def detect_access_state(url: str, title: str, visible_text: str, status_code: int | None) -> tuple[str, str | None]:
@@ -499,76 +576,42 @@ def detect_access_state(url: str, title: str, visible_text: str, status_code: in
 
 
 def capture_live(url: str) -> CaptureResult:
-    try:
-        from playwright.sync_api import Error as PlaywrightError
-        from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
-        from playwright.sync_api import sync_playwright
-    except ImportError as exc:
-        raise CaptureToolError(
-            "playwright_unavailable",
-            "Playwright Python is not installed. Install the project-approved Playwright package and Chromium, then retry; no capture artifacts were fabricated.",
-        ) from exc
-
+    runtime = discover_node_playwright_runtime()
     result = CaptureResult(final_url=url, engine="playwright")
     with tempfile.TemporaryDirectory(prefix="shipglowz-inspiration-browser-") as temporary:
         png_path = Path(temporary) / "full-page.png"
-        try:
-            with sync_playwright() as playwright:
-                try:
-                    browser = playwright.chromium.launch(headless=True)
-                except PlaywrightError as exc:
-                    raise CaptureToolError(
-                        "playwright_browser_unavailable",
-                        "Playwright is installed but Chromium is unavailable. Run the project-approved browser install command, then retry.",
-                    ) from exc
-                context = browser.new_context(
-                    viewport={"width": DEFAULT_VIEWPORT_WIDTH, "height": DEFAULT_VIEWPORT_HEIGHT},
-                    device_scale_factor=1,
-                    accept_downloads=False,
-                    service_workers="block",
-                )
-                page = context.new_page()
-                page.on("dialog", lambda dialog: dialog.dismiss())
-                try:
-                    response = page.goto(url, wait_until="domcontentloaded", timeout=45_000)
-                    status_code = response.status if response else None
-                    page.wait_for_timeout(500)
-                    for _ in range(30):
-                        reached_bottom = page.evaluate(
-                            "() => { window.scrollBy(0, Math.max(600, window.innerHeight * 0.8)); return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4; }"
-                        )
-                        page.wait_for_timeout(100)
-                        if reached_bottom:
-                            break
-                    page.evaluate("() => window.scrollTo(0, 0)")
-                    result.final_url = page.url
-                    title = page.title()
-                    visible_text = page.locator("body").inner_text(timeout=5_000)
-                    state, reason = detect_access_state(page.url, title, visible_text, status_code)
-                    if state != "captured":
-                        result.capture_status = state
-                        result.access_status = "authenticated" if state == "auth_required" else "blocked"
-                        result.reason_code = state
-                        result.reason = reason
-                        return result
-                    result.markdown, result.unsupported_elements = browser_markdown(page, url)
-                    try:
-                        page.screenshot(path=str(png_path), full_page=True, animations="disabled", timeout=45_000)
-                        with Image.open(png_path) as opened:
-                            result.image = opened.convert("RGB").copy()
-                    except (PlaywrightError, OSError) as exc:
-                        result.capture_status = "partial"
-                        result.reason_code = "screenshot_failed"
-                        result.reason = f"visible text was extracted, but full-page screenshot failed: {type(exc).__name__}"
-                except PlaywrightTimeoutError as exc:
-                    raise CaptureToolError("network_timeout", "page load timed out after 45 seconds") from exc
-                except PlaywrightError as exc:
-                    raise CaptureToolError("browser_error", f"browser capture failed: {type(exc).__name__}") from exc
-                finally:
-                    context.close()
-                    browser.close()
-        except CaptureToolError:
-            raise
+        payload = run_node_capture(runtime, url, png_path)
+        result.final_url = str(payload.get("finalUrl") or url)
+        state, reason = detect_access_state(
+            result.final_url,
+            str(payload.get("title", "")),
+            str(payload.get("visibleText", "")),
+            int(payload["statusCode"]) if payload.get("statusCode") is not None else None,
+        )
+        if state != "captured":
+            result.capture_status = state
+            result.access_status = "authenticated" if state == "auth_required" else "blocked"
+            result.reason_code = state
+            result.reason = reason
+            return result
+        entries = payload.get("entries")
+        if not isinstance(entries, list):
+            raise CaptureToolError("playwright_bridge_error", "Playwright bridge omitted structured DOM entries")
+        result.markdown = markdown_from_browser_entries(entries, url)
+        unsupported = payload.get("unsupported", [])
+        result.unsupported_elements = [str(item) for item in unsupported] if isinstance(unsupported, list) else []
+        if payload.get("screenshotFailed") or not png_path.is_file():
+            result.capture_status = "partial"
+            result.reason_code = "screenshot_failed"
+            result.reason = "visible text was extracted, but the full-page screenshot failed"
+        else:
+            try:
+                with Image.open(png_path) as opened:
+                    result.image = opened.convert("RGB").copy()
+            except OSError as exc:
+                result.capture_status = "partial"
+                result.reason_code = "screenshot_failed"
+                result.reason = f"visible text was extracted, but the temporary PNG was invalid: {type(exc).__name__}"
     return result
 
 
@@ -738,6 +781,7 @@ def make_record(
     artifacts: dict[str, Any],
     checksums: dict[str, str],
     created_at: str,
+    wayback_url: str | None = None,
 ) -> dict[str, Any]:
     complete = bool(
         artifacts["page_markdown"]
@@ -768,7 +812,7 @@ def make_record(
             "normalized_url": normalized_url,
             "final_url": result.final_url,
             "captured_at": now,
-            "wayback_url": None,
+            "wayback_url": wayback_url,
             "access_status": result.access_status,
         },
         "capture": {
@@ -862,6 +906,69 @@ def index_entry(record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def replace_index_entry(index: dict[str, Any], record: dict[str, Any]) -> None:
+    """Synchronize the bounded index from its source-of-truth record."""
+    reference_id = record["id"]
+    for position, entry in enumerate(index["entries"]):
+        if entry.get("id") == reference_id:
+            index["entries"][position] = index_entry(record)
+            index["entries"].sort(key=lambda item: str(item.get("id", "")))
+            index["updated_at"] = utc_now()
+            return
+    raise CaptureToolError("reference_not_indexed", f"reference is missing from private index: {reference_id}")
+
+
+def approve_reference(
+    *,
+    root: Path,
+    index: dict[str, Any],
+    reference_id: str,
+    summary: str,
+    what_to_borrow: list[str],
+    what_not_to_copy: list[str],
+) -> dict[str, Any]:
+    """Promote a reviewed, usable candidate and atomically refresh index.yaml."""
+    reference_id = ensure_safe_id(reference_id)
+    record_path = root / "references" / reference_id / "record.yaml"
+    if not record_path.is_file():
+        raise CaptureToolError("reference_missing", f"candidate record does not exist: {reference_id}")
+    loaded = yaml.safe_load(record_path.read_text(encoding="utf-8"))
+    if not isinstance(loaded, dict):
+        raise CaptureToolError("invalid_record", f"candidate record is malformed: {reference_id}")
+    validate_record(loaded)
+    if loaded["lifecycle_status"] != "candidate":
+        raise CaptureToolError(
+            "approval_status_invalid",
+            f"only candidate references can be approved; {reference_id} is {loaded['lifecycle_status']}",
+        )
+    if loaded["capture_status"] not in {"captured", "partial"}:
+        raise CaptureToolError(
+            "approval_capture_invalid",
+            f"only captured or partial candidates can be approved; {reference_id} is {loaded['capture_status']}",
+        )
+    cleaned_summary = clean_text(summary)
+    borrowed = [clean_text(value) for value in what_to_borrow if clean_text(value)]
+    not_copied = [clean_text(value) for value in what_not_to_copy if clean_text(value)]
+    if not cleaned_summary or not borrowed or not not_copied:
+        raise CaptureToolError(
+            "approval_review_missing",
+            "approval requires --summary, at least one --what-to-borrow, and at least one --what-not-to-copy",
+        )
+
+    loaded["lifecycle_status"] = "approved"
+    loaded["curation"] = {
+        "summary": cleaned_summary,
+        "what_to_borrow": borrowed,
+        "what_not_to_copy": not_copied,
+    }
+    loaded["updated_at"] = utc_now()
+    validate_record(loaded)
+    replace_index_entry(index, loaded)
+    atomic_yaml_write(record_path, loaded)
+    atomic_yaml_write(root / "index.yaml", index)
+    return loaded
+
+
 def capture_one(
     *,
     root: Path,
@@ -869,6 +976,7 @@ def capture_one(
     url: str,
     reference_id: str,
     fixture: Path | None,
+    wayback_url: str | None = None,
 ) -> tuple[dict[str, Any] | None, str]:
     normalized = normalize_url(url)
     existing, reason = duplicate_match(index, reference_id, normalized)
@@ -929,6 +1037,7 @@ def capture_one(
             artifacts=artifacts,
             checksums=checksums,
             created_at=created_at,
+            wayback_url=wayback_url,
         )
         validate_record(record)
 
@@ -986,27 +1095,65 @@ def collect_urls(args: argparse.Namespace) -> list[str]:
 
 def status_report(root: Path) -> int:
     if not (root / "index.yaml").exists():
-        print(json.dumps({"root": str(root), "entries": 0, "statuses": {}}, sort_keys=True))
+        print(json.dumps({"root": str(root), "entries": 0, "capture_statuses": {}, "lifecycle_statuses": {}}, sort_keys=True))
         return 0
     index = load_index(root)
-    statuses: dict[str, int] = {}
+    capture_statuses: dict[str, int] = {}
+    lifecycle_statuses: dict[str, int] = {}
     for entry in index["entries"]:
-        status = str(entry.get("capture_status", "unknown"))
-        statuses[status] = statuses.get(status, 0) + 1
-    print(json.dumps({"root": str(root), "entries": len(index["entries"]), "statuses": statuses}, sort_keys=True))
+        capture_status = str(entry.get("capture_status", "unknown"))
+        lifecycle_status = str(entry.get("lifecycle_status", "unknown"))
+        capture_statuses[capture_status] = capture_statuses.get(capture_status, 0) + 1
+        lifecycle_statuses[lifecycle_status] = lifecycle_statuses.get(lifecycle_status, 0) + 1
+    print(
+        json.dumps(
+            {
+                "root": str(root),
+                "entries": len(index["entries"]),
+                "capture_statuses": capture_statuses,
+                "lifecycle_statuses": lifecycle_statuses,
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def list_report(root: Path) -> int:
+    if not (root / "index.yaml").exists():
+        print(json.dumps({"root": str(root), "entries": []}, sort_keys=True))
+        return 0
+    index = load_index(root)
+    entries = [
+        {
+            "id": entry.get("id"),
+            "source": redact_url(str(entry.get("url", ""))),
+            "lifecycle_status": entry.get("lifecycle_status"),
+            "capture_status": entry.get("capture_status"),
+            "page_type": entry.get("page_type"),
+        }
+        for entry in index["entries"]
+    ]
+    print(json.dumps({"root": str(root), "entries": entries}, sort_keys=True))
     return 0
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Capture public design/copy references into a private rights-aware corpus.",
-        epilog="Live capture requires Playwright + Chromium. Synthetic proof uses --fixture --no-network with an output under the system temp directory.",
+        epilog="Live capture uses the server's shared global Playwright Node CLI/package and Chromium cache. Synthetic proof uses --fixture --no-network with an output under the system temp directory.",
     )
     parser.add_argument("--url", action="append", help="Public http(s) URL to capture; repeat for a bounded batch.")
     parser.add_argument("--input", help=f"Newline-delimited URL file (maximum {MAX_BATCH_SIZE} non-comment lines).")
     parser.add_argument("--id", dest="reference_id", help="Explicit reference ID; valid only when exactly one source is supplied.")
     parser.add_argument("--output", help="Private corpus root. Defaults to SHIPGLOWZ_INSPIRATION_LIBRARY_DIR or the canonical private path.")
     parser.add_argument("--status-only", action="store_true", help="Read the private index and print capture-status counts without capturing.")
+    parser.add_argument("--list", action="store_true", help="Read the private index and print bounded reference summaries without loading bundles.")
+    parser.add_argument("--approve", metavar="REFERENCE_ID", help="Promote one reviewed candidate and synchronize index.yaml.")
+    parser.add_argument("--summary", help="Required review summary for --approve.")
+    parser.add_argument("--what-to-borrow", action="append", default=[], help="Transferable pattern for --approve; repeat as needed.")
+    parser.add_argument("--what-not-to-copy", action="append", default=[], help="Anti-copy constraint for --approve; repeat as needed.")
+    parser.add_argument("--wayback-url", help="Optional existing Wayback URL for one capture; never fetched or created automatically.")
     parser.add_argument("--no-network", action="store_true", help="Forbid network access; required with --fixture and invalid for live URLs.")
     parser.add_argument("--fixture", help="Synthetic local HTML fixture. Requires --no-network and temporary --output.")
     return parser
@@ -1021,24 +1168,57 @@ def run(argv: list[str] | None = None) -> int:
             raise CaptureToolError("fixture_requires_no_network", "--fixture requires --no-network")
         if args.no_network and not fixture:
             raise CaptureToolError("no_network_requires_fixture", "--no-network requires --fixture; live capture cannot run without network")
-        if args.status_only and any((args.url, args.input, args.fixture, args.reference_id)):
-            raise CaptureToolError("status_only_conflict", "--status-only cannot be combined with capture arguments")
+        read_mode = bool(args.status_only or args.list)
+        curation_mode = bool(args.approve)
+        if args.status_only and args.list:
+            raise CaptureToolError("read_mode_conflict", "--status-only and --list cannot be combined")
+        if read_mode and any((args.url, args.input, args.fixture, args.reference_id, args.wayback_url, args.approve, args.summary, args.what_to_borrow, args.what_not_to_copy)):
+            raise CaptureToolError("read_mode_conflict", "--status-only and --list cannot be combined with capture or curation arguments")
+        if curation_mode and any((args.url, args.input, args.fixture, args.reference_id, args.wayback_url)):
+            raise CaptureToolError("approval_conflict", "--approve cannot be combined with capture arguments")
+        if not curation_mode and any((args.summary, args.what_to_borrow, args.what_not_to_copy)):
+            raise CaptureToolError("approval_arguments_without_approve", "review fields require --approve")
+        if args.wayback_url:
+            validate_url(args.wayback_url)
 
         output = Path(args.output).expanduser() if args.output else private_default_root()
         root = validate_output_root(output, fixture_mode=bool(fixture and args.no_network))
         if args.status_only:
             return status_report(root)
+        if args.list:
+            return list_report(root)
+        if args.approve:
+            index = bootstrap_corpus(root)
+            record = approve_reference(
+                root=root,
+                index=index,
+                reference_id=args.approve,
+                summary=args.summary or "",
+                what_to_borrow=args.what_to_borrow,
+                what_not_to_copy=args.what_not_to_copy,
+            )
+            print(f"id={record['id']} lifecycle_status=approved capture_status={record['capture_status']} record={root / 'references' / record['id'] / 'record.yaml'}")
+            return 0
 
         urls = collect_urls(args)
         if args.reference_id and len(urls) != 1:
             raise CaptureToolError("id_batch_conflict", "--id is valid only with exactly one URL or fixture")
+        if args.wayback_url and len(urls) != 1:
+            raise CaptureToolError("wayback_batch_conflict", "--wayback-url is valid only with exactly one URL or fixture")
         index = bootstrap_corpus(root)
         failed = 0
         duplicates = 0
         captured = 0
         for url in urls:
             reference_id = ensure_safe_id(args.reference_id) if args.reference_id else derive_id(url)
-            record, status = capture_one(root=root, index=index, url=url, reference_id=reference_id, fixture=fixture)
+            record, status = capture_one(
+                root=root,
+                index=index,
+                url=url,
+                reference_id=reference_id,
+                fixture=fixture,
+                wayback_url=args.wayback_url,
+            )
             if record is None:
                 duplicates += 1
                 print(f"id={reference_id} status={status} source={redact_url(url)}")

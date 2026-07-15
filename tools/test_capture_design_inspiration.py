@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import io
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -87,6 +88,117 @@ class TextExtractionTests(unittest.TestCase):
         with self.assertRaises(capture.CaptureToolError) as caught:
             capture.capture_fixture(FIXTURE, "https://example.com/not-allowed")
         self.assertEqual(caught.exception.code, "fixture_source_not_synthetic")
+
+
+class NodePlaywrightBridgeTests(unittest.TestCase):
+    def test_discovery_resolves_package_from_global_cli(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            package_json = Path(temporary) / "node_modules" / "playwright" / "package.json"
+            package_json.parent.mkdir(parents=True)
+            package_json.write_text("{}", encoding="utf-8")
+            completed = capture.subprocess.CompletedProcess(
+                args=[], returncode=0, stdout=str(package_json), stderr=""
+            )
+
+            def which(name: str) -> str | None:
+                return {"playwright": "/shared/bin/playwright", "node": "/usr/bin/node"}.get(name)
+
+            with mock.patch.object(capture.shutil, "which", side_effect=which), mock.patch.object(
+                capture.subprocess, "run", return_value=completed
+            ) as run:
+                runtime = capture.discover_node_playwright_runtime()
+
+            self.assertEqual(runtime.package_json, package_json.resolve())
+            self.assertEqual(runtime.cli_path, Path("/shared/bin/playwright"))
+            resolver_command = run.call_args.args[0]
+            self.assertEqual(resolver_command[0], "/usr/bin/node")
+            self.assertEqual(resolver_command[-1], "/shared/bin/playwright")
+
+    def test_discovery_reports_missing_cli(self) -> None:
+        with mock.patch.object(capture.shutil, "which", return_value=None):
+            with self.assertRaises(capture.CaptureToolError) as caught:
+                capture.discover_node_playwright_runtime()
+        self.assertEqual(caught.exception.code, "playwright_cli_unavailable")
+        self.assertIn("global Node prefix", str(caught.exception))
+
+    def test_discovery_reports_missing_package(self) -> None:
+        completed = capture.subprocess.CompletedProcess(args=[], returncode=1, stdout="", stderr="private details")
+
+        def which(name: str) -> str | None:
+            return {"playwright": "/shared/bin/playwright", "node": "/usr/bin/node"}.get(name)
+
+        with mock.patch.object(capture.shutil, "which", side_effect=which), mock.patch.object(
+            capture.subprocess, "run", return_value=completed
+        ):
+            with self.assertRaises(capture.CaptureToolError) as caught:
+                capture.discover_node_playwright_runtime()
+        self.assertEqual(caught.exception.code, "playwright_package_unavailable")
+        self.assertNotIn("private details", str(caught.exception))
+
+    def test_bridge_passes_url_over_stdin_and_returns_structured_data(self) -> None:
+        runtime = capture.NodePlaywrightRuntime(
+            Path("/usr/bin/node"), Path("/shared/bin/playwright"), Path("/shared/playwright/package.json")
+        )
+        secret_url = "https://example.invalid/page?token=must-not-be-an-argument"
+        payload = {"ok": True, "entries": [], "screenshotFailed": True}
+        completed = capture.subprocess.CompletedProcess(args=[], returncode=0, stdout=json.dumps(payload), stderr="")
+        with tempfile.TemporaryDirectory() as temporary, mock.patch.object(
+            capture.subprocess, "run", return_value=completed
+        ) as run:
+            result = capture.run_node_capture(runtime, secret_url, Path(temporary) / "page.png")
+
+        self.assertEqual(result, payload)
+        command = run.call_args.args[0]
+        self.assertNotIn(secret_url, command)
+        self.assertEqual(json.loads(run.call_args.kwargs["input"]), {"url": secret_url})
+        self.assertFalse(run.call_args.kwargs["check"])
+
+    def test_bridge_reports_shared_browser_cache_error_without_raw_stderr(self) -> None:
+        runtime = capture.NodePlaywrightRuntime(
+            Path("/usr/bin/node"), Path("/shared/bin/playwright"), Path("/shared/playwright/package.json")
+        )
+        completed = capture.subprocess.CompletedProcess(
+            args=[],
+            returncode=2,
+            stdout=json.dumps({"ok": False, "code": "playwright_browser_unavailable"}),
+            stderr="secret URL and browser internals",
+        )
+        with tempfile.TemporaryDirectory() as temporary, mock.patch.object(
+            capture.subprocess, "run", return_value=completed
+        ):
+            with self.assertRaises(capture.CaptureToolError) as caught:
+                capture.run_node_capture(runtime, "https://example.invalid/", Path(temporary) / "page.png")
+        self.assertEqual(caught.exception.code, "playwright_browser_unavailable")
+        self.assertIn("shared cache", str(caught.exception))
+        self.assertNotIn("secret URL", str(caught.exception))
+
+    def test_live_capture_converts_bridge_dom_and_temporary_png(self) -> None:
+        runtime = capture.NodePlaywrightRuntime(
+            Path("/usr/bin/node"), Path("/shared/bin/playwright"), Path("/shared/playwright/package.json")
+        )
+
+        def bridge(_runtime, _url, png_path):
+            Image.new("RGB", (80, 120), "white").save(png_path, format="PNG")
+            return {
+                "ok": True,
+                "finalUrl": "https://example.invalid/final?private=kept-out-of-logs",
+                "statusCode": 200,
+                "title": "Synthetic",
+                "visibleText": "Visible copy",
+                "entries": [{"order": 0, "tag": "h1", "text": "Visible copy", "href": None}],
+                "unsupported": ["canvas"],
+                "screenshotFailed": False,
+            }
+
+        with mock.patch.object(capture, "discover_node_playwright_runtime", return_value=runtime), mock.patch.object(
+            capture, "run_node_capture", side_effect=bridge
+        ):
+            result = capture.capture_live("https://example.invalid/source")
+
+        self.assertEqual(result.capture_status, "captured")
+        self.assertIn("# Visible copy", result.markdown or "")
+        self.assertEqual(result.unsupported_elements, ["canvas"])
+        self.assertEqual(result.image.size if result.image else None, (80, 120))
 
 
 class ImageAndIntegrationTests(unittest.TestCase):
@@ -254,6 +366,97 @@ class StatusAndFailureTests(unittest.TestCase):
                 code = capture.run(["--output", str(corpus), "--status-only"])
             self.assertEqual(code, 0)
             self.assertIn('"captured": 1', stdout.getvalue())
+            self.assertEqual(before, (corpus / "index.yaml").read_bytes())
+
+    def test_approve_promotes_reviewed_candidate_and_refreshes_index(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            corpus = Path(temporary) / "corpus"
+            self.assertEqual(
+                capture.run(["--fixture", str(FIXTURE), "--output", str(corpus), "--id", "review-me", "--no-network"]),
+                0,
+            )
+            before = read_yaml(corpus / "index.yaml")
+            self.assertEqual(before["entries"][0]["lifecycle_status"], "candidate")
+            self.assertEqual(
+                capture.run(
+                    [
+                        "--output",
+                        str(corpus),
+                        "--approve",
+                        "review-me",
+                        "--summary",
+                        "Clear hierarchy from problem to proof.",
+                        "--what-to-borrow",
+                        "Use the proof sequence after the mechanism.",
+                        "--what-not-to-copy",
+                        "Do not reuse distinctive language or branding.",
+                    ]
+                ),
+                0,
+            )
+            record = read_yaml(corpus / "references" / "review-me" / "record.yaml")
+            index = read_yaml(corpus / "index.yaml")
+            self.assertEqual(record["lifecycle_status"], "approved")
+            self.assertEqual(record["curation"]["summary"], "Clear hierarchy from problem to proof.")
+            self.assertEqual(index["entries"][0]["lifecycle_status"], "approved")
+
+    def test_approve_requires_a_complete_review(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            corpus = Path(temporary) / "corpus"
+            capture.run(["--fixture", str(FIXTURE), "--output", str(corpus), "--id", "incomplete-review", "--no-network"])
+            self.assertEqual(capture.run(["--output", str(corpus), "--approve", "incomplete-review"]), 2)
+            record = read_yaml(corpus / "references" / "incomplete-review" / "record.yaml")
+            self.assertEqual(record["lifecycle_status"], "candidate")
+
+    def test_wayback_url_is_optional_metadata_and_never_fetched(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            corpus = Path(temporary) / "corpus"
+            self.assertEqual(
+                capture.run(
+                    [
+                        "--fixture",
+                        str(FIXTURE),
+                        "--output",
+                        str(corpus),
+                        "--id",
+                        "with-wayback",
+                        "--url",
+                        "https://example.invalid/with-wayback",
+                        "--wayback-url",
+                        "https://web.archive.org/web/20260101000000/https://example.invalid/with-wayback",
+                        "--no-network",
+                    ]
+                ),
+                0,
+            )
+            record = read_yaml(corpus / "references" / "with-wayback" / "record.yaml")
+            self.assertEqual(
+                record["source"]["wayback_url"],
+                "https://web.archive.org/web/20260101000000/https://example.invalid/with-wayback",
+            )
+
+    def test_list_redacts_query_strings_and_is_read_only(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            corpus = Path(temporary) / "corpus"
+            capture.run(
+                [
+                    "--fixture",
+                    str(FIXTURE),
+                    "--output",
+                    str(corpus),
+                    "--id",
+                    "list-check",
+                    "--url",
+                    "https://example.invalid/list-check?secret=must-not-log",
+                    "--no-network",
+                ]
+            )
+            before = (corpus / "index.yaml").read_bytes()
+            stdout = io.StringIO()
+            with contextlib.redirect_stdout(stdout):
+                self.assertEqual(capture.run(["--output", str(corpus), "--list"]), 0)
+            self.assertIn('"id": "list-check"', stdout.getvalue())
+            self.assertNotIn("must-not-log", stdout.getvalue())
             self.assertEqual(before, (corpus / "index.yaml").read_bytes())
 
 

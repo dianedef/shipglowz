@@ -1,7 +1,7 @@
 ---
 artifact: contract
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.2.0"
 project: ShipGlowz
 created: "2026-07-15"
 updated: "2026-07-15"
@@ -16,7 +16,9 @@ docs_impact: yes
 linked_systems:
   - skills/references/design-inspiration/
   - tools/capture_design_inspiration.py
+  - tools/capture_design_inspiration_playwright.js
   - skills/006-sg-design/SKILL.md
+  - skills/006-sg-design/references/design-inspiration-library-operations.md
   - skills/007-sg-content/SKILL.md
   - skills/200-sg-redact/SKILL.md
   - skills/206-sg-audit-copy/SKILL.md
@@ -31,6 +33,7 @@ supersedes: []
 evidence:
   - "Ready spec sales-page-reference-library.md and its exploration source."
   - "Operator decision: source-derived captures stay outside public repositories and are consumed through a bounded, operator-selected Inspiration Gate."
+  - "Operator correction: 006-sg-design exposes direct library add, approve, list, and status modes; approval must synchronize the bounded index."
 next_review: "2026-08-15"
 next_step: "/103-sg-verify sales-page-reference-library"
 ---
@@ -171,6 +174,10 @@ Unknown values may be added as conservative slugs, but skills must filter rather
 5. Review taxonomy, rights notes, transferable patterns, and anti-copy guidance before promotion.
 6. Promote to `approved` only after operator review. Set `rejected`, `blocked`, or `removed` when appropriate.
 7. If a skill discovers a useful URL outside a curation task, report its redacted URL and rationale; do not add it to the corpus until curation is in scope or the operator confirms.
+
+The normal operator entrypoint is `/006-sg-design library add <public-url>`, followed by `/006-sg-design library approve <reference-id>`. The curation tool, not a hand edit, writes promotion metadata and synchronizes `index.yaml`. `library list` and `library status` read only the bounded index. See `skills/006-sg-design/references/design-inspiration-library-operations.md` for the activation contract.
+
+Live capture reuses the server-wide Playwright Node installation: `node` and the global `playwright` CLI must be in `PATH`, and Chromium must exist in Playwright's shared browser cache. The Python tool resolves the `playwright` Node package from that CLI (including a CLI provided by global `@playwright/test`) and never requires the Python Playwright API or a per-project browser install. If discovery fails, repair the shared server installation indicated by the reason code: `playwright_cli_unavailable`, `node_unavailable`, `playwright_package_unavailable`, or `playwright_browser_unavailable`.
 
 ## Inspiration Gate
 
