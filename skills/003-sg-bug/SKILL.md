@@ -282,8 +282,7 @@ Reste a faire:
 Prochaine etape:
 - [command]
 
-Verdict 003-sg-bug:
-- [executed | routed | blocked | no action]
+Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [executed | routed | blocked | no action]`; do not append a verdict after this body.
 ```
 
 ## Rules

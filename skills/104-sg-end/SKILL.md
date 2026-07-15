@@ -193,8 +193,7 @@ Reste a faire:
 Prochaine etape:
 - [/005-sg-ship puis /405-sg-prod si la validation preview-push est requise | /005-sg-ship | explicit action | None]
 
-Verdict 104-sg-end:
-- [closed | deferred | blocked | not applicable]
+Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [closed | deferred | blocked | not applicable]`; do not append a verdict after this body.
 ```
 
 ### Rules

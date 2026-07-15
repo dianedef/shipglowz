@@ -340,8 +340,7 @@ Reste a faire:
 Prochaine etape:
 - [command]
 
-Verdict 009-sg-skill-build:
-- [implemented | partial | blocked | rerouted]
+Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [implemented | partial | blocked | rerouted]`; do not append a verdict after this body.
 ```
 
 ## Rules

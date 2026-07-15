@@ -440,8 +440,7 @@ Reste a faire:
 Prochaine etape:
 - /101-sg-ready [titre]
 
-Verdict 100-sg-spec:
-- draft saved
+Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : draft saved`; do not append a verdict after this body.
 ```
 
 ---

@@ -4,6 +4,21 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 
 ---
 
+## 2026-07-15 — 006-sg-design
+
+**Added:**
+- None; the new private-library activation contract already passes the fresh-agent curation scenario.
+
+**Updated:**
+- [activation] No wording change needed: `library add` is private and candidate-first, `approve` is separate, and the compact operations playbook is linked before command interpretation.
+
+**New phases:**
+- None
+
+**Sources:** 0 URLs consulted (local governance refresh; no external dependency changed)
+
+---
+
 ## 2026-07-12 — 900-shipglowz-core
 
 **Added:**

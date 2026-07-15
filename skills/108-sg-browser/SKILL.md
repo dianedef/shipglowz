@@ -138,13 +138,12 @@ Report in the user's active language. Keep stable labels, commands, and machine 
 
 Internal instructions, workflow rules, stable headings, stop conditions, acceptance criteria, and validation notes stay in English. User-facing observations and explanations use the user's active language; French output must be natural and accented while command names, paths, stable labels, and verdict labels remain English.
 
-Every final report must include:
+Every final report must open with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [pass / fail / partial / blocked / needs-auth / needs-deploy / needs-manual-test / unsafe-action]`, then include:
 - `Target`
 - `Environment`
 - `Playwright MCP runtime`
 - `Objective`
 - `Observed`
-- `Verdict`
 - `Evidence`
 - `Limits`
 - `Next step`
@@ -184,12 +183,13 @@ If a finding crosses the chantier threshold, report `Chantier potentiel` and rou
 ```text
 ## Browser Verification: [objective]
 
+🎯 VERDICT (YYYY-MM-DD HH:mm) : [pass / fail / partial / blocked / needs-auth / needs-deploy / needs-manual-test / unsafe-action]
+
 Target: [URL]
 Environment: [local / preview / production / unknown]
 Playwright MCP runtime: [executable-path ... / chromium fallback / blocked stale config]
 Objective: [requested assertion]
 Observed: [short factual observation]
-Verdict: [pass / fail / partial / blocked / needs-auth / needs-deploy / needs-manual-test / unsafe-action]
 Evidence:
 - [snapshot/screenshot/console/network summary]
 - [Sentry issue/event summary or limit, when relevant]
@@ -229,6 +229,5 @@ Reste a faire:
 Prochaine etape:
 - [next command or explicit none]
 
-Verdict 108-sg-browser:
-- [pass | fail | partial | blocked | rerouted]
+Do not append a verdict after this body; the opening `VERDICT` line is the report status.
 ```

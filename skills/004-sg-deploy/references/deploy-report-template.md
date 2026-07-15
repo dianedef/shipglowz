@@ -87,8 +87,7 @@ Reste a faire:
 Prochaine etape:
 - [command or none]
 
-Verdict 004-sg-deploy:
-- [deployed | partial | blocked | rerouted]
+Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [deployed | partial | blocked | rerouted]`; do not append a verdict after this body.
 ```
 
 ## User Report Compression

@@ -171,7 +171,7 @@ Reste a faire:
 Prochaine etape:
 - <command or explicit none>
 
-Verdict <skill>:
-- <verdict>
-Horodatage du verdict: YYYY-MM-DD HH:mm Paris time
+🎯 VERDICT (YYYY-MM-DD HH:mm) : <verdict>
+
+<Detailed agent-mode report body>
 ```

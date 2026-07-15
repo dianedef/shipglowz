@@ -79,7 +79,7 @@ Sales Page Reference Library
 
 ## Status
 
-The original library was implemented, verified locally, and shipped on `origin/main`. A post-ship correction now adds operator-facing `/006-sg-design library add|approve|list|status` modes, safe candidate promotion, bounded index synchronization, and optional existing-Wayback metadata; that correction awaits re-verification and ship. No live third-party capture was run in public proof.
+The original library was implemented, verified locally, and shipped on `origin/main`. Both post-ship corrections—the shared global Node Playwright runtime and the operator-facing `/006-sg-design library add|approve|list|status` modes—are re-verified locally and await closure and ship. No live third-party capture was run in public proof.
 
 ## User Story
 
@@ -397,7 +397,7 @@ No update is required to `shipglowz_data/business/project-competitors-and-inspir
 - [ ] AC 12: Given generated copy or design guidance references captured pages, when it is reported, then it summarizes transferable patterns and avoids long verbatim source reuse or screenshot redistribution.
 - [ ] AC 13: Given docs are updated, when metadata lint and targeted rg checks run, then the new tool/reference family is discoverable in the technical docs map and skill runtime docs.
 - [ ] AC 14: Given no final forty-URL list is present in the repo, when implementation validation runs, then the feature is still provable with synthetic fixtures and an optional private live sample; batch import remains a run-time operation using `--input`.
-- [ ] AC 15: Given implementation completes, when `103-sg-verify` runs, then it can verify storage safety, source-derived asset separation, skill integration, capture behavior, and docs coherence against this spec.
+- [x] AC 15: Given implementation completes, when `103-sg-verify` runs, then it can verify storage safety, source-derived asset separation, skill integration, capture behavior, and docs coherence against this spec.
 - [x] AC 16: Given an operator invokes `/006-sg-design library add <public URL>`, when the private capture succeeds, then the skill reports a candidate reference ID and one approval action without writing source material to the public repository.
 - [x] AC 17: Given an operator invokes `/006-sg-design library approve <reference-id>` with a review summary, transferable pattern, and anti-copy constraint, then the candidate becomes `approved` and `index.yaml` is synchronized without normal manual YAML editing.
 - [x] AC 18: Given a Wayback URL is supplied or known, when a reference is added, then it is retained as optional metadata and no Internet Archive request is required or performed.
@@ -485,14 +485,15 @@ None. The storage/privacy decision is resolved by defining a separate private in
 | 2026-07-15 08:26:12 UTC | 005-sg-ship | gpt-5.4 medium | Ran bounded pre-ship checks, confirmed runtime visibility and storage-leakage constraints, and prepared the exact chantier file set for commit/push to `origin/main`. | shipped | none |
 | 2026-07-15 14:41:01 UTC | 001-sg-build | gpt-5.6-sol | Replaced the Python Playwright runtime dependency with the shared global Playwright Node runtime, installed Chromium once in the current server user's shared cache, and proved a complete live browser bundle against a local synthetic page. | implemented | /103-sg-verify sales-page-reference-library shared Playwright runtime correction |
 | 2026-07-15 16:04:23 UTC | 001-sg-build | gpt-5.5 codex | Implemented the operator-facing 006-sg-design library modes, safe candidate approval with atomic private-index synchronization, bounded list/status output, and optional Wayback metadata without archive creation; focused synthetic tests and metadata checks passed. | implemented | /103-sg-verify sales-page-reference-library operator library modes correction |
+| 2026-07-15 16:11:28 UTC | 103-sg-verify | codex | Re-verified the shared global Node Playwright discovery/cache contract and the operator-facing library modes with scenario-first synthetic capture/promotion proof, safety boundary checks, runtime sync, metadata lint, syntax, tests, and focused contract scans. | verified | /104-sg-end sales-page-reference-library post-ship corrections |
 
 ## Current Chantier Flow
 
 - `100-sg-spec`: done, draft spec created with no open blocking questions.
 - `101-sg-ready`: ready, strict readiness review passed and freshness source links recorded.
 - `102-sg-start`: implemented, including the shared-Playwright-runtime and operator-library-mode corrections; focused unit, CLI, and synthetic-browser proof passed.
-- `103-sg-verify`: prior release verified; re-verification of both post-ship corrections is pending.
-- `104-sg-end`: prior release closed; correction closure is pending re-verification.
-- `005-sg-ship`: prior release shipped; both corrections remain unshipped.
+- `103-sg-verify`: verified, including the shared-Playwright-runtime and operator-library-mode corrections; no external live capture was needed for this local tooling/skill contract.
+- `104-sg-end`: prior release closed; correction closure is ready.
+- `005-sg-ship`: prior release shipped; both verified corrections remain unshipped.
 
-Next step: `/103-sg-verify sales-page-reference-library shared Playwright runtime and operator library modes corrections`.
+Next step: `/104-sg-end sales-page-reference-library post-ship corrections`.

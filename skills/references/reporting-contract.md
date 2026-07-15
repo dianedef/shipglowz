@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.4.0"
+artifact_version: "1.6.0"
 project: ShipGlowz
 created: "2026-05-03"
-updated: "2026-06-10"
+updated: "2026-07-15"
 status: active
 source_skill: 001-sg-build
 scope: skill-reporting-contract
@@ -32,6 +32,8 @@ evidence:
   - "User decision 2026-05-05: final reports need a visible Paris-time verdict timestamp as a shared reporting brick, not duplicated per skill."
   - "User decision 2026-06-09: human-launched skills may keep technical evidence internally or in report=agent, but their default report must stay short, readable, and useful to a non-developer operator."
   - "User decision 2026-06-10: routine subagent orchestration should not be narrated to the user; results matter more than process."
+  - "User decision 2026-07-15: the timestamped verdict is the opening line; the response and any decision options follow, with no trailing verdict footer."
+  - "User decision 2026-07-15: use a small semantic emoji vocabulary for verdicts, routes, and decisions so reports scan quickly without visual noise."
 next_review: "2026-06-04"
 next_step: "/103-sg-verify shipflow-skill-reporting-and-proof-hardening"
 ---
@@ -44,7 +46,7 @@ This reference defines the default final-report shape for ShipGlowz skills.
 
 The goal is to reduce user-facing noise without weakening traceability. Successful runs should be short. Failed, blocked, partial, or security-sensitive runs should include enough detail to act safely.
 
-Before applying this contract, load `$SHIPFLOW_ROOT/skills/references/final-report-timestamp.md`. Its verdict timestamp rule is part of this reporting contract and applies to both `report=user` and `report=agent`.
+Before applying this contract, load `$SHIPFLOW_ROOT/skills/references/final-report-timestamp.md`. Its verdict-header rule is part of this reporting contract and applies to both `report=user` and `report=agent`.
 
 ## Report Modes
 
@@ -78,10 +80,16 @@ contract labels may stay in English when translation would weaken traceability.
 
 Default user-mode reports must fit this shape unless the skill has a stricter local format:
 
-1. outcome or verdict
-2. proof summary or check summary
+1. `🎯 VERDICT (YYYY-MM-DD HH:mm) : <status>` as the first visible line
+2. outcome and proof summary or check summary
 3. limits only when they affect trust, risk, or next action
-4. one real next step only when the user must act
+4. one real next step or one numbered decision question only when the user must act
+
+When routing is relevant to the operator, add one concise line directly below the verdict:
+
+```text
+🧭 Route: <skill or owner> — <short reason>
+```
 
 Do not include full checklists, validation matrices, phase ledgers, file inventories, raw command output, or lifecycle internals in successful user-mode reports. Keep that detail in the durable artifact or use `report=agent`.
 
@@ -89,11 +97,13 @@ Do not report routine subagent orchestration in user mode. Mention it only when 
 
 When a task is complete, prefer the end state over the story of how it was completed. One short sentence about what changed is usually enough.
 
-Use a few status emojis when they improve scanning, not as decoration. Good
-defaults are `🚀` for pushed/shipped, `✅` for passed checks, `⚠️` for limits or
-risk, `📝` for docs/bookkeeping, and `🎯` for final lifecycle completion. Do
-not decorate every line, and keep agent/handoff reports mostly plain except for
-status markers.
+Use a small semantic emoji vocabulary when it improves scanning, not as
+decoration. Use at most one emoji per labelled line and do not add emoji to
+ordinary prose. Good defaults are `🎯` for the verdict, `🧭` for route/owner,
+`✅` for passed or recommended, `⚠️` for limits/risk, `🚀` for pushed/shipped,
+and `📝` for docs/bookkeeping. For decision options, place one meaningful emoji
+after the option number (for example `1. ✅ ...`, `2. 🛍️ ...`, `3. 🚚 ...`).
+Keep agent/handoff reports mostly plain except for material status markers.
 
 For ship reports, organize user-mode text as:
 
@@ -209,12 +219,12 @@ Use these scenarios when changing reporting behavior or reviewing a skill report
 - `SSRP-004 agent handoff`: another skill needs detailed evidence. The caller passes `report=agent`, and the report may include checklists, matrices, files, commands, and lifecycle internals.
 - `SSRP-005 proof limit`: a completion claim lacks full proof. The user report stays short but names the missing proof or explicit exception before claiming completion.
 
-## Final Timestamp
+## Verdict Header
 
-End every final report with a verdict or final status immediately followed by:
+Start every final report with:
 
 ```text
-Horodatage du verdict: YYYY-MM-DD HH:mm Paris time
+🎯 VERDICT (YYYY-MM-DD HH:mm) : <verdict or status>
 ```
 
-Follow the exact placement and exception rules in `$SHIPFLOW_ROOT/skills/references/final-report-timestamp.md`. Nothing comes after the timestamp.
+Follow the exact placement and exception rules in `$SHIPFLOW_ROOT/skills/references/final-report-timestamp.md`. Do not add a closing verdict or timestamp. If the report asks a numbered question, its final visible text is the options and the reply instruction.

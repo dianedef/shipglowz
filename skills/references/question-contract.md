@@ -108,10 +108,10 @@ Questions are above contract when they help the operator and agent reason togeth
 
 ## Required Shape
 
-Every user-facing question must be answerable by number. Start each question with a numeric marker:
+Every user-facing question must be answerable by number. Start each question with a numeric marker and one semantic emoji:
 
 ```text
-1. [icon] [decision title]
+1. 🧭 [decision title]
 ```
 
 Use the user's active language for labels and explanation. Stable commands, paths, IDs, and status values may stay literal.
@@ -124,20 +124,20 @@ Each question must include:
 - options: 2-3 practical choices when useful, with number-prefixed labels
 - answer instruction: tell the user they can answer with the number or name another route
 
-Use small icons only as scanning aids. Icons never replace the text label and are optional when the runtime or context favors plain ASCII.
+Use small semantic icons only as scanning aids. Icons never replace the text label. Use `🧭` for the decision heading, `✅` for the recommended option, and one meaningful distinct icon for each alternative. Use no more than one icon per labelled line.
 
 Questions should be rare enough that answering them feels like steering the product or risk posture, not supervising the skill. If a question would only make the operator approve routine professional execution, do not ask it.
 
 ## Plain-Text Format
 
 ```text
-1. [icon] [Titre de decision]
+1. 🧭 [Titre de decision]
 Pourquoi: [ce qui est bloque, contradictoire ou risque]
 Recommande: [option] - [pourquoi c'est le meilleur defaut dans ce contexte]
 
 Options:
-1. [Option recommandee] - [consequence]
-2. [Alternative] - [consequence]
+1. ✅ [Option recommandee] - [consequence]
+2. [emoji pertinent] [Alternative] - [consequence]
 
 Reponds avec le numero, ou precise une autre option.
 ```

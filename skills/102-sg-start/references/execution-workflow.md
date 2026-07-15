@@ -427,8 +427,7 @@ Reste a faire:
 Prochaine etape:
 - [/103-sg-verify [task] | /005-sg-ship [task] puis /405-sg-prod si le mode impose une preview Vercel]
 
-Verdict 102-sg-start:
-- [implemented | partial | blocked | rerouted]
+Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [implemented | partial | blocked | rerouted]`; do not append a verdict after this body.
 ```
 
 ### Rules
