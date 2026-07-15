@@ -47,6 +47,10 @@ Load `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md` before rout
 
 Load `$SHIPFLOW_ROOT/skills/references/design-system-token-contract.md` before UI, mobile, component, layout, typography, spacing, color, shadow/elevation, motion, safe-area, keyboard/IME, overlay, responsive, token, theme, or visual proof work.
 
+## Inspiration Gate
+
+For new visual direction, landing/sales-page design, major redesign, or an explicit inspiration request, load `$SHIPFLOW_ROOT/skills/references/design-inspiration-library.md`. Read and filter only the private `index.yaml`, present at most five reference IDs with fit reasons, and require operator selection before loading a bundle or treating a reference as direction. Record selected reference IDs in the active spec or design artifact, summarize transferable patterns and anti-copy constraints, and never load the whole corpus by default. Routine fixes, token migrations, and narrow audits skip this gate unless requested; competitor, pricing, positioning, and differentiation work routes to `shipglowz_data/business/project-competitors-and-inspirations.md`.
+
 Load `$SHIPFLOW_ROOT/skills/006-sg-design/references/design-lifecycle-routing.md` before choosing a specialist owner, asking a routing question, or sequencing a design lifecycle.
 
 Load `$SHIPFLOW_ROOT/skills/006-sg-design/references/design-token-migration-playbook.md` before token centralization, design-system creation, token migration, or any handoff that distinguishes token creation from UI consumption.

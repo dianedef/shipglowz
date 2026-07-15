@@ -59,6 +59,10 @@ Load on demand:
 - `DEEP MODE`: launch specialist skills (`503-sg-audit-design-tokens`, `504-sg-audit-components`, `409-sg-audit-a11y`) per instructions in `audit-gates.md`.
 - `GLOBAL MODE`: use cross-project routing and tracking protocol from `audit-gates.md`.
 
+## Inspiration Gate
+
+For an explicit inspiration comparison or when the audit is framing a major landing/sales-page redesign, load `$SHIPFLOW_ROOT/skills/references/design-inspiration-library.md`. Filter only private `index.yaml`, present at most five reference IDs, require operator selection before loading any bundle, and record selected reference IDs in the audit decision context. Use references to compare transferable patterns and anti-copy risks, never as silent direction; routine audits do not load the corpus.
+
 ## Core Execution Rules
 
 - Findings-first reporting is mandatory.

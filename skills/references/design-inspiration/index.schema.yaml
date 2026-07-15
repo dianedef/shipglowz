@@ -1,0 +1,32 @@
+schema_version: "1.0"
+title: Design inspiration private index
+type: object
+additional_properties: false
+required: [schema_version, updated_at, entries, duplicate_events]
+properties:
+  schema_version: {type: string, enum: ["1.0"]}
+  updated_at: {type: string}
+  entries:
+    type: array
+    items:
+      type: object
+      required:
+        - id
+        - url
+        - normalized_url
+        - lifecycle_status
+        - capture_status
+        - page_type
+        - audience
+        - styles
+        - sections
+        - copy_patterns
+        - conversion_goals
+        - captured_at
+        - bundle_checksum
+        - full_page_checksum
+  duplicate_events:
+    type: array
+    items:
+      type: object
+      required: [attempted_at, requested_id, existing_id, normalized_url, reason]

@@ -1,0 +1,58 @@
+schema_version: "1.0"
+id: synthetic-studio-sales-page
+lifecycle_status: candidate
+capture_status: captured
+source:
+  url: https://example.invalid/synthetic-studio?campaign=fixture
+  normalized_url: https://example.invalid/synthetic-studio
+  final_url: https://example.invalid/synthetic-studio?campaign=fixture
+  captured_at: "2026-07-15T00:00:00Z"
+  wayback_url: null
+  access_status: public
+capture:
+  engine: synthetic_fixture
+  viewport:
+    width: 1440
+    height: 900
+    device_scale_factor: 1
+  full_page: true
+  segment_height: 1600
+  segment_overlap: 160
+  reason_code: null
+  reason: null
+  unsupported_elements: []
+taxonomy:
+  page_type: sales-page
+  audience: [synthetic-operators]
+  styles: [editorial, high-contrast]
+  sections: [hero, proof, features, objections, cta]
+  copy_patterns: [proof-sequence, objection-handling, cta-rhythm]
+  conversion_goals: [signup]
+curation:
+  summary: Synthetic fixture demonstrating a complete capture record.
+  what_to_borrow: [clear section order, bounded proof sequence]
+  what_not_to_copy: [brand wording, distinctive visual expression]
+rights:
+  use: synthetic_test_fixture
+  attribution_required: false
+  redistribution: synthetic_only
+  long_verbatim_reuse: synthetic_only
+  takedown: not_applicable
+  notes: No third-party source-derived content is present.
+artifacts:
+  page_markdown: page.md
+  full_page_image: full-page.webp
+  thumbnail_image: thumbnail.webp
+  segments: [segments/001.webp, segments/002.webp]
+checksums:
+  algorithm: sha256
+  files:
+    page.md: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    full-page.webp: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    thumbnail.webp: "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    segments/001.webp: "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    segments/002.webp: "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  bundle: "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+warnings: []
+created_at: "2026-07-15T00:00:00Z"
+updated_at: "2026-07-15T00:00:00Z"

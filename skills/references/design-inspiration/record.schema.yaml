@@ -1,0 +1,76 @@
+schema_version: "1.0"
+title: Design inspiration record
+type: object
+additional_properties: false
+required:
+  - schema_version
+  - id
+  - lifecycle_status
+  - capture_status
+  - source
+  - capture
+  - taxonomy
+  - curation
+  - rights
+  - artifacts
+  - checksums
+  - warnings
+  - created_at
+  - updated_at
+properties:
+  schema_version: {type: string, enum: ["1.0"]}
+  id: {type: string, pattern: "^[a-z0-9][a-z0-9-]{1,79}$"}
+  lifecycle_status:
+    type: string
+    enum: [candidate, approved, rejected, blocked, removed]
+  capture_status:
+    type: string
+    enum: [captured, partial, failed, blocked, auth_required, rejected, removed]
+  source:
+    type: object
+    required: [url, normalized_url, final_url, captured_at, wayback_url, access_status]
+    properties:
+      url: {type: string}
+      normalized_url: {type: string}
+      final_url: {type: [string, "null"]}
+      captured_at: {type: string}
+      wayback_url: {type: [string, "null"]}
+      access_status:
+        type: string
+        enum: [public, authenticated, paywalled, blocked, unknown]
+  capture:
+    type: object
+    required: [engine, viewport, full_page, segment_height, segment_overlap, reason_code, reason, unsupported_elements]
+    properties:
+      engine: {type: string, enum: [playwright, synthetic_fixture, none]}
+      viewport:
+        type: object
+        required: [width, height, device_scale_factor]
+      full_page: {type: boolean}
+      segment_height: {type: integer}
+      segment_overlap: {type: integer}
+      reason_code: {type: [string, "null"]}
+      reason: {type: [string, "null"]}
+      unsupported_elements: {type: array, items: {type: string}}
+  taxonomy:
+    type: object
+    required: [page_type, audience, styles, sections, copy_patterns, conversion_goals]
+  curation:
+    type: object
+    required: [summary, what_to_borrow, what_not_to_copy]
+  rights:
+    type: object
+    required: [use, attribution_required, redistribution, long_verbatim_reuse, takedown, notes]
+  artifacts:
+    type: object
+    required: [page_markdown, full_page_image, thumbnail_image, segments]
+  checksums:
+    type: object
+    required: [algorithm, files, bundle]
+    properties:
+      algorithm: {type: string, enum: [sha256]}
+      files: {type: object}
+      bundle: {type: [string, "null"]}
+  warnings: {type: array, items: {type: string}}
+  created_at: {type: string}
+  updated_at: {type: string}

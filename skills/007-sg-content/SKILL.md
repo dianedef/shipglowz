@@ -67,6 +67,10 @@ Load before routing or execution:
 - `$SHIPFLOW_ROOT/skills/references/public-first-content-default.md` when Diane invokes content work and has not explicitly redirected it toward internal content or `300-sg-docs`.
 - `$SHIPFLOW_ROOT/skills/references/repurpose-pack-storage.md` when content work starts from a source and should preserve a durable source-faithful pack in the project repo.
 
+## Inspiration Gate
+
+For sales-page creation, offer-page copy, CTA/proof/objection sequencing, copy-pattern comparison, or explicit inspiration requests, load `$SHIPFLOW_ROOT/skills/references/design-inspiration-library.md`. Filter only the private `index.yaml`, present at most five reference IDs with fit reasons, and require operator selection before loading detailed records or treating references as direction. Pass selected reference IDs to the owner skill and require them in the resulting spec/copy artifact; summarize copy patterns without long verbatim reuse or screenshot redistribution. Market, competitor, pricing, positioning, and differentiation work stays in `shipglowz_data/business/project-competitors-and-inspirations.md`.
+
 ## Validation
 
 Run the checks that match changed surfaces.

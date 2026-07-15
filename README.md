@@ -1,7 +1,7 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.16.0"
+artifact_version: "0.17.0"
 project: "ShipGlowz"
 created: "2026-04-25"
 updated: "2026-07-13"
@@ -31,6 +31,7 @@ linked_systems:
   - skills/references/decision-quality-contract.md
   - skills/references/question-contract.md
   - skills/references/app-blueprints.md
+  - skills/references/design-inspiration-library.md
   - shipglowz-site/src/content/skills/000-shipglowz.md
   - shipglowz_data/technical
   - shipglowz_data/editorial
@@ -64,6 +65,7 @@ evidence:
   - "Clarified public/docs runtime handoffs: help explains, 000-shipglowz routes, owner skills execute, and OpenCode/KiloCode internal calls are not manual operator commands."
   - "Added dedicated repo-visible runtime pages for OpenCode and KiloCode and linked them from the core docs section."
   - "Added Tariq as an invokable named profile for acquisition-channel arbitration and traffic measurement discipline."
+  - "Added a private rights-aware design/copy inspiration corpus contract, capture tool, and bounded Inspiration Gate."
 next_step: "/300-sg-docs audit README.md"
 ---
 
@@ -146,6 +148,7 @@ It helps operators run apps on servers, but its deeper job is to reduce ambiguit
 - [Metadata migration guide](./shipglowz_data/technical/metadata-migration-guide.md) — how to adopt ShipGlowz metadata and versioning in an existing project
 - [skills/references/canonical-paths.md](./skills/references/canonical-paths.md) — path resolution rules for ShipGlowz-owned tools, references, templates, and project-local artifacts
 - [skills/references/private-data-repo-contract.md](./skills/references/private-data-repo-contract.md) — contract for the separate private data repository used for durable operator-managed data under `~/.shipglowz/private/data/`
+- [skills/references/design-inspiration-library.md](./skills/references/design-inspiration-library.md) — private rights-aware sales-page/design reference corpus, capture bundle, and bounded operator-selection gate
 - Runtime port and PM2 behavior is documented in [shipglowz_data/technical/runtime-cli.md](./shipglowz_data/technical/runtime-cli.md); the historical root note is preserved under [repository history](./shipglowz_data/workflow/archives/repository-history/root-documentation/ECOSYSTEM-AND-PORTS.md).
 - [local/README.md](./local/README.md) — local tunnel setup
 - [tools/codebase-mcp/README.md](./tools/codebase-mcp/README.md) — local MCP server for codebase context management
@@ -165,6 +168,8 @@ This private repository is for durable operator-managed data such as project fic
 It is not for secrets, OAuth tokens, cookies, SSH keys, or raw email bodies.
 
 Use `~/.shipglowz/private/data/mail-intake/` for a short-retention private mail review queue when versioning improves recovery.
+
+The separate design/copy inspiration corpus defaults to `${SHIPGLOWZ_INSPIRATION_LIBRARY_DIR:-${SHIPGLOWZ_PRIVATE_DIR:-$HOME/.shipglowz/private}/design-inspiration-library}` because durable cross-project marketing examples do not belong in `~/.shipglowz/private/data/`. Capture one synthetic fixture with `python3 tools/capture_design_inspiration.py --fixture tools/fixtures/design-inspiration/sample-sales-page.html --output "$TMPDIR/shipglowz-inspiration-test" --id sample-sales-page --no-network`. Source-derived text and images remain private; public files contain only contracts, code, schemas, and synthetic fixtures.
 
 ## Distribution and Installation
 

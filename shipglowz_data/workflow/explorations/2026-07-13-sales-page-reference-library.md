@@ -1,10 +1,10 @@
 ---
 artifact: exploration_report
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.2.0"
 project: "ShipGlowz"
 created: "2026-07-13"
-updated: "2026-07-13"
+updated: "2026-07-15"
 status: draft
 source_skill: 700-sg-explore
 scope: "sales-page-reference-library"
@@ -14,14 +14,21 @@ risk_level: medium
 security_impact: no
 docs_impact: yes
 linked_systems:
-  - templates/
-  - skills/app-blueprints/
-  - shipglowz_data/editorial/content-map.md
-  - shipglowz_data/technical/code-docs-map.md
+  - skills/references/design-inspiration-library.md
+  - skills/references/design-inspiration/
+  - skills/006-sg-design/SKILL.md
+  - skills/200-sg-redact/SKILL.md
+  - skills/206-sg-audit-copy/SKILL.md
+  - skills/207-sg-audit-copywriting/SKILL.md
+  - skills/500-sg-design-from-scratch/SKILL.md
+  - skills/502-sg-audit-design/SKILL.md
 depends_on: []
 supersedes: []
 evidence:
   - "Existing ShipGlowz template library and app-blueprint registry"
+  - "Operator clarification on 2026-07-15: this is a cross-project design and sales-page copywriting library, not the project competitor/inspiration business registry."
+  - "Operator decision on 2026-07-15: prefer a simple capture bundle containing extracted text and a full-page visual capture over a Wayback-centered workflow."
+  - "Current design and copywriting skills do not load a shared visual/copy inspiration corpus."
   - "Internet Archive Help Center: Wayback Machine general information"
   - "Internet Archive Help Center: Using the Wayback Machine"
   - "Internet Archive Save Page Now interface"
@@ -33,6 +40,8 @@ next_step: "/sg-spec sales-page-reference-library"
 ## Starting Question
 
 How should ShipGlowz store and expose roughly forty sales-page references so that both copywriting and visual design remain inspectable over time?
+
+The operator clarified on 2026-07-15 that this corpus is a reusable, cross-project design and sales-page copywriting library. It is intentionally separate from project-local competitor and market-inspiration registries.
 
 ## Context Read
 
@@ -50,6 +59,11 @@ How should ShipGlowz store and expose roughly forty sales-page references so tha
 
 ## Problem Framing
 
+Two distinct artifacts must not be conflated:
+
+- `shipglowz_data/business/.../project-competitors-and-inspirations.md` records project-local market, competitor, differentiation, and business inspiration.
+- the proposed design inspiration library records reusable visual composition, landing-page structure, persuasive copy patterns, and page-level creative references for ShipGlowz skills across projects.
+
 The library needs two different kinds of value:
 
 1. a durable visual reference that can be opened in a browser;
@@ -65,11 +79,11 @@ Wayback can provide the first layer, but it should not be treated as the only co
 - Pros: minimal storage, public access, easy sharing, no need to republish third-party pages.
 - Cons: captures can be incomplete; JavaScript, forms, images, fonts, videos, and third-party assets can disappear or fail; Save Page Now is page-scoped and not a general backup service.
 
-### Option B: Hybrid reference library (recommended)
+### Option B: Capture-bundle reference library (recommended)
 
-- Summary: use Wayback as the public visual replay, while keeping a small Markdown/YAML record, a screenshot when available, and an optional source-faithful text/copy analysis in ShipGlowz.
-- Pros: searchable and teachable; resilient when the replay degrades; supports copywriting and design audits; fits the existing registry/cache pattern.
-- Cons: requires initial curation and occasional rechecking; screenshots and copied content need a clear internal-reference and rights policy; local media increases repository size.
+- Summary: extract the visible page text and create a full-page screenshot, automatic image segments, and a small metadata record. Keep the original URL and make Wayback optional.
+- Pros: simple to capture and consume; preserves both copy and visual hierarchy; independent of future page changes; no replay system to maintain.
+- Cons: source-derived text and screenshots need private, rights-aware storage; compressed images still consume meaningful space.
 
 ### Option C: Full local mirror or self-hosted replay
 
@@ -79,7 +93,7 @@ Wayback can provide the first layer, but it should not be treated as the only co
 
 ## Comparison
 
-| Criterion | Wayback-only | Hybrid | Full mirror |
+| Criterion | Wayback-only | Capture bundle | Full mirror |
 |---|---:|---:|---:|
 | Initial effort | low | medium | high |
 | Visual fidelity | variable | good enough with screenshot fallback | potentially high |
@@ -90,34 +104,67 @@ Wayback can provide the first layer, but it should not be treated as the only co
 
 ## Emerging Recommendation
 
-Create a dedicated reference corpus, separate from `templates/` and from `skills/app-blueprints/`, for example:
+Use one self-contained capture bundle per page. This replaces the previous Wayback-centered recommendation:
 
 ```text
-shipglowz_data/references/sales-pages/
-├── README.md                 # catalog, taxonomy, usage rules
-├── index.yaml                # machine-readable registry and filters
-├── entries/
-│   ├── acme-product-page.md  # one curated record per URL
-│   └── ...
-└── screenshots/              # only approved, lightweight visual evidence
+design-inspiration/<reference-id>/
+├── record.yaml              # source, date, tags, viewport, status, provenance
+├── page.md                  # visible text with headings, links, buttons, and section order
+├── full-page.webp           # desktop screenshot after the page has fully loaded
+├── thumbnail.webp           # lightweight catalog preview
+└── segments/                # automatic slices for reliable agent vision
+    ├── 001.webp
+    ├── 002.webp
+    └── ...
 ```
 
-Each entry should contain: `id`, original URL, Wayback URL(s), capture timestamp, last-checked date, page type, business model, audience, offer, headline/angle, proof type, objection handling, CTA, section sequence, visual patterns, notable interactions, accessibility observations, source status, and a short “what to borrow / what not to copy” analysis.
+`full-page.webp` covers the operator's full-page photograph, screenshot, and scrolling-page capture requirement as one artifact. The slices are generated automatically from it; they are not a separate manual capture workflow. A mobile capture remains optional for references where responsive behavior materially matters.
 
-For the initial forty links, run an intake pass that attempts one Save Page Now capture per page, enables outlink capture for pages whose assets are important, records the resulting timestamped URL, and keeps a screenshot or a compact visual note as fallback. Do not promise that the Wayback replay is a complete backup. Use direct links and analysis by default; do not bulk-republish third-party HTML, assets, or full copy.
+Extract structured Markdown rather than an unformatted text dump so agents retain the hierarchy of headlines, paragraphs, lists, buttons, labels, and links. Exclude hidden text, scripts, styles, cookie boilerplate when safely identifiable, and private/authenticated data.
+
+Do not save or replay full third-party HTML by default. Keep source-derived text and images in a private, rights-aware asset corpus rather than the public ShipGlowz repository. Keep the shared ShipGlowz contract, taxonomy, and skill-loading rules under `$SHIPFLOW_ROOT/skills/references/`. The exact private asset location must be defined in the spec because the current `~/.shipglowz/private/data/` contract explicitly excludes durable cross-project marketing-example libraries.
+
+Each `record.yaml` should contain: `id`, original URL, capture timestamp, viewport, page type, audience, style and conversion tags, source status, access status, optional Wayback URL, and checksums for captured artifacts. Human analysis such as offer, proof, objections, CTA sequence, visual patterns, and “what to borrow / what not to copy” can be added during curation without blocking initial capture.
+
+### Account and access policy
+
+- The canonical ShipGlowz library must work without an account on a third-party inspiration service.
+- External tools such as bookmarking, moodboard, or gallery services may be optional capture/discovery interfaces, never the source of truth.
+- If a source requires authentication, an agent may only access it through an explicitly authorized connector/session; credentials, cookies, and account exports must never be stored in the catalog.
+- A reference that other skills cannot open should be marked `access: authenticated` and should include a public fallback when one exists.
+
+### Skill consumption policy
+
+Add an `Inspiration Gate` to the design and copywriting routes rather than loading the whole corpus for every task:
+
+1. Trigger it for new visual direction, landing/sales-page creation, major redesign, offer-page copy, or an explicit inspiration request.
+2. Filter `index.yaml` by page type, audience, style, section, copy pattern, and conversion goal.
+3. Present a bounded shortlist of source links with the reason each reference fits the current task.
+4. Require an operator selection before treating a reference as design direction; discovery is not approval to imitate.
+5. Record selected reference IDs in the task spec or design/copy artifact so later agents can recover the decision.
+
+Routine bug fixes, token migrations, accessibility remediation, and narrow audits should not trigger external inspiration discovery unless the user asks for it.
+
+When an agent discovers a useful new page, it should share the link and rationale with the current user. It should only promote the page into the curated library when the task explicitly includes curation or the operator confirms that the reference should be kept. New entries start as `candidate`; reviewed entries become `approved`.
+
+For the initial links, the intake pass should load the page, scroll through it once to trigger lazy-loaded content, extract visible structured text, capture the full desktop page, create the thumbnail and image segments, and record failures explicitly. A Wayback link may be added when useful, but capture success must not depend on it.
 
 ## Non-Decisions
 
 - Whether the corpus should become a public ShipGlowz website surface.
-- Whether screenshots should be committed to the public repository or kept in private operator data.
-- Whether a future WACZ/WARC export is needed for a subset of high-value pages.
+- Which bounded, rights-aware evidence store should hold selected screenshots; the existing private-data repository contract excludes durable cross-project marketing-example libraries.
+- Whether the shared catalog itself is public or distributed only with a private ShipGlowz installation.
+- Which optional external discovery/bookmarking service, if any, should feed the candidate queue.
 - Whether the forty URLs should be refreshed periodically or only on demand.
 
 ## Rejected Paths
 
-- Wayback as the sole source of truth - too fragile for visual assets and interactive pages.
+- Wayback as the primary capture workflow - more moving parts than the expected benefit, while replay remains unreliable for visual assets and interactive pages.
 - Full scraping as the default - disproportionate maintenance and rights risk for an inspiration library.
 - Text-only extraction - loses the visual hierarchy, composition, density, and interaction cues the library is meant to study.
+- Full HTML/WARC mirroring - unnecessary for the intended design and copywriting analysis.
+- Reusing the project competitor/inspiration registry - mixes market intelligence with reusable creative references and prevents clean skill routing.
+- Making a third-party account mandatory - creates access, portability, privacy, and agent-authentication dependencies.
 
 ## Risks And Unknowns
 
@@ -135,8 +182,8 @@ For the initial forty links, run an intake pass that attempts one Save Page Now 
 
 ## Decision Inputs For Spec
 
-- User story seed: As an operator, I can browse and filter sales-page references and open a stable visual replay while understanding the copy and design patterns worth studying.
-- Scope in seed: registry, entry schema, Wayback capture workflow, screenshot/fallback policy, taxonomy, rights/attribution fields, validation of forty initial URLs.
+- User story seed: As an operator, I can capture a sales page once as structured text and a complete visual reference, then let ShipGlowz skills retrieve it for future design and copywriting work.
+- Scope in seed: capture-bundle schema, structured visible-text extraction, full-page screenshot, automatic image segmentation, thumbnail, private asset location, global registry, Inspiration Gate, candidate-to-approved workflow, skill integrations, taxonomy, rights/attribution fields, and validation of the initial URLs.
 - Scope out seed: public marketing page, autonomous scraping of arbitrary sites, full interactive mirroring, automated copy reuse.
 - Invariants/constraints seed: preserve original attribution; separate reference corpus from app blueprints; do not rely on Wayback as the only backup; keep metadata searchable; do not expose secrets or private browsing data.
 - Validation seed: every initial entry has a source URL, capture status, timestamp, Wayback URL or documented failure, classification, and copy/design analysis; sample replays are checked manually.
@@ -150,4 +197,6 @@ For the initial forty links, run an intake pass that attempts one Save Page Now 
 
 | Date UTC | Prompt/Focus | Action | Result | Next step |
 |----------|--------------|--------|--------|-----------|
-| 2026-07-13 | Wayback-backed sales-page reference library | Read repository patterns and official Internet Archive guidance; compared three storage models | Hybrid registry + Wayback + fallback evidence is the strongest default | `/sg-spec sales-page-reference-library` |
+| 2026-07-13 | Wayback-backed sales-page reference library | Read repository patterns and official Internet Archive guidance; compared three storage models | Hybrid registry + Wayback + fallback evidence appeared to be the strongest initial default | `/sg-spec sales-page-reference-library` |
+| 2026-07-15 | Clarify cross-project design/copy library and skill access | Separated the corpus from business intelligence; defined global storage, account policy, Inspiration Gate, and curation behavior | Global ShipGlowz reference corpus with optional discovery services and bounded skill loading | `/sg-spec sales-page-reference-library` |
+| 2026-07-15 | Simplify capture and preservation | Replaced the Wayback-centered model with text extraction plus full-page screenshot, thumbnail, and automatic image segments | Capture bundle is the preferred minimum viable library; Wayback is optional | `/sg-spec sales-page-reference-library` |

@@ -1,7 +1,7 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.23.0"
+artifact_version: "1.24.0"
 project: ShipGlowz
 created: "2026-05-01"
 updated: "2026-06-28"
@@ -40,6 +40,8 @@ linked_systems:
   - skills/references/content-quality-rubric.md
   - skills/references/question-contract.md
   - skills/references/sentry-observability.md
+  - skills/references/design-inspiration-library.md
+  - tools/capture_design_inspiration.py
   - tools/audit_shipglowz_skills.py
   - specs/001-sg-build-autonomous-master-skill.md
   - specs/skill-reporting-modes-and-compact-reports.md
@@ -99,6 +101,7 @@ evidence:
   - "900-shipglowz-core added as an internal operator skill for skill execution-fidelity audits and plugin-packaging readiness, backed by tools/audit_shipglowz_skills.py."
   - "310-sg-github-hygiene added as the git/GitHub sync, stale branch, PR drift, and Dependabot hygiene skill."
   - "Public/docs handoff clarity updated: helper docs now distinguish explains vs routes vs invokes vs owns execution, and runtime docs clarify that OpenCode/KiloCode internal calls are not manual operator commands."
+  - "Rights-aware private design-inspiration corpus and bounded Inspiration Gate added for design and copy workflows."
 next_review: "2026-06-01"
 next_step: "/300-sg-docs technical audit skills"
 ---
@@ -229,6 +232,7 @@ The canonical behavior contract for profile resolution, precedence, fallback, an
 | `skills/references/reporting-contract.md` | Shared final-report mode contract | Default user reports are concise; detailed reports require explicit handoff mode |
 | `skills/references/sentry-observability.md` | Shared Sentry runtime evidence, PM2/Doppler fallback evidence, release/environment correlation, redaction, and performance-overhead doctrine | Load when runtime behavior, crashes, 5xx, event IDs, deploy confidence, auth/payment/data failures, jobs, webhooks, verification, audits, or perf checks depend on observability |
 | `skills/references/product-entitlements-playbook.md` | Shared product-access doctrine for identity vs entitlement separation, Lifetime Deal/direct/partner code redemption, provider events, revokes/refunds, support runbooks, and smoke proof | Load when projects touch product access, billing providers, activation codes, paid plans, premium gates, quotas, refunds, revocations, or entitlement-backed data access |
+| `skills/references/design-inspiration-library.md`, `skills/references/design-inspiration/` | Shared private-corpus, capture-bundle, rights, taxonomy, and Inspiration Gate contract | Load for new visual direction, sales/offer-page creation, major redesign, copy-pattern comparison, or explicit inspiration requests; never load the full private corpus by default |
 | `skills/601-sg-product-entitlements/SKILL.md` | Product entitlement skill for access ownership, provider-event handling, backend authorization gates, support flow framing, product-local mirrors, and sync/auth handoffs | Load when projects need an entitlement contract, duplicate-ledger review, product-access guard design, provider/manual grant routing, or entitlement-gated sync preconditions |
 | `skills/600-sg-local-cloud-sync/references/*.md` | Local-to-cloud sync doctrine, UX/security checklist, and Flutter implementation checklist | Load when projects touch local data promotion, cloud hydration, merge/conflict policy, sync state UX, sensitive-data exclusions, or reinstall recovery |
 | `skills/references/subagent-roles/*.md` | Internal role contracts such as Technical Reader and Editorial Reader | Role files are read by orchestration skills; keep read-only roles explicit |
@@ -407,6 +411,20 @@ Content lifecycle flow:
   -> 005-sg-ship only when dirty scope is bounded
 ```
 
+Design/copy Inspiration Gate support flow:
+
+```text
+eligible design or copy intent
+  -> read private index.yaml only
+  -> filter by page/audience/style/section/copy pattern/conversion goal
+  -> present at most five reference IDs
+  -> operator selection
+  -> load selected private bundles only
+  -> record selected IDs and summarize transferable/anti-copy patterns
+```
+
+The source-derived corpus resolves from `${SHIPGLOWZ_INSPIRATION_LIBRARY_DIR:-${SHIPGLOWZ_PRIVATE_DIR:-$HOME/.shipglowz/private}/design-inspiration-library}` and stays outside public repositories. The public repo contains only contracts, schemas, tool code, and synthetic fixtures. Competitor, pricing, positioning, differentiation, and market work continues to use `shipglowz_data/business/project-competitors-and-inspirations.md`.
+
 ## Invariants
 
 - Lifecycle skills trace into exactly one chantier spec when one is identified.
@@ -441,6 +459,7 @@ Content lifecycle flow:
 - `002-sg-maintain` owns the maintenance lifecycle; bugs, dependencies, docs, checks, audits, migrations, tasks, security review, repair, verification, and ship still run through their specialist owner skills and gates.
 - `310-sg-github-hygiene` owns focused git/GitHub hygiene; commit/push stays with `005-sg-ship`, dependency risk stays with `402-sg-deps`, major upgrade lanes stay with `404-sg-migrate`, and CI diagnosis stays with `github:gh-fix-ci`.
 - `007-sg-content` owns content-management orchestration; repurposing, drafting, enrichment, copy audit, copywriting audit, SEO audit, docs, veille, market study, browser proof, verification, and ship still run through their specialist owner skills and gates.
+- Design and content skills use the shared Inspiration Gate only for eligible creative direction; they shortlist from `index.yaml`, require operator selection, record selected reference IDs, and never treat discovery as approval to imitate.
 - Content owner skills (`007-sg-content`, `202-sg-repurpose`, `200-sg-redact`, `201-sg-enrich`, `206-sg-audit-copy`, `207-sg-audit-copywriting`, `406-sg-seo`) and `103-sg-verify` must use one shared rubric contract from `skills/references/content-quality-rubric.md`; recoverable score states (`needs retry`, `duplicate_in_progress`, `conflicting_score_state`, `stale_or_mismatched_score`) are never valid verification proof.
 - `006-sg-design` owns design lifecycle orchestration; UI/UX audits, token audits, component audits, accessibility audits, playground tooling, design-system creation, browser proof, implementation, verification, and ship still run through their specialist owner skills and gates.
 - `008-sg-end-user` owns user activation contracts; implementation, visual design, docs/content, browser proof, and manual QA still run through `001-sg-build`, `006-sg-design`, `300-sg-docs`/`007-sg-content`, `108-sg-browser`, and `107-sg-test` when needed.

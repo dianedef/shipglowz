@@ -32,6 +32,10 @@ Always load shared references only when their gate applies. Load skill-local ref
 - `references/redaction-workflow.md`: Long-form drafting workflow, identity absorption, planning, research, drafting, optimization, quality control, metadata, and report details.
 - `$SHIPFLOW_ROOT/skills/references/content-quality-rubric.md`: shared rubric for final draft quality score and structured feedback.
 
+## Inspiration Gate
+
+For sales-page or offer-page drafting, CTA/proof/objection sequencing, copy-pattern study, or explicit inspiration requests, load `$SHIPFLOW_ROOT/skills/references/design-inspiration-library.md`. Filter private `index.yaml` to at most five reference IDs, require operator selection before loading bundles or using direction, and record selected reference IDs in the resulting spec or copy artifact. Summarize transferable patterns and what not to copy; do not reproduce long source passages or redistribute screenshots. A discovered URL is reported with rationale but is not promoted unless curation is in scope or the operator confirms.
+
 ## Mode Detection
 
 Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`: bounded professional scope, never shortcut quality.

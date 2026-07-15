@@ -31,6 +31,10 @@ Apply `$SHIPFLOW_ROOT/skills/references/shipglowz-owned-preflight.md` before rea
 
 Load `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md` and `$SHIPFLOW_ROOT/skills/references/design-system-token-contract.md` before token planning or file edits.
 
+## Inspiration Gate
+
+Load `$SHIPFLOW_ROOT/skills/references/design-inspiration-library.md` only when this run includes a new visual direction, landing/sales-page direction, major redesign, or explicit inspiration request. Filter the private `index.yaml` to at most five reference IDs and require operator selection before loading details or using references as direction; record selected reference IDs in the spec/token plan, and state what may be borrowed versus what must not be copied. Existing-UI token extraction alone does not trigger the gate and must not load the whole corpus.
+
 ## Mission
 
 `500-sg-design-from-scratch` creates a complete, professional design-system source of truth from an existing UI. It is for projects that have scattered fonts, colors, sizes, spacing, and motion values but no coherent centralized token layer.

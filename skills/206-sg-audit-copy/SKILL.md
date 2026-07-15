@@ -37,6 +37,10 @@ Always load shared references only when their gate applies. Load skill-local ref
 - `$SHIPFLOW_ROOT/skills/references/content-quality-rubric.md`: shared rubric for comparable score and feedback structuré across content owner skills.
 - `$SHIPFLOW_ROOT/skills/references/task-registry-routing.md`: choose `workflow/TASKS.md` versus `editorial/ROADMAP.md` before durable follow-up writes.
 
+## Inspiration Gate
+
+For sales/offer-page audits, CTA/proof/objection sequence comparison, copy-pattern analysis, or explicit inspiration requests, load `$SHIPFLOW_ROOT/skills/references/design-inspiration-library.md`. Filter private `index.yaml` to at most five reference IDs and require operator selection before loading bundles or treating references as audit direction. Record selected reference IDs in the audit decision context, compare principles rather than source phrasing, and never load the full corpus or reproduce long source text.
+
 ## Mode Detection
 
 Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`: bounded professional scope, never shortcut quality.
