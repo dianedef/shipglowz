@@ -41,6 +41,7 @@
 ## Skills
 
 🟢 [ShipGlowz] task: Consolider la maintenance des skills dans les modes et playbooks internes de 900-shipglowz-core | status: done | area: skills-maintenance-core | id: consolidate-skill-maintenance-under-shipglowz-core | spec: shipglowz_data/workflow/specs/consolidate-skill-maintenance-under-shipglowz-core.md | ship_status: shipped | next: none
+🟢 [ShipFlow] task: Ajouter un mode de statut pour les conversations Codex lie au tracker local et son playbook reutilisable | status: done | area: conversation-status-index | source: decision utilisateur 2026-07-15 | next: none
 🟢 [ShipGlowz] task: Ajouter un catalogue borne de roles specialistes technologiques, profils activables et references de fraicheur | status: done | area: skills-technology-roles | spec: shipglowz_data/workflow/specs/technology-specialist-operator-roles.md | next: none
 🟢 [ShipFlow] task: Integrer le TDD proof-first et les checklists manuelles durables dans les skills | status: done | area: skills
 🟢 [ShipFlow] task: Ajouter une boucle d'audit des conversations et d'auto-evolution des skills | status: done | area: skills

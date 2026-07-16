@@ -87,7 +87,7 @@ Avant de créer ou modifier une ligne opérationnelle `spec:`, charger `$SHIPFLO
 2. Lire `$SHIPFLOW_ROOT/skills/app-blueprints/[id]/blueprint.md`.
 3. Extraire du blueprint : stack, architecture, modèles, routes, conventions.
 4. Utiliser ces informations pour pré-remplir le contexte technique (section Stack, Modèles, Routes).
-5. Les questions déjà couvertes par le blueprint (stack, framework, routing) sont considérées comme résolues — ne pas les reposer.
+5. Si ce blueprint ou une stack équivalente a déjà été accepté par l'opérateur ou le corpus projet, ne pas reposer les questions couvertes. Sinon, traiter le blueprint comme une recommandation et appliquer la Greenfield Technology Decision Rule de `$SHIPFLOW_ROOT/skills/references/question-contract.md` avant de figer la stack.
 6. Continuer la spec normalement pour les décisions projet-spécifiques (user story, fonctionnalités exactes, données métier, UI/UX).
 
 **Si `$ARGUMENTS` est fourni**, l'utiliser comme point de départ.
@@ -111,6 +111,13 @@ Avant de créer ou modifier une ligne opérationnelle `spec:`, charger `$SHIPFLO
 **Poser des questions informées** — pas des questions génériques, mais des questions ancrées dans ce qu'on a trouvé :
 - "Le `AuthService` valide dans le controller — on suit ce pattern ou on crée un validateur dédié ?"
 - "Je vois que les composants utilisent du state local — on reste là-dessus ou on passe au store global ?"
+
+Pour une application neuve sans stack établie ni blueprint déjà accepté,
+présenter d'abord une recommandation technique au niveau produit : coûts
+récurrents, hébergement et contrôle des données, paiement ou fournisseurs,
+charge de maintenance, portabilité et verrouillage matériel. Poser une seule
+décision numérotée sur cette direction. Ne pas demander à l'opérateur de
+choisir les librairies ou détails internes que l'agent peut arbitrer.
 
 Déclencher des prompts utilisateur ciblés dès qu'un point ci-dessous reste flou et change matériellement la spec :
 - acteur principal ou secondaire ambigu

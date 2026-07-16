@@ -40,6 +40,8 @@ It is designed for operational clarity, not note-taking. The goal is to keep `TA
 /309-sg-tasks
 /309-sg-tasks onboarding
 /309-sg-tasks tests
+/309-sg-tasks sessions /home/claude/temuglowz
+/309-sg-tasks name-conversation
 ```
 
 ## Limits
@@ -51,3 +53,19 @@ It is designed for operational clarity, not note-taking. The goal is to keep `TA
 - `703-sg-review` for broader session review and planning
 - `102-sg-start` when the next task should move into execution
 - `005-sg-ship` when the work is ready to be committed and pushed
+
+## Conversation mode
+
+Use `sessions` to review and rename Codex session titles with the exact
+project tracker statuses (`todo`, `doing`, `in_progress`, `blocked`, `done`).
+The session title is a navigation/status layer, not a 1:1 mirror: several
+sessions may point to one task. `TASKS.md` remains the work source of truth.
+Link durable follow-up with `session_id`/`conversation_id`, without copying
+transcripts into the tracker. The reusable method lives in
+`shipglowz_data/workflow/playbooks/conversation-tracker-sync-playbook.md`.
+Directories without a tracker are still valid session scopes through their
+exact absolute `cwd`; the mode does not scaffold governance just to rename
+sessions. For one subject, only the most recently active session remains open;
+older high-confidence duplicates are marked `done`. Non-current sessions with
+more than 30 days of inactivity are also marked `done`, without closing any
+linked project task.

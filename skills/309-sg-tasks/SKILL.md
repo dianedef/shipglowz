@@ -2,7 +2,7 @@
 name: 309-sg-tasks
 description: "Update task trackers and suggest next steps."
 disable-model-invocation: false
-argument-hint: [optional focus area or task type]
+argument-hint: [sessions|name-conversation|optional focus area or task type]
 ---
 
 ## Canonical Paths
@@ -57,7 +57,7 @@ Use this sub-flow when the user asks to "tri", "rename", "clean up", or "review"
 
 - Make sessions discoverable from the Codex session UI.
 - Give unfinished conversations explicit titles that describe the repo-local work.
-- Mark closed conversations with a clear status suffix such as `done` or `ok` only when the work is actually finished.
+- Mark conversations with one exact tracker status: `todo`, `doing`, `in_progress`, `blocked`, or `done`.
 - Create or update a matching task entry in `TASKS.md` when the conversation yielded a durable follow-up.
 
 ### Source Of Truth
@@ -70,7 +70,7 @@ Use this sub-flow when the user asks to "tri", "rename", "clean up", or "review"
 
 - Prefer the current project root's sessions over unrelated repositories.
 - Rename the session with a short explicit title derived from the conversation history or the first clear task sentence.
-- Append ` (done)` or ` (ok)` only when the underlying work or conversation is closed enough that the suffix will not mislead the user.
+- Use the display format `<STATUS> - <work title>` with the status uppercased: `TODO - ...`, `DOING - ...`, `IN_PROGRESS - ...`, `BLOCKED - ...`, or `DONE - ...`.
 - Keep the original `id` unchanged; only change the display title and, when needed, the task tracker entry.
 - If the conversation yields a durable follow-up for the repo, add or update the matching tracker item in the local `TASKS.md` using the existing operational record format.
 
@@ -80,18 +80,80 @@ Use this sub-flow when the user asks to "tri", "rename", "clean up", or "review"
 2. Inspect `~/.codex/state_5.sqlite` for `threads` rows with the current repo `cwd`.
 3. Use the conversation `preview` or `first_user_message` to infer a compact explicit title.
 4. Rename the thread in SQLite, not just in `session_index.jsonl`, when the UI list is the target.
-5. If the conversation is closed, add a status suffix like ` (done)` or ` (ok)`.
+5. Set the SQLite title to `<STATUS> - <work title>`, keeping the status uppercase and the work title concise.
 6. If the conversation implies a durable repo task, add it to `TASKS.md` with a clear actionable title.
 7. Report the renamed thread ids, the new titles, and any tracker updates.
 
+## Sessions Mode
+
+Use `sessions` when the operator wants the Codex conversation archive to act as
+a navigable status index alongside the project tracker. The reusable operating
+method is `$SHIPFLOW_ROOT/shipglowz_data/workflow/playbooks/conversation-tracker-sync-playbook.md`.
+
+This mode has two separate sources of truth:
+
+- `shipglowz_data/workflow/TASKS.md` is authoritative for project work and uses
+  the exact status vocabulary `todo`, `doing`, `in_progress`, `blocked`, `done`.
+- `~/.codex/state_5.sqlite`, `threads.title`, is authoritative for the title
+  shown in the Codex session list. The session `cwd` must match the target
+  project before any rename.
+
+Relate them through a stable `session_id`/`conversation_id` field on the task
+record when a conversation produced a durable follow-up. Several conversations
+may link to the same task, including forks and context-reuse sessions. Do not copy full
+conversation transcripts into `TASKS.md`, and do not infer `done` from a final
+message alone: require implementation or proof evidence appropriate to the
+conversation.
+
+### Mode contract
+
+`/309-sg-tasks sessions [project|cwd]` must:
+
+1. scope by exact absolute `cwd`; read an existing local tracker, but do not
+   create `TASKS.md` or `shipglowz_data/` for a tracker-less directory;
+2. inspect Codex `threads` rows filtered by the exact project `cwd`;
+3. for high-confidence same-subject threads, keep the most recently active
+   open and mark older duplicates `done`; never change linked task status;
+4. mark non-current sessions inactive for more than 30 days `done`, unless
+   explicit evidence shows they are blocked or intentionally active;
+5. classify the remaining threads with the tracker vocabulary, preserving the
+   original thread id and deriving a concise work title;
+6. update `threads.title` to `<STATUS> - <work title>` using one exact uppercase status;
+7. create or update a concise tracker task only when the conversation yielded
+  durable follow-up, recording `session_id` rather than transcript content;
+8. report renamed sessions, tracker links, ambiguous cases, and validation.
+
+`/309-sg-tasks name-conversation` proposes or applies one title using the same
+status vocabulary. It must not mutate `TASKS.md` unless the conversation also
+produced a durable task.
+
+### Pressure scenarios
+
+- `CONVERSATION-STATUS-DRIFT`: a thread title uses `ok`, `cours`, `done`, or
+  another non-tracker label; map it to the exact local vocabulary before
+  writing.
+- `CONVERSATION-CWD-COLLISION`: sessions from another repository mention the
+  project name; filter by exact `threads.cwd` and leave unrelated rows alone.
+- `CONVERSATION-CLOSURE-OVERCLAIM`: a thread sounds finished but lacks
+  implementation or required proof; use `in_progress`, `todo`, or `blocked`.
+- `CONVERSATION-TRACKER-DUPLICATION`: a thread has no durable follow-up;
+  rename the session only and do not create a synthetic task.
+- `CONVERSATION-TRACKER-ABSENT`: exact `cwd` remains the scope; create no
+  governance solely for session cleanup.
+- `CONVERSATION-SUBJECT-DUPLICATION`: keep the newest clear match open; close
+  older matches without merging ambiguous topics or altering tasks.
+- `CONVERSATION-INACTIVE-30D`: close non-current sessions after more than 30
+  inactive days unless explicit evidence overrides the rule; task status is
+  independent.
+
 ## Conversation Naming
 
-Use this sub-flow when the user asks for a name for the current conversation, wants a title that is more explicit, or wants a quick verdict like `done` / `pas done` based on the visible thread state.
+Use this sub-flow when the user asks for a name for the current conversation, wants a title that is more explicit, or wants a tracker-compatible status based on the visible thread state.
 
 ### Goal
 
 - Propose one or more clear conversation titles from the current thread context.
-- Include a status suffix recommendation: `done` when the discussed work is finished, `pas done` when important work remains.
+- Include one exact uppercase status prefix recommendation: `TODO`, `DOING`, `IN_PROGRESS`, `BLOCKED`, or `DONE`.
 - Keep the title short enough to fit naturally in the Codex session list.
 
 ### Naming Rules
@@ -99,7 +161,7 @@ Use this sub-flow when the user asks for a name for the current conversation, wa
 - Derive the title from the actual work discussed in the thread, not from vague filler words.
 - Prefer a title that names the project, action, or outcome.
 - Use `done` when the thread shows the task was completed and no important follow-up remains.
-- Use `pas done` when the thread still has active work, missing verification, or an unresolved follow-up.
+- Use `in_progress` when work started but implementation or proof remains; use `todo` when it is only identified and `blocked` when a named dependency prevents progress.
 - If the thread is ambiguous, give the safest title plus a caveat rather than inventing certainty.
 
 ### Output Shape
@@ -107,7 +169,7 @@ Use this sub-flow when the user asks for a name for the current conversation, wa
 Return:
 
 - `Suggested title: ...`
-- `Status: done | pas done`
+- `Status: todo | doing | in_progress | blocked | done`
 - `Why: ...`
 - `Optional alternates: ...` when the thread supports more than one strong title
 
@@ -116,7 +178,7 @@ Return:
 1. Read the current conversation context.
 2. Extract the main action, object, and outcome.
 3. Produce one strong title and, if useful, one alternate.
-4. Add `done` or `pas done` to the suggested title when the status is clear.
+4. Prefix the suggested title with the exact uppercase tracker status when the status is clear.
 5. If the user wants a rename, use the same analysis to update the Codex session title.
 
 ## Tracker synchronization rules

@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-07-05"
-updated: "2026-07-05"
+updated: "2026-07-16"
 status: active
 source_skill: 102-sg-start
 scope: deploy-target-matrix
@@ -36,20 +36,21 @@ evidence:
   - "Research verdict 2026-07-04: Codesphere is a specialized deploy/runtime target, not a replacement for ShipGlowz governance."
   - "Market study verdict 2026-07-04: Railway should be the default recommendation, Render the strongest preview-heavy alternative, Fly.io the advanced-control target, and Codesphere the sovereignty/private-cloud target."
   - "Operator clarification 2026-07-05: the matrix belongs in ShipGlowz references; ShipGlowz can advise only, and final target choice remains project-contextual."
+  - "Operator correction 2026-07-16: Vercel is the ShipGlowz default for websites and compatible web applications; the server-hosting matrix applies only when a dedicated server runtime is actually required."
 next_review: "2026-08-05"
-next_step: "/103-sg-verify deploy target matrix reference adoption"
+next_step: "/104-sg-end deploy target matrix reference correction"
 ---
 
 # Deploy Target Matrix
 
 ## Purpose
 
-This reference defines ShipGlowz's canonical deploy-target recommendation matrix for app projects.
+This reference defines ShipGlowz's canonical deploy-target recommendation rule for web surfaces and dedicated application servers.
 
 It answers one bounded question:
 
 ```text
-Given the current project shape, which deploy substrate should ShipGlowz recommend first, and what exception rule can override that default?
+Given the current project shape, should ShipGlowz use its Vercel web default or enter the dedicated-server matrix, and what exception rule can override that choice?
 ```
 
 This reference is advisory only. It does not auto-select a provider, does not replace project-specific architecture judgment, and does not imply that ShipGlowz implements deep automation for every target it recommends.
@@ -57,6 +58,13 @@ This reference is advisory only. It does not auto-select a provider, does not re
 ## Core Rule
 
 ShipGlowz advises on deploy targets; it does not decide them in a vacuum.
+
+Classify the deployable surface before consulting a provider ranking:
+
+- `website or Vercel-compatible web application` -> recommend `Vercel` by default
+- `dedicated server runtime` -> use the server-hosting matrix below
+
+Do not send an ordinary website or compatible full-stack web application into the server-hosting matrix merely because it uses a database, authentication, webhooks, server functions, or third-party APIs. Enter the server lane only when the architecture genuinely requires a separately hosted long-running server or backend, such as FastAPI, a persistent worker, a custom multi-service runtime, or infrastructure constraints incompatible with the Vercel web lane.
 
 Use this matrix when:
 
@@ -67,16 +75,26 @@ Use this matrix when:
 
 If a large project-context delta exists, the final answer must say so explicitly rather than pretending the matrix alone decides.
 
-## Default Ranking
+## Web Default
 
-For the average ShipGlowz-managed app project:
+For websites and Vercel-compatible web applications, the ShipGlowz default is:
+
+1. `Vercel`
+
+This includes ordinary marketing sites, content sites, storefronts, dashboards, and compatible serverless/full-stack web applications. A project-specific incompatibility, explicit operator choice, sovereignty requirement, or dedicated-server need can override the default.
+
+When a project has both a web frontend and a dedicated backend, evaluate them separately: keep the compatible web surface on Vercel by default and apply the server matrix only to the dedicated backend.
+
+## Dedicated-Server Ranking
+
+When a project genuinely requires a dedicated application server:
 
 1. `Railway`
 2. `Render`
 3. `Fly.io`
 4. `Codesphere`
 
-This default assumes ShipGlowz's primary audience:
+This server ranking assumes ShipGlowz's primary audience:
 
 - solo founders first
 - small technical teams second
@@ -84,12 +102,12 @@ This default assumes ShipGlowz's primary audience:
 
 ## Exception Lanes
 
-Override the default when one of these lanes dominates:
+Within the dedicated-server lane, override the server default when one of these needs dominates:
 
 - `preview-heavy review workflow` -> prefer `Render`
 - `advanced infra / topology / networking control` -> prefer `Fly.io`
 - `sovereignty / private cloud / institutional hosting posture` -> prefer `Codesphere`
-- `simple founder-grade speed and low ceremony` -> keep `Railway`
+- `simple dedicated-server deployment with low ceremony` -> keep `Railway`
 
 If two lanes conflict materially, the owner skill should either:
 
@@ -100,14 +118,14 @@ If two lanes conflict materially, the owner skill should either:
 
 ### Railway
 
-Recommend first when the project needs:
+Recommend first within the dedicated-server lane when the project needs:
 
 - fastest path from repo to running app
 - low-ceremony multi-service deployment
 - strong founder/operator DX
 - a good default for ShipGlowz's primary audience
 
-Avoid treating Railway as the universal answer when sovereignty, unusual infra topology, or heavy review-environment requirements dominate.
+Do not use Railway as the default for an ordinary website or Vercel-compatible web application. Within the server lane, avoid treating Railway as universal when sovereignty, unusual infra topology, or heavy review-environment requirements dominate.
 
 ### Render
 
@@ -143,6 +161,8 @@ Avoid recommending Codesphere only because its platform story sounds stronger. F
 
 Every owner surface that uses this matrix must preserve these statements:
 
+- Vercel is the default for websites and compatible web applications.
+- Railway, Render, Fly.io, and Codesphere form a dedicated-server matrix, not a replacement web-hosting default.
 - ShipGlowz is recommending a substrate, not choosing the project's final architecture.
 - The final target still depends on project-specific context.
 - Recommendation coverage is wider than automation coverage.
@@ -172,7 +192,9 @@ Before writing or updating provider-specific promises, workflows, pricing claims
 
 Use these scenarios during verification:
 
-- `DTM-001` typical founder app -> `Railway`
-- `DTM-002` preview-heavy review app -> `Render`
-- `DTM-003` advanced topology app -> `Fly.io`
-- `DTM-004` sovereignty/private-cloud app -> `Codesphere`
+- `DTM-001` ordinary website or compatible web app -> `Vercel`
+- `DTM-002` dedicated FastAPI or equivalent server -> `Railway`
+- `DTM-003` dedicated preview-heavy server workflow -> `Render`
+- `DTM-004` dedicated server with advanced topology -> `Fly.io`
+- `DTM-005` dedicated server with sovereignty/private-cloud needs -> `Codesphere`
+- `DTM-006` Vercel frontend plus dedicated backend -> `Vercel` for the web surface and the server matrix for the backend

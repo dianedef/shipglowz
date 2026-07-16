@@ -1,18 +1,18 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: "shipflow"
 created: "2026-07-04"
 created_at: "2026-07-04 13:13:10 UTC"
-updated: "2026-07-05"
-updated_at: "2026-07-05 09:20:21 UTC"
+updated: "2026-07-16"
+updated_at: "2026-07-16 09:29:38 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: "GPT-5 Codex"
 scope: "deploy-target-governance"
 owner: "unknown"
-user_story: "As a ShipGlowz operator managing app projects, I want a governed deploy target matrix with explicit routing and recommendation rules, so ShipGlowz can recommend Railway, Render, Fly.io, or Codesphere consistently without diluting its own workflow governance."
+user_story: "As a ShipGlowz operator managing web and server projects, I want Vercel to remain the default for compatible web surfaces and a separate governed matrix for dedicated servers, so ShipGlowz does not replace the normal web default with server-hosting advice."
 confidence: high
 risk_level: medium
 security_impact: yes
@@ -43,7 +43,8 @@ evidence:
   - "Research verdict 2026-07-04: Codesphere is a specialized deploy/runtime target, not a replacement for ShipGlowz governance."
   - "Market study verdict 2026-07-04: Railway should be the default recommendation, Render the strongest preview-heavy alternative, Fly.io the advanced-control target, and Codesphere the sovereignty/private-cloud target."
   - "User request 2026-07-04: formalize a deploy target matrix for ShipGlowz-managed app projects."
-next_step: "/107-sg-test --preview deploy target matrix for ShipGlowz-managed app projects"
+  - "Operator correction 2026-07-16: Vercel is always the default for ordinary websites and compatible web applications; the existing matrix is reserved for genuine dedicated-server needs such as FastAPI."
+next_step: "/104-sg-end deploy target matrix for ShipGlowz-managed app projects"
 ---
 
 # Spec: Deploy Target Matrix for ShipGlowz-Managed App Projects
@@ -58,11 +59,11 @@ ready
 
 ## User Story
 
-As a ShipGlowz operator managing app projects, I want a governed deploy target matrix with explicit routing and recommendation rules, so ShipGlowz can recommend Railway, Render, Fly.io, or Codesphere consistently without diluting its own workflow governance.
+As a ShipGlowz operator managing web and server projects, I want Vercel to remain the default for compatible web surfaces and a separate governed matrix for dedicated servers, so ShipGlowz does not replace the normal web default with server-hosting advice.
 
 ## Minimal Behavior Contract
 
-When a ShipGlowz-managed app project needs a deployment substrate recommendation or deploy-oriented routing, ShipGlowz must evaluate a small explicit set of project traits, recommend the best current target among Railway, Render, Fly.io, and Codesphere, explain why, and preserve ShipGlowz as the owner of workflow governance rather than letting any single platform silently become the operating model. If the project has conflicting needs such as sovereignty, preview-heavy review, or advanced topology control, ShipGlowz must surface the governing tradeoff and choose or ask at the smallest safe decision boundary. The easy-to-miss edge case is that a platform can be attractive operationally while still being the wrong default for the ShipGlowz audience and promise.
+When a ShipGlowz-managed project needs hosting guidance, ShipGlowz first classifies the deployable surface. An ordinary website or Vercel-compatible web application defaults to Vercel. Railway, Render, Fly.io, and Codesphere are considered only for a genuine dedicated-server surface such as FastAPI, a persistent worker, a custom multi-service runtime, or a constraint incompatible with Vercel. A split architecture is classified per surface: Vercel remains the web default while only the dedicated backend enters the server matrix. The easy-to-miss edge case is treating any use of a database, webhook, authentication, or server function as proof that a separately hosted server is required.
 
 ## Success Behavior
 
@@ -91,7 +92,7 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
 
 ## Scope In
 
-- Canonical decision matrix for Railway, Render, Fly.io, and Codesphere.
+- Canonical Vercel web default plus a dedicated-server decision matrix for Railway, Render, Fly.io, and Codesphere.
 - Project-trait criteria for default and exception routing.
 - Owner-skill implications for `004-sg-deploy`, `000-shipflow`, and adjacent public/operator docs.
 - Documentation and public-surface alignment rules for deploy target recommendations.
@@ -101,7 +102,7 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
 
 - Full implementation of target-specific deploy automation.
 - New CLI integrations, credentials flows, or provider APIs.
-- Support for other providers outside Railway, Render, Fly.io, and Codesphere in this tranche.
+- Support for other providers outside Vercel, Railway, Render, Fly.io, and Codesphere in this tranche.
 - Repositioning ShipGlowz itself around any single hosting platform.
 
 ## Constraints
@@ -122,10 +123,12 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
 - Manual proof: recommendation scenarios across at least four project archetypes.
 - Checklist path: `shipglowz_data/workflow/test-checklists/deploy-target-matrix-for-shipflow-managed-app-projects.md`
 - Required scenario ids:
-  - `DTM-001` typical founder app -> Railway
-  - `DTM-002` preview-heavy review app -> Render
-  - `DTM-003` advanced topology app -> Fly.io
-  - `DTM-004` sovereignty/private-cloud app -> Codesphere
+  - `DTM-001` ordinary website or compatible web app -> Vercel
+  - `DTM-002` dedicated FastAPI or equivalent server -> Railway
+  - `DTM-003` dedicated preview-heavy server workflow -> Render
+  - `DTM-004` dedicated advanced-topology server -> Fly.io
+  - `DTM-005` dedicated sovereignty/private-cloud server -> Codesphere
+  - `DTM-006` compatible frontend plus dedicated backend -> split Vercel/server recommendation
 - Required results:
   - one default recommendation exists
   - each exception lane can override the default with a documented reason
@@ -170,7 +173,7 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
 ## Edge Cases
 
 - A small founder project asks for a platform with strong sovereignty language but does not truly need private cloud; the matrix should avoid over-recommending Codesphere.
-- A review-heavy app project values previews more than raw simplicity; the matrix should allow Render to beat Railway.
+- A dedicated-server project has a review-heavy deployment workflow; the server matrix should allow Render to beat Railway without displacing Vercel for compatible web surfaces.
 - An infra-complex project values networking, topology, or multi-region control; the matrix should allow Fly.io to win without becoming the default for everyone else.
 - A project wants a single recommendation without enough detail; ShipGlowz should use the default audience-fit recommendation instead of asking unnecessary questions.
 - A future provider docs change weakens a current recommendation; implementation must not hardcode claims that cannot be refreshed.
@@ -219,14 +222,16 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
 
 ## Acceptance Criteria
 
-- [ ] CA 1: Given an operator asks for the best default deploy target for a typical ShipGlowz-managed app project, when the matrix is consulted, then Railway is recommended by default with a clear rationale.
-- [ ] CA 2: Given a preview-heavy and review-oriented app project, when the matrix is consulted, then Render is allowed to outrank Railway with a documented reason.
+- [ ] CA 1: Given an ordinary website or Vercel-compatible web application, when hosting is selected, then Vercel is recommended by default without entering the dedicated-server ranking.
+- [ ] CA 2: Given a genuine dedicated FastAPI or equivalent server requirement, when the server matrix is consulted, then Railway is recommended by default with a clear rationale.
+- [ ] CA 2b: Given a preview-heavy dedicated-server workflow, when the server matrix is consulted, then Render is allowed to outrank Railway with a documented reason.
 - [ ] CA 3: Given a project that needs deeper runtime, networking, or topology control, when the matrix is consulted, then Fly.io is recommended without becoming the universal default.
 - [ ] CA 4: Given a project that needs sovereignty, private cloud, or institutional hosting posture, when the matrix is consulted, then Codesphere is surfaced as the specialized fit.
 - [ ] CA 5: Given an operator asks ShipGlowz a generic deploy-target question, when routing occurs, then the answer or handoff is consistent with the canonical matrix rather than ad hoc assistant judgment.
 - [ ] CA 5: Given an operator asks ShipGlowz a generic deploy-target question, when routing occurs, then the answer or handoff is consistent with the canonical matrix rather than ad hoc assistant judgment, and still states that final choice depends on project context.
 - [ ] CA 6: Given public or skill docs mention supported deploy targets, when they are reviewed, then they point to one canonical matrix and do not overclaim platform automation.
 - [ ] CA 7: Given the matrix is implemented, when verification runs, then static checks and manual scenario review show coherent recommendations across docs and owner skills.
+- [ ] CA 8: Given a compatible web frontend plus a dedicated backend, when hosting is selected, then ShipGlowz recommends Vercel for the frontend and applies the server matrix only to the backend.
 
 ## Test Strategy
 
@@ -234,11 +239,7 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
 - Metadata: run `python3 tools/shipflow_metadata_lint.py` on the new matrix artifact, updated spec, and any changed skill/docs files.
 - Skill/runtime: if skills change, run `python3 tools/skill_budget_audit.py --skills-root skills --format markdown` and `tools/shipflow_sync_skills.sh --check --all` or bounded equivalents.
 - Docs/public build: run the relevant docs/site build if public/help surfaces change.
-- Manual scenarios: validate at least four cases:
-  - typical founder app -> Railway
-  - preview-heavy review app -> Render
-  - advanced topology app -> Fly.io
-  - sovereignty/private-cloud app -> Codesphere
+- Manual scenarios: validate the web/server boundary plus the dedicated-server exception cases defined as `DTM-001` through `DTM-006`.
 
 ## Risks
 
@@ -258,7 +259,7 @@ Create one governed deploy target matrix for ShipGlowz-managed app projects as a
 
 ## Open Questions
 
-None. User clarified that the matrix belongs in ShipGlowz references, that ShipGlowz can only advise, and that final target choice remains project-contextual.
+None. User clarified that Vercel is the web default and that the Railway/Render/Fly.io/Codesphere matrix applies only to genuine dedicated-server needs; final target choice remains project-contextual.
 
 ## Skill Run History
 
@@ -271,14 +272,16 @@ None. User clarified that the matrix belongs in ShipGlowz references, that ShipG
 | 2026-07-05 07:28:42 UTC | 102-sg-start | GPT-5 Codex | Implemented the canonical deploy-target matrix reference, aligned deploy and router owner surfaces, added compact docs guidance, created the manual checklist, and corrected metadata versioning after lint feedback. | implemented | /103-sg-verify deploy target matrix for ShipGlowz-managed app projects |
 | 2026-07-05 09:20:21 UTC | 103-sg-verify | GPT-5 Codex | Verified that the invocation path is wired through the router, deploy skill, docs, and canonical reference. Kept the verdict partial because the manual checklist scenarios `DTM-001` to `DTM-004` are defined but not yet executed. | partial | /107-sg-test --preview deploy target matrix for ShipGlowz-managed app projects |
 | 2026-07-05 09:34:41 UTC | 107-sg-test | GPT-5 Codex | Logged user-provided transcript evidence for checklist scenario `DTM-001`: `000-shipflow` routed the founder CRUD deploy question to `004-sg-deploy`, recommended Railway, and kept the advisory/project-context boundary explicit. Remaining manual scenarios are still unexecuted. | partial | /107-sg-test --preview deploy target matrix for ShipGlowz-managed app projects |
+| 2026-07-16 09:26:47 UTC | 900-shipglowz-core | GPT-5 Codex | Corrected the canonical classification boundary after operator feedback: Vercel is the web default; the existing provider ranking is now explicitly a dedicated-server matrix. | implemented | /103-sg-verify corrected web/server deploy target boundary |
+| 2026-07-16 09:29:38 UTC | 103-sg-verify | GPT-5 Codex | Verified all six web, dedicated-server, exception, and split-surface scenarios; metadata lint, generic skill audit, budget audit, runtime owner sync, focused scans, checklist parser, and diff checks passed. | verified | /104-sg-end deploy target matrix for ShipGlowz-managed app projects |
 
 ## Current Chantier Flow
 
 - `100-sg-spec`: done; draft spec created from the research-backed chantier potentiel.
 - `101-sg-ready`: ready; canonical matrix home, advisory scope, and project-context arbitration rule are explicit.
 - `102-sg-start`: implemented; canonical matrix reference, owner-skill alignment, docs guidance, checklist, and metadata versioning are in place.
-- `103-sg-verify`: partial; invocation path is coherent, `DTM-001` is now proven, but `DTM-002` to `DTM-004` remain unplayed.
+- `103-sg-verify`: verified; all `DTM-001` to `DTM-006` scenarios pass and the prior generic-app Railway proof is superseded.
 - `104-sg-end`: pending.
 - `005-sg-ship`: pending.
 
-Next step: `/107-sg-test --preview deploy target matrix for ShipGlowz-managed app projects`
+Next step: `/104-sg-end deploy target matrix for ShipGlowz-managed app projects`

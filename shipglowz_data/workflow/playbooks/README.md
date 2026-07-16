@@ -51,6 +51,7 @@ Use this folder when the document answers:
 - `seo-charge-referencement-web-playbook.md`
 - `project-import-playbook.md`
 - `server-disk-hygiene-and-migration-playbook.md`
+- `conversation-tracker-sync-playbook.md`
 
 ## What Does Not Belong Here
 
@@ -116,6 +117,7 @@ The current architecture expects this folder to absorb shared documents such as:
 - future `app-release-playbook.md`
 - `seo-charge-referencement-web-playbook.md`
 - `project-import-playbook.md`
+- `conversation-tracker-sync-playbook.md`
 
 ## Validation
 

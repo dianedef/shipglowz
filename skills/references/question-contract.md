@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.4.0"
+artifact_version: "1.5.0"
 project: ShipGlowz
 created: "2026-05-05"
 updated: "2026-06-28"
@@ -33,6 +33,7 @@ evidence:
   - "User decision 2026-06-09: skills should be almost fully autonomous and professionally effective, asking fewer questions and only in plain decision language when the operator truly owns the decision."
   - "User decision 2026-06-10: autonomy and question rules should be compact enough to preserve the signal."
   - "User decision 2026-06-28: the operator is not here to code, but is happy to answer precise business-critical questions that the repository cannot answer."
+  - "User decision 2026-07-15: a greenfield product stack must be chosen with the operator at the product-consequence level instead of being silently fixed by the agent."
 next_review: "2026-06-05"
 next_step: "/103-sg-verify shipflow-skill-reporting-and-proof-hardening"
 ---
@@ -79,6 +80,27 @@ Business, product, audience, and framing facts often belong to the operator rath
 The standard is not "ask less no matter what". It is "ask at the partner layer". If a question sharpens business intent, audience nuance, positioning, or product usefulness that the agent cannot infer confidently from the project, asking is part of doing the job well.
 
 Proceed without asking when the safe default is clear, in scope, low-risk or reversible, compatible with project context and current best practices, and verifiable in the current run.
+
+## Greenfield Technology Decision Rule
+
+For a new product with no established stack and no previously accepted
+blueprint, the overall technology direction is not a routine implementation
+detail. Before freezing the spec, the agent must research the professional
+options, recommend one direction in plain language, explain the consequences
+that the operator owns (ongoing cost, hosting and data control, payment or
+service providers, maintenance burden, portability, and material lock-in), and
+ask one bundled numbered decision.
+
+Do not turn this into a questionnaire about packages, folder structure, state
+libraries, or other low-level mechanics the agent should choose. The operator
+chooses the durable product direction; the agent owns the implementation
+details inside that direction.
+
+An existing project stack may be continued autonomously when the requested
+work does not materially change its cost, risk, or operating model. A matched
+blueprint is a recommendation, not consent: disclose its material technology
+direction and obtain agreement unless the operator or project corpus has
+already accepted that blueprint or equivalent stack.
 
 If the obvious or requested option conflicts with project context, public/editorial claims, architecture, security posture, or current best practices, do not silently choose it. Either choose the safe compatible alternative when it is obvious and inside scope, or ask a numbered decision question that explains the conflict.
 
@@ -167,3 +189,4 @@ Name the condition that would make another option better when that matters.
 - `SSRP-005 safe default`: when the safe professional default is clear, reversible, in scope, and verifiable, the skill proceeds and reports the assumption only if useful.
 - `SSRP-006 required decision`: when the answer changes security, data, product behavior, validation confidence, closure, or ship risk, the skill asks one numbered plain-language question with a recommended option.
 - `SSRP-007 operator-owned business truth`: when the missing fact is business, audience, product, or framing context that the operator uniquely knows and the repository cannot prove, the skill asks one precise numbered question and continues after the answer instead of calling the task blocked.
+- `SSRP-008 greenfield stack partnership`: given the operator asks to create a new product with no accepted stack, when the framework, hosting, data, or provider direction affects ongoing cost, control, maintenance, portability, or lock-in, then the agent presents one recommended product-level stack direction with practical alternatives and obtains a numbered decision before the spec freezes it.

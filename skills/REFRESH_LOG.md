@@ -4,6 +4,24 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 
 ---
 
+## 2026-07-16 — 309-sg-tasks
+
+**Added:**
+- [sessions] Exact-`cwd` handling for directories without a tracker, without synthetic governance creation
+- [sessions] High-confidence same-subject deduplication that keeps only the most recently active session open
+- [sessions] Session-only `done` cleanup after more than 30 days of inactivity, excluding the current thread
+
+**Updated:**
+- [status safety] Duplicate and inactivity closure no longer imply that a linked project task is complete
+- [documentation] Session-mode playbook, README, and public skill page aligned with the new contract
+
+**New phases:**
+- Same-subject grouping before remaining status classification
+
+**Sources:** 0 URLs consulted (operator decision and local Codex session workflow)
+
+---
+
 ## 2026-07-15 — 006-sg-design
 
 **Added:**

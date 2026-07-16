@@ -618,7 +618,7 @@ Recommended release entrypoint after implementation:
 
 `004-sg-deploy` is for release confidence, not just pushing code. It keeps technical checks, bounded shipping, deployment truth, post-deploy evidence, final verification, and optional release notes in one visible flow.
 
-For app-project hosting advice, ShipGlowz now keeps a canonical advisory matrix in `skills/references/deploy-target-matrix.md`. Default guidance is `Railway` first for the average ShipGlowz-managed app project, with `Render` for preview-heavy review workflows, `Fly.io` for deeper infra/topology control, and `Codesphere` for sovereignty/private-cloud cases. This is advice only: the final target still depends on project context, and recommendation coverage is wider than automation coverage.
+For hosting advice, ShipGlowz keeps the canonical rule in `skills/references/deploy-target-matrix.md`. Websites and Vercel-compatible web applications default to `Vercel`. Only projects that genuinely require a dedicated server runtime enter the server matrix: `Railway` by default, `Render` for preview-heavy server workflows, `Fly.io` for deeper infra/topology control, and `Codesphere` for sovereignty/private-cloud cases. A split architecture is evaluated per surface: Vercel for the compatible web frontend, and the matrix only for the dedicated backend. This is advice only; final choices remain project-contextual.
 
 Recommended maintenance entrypoint for existing projects:
 

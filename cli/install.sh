@@ -1603,11 +1603,11 @@ configure_aliases() {
     cat >> "$bashrc" << ALIASES
 
 # >>> ShipGlowz AI aliases >>>
-alias shipglowz='$SHIPGLOWZ_INSTALL_ROOT/shipglowz.sh'
-alias shipflow='$SHIPGLOWZ_INSTALL_ROOT/shipglowz.sh'
-alias sg='$SHIPGLOWZ_INSTALL_ROOT/shipglowz.sh'
-alias sf='$SHIPGLOWZ_INSTALL_ROOT/shipglowz.sh'
-alias s='$SHIPGLOWZ_INSTALL_ROOT/shipglowz.sh'
+alias shipglowz='$SHIPGLOWZ_INSTALL_ROOT/cli/shipglowz.sh'
+alias shipflow='$SHIPGLOWZ_INSTALL_ROOT/cli/shipglowz.sh'
+alias sg='$SHIPGLOWZ_INSTALL_ROOT/cli/shipglowz.sh'
+alias sf='$SHIPGLOWZ_INSTALL_ROOT/cli/shipglowz.sh'
+alias s='$SHIPGLOWZ_INSTALL_ROOT/cli/shipglowz.sh'
 alias c='$c_alias'
 alias co='codex'
 alias cask='claude --permission-mode default'

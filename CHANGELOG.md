@@ -314,6 +314,7 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 ## [Unreleased]
 
 ### Added
+- Mode `309-sg-tasks sessions` et playbook reutilisable pour indexer les noms de conversations Codex avec les statuts exacts du tracker local, y compris les forks et reprises de contexte.
 - Shared `tools/shipflow_sync_skills.sh` helper for checking and repairing current-user Claude/Codex ShipFlow skill symlinks, with temp-home tests, installer reuse, and validation-skill routing.
 - Per-project Dart/Flutter Flox runtime provisioning for ShipFlow-managed `pubspec.yaml` projects, including strict package override validation, existing `.flox` repair, focused shell tests, and runtime/installer documentation.
 - Governance corpus lifecycle across `305-sg-init`, `300-sg-docs`, and the `001-sg-build` spec: init bootstraps technical/editorial corpus state, docs owns first-run adoption and audit, and `001-sg-build` now has a Governance Corpus Gate before implementation.

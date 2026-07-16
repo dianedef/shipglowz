@@ -207,6 +207,7 @@ Content scoring examples:
 | Dependency posture | `402-sg-deps` | Target dependency drift, vulnerabilities, licenses, or config. |
 | Framework migration | `404-sg-migrate [package[@version]]` | Use a structured package target such as `astro@5`, a package name, or no argument for discovery. |
 | Orientation and routing | `308-sg-status`, `302-sg-help`, `704-sg-model`, `303-sg-resume` | Use for git dashboard, workflow help, model choice, or concise context transfer. |
+| Conversation naming and status index | `309-sg-tasks sessions <project-or-cwd>` | Review and rename Codex session titles for the selected project with `todo`, `doing`, `in_progress`, `blocked`, or `done`; several sessions may relate to one task. |
 
 Model routing note: `704-sg-model` recommends the right model for the current scope. In Codex/OpenAI, default small bounded subagents to `gpt-5.4-mini`, use `gpt-5.3-codex-spark` for Spark-eligible summaries, text-only handoffs, micro-code, or targeted UI/local edits when credits/availability permit, route long implementation through the `codex` implementation profile, and use `gpt-5.5` with calibrated `low`/`medium`/`high`/`xhigh` reasoning for high-risk transverse reasoning. The main thread may only recommend a model switch unless the runtime supports applying the override; `spark`, `codex`, `sous-agent`/`subagent`/`agents`, and `mini` arguments request model-specific subagent delegation.
 
@@ -231,6 +232,7 @@ Model routing note: `704-sg-model` recommends the right model for the current sc
 | `006-sg-design` | `system`; `playground [route]`; `audit ui|tokens|components|a11y [scope]`; library/redesign/migration; detailed report modes |
 | `005-sg-ship` | no special argument; `skip-check`; `end la tache`; `end`; `fin`; `close task`; `all-dirty`; `ship-all`; `tout-dirty` |
 | `407-sg-audit-translate` | no special argument; file path or scope; `global`; `sync`; `apply`; `sync [path]`; `apply [path]` |
+| `309-sg-tasks` | `sessions <project-or-cwd>`; `name-conversation` | Rename Codex session titles with tracker-compatible status labels; preserve forks as separate sessions. |
 
 ## How To Read Arguments
 

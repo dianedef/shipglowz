@@ -57,7 +57,7 @@ Before UI, mobile, component, layout, typography, spacing, color, shadow/elevati
 
 `001-sg-build` is the user-facing lifecycle orchestrator (`master-workflow`) and keeps user interaction high level while executing:
 
-`intake -> existing chantier check -> blueprint gate -> spec/readiness loop -> governance corpus gate -> model routing gate -> start -> verify -> end -> ship`
+`intake -> existing chantier check -> blueprint gate -> greenfield technology decision -> spec/readiness loop -> governance corpus gate -> model routing gate -> start -> verify -> end -> ship`
 
 It answers one operational question:
 
@@ -66,6 +66,12 @@ What product change should be built now, and how do we carry that story from sco
 ```
 
 The objective is an excellent professional lifecycle that removes manual detours while preserving quality, security, performance, durability, and proof.
+
+When the operator asks to create or change a product, continue through every
+agent-runnable lifecycle stage. Do not stop after a spec, governance bootstrap,
+or readiness finding and make the operator infer a technical next command.
+Ask only for a material operator-owned decision or an external/safety approval;
+otherwise resolve the next owner route and continue it.
 
 Generated artifacts used only for local proof are disposable unless the task explicitly requires a durable project artifact. Remove temporary build outputs, caches, and preview leftovers after the proof completes.
 
@@ -110,6 +116,14 @@ In the final report, add `Blueprint: [id] (version) — resolved from [local | c
 
 ## Spec And Readiness Loop
 
+For a greenfield product with no established stack or previously accepted
+blueprint, apply the Greenfield Technology Decision Rule from
+`$SHIPFLOW_ROOT/skills/references/question-contract.md` before allowing the
+spec to freeze architecture, hosting, data, payment, or material provider
+choices. Present one researched recommendation at the product-consequence
+level and ask one bundled numbered decision; keep low-level implementation
+choices agent-owned.
+
 For non-trivial work, run or route through `100-sg-spec`, then `101-sg-ready`, and do not run `102-sg-start` until the spec is `ready`. If readiness fails, apply one correction pass and rerun readiness; stop after the bounded loop with `blocked` or a user decision.
 
 For trivial and local work that is safe without a full spec, allow a direct mini-contract only when the decision-quality contract is satisfied.
@@ -146,6 +160,7 @@ Stop and ask or reroute when:
 - subagent mode was requested but unavailable or not applied for file work, validation, closure, or ship preparation
 - governance corpus state is missing/stale and unresolved
 - a missing operator-owned business, audience, or framing fact materially changes behavior and no safe default exists
+- a greenfield technology direction would set material ongoing cost, control, maintenance, portability, or provider lock-in without operator agreement
 - a change would alter existing behavior without explicit decision
 - proposed execution would act as a quick-fix shortcut instead of preserving root cause, owner routing, shared structure, and proof
 - proposed UI/design execution would add or tolerate visual values outside the centralized design-system source without drift-check evidence and a named exception
@@ -172,6 +187,6 @@ Apply `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. The default user
 
 Validate this skill after edits with:
 
-- `rg -n "Trace category|Process role|Master Delegation|Master Workflow Lifecycle|Existing Chantier Check|Question Gate|Stop Conditions|Final Report|build-lifecycle-workflow" skills/001-sg-build/SKILL.md`
+- `rg -n "Trace category|Process role|Master Delegation|Master Workflow Lifecycle|Existing Chantier Check|Greenfield Technology Decision|Stop Conditions|Final Report|build-lifecycle-workflow" skills/001-sg-build/SKILL.md`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `python3 tools/shipglowz_metadata_lint.py skills/001-sg-build/references/build-lifecycle-workflow.md`

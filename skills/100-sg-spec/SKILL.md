@@ -70,6 +70,7 @@ Parse `$ARGUMENTS` and the latest user request, then choose the smallest safe pa
 - UI/design specs must identify the project design-system authority before implementation: brand contract, canonical token source, technology carrier, component bridge, layout/motion authority, forbidden bypasses, and validation command. If this authority is missing, the spec must route to `300-sg-docs` or `006-sg-design system` before any visual implementation task.
 - Specs must preserve the Operator Autonomy Standard from `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`: implementation, diagnosis, test, and verification should gather safe evidence themselves before asking the operator.
 - Specs should not treat absent business framing as a generic blocker when one precise operator-owned question can resolve it. Ask for the smallest missing business, audience, or product truth and continue.
+- Greenfield product specs with no established stack or previously accepted blueprint must apply the Greenfield Technology Decision Rule from `$SHIPFLOW_ROOT/skills/references/question-contract.md`: present one researched product-level recommendation, obtain the operator's numbered decision, record its cost/control/maintenance/portability consequences, and keep package-level mechanics agent-owned.
 - `100-sg-spec` creates or updates the durable chantier spec only; it does not edit `TASKS.md`, `AUDIT_LOG.md`, or legacy `PROJECTS.md`.
 - Before creating or mutating a `spec:` operational summary line, load `$SHIPFLOW_ROOT/skills/references/operational-record-format.md` and keep the durable spec body separate from that one-line traffic-first record.
 - External-doc freshness, security, auth, tenant, data, money, destructive, and public-claim ambiguities must be resolved before the spec is called ready.
@@ -80,6 +81,7 @@ Parse `$ARGUMENTS` and the latest user request, then choose the smallest safe pa
 Stop and report blocked when:
 
 - A material product, security, data, tenant, external-side-effect, or workflow-integrity decision is missing.
+- A greenfield technology direction with material cost, control, maintenance, portability, or provider-lock-in consequences has been fixed without operator agreement.
 - The requested implementation path would satisfy tasks but not the user story.
 - A required shared reference is missing or contradicts this activation contract.
 - The spec would need `TBD`, hidden assumptions, or untestable acceptance criteria.

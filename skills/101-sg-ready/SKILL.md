@@ -94,6 +94,7 @@ The top-level review must confirm these buckets; the detailed heuristics live in
 
 - structure and mandatory sections
 - user-story alignment and minimal behavior contract
+- operator agreement on any greenfield technology direction that materially sets cost, control, maintenance, portability, or provider lock-in
 - metadata, freshness, and documentation coherence
 - task ordering, linked systems, and execution notes
 - proof contract fit, adversarial review, and security review
@@ -141,6 +142,7 @@ Stop and report `not ready` or `blocked` when:
 - no unique spec can be identified safely
 - a required section, proof contract, or linked-system consequence is missing
 - a material scope, behavior, or security question is still unresolved
+- a greenfield stack or blueprint has been frozen without the operator decision required by the Greenfield Technology Decision Rule
 - freshness, language-doctrine, or design-system gates apply but cannot be checked safely
 - the spec would require generous inference from conversation history to implement cleanly
 

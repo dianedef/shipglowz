@@ -85,6 +85,57 @@ Default user-mode reports must fit this shape unless the skill has a stricter lo
 3. limits only when they affect trust, risk, or next action
 4. one real next step or one numbered decision question only when the user must act
 
+## Active Work Continuation Rule
+
+Do not end a user-facing report with a pending internal stage, a command, or a
+technical “next step” when the operator asked ShipGlowz to carry out the work
+and the next action is still agent-runnable. Continue the active owner workflow
+through its safe gates instead.
+
+For a lifecycle request such as “create my app”, `spec created`, `governance
+initialized`, `readiness pending`, or `implementation not started` is progress,
+not a user-facing stopping point. The final answer must either:
+
+- report the completed user outcome; or
+- ask one plain-language, numbered decision that only the operator can make;
+- explain a real external/safety block and exactly what the operator must
+  provide or approve.
+
+Never make the operator infer that they must re-invoke the next lifecycle
+skill, read an internal spec, or decide whether the agent should continue. A
+“Next step” line is permitted only when it names a concrete operator action
+that is genuinely required now; otherwise omit it and continue autonomously.
+
+Pressure scenario `SSRP-006 active lifecycle`: given an operator asks to build
+or change a product, when a spec, governance, readiness, implementation,
+verification, closure, or ship stage remains agent-runnable, then the owner
+skill proceeds through that stage rather than reporting it as a task for the
+operator.
+
+## Objective Continuity Rule
+
+Treat the operator's latest unresolved goal as the active conversation
+objective. Every response, owner handoff, progress update, and final report
+must either advance that objective, remove a real blocker, or ask the one
+operator-owned decision that unlocks it. Do not turn intermediate milestones
+into new implicit objectives for the operator.
+
+Keep the objective active until one of these conditions is true:
+
+- the promised outcome is genuinely complete and the matching proof has run;
+- a material decision, approval, credential, or manual-only fact is required
+  from the operator;
+- the operator explicitly replaces, narrows, pauses, or abandons the goal.
+
+When the operator changes subject to critique the execution itself, treat that
+as a bounded system-improvement objective. Repair it, prove the repair, then
+resume the prior product objective unless the operator explicitly abandons it.
+
+Pressure scenario `SSRP-007 directed conversation`: given an operator says
+“create my application”, when a lifecycle milestone completes, then the agent
+uses that milestone only to choose and execute the next owner action; it does
+not make the operator restart, interpret, or steer the workflow.
+
 When routing is relevant to the operator, add one concise line directly below the verdict:
 
 ```text
