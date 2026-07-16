@@ -170,7 +170,7 @@ def audit_skill(path: Path) -> FindingSet:
     if "$SHIPFLOW_ROOT" in text and not has_any(text, REFERENCE_SIGNALS):
         findings.style.append("$SHIPFLOW_ROOT appears but reference-loading intent is not obvious")
 
-    if path.parent.name == "008-sg-end-user" and not has_any(text, ACTIVATION_ROUTE_SIGNALS):
+    if path.parent.name == "008-sg-customer" and not has_any(text, ACTIVATION_ROUTE_SIGNALS):
         findings.review.append(
             "onboarding contract lacks visible next-best-action guidance for recurring friction or setup forks"
         )

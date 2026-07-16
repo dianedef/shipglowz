@@ -1,8 +1,8 @@
 ---
-title: "sg-end-user"
-slug: "sg-end-user"
-tagline: "Turn shipped features into clear, trusted end-user journeys."
-summary: "An end-user experience skill for UX/UI clarity, friction, trust, first-success paths, onboarding, setup sequencing, recoverable states, docs coherence, and proof routing."
+title: "sg-customer"
+slug: "sg-customer"
+tagline: "Turn shipped features into clear, trusted customer journeys."
+summary: "A customer-experience skill for UX/UI clarity, friction, trust, first-success paths, onboarding, setup sequencing, recoverable states, docs coherence, and proof routing."
 category: "Build & Fix"
 audience:
   - "Founders who want users to understand new features without extra explanation"
@@ -29,9 +29,9 @@ what_you_get:
   - "A reusable onboarding progress overlay pattern when the product needs first-run setup guidance"
   - "Routes to design, build, docs, content, browser, or manual QA owner skills when needed"
 example_prompts:
-  - "/sg-end-user onboard users after the new keyboard permissions flow"
-  - "/sg-end-user audit the setup checklist before we ship"
-  - "/sg-end-user create the activation plan for the new cloud sync feature"
+  - "/sg-customer onboard users after the new keyboard permissions flow"
+  - "/sg-customer audit the setup checklist before we ship"
+  - "/sg-customer create the activation plan for the new cloud sync feature"
 argument_modes:
   - argument: "feature or flow"
     effect: "Creates an end-user contract around the user journey and first-success path."
@@ -65,14 +65,14 @@ order: 515
 
 ## The End-User Layer
 
-Use `sg-end-user` when the question is not just "does the feature exist?"
+Use `sg-customer` when the question is not just "does the feature exist?"
 but "will users understand it, trust it, know what to do, recover from skips or
 blocked states, and reach value quickly?"
 
 It is especially useful for flows with permissions, integrations, optional
 modules, empty states, or setup steps that need clear why/how guidance.
 
-For first-run setup overlays, `sg-end-user` can also use the shared
+For first-run setup overlays, `sg-customer` can also use the shared
 onboarding progress overlay pattern: a popup with sections, one icon per step,
 neutral pending state, orange current state, green completed state even while
 selected, red skipped state,

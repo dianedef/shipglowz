@@ -20,7 +20,7 @@ linked_systems:
   - shipglowz_data/workflow/specs/
   - skills/700-sg-explore/SKILL.md
   - skills/100-sg-spec/SKILL.md
-  - skills/008-sg-end-user/SKILL.md
+  - skills/008-sg-customer/SKILL.md
   - skills/204-sg-market-study/SKILL.md
 depends_on: []
 supersedes: []

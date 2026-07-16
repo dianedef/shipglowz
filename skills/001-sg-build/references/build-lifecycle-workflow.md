@@ -171,7 +171,7 @@ Do not close or ship half-coded outcomes.
 
 ## Post-Implementation Onboarding Gate
 
-Evaluate `008-sg-end-user` when work adds or changes a user-facing feature, setup flow, first-run state, empty state, permission, integration, settings path, multi-step workflow, public promise, docs/support expectation, or behavior a beginner might not discover.
+Evaluate `008-sg-customer` when work adds or changes a user-facing feature, setup flow, first-run state, empty state, permission, integration, settings path, multi-step workflow, public promise, docs/support expectation, or behavior a beginner might not discover.
 
 Route before closure when activation/onboarding is part of the spec or acceptance criteria. Otherwise, suggest onboarding only when it materially improves adoption.
 
@@ -201,7 +201,7 @@ Result: [implemented / partial / blocked]
 [Agents: used / not needed / degraded: reason]
 [All checks passed ✅ | Checks failed: ... | Checks skipped: ...]
 Evidence: [browser/prod/manual route or not needed]
-[Onboarding suggestion: /008-sg-end-user <feature or flow>]
+[Onboarding suggestion: /008-sg-customer <feature or flow>]
 Risk: [only if non-empty]
 Next step: [only if real]
 

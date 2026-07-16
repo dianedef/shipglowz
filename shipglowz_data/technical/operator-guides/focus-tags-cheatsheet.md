@@ -19,7 +19,7 @@ linked_systems:
   - skills/references/entrypoint-routing.md
   - skills/references/operator-partnership-contract.md
   - skills/references/decision-quality-contract.md
-  - skills/008-sg-end-user/SKILL.md
+  - skills/008-sg-customer/SKILL.md
   - shipglowz_data/business/gtm.md
   - README.md
   - shipglowz-site/src/pages/docs.astro
@@ -62,7 +62,7 @@ Use these when you want the agent to think like a business partner instead of a 
 | `#monetization` | revenue fit, paywalls, upsell paths, and pricing pressure to dominate the decision | `shipglowz_data/business/business.md` |
 | `#retention` | repeat usage, stickiness, and product loops to dominate the decision | `shipglowz_data/business/product.md` |
 | `#decision-maker` | the buyer or approver perspective to dominate the decision | `shipglowz_data/business/business.md` |
-| `#end-user` | real user usefulness, first success, clarity, and beginner adoption to dominate the decision | `skills/008-sg-end-user/SKILL.md` |
+| `#end-user` | real user usefulness, first success, clarity, and beginner adoption to dominate the decision | `skills/008-sg-customer/SKILL.md` |
 | `#trust` | trust, public-promise discipline, claim safety, and credibility to dominate the decision | `shipglowz_data/branding/branding.md` |
 | `#leverage` | operator leverage, compounding impact, and drag reduction to dominate the decision | `skills/references/operator-partnership-contract.md` |
 | `#founder-mode` | a founder-facing decision surface instead of technician-level back-and-forth | `skills/references/operator-partnership-contract.md` |

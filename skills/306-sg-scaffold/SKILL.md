@@ -208,7 +208,7 @@ Additional generation rules:
 - Never scaffold raw acceptance of untrusted input when the project uses validation/sanitization/allowlists elsewhere.
 - Never scaffold public artifacts with placeholder claims that could misrepresent pricing, security, compliance, availability, or product capabilities.
 - If no safe and coherent version can be inferred, refuse to generate and list the blocking questions.
-- If the project has UI but no discoverable design-system authority, refuse visual scaffolding and route to `300-sg-docs`, `006-sg-design`, or `500-sg-design-from-scratch` before generating styled UI. A behavior-only shell may be created only when it adds no new visual decisions.
+- If the project has UI but no discoverable design-system authority, refuse visual scaffolding and route to `300-sg-docs` or `006-sg-design system` before generating styled UI. A behavior-only shell may be created only when it adds no new visual decisions.
 
 For ambiguous requests, produce a professional safe shell only when it is still useful and honest; never fake completeness:
 - `page`: route shell with explicit pending-decision markers for approved copy and behavior, plus safe empty/error structure

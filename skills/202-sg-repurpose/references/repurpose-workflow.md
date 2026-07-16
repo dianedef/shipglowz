@@ -514,7 +514,7 @@ Each handoff must include:
 - priority and reason
 - required context files to pass forward
 
-If a user asks for a missing `sg-copy` lane, explain that no `sg-copy` skill exists yet. Use the existing owner skills above and recommend a future `009-sg-skill-build sg-copy` chantier only if short-form copy writing remains a recurring gap after audits.
+If a user asks for a missing `sg-copy` lane, explain that no `sg-copy` skill exists yet. Use the existing owner skills above and recommend a future `900-shipglowz-core build sg-copy` chantier only if short-form copy writing remains a recurring gap after audits.
 
 ## Good output characteristics
 

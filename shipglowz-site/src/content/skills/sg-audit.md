@@ -30,7 +30,7 @@ limits:
   - "Broad coverage is useful for prioritization, but specialist follow-up is often needed"
 related_skills:
   - "sg-audit-code"
-  - "sg-audit-design"
+  - "sg-design"
   - "sg-verify"
 featured: true
 order: 100

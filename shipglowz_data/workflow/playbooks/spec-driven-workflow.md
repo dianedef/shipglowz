@@ -20,7 +20,7 @@ linked_systems:
   - skills/002-sg-maintain/SKILL.md
   - skills/007-sg-content/SKILL.md
   - skills/006-sg-design/SKILL.md
-  - skills/008-sg-end-user/SKILL.md
+  - skills/008-sg-customer/SKILL.md
   - skills/600-sg-local-cloud-sync/SKILL.md
   - skills/108-sg-browser/SKILL.md
   - skills/003-sg-bug/SKILL.md
@@ -62,7 +62,7 @@ evidence:
   - "Updated on 2026-05-04 to document 000-shipglowz <instruction> as the primary non-technical router with direct main-thread handoff to selected skills."
   - "Updated on 2026-05-05 to document shared question/default doctrine across skills."
   - "Updated on 2026-05-06 to add 006-sg-design as the master design lifecycle entrypoint."
-  - "Updated on 2026-05-31 to add 008-sg-end-user as the user activation lifecycle entrypoint."
+  - "Updated on 2026-07-15 to rename 008-sg-customer as the customer activation lifecycle entrypoint."
   - "Updated on 2026-06-01 to add 600-sg-local-cloud-sync as the local-to-cloud data promotion, merge, sync UX, and security contract entrypoint."
   - "Updated on 2026-05-08 to clarify 003-sg-bug as a bug lifecycle executor that continues through owner skills and bounded subagents when safe."
   - "Updated on 2026-05-11 to add competitive intelligence and affiliate program registries as project-local business artifacts."
@@ -108,18 +108,18 @@ Skill launch cheatsheet:
 | Non-technical first command | `000-shipglowz <instruction>` | Routes pure conversational answers directly; routes real work to the right master or specialist skill; asks one numbered question when ambiguous. |
 | Named operator profile | `%Victoire <instruction>`, `%SEO-specialist <instruction>`, or `%Tariq <instruction>` | Canonical profile syntax. Activates the named operator profile; `#Tag` remains a focus-tag surface and the router still picks the owner skill. |
 | Non-technical first command with named operator profile | `000-shipglowz profile=victoire <instruction>`, `000-shipglowz profile=seo-specialist <instruction>`, or `000-shipglowz profile=tariq <instruction>` | Same router, but with the selected profile active so the role contract shapes the answer or handoff framing. |
-| Non-trivial product, code, site, or docs work | `001-sg-build [spark|codex|mini|agents|sous-agent|no-agents] <story, bug, or goal>` | Plain task text is the story; use `spark`, `codex`, `mini`, `agents`, or `sous-agent` to make model-specific delegated sequential execution a validation gate; for user-facing features, `001-sg-build` evaluates whether to suggest or route `/008-sg-end-user` after implementation; use detailed report modes only for handoff evidence. |
+| Non-trivial product, code, site, or docs work | `001-sg-build [spark|codex|mini|agents|sous-agent|no-agents] <story, bug, or goal>` | Plain task text is the story; use `spark`, `codex`, `mini`, `agents`, or `sous-agent` to make model-specific delegated sequential execution a validation gate; for user-facing features, `001-sg-build` evaluates whether to suggest or route `/008-sg-customer` after implementation; use detailed report modes only for handoff evidence. |
 | Recurring project upkeep | `002-sg-maintain [mode]` | `full`/no argument, `quick`, `security`, `deps`, `docs`, `audits`, `no-ship`, `global`. |
 | Release confidence after implementation | `004-sg-deploy [target or mode]` | no argument, `skip-check`, `--preview`, `--prod`, `no-changelog`. |
 | Deploy-target recommendation for an app project | `004-sg-deploy <project or context>` | Uses the canonical advisory matrix in `skills/references/deploy-target-matrix.md`; ShipGlowz advises, but final choice remains project-contextual. |
 | Bug-loop lifecycle | `003-sg-bug [BUG-ID, summary, or mode]` | no argument, `BUG-ID`, `--fix`, `--retest`, `--verify`, `--ship`, `--close`. |
 | Content management | `007-sg-content [goal, source, file, or mode]` | `plan`, `repurpose`, `draft`, `enrich`, `audit`, `seo`, `editorial`, `apply`, `ship`. |
-| End-user experience | `008-sg-end-user <feature, flow, screen, or audit target>` | UX/UI clarity, friction, trust, first-success paths, setup order, recoverable states, docs impact, and proof routing. |
+| Customer experience | `008-sg-customer <feature, flow, screen, or audit target>` | UX/UI clarity, friction, trust, first-success paths, setup order, recoverable states, docs impact, and proof routing. |
 | Local-to-cloud data sync | `600-sg-local-cloud-sync <project, feature, or data domains>` | Local data promotion, cloud hydration, merge/conflict policy, sync/save UX states, sensitive-data exclusions, and proof routing. |
 | Product entitlements and access gates | `601-sg-product-entitlements <project or feature>` | Entitlement ownership, provider events, activation codes, product-local mirrors, backend authorization gates, support flows, and sync handoffs. |
-| Skill creation or maintenance | `009-sg-skill-build <idea or path>` | new skill idea, existing skill path, optional `700-sg-explore` for fuzzy placement, public page/docs/runtime validation gates. |
+| Internal skill creation or maintenance | `900-shipglowz-core build <idea or path>` | new skill idea, existing skill path, optional `700-sg-explore` for fuzzy placement, runtime/docs validation gates. |
 | Design lifecycle | `006-sg-design <design question or goal>` | Master design entrypoint for UI/UX, tokens, playgrounds, component/a11y audits, implementation, browser proof, verification, and ship routing. |
-| Design system creation | `500-sg-design-from-scratch [target or mode]` | Build a complete professional token system from an existing UI; use `tokens-only` or `with-playground`. |
+| Design system creation | `006-sg-design system [target]` | Build a complete professional token system from an existing UI; use `playground` or `audit tokens` as explicit modes. |
 | Manual expert lifecycle | `100-sg-spec -> 101-sg-ready -> 102-sg-start -> 103-sg-verify -> 104-sg-end` | Use when you intentionally want to drive each gate instead of using `001-sg-build`. |
 | Commit and push ready work | `005-sg-ship [mode]` | no special argument, `skip-check`, `end la tache`/`end`/`fin`/`close task`, `all-dirty`/`ship-all`/`tout-dirty`. |
 | Browser, auth, manual QA, or live deployment proof | `108-sg-browser`, `109-sg-auth-debug`, `107-sg-test`, `405-sg-prod` | Pick by proof type: non-auth browser evidence, auth/session diagnosis, durable manual QA, or deployment truth. |
@@ -161,7 +161,7 @@ Primary non-technical router entrypoint:
 000-shipglowz <instruction> -> direct answer or direct handoff to selected skill
 ```
 
-`000-shipglowz <instruction>` is the recommended first command when the operator does not want to choose a skill. It answers pure conversational requests in the main thread. It hands non-trivial feature, code, and docs work to `001-sg-build`; maintenance to `002-sg-maintain`; bug-loop work to `003-sg-bug`; release, deploy, or production proof to `004-sg-deploy`; content work to `007-sg-content`; onboarding and activation work to `008-sg-end-user`; local-to-cloud sync contract work to `600-sg-local-cloud-sync`; product entitlement and access-gate work to `601-sg-product-entitlements`; skill maintenance to `009-sg-skill-build`; and obvious specialist audits to `400-sg-audit-*`. Ambiguous requests get one numbered clarifying question with why, recommended answer, and practical options.
+`000-shipglowz <instruction>` is the recommended first command when the operator does not want to choose a skill. It answers pure conversational requests in the main thread. It hands non-trivial feature, code, and docs work to `001-sg-build`; maintenance to `002-sg-maintain`; bug-loop work to `003-sg-bug`; release, deploy, or production proof to `004-sg-deploy`; content work to `007-sg-content`; onboarding and activation work to `008-sg-customer`; local-to-cloud sync contract work to `600-sg-local-cloud-sync`; product entitlement and access-gate work to `601-sg-product-entitlements`; internal skill maintenance to `900-shipglowz-core build`; and obvious specialist audits to `400-sg-audit-*`. Ambiguous requests get one numbered clarifying question with why, recommended answer, and practical options.
 
 Named operator profiles sit above the router as a human-readable invocation layer. They do not replace skills:
 
@@ -209,7 +209,7 @@ Direct build entrypoint for non-trivial work:
 001-sg-build -> existing chantier check -> 100-sg-spec/101-sg-ready loop -> 102-sg-start -> 103-sg-verify -> 104-sg-end -> 005-sg-ship
 ```
 
-`001-sg-build` keeps the user conversation focused on decisions and status while following the shared master lifecycle reference in `skills/references/master-workflow-lifecycle.md` and the delegation reference in `skills/references/master-delegation-semantics.md`: invoking a master skill authorizes bounded delegated sequential execution for the current chantier, `spark`, `codex`, `sous-agent`/`subagent`/`agents`, and `mini` request model-specific subagent delegation, short natural-language confirmations after diagnosis or proposal continue the current chantier with one bounded subagent by intent rather than exact keyword, and parallel execution is allowed only when a ready spec defines non-overlapping `Execution Batches`. After user-facing feature work, `001-sg-build` evaluates whether a `/008-sg-end-user` pass should be handled or suggested so beginner adoption, setup, and first-success guidance are not forgotten after the code works.
+`001-sg-build` keeps the user conversation focused on decisions and status while following the shared master lifecycle reference in `skills/references/master-workflow-lifecycle.md` and the delegation reference in `skills/references/master-delegation-semantics.md`: invoking a master skill authorizes bounded delegated sequential execution for the current chantier, `spark`, `codex`, `sous-agent`/`subagent`/`agents`, and `mini` request model-specific subagent delegation, short natural-language confirmations after diagnosis or proposal continue the current chantier with one bounded subagent by intent rather than exact keyword, and parallel execution is allowed only when a ready spec defines non-overlapping `Execution Batches`. After user-facing feature work, `001-sg-build` evaluates whether a `/008-sg-customer` pass should be handled or suggested so beginner adoption, setup, and first-success guidance are not forgotten after the code works.
 
 Recommended release entrypoint after implementation:
 
@@ -230,10 +230,10 @@ Recommended maintenance entrypoint for existing projects:
 Recommended entrypoint for ShipGlowz skill maintenance:
 
 ```text
-009-sg-skill-build -> 700-sg-explore when needed -> 100-sg-spec -> skill contract edit/create -> 307-sg-skills-refresh -> skill budget audit -> 103-sg-verify -> 300-sg-docs/help update -> 005-sg-ship
+900-shipglowz-core build -> 700-sg-explore when needed -> 100-sg-spec -> skill contract edit/create -> 900-shipglowz-core refresh -> skill budget audit -> 103-sg-verify -> 300-sg-docs/help update -> 005-sg-ship
 ```
 
-`009-sg-skill-build` is scoped to skill lifecycle work and enforces ambiguity reduction, public-surface, docs/help, and validation gates before ship routing. When the skill idea or placement is too fuzzy for one targeted question to settle, it routes to `700-sg-explore` before creating the durable `100-sg-spec` contract.
+`900-shipglowz-core build` is scoped to internal skill lifecycle work and enforces ambiguity reduction, internal/public-surface, docs/help, and validation gates before ship routing. When the skill idea or placement is too fuzzy for one targeted question to settle, it routes to `700-sg-explore` before creating the durable `100-sg-spec` contract.
 
 Recommended content lifecycle entrypoint:
 
@@ -246,10 +246,10 @@ Recommended content lifecycle entrypoint:
 Recommended end-user experience and activation entrypoint:
 
 ```text
-008-sg-end-user -> first-success path -> setup order -> states/recovery -> docs impact -> proof or 001-sg-build
+008-sg-customer -> first-success path -> setup order -> states/recovery -> docs impact -> proof or 001-sg-build
 ```
 
-`008-sg-end-user` is the end-user experience skill. It does not replace `006-sg-design` or `001-sg-build`; it defines the user path contract that helps users understand a feature, trust it, reduce friction, complete setup in the right order when needed, recover from skipped or blocked steps, and reach value with proof and docs coherence.
+`008-sg-customer` is the customer-experience skill. It does not replace `006-sg-design` or `001-sg-build`; it defines the user path contract that helps users understand a feature, trust it, reduce friction, complete setup in the right order when needed, recover from skipped or blocked steps, and reach value with proof and docs coherence.
 
 Recommended local-to-cloud sync contract entrypoint:
 
@@ -257,7 +257,7 @@ Recommended local-to-cloud sync contract entrypoint:
 600-sg-local-cloud-sync -> data inventory -> account association -> promotion/hydration -> merge/conflict/tombstones -> sync UX/security -> proof or 001-sg-build
 ```
 
-`600-sg-local-cloud-sync` is the data-trust skill for local-first products. It does not replace `001-sg-build` or `008-sg-end-user`; it defines the sync contract that prevents silent local data loss, cross-account replay, vague merge policy, unsafe secret sync, and unproven reinstall-recovery promises.
+`600-sg-local-cloud-sync` is the data-trust skill for local-first products. It does not replace `001-sg-build` or `008-sg-customer`; it defines the sync contract that prevents silent local data loss, cross-account replay, vague merge policy, unsafe secret sync, and unproven reinstall-recovery promises.
 
 Recommended product-entitlement contract entrypoint:
 
@@ -359,7 +359,7 @@ Technical governance applies to code projects by default. Editorial governance a
 - `001-sg-build` planning questions should be decision briefs for business operators: explain the root problem, business stakes, practical options, and the best-practice recommendation before asking for the decision.
 - `002-sg-maintain` is the master orchestrator for recurring project maintenance and should prefer bounded delegated sequential execution over command recommendations.
 - `007-sg-content` is the master orchestrator for content management and should route to specialist content, docs, audit, research, validation, and ship skills rather than duplicating their internals.
-- `009-sg-skill-build` is the master orchestrator for ShipGlowz skill maintenance and should route fuzzy ideas through `700-sg-explore` before `100-sg-spec`, then keep skill contract, refresh, budget, docs/help, and public skill surfaces coherent.
+- `900-shipglowz-core build` is the sole internal orchestrator for ShipGlowz skill maintenance and should route fuzzy ideas through `700-sg-explore` before `100-sg-spec`, then keep skill contract, refresh, budget, docs/help, and internal/public skill surfaces coherent.
 - `102-sg-start` begins execution from a ready contract instead of rediscovering intent, and now decides both model routing and execution topology before coding.
 - `103-sg-verify` checks against the spec first, then quality and risks, and can now remediate limited gaps.
 - `104-sg-end` closes the task against the delivered scope, not only against the diff.
@@ -1064,7 +1064,7 @@ Use this rule of thumb:
 - recurring project maintenance -> `002-sg-maintain`
 - content management -> `007-sg-content`
 - general design request, UI/UX work, redesign, token migration, or visual proof -> `006-sg-design`
-- design system from scattered UI values when the operator already knows that exact target -> `500-sg-design-from-scratch`
+- design system from scattered UI values when the operator already knows that exact target -> `006-sg-design system`
 - bug repair intake -> `106-sg-fix`
 - unclear problem -> `700-sg-explore`
 - non-trivial scoped work -> `100-sg-spec`

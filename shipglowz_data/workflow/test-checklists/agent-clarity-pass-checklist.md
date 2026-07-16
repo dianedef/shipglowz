@@ -1,10 +1,10 @@
 ---
 artifact: test_checklist
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.1"
 project: ShipFlow
 created: "2026-06-27"
-updated: "2026-06-27"
+updated: "2026-07-15"
 status: active
 source_skill: 009-sg-skill-build
 scope: agent-clarity-pass
@@ -24,7 +24,7 @@ depends_on:
 supersedes: []
 evidence:
   - "Checklist created after the 2026-06 multi-phase clarity campaign to make future sweeps repeatable."
-next_step: "/009-sg-skill-build start the next bounded agent-clarity phase with this checklist"
+next_step: "/900-shipglowz-core build start the next bounded agent-clarity phase with this checklist"
 ---
 
 # Agent Clarity Pass Checklist

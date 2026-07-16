@@ -78,13 +78,13 @@ Site/helper mirror:
 
 - `/home/claude/winflowz/winflowz_site/src/lib/suiteBridge.ts`
 
-When this registry and runtime code disagree, do not guess. Inspect the code, identify the drift, and route the correction through `601-sg-product-entitlements` or `009-sg-skill-build` depending on whether the product behavior or the skill documentation is wrong.
+When this registry and runtime code disagree, do not guess. Inspect the code, identify the drift, and route the correction through `601-sg-product-entitlements` or `900-shipglowz-core build` depending on whether the product behavior or the skill documentation is wrong.
 
 ## Skill Routing
 
 - Product access, default grants, plan gates, paid/free semantics, provider events, refunds, revokes, support access, or canonical product ids: route to `601-sg-product-entitlements`.
 - Sync, hydration, local-to-cloud promotion, reinstall recovery, or "why are my data local only?": load this reference, then route entitlement preconditions to `601-sg-product-entitlements` before the sync contract in `600-sg-local-cloud-sync`.
-- Skill memory, registry drift, or future-agent context loss: route to `009-sg-skill-build`.
+- Skill memory, registry drift, or future-agent context loss: route to `900-shipglowz-core build`.
 
 ## Stop Conditions
 

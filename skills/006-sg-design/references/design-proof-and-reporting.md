@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-06-29"
-updated: "2026-06-29"
+updated: "2026-07-15"
 status: active
 source_skill: 006-sg-design
 scope: design-proof-and-reporting
@@ -29,9 +29,9 @@ depends_on:
     required_status: active
 supersedes: []
 evidence:
-  - "006-sg-design compaction moved detailed reporting and proof doctrine out of SKILL.md."
-next_review: "2026-07-29"
-next_step: "/103-sg-verify 006-sg-design proof reporting"
+  - "2026-07-15 consolidation rewrote design proof routes to use canonical 006-sg-design modes."
+next_review: "2026-08-15"
+next_step: "/104-sg-end consolidate design skill surface into modes and playbooks"
 ---
 
 # Design Proof And Reporting
@@ -48,10 +48,10 @@ Use project scripts and specialist checks instead of inventing proof.
 
 Proof must match the claim:
 
-- token or design-system claim: `503-sg-audit-design-tokens` and drift scan evidence
+- token or design-system claim: `006-sg-design audit tokens` and drift scan evidence
 - visible UI claim: `108-sg-browser` or equivalent screenshot/browser proof for non-auth surfaces
 - auth/protected UI claim: `109-sg-auth-debug`
-- accessibility claim: `409-sg-audit-a11y` plus visible proof when the change is UI-facing
+- accessibility claim: `006-sg-design audit a11y` plus visible proof when the change is UI-facing
 - hosted truth claim: `405-sg-prod` or `004-sg-deploy` before browser/auth proof when the target is unknown
 
 Do not claim visual non-regression without browser proof. Do not claim accessibility safety from screenshots alone.
@@ -63,7 +63,7 @@ Every blocked report must include the exact next recovery route.
 For hosted/prod/deployed/provider/browser/manual proof gaps, report:
 
 - proof type
-- owner skill
+- proof owner or lifecycle skill
 - scenario
 - target or environment
 - reason the agent could not collect the proof
@@ -78,7 +78,7 @@ Use this shape only when a design-specific report is needed in addition to the s
 ## Design: [scope]
 
 Result: [implemented / partial / blocked / rerouted]
-Route: [owner skill or lifecycle]
+Route: [design mode, proof owner, or lifecycle skill]
 Design proof: [checks/browser/audit evidence or missing proof]
 Token implementation: [complete / partial / not applicable]
 Next step: [only if real]

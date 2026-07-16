@@ -30,7 +30,7 @@ limits:
   - "Weak existing patterns will still influence the scaffolded result"
 related_skills:
   - "sg-start"
-  - "sg-design-playground"
+  - "sg-design"
   - "sg-check"
 featured: false
 order: 540

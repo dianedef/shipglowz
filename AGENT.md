@@ -39,7 +39,7 @@ Ce fichier est le point d'entree rapide pour un agent qui arrive dans le repo. I
 
   - Pour tout fichier interne ShipGlowz, resoudre depuis `${SHIPFLOW_ROOT:-$HOME/shipglowz}`. Cela inclut `skills/`, `skills/references/`, `templates/`, `tools/`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md` et `shipglowz_data/technical/metadata-migration-guide.md`. Le repo courant ne sert de racine que pour les artefacts et le code du projet audite ou modifie.
 - Si la tache touche la creation d'une app ou l'utilisation du Blueprint Gate (consommation), lire `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` puis `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`; le Blueprint Gate appartient à `001-sg-build`.
-- Si la tache touche l'extraction d'un blueprint depuis une app existante (creation/maintenance interne ShipGlowz), lire `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` puis `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`; la creation d'un blueprint appartient à `009-sg-skill-build`.
+- Si la tache touche l'extraction d'un blueprint depuis une app existante (creation/maintenance interne ShipGlowz), lire `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` puis `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`; la creation d'un blueprint appartient à `900-shipglowz-core build`.
 - Si la tache touche le CLI principal, commencer par `shipglowz.sh`, `lib.sh`, puis `shipglowz_data/technical/context.md`.
 - Si la tache touche le setup serveur ou Codex, lire `install.sh`, `config.sh`, puis `shipglowz_data/technical/context.md`.
 - Si la tache touche les tunnels SSH locaux, lire `local/local.sh`, `local/dev-tunnel.sh`, puis `shipglowz_data/technical/context-function-tree.md`.

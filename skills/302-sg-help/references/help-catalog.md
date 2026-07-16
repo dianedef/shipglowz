@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.6.0"
+artifact_version: "0.7.0"
 project: ShipGlowz
 created: "2026-05-16"
 updated: "2026-07-15"
@@ -14,6 +14,7 @@ risk_level: high
 security_impact: yes
 docs_impact: yes
 linked_systems:
+  - skills/006-sg-design/SKILL.md
   - skills/302-sg-help/SKILL.md
   - skills/302-sg-help/references/help-catalog.md
   - skills/900-shipglowz-core/SKILL.md
@@ -21,8 +22,8 @@ linked_systems:
   - skills/app-blueprints/README.md
 depends_on:
   - artifact: "skills/references/skill-instruction-layering.md"
-    artifact_version: "0.1.0"
-    required_status: "draft"
+    artifact_version: "1.1.0"
+    required_status: "active"
 supersedes: []
 evidence:
   - "Extracted from skills/302-sg-help/SKILL.md during Compact ShipGlowz Skill Instructions Phase 2."
@@ -31,8 +32,9 @@ evidence:
   - "2026-06-11 added 310-sg-github-hygiene for git/GitHub sync drift, stale branches, and Dependabot hygiene."
   - "2026-06-23 added App Blueprints help section for blueprint system explanation."
   - "2026-07-15 added 006-sg-design private inspiration-library operator modes."
-next_review: "2026-06-16"
-next_step: "/103-sg-verify Compact ShipGlowz Skill Instructions Phase 2"
+  - "2026-07-15 consolidated six retired design specialist commands into explicit 006-sg-design modes."
+next_review: "2026-08-15"
+next_step: "/104-sg-end consolidate design skill surface into modes and playbooks"
 ---
 
 # Help Catalog
@@ -62,7 +64,7 @@ Use the same distinction everywhere:
 
 - `302-sg-help` explains or routes. It does not own execution.
 - `000-shipglowz` is the primary entry router. It answers directly or hands the thread to the right owner skill.
-- Owner skills such as `001-sg-build`, `002-sg-maintain`, `003-sg-bug`, `004-sg-deploy`, `007-sg-content`, and `009-sg-skill-build` own execution once selected.
+- Owner skills such as `001-sg-build`, `002-sg-maintain`, `003-sg-bug`, `004-sg-deploy`, `007-sg-content`, and `900-shipglowz-core build` own execution once selected.
 
 Runtime invocation must stay explicit too:
 
@@ -108,10 +110,9 @@ Core codes:
 | `005` | `/005-sg-ship` |
 | `006` | `/006-sg-design` |
 | `007` | `/007-sg-content` |
-| `008` | `/008-sg-end-user` |
-| `009` | `/009-sg-skill-build` |
+| `008` | `/008-sg-customer` |
 
-Family bands: `100-199` lifecycle/proof, `200-299` content/research/copy, `300-399` docs/context/support, `400-499` audit/quality/ops, `500-599` design/components, `600-699` data/activation, `700-799` pilotage/session, `800-899` conversation/transcript, `900-999` rare internal/meta tools.
+Family bands: `100-199` lifecycle/proof, `200-299` content/research/copy, `300-399` docs/context/support, `400-499` audit/quality/ops, `500-599` unassigned legacy band (design now uses `006` modes), `600-699` data/activation, `700-799` pilotage/session, `800-899` conversation/transcript, `900-999` rare internal/meta tools.
 
 ### Public Handoff Vocabulary
 
@@ -141,12 +142,11 @@ Only bootstrap/install owners need the clone contract. Most help answers should 
 | `/000-shipglowz` | Primary natural-language router to the right ShipGlowz skill or direct answer | `<instruction>` |
 | `/001-sg-build` | Master user-facing orchestrator from story to spec, implementation, verification, closure, and ship | `<story, bug, or goal>` |
 | `/705-sg-conversation-audit` | Audit workflow for recurring conversation execution defects and owner routing | `latest`, `path <file-or-dir>`, `export shipflow`, `report=agent` |
-| `/009-sg-skill-build` | Master skill-maintenance orchestrator for creating or modifying ShipGlowz skills with optional exploration and lifecycle gates | `<new skill idea | existing skill path>` |
-| `/900-shipglowz-core` | Internal operator audit tool for ShipGlowz skill execution fidelity and plugin-packaging readiness | `audit`, `packaging`, `help`, `report=agent` |
+| `/900-shipglowz-core` | Internal operator tool for ShipGlowz skill audit, maintenance lifecycle, conservative refresh, and packaging | `audit`, `build <target>`, `refresh <target>`, `packaging`, `help`, `report=agent` |
 | `/002-sg-maintain` | Master maintenance lifecycle from triage through delegated fixes, verification, and ship | `quick`, `full`, `security`, `global`, `no-ship` |
 | `/007-sg-content` | Master content lifecycle for strategy, repurposing, drafting, enrichment, project-aware quality scoring, audits, docs, validation, and ship routing | `plan`, `repurpose`, `draft`, `enrich`, `audit`, `seo`, `editorial`, `apply`, `ship`, `score`, `quality gate`, `grille projet` |
-| `/006-sg-design` | Master design lifecycle for UI/UX, tokens, playgrounds, a11y, private inspiration-library curation, implementation, proof, and ship routing | `library add <url>`, `library approve <id>`, `library list`, `library status`, `tokens`, `audit`, `playground`, page/route, or natural-language design goal |
-| `/008-sg-end-user` | End-user experience skill for UX/UI clarity, friction, trust, activation, onboarding, recovery, docs impact, and proof routing | `<feature, flow, screen, shipped change, or end-user audit target>` |
+| `/006-sg-design` | Sole public design lifecycle for system creation, playgrounds, UI/design-token/component/accessibility audits, private inspiration-library curation, implementation routing, proof, and ship routing | `system [scope]`, `playground [route-path]`, `audit <ui|tokens|components|a11y> [scope]`, `redesign [scope]`, `migration [scope]`, `library <add|approve|list|status> ...`, or a natural-language design goal |
+| `/008-sg-customer` | Customer-experience skill for UX/UI clarity, friction, trust, activation, onboarding, recovery, docs impact, and proof routing | `<feature, flow, screen, shipped change, or end-user audit target>` |
 | `/600-sg-local-cloud-sync` | Local-to-cloud data sync contract for promotion, merge, sync UX, sensitive-data policy, and proof routing | `<project, feature, data domains, or sync question>` |
 | `/601-sg-product-entitlements` | Product access lifecycle contract for entitlement ownership, provider events, backend gates, support flows, and sync handoffs | `<project or feature with access, plans, provider events, or support questions>` |
 | `/003-sg-bug` | Professional bug loop lifecycle executor for intake, bug files, fixes, retests, verification, and ship risk | `BUG-ID`, `--retest BUG-ID`, `--ship BUG-ID` |
@@ -168,8 +168,7 @@ Only bootstrap/install owners need the clone contract. Most help answers should 
 |-------|---------|-----------|
 | `/400-sg-audit` | Master orchestrator (all 8 domains) | `@file`, `global`, or nothing |
 | `/401-sg-audit-code` | Architecture, security, reliability, system fit (anti-duplication) | `@file`, `global`, or nothing |
-| `/502-sg-audit-design` | UI/UX, a11y, responsiveness | `@file`, `global`, or nothing |
-| `/500-sg-design-from-scratch` | Build a professional tokenized design system from an existing UI | `tokens-only`, `with-playground`, `@file`, or nothing |
+| `/006-sg-design` | Design system, playground, UI/design-token/component/accessibility audits | `system [scope]`, `playground [route]`, `audit <ui|tokens|components|a11y> [scope]` |
 | `/206-sg-audit-copy` | Copywriting, tone, CTAs | `@file`, `global`, or nothing |
 | `/406-sg-seo` | Meta tags, structured data, links | `@file`, `global`, or nothing |
 | `/408-sg-audit-gtm` | Go-to-market, conversion, trust | `@file`, `global`, or nothing |
@@ -196,16 +195,16 @@ Note: `/107-sg-test` supports a `checklist-first` mode: when a spec defines `shi
 Note: `/003-sg-bug` is the recommended entrypoint when you want the whole professional bug loop executed from a `BUG-ID`, retest, closure question, or ship-risk question.
 Note: `/102-sg-start` now reuses the `704-sg-model` routing matrix and can choose `single-agent` vs `multi-agent` execution with explicit file ownership and per-group model overrides.
 Note: `/100-sg-spec` → `/101-sg-ready` → `/102-sg-start` → `/103-sg-verify` now share a `User Story` contract and should ask targeted user questions whenever behavior, scope, or security is still ambiguous.
-Note: UI/design work must resolve through the project design-system authority. Use `/300-sg-docs technical` when the authority is missing, `/006-sg-design` for design lifecycle work, `/500-sg-design-from-scratch` to establish a tokenized system, `/503-sg-audit-design-tokens` to audit token health, and `/504-sg-audit-components` to audit component conformance.
+Note: UI/design work must resolve through the project design-system authority. Use `/300-sg-docs technical` when the authority is missing; then use `/006-sg-design system`, `audit tokens`, `audit components`, or `audit a11y` as the need requires.
 Note: `/shipflow` is the recommended first command for non-technical operators. It answers directly when no file work is needed, otherwise it hands off in the main conversation to the right owner skill; selected master skills own their own delegated sequential execution.
 Note: `/001-sg-build` is the recommended end-user entrypoint for non-trivial work; invocation authorizes bounded delegated sequential execution for the current chantier, while parallel execution requires ready non-overlapping `Execution Batches`.
 Note: `/004-sg-deploy` is the recommended release entrypoint when the operator wants the whole confidence loop after implementation: checks, bounded ship, deployment truth, post-deploy evidence routing, verification, and optional changelog.
 Note: `/002-sg-maintain` is the recommended recurring maintenance entrypoint for existing projects; by default it carries maintenance through spec/readiness when needed, bounded delegated execution, verification, and ship/deploy routing. Use `/002-sg-maintain quick` for read-only triage.
 Note: `/007-sg-content` is the recommended entrypoint for content management (`CONTENT_MAP + editorial corpus -> owner content skills -> audits/docs -> validation -> 103-sg-verify -> 005-sg-ship`). When the operator asks to score or grade content for a project, content owner skills use `skills/references/content-quality-rubric.md` and project rules from `shipglowz_data/business/*` plus `shipglowz_data/editorial/*`.
-Note: `/008-sg-end-user` is the recommended entrypoint for end-user experience after feature work: UX/UI clarity, friction, trust, first-success path, setup order, skipped/blocked/recoverable states, docs impact, and proof routing.
+Note: `/008-sg-customer` is the recommended entrypoint for end-user experience after feature work: UX/UI clarity, friction, trust, first-success path, setup order, skipped/blocked/recoverable states, docs impact, and proof routing.
 Note: `/600-sg-local-cloud-sync` is the recommended entrypoint when local-first user data must become account-backed cloud data: account association, promotion, hydration, merge/conflict policy, tombstones, sync/save UX states, sensitive-data exclusions, and proof routing.
 Note: `/601-sg-product-entitlements` is the recommended entrypoint when identity, provider events, paid plans, activation codes, refunds/revokes, product-local access mirrors, backend authorization gates, or entitlement-gated sync preconditions are in scope.
-Note: `/009-sg-skill-build` is the recommended entrypoint for ShipGlowz skill maintenance (`700-sg-explore when needed -> 100-sg-spec -> SKILL.md -> 307-sg-skills-refresh -> budget audit -> 103-sg-verify -> 300-sg-docs/help update -> 005-sg-ship`).
+Note: `/900-shipglowz-core build` is the sole internal entrypoint for ShipGlowz skill maintenance (`700-sg-explore when needed -> 100-sg-spec -> SKILL.md -> runtime sync -> 900-shipglowz-core refresh -> budget audit -> 103-sg-verify -> 300-sg-docs/help update -> 005-sg-ship`).
 Note: `/310-sg-github-hygiene` is the focused entrypoint when the problem is git/GitHub hygiene rather than general maintenance: branch sync, stale refs, PR drift, and Dependabot backlog triage with bounded safe fixes.
 Note: `/900-shipglowz-core` is internal and operator-only. Use it to audit ShipGlowz skill execution fidelity or plugin-packaging readiness; do not include it in the public `shipflow` user plugin.
 Note: User-facing skill questions follow the shared question contract: ask only when the answer changes route, scope, risk, proof, closure, ship posture, public claims, or technical/product/editorial direction; otherwise proceed only with a context-safe, verifiable default.
@@ -238,13 +237,10 @@ Internal role matrix:
 | `skills/000-shipglowz/SKILL.md` | non-applicable | helper | Primary router only; selected owner skill owns durable state and chantier tracing. |
 | `skills/707-name/SKILL.md` | non-applicable | helper | Never writes to specs; report non-applicable when useful. |
 | `skills/706-continue/SKILL.md` | conditionnel | pilotage | Route to `/100-sg-spec` only when continuation clearly needs a durable chantier. |
-| `skills/409-sg-audit-a11y/SKILL.md` | conditionnel | source-de-chantier | Accessibility findings become a chantier when severity, scope, remediation sequencing, or validation need exceeds a direct fix. |
 | `skills/401-sg-audit-code/SKILL.md` | conditionnel | source-de-chantier | Code findings become a chantier for P0/P1, architectural/security risk, or multi-file remediation. |
-| `skills/504-sg-audit-components/SKILL.md` | conditionnel | source-de-chantier | Component findings become a chantier for systemic duplication, variant drift, or cross-component remediation. |
 | `skills/206-sg-audit-copy/SKILL.md` | conditionnel | source-de-chantier | Copy findings become a chantier for multi-page conversion, legal, trust, or positioning work. |
 | `skills/207-sg-audit-copywriting/SKILL.md` | conditionnel | source-de-chantier | Strategic copy findings become a chantier when persuasion, offer, or funnel decisions are required. |
-| `skills/503-sg-audit-design-tokens/SKILL.md` | conditionnel | source-de-chantier | Token findings become a chantier for design-system drift or migration across multiple surfaces. |
-| `skills/502-sg-audit-design/SKILL.md` | conditionnel | source-de-chantier | Design findings become a chantier for multi-screen UX, a11y, or responsive remediation. |
+| `skills/006-sg-design/SKILL.md` | obligatoire | lifecycle | The sole public design owner; explicit audit modes preserve source-de-chantier evaluation before routing remediation. |
 | `skills/408-sg-audit-gtm/SKILL.md` | conditionnel | source-de-chantier | GTM findings become a chantier when offer, funnel, analytics, pricing, or trust changes require decisions. |
 | `skills/406-sg-seo/SKILL.md` | conditionnel | source-de-chantier | SEO findings become a chantier for indexation, schema, content architecture, or multi-page remediation. |
 | `skills/407-sg-audit-translate/SKILL.md` | conditionnel | source-de-chantier | Translation findings become a chantier for locale strategy, broad sync, or quality gates. |
@@ -255,12 +251,8 @@ Internal role matrix:
 | `skills/304-sg-changelog/SKILL.md` | conditionnel | support-de-chantier | Supports release documentation; not a source by default. |
 | `skills/105-sg-check/SKILL.md` | conditionnel | source-de-chantier | Failed checks become a chantier when failures span domains, block release, or need staged remediation. |
 | `skills/705-sg-conversation-audit/SKILL.md` | conditionnel | source-de-chantier | Conversation evidence findings become a chantier when recurrence, repeatable routing gaps, or cross-owner quality risks appear. |
-| `skills/900-shipglowz-core/SKILL.md` | conditionnel | support-de-chantier | Internal operator audit supports skill-execution fidelity and plugin-packaging readiness; it is not a public user-plugin surface. |
 | `skills/301-sg-context/SKILL.md` | non-applicable | helper | Context discovery is read-only; not a chantier source. |
 | `skills/402-sg-deps/SKILL.md` | conditionnel | source-de-chantier | Dependency findings become a chantier for critical/high risk, supply-chain trust, migration, or automation gaps. |
-| `skills/006-sg-design/SKILL.md` | obligatoire | lifecycle | Master design lifecycle for routing design requests through specialist owner skills, spec-first implementation, proof, verification, and ship. |
-| `skills/500-sg-design-from-scratch/SKILL.md` | conditionnel | source-de-chantier | Design-system creation becomes a chantier when tokenization or migration spans multiple surfaces. |
-| `skills/501-sg-design-playground/SKILL.md` | conditionnel | support-de-chantier | Supports design-token work; route only on explicit formalization request. |
 | `skills/300-sg-docs/SKILL.md` | conditionnel | support-de-chantier | Supports docs coherence; not a source unless the user asks to frame a spec. |
 | `skills/104-sg-end/SKILL.md` | obligatoire | lifecycle | Closes an existing chantier; not a source. |
 | `skills/004-sg-deploy/SKILL.md` | obligatoire | lifecycle | Orchestrates the release confidence loop through checks, ship, deploy truth, post-deploy evidence, verification, and changelog routing. |
@@ -275,7 +267,7 @@ Internal role matrix:
 | `skills/404-sg-migrate/SKILL.md` | conditionnel | source-de-chantier | Migration findings become a chantier for breaking changes, staged upgrades, or rollback/validation planning. |
 | `skills/002-sg-maintain/SKILL.md` | obligatoire | lifecycle | Master maintenance lifecycle: triage, spec/readiness, bounded delegated execution, verification, and ship/deploy routing. |
 | `skills/704-sg-model/SKILL.md` | non-applicable | helper | Model advice does not mutate specs; report non-trace when useful. |
-| `skills/008-sg-end-user/SKILL.md` | conditionnel | source-de-chantier | End-user experience findings become a chantier when UX/UI clarity, activation, onboarding, permissions, docs, proof, or multiple surfaces need implementation. |
+| `skills/008-sg-customer/SKILL.md` | conditionnel | source-de-chantier | Customer-experience findings become a chantier when UX/UI clarity, activation, onboarding, permissions, docs, proof, or multiple surfaces need implementation. |
 | `skills/600-sg-local-cloud-sync/SKILL.md` | conditionnel | source-de-chantier | Sync findings become a chantier when local/cloud data promotion, account association, merge policy, sync UX, sensitive-data policy, or proof needs implementation. |
 | `skills/601-sg-product-entitlements/SKILL.md` | obligatoire | lifecycle | Product-entitlement work becomes a chantier for access ownership, provider events, backend gates, support flows, and sync handoff implementation. |
 | `skills/403-sg-perf/SKILL.md` | conditionnel | source-de-chantier | Perf findings become a chantier for Core Web Vitals risk, systemic rendering/fetching issues, or multi-file remediation. |
@@ -289,10 +281,9 @@ Internal role matrix:
 | `skills/703-sg-review/SKILL.md` | conditionnel | pilotage | Review routes to `/100-sg-spec` only for explicit follow-up work. |
 | `skills/306-sg-scaffold/SKILL.md` | conditionnel | support-de-chantier | Supports implementation; not a source by default. |
 | `skills/005-sg-ship/SKILL.md` | obligatoire | lifecycle | Ships an existing chantier; not a source. |
-| `skills/307-sg-skills-refresh/SKILL.md` | conditionnel | support-de-chantier | Supports skill maintenance; route to spec for broad policy changes only. |
 | `skills/310-sg-github-hygiene/SKILL.md` | non-applicable | helper | Focused git/GitHub hygiene for sync drift, stale branches, PR drift, and Dependabot backlog; it does not own chantier lifecycle state. |
 | `skills/100-sg-spec/SKILL.md` | obligatoire | lifecycle | Creates or updates the chantier spec and initial history row. |
-| `skills/009-sg-skill-build/SKILL.md` | obligatoire | lifecycle | Executes the skill-maintenance lifecycle for new or modified ShipGlowz skills. |
+| `skills/900-shipglowz-core/SKILL.md` | obligatoire | lifecycle | Sole internal owner for ShipGlowz skill audit, build, refresh, and packaging modes; it remains operator-only and outside the public user plugin. |
 | `skills/102-sg-start/SKILL.md` | obligatoire | lifecycle | Executes an existing chantier; not a source. |
 | `skills/308-sg-status/SKILL.md` | non-applicable | helper | Status dashboards stay read-only for chantier specs. |
 | `skills/309-sg-tasks/SKILL.md` | conditionnel | pilotage | Task management routes to `/100-sg-spec` only for durable non-trivial work. |
@@ -374,7 +365,7 @@ Run any skill from `~/` (no project markers) and it asks **"Which project(s)?"**
 | `/308-sg-status` | No view mode argument | Issues only / Dirty only / All projects |
 | `/301-sg-context` | Context priming completed | Proceed now / Add 1 key file / Refine target |
 | `/100-sg-spec` | Small/local change | Spec light / Spec full / Auto by risk |
-| `/009-sg-skill-build` | Skill idea or placement is too fuzzy | Ask one targeted question / Route to `/700-sg-explore` / Continue to `/100-sg-spec` |
+| `/900-shipglowz-core build` | Skill idea or placement is too fuzzy | Ask one targeted question / Route to `/700-sg-explore` / Continue to `/100-sg-spec` |
 | `/103-sg-verify` | Verdict is not ready | Fix now / Return to spec / Stop and resume later |
 
 ### Clarification prompts (important)

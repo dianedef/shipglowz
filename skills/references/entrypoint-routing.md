@@ -21,9 +21,8 @@ linked_systems:
   - skills/004-sg-deploy/SKILL.md
   - skills/007-sg-content/SKILL.md
   - skills/006-sg-design/SKILL.md
-  - skills/008-sg-end-user/SKILL.md
+  - skills/008-sg-customer/SKILL.md
   - skills/600-sg-local-cloud-sync/SKILL.md
-  - skills/009-sg-skill-build/SKILL.md
   - skills/900-shipglowz-core/SKILL.md
   - skills/400-sg-audit/SKILL.md
   - skills/references/master-delegation-semantics.md
@@ -108,7 +107,7 @@ Tags such as `#partner`, `#growth`, `#traffic`, `#acquisition`, `#offer`, `#roi`
 
 Tags such as `#end-user`, `#cta`, `#clarity`, `#faq`, `#voice`, `#audience`, `#source`, `#repurpose`, `#pillar`, and `#seo-intent` imply:
 
-- bias toward `007-sg-content`, `008-sg-end-user`, or declared public content surfaces when the problem is mainly message quality, activation clarity, discoverability, or objection handling
+- bias toward `007-sg-content`, `008-sg-customer`, or declared public content surfaces when the problem is mainly message quality, activation clarity, discoverability, or objection handling
 - prefer public copy, onboarding flow, FAQ, or semantic-architecture fixes over isolated code edits when the friction is mostly comprehension or activation
 - treat readability, user usefulness, and discoverability as owner concerns, not as optional polish
 - when `#source` is present, load `skills/references/source-intake-classification.md` and classify source type, project/corpus fit, useful angle, risks, and owner skill before transforming the source
@@ -121,7 +120,7 @@ Tags such as `#rules`, `#docs`, `#canon`, `#drift`, `#owner`, `#freshness`, `#tr
 - when `#docs` is present, bias toward documentation architecture, metadata, canonical placement, and `300-sg-docs` owner routing before treating the issue as generic project governance
 - prefer the canonical owner artifact instead of editing duplicated surfaces first
 - if code, docs, and public surfaces are potentially diverged, route to the owner path that can repair the source of truth and then propagate outward
-- bias toward `002-sg-maintain`, `300-sg-docs`, `009-sg-skill-build`, or ShipGlowz-internal docs work when the main issue is documentation truth, routing truth, or governance drift
+- bias toward `002-sg-maintain`, `300-sg-docs`, `900-shipglowz-core build`, or ShipGlowz-internal docs work when the main issue is documentation truth, routing truth, or governance drift
 - when `#public-docs` and `#internal-docs` conflict, ask one concise routing question only if the same edit cannot safely satisfy both
 
 ### Execution And System Tags
@@ -160,7 +159,7 @@ A read-only routing scout is allowed only for cheap classification evidence and 
 | --- | --- |
 | Pure question, explanation, model/help clarification, or advice with no files | Direct answer |
 | Numeric skill code such as `001`, `001-sg-build`, or `001sfbuild` | Runtime skill from `skills/references/skill-code-index.md` |
-| Build or change a user-facing feature and also think about end-user clarity, UX/UI friction, activation, beginner adoption, or first-success guidance | `001-sg-build` first; `001-sg-build` evaluates the post-implementation `008-sg-end-user` gate |
+| Build or change a user-facing feature and also think about end-user clarity, UX/UI friction, activation, beginner adoption, or first-success guidance | `001-sg-build` first; `001-sg-build` evaluates the post-implementation `008-sg-customer` gate |
 | Feature, product change, code work, site work, docs work, workflow improvement, broad bug-like goal without durable bug state | `001-sg-build` |
 | Recurring upkeep, dependency posture, docs drift, checks, audits, migrations, project hygiene, security maintenance | `002-sg-maintain` |
 | Observed defect, `BUG-ID`, retest, bug closure, bug fix state, bug ship risk | `003-sg-bug` |
@@ -169,11 +168,11 @@ A read-only routing scout is allowed only for cheap classification evidence and 
 | Content strategy, repurposing, drafting, enrichment, SEO/copy audit, editorial governance, content apply/publish | `007-sg-content` |
 | Source intake, pasted email/article/transcript/URL classification, project fit, useful angle, or owner-skill choice | Load `skills/references/source-intake-classification.md`, then route to the owner skill |
 | Design request, UI/UX work, redesign, design tokens, design playground, accessibility design, component design, visual proof, or token migration | `006-sg-design` |
-| End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-end-user` |
+| End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-customer` |
 | Local-first data promotion, cloud hydration, account sync, merge/conflict policy, reinstall recovery, or sync/save UX state | `600-sg-local-cloud-sync` |
 | Product access, paid plans, premium gates, entitlement ledgers, provider events, activation codes, refunds/revokes, support access flows, or backend access gates | `601-sg-product-entitlements` |
-| New skill, skill modification, skill runtime visibility, skill public page, skill docs/help coherence | `009-sg-skill-build` |
-| ShipGlowz Core, internal skill execution-fidelity audit, or public-plugin packaging readiness for ShipGlowz itself | `900-shipglowz-core` |
+| New skill, skill modification, skill runtime visibility, skill public page, skill docs/help coherence | `900-shipglowz-core build` |
+| ShipGlowz Core execution-fidelity audit or public-plugin packaging readiness for ShipGlowz itself | `900-shipglowz-core audit <scope>` or `900-shipglowz-core packaging <scope>` |
 | One obvious audit domain only | relevant `400-sg-audit-*` or `400-sg-audit` |
 | One obvious focused lane: checks, docs, browser proof, auth diagnosis, manual QA, dependency posture, migration, final ship | focused owner skill |
 | Ambiguous material route | Ask one concise numbered routing question |

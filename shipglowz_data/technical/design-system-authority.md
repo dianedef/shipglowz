@@ -95,7 +95,7 @@ If no declaration exists:
 
 1. inspect existing brand docs, global styles, theme files, component primitives, and framework config
 2. propose the declaration in this artifact or the scoped app doc
-3. route to `500-sg-design-from-scratch` when no coherent token layer exists
+3. route to `006-sg-design system` when no coherent token layer exists
 4. route to `006-sg-design` or spec-first when multiple sources compete
 
 If components consume one theme source while pages or utilities use another, report `split-brain`. Do not make visual changes until the authority is unified or the exception is explicitly documented.

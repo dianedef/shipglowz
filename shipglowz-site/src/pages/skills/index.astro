@@ -32,7 +32,7 @@ const categoryCopy: Record<(typeof categoryOrder)[number], string> = {
 const runtimeFamilies = [
   {
     title: "Lifecycle and master",
-    skills: "shipflow, sf-build, sf-maintain, sf-deploy, sf-design, sf-content, sf-end-user, sf-skill-build, plus the manual spec -> ready -> start -> verify -> end -> ship path",
+    skills: "shipflow, sf-build, sf-maintain, sf-deploy, sf-design, sf-content, sf-customer, plus the manual spec -> ready -> start -> verify -> end -> ship path",
     role:
       "Use these when the work should move across several gates instead of staying inside one specialist lane."
   },
@@ -56,7 +56,7 @@ const runtimeFamilies = [
   },
   {
     title: "Content, docs, and support",
-    skills: "sf-docs, sf-redact, sf-enrich, sf-repurpose, sf-changelog, sf-scaffold, sf-skills-refresh, sf-init",
+    skills: "sf-docs, sf-redact, sf-enrich, sf-repurpose, sf-changelog, sf-scaffold, sf-init",
     role:
       "Use these to keep public content, documentation, scaffolding, skill contracts, and governance surfaces coherent with shipped behavior."
   },
@@ -162,7 +162,7 @@ const groupedSkills = categoryOrder.map((category) => ({
             Use `shipflow <instruction>` when you do not want to choose a skill
             manually. It answers simple questions directly or hands the current
             thread to `sf-build`, `sf-maintain`, `sf-deploy`, `sf-bug`,
-            `sf-content`, `sf-design`, `sf-end-user`, `sf-skill-build`, or an obvious audit specialist.
+            `sf-content`, `sf-design`, `sf-customer`, or an obvious audit specialist.
             If the route is not context-safe, it asks one numbered decision
             question instead of guessing.
           </p>

@@ -17,7 +17,7 @@ linked_systems:
   - skills/102-sg-start/SKILL.md
   - skills/106-sg-fix/SKILL.md
   - skills/003-sg-bug/SKILL.md
-  - skills/009-sg-skill-build/SKILL.md
+  - skills/900-shipglowz-core/SKILL.md
   - skills/103-sg-verify/SKILL.md
   - skills/references/master-workflow-lifecycle.md
   - skills/references/master-delegation-semantics.md

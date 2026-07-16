@@ -46,7 +46,6 @@ limits:
 related_skills:
   - "sg-build"
   - "sg-verify"
-  - "sg-skill-build"
   - "sg-docs"
   - "sg-spec"
 featured: false

@@ -7,13 +7,17 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills" / "900-shipglowz-core" / "SKILL.md"
-BASELINE_LINES = 162
+BUILD_PLAYBOOK = ROOT / "skills" / "900-shipglowz-core" / "references" / "skill-maintenance-playbook.md"
+REFRESH_PLAYBOOK = ROOT / "skills" / "900-shipglowz-core" / "references" / "skill-refresh-playbook.md"
+MAX_ACTIVATION_LINES = 220
 
 
 class ShipGlowzCoreContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.text = SKILL.read_text(encoding="utf-8")
+        cls.build = BUILD_PLAYBOOK.read_text(encoding="utf-8")
+        cls.refresh = REFRESH_PLAYBOOK.read_text(encoding="utf-8")
 
     def test_system_improvement_fields_have_one_owner_definition(self) -> None:
         for field in (
@@ -39,7 +43,67 @@ class ShipGlowzCoreContractTests(unittest.TestCase):
         self.assertIn("python3 -m unittest tools.test_900_shipglowz_core_contract", self.text)
 
     def test_activation_contract_is_compacted(self) -> None:
-        self.assertLess(len(self.text.splitlines()), BASELINE_LINES)
+        self.assertLess(len(self.text.splitlines()), MAX_ACTIVATION_LINES)
+
+    def test_packaging_uses_canonical_public_identity_without_exposing_core(self) -> None:
+        self.assertIn("`shipglowz` as the canonical public plugin", self.text)
+        self.assertIn("`$shipglowz` as its public entrypoint", self.text)
+        self.assertIn("`shipflow` is a compatibility alias only", self.text)
+        self.assertIn("`900-shipglowz-core` internal and repo-synced", self.text)
+        self.assertIn("deprecated historical pilot, never canonical or public", self.text)
+        self.assertNotIn("Keep `shipflow` as the public user-facing plugin", self.text)
+        self.assertNotIn("Keep `shipflow-core` internal and repo-synced", self.text)
+
+    def test_mode_scenarios_cover_valid_invalid_and_retired_inputs(self) -> None:
+        for mode in ("`audit`", "`build`", "`refresh`", "`packaging`", "`help`"):
+            self.assertIn(mode, self.text)
+        self.assertIn("Bare or invalid input", self.text)
+        self.assertIn("without a target are invalid", self.text)
+        self.assertIn("names as aliases", self.text)
+        self.assertIn("Missing local playbook", self.text)
+
+    def test_build_playbook_preserves_lifecycle_runtime_and_surface_guards(self) -> None:
+        for rule in (
+            "Search adjacent skills",
+            "Blueprint extraction",
+            "100-sg-spec -> 101-sg-ready -> 102-sg-start -> 103-sg-verify -> 104-sg-end -> 005-sg-ship",
+            "scenario and proof path",
+            "display name to equal the exact invocation key",
+            "skill-context-budget",
+            "fresh-docs not needed",
+            "Documentation Update Plan",
+            "generic third-party generation",
+            "operator-partnership-contract",
+            "public by default",
+        ):
+            self.assertIn(rule, self.build)
+
+    def test_refresh_playbook_preserves_conservative_contract(self) -> None:
+        for rule in (
+            "exact existing `skills/<name>/SKILL.md`",
+            "prohibited",
+            "official/primary sources",
+            "decision-only",
+            "update strictly obsolete checks in place",
+            "skills/REFRESH_LOG.md",
+            "**Sources:** N URLs consulted",
+            "cross-surface coherence",
+            "monthly maintenance pass",
+            "Never edit its frontmatter `name:`",
+            "Preserve every still-valid check",
+            "Prepend one most-recent-first block",
+        ):
+            self.assertIn(rule, self.refresh)
+
+    def test_build_requires_refresh_before_verify_with_narrow_exceptions(self) -> None:
+        self.assertIn("900 refresh -> 103", self.text)
+        self.assertIn("Every material skill edit receives conservative `refresh <target>` review", self.text)
+        self.assertIn("before the final budget audit and `103-sg-verify`", self.build)
+        self.assertIn("ordinary self-refresh stays prohibited", self.build)
+        self.assertIn("independent manual review", self.build)
+        self.assertIn("scenario-first and source-completeness proof", self.build)
+        self.assertIn("`refresh not needed` only with a written justification and focused proof", self.build)
+        self.assertIn("`fresh-docs not needed` is not that justification", self.build)
 
 
 if __name__ == "__main__":

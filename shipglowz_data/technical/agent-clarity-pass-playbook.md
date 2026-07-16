@@ -34,7 +34,7 @@ evidence:
   - "The campaign succeeded by keeping each phase bounded, clarifying one operator question per skill, and adding explicit stay/handoff/non-owner wording."
   - "A final transversal audit found no major role collision after bounded phases, only a duplicate taxonomy bullet that was removed in a micro-fix."
 next_review: "2026-12-27"
-next_step: "/009-sg-skill-build run the next bounded agent-clarity pass when ambiguity reappears"
+next_step: "/900-shipglowz-core build run the next bounded agent-clarity pass when ambiguity reappears"
 ---
 
 # Agent Clarity Pass Playbook

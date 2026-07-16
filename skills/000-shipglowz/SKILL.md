@@ -31,7 +31,7 @@ Before deciding execution topology, load `$SHIPFLOW_ROOT/skills/references/maste
 - hand off directly in the main conversation to the selected skill contract when work belongs to an existing skill
 - ask one numbered routing question when multiple routes are plausible and the answer changes behavior, risk, data, permissions, public claims, staging, closure, or ship posture
 
-Do not launch a selected master skill inside a subagent. In particular, do not run `001-sg-build`, `002-sg-maintain`, `003-sg-bug`, `004-sg-deploy`, `007-sg-content`, `600-sg-local-cloud-sync`, or `009-sg-skill-build` as a nested subagent from `000-shipglowz`. After direct handoff, the selected master or domain skill owns its own delegated sequential execution through the shared delegation reference.
+Do not launch a selected master skill inside a subagent. In particular, do not run `001-sg-build`, `002-sg-maintain`, `003-sg-bug`, `004-sg-deploy`, `007-sg-content`, `600-sg-local-cloud-sync`, or `900-shipglowz-core build` as a nested subagent from `000-shipglowz`. After direct handoff, the selected master or domain skill owns its own delegated sequential execution through the shared delegation reference.
 
 Use a read-only routing scout only when all of these are true:
 
@@ -119,7 +119,7 @@ For requests involving declared products, sales surfaces, or public claims, pref
 | Intent | Route |
 | --- | --- |
 | Pure question, explanation, or advice with no file work | Answer directly |
-| Build or change a user-facing feature and also think about end-user clarity, UX/UI friction, activation, beginner adoption, or first-success guidance | `001-sg-build <instruction>` first; `001-sg-build` evaluates the post-implementation `008-sg-end-user` gate |
+| Build or change a user-facing feature and also think about end-user clarity, UX/UI friction, activation, beginner adoption, or first-success guidance | `001-sg-build <instruction>` first; `001-sg-build` evaluates the post-implementation `008-sg-customer` gate |
 | Non-trivial feature, code, site, docs, product, or workflow work | `001-sg-build <instruction>` |
 | Create a new app from scratch (carnet, gestion, CRUD, etc.) | `001-sg-build <instruction>` — le Blueprint Gate cherchera un blueprint correspondant dans `skills/app-blueprints/` pour guider la creation |
 | Recurring maintenance, security upkeep, dependencies, docs drift, checks, audit freshness, migrations, or project hygiene | `002-sg-maintain <mode or instruction>` |
@@ -129,12 +129,13 @@ For requests involving declared products, sales surfaces, or public claims, pref
 | Content strategy, repurposing, drafting, enrichment, SEO/copy audit, editorial governance, apply/publish content | `007-sg-content <instruction>` |
 | Source intake, pasted email/article/transcript/URL classification, project fit, angle selection, or owner-skill choice | Load `source-intake-classification.md`, then route to the owner skill |
 | Design request, UI/UX work, redesign, design tokens, playground, accessibility design, component design, visual proof, or token migration | `006-sg-design <instruction>` |
-| End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-end-user <instruction>` |
+| End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-customer <instruction>` |
 | Local-first data promotion, cloud hydration, account sync, merge/conflict policy, reinstall recovery, or sync/save UX state | `600-sg-local-cloud-sync <instruction>` |
 | Product access, paid plans, premium gates, entitlement ledgers, provider events, activation codes, refunds/revokes, support access flows, or backend access gates | `601-sg-product-entitlements <instruction>` |
-| Create, modify, rename, document, refresh, or validate ShipGlowz skills | `009-sg-skill-build <instruction>` |
-| Extract a blueprint from an existing app, create a new blueprint | `009-sg-skill-build <instruction>` — route à `009-sg-skill-build` (ShipGlowz interne), pas à `001-sg-build` (end-user) |
-| ShipGlowz Core, internal skill execution-fidelity audit, or public-plugin packaging readiness for ShipGlowz itself | `900-shipglowz-core <instruction>` |
+| Create, modify, rename, document, or validate ShipGlowz skills | `900-shipglowz-core build <instruction>` |
+| Refresh an existing ShipGlowz skill conservatively | `900-shipglowz-core refresh <target>` |
+| Extract a blueprint from an existing app, create a new blueprint | `900-shipglowz-core build <instruction>` — route à `900-shipglowz-core build` (ShipGlowz interne), pas à `001-sg-build` (end-user) |
+| ShipGlowz Core execution-fidelity audit or public-plugin packaging readiness for ShipGlowz itself | `900-shipglowz-core audit <scope>` or `900-shipglowz-core packaging <scope>` |
 | One obvious audit domain only | relevant `400-sg-audit-* <instruction>` or `400-sg-audit <instruction>` |
 | One obvious owner lane only, such as checks, docs, browser proof, auth diagnosis, manual QA, dependency posture, migration, or final ship | focused owner skill |
 | Ambiguous between two or more material routes | Ask one concise numbered routing question |
@@ -154,7 +155,7 @@ When routing a user-facing feature to `001-sg-build` and the instruction mention
 onboarding, activation, beginner users, setup guidance, discoverability, or
 first-success, preserve that as a post-build activation requirement. `001-sg-build`
 owns the implementation lifecycle first, then evaluates whether to route or
-suggest `008-sg-end-user`.
+suggest `008-sg-customer`.
 
 Do not stop at "run `/skill ...`" when the user asked ShipGlowz to handle the work and the route is safe. A command recommendation is acceptable only for pure orientation, unsupported runtime handoff, or a blocked state.
 

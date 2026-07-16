@@ -92,7 +92,7 @@ Stop browser proof when:
 - Config is correct but the current MCP process still reports `/opt/google/chrome/chrome`.
 - A reference required for the requested objective is missing from its canonical ShipGlowz path.
 
-In those cases, do not diagnose the app. Report the runtime or ShipGlowz installation blocker. For Playwright runtime blockers, route to `/106-sg-fix BUG-2026-05-02-001` or request a Codex/MCP reload as the runtime reference requires. For missing ShipGlowz references, report the missing canonical path and route to `/009-sg-skill-build` or `/106-sg-fix` instead of continuing with partial local memory.
+In those cases, do not diagnose the app. Report the runtime or ShipGlowz installation blocker. For Playwright runtime blockers, route to `/106-sg-fix BUG-2026-05-02-001` or request a Codex/MCP reload as the runtime reference requires. For missing ShipGlowz references, report the missing canonical path and route to `/900-shipglowz-core build` or `/106-sg-fix` instead of continuing with partial local memory.
 
 ## Verification Flow
 

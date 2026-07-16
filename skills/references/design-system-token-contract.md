@@ -16,11 +16,7 @@ docs_impact: yes
 linked_systems:
   - shipglowz_data/technical/design-system-authority.md
   - skills/006-sg-design/SKILL.md
-  - skills/500-sg-design-from-scratch/SKILL.md
-  - skills/501-sg-design-playground/SKILL.md
-  - skills/502-sg-audit-design/SKILL.md
-  - skills/503-sg-audit-design-tokens/SKILL.md
-  - skills/504-sg-audit-components/SKILL.md
+  - skills/006-sg-design/references/
   - skills/102-sg-start/SKILL.md
   - skills/103-sg-verify/SKILL.md
   - skills/106-sg-fix/SKILL.md

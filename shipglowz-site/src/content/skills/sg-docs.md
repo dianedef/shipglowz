@@ -36,7 +36,7 @@ limits:
   - "A local README refresh is not enough when the real issue is mixed governance layout or stale metadata contracts"
   - "Bug workflow docs should be checked for coherence across shipglowz_data/workflow/TEST_LOG.md, shipglowz_data/workflow/BUGS.md, dossier formats, and public skill pages"
   - "Docs audits should also verify skill-budget coherence with the ShipGlowz skill budget audit script when skill docs change"
-  - "Skill-contract changes still belong to sg-skill-build; sg-docs keeps the docs and public surfaces coherent"
+  - "Skill-contract changes belong to the internal 900 core build workflow; sg-docs keeps the docs and public surfaces coherent"
 related_skills:
   - "sg-context"
   - "sg-spec"

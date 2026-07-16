@@ -108,7 +108,7 @@ Default targets:
 
 Descriptions must front-load trigger words because both Codex and Claude Code can shorten long descriptions.
 
-This policy should be enforced in skill-specific workflows such as `300-sg-docs` and `307-sg-skills-refresh`, plus the executable audit. Do not add broad reminders to general agent files such as `AGENT.md`, `CONTEXT.md`, or `GUIDELINES.md`; agents working on unrelated tasks should not carry this extra decision load.
+This policy should be enforced in skill-specific workflows such as `300-sg-docs` and `900-shipglowz-core refresh`, plus the executable audit. Do not add broad reminders to general agent files such as `AGENT.md`, `CONTEXT.md`, or `GUIDELINES.md`; agents working on unrelated tasks should not carry this extra decision load.
 
 Good description pattern:
 

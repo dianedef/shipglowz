@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.2.1"
 project: ShipGlowz
 created: "2026-06-23"
-updated: "2026-06-23"
+updated: "2026-07-15"
 status: draft
 source_skill: 009-sg-skill-build
 scope: app-blueprints
@@ -16,7 +16,7 @@ docs_impact: yes
 linked_systems:
   - skills/001-sg-build/SKILL.md
   - skills/001-sg-build/references/build-lifecycle-workflow.md
-  - skills/009-sg-skill-build/SKILL.md
+  - skills/900-shipglowz-core/SKILL.md
   - skills/100-sg-spec/SKILL.md
   - skills/306-sg-scaffold/SKILL.md
   - skills/204-sg-market-study/SKILL.md
@@ -28,8 +28,9 @@ evidence:
   - "User decision 2026-06-23: blueprints serve as global spec skeletons for app archetypes."
   - "User decision 2026-06-23: each blueprint lives in its own GitHub repo, ShipGlowz holds the registry."
   - "User decision 2026-06-23: the Blueprint Gate resolves via local cache first, clones from repo if missing."
-  - "User decision 2026-06-25: blueprint extraction is a ShipGlowz-internal operation, owned by 009-sg-skill-build."
+  - "User decision 2026-06-25: blueprint extraction is a ShipGlowz-internal operation, owned by 900-shipglowz-core build."
   - "Extracted from contentglowz_app as first concrete Flutter blueprint."
+next_review: "2026-08-15"
 next_step: "Create GitHub repos for each blueprint, update registry URLs"
 ---
 
@@ -181,7 +182,7 @@ Use this workflow when the request is to create a new blueprint from an existing
 
 ### Trigger
 
-`009-sg-skill-build` (ShipGlowz skill-build / internal artifact maintenance) owns this workflow. Route here from `000-shipglowz` when the intake contains keywords like `extract`, `blueprint from`, `create blueprint`, `nouveau blueprint`, or equivalent. This is **not** an end-user flow — it maintains ShipGlowz's own blueprint registry.
+`900-shipglowz-core build` (ShipGlowz internal artifact maintenance) owns this workflow. Route here from `000-shipglowz` when the intake contains keywords like `extract`, `blueprint from`, `create blueprint`, `nouveau blueprint`, or equivalent. This is **not** an end-user flow — it maintains ShipGlowz's own blueprint registry.
 
 ### Steps
 

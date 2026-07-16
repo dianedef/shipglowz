@@ -99,15 +99,9 @@ Purpose: UI, UX, design systems, tokens, accessibility, and component audits.
 
 Candidate skills:
 
-- `006-sg-design`
-- `409-sg-audit-a11y`
-- `500-sg-design-from-scratch`
-- `501-sg-design-playground`
-- `502-sg-audit-design`
-- `503-sg-audit-design-tokens`
-- `504-sg-audit-components`
+- `006-sg-design` (`system`, `playground`, `audit ui`, `audit tokens`, `audit components`, `audit a11y`)
 
-Packaging status: planned. Good public candidate after trimming long component detail.
+Packaging status: planned. Good public candidate after validating mode playbooks and removing remaining source-root packaging assumptions.
 
 ### `shipflow-quality`
 
@@ -130,13 +124,11 @@ Purpose: ShipFlow's own docs, skills, conversations, transcripts, status, and mo
 
 Candidate skills:
 
-- `009-sg-skill-build`
 - `300-sg-docs`
 - `301-sg-context`
 - `303-sg-resume`
 - `305-sg-init`
 - `306-sg-scaffold`
-- `307-sg-skills-refresh`
 - `308-sg-status`
 - `704-sg-model`
 - `705-sg-conversation-audit`
@@ -153,7 +145,7 @@ Purpose: onboarding, sync, entitlements, platform parity, exploration, backlog, 
 
 Candidate skills:
 
-- `008-sg-end-user`
+- `008-sg-customer`
 - `600-sg-local-cloud-sync`
 - `601-sg-product-entitlements`
 - `602-sg-platform-parity`

@@ -18,7 +18,7 @@ linked_systems:
   - skills/002-sg-maintain/SKILL.md
   - skills/007-sg-content/SKILL.md
   - skills/006-sg-design/SKILL.md
-  - skills/009-sg-skill-build/SKILL.md
+  - skills/900-shipglowz-core/SKILL.md
   - skills/004-sg-deploy/SKILL.md
   - skills/003-sg-bug/SKILL.md
   - skills/400-sg-audit/SKILL.md
@@ -75,7 +75,7 @@ Spec-first is the outer lifecycle contract: it defines user story, scope, succes
 
 ## Applies To
 
-Use this reference from master and orchestrator skills that pilot more than one phase or owner skill, including `001-sg-build`, `002-sg-maintain`, `007-sg-content`, `006-sg-design`, `009-sg-skill-build`, `004-sg-deploy`, `003-sg-bug`, and `400-sg-audit`.
+Use this reference from master and orchestrator skills that pilot more than one phase or owner skill, including `001-sg-build`, `002-sg-maintain`, `007-sg-content`, `006-sg-design`, `900-shipglowz-core build`, `004-sg-deploy`, `003-sg-bug`, and `400-sg-audit`.
 
 Atomic owner skills may cite this reference only when they need to align their own handoff language with the master lifecycle.
 
@@ -232,7 +232,7 @@ Typical routes:
 - `001-sg-build`: `104-sg-end -> 005-sg-ship`
 - `002-sg-maintain`: `104-sg-end` when a chantier needs closure bookkeeping, then `005-sg-ship` or `004-sg-deploy`
 - `007-sg-content`: `103-sg-verify -> 005-sg-ship` for bounded content changes
-- `009-sg-skill-build`: `300-sg-docs/help update -> 005-sg-ship`
+- `900-shipglowz-core build`: `300-sg-docs/help update -> 005-sg-ship`
 - `004-sg-deploy`: `105-sg-check -> 005-sg-ship -> 405-sg-prod -> proof -> 103-sg-verify -> 304-sg-changelog`
 - `003-sg-bug`: retest/verify/ship-risk execution from the bug file through owner skills
 

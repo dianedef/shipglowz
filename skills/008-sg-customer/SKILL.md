@@ -1,6 +1,6 @@
 ---
-name: 008-sg-end-user
-description: "End-user experience, activation, UX/UI clarity, friction, trust, and onboarding recovery."
+name: 008-sg-customer
+description: "Customer journeys, activation, UX/UI clarity, friction, trust, and onboarding recovery."
 argument-hint: <feature, flow, screen, shipped change, or end-user audit target>
 ---
 
@@ -33,8 +33,8 @@ Load only the references required by the active run:
 - `$SHIPFLOW_ROOT/skills/references/question-contract.md` before asking user-facing decisions.
 - `$SHIPFLOW_ROOT/skills/references/documentation-freshness-gate.md` when guidance depends on current platform permissions, billing/provider rules, app-store policy, accessibility standards, SDK behavior, or external integration behavior.
 - `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` when the audit or recommendation depends on competitor pages, marketplace listings, app-store pages, or customer-feedback surfaces such as AppSumo, Play Store, Trustpilot, G2, or Capterra.
-- `$SHIPFLOW_ROOT/skills/008-sg-end-user/references/onboarding-playbook.md` when the work is about onboarding, activation, setup order, first-run recovery, or a reusable stepped onboarding flow.
-- `$SHIPFLOW_ROOT/skills/008-sg-end-user/references/onboarding-progress-overlay-pattern.md` when designing, auditing, or implementing a popup-style stepped onboarding overlay with progress icons, completed/skipped/current states, or reusable app-onboarding code.
+- `$SHIPFLOW_ROOT/skills/008-sg-customer/references/onboarding-playbook.md` when the work is about onboarding, activation, setup order, first-run recovery, or a reusable stepped onboarding flow.
+- `$SHIPFLOW_ROOT/skills/008-sg-customer/references/onboarding-progress-overlay-pattern.md` when designing, auditing, or implementing a popup-style stepped onboarding overlay with progress icons, completed/skipped/current states, or reusable app-onboarding code.
 - `$SHIPFLOW_ROOT/shipglowz_data/technical/product-behavior-intelligence.md` when first success, activation, revisit behavior, or feature usefulness should be defined from durable product value rather than UI completion alone.
 
 ## Context
@@ -49,7 +49,7 @@ Load only the references required by the active run:
 
 ## Mission
 
-`008-sg-end-user` is the ShipGlowz entrypoint for what the end user actually experiences.
+`008-sg-customer` is the ShipGlowz entrypoint for what the customer actually experiences.
 
 It turns a feature, flow, screen, shipped change, or end-user audit target into a practical experience contract:
 
@@ -185,12 +185,12 @@ Stop and report `blocked` or route to the owner skill when:
 For skill-contract changes, validate with:
 
 ```bash
-rg -n "name: 008-sg-end-user|End-User Principles|End-User Contract|First success|UX/UI|onboarding-playbook|Proof Paths|Stop Conditions" skills/008-sg-end-user/SKILL.md
-test -f skills/008-sg-end-user/references/onboarding-playbook.md
-test -f skills/008-sg-end-user/references/onboarding-progress-overlay-pattern.md
+rg -n "name: 008-sg-customer|End-User Principles|End-User Contract|First success|UX/UI|onboarding-playbook|Proof Paths|Stop Conditions" skills/008-sg-customer/SKILL.md
+test -f skills/008-sg-customer/references/onboarding-playbook.md
+test -f skills/008-sg-customer/references/onboarding-progress-overlay-pattern.md
 python3 tools/skill_code_index_lint.py
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
-tools/shipglowz_sync_skills.sh --check --skill 008-sg-end-user
+tools/shipglowz_sync_skills.sh --check --skill 008-sg-customer
 ```
 
 For product implementations, use the project checks named by the ready spec and route visual/manual/provider proof to the proper owner skill.

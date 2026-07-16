@@ -29,12 +29,12 @@ supersedes:
 evidence:
   - "Master skill contracts and public skill pages."
   - "Public launch cheatsheet in site/src/pages/skill-modes.astro."
-  - "009-sg-skill-build routes fuzzy skill ideas through 700-sg-explore before 100-sg-spec."
+  - "900-shipglowz-core build routes fuzzy skill ideas through 700-sg-explore before 100-sg-spec."
   - "007-sg-content added as the master content lifecycle entrypoint."
   - "000-shipglowz <instruction> documented as the primary non-technical router with direct handoff to selected skills."
   - "Shared question/default contract added for numbered decisions and context-safe defaults."
   - "006-sg-design added as the master design lifecycle entrypoint for UI/UX, tokens, playgrounds, implementation, proof, and ship routing."
-  - "008-sg-end-user added as the user activation lifecycle for first-success paths, setup guidance, recoverable states, and proof routing."
+  - "008-sg-customer renamed as the customer activation lifecycle for first-success paths, setup guidance, recoverable states, and proof routing."
   - "600-sg-local-cloud-sync added as the local-to-cloud data promotion, merge, sync UX, and security contract entrypoint."
   - "003-sg-bug clarified as a lifecycle executor that continues through owner skills and bounded subagents when safe."
   - "Skill taxonomy description audit clarified runtime families while keeping public skill names and invocation paths stable."
@@ -76,8 +76,7 @@ Core codes:
 | `005` | `005-sg-ship` |
 | `006` | `006-sg-design` |
 | `007` | `007-sg-content` |
-| `008` | `008-sg-end-user` |
-| `009` | `009-sg-skill-build` |
+| `008` | `008-sg-customer` |
 
 Family bands: `100-199` lifecycle/proof, `200-299` content/research/copy, `300-399` docs/context/support, `400-499` audit/quality/ops, `500-599` design/components, `600-699` data/activation, `700-799` pilotage/session, `800-899` conversation/transcript, `900-999` internal/meta.
 
@@ -151,11 +150,11 @@ Public categories make the catalog easier to browse. Runtime families explain ho
 
 | Family | Role | Examples |
 | --- | --- | --- |
-| Lifecycle/master | Carry work across several gates. | `000-shipglowz`, `001-sg-build`, `002-sg-maintain`, `004-sg-deploy`, `006-sg-design`, `007-sg-content`, `008-sg-end-user`, `009-sg-skill-build`, plus `100-sg-spec -> 101-sg-ready -> 102-sg-start -> 103-sg-verify -> 104-sg-end -> 005-sg-ship` |
+| Lifecycle/master | Carry work across several gates. | `000-shipglowz`, `001-sg-build`, `002-sg-maintain`, `004-sg-deploy`, `006-sg-design`, `007-sg-content`, `008-sg-customer`, `900-shipglowz-core build`, plus `100-sg-spec -> 101-sg-ready -> 102-sg-start -> 103-sg-verify -> 104-sg-end -> 005-sg-ship` |
 | Data trust/source | Frame local-first data becoming account-backed cloud data and product access becoming entitlement-backed. | `600-sg-local-cloud-sync`, `601-sg-product-entitlements` |
 | Audit/source | Expose quality, security, performance, SEO, copy, design, dependency, parity, or GTM risk that may deserve a chantier. | `400-sg-audit*`, `402-sg-deps`, `403-sg-perf`, `602-sg-platform-parity` |
 | Bug/proof | Diagnose failures, validate behavior, or confirm deployment truth. | `003-sg-bug`, `106-sg-fix`, `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check`, `404-sg-migrate` |
-| Content/docs/support | Keep public content, documentation, scaffolding, changelogs, skill contracts, governance surfaces, and git/GitHub hygiene coherent with shipped behavior. | `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `202-sg-repurpose`, `304-sg-changelog`, `306-sg-scaffold`, `307-sg-skills-refresh`, `305-sg-init`, `310-sg-github-hygiene` |
+| Content/docs/support | Keep public content, documentation, scaffolding, changelogs, skill contracts, governance surfaces, and git/GitHub hygiene coherent with shipped behavior. | `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `202-sg-repurpose`, `304-sg-changelog`, `306-sg-scaffold`, `305-sg-init`, `310-sg-github-hygiene` |
 | Research/pilotage/helper | Clarify information, prioritize, summarize, route, or preserve context without owning full lifecycle closure. | `203-sg-research`, `204-sg-market-study`, `205-sg-veille`, `701-sg-backlog`, `702-sg-priorities`, `703-sg-review`, `309-sg-tasks`, `301-sg-context`, `704-sg-model`, `302-sg-help`, `308-sg-status`, `303-sg-resume`, `700-sg-explore`, `707-name` |
 | Internal/meta | Operator-only tools for maintaining ShipGlowz itself. | `900-shipglowz-core` |
 
@@ -163,18 +162,18 @@ Public categories make the catalog easier to browse. Runtime families explain ho
 
 | Need | Launch | Useful modes |
 | --- | --- | --- |
-| Non-technical first command | `000-shipglowz <instruction>` | Routes pure conversation directly; routes feature/code/docs to `001-sg-build`, maintenance to `002-sg-maintain`, bugs to `003-sg-bug`, release/deploy/prod proof to `004-sg-deploy`, content to `007-sg-content`, design to `006-sg-design`, onboarding to `008-sg-end-user`, local-to-cloud sync to `600-sg-local-cloud-sync`, skill maintenance to `009-sg-skill-build`, and obvious specialist audits to `400-sg-audit-*`. Uses context-safe defaults and asks one numbered question when ambiguity changes route, risk, scope, or proof. |
-| Non-trivial product, code, site, or docs work | `001-sg-build [spark|codex|mini|agents|sous-agent|no-agents] <story, bug, or goal>` | Plain task text is the story. Use `spark`, `codex`, `mini`, `agents`, or `sous-agent` to make model-specific delegated sequential execution a validation gate. For user-facing features, `001-sg-build` evaluates whether to suggest or route `/008-sg-end-user` after implementation. Use detailed report modes only for handoff evidence. |
+| Non-technical first command | `000-shipglowz <instruction>` | Routes pure conversation directly; routes feature/code/docs to `001-sg-build`, maintenance to `002-sg-maintain`, bugs to `003-sg-bug`, release/deploy/prod proof to `004-sg-deploy`, content to `007-sg-content`, design to `006-sg-design`, onboarding to `008-sg-customer`, local-to-cloud sync to `600-sg-local-cloud-sync`, internal skill maintenance to `900-shipglowz-core build`, and obvious specialist audits to `400-sg-audit-*`. Uses context-safe defaults and asks one numbered question when ambiguity changes route, risk, scope, or proof. |
+| Non-trivial product, code, site, or docs work | `001-sg-build [spark|codex|mini|agents|sous-agent|no-agents] <story, bug, or goal>` | Plain task text is the story. Use `spark`, `codex`, `mini`, `agents`, or `sous-agent` to make model-specific delegated sequential execution a validation gate. For user-facing features, `001-sg-build` evaluates whether to suggest or route `/008-sg-customer` after implementation. Use detailed report modes only for handoff evidence. |
 | Recurring project upkeep | `002-sg-maintain [mode]` | `full`/no argument, `quick`, `security`, `deps`, `docs`, `audits`, `no-ship`, `global`. |
 | Release confidence after implementation | `004-sg-deploy [target or mode]` | no argument, `skip-check`, `--preview`, `--prod`, `no-changelog`. |
 | Bug-loop lifecycle | `003-sg-bug [BUG-ID, summary, or mode]` | no argument, `BUG-ID`, `--fix`, `--retest`, `--verify`, `--ship`, `--close`. |
 | Content management | `007-sg-content [goal, source, file, or mode]` | `plan`, `repurpose`, `draft`, `enrich`, `audit`, `seo`, `editorial`, `apply`, `ship`; add `score`, `quality gate`, or `grille projet` when you want project-aware scoring through the shared rubric. |
 | Conversation quality audit | `705-sg-conversation-audit [latest|path <file-or-dir>|export shipflow|report=agent]` | Audit recurring operator-facing defects in conversation transcripts and route durable owner actions. |
 | Design lifecycle | `006-sg-design <design question or goal>` | `tokens`, `audit`, `playground`, page/route targets, redesign goals, token migration, visual proof, or natural-language design requests. |
-| End-user experience | `008-sg-end-user <feature, flow, screen, or audit target>` | UX/UI clarity, friction, trust, first-success paths, setup order, recoverable states, docs impact, and proof routing. |
+| Customer experience | `008-sg-customer <feature, flow, screen, or audit target>` | UX/UI clarity, friction, trust, first-success paths, setup order, recoverable states, docs impact, and proof routing. |
 | Local-to-cloud data sync | `600-sg-local-cloud-sync <project, feature, or data domains>` | Local data promotion, cloud hydration, merge/conflict policy, sync/save UX states, sensitive-data exclusions, and proof routing. |
 | Product entitlements and access gates | `601-sg-product-entitlements <project or feature>` | Entitlement ownership, provider events, activation codes, product-local mirrors, backend authorization gates, support flows, and sync handoffs. |
-| Skill creation or maintenance | `009-sg-skill-build <idea or path>` | new skill idea, existing skill path, optional `700-sg-explore` for fuzzy placement, public page/docs/runtime validation gates. |
+| Internal skill creation or maintenance | `900-shipglowz-core build <idea or path>` | new skill idea, existing skill path, optional `700-sg-explore` for fuzzy placement, runtime/docs validation gates. |
 
 If the request concerns declared products, sales surfaces, or evidence-backed claims, start by checking `shipglowz_data/business/product.md`, `shipglowz_data/business/gtm.md`, and `shipglowz_data/editorial/README.md` before launching a content or docs skill.
 
@@ -203,8 +202,8 @@ Content scoring examples:
 | Audit lane | `400-sg-audit*` | Choose the audit owner: code, design, copy, SEO, GTM, deps, perf, a11y, translation, components, or design tokens. |
 | Platform parity/concordance | `602-sg-platform-parity <project, feature, or spec path>` | Check product and technical parity across web, Android, iOS, Windows, macOS, and Linux; route gaps to `100-sg-spec`, `001-sg-build`, `107-sg-test`, `103-sg-verify`, `300-sg-docs`, or `005-sg-ship`. |
 | Conversation quality lane | `705-sg-conversation-audit` | Classify recurring conversation execution defects and route concrete owner follow-up paths. |
-| Internal ShipGlowz Core audit | `900-shipglowz-core` | Operator-only execution-fidelity and plugin-packaging readiness audit for ShipGlowz itself; not a public user-plugin surface. |
-| Design system creation | `500-sg-design-from-scratch [target or mode]` | Use when no coherent professional token system exists; modes include `tokens-only` and `with-playground`. |
+| Internal ShipGlowz Core audit | `900-shipglowz-core audit [scope]` | Operator-only execution-fidelity audit for ShipGlowz itself; use `900-shipglowz-core packaging [scope]` for plugin-packaging readiness. Neither mode is a public user-plugin surface. |
+| Design system creation | `006-sg-design system [target]` | Use when no coherent professional token system exists; follow with `playground` or `audit tokens` as needed. |
 | Dependency posture | `402-sg-deps` | Target dependency drift, vulnerabilities, licenses, or config. |
 | Framework migration | `404-sg-migrate [package[@version]]` | Use a structured package target such as `astro@5`, a package name, or no argument for discovery. |
 | Orientation and routing | `308-sg-status`, `302-sg-help`, `704-sg-model`, `303-sg-resume` | Use for git dashboard, workflow help, model choice, or concise context transfer. |
@@ -222,14 +221,14 @@ Model routing note: `704-sg-model` recommends the right model for the current sc
 | `003-sg-bug` | no argument; `BUG-ID`; free-text summary; `--fix`; `--retest`; `--verify`; `--ship`; `--close` |
 | `007-sg-content` | no argument or content goal; `plan`; `repurpose`; `draft`; `article`; `blog`; `guide`; `enrich`; `audit`; `copy`; `copywriting`; `seo`; `editorial`; `apply`; `publish`; `ship`; `score`; `quality gate`; `grille projet` |
 | `006-sg-design` | design question; page/route; `tokens`; `audit`; `playground`; redesign goal; token migration; visual proof; detailed report modes |
-| `008-sg-end-user` | feature, flow, shipped change, onboarding audit target; permission/setup focus; detailed report modes |
+| `008-sg-customer` | feature, flow, shipped change, onboarding audit target; permission/setup focus; detailed report modes |
 | `600-sg-local-cloud-sync` | project, feature, data domains, sync question; audit; Flutter focus; secrets/sensitive-data focus; detailed report modes |
-| `009-sg-skill-build` | new skill idea; existing skill path; `700-sg-explore` reroute when placement or public promise is too fuzzy |
+| `900-shipglowz-core build` | new skill idea; existing skill path; `700-sg-explore` reroute when placement or public promise is too fuzzy |
 | `310-sg-github-hygiene` | no argument/`audit`; `branches`; `dependabot`; `fix`; `current repo`; `workspace` |
-| `900-shipglowz-core` | `audit`; `packaging`; `help`; `report=agent` |
+| `900-shipglowz-core` | `audit [scope]`; `build <target>`; `refresh <target>`; `packaging [scope]`; `help`; `report=agent` |
 | `705-sg-conversation-audit` | `latest`; `path <file-or-dir>`; `export shipflow`; `report=agent` |
 | `602-sg-platform-parity` | project, feature, or spec path; `platforms=web,android,ios,windows,macos,linux`; `report=agent` |
-| `500-sg-design-from-scratch` | no argument; target page/path; `tokens-only`; `with-playground`; detailed report modes |
+| `006-sg-design` | `system`; `playground [route]`; `audit ui|tokens|components|a11y [scope]`; library/redesign/migration; detailed report modes |
 | `005-sg-ship` | no special argument; `skip-check`; `end la tache`; `end`; `fin`; `close task`; `all-dirty`; `ship-all`; `tout-dirty` |
 | `407-sg-audit-translate` | no special argument; file path or scope; `global`; `sync`; `apply`; `sync [path]`; `apply [path]` |
 

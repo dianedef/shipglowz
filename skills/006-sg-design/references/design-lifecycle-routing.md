@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-06-29"
-updated: "2026-06-29"
+updated: "2026-07-15"
 status: active
 source_skill: 006-sg-design
 scope: design-lifecycle-routing
@@ -15,12 +15,7 @@ security_impact: none
 docs_impact: yes
 linked_systems:
   - skills/006-sg-design/SKILL.md
-  - skills/500-sg-design-from-scratch/SKILL.md
-  - skills/501-sg-design-playground/SKILL.md
-  - skills/502-sg-audit-design/SKILL.md
-  - skills/503-sg-audit-design-tokens/SKILL.md
-  - skills/504-sg-audit-components/SKILL.md
-  - skills/409-sg-audit-a11y/SKILL.md
+  - skills/006-sg-design/references/
   - skills/108-sg-browser/SKILL.md
   - skills/109-sg-auth-debug/SKILL.md
 depends_on:
@@ -32,9 +27,9 @@ depends_on:
     required_status: active
 supersedes: []
 evidence:
-  - "006-sg-design compaction moved long lifecycle routing doctrine out of SKILL.md while preserving owner routing."
-next_review: "2026-07-29"
-next_step: "/103-sg-verify 006-sg-design lifecycle routing"
+  - "2026-07-15 consolidation replaced six public specialist routes with explicit 006-sg-design modes and bounded playbooks."
+next_review: "2026-08-15"
+next_step: "/104-sg-end consolidate design skill surface into modes and playbooks"
 ---
 
 # Design Lifecycle Routing
@@ -47,6 +42,14 @@ Use this reference after loading:
 
 - `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`
 - `$SHIPFLOW_ROOT/skills/references/design-system-token-contract.md`
+
+## Canonical Mode Grammar
+
+`006-sg-design` accepts these public commands: `system [scope]`, `playground [route-path]`, `audit ui [scope]`, `audit tokens [scope]`, `audit components [scope]`, `audit a11y [scope]`, `redesign [scope]`, `migration [scope]`, and the separately defined `library ...` operations. `tokens-only` and `with-playground` are optional modifiers of `system`, not public skill aliases.
+
+`audit` without a subtype, an unknown subtype, or an invalid mode must list these supported choices or ask one targeted routing question. Never infer an audit subtype. Load only its mapped primary playbook after a valid selection; `audit ui deep` may then load the three explicit companion audit playbooks required by its contract.
+
+`redesign` is a lifecycle route, not a hidden implementation shortcut: establish current-state evidence with `audit ui` when needed, apply the Inspiration Gate when direction changes, frame a ready spec, then route implementation and visible proof. `migration` loads the token-migration playbook, establishes design-token consumption with `audit tokens`, and uses spec-first execution for cross-surface work.
 
 ## Routing Rule
 
@@ -80,41 +83,41 @@ Before implementation, the ready spec must name:
 - design source of truth or brand docs
 - intended visual change or explicit non-regression contract
 - token/theme/component/source-of-truth plan for any visual dimensions, spacing, overlays, IME/keyboard behavior, or responsive layout values
-- owner skills to run
+- mode playbook and lifecycle or proof skills to run
 - validation and browser proof obligations
 - docs/editorial impact
 - ship/deploy posture
 
-## Owner Skill Sequencing
+## Mode And Lifecycle Sequencing
 
 Typical flow for design-system creation:
 
 ```text
-500-sg-design-from-scratch -> 503-sg-audit-design-tokens -> 501-sg-design-playground optional -> 103-sg-verify
+006-sg-design system -> 006-sg-design audit tokens -> 006-sg-design playground optional -> 103-sg-verify
 ```
 
 Typical flow for token migration across a site:
 
 ```text
-503-sg-audit-design-tokens -> 100-sg-spec -> 101-sg-ready -> 102-sg-start -> 105-sg-check -> 503-sg-audit-design-tokens -> 108-sg-browser -> 103-sg-verify -> 104-sg-end -> 005-sg-ship
+006-sg-design audit tokens -> 100-sg-spec -> 101-sg-ready -> 102-sg-start -> 105-sg-check -> 006-sg-design audit tokens -> 108-sg-browser -> 103-sg-verify -> 104-sg-end -> 005-sg-ship
 ```
 
 Typical flow for visual redesign:
 
 ```text
-502-sg-audit-design -> 100-sg-spec -> 101-sg-ready -> 102-sg-start -> 105-sg-check -> 108-sg-browser -> 409-sg-audit-a11y as needed -> 103-sg-verify -> 104-sg-end -> 005-sg-ship
+006-sg-design audit ui -> 100-sg-spec -> 101-sg-ready -> 102-sg-start -> 105-sg-check -> 108-sg-browser -> 006-sg-design audit a11y as needed -> 103-sg-verify -> 104-sg-end -> 005-sg-ship
 ```
 
 Typical flow for deep design audit:
 
 ```text
-502-sg-audit-design deep -> 100-sg-spec for chosen remediation -> 101-sg-ready -> 102-sg-start -> proof -> 103-sg-verify
+006-sg-design audit ui deep -> 100-sg-spec for chosen remediation -> 101-sg-ready -> 102-sg-start -> proof -> 103-sg-verify
 ```
 
 Typical flow for accessibility-first design fix:
 
 ```text
-409-sg-audit-a11y -> 100-sg-spec or 106-sg-fix depending scope -> 108-sg-browser/107-sg-test proof -> 103-sg-verify
+006-sg-design audit a11y -> 100-sg-spec or 106-sg-fix depending scope -> 108-sg-browser/107-sg-test proof -> 103-sg-verify
 ```
 
 For design work that changes public wording, claims, docs screenshots, page promises, or content surfaces, run the editorial/docs gates from `001-sg-build` or route to `300-sg-docs`/`007-sg-content` as needed before closure.

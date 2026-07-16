@@ -9,7 +9,7 @@ const masterSkillCheatsheet = [
     command: "shipflow <instruction>",
     when: "Recommended non-technical first command when you want ShipGlowz to choose the route.",
     modes:
-      "Answers pure conversation directly; routes feature/code/docs to sf-build, maintenance to sf-maintain, bugs to sf-bug, release/deploy/prod proof to sf-deploy, content to sf-content, design to sf-design, end-user experience to sf-end-user, local-to-cloud sync to sf-local-cloud-sync, skill maintenance to sf-skill-build, and obvious specialist audits to sf-audit-*. Asks one numbered question when ambiguous."
+      "Answers pure conversation directly; routes feature/code/docs to sf-build, maintenance to sf-maintain, bugs to sf-bug, release/deploy/prod proof to sf-deploy, content to sf-content, design to sf-design, customer experience to sf-customer, local-to-cloud sync to sf-local-cloud-sync, internal skill maintenance to the internal 900 core workflow, and obvious specialist audits to sf-audit-*. Asks one numbered question when ambiguous."
   },
   {
     command: "sf-build <story, bug, or goal>",
@@ -45,10 +45,10 @@ const masterSkillCheatsheet = [
     command: "sf-design <design question or goal>",
     when: "Design lifecycle across UI/UX, tokens, playgrounds, component and accessibility audits, implementation, browser proof, and ship routing.",
     modes:
-      "tokens, audit, playground, page or route targets, redesign goals, token migration, visual proof, and natural-language design requests all route through the safest owner skills."
+      "system, playground, audit ui|tokens|components|a11y, redesign, and migration select explicit bounded design playbooks; natural-language design requests route to the safest mode."
   },
   {
-    command: "sf-end-user <feature, flow, or audit target>",
+    command: "sf-customer <feature, flow, or audit target>",
     when: "End-user experience review for UX/UI clarity, friction, trust, first-success paths, setup sequencing, recoverable states, docs impact, and proof routing.",
     modes:
       "Use after or alongside feature work when users need context, why/how guidance, permission or integration setup, skipped/blocked recovery, and value proof."
@@ -65,12 +65,6 @@ const masterSkillCheatsheet = [
     modes:
       "Use before adding paid plans, activation codes, refunds, revokes, product-local access mirrors, or entitlement-gated sync."
   },
-  {
-    command: "sf-skill-build <idea or path>",
-    when: "Creation or maintenance of ShipGlowz skills themselves.",
-    modes:
-      "A fuzzy skill idea routes through sf-explore before spec work; an existing skill path routes to improvement, validation, public page, and lifecycle documentation updates."
-  }
 ];
 
 const supportSkillCheatsheet = [
@@ -108,7 +102,7 @@ const runtimeFamilies = [
   {
     title: "Lifecycle/master",
     use: "Carry a work item across several gates.",
-    examples: "shipflow, sf-build, sf-maintain, sf-deploy, sf-design, sf-content, sf-end-user, sf-skill-build"
+    examples: "shipflow, sf-build, sf-maintain, sf-deploy, sf-design, sf-content, sf-customer"
   },
   {
     title: "Data trust/source",
@@ -128,7 +122,7 @@ const runtimeFamilies = [
   {
     title: "Content/docs/support",
     use: "Keep public content, docs, scaffolding, changelogs, skill maintenance, and git/GitHub hygiene coherent.",
-    examples: "sf-docs, sf-redact, sf-enrich, sf-repurpose, sf-changelog, sf-scaffold, sf-skills-refresh, sf-init, sf-github-hygiene"
+    examples: "sf-docs, sf-redact, sf-enrich, sf-repurpose, sf-changelog, sf-scaffold, sf-init, sf-github-hygiene"
   },
   {
     title: "Research/pilotage/helper",

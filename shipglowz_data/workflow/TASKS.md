@@ -40,6 +40,7 @@
 
 ## Skills
 
+🟢 [ShipGlowz] task: Consolider la maintenance des skills dans les modes et playbooks internes de 900-shipglowz-core | status: done | area: skills-maintenance-core | id: consolidate-skill-maintenance-under-shipglowz-core | spec: shipglowz_data/workflow/specs/consolidate-skill-maintenance-under-shipglowz-core.md | ship_status: shipped | next: none
 🟢 [ShipGlowz] task: Ajouter un catalogue borne de roles specialistes technologiques, profils activables et references de fraicheur | status: done | area: skills-technology-roles | spec: shipglowz_data/workflow/specs/technology-specialist-operator-roles.md | next: none
 🟢 [ShipFlow] task: Integrer le TDD proof-first et les checklists manuelles durables dans les skills | status: done | area: skills
 🟢 [ShipFlow] task: Ajouter une boucle d'audit des conversations et d'auto-evolution des skills | status: done | area: skills
@@ -108,6 +109,7 @@
 
 ## Backlog
 
+🟢 [ShipGlowz] task: Consolidate design skill surface into modes and playbooks | status: done | area: skills-design | spec: shipglowz_data/workflow/specs/consolidate-design-skill-surface-into-modes-and-playbooks.md | ship_status: shipped | next: none
 🟢 [ShipFlow] task: Conserver les fiches skills en anglais et l’expliquer sur le site français | status: done | area: site-i18n
 🟢 [ShipFlow] task: Documenter une page OpenCode et une page KiloCode pour expliquer comment les skills ShipFlow sont découverts, invoqués et configurés selon chaque runtime, en précisant que dans OpenCode l'utilisateur écrit simplement "utilise le skill shipflow" et que `skill({ name: "shipflow" })` est un appel interne du runtime, pas une commande manuelle | status: done | area: skills-discovery | spec: shipglowz_data/workflow/specs/opencode-and-kilocode-runtime-doc-pages.md | next: /005-sg-ship opencode-and-kilocode-runtime-doc-pages
 

@@ -44,7 +44,7 @@ Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skill
 - Detect whether the request is a new project bootstrap, existing project governance refresh, MCP/server setup, or bootstrap audit.
 - For any mode, load `references/bootstrap-workflow.md` before creating or updating project files.
 - If business, product, target-surface, or audience framing is materially missing, ask the smallest precise question that the operator can answer and continue after the answer instead of treating bootstrap framing gaps as blocked by default.
-- For UI projects, detect whether `shipglowz_data/technical/design-system-authority.md` or an equivalent project-local authority exists; create the governance gap or route to `300-sg-docs`, `006-sg-design`, or `500-sg-design-from-scratch` before any visual implementation work is considered ready.
+- For UI projects, detect whether `shipglowz_data/technical/design-system-authority.md` or an equivalent project-local authority exists; create the governance gap or route to `300-sg-docs` or `006-sg-design system` before any visual implementation work is considered ready.
 
 ## Core Execution Rules
 

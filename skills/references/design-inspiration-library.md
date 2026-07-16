@@ -23,8 +23,7 @@ linked_systems:
   - skills/200-sg-redact/SKILL.md
   - skills/206-sg-audit-copy/SKILL.md
   - skills/207-sg-audit-copywriting/SKILL.md
-  - skills/500-sg-design-from-scratch/SKILL.md
-  - skills/502-sg-audit-design/SKILL.md
+  - skills/006-sg-design/SKILL.md
 depends_on:
   - artifact: skills/references/private-data-repo-contract.md
     artifact_version: "1.1.1"

@@ -62,7 +62,7 @@ related_skills:
   - "sg-browser"
   - "sg-auth-debug"
   - "sg-prod"
-  - "sg-end-user"
+  - "sg-customer"
 featured: true
 order: 20
 ---

@@ -32,7 +32,7 @@ example_prompts:
 argument_modes:
   - argument: "<instruction>"
     effect: "Classifies the request and either answers directly or hands the main thread to the selected ShipGlowz skill."
-    consequence: "Routes feature/code/docs to sg-build, mixed build-plus-end-user requests to sg-build first with a post-build sg-end-user gate, maintenance to sg-maintain, bugs to sg-bug, release/deploy/prod proof to sg-deploy, content to sg-content, design to sg-design, end-user experience work to sg-end-user, skill maintenance to sg-skill-build, and obvious specialist audits to sg-audit-*."
+    consequence: "Routes feature/code/docs to sg-build, mixed build-plus-customer requests to sg-build first with a post-build sg-customer gate, maintenance to sg-maintain, bugs to sg-bug, release/deploy/prod proof to sg-deploy, content to sg-content, design to sg-design, customer-experience work to sg-customer, internal skill maintenance to the internal 900 core workflow, and obvious specialist audits to sg-audit-*."
 limits:
   - "It does not replace the selected skill's lifecycle gates"
   - "It uses context-safe defaults only when they are clear, low-risk, reversible, and verifiable"
@@ -45,8 +45,7 @@ related_skills:
   - "sg-deploy"
   - "sg-content"
   - "sg-design"
-  - "sg-end-user"
-  - "sg-skill-build"
+  - "sg-customer"
   - "sg-audit"
 featured: true
 order: 5

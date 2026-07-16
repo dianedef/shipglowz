@@ -6,7 +6,7 @@ project: ShipGlowz
 created: "2026-06-29"
 updated: "2026-06-29"
 status: active
-source_skill: 008-sg-end-user
+source_skill: 008-sg-customer
 scope: onboarding-playbook
 owner: Diane
 confidence: high
@@ -14,8 +14,8 @@ risk_level: medium
 security_impact: yes
 docs_impact: yes
 linked_systems:
-  - skills/008-sg-end-user/SKILL.md
-  - skills/008-sg-end-user/references/onboarding-progress-overlay-pattern.md
+  - skills/008-sg-customer/SKILL.md
+  - skills/008-sg-customer/references/onboarding-progress-overlay-pattern.md
 depends_on:
   - artifact: skills/references/decision-quality-contract.md
     artifact_version: "1.1.0"
@@ -27,14 +27,14 @@ supersedes: []
 evidence:
   - "Operator request 2026-06-29: transform sg-onboarding into sg-end-user with UX/UI mode and keep onboarding as a playbook/reference."
 next_review: "2026-07-29"
-next_step: "/103-sg-verify 008-sg-end-user"
+next_step: "/103-sg-verify 008-sg-customer"
 ---
 
 # Onboarding Playbook
 
 ## Purpose
 
-Use this playbook when `008-sg-end-user` is asked about onboarding, activation, setup guidance, first-run flows, first-success recovery, or feature adoption.
+Use this playbook when `008-sg-customer` is asked about onboarding, activation, setup guidance, first-run flows, first-success recovery, or feature adoption.
 
 Onboarding is a mode of end-user experience. It should help the user reach value, understand state, recover from blockers, and trust the product. It is not only a welcome modal, tooltip tour, or checklist.
 
@@ -99,7 +99,7 @@ For onboarding UI, review:
 - whether the user can resume without restarting the whole journey
 - whether the UI uses the project design-system authority for layout, spacing, colors, icons, and motion
 
-Route broad visual-system, component, layout, or token work to `006-sg-design`. Keep `008-sg-end-user` focused on the user's path, comprehension, state, recovery, and proof.
+Route broad visual-system, component, layout, or token work to `006-sg-design`. Keep `008-sg-customer` focused on the customer's path, comprehension, state, recovery, and proof.
 
 ## Permission And Sensitive Setup
 
@@ -116,4 +116,4 @@ For permissions, system settings, billing, integrations, API keys, auth, data sy
 
 ## Specialized Overlay Pattern
 
-When the work needs a popup-style or stepped onboarding overlay, also load `skills/008-sg-end-user/references/onboarding-progress-overlay-pattern.md`.
+When the work needs a popup-style or stepped onboarding overlay, also load `skills/008-sg-customer/references/onboarding-progress-overlay-pattern.md`.

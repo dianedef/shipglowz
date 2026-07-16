@@ -66,7 +66,7 @@ local data inventory
   -> spec/build/verify routing when implementation is needed
 ```
 
-This skill complements `001-sg-build`, `008-sg-end-user`, and `601-sg-product-entitlements`. `001-sg-build` owns implementation lifecycle. `008-sg-end-user` owns broad activation and setup comprehension. `601-sg-product-entitlements` owns product access/entitlement preconditions. `600-sg-local-cloud-sync` owns the data-trust contract: no local wipe on account creation, no cross-account replay, no vague merge policy, no hidden secret sync, and no reinstall-recovery promise without durable proof.
+This skill complements `001-sg-build`, `008-sg-customer`, and `601-sg-product-entitlements`. `001-sg-build` owns implementation lifecycle. `008-sg-customer` owns broad activation and setup comprehension. `601-sg-product-entitlements` owns product access/entitlement preconditions. `600-sg-local-cloud-sync` owns the data-trust contract: no local wipe on account creation, no cross-account replay, no vague merge policy, no hidden secret sync, and no reinstall-recovery promise without durable proof.
 
 ## Mode Detection
 
@@ -80,7 +80,7 @@ Parse `$ARGUMENTS` as a sync target.
 | Non-trivial implementation across data stores, auth, cloud, UI, docs, or tests | Route to `100-sg-spec -> 101-sg-ready -> 001-sg-build/102-sg-start` |
 | Access control, entitlement gating, or entitlement precondition ambiguity | Route access decisions to `601-sg-product-entitlements` before final sync contract |
 | Existing ready spec already owns the sync work | Attach to that spec and support the active lifecycle |
-| User activation, tutorials, or setup copy dominates | Route or hand off to `008-sg-end-user` after the sync contract is clear |
+| User activation, tutorials, or setup copy dominates | Route or hand off to `008-sg-customer` after the sync contract is clear |
 | Provider behavior, SDK semantics, encryption, or offline storage rules are current/external | Run the Documentation Freshness Gate before design decisions |
 | Data domains, account boundaries, or secret policy are unclear | Ask one targeted decision question or block |
 
@@ -222,7 +222,7 @@ User mode:
 
 Result: [contract / audit / routed / blocked]
 Risk: [data loss / tenant / privacy / conflict / none]
-Route: [direct contract | 100-sg-spec/build | 008-sg-end-user | 300-sg-docs | blocked]
+Route: [direct contract | 100-sg-spec/build | 008-sg-customer | 300-sg-docs | blocked]
 Proof path: [scenario-first/test-first/regression-first/evidence-first/exception-with-proof]
 Docs: Documentation Update Plan [status], Editorial Update Plan [status]
 
@@ -239,7 +239,7 @@ Agent/handoff mode may include the full Sync Contract, data-domain matrix, owner
 ## Rules
 
 - Do not treat sync as a storage toggle.
-- Do not duplicate `001-sg-build`, `100-sg-spec`, `101-sg-ready`, `103-sg-verify`, `300-sg-docs`, `008-sg-end-user`, `107-sg-test`, `108-sg-browser`, or `109-sg-auth-debug` internals.
+- Do not duplicate `001-sg-build`, `100-sg-spec`, `101-sg-ready`, `103-sg-verify`, `300-sg-docs`, `008-sg-customer`, `107-sg-test`, `108-sg-browser`, or `109-sg-auth-debug` internals.
 - Keep internal contracts in English and user-facing output in the active user language.
 - Ask only when the answer changes data ownership, account boundary, security posture, conflict policy, sensitive-data policy, proof, docs/public claims, or implementation scope.
 - Prefer a blocked sync contract over a convenient data-loss path.

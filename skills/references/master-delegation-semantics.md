@@ -19,7 +19,7 @@ linked_systems:
   - skills/002-sg-maintain/SKILL.md
   - skills/007-sg-content/SKILL.md
   - skills/006-sg-design/SKILL.md
-  - skills/009-sg-skill-build/SKILL.md
+  - skills/900-shipglowz-core/SKILL.md
   - skills/004-sg-deploy/SKILL.md
   - skills/003-sg-bug/SKILL.md
   - skills/400-sg-audit/SKILL.md
@@ -63,7 +63,7 @@ Do not narrate routine subagent orchestration; report outcomes, evidence, blocke
 
 ## Applies To
 
-This applies to master and orchestrator skills that pilot multiple phases, owner skills, or execution contexts, including `000-shipglowz`, `001-sg-build`, `002-sg-maintain`, `007-sg-content`, `006-sg-design`, `009-sg-skill-build`, `004-sg-deploy`, `003-sg-bug`, and `400-sg-audit`.
+This applies to master and orchestrator skills that pilot multiple phases, owner skills, or execution contexts, including `000-shipglowz`, `001-sg-build`, `002-sg-maintain`, `007-sg-content`, `006-sg-design`, `900-shipglowz-core build`, `004-sg-deploy`, `003-sg-bug`, and `400-sg-audit`.
 
 `000-shipglowz` is a special case: it is a primary router, not a lifecycle executor. It loads this reference to avoid invalid topology, then uses direct main-thread handoff to the selected skill. It must not launch selected master skills inside subagents.
 

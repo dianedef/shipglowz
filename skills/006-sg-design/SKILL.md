@@ -1,7 +1,7 @@
 ---
 name: 006-sg-design
-description: "UI/UX design lifecycle and private inspiration-library curation."
-argument-hint: <design question | library add <url> | library approve <id> | library list | audit | tokens | playground | redesign | migration | page/route>
+description: "Single public entrypoint for design-system work, design audits, accessibility, and inspiration-library curation."
+argument-hint: <system [scope] | playground [route-path] | audit <ui|tokens|components|a11y> [scope] | redesign [scope] | migration [scope] | library <add|approve|list|status> ...>
 ---
 
 Primary artifact type: `master-workflow`.
@@ -39,7 +39,7 @@ This skill follows the shared master delegation reference. Design file work, val
 
 Before resolving design lifecycle gates, load `$SHIPFLOW_ROOT/skills/references/master-workflow-lifecycle.md`.
 
-`006-sg-design` is a master/orchestrator skill. It routes design work through owner skills and lifecycle gates rather than duplicating specialist internals.
+`006-sg-design` is the sole public design owner. It dispatches a selected mode to one bounded local playbook, then applies the relevant lifecycle gates; playbooks never create a second public invocation key.
 
 ## Required References
 
@@ -61,7 +61,23 @@ For new visual direction, landing/sales-page design, major redesign, or an expli
 
 These modes are direct private-library operations, not a project competitor or business-inspiration workflow. They may create source-derived material only in the canonical private corpus and only after the operator gives an explicit public URL.
 
-Load `$SHIPFLOW_ROOT/skills/006-sg-design/references/design-lifecycle-routing.md` before choosing a specialist owner, asking a routing question, or sequencing a design lifecycle.
+Load `$SHIPFLOW_ROOT/skills/006-sg-design/references/design-lifecycle-routing.md` before choosing a design mode, asking a routing question, or sequencing a design lifecycle.
+
+Load one primary mode playbook after mode selection:
+
+- `system` -> `references/design-system-creation-playbook.md`
+- `playground [route-path]` -> `references/design-playground-playbook.md`
+- `audit ui [scope]` -> `references/design-audit-playbook.md`
+- `audit tokens [scope]` -> `references/design-token-audit-playbook.md`
+- `audit components [scope]` -> `references/component-system-audit-playbook.md`
+- `audit a11y [scope]` -> `references/accessibility-audit-playbook.md`
+
+`audit ui deep` is the deliberate exception: load the UI audit playbook first, then its token, component, and accessibility companion playbooks for the bounded deep missions. Do not load every playbook for ordinary modes.
+
+Lifecycle-only modes do not create another specialist playbook:
+
+- `redesign [scope]`: use the lifecycle routing reference, run `audit ui` when current-state evidence is missing, load the Inspiration Gate when visual direction changes, and require a ready spec before implementation.
+- `migration [scope]`: load `design-token-migration-playbook.md`, establish current design-token consumption with `audit tokens`, and require a ready spec for cross-page or cross-component migration.
 
 Load `$SHIPFLOW_ROOT/skills/006-sg-design/references/design-token-migration-playbook.md` before token centralization, design-system creation, token migration, or any handoff that distinguishes token creation from UI consumption.
 
@@ -85,14 +101,14 @@ Load `$SHIPFLOW_ROOT/skills/600-sg-local-cloud-sync/references/sync-guidance-ove
 
 ## Mission
 
-`006-sg-design` is the recommended entrypoint for design-related work.
+`006-sg-design` is the sole public entrypoint for design-related work.
 
-It owns design lifecycle routing and proof posture across design-system, UI/UX, accessibility-adjacent, visual-proof, and token migration work. It does not replace specialist owners, generic implementation skills, browser verification, or ship/deploy skills.
+It owns design lifecycle routing and proof posture across design-system, UI/UX, accessibility, visual-proof, and token migration work. It does not replace generic implementation, browser verification, or ship/deploy skills.
 
 Expected lifecycle:
 
 ```text
-intake -> design intent routing -> audit/discovery when needed -> spec/readiness for non-trivial changes -> owner-skill execution -> checks and browser/specialist proof -> 103-sg-verify -> closure and ship routing
+intake -> design mode routing -> audit/discovery when needed -> spec/readiness for non-trivial changes -> mode or lifecycle execution -> checks and specialist proof -> 103-sg-verify -> closure and ship routing
 ```
 
 ## Scope Gate
@@ -110,12 +126,14 @@ Choose the smallest safe owner under the decision-quality and design-token contr
 | Intent | Route |
 | --- | --- |
 | Pure design question, workflow advice, or skill-choice help | Answer directly or provide the next command |
-| Create a central professional design system from existing UI | `500-sg-design-from-scratch` |
-| Live preview/edit/export design tokens | `501-sg-design-playground` |
-| Token coherence, hardcoded values, token coverage, typography/spacing/motion/palette architecture | `503-sg-audit-design-tokens` |
-| Broad UI/UX audit, visual hierarchy, layout, responsive quality, trust, product coherence | `502-sg-audit-design` |
-| Component variants, duplication, component API, design-system component architecture | `504-sg-audit-components` |
-| Accessibility, contrast, focus, keyboard, reduced motion, target size, WCAG evidence | `409-sg-audit-a11y` |
+| Create a central professional design system from existing UI | `006-sg-design system` |
+| Live preview/edit/export design tokens | `006-sg-design playground [route-path]` |
+| Token coherence, hardcoded values, token coverage, typography/spacing/motion/palette architecture | `006-sg-design audit tokens [scope]` |
+| Broad UI/UX audit, visual hierarchy, layout, responsive quality, trust, product coherence | `006-sg-design audit ui [scope]` |
+| Component variants, duplication, component API, design-system component architecture | `006-sg-design audit components [scope]` |
+| Accessibility, contrast, focus, keyboard, reduced motion, target size, WCAG evidence | `006-sg-design audit a11y [scope]` |
+| Redesign an existing surface with explicit direction and proof | `006-sg-design redesign [scope]` |
+| Migrate pages/components to the canonical design-token authority | `006-sg-design migration [scope]` |
 | Cloud-sync widget, sync status, post-auth sync overlay, local/cloud merge UI, reinstall-recovery feedback, or sync/save guidance | `600-sg-local-cloud-sync` guidance first |
 | Non-auth visual proof, screenshots, console/network summary for UI pages | `108-sg-browser` |
 | Auth/protected UI visual issue where login/session/provider state matters | `109-sg-auth-debug` |
@@ -147,8 +165,8 @@ rg -n "#[0-9a-fA-F]{3,6}\\b|rgb\\(|rgba\\(|box-shadow:|transition:|font-size:\\s
 Route proof:
 
 - `105-sg-check` for local technical checks
-- `503-sg-audit-design-tokens` for token coverage/coherence
-- `409-sg-audit-a11y` for accessibility safety
+- `006-sg-design audit tokens` for token coverage/coherence
+- `006-sg-design audit a11y` for accessibility safety
 - `108-sg-browser` for visible non-auth page proof and screenshots
 - `109-sg-auth-debug` when auth/session state affects the UI
 - `405-sg-prod` or `004-sg-deploy` for hosted truth
@@ -170,8 +188,8 @@ Every blocked report must include the exact next recovery route.
 
 ## Rules
 
-- Be the design entrypoint; do not become the implementation of every design specialist.
-- Route through owner skills and lifecycle gates.
+- Remain the single design entrypoint; keep each mode's detailed procedure in its bounded playbook.
+- Route through mode playbooks, proof owners, and lifecycle gates.
 - Prefer the smallest safe route when the request is narrow, using the decision-quality definition rather than shortcut quality.
 - Use spec-first for broad design implementation and token migration.
 - Always surface the token implementation handoff when centralization exists but site consumption is incomplete.

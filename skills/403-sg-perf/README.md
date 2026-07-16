@@ -50,5 +50,5 @@ For a solo founder, that means fewer vague “the app feels slow” complaints a
 ## Related Skills
 
 - `105-sg-check` after fixes
-- `502-sg-audit-design` when UX and rendering concerns overlap
+- `006-sg-design audit ui` when UX and rendering concerns overlap
 - `405-sg-prod` to validate the deployed result

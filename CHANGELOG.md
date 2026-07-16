@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.5.0"
+artifact_version: "0.7.0"
 project: "shipflow"
 created: "2026-04-25"
-updated: "2026-07-13"
+updated: "2026-07-15"
 status: draft
 source_skill: 300-sg-docs
 scope: documentation
@@ -25,6 +25,13 @@ evidence: []
 next_step: "/300-sg-docs audit CHANGELOG.md"
 ---
 # ShipFlow Changelog
+
+## [2026-07-15]
+
+### Changed
+- Consolidated the public design-skill surface into `006-sg-design` modes and six focused playbooks; migrated active help, runtime, catalog, and public-site guidance while retiring the redundant `409` and `500–504` entrypoints.
+- Renamed `008-sg-end-user` to `008-sg-customer` across runtime discovery, routing, catalogs, documentation, and the public skill page to avoid collision with `end` searches.
+- Consolidated internal skill maintenance into `900-shipglowz-core` modes and focused build/refresh playbooks; migrated active docs, routes, profiles, catalogs, and runtime discovery while removing the retired `009` and `307` source/runtime entries.
 
 ## [2026-07-13]
 

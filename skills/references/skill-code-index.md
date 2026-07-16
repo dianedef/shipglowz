@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "2.2.0"
+artifact_version: "2.4.0"
 project: ShipGlowz
 created: "2026-06-10"
-updated: "2026-06-11"
+updated: "2026-07-15"
 status: active
 source_skill: 102-sg-start
 scope: skill-code-index
@@ -32,8 +32,10 @@ evidence:
   - "User decision 2026-06-10: no symbol-heavy names; keep lowercase letters, numbers, and hyphens only."
   - "2026-06-11 900-shipglowz-core added as an internal operator skill in the reserved meta band."
   - "2026-06-11 310-sg-github-hygiene added as the git/GitHub sync, stale branch, PR drift, and Dependabot hygiene skill."
-next_review: "2026-07-10"
-next_step: "/103-sg-verify Three Digit Runtime Skill Names"
+  - "2026-07-15 design consolidation retired 409 and 500-504 as public skills; their capabilities now live as modes and playbooks under 006-sg-design."
+  - "2026-07-15 skill-maintenance consolidation retired 009 and 307; their capabilities now live as modes under the internal-only 900-shipglowz-core."
+next_review: "2026-08-15"
+next_step: "/104-sg-end consolidate design skill surface into modes and playbooks"
 ---
 
 # Skill Code Index
@@ -66,8 +68,8 @@ operator invocation: $001-sg-build
 | `100-199` | Lifecycle and proof | Spec, readiness, execution, verification, checks, fixes, browser/auth/test proof. |
 | `200-299` | Content, research, and copy | Writing, enrichment, repurposing, market/research/watch, and copy audits. |
 | `300-399` | Docs, context, and support | Docs, help, context, changelog, init, scaffold, status, tasks. |
-| `400-499` | Audit, quality, and ops risk | Audit master, code/deps/perf/migrate/prod/SEO/i18n/GTM/a11y. |
-| `500-599` | Design and components | Design-system, playground, design audit, tokens, component audit. |
+| `400-499` | Audit, quality, and ops risk | Audit master, code/deps/perf/migrate/prod/SEO/i18n/GTM. |
+| `500-599` | Unassigned legacy band | Former design-specialist band; design now routes through `006-sg-design` modes. Reuse requires a ready taxonomy decision. |
 | `600-699` | Data and activation | Local-cloud sync, entitlements, parity, and future account/data surfaces. |
 | `700-799` | Pilotage and session helpers | Explore, backlog, priorities, review, model choice, resume helpers. |
 | `800-899` | Conversation and transcript helpers | Conversation capture and transcript tooling. |
@@ -87,8 +89,7 @@ Frequency wins over family when a skill belongs to both. For example `007-sg-con
 | `005` | `sg-ship` | `005-sg-ship` | Master |
 | `006` | `sg-design` | `006-sg-design` | Master |
 | `007` | `sg-content` | `007-sg-content` | Master |
-| `008` | `sg-end-user` | `008-sg-end-user` | Master |
-| `009` | `sg-skill-build` | `009-sg-skill-build` | Master |
+| `008` | `sg-customer` | `008-sg-customer` | Master |
 | `100` | `sg-spec` | `100-sg-spec` | Lifecycle/proof |
 | `101` | `sg-ready` | `101-sg-ready` | Lifecycle/proof |
 | `102` | `sg-start` | `102-sg-start` | Lifecycle/proof |
@@ -114,7 +115,6 @@ Frequency wins over family when a skill belongs to both. For example `007-sg-con
 | `304` | `sg-changelog` | `304-sg-changelog` | Docs/context/support |
 | `305` | `sg-init` | `305-sg-init` | Docs/context/support |
 | `306` | `sg-scaffold` | `306-sg-scaffold` | Docs/context/support |
-| `307` | `sg-skills-refresh` | `307-sg-skills-refresh` | Docs/context/support |
 | `308` | `sg-status` | `308-sg-status` | Docs/context/support |
 | `309` | `sg-tasks` | `309-sg-tasks` | Docs/context/support |
 | `310` | `sg-github-hygiene` | `310-sg-github-hygiene` | Docs/context/support |
@@ -127,12 +127,6 @@ Frequency wins over family when a skill belongs to both. For example `007-sg-con
 | `406` | `sg-seo` | `406-sg-seo` | Audit/quality/ops |
 | `407` | `sg-audit-translate` | `407-sg-audit-translate` | Audit/quality/ops |
 | `408` | `sg-audit-gtm` | `408-sg-audit-gtm` | Audit/quality/ops |
-| `409` | `sg-audit-a11y` | `409-sg-audit-a11y` | Audit/quality/ops |
-| `500` | `sg-design-from-scratch` | `500-sg-design-from-scratch` | Design/components |
-| `501` | `sg-design-playground` | `501-sg-design-playground` | Design/components |
-| `502` | `sg-audit-design` | `502-sg-audit-design` | Design/components |
-| `503` | `sg-audit-design-tokens` | `503-sg-audit-design-tokens` | Design/components |
-| `504` | `sg-audit-components` | `504-sg-audit-components` | Design/components |
 | `600` | `sg-local-cloud-sync` | `600-sg-local-cloud-sync` | Data/activation |
 | `601` | `sg-product-entitlements` | `601-sg-product-entitlements` | Data/activation |
 | `602` | `sg-platform-parity` | `602-sg-platform-parity` | Data/activation |

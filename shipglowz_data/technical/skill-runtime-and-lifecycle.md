@@ -25,9 +25,8 @@ linked_systems:
   - skills/002-sg-maintain/SKILL.md
   - skills/007-sg-content/SKILL.md
   - skills/006-sg-design/SKILL.md
-  - skills/008-sg-end-user/SKILL.md
+  - skills/008-sg-customer/SKILL.md
   - skills/600-sg-local-cloud-sync/SKILL.md
-  - skills/009-sg-skill-build/SKILL.md
   - skills/900-shipglowz-core/SKILL.md
   - skills/108-sg-browser/SKILL.md
   - skills/003-sg-bug/SKILL.md
@@ -65,16 +64,16 @@ evidence:
   - "Editorial content corpus and Editorial Reader role added for public-content impact analysis."
   - "Governance corpus lifecycle added: 305-sg-init bootstraps, 300-sg-docs maintains, 001-sg-build consumes."
   - "108-sg-browser added as the generic non-auth Playwright MCP browser evidence skill."
-  - "009-sg-skill-build added as the dedicated master lifecycle for ShipGlowz skill maintenance."
+  - "900-shipglowz-core build is the sole internal lifecycle mode for ShipGlowz skill maintenance."
   - "004-sg-deploy added as the dedicated release confidence orchestrator."
   - "006-sg-design added as the master design lifecycle orchestrator for UI/UX, tokens, playgrounds, visual proof, verification, and ship routing."
   - "002-sg-maintain promoted to a master maintenance lifecycle from triage through delegated execution, verification, and ship/deploy routing."
   - "Shared reporting contract added: concise user reports by default, explicit agent handoff reports when requested."
   - "Reporting contract clarified: user-mode ship reports should match the user's active language, use outcome/evidence/limits ordering, and allow a few sober status emojis."
   - "Skill launch cheatsheet added for master and supporting modes."
-  - "009-sg-skill-build exploration gate added before 100-sg-spec for fuzzy skill ideas or placement decisions."
+  - "900-shipglowz-core build routes fuzzy skill ideas or placement decisions through 700-sg-explore before 100-sg-spec."
   - "007-sg-content added as the master content lifecycle for strategy, repurposing, drafting, enrichment, audits, docs, validation, and ship routing."
-  - "008-sg-end-user added as the user activation lifecycle for first-success paths, setup guidance, recoverable states, docs impact, and proof routing."
+  - "008-sg-customer renamed as the customer activation lifecycle for first-success paths, setup guidance, recoverable states, docs impact, and proof routing."
   - "600-sg-local-cloud-sync added as the local-to-cloud data promotion, merge, sync UX, and security contract skill."
   - "001-sg-build delegated sequential subagent consent clarified; subagents and parallelism are distinct runtime concepts."
   - "Master delegation semantics extracted to skills/references/master-delegation-semantics.md and cited by master/orchestrator skills."
@@ -91,7 +90,7 @@ evidence:
   - "`001-sg-build agents` clarified as a strict delegated sequential validation gate; parallel agents remain controlled only by ready spec `Execution Batches`."
   - "Layered skill-instruction contract added for progressive SKILL.md compaction with pilot extraction to skill-local references."
   - "Spec-driven development discipline added: spec-first remains the outer lifecycle contract, while execution skills choose proof paths such as test-first, regression-first, scenario-first, evidence-first, or exception-with-proof."
-  - "Pilot compaction applied to 300-sg-docs, 502-sg-audit-design, and 103-sg-verify while preserving chantier/reporting/security/doc-update gates."
+  - "Pilot compaction applied to 300-sg-docs, the former design-audit contract, and 103-sg-verify while preserving chantier/reporting/security/doc-update gates."
   - "Skill taxonomy description audit applied compact routing descriptions across 61 skills while preserving names, trace categories, process roles, and runtime visibility."
   - "103-sg-verify aligned stale dependency metadata during the skill taxonomy description verification."
 - "Decision quality contract added: ShipGlowz optimizes for correctness, security, performance, maintainability, durability, professional best practices, and proof quality before speed, cost, or convenience."
@@ -135,15 +134,14 @@ Three-digit skill codes are part of the runtime-visible skill identity. The cano
 
 Current family boundaries:
 
-- Lifecycle/master: `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, `104-sg-end`, `005-sg-ship`, `001-sg-build`, `004-sg-deploy`, `002-sg-maintain`, `006-sg-design`, `007-sg-content`, `008-sg-end-user`, `009-sg-skill-build`.
+- Lifecycle/master: `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, `104-sg-end`, `005-sg-ship`, `001-sg-build`, `004-sg-deploy`, `002-sg-maintain`, `006-sg-design`, `007-sg-content`, `008-sg-customer`, `900-sg-shipglowz-core` (internal-only; its `audit` and `packaging` modes remain read-only assessment paths).
 - Data trust/source: `600-sg-local-cloud-sync`, `601-sg-product-entitlements`.
 - Audit/source: `400-sg-audit*`, `402-sg-deps`, `403-sg-perf`.
 - Bug/proof/source: `003-sg-bug`, `106-sg-fix`, `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check`, `404-sg-migrate`.
-- Content/docs/support: `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `202-sg-repurpose`, `304-sg-changelog`, `306-sg-scaffold`, `307-sg-skills-refresh`, `305-sg-init`, `310-sg-github-hygiene`.
+- Content/docs/support: `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `202-sg-repurpose`, `304-sg-changelog`, `306-sg-scaffold`, `305-sg-init`, `310-sg-github-hygiene`.
 - Research/strategy/source: `203-sg-research`, `204-sg-market-study`, `205-sg-veille`.
 - Pilotage: `701-sg-backlog`, `702-sg-priorities`, `703-sg-review`, `309-sg-tasks`, `706-continue`.
 - Helper/session/router: `000-shipglowz`, `301-sg-context`, `704-sg-model`, `302-sg-help`, `308-sg-status`, `303-sg-resume`, `700-sg-explore`, `707-name`, `800-tmux-capture-conversation`, `801-clean-conversation-transcript`.
-- Internal/meta: `900-shipglowz-core` for operator-only ShipGlowz skill execution-fidelity and plugin-packaging audits.
 
 Keep overlap intentional and explicit: master skills orchestrate, specialists prove or repair, support skills document or scaffold, and helper skills route or summarize without owning lifecycle state.
 
@@ -227,7 +225,7 @@ The canonical behavior contract for profile resolution, precedence, fallback, an
 | `skills/references/master-workflow-lifecycle.md` | Shared master/orchestrator lifecycle skeleton and work item model | Load before master skills resolve intake, readiness, model/topology, validation, verification, closure, or ship/deploy routes |
 | `skills/references/decision-quality-contract.md` | Shared high-quality decision doctrine: correctness, security, performance, maintainability, durability, best practices, and proof before speed/cost/convenience | Load before routing, model/fallback selection, implementation, fixes, skill-contract changes, verification, or recommended defaults |
 | `skills/references/skill-code-index.md` | Canonical numeric lookup from memorable codes to unchanged skill names | Update whenever a skill is added, removed, or renamed; validate with `python3 tools/skill_code_index_lint.py` |
-| `skills/900-shipglowz-core/SKILL.md` | Internal operator skill for ShipGlowz execution-fidelity audits and plugin-packaging readiness | Keep out of public plugin packaging and public skill pages unless the operator explicitly changes the policy |
+| `skills/900-shipglowz-core/SKILL.md` | Internal lifecycle owner for ShipGlowz skill audit, build, refresh, and packaging modes | Keep out of public plugin packaging and public skill pages unless the operator explicitly changes the policy |
 | `skills/references/spec-driven-development-discipline.md` | Shared spec-first/proof-first discipline | Load before execution or verification when behavior, bug, skill contract, UI/docs/auth/deploy, operational, or integration work needs a proof path |
 | `skills/references/content-quality-rubric.md` | Shared project-aware content quality scoring schema and blocked-code contract | Load when content owner skills or `103-sg-verify` produce/consume editorial quality gates |
 | `skills/references/reporting-contract.md` | Shared final-report mode contract | Default user reports are concise; detailed reports require explicit handoff mode |
@@ -300,12 +298,11 @@ Operator roles and named profiles do not add new primary artifact types:
 - `007-sg-content`: master content lifecycle (`CONTENT_MAP + editorial corpus -> owner content skills -> audits/docs -> validation -> 103-sg-verify -> 005-sg-ship`).
 - `skills/references/content-quality-rubric.md`: shared editorial scoring contract used by content owner skills and verification gates.
 - `006-sg-design`: master design lifecycle (`design intent -> specialist audit/token/playground route -> spec-first implementation when needed -> checks/browser proof -> 103-sg-verify -> 005-sg-ship`).
-- `008-sg-end-user`: user activation lifecycle (`first-success path -> setup order -> states/recovery -> docs impact -> proof or 001-sg-build`).
+- `008-sg-customer`: customer activation lifecycle (`first-success path -> setup order -> states/recovery -> docs impact -> proof or 001-sg-build`).
 - `600-sg-local-cloud-sync`: local-to-cloud data sync contract (`data inventory -> account association -> promotion/hydration -> merge/conflict/tombstones -> sync UX/security -> proof or 001-sg-build`).
 - `601-sg-product-entitlements`: product access lifecycle contract (`identity/provider/access separation -> ledger ownership -> backend gates/support -> sync/auth handoff or 001-sg-build`).
-- `500-sg-design-from-scratch`: design-system creation skill for extracting an existing UI into a complete professional token system before playground or token audit work.
-- `009-sg-skill-build`: dedicated orchestrator for ShipGlowz skill maintenance (`700-sg-explore when needed -> 100-sg-spec -> SKILL.md -> runtime skill links -> 307-sg-skills-refresh -> budget audit -> 103-sg-verify -> 300-sg-docs/help -> 005-sg-ship`).
-- `900-shipglowz-core`: internal operator skill for local ShipGlowz skill execution-fidelity audits and public-plugin packaging readiness checks. It is repo-synced, not a public user plugin surface.
+- `006-sg-design`: sole public design entrypoint; `system`, `playground`, and explicit `audit ui|tokens|components|a11y` modes load bounded local playbooks.
+- `900-shipglowz-core`: sole internal operator skill for ShipGlowz skill execution-fidelity audits, maintenance lifecycle (`build`), conservative refresh (`refresh`), and public-plugin packaging readiness checks. Skill maintenance follows `700-sg-explore when needed -> 100-sg-spec -> SKILL.md -> runtime skill links -> 900-shipglowz-core refresh -> budget audit -> 103-sg-verify -> 300-sg-docs/help -> 005-sg-ship`. It is repo-synced, not a public user plugin surface.
 - `tools/shipglowz_sync_skills.sh --check|--repair`: reusable local helper for current-user Claude/Codex skill visibility and install-time selected-user linking.
 - `005-sg-ship` and `405-sg-prod`: shipping and deployed verification.
 - `skills/references/master-delegation-semantics.md`: shared execution-topology doctrine for master/orchestrator skills.
@@ -319,7 +316,7 @@ Primary router flow:
 ```text
 000-shipglowz <instruction>
   -> direct conversational answer
-  -> or direct main-thread handoff to 001-sg-build / 002-sg-maintain / 003-sg-bug / 004-sg-deploy / 007-sg-content / 006-sg-design / 008-sg-end-user / 600-sg-local-cloud-sync / 009-sg-skill-build / 400-sg-audit-*
+  -> or direct main-thread handoff to 001-sg-build / 002-sg-maintain / 003-sg-bug / 004-sg-deploy / 007-sg-content / 006-sg-design / 008-sg-customer / 600-sg-local-cloud-sync / 900-shipglowz-core build / 400-sg-audit-*
   -> one numbered question when the route is ambiguous
 ```
 
@@ -464,10 +461,9 @@ The source-derived corpus resolves from `${SHIPGLOWZ_INSPIRATION_LIBRARY_DIR:-${
 - `007-sg-content` owns content-management orchestration; repurposing, drafting, enrichment, copy audit, copywriting audit, SEO audit, docs, veille, market study, browser proof, verification, and ship still run through their specialist owner skills and gates.
 - Design and content skills use the shared Inspiration Gate only for eligible creative direction; they shortlist from `index.yaml`, require operator selection, record selected reference IDs, and never treat discovery as approval to imitate.
 - Content owner skills (`007-sg-content`, `202-sg-repurpose`, `200-sg-redact`, `201-sg-enrich`, `206-sg-audit-copy`, `207-sg-audit-copywriting`, `406-sg-seo`) and `103-sg-verify` must use one shared rubric contract from `skills/references/content-quality-rubric.md`; recoverable score states (`needs retry`, `duplicate_in_progress`, `conflicting_score_state`, `stale_or_mismatched_score`) are never valid verification proof.
-- `006-sg-design` owns design lifecycle orchestration; UI/UX audits, token audits, component audits, accessibility audits, playground tooling, design-system creation, browser proof, implementation, verification, and ship still run through their specialist owner skills and gates.
-- `008-sg-end-user` owns user activation contracts; implementation, visual design, docs/content, browser proof, and manual QA still run through `001-sg-build`, `006-sg-design`, `300-sg-docs`/`007-sg-content`, `108-sg-browser`, and `107-sg-test` when needed.
-- `500-sg-design-from-scratch` owns design-system creation from existing UI values; playground tooling, token audits, component audits, accessibility audits, and general design routing stay with their specialist or master skills.
-- `009-sg-skill-build` owns skill-maintenance orchestration and must route to `700-sg-explore` before `100-sg-spec` when skill intent, placement, public promise, or governance policy is too fuzzy for one targeted question to settle.
+- `006-sg-design` owns the public design lifecycle; its system, playground, and audit modes load bounded playbooks, while implementation, browser proof, verification, and shipping remain lifecycle gates.
+- `008-sg-customer` owns customer activation contracts; implementation, visual design, docs/content, browser proof, and manual QA still run through `001-sg-build`, `006-sg-design`, `300-sg-docs`/`007-sg-content`, `108-sg-browser`, and `107-sg-test` when needed.
+- `900-shipglowz-core build` owns internal skill-maintenance orchestration and must route to `700-sg-explore` before `100-sg-spec` when skill intent, placement, public promise, or governance policy is too fuzzy for one targeted question to settle.
 - A release is not considered verified from push success, provider success, or a bare `200 OK` alone.
 - User-facing final reports default to `report=user`: concise, outcome-first, matched to the user's active language, compact chantier block, and no empty `Reste a faire` / `Prochaine etape` boilerplate. Ship reports should read as outcome, evidence, then limits, with a few sober status emojis allowed for scanning. Detailed `report=agent` handoff must be explicit; skills do not infer caller identity.
 - `001-sg-build` planning questions are business decision briefs, not bare technical prompts: they name the problem root, business stakes, practical options, and recommended best-practice answer before asking for a decision.
@@ -481,7 +477,7 @@ The source-derived corpus resolves from `${SHIPGLOWZ_INSPIRATION_LIBRARY_DIR:-${
 - If `001-sg-build` prepares implementation with missing or stale `docs/technical/code-docs-map.md`, applicable `docs/editorial/`, or `CONTENT_MAP.md`, it must route to `300-sg-docs` or record explicit no-impact/no-surface status before proceeding.
 - If a master skill patches in the master conversation merely because a file change is small while subagents are available, treat that as workflow drift. Small scope may use a mini-contract, but the execution mode remains delegated sequential for file work.
 - If `001-sg-build agents` touches files, runs validation, prepares closure, or prepares ship without launching a bounded subagent and without explicitly reporting degraded execution, treat that as workflow drift.
-- If the `000-shipglowz <instruction>` router nests `001-sg-build`, `002-sg-maintain`, `003-sg-bug`, `004-sg-deploy`, `007-sg-content`, or `009-sg-skill-build` inside a subagent instead of handing off the main thread, treat that as workflow drift.
+- If the `000-shipglowz <instruction>` router nests `001-sg-build`, `002-sg-maintain`, `003-sg-bug`, `004-sg-deploy`, `007-sg-content`, or `900-shipglowz-core build` inside a subagent instead of handing off the main thread, treat that as workflow drift.
 - If a short natural-language confirmation is treated as consent for parallel subagents without ready `Execution Batches`, treat that as workflow drift.
 - If future projects are told to rerun ShipGlowz's shipped governance specs instead of using `305-sg-init` and `300-sg-docs`, treat that as workflow drift.
 - If a new skill exists under `skills/<name>/SKILL.md` but is missing from current-user Claude or Codex skill directories, treat the skill lifecycle as incomplete until the runtime symlinks are repaired.

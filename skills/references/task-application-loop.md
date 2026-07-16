@@ -16,7 +16,7 @@ docs_impact: yes
 linked_systems:
   - "skills/102-sg-start/SKILL.md"
   - "skills/106-sg-fix/SKILL.md"
-  - "skills/009-sg-skill-build/SKILL.md"
+  - "skills/900-shipglowz-core/SKILL.md"
   - "skills/103-sg-verify/SKILL.md"
 depends_on:
   - artifact: "skills/references/spec-driven-development-discipline.md"

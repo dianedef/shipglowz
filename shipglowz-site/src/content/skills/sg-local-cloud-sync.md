@@ -50,14 +50,14 @@ argument_modes:
     consequence: "Useful when future apps need a polished post-auth overlay with real-time stages, cloud/local decisions, durable retry, and ready feedback."
 limits:
   - "It does not replace sg-build for implementation lifecycle"
-  - "It does not replace sg-end-user for broad activation and setup guidance"
+  - "It does not replace sg-customer for broad activation and setup guidance"
   - "It routes product-access and entitlement-ledger decisions to sg-product-entitlements before final sync contracts"
   - "It blocks unsafe defaults such as silent local wipe, cross-account replay, vague latest-wins, and convenience secret sync"
   - "It does not promise provider-specific sync behavior without fresh official docs and proof"
 related_skills:
   - "sg-product-entitlements"
   - "sg-build"
-  - "sg-end-user"
+  - "sg-customer"
   - "sg-docs"
   - "sg-test"
   - "sg-browser"

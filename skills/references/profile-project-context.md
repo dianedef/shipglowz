@@ -112,7 +112,7 @@ Default bundle:
 Load additionally when relevant:
 
 - `shipglowz_data/editorial/content-map.md`
-- `skills/008-sg-end-user/SKILL.md`
+- `skills/008-sg-customer/SKILL.md`
 - `shipglowz_data/business/business.md`
 
 Use this bundle for value perception, trust, comprehension, CTA friction, onboarding friction, and user desire to continue.

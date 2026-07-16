@@ -51,7 +51,7 @@ Use this checklist before producing a final failure report:
 
 ## Valid Owner Routing
 
-- `009-sg-skill-build`: contract or behavior definition updates.
+- `900-shipglowz-core build`: internal skill contract or behavior definition updates.
 - `300-sg-docs`: doc/contract correction when public behavior or workflow text is misaligned.
 - `103-sg-verify`: missing evidence, proof gap, or incorrect assumptions.
 - `100-sg-spec`: when implementation surface is non-trivial and requires a new durable spec.

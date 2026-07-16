@@ -14,7 +14,7 @@ risk_level: medium
 security_impact: yes
 docs_impact: yes
 linked_systems:
-  - skills/008-sg-end-user/SKILL.md
+  - skills/008-sg-customer/SKILL.md
   - /home/claude/winflowz/winflowz_app/lib/features/shell/presentation/app_shell_screen.dart
   - /home/claude/winflowz/winflowz_app/lib/features/settings/domain/onboarding_permission_contract.dart
   - /home/claude/temu/src/ui/temu-shell/components/TemuOnboardingOverlay.vue
@@ -27,7 +27,7 @@ depends_on:
     artifact_version: "1.5.0"
     required_status: active
 supersedes:
-  - skills/008-sg-end-user/references/activation-progress-overlay-pattern.md
+  - skills/008-sg-customer/references/onboarding-playbook.md
 evidence:
   - "WinFlowz onboarding uses a popup-style setup overlay with progress icons, recoverable permission/setup modules, current/completed/skipped/blocked states, and settings recovery."
   - "Temu Shopping Lists port proved the same onboarding overlay can transfer from Flutter to Vue/Tauri when adapted to product-specific value moments."

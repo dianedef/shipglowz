@@ -60,13 +60,13 @@ If I were the end user, would I understand this, trust it, want it, and continue
 
 ## Preferred Skills
 
-- `008-sg-end-user`
+- `008-sg-customer`
 - `007-sg-content`
 - `206-sg-audit-copy`
 - `207-sg-audit-copywriting`
 - `406-sg-seo`
 - `408-sg-audit-gtm`
-- `502-sg-audit-design`
+- `006-sg-design audit ui`
 
 ## Evidence Sources
 

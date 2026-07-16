@@ -1,7 +1,7 @@
 ---
 name: 900-shipglowz-core
-description: "Audit ShipGlowz skill execution fidelity and plugin packaging."
-argument-hint: "[audit|packaging|help] <instruction>"
+description: "Internal ShipGlowz skill maintenance: audit, build, refresh, packaging, and help."
+argument-hint: "<audit [scope]|build <target>|refresh <target>|packaging [scope]|help>"
 ---
 
 # ShipGlowz Core
@@ -13,10 +13,10 @@ Follow the shared `ShipGlowz-Owned Tool Preflight` doctrine from `$SHIPFLOW_ROOT
 
 ## Chantier Tracking
 
-Trace category: `conditionnel`.
-Process role: `support-de-chantier`.
+Trace category: `obligatoire`.
+Process role: `lifecycle`.
 
-When attached to a unique chantier spec, append a current `900-shipglowz-core` row only if this run materially supports that chantier. If no unique spec is in scope, do not write to a spec and report `Chantier: non trace` with the reason.
+For a unique spec-first chantier, append the current `900-shipglowz-core` run, update `Current Chantier Flow`, and report the compact chantier block. If no unique chantier is in scope, do not write a spec; report `Chantier: non trace` and route non-trivial build work to `100-sg-spec`.
 
 ## Report Modes
 
@@ -27,7 +27,7 @@ When issues are found, keep `report=user` compact while preserving the `System-I
 
 ## Mission
 
-`900-shipglowz-core` is an internal ShipGlowz operator tool. It audits local ShipGlowz skills, checks execution-fidelity risks, and helps prepare plugin packaging decisions without acting as a public user-facing plugin.
+`900-shipglowz-core` is the sole internal ShipGlowz entrypoint for skill improvement. It audits, builds, refreshes, validates, and prepares packaging decisions without acting as a public user-facing plugin.
 
 Because this skill is itself ShipGlowz infrastructure, invoking `900-shipglowz-core` is an implicit instruction to improve ShipGlowz even if the operator does not say "ShipGlowz" out loud. The default target is the ShipGlowz system under `$SHIPFLOW_ROOT`: shared references, skill contracts, and governance rules. Do not assume the current project repository is the intended edit target unless explicitly named.
 
@@ -45,20 +45,43 @@ Use it when Diane or a ShipGlowz maintainer wants to:
 
 - audit whether local skills expose mission, scope, stop, validation, reference, and report signals clearly;
 - investigate whether Codex is likely to miss a skill gate or ask the operator to do proof it could run itself;
-- inspect portability risks before moving ShipGlowz skills into the public `shipflow` plugin;
-- keep the old `shipflow-core` plugin pilot out of the public marketplace path.
+- inspect portability risks for the public `shipglowz` plugin and `$shipglowz` entrypoint; `shipflow` is compatibility-only;
+- keep the old `shipflow-core` plugin pilot historical, internal, and out of the public marketplace path.
+
+## Mode Detection
+
+Parse `$ARGUMENTS` exactly as:
+
+```text
+audit [scope]
+build <skill, path, or maintenance goal>
+refresh <skill>
+packaging [scope]
+help
+```
+
+| Mode | Load / behavior |
+| --- | --- |
+| `audit` | Run the local execution-fidelity audit workflow below; translate non-style issues into system-improvement output. |
+| `build` | Load `references/skill-maintenance-playbook.md`; use spec-first lifecycle gates for non-trivial contract work. |
+| `refresh` | Load `references/skill-refresh-playbook.md`; preserve conservative evidence, novelty, and self-refresh rules. |
+| `packaging` | Apply the packaging workflow and internal/public boundary below. |
+| `help` | Explain the supported modes and canonical invocation shape. |
+
+Bare or invalid input must list these modes or ask one targeted routing question. `build` and `refresh` without a target are invalid; do not infer a target, reuse the last target, or treat retired `009-sg-skill-build` / `307-sg-skills-refresh` names as aliases.
 
 ## Scope Gate
 
-Audit, packaging, and help requests are read-only unless the operator asks for edits or a lifecycle skill provides a ready spec. An operator critique of ShipGlowz execution authorizes a bounded repair at the narrowest justified ShipGlowz layer unless the operator says `read-only`, `audit only`, or otherwise forbids edits.
+Audit, packaging, and help requests are read-only unless the operator asks for edits. `build` and `refresh` follow their loaded playbook; non-trivial behavior changes require a ready spec. An operator critique of ShipGlowz execution authorizes a bounded repair at the narrowest justified ShipGlowz layer unless the operator says `read-only`, `audit only`, or otherwise forbids edits.
 
 Target binding rule: when `900-shipglowz-core` is invoked, the default edit target is the ShipGlowz system under `$SHIPFLOW_ROOT`, not the repository currently open in the conversation. A project repo mentioned implicitly by surrounding discussion, shell location, or recent file edits does not override that default. Only an explicit operator instruction that names the project/repository should redirect the target away from ShipGlowz itself.
 
 This skill is internal-only:
 
-- do not add it to the public `shipflow` plugin bundle;
+- do not add it to the public `shipglowz` plugin bundle or `$shipglowz` entrypoint;
 - do not create a public site skill page for it unless the operator explicitly reverses that policy;
 - do not treat the deprecated local plugin source at `$HOME/plugins/shipflow-core` as canonical.
+- do not preserve `009-sg-skill-build` or `307-sg-skills-refresh` as aliases after their migration.
 
 ## Required References
 
@@ -68,7 +91,10 @@ Load only what the current request needs:
 - `$SHIPFLOW_ROOT/skills/references/skill-instruction-layering.md` before choosing whether a behavior fix belongs in shared doctrine or a local skill contract.
 - `$SHIPFLOW_ROOT/shipglowz_data/technical/codex-plugin-packaging.md` for public plugin packaging and sparse bootstrap constraints.
 - `$SHIPFLOW_ROOT/skills/references/spec-driven-development-discipline.md` before recommending or making skill-contract edits.
+- `$SHIPFLOW_ROOT/skills/references/master-workflow-lifecycle.md` and `master-delegation-semantics.md` before `build` chooses lifecycle gates or delegated execution.
 - `$SHIPFLOW_ROOT/skills/references/reporting-contract.md` before final reporting.
+- `$SHIPFLOW_ROOT/skills/900-shipglowz-core/references/skill-maintenance-playbook.md` for `build`.
+- `$SHIPFLOW_ROOT/skills/900-shipglowz-core/references/skill-refresh-playbook.md` for `refresh`.
 
 ## Audit Workflow
 
@@ -86,6 +112,15 @@ python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/audit_shipglowz_skills.py"
 5. Treat the helper as baseline evidence only: `hard` findings block completion until fixed or disproven; `review` findings need scenario-first triage; `style` findings do not justify standalone churn.
 6. Do not claim an observed execution failure fixed from the generic audit alone. Require focused mechanical or pressure-scenario proof for that failure class.
 7. Do not rewrite skills from audit output unless a ready spec or explicit operator instruction authorizes an edit pass.
+
+## Mode Scenarios
+
+- `audit [scope]`: audit only the resolved ShipGlowz target; no contract edit is inferred.
+- `build <target>`: load the maintenance playbook; ambiguous placement goes to `700-sg-explore`, while non-trivial contract work requires `100 -> 101 -> 102 -> 900 refresh -> 103 -> 104 -> 005`. Every material skill edit receives conservative `refresh <target>` review before final budget and `103`.
+- `refresh <target>`: load the refresh playbook; `refresh 900-shipglowz-core` is blocked as ordinary self-refresh and must use explicit spec-backed `build` work that loads the refresh playbook as an independent manual review with scenario-first and source-completeness proof.
+- `packaging [scope]`: retain the internal/public package boundary; it does not publish `900`.
+- `help`: describe modes only; no audit, build, or refresh action runs.
+- Missing local playbook, target, runtime sync path, or required proof path blocks the affected mode rather than falling back to a retired command.
 
 ## System-Improvement Output
 
@@ -116,8 +151,8 @@ Style-only findings do not require full system-improvement output unless a press
 
 For plugin packaging work:
 
-1. Keep `shipflow` as the public user-facing plugin.
-2. Keep `shipflow-core` internal and repo-synced for operators.
+1. Keep `shipglowz` as the canonical public plugin and `$shipglowz` as its public entrypoint; `shipflow` is a compatibility alias only.
+2. Keep `900-shipglowz-core` internal and repo-synced for operators; `shipflow-core` is a deprecated historical pilot, never canonical or public.
 3. Check that public plugin flows do not require `$HOME/shipglowz` or `$HOME/plugins/shipflow-core`.
 4. Use sparse bootstrap only after explicit approval because it changes local state and downloads source.
 5. Never package secrets, private transcripts, customer context, dependency directories, local caches, or machine-specific paths.
@@ -129,7 +164,7 @@ Stop and report `blocked` when:
 - `$SHIPFLOW_ROOT/skills` does not exist;
 - `$SHIPFLOW_ROOT/tools/audit_shipglowz_skills.py` is missing when an audit was requested;
 - a ShipGlowz-owned audit step would run before resolving `$SHIPFLOW_ROOT`, confirming the owned path, and confirming the target tool file;
-- the request would publish, bundle, or market `shipflow-core` as a public user plugin without explicit operator reversal;
+- the request would present `shipflow` as the canonical public identity, or publish, bundle, or market `shipflow-core` as a public user plugin without explicit operator reversal;
 - the request would edit broad skill contracts without a ready spec or explicit edit-pass instruction;
 - the next proof step would require secrets, private account access, destructive actions, or user-only device access.
 
@@ -138,7 +173,7 @@ Stop and report `blocked` when:
 Validate this skill after edits with:
 
 ```bash
-rg -n "Mission|Scope Gate|Required References|Stop Conditions|Validation|Report Modes|ShipGlowz-Owned Tool Preflight|audit_shipglowz_skills|Followability Gate" skills/900-shipglowz-core/SKILL.md skills/references/canonical-paths.md
+rg -n "Mode Detection|Mode Scenarios|skill-maintenance-playbook|skill-refresh-playbook|retired|Mission|Scope Gate|Required References|Stop Conditions|Validation" skills/900-shipglowz-core/SKILL.md
 python3 -m unittest tools.test_900_shipglowz_core_contract
 python3 tools/audit_shipglowz_skills.py
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown

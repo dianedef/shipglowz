@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-06-29"
-updated: "2026-06-29"
+updated: "2026-07-15"
 status: active
 source_skill: 006-sg-design
 scope: design-token-migration-playbook
@@ -15,9 +15,6 @@ security_impact: none
 docs_impact: yes
 linked_systems:
   - skills/006-sg-design/SKILL.md
-  - skills/500-sg-design-from-scratch/SKILL.md
-  - skills/501-sg-design-playground/SKILL.md
-  - skills/503-sg-audit-design-tokens/SKILL.md
   - tools/design_system_drift_check.py
 depends_on:
   - artifact: skills/references/design-system-token-contract.md
@@ -28,9 +25,9 @@ depends_on:
     required_status: active
 supersedes: []
 evidence:
-  - "006-sg-design compaction moved token migration and visual shortcut doctrine out of SKILL.md."
-next_review: "2026-07-29"
-next_step: "/103-sg-verify 006-sg-design token migration"
+  - "2026-07-15 consolidation rewrote token-migration handoffs to use canonical 006-sg-design modes."
+next_review: "2026-08-15"
+next_step: "/104-sg-end consolidate design skill surface into modes and playbooks"
 ---
 
 # Design Token Migration Playbook
@@ -60,12 +57,12 @@ If a run creates tokens or a playground but migration coverage is incomplete, ro
 Internal lifecycle for that follow-up:
 
 ```text
-503-sg-audit-design-tokens
+006-sg-design audit tokens
 -> 100-sg-spec
 -> 101-sg-ready
 -> 102-sg-start
 -> 105-sg-check
--> 503-sg-audit-design-tokens
+-> 006-sg-design audit tokens
 -> 108-sg-browser
 -> 103-sg-verify
 -> 104-sg-end
@@ -84,9 +81,9 @@ Before any design implementation, apply `$SHIPFLOW_ROOT/skills/references/decisi
 
 For IME, keyboard, overlay, responsive, spacing, typography, color, motion, target-size, or layout defects, do not accept a one-off hardcoded visual value as the default repair. Route the work to the source of truth: design tokens, theme constants, component primitives, layout utilities, platform inset/measurement APIs, or documented framework behavior.
 
-If a literal value is unavoidable because the platform/API contract requires it, it must be named, scoped, explained, and proven. Otherwise route to `500-sg-design-from-scratch`, `503-sg-audit-design-tokens`, `504-sg-audit-components`, `409-sg-audit-a11y`, or spec-first implementation instead of shipping drift.
+If a literal value is unavoidable because the platform/API contract requires it, it must be named, scoped, explained, and proven. Otherwise route to `006-sg-design system`, `audit tokens`, `audit components`, `audit a11y`, or spec-first implementation instead of shipping drift.
 
-Any implementation handoff must name the canonical token/theme source for spacing, typography, colors, shadows/elevation, motion, and mobile/adaptive constants. If no source exists, route to `500-sg-design-from-scratch` before changing product UI.
+Any implementation handoff must name the canonical token/theme source for spacing, typography, colors, shadows/elevation, motion, and mobile/adaptive constants. If no source exists, route to `006-sg-design system` before changing product UI.
 
 ## Migration Proof
 

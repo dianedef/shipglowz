@@ -91,7 +91,7 @@ Load on demand:
 - When a project declares products, preserve the product-governance contract in docs: product inventory, canonical product/sales surfaces, delivery-path documentation, and claim-evidence references must remain explicit enough for other skills to reuse without discovery drift.
 - `shipglowz_data/workflow/TEST_LOG.md`, `shipglowz_data/workflow/BUGS.md`, `PROJECTS.md`, and canonical workflow trackers are operational trackers, not frontmatter-required decision artifacts.
 - Operational trackers may still contain durable planning or decision content. During migration, mine them for canonical task, QA, or decision updates instead of assuming they are disposable.
-- When scope touches `skills/`, skill README files, `site/src/content/skills/*.md`, or skill discovery metadata, verify skill contract coherence, public skill-page coherence, and runtime skill visibility together. Route non-trivial skill-contract changes through `009-sg-skill-build`.
+- When scope touches `skills/`, skill README files, `site/src/content/skills/*.md`, or skill discovery metadata, verify skill contract coherence, public skill-page coherence, and runtime skill visibility together. Route non-trivial skill-contract changes through `900-shipglowz-core build`.
 - Do not add ShipGlowz governance frontmatter to app-rendered runtime content such as `site/src/content/skills/*.md`.
 
 ## ADD PROJECT MODE

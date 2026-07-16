@@ -87,7 +87,7 @@ Explicit feature hints use the `#feature:<term>` form only. They are routing hin
 | `#monetization` | Recenter on revenue fit, packaging, paywalls, upsell paths, and pricing pressure | `$SHIPFLOW_ROOT/shipglowz_data/business/business.md` |
 | `#retention` | Recenter on repeat usage, stickiness, and product loops that keep users active | `$SHIPFLOW_ROOT/shipglowz_data/business/product.md` |
 | `#decision-maker` | Recenter on what matters to the buyer, approver, or economic decision-maker | `$SHIPFLOW_ROOT/shipglowz_data/business/business.md` |
-| `#end-user` | Recenter on first success, user usefulness, clarity, and beginner adoption | `$SHIPFLOW_ROOT/skills/008-sg-end-user/SKILL.md` |
+| `#end-user` | Recenter on first success, user usefulness, clarity, and beginner adoption | `$SHIPFLOW_ROOT/skills/008-sg-customer/SKILL.md` |
 | `#trust` | Recenter on trust, promise discipline, claim safety, and credibility | `$SHIPFLOW_ROOT/shipglowz_data/branding/branding.md` |
 | `#cta` | Recenter on the next action the page, flow, or message should drive clearly | `$SHIPFLOW_ROOT/shipglowz_data/business/gtm.md` |
 | `#clarity` | Recenter on readability, explicit structure, and removal of vague language | `$SHIPFLOW_ROOT/shipglowz_data/branding/branding.md` |
@@ -121,7 +121,7 @@ Explicit feature hints use the `#feature:<term>` form only. They are routing hin
 | `#shipflow` | Recenter on the internal ShipGlowz system rather than the current project repo | `$SHIPFLOW_ROOT/skills/references/entrypoint-routing.md` |
 | `#shupflow` | Alias for `#shipflow` when used as a fast recentering tag in conversation | `$SHIPFLOW_ROOT/skills/references/entrypoint-routing.md` |
 | `#feature:<term>` | Optional technical-navigation hint for behavior-index recovery before broad search; keep the free-text request active | `$SHIPFLOW_ROOT/skills/references/entrypoint-routing.md` |
-| `#onboarding` | Recenter on first success, setup order, recoverable states, and adoption guidance | `$SHIPFLOW_ROOT/skills/008-sg-end-user/SKILL.md` |
+| `#onboarding` | Recenter on first success, setup order, recoverable states, and adoption guidance | `$SHIPFLOW_ROOT/skills/008-sg-customer/SKILL.md` |
 | `#routing` | Recenter on owner-skill selection and direct handoff rules | `$SHIPFLOW_ROOT/skills/references/entrypoint-routing.md` |
 | `#proof` | Recenter on proof paths, validation proportion, and evidence claims | `$SHIPFLOW_ROOT/skills/references/spec-driven-development-discipline.md` |
 | `#shipglowz-core` | Recenter on ShipGlowz system hardening, skill fidelity, and internal doctrine | `$SHIPFLOW_ROOT/skills/900-shipglowz-core/SKILL.md` |

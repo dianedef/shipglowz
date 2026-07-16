@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.5.0"
+artifact_version: "0.5.1"
 project: ShipGlowz
 created: "2026-04-27"
-updated: "2026-05-11"
+updated: "2026-07-15"
 status: draft
 source_skill: 102-sg-start
 scope: chantier-tracking
@@ -38,6 +38,7 @@ evidence:
   - "Final report timestamp moved into a shared reporting brick loaded through reporting-contract.md."
   - "006-sg-design added as an obligatoire lifecycle master skill."
   - "003-sg-bug clarified as bug lifecycle execution through owner skills and bounded subagents."
+  - "900-shipglowz-core consolidated as the lifecycle core audit and packaging owner."
 next_review: "2026-05-27"
 next_step: "/103-sg-verify Specs as chantier registry"
 ---
@@ -108,11 +109,11 @@ This block coexists with the compact `Chantier` block. If the source skill is al
 
 | Skill group | Trace category | Process role | Source threshold |
 |-------------|----------------|--------------|------------------|
-| `100-sg-spec`, `101-sg-ready`, `001-sg-build`, `002-sg-maintain`, `006-sg-design`, `004-sg-deploy`, `102-sg-start`, `103-sg-verify`, `104-sg-end`, `005-sg-ship` | `obligatoire` | `lifecycle` | Not a source; continue or create the owned chantier through the lifecycle gates. |
+| `100-sg-spec`, `101-sg-ready`, `001-sg-build`, `002-sg-maintain`, `006-sg-design`, `004-sg-deploy`, `102-sg-start`, `103-sg-verify`, `104-sg-end`, `005-sg-ship`, `900-shipglowz-core` | `obligatoire` | `lifecycle` | Not a source; continue or create the owned chantier through the lifecycle gates. |
 | `400-sg-audit*`, `402-sg-deps`, `403-sg-perf` | `conditionnel` | `source-de-chantier` | Major audit findings, P0/P1, cross-domain P2 clusters, or fixes needing a spec. |
 | `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check`, `107-sg-test`, `404-sg-migrate`, `106-sg-fix`, `003-sg-bug` | `conditionnel` | `source-de-chantier` | Incidents, failing flows, migration risk, bug files, bug lifecycle execution, or validation failures beyond a direct fix. |
 | `204-sg-market-study`, `205-sg-veille`, `203-sg-research` | `conditionnel` | `source-de-chantier` | Strategic or research output that requires a product, content, architecture, or implementation decision. |
-| `300-sg-docs`, `201-sg-enrich`, `200-sg-redact`, `202-sg-repurpose`, `306-sg-scaffold`, `304-sg-changelog`, `501-sg-design-playground`, `307-sg-skills-refresh`, `305-sg-init` | `conditionnel` | `support-de-chantier` | Route to a source or `/100-sg-spec` only when the user explicitly asks to formalize follow-up work. |
+| `300-sg-docs`, `201-sg-enrich`, `200-sg-redact`, `202-sg-repurpose`, `306-sg-scaffold`, `304-sg-changelog`, `305-sg-init` | `conditionnel` | `support-de-chantier` | Route to a source or `/100-sg-spec` only when the user explicitly asks to formalize follow-up work. |
 | `309-sg-tasks`, `701-sg-backlog`, `702-sg-priorities`, `703-sg-review`, `706-continue` | `conditionnel` | `pilotage` | Do not create a chantier from every note; route only when the user or evidence requires a durable spec. |
 | `000-shipglowz`, `301-sg-context`, `704-sg-model`, `302-sg-help`, `308-sg-status`, `303-sg-resume`, `700-sg-explore`, `707-name` | `non-applicable` | `helper` | Not a source; can recommend or directly hand off to the lifecycle next step when useful. `000-shipglowz` routes only; selected owner skills own durable state and chantier tracing. `700-sg-explore` may write `exploration_report` artifacts but still must not write chantier spec history. |
 
