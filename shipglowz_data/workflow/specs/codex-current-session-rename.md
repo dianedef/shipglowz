@@ -77,8 +77,9 @@ databases. No test may write to live Codex state.
 
 ## Documentation Update Plan
 
-Update the owner skill, its README, the session playbook, and the operator launch
-cheatsheet. No editorial or public-site impact.
+Update the owner skill, its README, the session playbook, operator launch
+cheatsheet, help catalog, public skill page, changelog, and existing editorial
+roadmap entry. No new public route or plugin-pack change is required.
 
 ## Skill Run History
 

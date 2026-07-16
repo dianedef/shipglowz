@@ -10,7 +10,8 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 - [sessions rename] Explicit current-conversation rename with canonical status, semantic-title validation, exact-cwd isolation, and UUID provenance
 
 **Updated:**
-- [documentation] Owner contract, playbook, README, and operator guide expose `sessions rename <status>` and its no-tracker boundary
+- [documentation] Owner contract, playbook, README, operator guide, help catalog, changelog, and editorial roadmap expose `sessions rename <status>` and its no-tracker boundary
+- [public surface] The `sg-tasks` public skill page documents the current-session mode and exact-cwd limitation
 
 **New phases:**
 - Current-thread-only rename through the guarded ShipGlowz helper

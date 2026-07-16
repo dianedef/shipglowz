@@ -21,4 +21,4 @@
 
 <!-- Optional. Use only when older editorial work needs durable local context. -->
 
-🟢 [ShipFlow] task: Documenter publiquement le mode `309-sg-tasks sessions` et ses limites pour les forks de conversations | status: done | area: public-skill-documentation | source: decision utilisateur 2026-07-15 | reference: shipglowz-site/src/content/skills/sg-tasks.md | next: none
+🟢 [ShipFlow] task: Documenter publiquement les modes `309-sg-tasks sessions` et `sessions rename <status>`, avec leurs limites pour les forks et le tracker | status: done | area: public-skill-documentation | source: decisions utilisateur 2026-07-15/16 | reference: shipglowz-site/src/content/skills/sg-tasks.md | next: none

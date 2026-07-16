@@ -156,7 +156,7 @@ Only bootstrap/install owners need the clone contract. Most help answers should 
 | `/108-sg-browser` | General browser verification for public UI, visual state, console/network evidence, screenshots, and page-level assertions | `<URL or route> <objective>` |
 | `/107-sg-test` | Guided manual QA: prompts the user through real flow tests, logs evidence, and opens bug records | `[feature]`, `--retest BUG-ID`, `--prod` |
 | `/704-sg-model` | Choose model, reasoning level, and quality-equivalent fallbacks before execution | `<task description>` or `<spec path>` |
-| `/309-sg-tasks` | Track work, check off items, suggest next | `[focus area]` |
+| `/309-sg-tasks` | Track work, check off items, suggest next; manage Codex session titles | `[focus area]`, `sessions <project-or-cwd>`, `sessions rename <status>`, `sessions prune <project-or-cwd>` |
 | `/310-sg-github-hygiene` | Audit and maintain git sync, stale branches, PR drift, and Dependabot hygiene | `audit`, `fix`, `branches`, `dependabot`, `current repo`, `workspace` |
 | `/702-sg-priorities` | Re-rank by impact/effort matrix | `impact`, `effort`, `blockers`, `high-roi` / `quick-wins` |
 | `/701-sg-backlog` | Capture ideas, defer non-urgent | `add "idea"`, `defer`, `review`, `clean` |
