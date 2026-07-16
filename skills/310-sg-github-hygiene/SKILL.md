@@ -159,13 +159,29 @@ When Dependabot PRs exist:
 - route major upgrades to `404-sg-migrate`
 - route failing CI investigation to `github:gh-fix-ci`
 
+### Dependabot queue continuation
+
+In an approved mutating `dependabot` or `fix` run, process the refreshed backlog as a queue without weakening any Action Rule or approval gate.
+
+- Maintain a terminal disposition ledger keyed by PR. Every reliably classified known PR receives exactly one final disposition: `merged`, `closed`, `deferred`, `routed`, or `blocked`. These dispositions describe observed run state; they grant no new mutation authority.
+- Record `merged` or `closed` only after that authorized action actually succeeds. `deferred` names the future condition or decision owner. `routed` names the owner and reason and does not imply downstream success. `blocked` names the unmet safety condition after agent-runnable recovery is exhausted.
+- Treat a major, sensitive, conflicted, stale, failing, or incompatible PR as an item-scoped blocker: quarantine it, route dependency risk to `402-sg-deps`, major migration to `404-sg-migrate`, or failing CI to `github:gh-fix-ci`, then continue independent eligible pull requests while global operating conditions remain valid.
+- After every merge, close, branch update, or other queue mutation, refresh current open PRs, check results, and base state from GitHub before selecting the next action; reclassify changed items and update the existing ledger row instead of duplicating it.
+- Continue until no actionable pull request remains. Each pass must mutate one eligible item, assign a terminal disposition, or stop on a named queue-wide blocker.
+- Only queue-wide blockers stop the full queue: loss of GitHub authentication, repository access, operator authorization for the requested mutation lane, or reliable refreshed queue truth. List any remaining PRs as unverified when reliable classification is impossible.
+
 ## Stop Conditions
 
-Stop and report `blocked` when:
+For a Dependabot queue, apply blockers at the narrowest safe scope. Stop the full queue and report queue-wide `blocked` when:
 
 - no target git repo can be identified
 - the repo is dirty and the requested action would mutate branch state
-- `gh` auth or repo access is missing for a GitHub action the run depends on
+- GitHub authentication or repository access is missing for an action the run depends on
+- operator authorization for the requested mutation lane is missing
+- reliable refreshed queue truth is unavailable
+
+Otherwise, assign the affected branch or PR `blocked`, `deferred`, or `routed` with its reason and continue independent eligible pull requests when the remaining queue is safe:
+
 - the requested cleanup would delete a branch with unique local commits or uncertain ownership
 - a branch or PR is diverged, conflicted, protected, or requires non-fast-forward history edits
 - a Dependabot PR changes a major version or a sensitive package lane
@@ -180,11 +196,13 @@ Pressure scenarios:
 - Given a clean repo with branches behind origin, when `fix` is requested, then the skill fast-forwards only safe branches and reports the rest as blocked or approval-needed.
 - Given merged local branches, when `branches` is requested, then the skill deletes only branches that are fully merged and non-protected.
 - Given open Dependabot PRs, when `dependabot` is requested, then the skill separates safe patch/minor lanes from major or sensitive updates before any merge suggestion.
+- `DEPENDABOT-MIXED-QUEUE-CONTINUES`: Given a mixed backlog, when one risky PR is routed or blocked, then independent eligible PRs continue after fresh GitHub truth is loaded and the run ends only when no actionable PR remains.
 
 After edits to this skill, validate with:
 
 ```bash
 rg -n "Mission|Scope Gate|Required References|Stop Conditions|Validation|Report Modes" skills/310-sg-github-hygiene/SKILL.md
+python3 -m unittest tools.test_310_github_hygiene_contract
 python3 tools/audit_shipglowz_skills.py
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 tools/shipglowz_sync_skills.sh --check --skill 310-sg-github-hygiene
