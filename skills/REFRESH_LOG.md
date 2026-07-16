@@ -7,16 +7,32 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 ## 2026-07-16 — 309-sg-tasks
 
 **Added:**
+- [sessions rename] Explicit current-conversation rename with canonical status, semantic-title validation, exact-cwd isolation, and UUID provenance
+
+**Updated:**
+- [documentation] Owner contract, playbook, README, and operator guide expose `sessions rename <status>` and its no-tracker boundary
+
+**New phases:**
+- Current-thread-only rename through the guarded ShipGlowz helper
+
+**Sources:** 0 URLs consulted (operator decision and local Codex SQLite behavior)
+
+## 2026-07-16 — 309-sg-tasks
+
+**Added:**
 - [sessions] Exact-`cwd` handling for directories without a tracker, without synthetic governance creation
 - [sessions] High-confidence same-subject deduplication that keeps only the most recently active session open
 - [sessions] Session-only `done` cleanup after more than 30 days of inactivity, excluding the current thread
+- [sessions prune] Dry-run-first project cleanup with exact cwd confirmation, native Codex deletion, active-thread protection, subtree safety, and post-delete verification
 
 **Updated:**
 - [status safety] Duplicate and inactivity closure no longer imply that a linked project task is complete
 - [documentation] Session-mode playbook, README, and public skill page aligned with the new contract
+- [destructive safety] Separate fail-closed edge/job/item status domains, canonical SQLite-home alignment, and retryable partial-failure reporting
 
 **New phases:**
 - Same-subject grouping before remaining status classification
+- Read-only prune planning before explicit native deletion
 
 **Sources:** 0 URLs consulted (operator decision and local Codex session workflow)
 

@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.0.17"
+artifact_version: "1.0.18"
 project: ShipGlowz
 created: "2026-05-01"
-updated: "2026-07-13"
+updated: "2026-07-16"
 status: reviewed
 source_skill: sg-start
 scope: runtime-cli
@@ -45,6 +45,7 @@ evidence:
   - "Nested menus and search selectors now preserve the ShipGlowz DevServer title treatment."
   - "GitHub CLI authentication screen added for deploy-from-GitHub readiness."
   - "Turso guided setup added under Agents with local tunnel login routing and schema-check commands."
+  - "Completed disk cleanup now offers x as an explicit return to the root menu."
 next_review: "2026-06-01"
 next_step: "/sg-docs technical audit runtime-cli"
 ---
@@ -92,9 +93,9 @@ This doc covers the server-side CLI runtime: `cli/shipglowz.sh`, `cli/lib.sh`, a
   dispatch actions in `screen` mode so child commands do not stack under the
   parent menu.
 - `cli/lib.sh` UI helpers: `ui_read_choice`, `ui_run_menu_action`,
-  `ui_return_back`, and the skip-next-pause signal define the reusable
-  Back/cancel contract for nested menus, including selections made through
-  `$(ui_choose ...)` command substitutions.
+  `ui_return_back`, `ui_return_to_main_menu`, and the navigation signals define
+  the reusable Back/cancel contract for nested menus, including selections made
+  through `$(ui_choose ...)` command substitutions.
 - `cli/lib.sh::ui_run_menu_action`: centralizes menu action dispatch. Top-level
   interactive actions run in `screen` mode so command output starts from a
   clean screen instead of below the root menu, while nested menus can keep
@@ -145,7 +146,9 @@ This doc covers the server-side CLI runtime: `cli/shipglowz.sh`, `cli/lib.sh`, a
   common workspace artifacts (`node_modules`, `venv`, `.dart_tool`, build
   directories). It shows estimated recoverable space and protects auth,
   config, skills, memories, source trees, recent agent histories, PNPM homes,
-  configured PNPM stores, and PNPM global binaries.
+  configured PNPM stores, and PNPM global binaries. After a completed cleanup,
+  `x` returns directly to the root menu instead of leaving the operator at a
+  generic submenu pause.
 - `cli/lib.sh::disk_usage_details_menu`: read-only disk usage detail view for the
   largest PM2 log files, `$HOME` entries, project/work directories, and root
   filesystem entries.

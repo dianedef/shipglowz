@@ -2,7 +2,7 @@
 name: 309-sg-tasks
 description: "Update task trackers and suggest next steps."
 disable-model-invocation: false
-argument-hint: [sessions|sessions prune|name-conversation|optional focus area or task type]
+argument-hint: [sessions|sessions rename <status>|sessions prune|name-conversation|optional focus area or task type]
 ---
 
 ## Canonical Paths
@@ -51,41 +51,11 @@ Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chanti
 
 ## Codex Session Triage
 
-Use this sub-flow when the user asks to "tri", "rename", "clean up", or "review" Codex conversations for the current repository, or when the task clearly concerns session naming and status cleanup rather than project work itself.
-
-### Goal
-
-- Make sessions discoverable from the Codex session UI.
-- Give unfinished conversations explicit titles that describe the repo-local work.
-- Mark conversations with one exact tracker status: `todo`, `doing`, `in_progress`, `blocked`, or `done`.
-- Create or update a matching task entry in `TASKS.md` when the conversation yielded a durable follow-up.
-
-### Source Of Truth
-
-- Codex session metadata lives in `~/.codex/state_5.sqlite`, especially the `threads` table.
-- The session list UI can lag behind `session_index.jsonl`; prefer the SQLite `threads.title` field when the goal is to rename what the user sees in "Resume a previous session".
-- Use the session `cwd` column to filter to the current repository before renaming anything.
-
-### Triage Rules
-
-- Prefer the current project root's sessions over unrelated repositories.
-- Rename the session with a short explicit title derived from the conversation history or the first clear task sentence.
-- Use the display format `<STATUS> - <work title>` with the status uppercased: `TODO - ...`, `DOING - ...`, `IN_PROGRESS - ...`, `BLOCKED - ...`, or `DONE - ...`.
-- The work title must expose the concrete object, system, or outcome at a glance. Never use generic labels such as `Review work`, `Review ContentGlowz work`, `General task`, or a skill name alone.
-- Treat a title matching `^(TODO|DOING|IN_PROGRESS|BLOCKED|DONE) - .+` as already managed when its work title is not one of the prohibited generic labels. Skip that thread without reading its conversation context, reclassifying it, rewriting it, or touching a linked tracker record.
-- Reprocess an already managed title only when the operator explicitly asks to refresh existing titles or names the thread id.
-- Keep the original `id` unchanged; only change the display title and, when needed, the task tracker entry.
-- If the conversation yields a durable follow-up for the repo, add or update the matching tracker item in the local `TASKS.md` using the existing operational record format.
-
-### Suggested Workflow
-
-1. Read the current repository `TASKS.md` and `CLAUDE.md` if needed for context.
-2. Query only `id` and `title` first for rows with the exact repo `cwd`.
-3. Exclude already managed semantic titles before reading previews or first messages.
-4. Read context only for remaining unmanaged threads and infer a compact explicit title.
-5. Rename only those unmanaged threads in SQLite, not just in `session_index.jsonl`.
-6. If an unmanaged conversation implies a durable repo task, add it to `TASKS.md` with a clear actionable title.
-7. Report renamed and skipped-managed counts plus any tracker updates.
+Use `sessions` for repository-scoped Codex title/status cleanup, `sessions
+rename <status>` for the current conversation, and `sessions prune` for old
+completed-session storage cleanup. These modes must load the session playbook
+before inspecting or mutating Codex state; the compact owner contract and
+pressure scenarios below remain activation-critical.
 
 ## Sessions Mode
 
@@ -131,6 +101,14 @@ conversation.
 status vocabulary. It must not mutate `TASKS.md` unless the conversation also
 produced a durable task.
 
+`/309-sg-tasks sessions rename <status>` derives one semantic work title from
+the visible conversation, then invokes the ShipGlowz-owned
+`tools/rename_codex_session.py` with that title. Accept only `todo`, `doing`,
+`in_progress`, `blocked`, or `done`; target only `CODEX_THREAD_ID` in the exact
+current `cwd`; persist `<STATUS> - <work title>`; and never inspect other
+threads or mutate `TASKS.md`. The explicit command authorizes this one rename;
+do not ask for a second confirmation.
+
 `/309-sg-tasks sessions prune [cwd]` loads the session playbook and the
 ShipGlowz-owned `tools/prune_codex_sessions.py`. It previews by default and may
 apply only after the operator confirms the exact absolute `cwd`. Prune is
@@ -164,6 +142,9 @@ not reproduce destructive SQLite or filesystem logic ad hoc in the agent.
 - `CONVERSATION-PRUNE-SAFETY`: pruning starts as a dry-run, uses exact `cwd`,
   excludes the current thread, requires exact apply confirmation, and deletes
   neither open-status sessions nor another project's rows or rollout files.
+- `CONVERSATION-RENAME-CURRENT-ONLY`: an explicit `sessions rename <status>`
+  changes only `CODEX_THREAD_ID` in the exact current cwd, rejects generic work
+  titles, and leaves project trackers and every other thread untouched.
 
 ## Conversation Naming
 

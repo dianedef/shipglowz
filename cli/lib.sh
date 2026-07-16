@@ -244,6 +244,7 @@ _ui_normalize_choice() {
 }
 
 SHIPGLOWZ_SKIP_NEXT_PAUSE=false
+SHIPGLOWZ_RETURN_TO_MAIN_MENU=false
 if [ -z "${SHIPGLOWZ_SKIP_NEXT_PAUSE_FILE:-${SHIPFLOW_SKIP_NEXT_PAUSE_FILE:-}}" ]; then
     SHIPGLOWZ_SKIP_NEXT_PAUSE_FILE=$(mktemp "${TMPDIR:-/tmp}/shipglowz-skip-pause.XXXXXX" 2>/dev/null || printf '%s/shipglowz-skip-pause-%s' "${TMPDIR:-/tmp}" "$$")
     rm -f "$SHIPGLOWZ_SKIP_NEXT_PAUSE_FILE" 2>/dev/null || true
@@ -261,6 +262,21 @@ ui_skip_next_pause() {
 ui_return_back() {
     ui_skip_next_pause
     return 0
+}
+
+# Request navigation out of the current grouped submenu and back to the root
+# menu. This is intentionally separate from ui_return_back(), which only skips
+# the pause after one action.
+ui_return_to_main_menu() {
+    SHIPGLOWZ_RETURN_TO_MAIN_MENU=true
+}
+
+ui_should_return_to_main_menu() {
+    if [ "${SHIPGLOWZ_RETURN_TO_MAIN_MENU:-false}" = "true" ]; then
+        SHIPGLOWZ_RETURN_TO_MAIN_MENU=false
+        return 0
+    fi
+    return 1
 }
 
 ui_should_skip_next_pause() {
@@ -1818,6 +1834,15 @@ disk_cleanup_menu() {
     print_disk_pressure_warning "$after_level" "$after_human" "$after_used_pct"
     if [ "$before_level" != "ok" ] && [ "$after_level" = "ok" ]; then
         echo -e "${GREEN}Disk pressure cleared.${NC}"
+    fi
+
+    echo ""
+    echo -e "  ${CYAN}x)${NC} Return to the main menu"
+    echo -e "${YELLOW}Choose:${NC} \c"
+    local final_choice
+    ui_read_choice final_choice
+    if ui_is_back_choice "$final_choice"; then
+        ui_return_to_main_menu
     fi
 }
 

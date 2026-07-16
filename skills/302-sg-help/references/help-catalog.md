@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.7.0"
+artifact_version: "0.7.1"
 project: ShipGlowz
 created: "2026-05-16"
-updated: "2026-07-15"
+updated: "2026-07-16"
 status: draft
 source_skill: 102-sg-start
 scope: 302-sg-help-help-catalog
@@ -33,8 +33,9 @@ evidence:
   - "2026-06-23 added App Blueprints help section for blueprint system explanation."
   - "2026-07-15 added 006-sg-design private inspiration-library operator modes."
   - "2026-07-15 consolidated six retired design specialist commands into explicit 006-sg-design modes."
+  - "2026-07-16 aligned active public-plugin help with the canonical shipglowz identity; shipflow remains compatibility-only."
 next_review: "2026-08-15"
-next_step: "/104-sg-end consolidate design skill surface into modes and playbooks"
+next_step: "none"
 ---
 
 # Help Catalog
@@ -196,7 +197,7 @@ Note: `/003-sg-bug` is the recommended entrypoint when you want the whole profes
 Note: `/102-sg-start` now reuses the `704-sg-model` routing matrix and can choose `single-agent` vs `multi-agent` execution with explicit file ownership and per-group model overrides.
 Note: `/100-sg-spec` → `/101-sg-ready` → `/102-sg-start` → `/103-sg-verify` now share a `User Story` contract and should ask targeted user questions whenever behavior, scope, or security is still ambiguous.
 Note: UI/design work must resolve through the project design-system authority. Use `/300-sg-docs technical` when the authority is missing; then use `/006-sg-design system`, `audit tokens`, `audit components`, or `audit a11y` as the need requires.
-Note: `/shipflow` is the recommended first command for non-technical operators. It answers directly when no file work is needed, otherwise it hands off in the main conversation to the right owner skill; selected master skills own their own delegated sequential execution.
+Note: `$shipglowz` is the recommended first command for non-technical operators. It answers directly when no file work is needed, otherwise it hands off in the main conversation to the right owner skill; selected master skills own their own delegated sequential execution.
 Note: `/001-sg-build` is the recommended end-user entrypoint for non-trivial work; invocation authorizes bounded delegated sequential execution for the current chantier, while parallel execution requires ready non-overlapping `Execution Batches`.
 Note: `/004-sg-deploy` is the recommended release entrypoint when the operator wants the whole confidence loop after implementation: checks, bounded ship, deployment truth, post-deploy evidence routing, verification, and optional changelog.
 Note: `/002-sg-maintain` is the recommended recurring maintenance entrypoint for existing projects; by default it carries maintenance through spec/readiness when needed, bounded delegated execution, verification, and ship/deploy routing. Use `/002-sg-maintain quick` for read-only triage.
@@ -206,7 +207,7 @@ Note: `/600-sg-local-cloud-sync` is the recommended entrypoint when local-first 
 Note: `/601-sg-product-entitlements` is the recommended entrypoint when identity, provider events, paid plans, activation codes, refunds/revokes, product-local access mirrors, backend authorization gates, or entitlement-gated sync preconditions are in scope.
 Note: `/900-shipglowz-core build` is the sole internal entrypoint for ShipGlowz skill maintenance (`700-sg-explore when needed -> 100-sg-spec -> SKILL.md -> runtime sync -> 900-shipglowz-core refresh -> budget audit -> 103-sg-verify -> 300-sg-docs/help update -> 005-sg-ship`).
 Note: `/310-sg-github-hygiene` is the focused entrypoint when the problem is git/GitHub hygiene rather than general maintenance: branch sync, stale refs, PR drift, and Dependabot backlog triage with bounded safe fixes.
-Note: `/900-shipglowz-core` is internal and operator-only. Use it to audit ShipGlowz skill execution fidelity or plugin-packaging readiness; do not include it in the public `shipflow` user plugin.
+Note: `/900-shipglowz-core` is internal and operator-only. Use it to audit ShipGlowz skill execution fidelity or plugin-packaging readiness; do not include it in the public `shipglowz` plugin.
 Note: User-facing skill questions follow the shared question contract: ask only when the answer changes route, scope, risk, proof, closure, ship posture, public claims, or technical/product/editorial direction; otherwise proceed only with a context-safe, verifiable default.
 
 ### Professional Bug Loop (concise)
@@ -358,7 +359,7 @@ Run any skill from `~/` (no project markers) and it asks **"Which project(s)?"**
 ### Guided decision prompts (new)
 | Skill | When it prompts | Choices |
 |-------|------------------|---------|
-| `/shipflow` | Route is ambiguous between material owner skills | Ask one numbered routing question / direct handoff to selected owner / direct answer |
+| `$shipglowz` | Route is ambiguous between material owner skills | Ask one numbered routing question / direct handoff to selected owner / direct answer |
 | `/106-sg-fix` | Bug scope is borderline | Direct fix / Spec-first / Diagnostic only |
 | `/102-sg-start` | Scope triage is ambiguous | Execute direct / Spec-first / Clarify first (`/700-sg-explore`) |
 | `/104-sg-end` | Completion is unclear | Full close / Partial close / Summary only |

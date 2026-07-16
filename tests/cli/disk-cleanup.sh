@@ -27,6 +27,11 @@ chmod +x "$HOME/bin/pnpm"
 export PATH="$HOME/bin:$PATH"
 source "$REPO_ROOT/cli/lib.sh"
 
+# A completed cleanup can explicitly leave a grouped submenu for the root menu.
+ui_return_to_main_menu
+ui_should_return_to_main_menu
+! ui_should_return_to_main_menu
+
 mkdir -p "$HOME/.local/share/pnpm/store/v3" "$PNPM_HOME" \
     "$HOME/.cache/custom-pnpm-store/v3" "$HOME/.cache/throwaway"
 printf 'keep' > "$HOME/.local/share/pnpm/store/v3/package"

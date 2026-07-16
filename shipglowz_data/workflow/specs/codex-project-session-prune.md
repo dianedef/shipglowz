@@ -6,7 +6,7 @@ project: ShipGlowz
 created: "2026-07-16"
 created_at: "2026-07-16 12:36:02 UTC"
 updated: "2026-07-16"
-updated_at: "2026-07-16 12:36:02 UTC"
+updated_at: "2026-07-16 13:07:12 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: GPT-5
@@ -38,12 +38,12 @@ evidence:
   - "Deleting an active session can leave an open rollout descriptor, stale UI state, or inconsistent metadata."
   - "Codex 0.144.4 provides a native `codex delete --force <UUID>` path that owns rollout, subtree, auxiliary-state, and thread cleanup."
   - "Operator decision on 2026-07-16: prefer a safe prune mode over deleting all Codex history from an active session."
-next_step: /102-sg-start Codex project session prune
+next_step: /005-sg-ship Codex project session prune
 ---
 
 # Codex Project Session Prune
 
-🟢 [ShipGlowz] spec: Codex project session prune | status: ready | path: shipglowz_data/workflow/specs/codex-project-session-prune.md | next: /102-sg-start Codex project session prune
+🟢 [ShipGlowz] spec: Codex project session prune | status: ready | path: shipglowz_data/workflow/specs/codex-project-session-prune.md | next: /005-sg-ship Codex project session prune
 
 ## Title
 
@@ -51,7 +51,7 @@ Codex project session prune
 
 ## Status
 
-ready
+closed locally / ready for bounded ship
 
 ## User Story
 
@@ -69,7 +69,7 @@ As a ShipGlowz operator, I want to safely prune old completed Codex sessions for
 - The current thread comes from `CODEX_THREAD_ID` or an explicit argument and is always excluded.
 - A root is rejected when any descendant crosses `cwd`, is not independently eligible, has an open spawn edge, is the current thread, or belongs to active agent work.
 - Selected descendants are collapsed under their selected root so native recursive deletion runs once per subtree.
-- Apply invokes native Codex deletion one root at a time, then verifies thread, rollout, auxiliary-state, and unrelated-project outcomes.
+- Apply invokes native Codex deletion one root at a time, then verifies main thread and rollout cleanup; the native command remains authoritative for auxiliary logs, memories, goals, tools, and assignments.
 
 ## Error Behavior
 
@@ -103,7 +103,7 @@ As a ShipGlowz operator, I want to safely prune old completed Codex sessions for
 - The current thread id is immutable and excluded before file or DB mutation.
 - Candidate planning may inspect SQLite read-only, but all deletion ownership remains with native Codex.
 - Dry-run is idempotent and mutation-free; repeated apply runs safely return zero candidates.
-- Unknown SQLite tables or future schema additions must block unsafe planning rather than trigger guessed cleanup.
+- Unknown ownership fields or status values must fail closed; harmless additional tables do not broaden deletion scope.
 - Existing unrelated dirty worktree changes are preserved.
 
 ## Pressure Scenarios
@@ -113,30 +113,30 @@ As a ShipGlowz operator, I want to safely prune old completed Codex sessions for
 - `SESSION-PRUNE-ACTIVE-EXCLUSION`: a qualifying `DONE` current thread is still excluded.
 - `SESSION-PRUNE-STATUS-GATE`: old non-`DONE` sessions are untouched.
 - `SESSION-PRUNE-STRICT-AGE`: exactly 30 days is ineligible; more than 30 days is eligible.
-- `SESSION-PRUNE-CONFIRMATION`: apply without exact `--confirm-cwd` fails before staging.
+- `SESSION-PRUNE-CONFIRMATION`: apply without exact `--confirm-cwd` fails before native deletion.
 - `SESSION-PRUNE-SUBTREE-SAFETY`: current, cross-cwd, noneligible, open-edge, or active-job descendants block their root.
 - `SESSION-PRUNE-NATIVE-FAILURE`: a native delete failure stops later roots and reports a retryable partial result.
 - `SESSION-PRUNE-IDEMPOTENT`: a second apply reports zero candidates and no error.
 
 ## Implementation Tasks
 
-- [ ] Add focused failing tests for all pressure scenarios.
-- [ ] Implement candidate discovery, dry-run reporting, and strict safety gates.
-- [ ] Implement safe subtree planning, native deletion execution, and post-delete verification.
-- [ ] Integrate `sessions prune` into the 309 contract, playbook, and README.
-- [ ] Run focused tests, metadata lint, skill audit, budget audit, diff check, and runtime sync.
+- [x] Add focused failing tests for all pressure scenarios.
+- [x] Implement candidate discovery, dry-run reporting, and strict safety gates.
+- [x] Implement safe subtree planning, native deletion execution, and post-delete verification.
+- [x] Integrate `sessions prune` into the 309 contract, playbook, README, and operator guide.
+- [x] Run focused tests, metadata lint, skill audit, budget audit, diff check, and runtime sync.
 
 ## Acceptance Criteria
 
-- [ ] AC1: Dry-run is the default and performs no writes.
-- [ ] AC2: Only exact-cwd, canonical `DONE`, strictly old-enough threads are candidates.
-- [ ] AC3: The current thread is never a candidate.
-- [ ] AC4: Apply requires exact cwd confirmation.
-- [ ] AC5: Unsafe descendant trees are rejected before native deletion.
-- [ ] AC6: Native deletion failure stops subsequent roots and reports a retryable partial result.
-- [ ] AC7: Successful apply delegates to native Codex and verifies candidate cleanup while preserving unrelated rows.
-- [ ] AC8: Repeated apply is idempotent.
-- [ ] AC9: The 309 contract exposes the mode and its destructive safeguards clearly.
+- [x] AC1: Dry-run is the default and performs no writes.
+- [x] AC2: Only exact-cwd, canonical `DONE`, strictly old-enough threads are candidates.
+- [x] AC3: The current thread is never a candidate.
+- [x] AC4: Apply requires exact cwd confirmation.
+- [x] AC5: Unsafe descendant trees are rejected before native deletion.
+- [x] AC6: Native deletion failure stops subsequent roots and reports a retryable partial result.
+- [x] AC7: Successful apply delegates to native Codex and verifies candidate cleanup while preserving unrelated rows.
+- [x] AC8: Repeated apply is idempotent.
+- [x] AC9: The 309 contract exposes the mode and its destructive safeguards clearly.
 
 ## Test Strategy
 
@@ -156,7 +156,7 @@ As a ShipGlowz operator, I want to safely prune old completed Codex sessions for
 - Active-session corruption: mitigated by mandatory current-thread exclusion.
 - Partial deletion: native deletion is not globally atomic, so stop on first failure and report completed versus retryable roots precisely.
 - SQLite schema drift: mitigated by read-only planning, required-table checks, and native ownership of mutation.
-- Database locking: use a bounded busy timeout, never auto-vacuum, and fail without deleting when a safe transaction cannot start.
+- Database locking: use bounded read-only planning timeouts, delegate mutation to native Codex, and never auto-vacuum.
 
 ## Open Questions
 
@@ -166,12 +166,18 @@ None. The operator selected prune, the safe default threshold is 30 days, and gl
 
 | Date UTC | Skill | Model | Action | Result | Next step |
 |---|---|---|---|---|---|
-| 2026-07-16 12:36:02 UTC | 100-sg-spec | GPT-5 | Defined exact-cwd dry-run-first pruning, active-thread exclusion, staged deletion, transaction rollback, and focused pressure scenarios. | draft saved | /101-sg-ready Codex project session prune |
+| 2026-07-16 12:36:02 UTC | 100-sg-spec | GPT-5 | Defined exact-cwd dry-run-first pruning, active-thread exclusion, native deletion ownership, subtree safety, and focused pressure scenarios. | draft saved | /101-sg-ready Codex project session prune |
 | 2026-07-16 12:36:02 UTC | 101-sg-ready | GPT-5 | Reviewed destructive scope, error semantics, proof path, idempotence, path containment, and operator confirmation; no open decisions remain. | ready | /102-sg-start Codex project session prune |
+| 2026-07-16 13:04:29 UTC | 102-sg-start | GPT-5 Codex | Implemented the read-only planner and native Codex executor, then hardened database alignment, current-thread provenance, subtree status domains, partial-failure reporting, auxiliary verification, and unrelated-state preservation through two independent refresh reviews. | implemented | /103-sg-verify Codex project session prune |
+| 2026-07-16 13:07:12 UTC | 103-sg-verify | GPT-5 Codex | Independently reverified destructive safety after two repair loops; exact edge/job/item status domains fail closed and all focused, metadata, audit, budget, diff, dry-run, and runtime checks pass. | verified | /104-sg-end Codex project session prune |
+| 2026-07-16 13:07:12 UTC | 104-sg-end | GPT-5 Codex | Closed the local chantier with native Codex as sole mutation owner, no live deletion executed, documentation aligned, and no remaining scoped blocker. | closed locally | /005-sg-ship Codex project session prune |
 
 ## Current Chantier Flow
 
 - `100-sg-spec`: draft saved.
 - `101-sg-ready`: ready.
-- `102-sg-start`: pending.
-- Next step: `/102-sg-start Codex project session prune`.
+- `102-sg-start`: implemented.
+- `103-sg-verify`: verified.
+- `104-sg-end`: closed locally.
+- `005-sg-ship`: pending.
+- Next step: `/005-sg-ship Codex project session prune`.

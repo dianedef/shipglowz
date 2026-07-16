@@ -1,7 +1,7 @@
 ---
 artifact: playbook
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: ShipGlowz
 created: "2026-07-15"
 updated: "2026-07-16"
@@ -18,6 +18,7 @@ linked_systems:
   - shipglowz_data/workflow/TASKS.md
   - ~/.codex/state_5.sqlite
   - tools/prune_codex_sessions.py
+  - tools/rename_codex_session.py
 depends_on: []
 supersedes: []
 evidence:
@@ -25,6 +26,7 @@ evidence:
   - "Codex UI session titles are stored in the local threads table; project tasks are stored in the local TASKS.md tracker."
   - "Operator decision on 2026-07-16: tracker-less cwd scopes remain valid, older same-subject sessions close, and sessions inactive for more than 30 days close without changing linked task completion."
   - "Operator decision on 2026-07-16: project session cleanup uses a dry-run-first prune that excludes the active thread and open work."
+  - "Operator decision on 2026-07-16: sessions rename <status> renames only the current Codex conversation using STATUS - semantic title."
 next_review: "2026-08-15"
 next_step: "/309-sg-tasks sessions <project>"
 ---
@@ -46,6 +48,7 @@ or a single conversation rename. Invoke:
 
 ```text
 /309-sg-tasks sessions <project-or-cwd>
+/309-sg-tasks sessions rename <status>
 /309-sg-tasks sessions prune <project-or-cwd>
 /309-sg-tasks name-conversation
 ```
@@ -116,6 +119,28 @@ Pressure scenarios:
 - `SESSION-PRUNE-CONFIRMATION`: apply fails before staging without exact confirmation.
 - `SESSION-PRUNE-SUBTREE-SAFETY`: cross-cwd, current, open, noneligible, or active-job descendants block their root.
 - `SESSION-PRUNE-NATIVE-FAILURE`: stop after the first failed native deletion and report a retryable partial result.
+
+## Current Session Rename
+
+Use `sessions rename <status>` only after the operator explicitly invokes it.
+Derive a concise semantic work title from the visible conversation, resolve and
+preflight `$SHIPFLOW_ROOT/tools/rename_codex_session.py`, then pass the status
+and unprefixed work title to the helper. The explicit command authorizes this
+single rename, so no second confirmation is needed.
+
+The helper accepts only the status contract vocabulary, resolves the current
+conversation from `CODEX_THREAD_ID`, requires its stored cwd to equal the exact
+absolute current cwd, writes only `threads.title`, and verifies the persisted
+value. It rejects generic or already-prefixed work titles. Do not inspect or
+rename other conversations, follow forks, or mutate `TASKS.md` in this mode.
+
+Pressure scenarios:
+
+- `SESSION-RENAME-CURRENT-ONLY`: only `CODEX_THREAD_ID` changes.
+- `SESSION-RENAME-CWD-ISOLATION`: a cwd mismatch fails without mutation.
+- `SESSION-RENAME-STATUS-GATE`: unsupported statuses fail before mutation.
+- `SESSION-RENAME-SEMANTIC-GATE`: empty, generic, control-character, or already-prefixed work titles fail.
+- `SESSION-RENAME-IDEMPOTENT`: repeating the same title is a successful no-op.
 
 ## Execution Order
 
@@ -194,6 +219,8 @@ method and `TASKS.md` remains the operational record.
   `blocked` and name the missing evidence.
 - prune reports candidates but the operator did not request apply: stop after
   the preview; a dry-run is the successful default outcome.
+- current-session rename lacks `CODEX_THREAD_ID`, has a cwd mismatch, or cannot
+  derive a semantic work title: stop without changing any thread or tracker.
 
 ## Validation
 
@@ -203,4 +230,5 @@ rg -n "CONVERSATION-TRACKER-ABSENT|CONVERSATION-SUBJECT-DUPLICATION|CONVERSATION
   /home/claude/shipglowz/shipglowz_data/workflow/playbooks/conversation-tracker-sync-playbook.md
 python3 /home/claude/shipglowz/tools/shipglowz_metadata_lint.py \
   /home/claude/shipglowz/shipglowz_data/workflow/playbooks/conversation-tracker-sync-playbook.md
+python3 -m unittest tools.test_rename_codex_session
 ```

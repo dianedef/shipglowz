@@ -188,6 +188,8 @@ UI helpers
   -> ui_pause
   -> ui_skip_next_pause
   -> ui_return_back
+  -> ui_return_to_main_menu
+  -> ui_should_return_to_main_menu
   -> ui_should_skip_next_pause
   -> ui_is_back_choice
   -> ui_is_back_selection

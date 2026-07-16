@@ -41,6 +41,7 @@ It is designed for operational clarity, not note-taking. The goal is to keep `TA
 /309-sg-tasks onboarding
 /309-sg-tasks tests
 /309-sg-tasks sessions /home/claude/temuglowz
+/309-sg-tasks sessions rename done
 /309-sg-tasks sessions prune /home/claude/temuglowz
 /309-sg-tasks name-conversation
 ```
@@ -73,6 +74,11 @@ linked project task. These cleanup rules apply only to unmanaged titles. A
 semantic title already shaped as `STATUS - work title` is skipped without
 context inspection or mutation unless the operator explicitly requests a
 refresh.
+
+`sessions rename <status>` renames only the current Codex conversation. The
+status must be `todo`, `doing`, `in_progress`, `blocked`, or `done`; the skill
+derives the concrete work title from the visible conversation and persists
+`STATUS - work title`. It does not inspect other sessions or update `TASKS.md`.
 
 `sessions prune` previews old completed sessions for one exact project and
 reclaims their rollout files only after explicit apply confirmation. It skips

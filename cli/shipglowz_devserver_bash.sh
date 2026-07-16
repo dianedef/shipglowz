@@ -150,6 +150,10 @@ _bash_run_nested_menu() {
             ui_return_back
             break
         fi
+        if ui_should_return_to_main_menu; then
+            ui_skip_next_pause
+            return 0
+        fi
         if [ $rc -eq 0 ]; then
             if ui_should_skip_next_pause; then
                 continue
