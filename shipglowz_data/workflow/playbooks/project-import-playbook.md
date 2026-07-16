@@ -127,7 +127,7 @@ If the source is actually for:
 - audience sequence work -> route to `emailing`
 - public repurposing -> route to `202-sg-repurpose` or `007-sg-content`
 - doc/governance updates -> route to `300-sg-docs`
-- market or competitor analysis -> route to `203-sg-research`, `204-sg-market-study`, or `205-sg-veille`
+- market or competitor analysis -> route to `203-sg-research`, `009-sg-marketing market`, or `205-sg-veille`
 
 ## Decision Gates
 

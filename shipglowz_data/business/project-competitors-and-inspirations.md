@@ -30,7 +30,7 @@ depends_on:
     required_status: reviewed
 supersedes: []
 next_review: "2026-06-11"
-next_step: "/sg-market-study update project competitors"
+next_step: "/009-sg-marketing market update project competitors"
 ---
 
 # Project Competitors And Inspirations
@@ -94,4 +94,3 @@ Update this file when a competitor, alternative, inspiration source, or anti-pat
 
 Synexis Core is an AI business health platform that helps companies monitor website performance, SEO, security, accessibility, revenue signals, inventory, leads, ads, and operational risks in one dashboard. It runs continuous scans, detects issues and anomalies, scores business impact, and helps teams prioritize fixes. Synexis Core also includes AI modules for financial intelligence, fraud monitoring, workforce insights, compliance readiness, vendor intelligence, opportunity detection, reputation tracking, sales forecasting, and more.
 https://synexiscore.com/?ref=betalist
-

@@ -127,9 +127,9 @@ Only launch (project × domain) pairs where: user selected the project AND user 
 Read each selected domain skill to get their PROJECT MODE checklists:
 - `$HOME/.codex/skills/401-sg-audit-code/SKILL.md`
 - `$HOME/.codex/skills/006-sg-design/SKILL.md` (use `audit ui` mode)
-- `$HOME/.codex/skills/206-sg-audit-copy/SKILL.md`
+- `$HOME/.codex/skills/009-sg-marketing/SKILL.md` (`copy` mode)
 - `$HOME/.codex/skills/406-sg-seo/SKILL.md`
-- `$HOME/.codex/skills/408-sg-audit-gtm/SKILL.md`
+- `$HOME/.codex/skills/009-sg-marketing/SKILL.md` (`gtm` mode)
 - `$HOME/.codex/skills/407-sg-audit-translate/SKILL.md`
 - `$HOME/.codex/skills/402-sg-deps/SKILL.md`
 - `$HOME/.codex/skills/403-sg-perf/SKILL.md`

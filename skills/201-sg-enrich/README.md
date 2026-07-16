@@ -49,4 +49,4 @@ This is especially valuable for solo founders publishing content that needs to s
 
 - `200-sg-redact` for original long-form content creation
 - `300-sg-docs` for product and technical documentation
-- `204-sg-market-study` when the topic strategy itself is still unclear
+- `009-sg-marketing market` when the topic strategy itself is still unclear

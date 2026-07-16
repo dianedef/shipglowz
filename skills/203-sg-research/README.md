@@ -48,6 +48,6 @@ For a solo founder, it is a way to build durable decision material instead of re
 
 ## Related Skills
 
-- `204-sg-market-study` for market-level validation
+- `009-sg-marketing market` for market-level validation
 - `404-sg-migrate` for upgrade-specific research plus execution
 - `300-sg-docs` if the findings should update permanent project docs

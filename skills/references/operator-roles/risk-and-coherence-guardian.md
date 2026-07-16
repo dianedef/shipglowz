@@ -63,7 +63,7 @@ What are we underestimating, forgetting, or making fragile before we move?
 - `401-sg-audit-code`
 - `403-sg-perf`
 - `406-sg-seo`
-- `408-sg-audit-gtm`
+- `009-sg-marketing gtm`
 - `300-sg-docs`
 
 ## Output Shape

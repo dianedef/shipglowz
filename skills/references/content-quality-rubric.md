@@ -18,8 +18,7 @@ linked_systems:
   - skills/202-sg-repurpose/SKILL.md
   - skills/200-sg-redact/SKILL.md
   - skills/201-sg-enrich/SKILL.md
-  - skills/206-sg-audit-copy/SKILL.md
-  - skills/207-sg-audit-copywriting/SKILL.md
+  - skills/009-sg-marketing/SKILL.md
   - skills/406-sg-seo/SKILL.md
   - skills/103-sg-verify/SKILL.md
   - shipglowz_data/business/business.md
@@ -69,8 +68,7 @@ Only these skills can produce or consume a rubric output:
 - `202-sg-repurpose`
 - `200-sg-redact`
 - `201-sg-enrich`
-- `206-sg-audit-copy`
-- `207-sg-audit-copywriting`
+- `009-sg-marketing` (`gtm`, `copy`, or `copywriting` mode)
 - `406-sg-seo`
 - `103-sg-verify`
 
@@ -101,7 +99,7 @@ If versions are missing or not loadable for a project-aware run, return `project
   "project_id": "<string>",
   "surface": "<blog|article|doc|newsletter|social|other>",
   "evaluator": {
-    "skill": "<007-sg-content|202-sg-repurpose|200-sg-redact|201-sg-enrich|206-sg-audit-copy|207-sg-audit-copywriting|406-sg-seo|103-sg-verify>",
+    "skill": "<007-sg-content|202-sg-repurpose|200-sg-redact|201-sg-enrich|009-sg-marketing|406-sg-seo|103-sg-verify>",
     "role": "<producer|auditor|verifier>",
     "initiated_by": "<operator|workflow|unknown>"
   },

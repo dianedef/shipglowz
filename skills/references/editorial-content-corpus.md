@@ -24,7 +24,7 @@ linked_systems:
   - site/src/pages/
   - site/src/content/
   - skills/202-sg-repurpose/SKILL.md
-  - skills/206-sg-audit-copy/SKILL.md
+  - skills/009-sg-marketing/SKILL.md
 depends_on:
   - artifact: "shipglowz_data/editorial/README.md"
     artifact_version: "1.0.0"
@@ -93,7 +93,7 @@ These skills should use this corpus before changing or judging public content:
 
 - `skills/300-sg-docs/SKILL.md`
 - `skills/202-sg-repurpose/SKILL.md`
-- `skills/206-sg-audit-copy/SKILL.md`
+- `skills/009-sg-marketing/SKILL.md`
 - `skills/200-sg-redact/SKILL.md`
 - `skills/201-sg-enrich/SKILL.md`
 

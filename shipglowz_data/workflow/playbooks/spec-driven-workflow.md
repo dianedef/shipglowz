@@ -241,7 +241,7 @@ Recommended content lifecycle entrypoint:
 007-sg-content -> CONTENT_MAP + editorial corpus -> owner content skills -> audits/docs -> validation -> 103-sg-verify -> 005-sg-ship
 ```
 
-`007-sg-content` is the master content-management orchestrator. It does not replace `202-sg-repurpose`, `200-sg-redact`, `201-sg-enrich`, `206-sg-audit-copy`, `207-sg-audit-copywriting`, `406-sg-seo`, `300-sg-docs`, `205-sg-veille`, or `204-sg-market-study`; it chooses and sequences them while enforcing public-surface, claim, runtime schema, validation, and missing-surface gates.
+`007-sg-content` is the master content-management orchestrator. It does not replace `202-sg-repurpose`, `200-sg-redact`, `201-sg-enrich`, `009-sg-marketing` modes, `406-sg-seo`, `300-sg-docs`, `205-sg-veille`, or `203-sg-research`; it chooses and sequences them while enforcing public-surface, claim, runtime schema, validation, and missing-surface gates.
 
 Recommended end-user experience and activation entrypoint:
 

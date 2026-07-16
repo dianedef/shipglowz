@@ -64,7 +64,7 @@ operator invocation: $001-sg-build
 
 | Band | Family | Memory rule |
 | --- | --- | --- |
-| `000-099` | Master and high-frequency entrypoints | Most frequent and highest-level commands get the easiest codes. |
+| `000-099` | Master and high-frequency entrypoints | Most frequent and highest-level commands get the easiest codes; an entrypoint in this band is not necessarily a lifecycle master. |
 | `100-199` | Lifecycle and proof | Spec, readiness, execution, verification, checks, fixes, browser/auth/test proof. |
 | `200-299` | Content, research, and copy | Writing, enrichment, repurposing, market/research/watch, and copy audits. |
 | `300-399` | Docs, context, and support | Docs, help, context, changelog, init, scaffold, status, tasks. |
@@ -90,6 +90,7 @@ Frequency wins over family when a skill belongs to both. For example `007-sg-con
 | `006` | `sg-design` | `006-sg-design` | Master |
 | `007` | `sg-content` | `007-sg-content` | Master |
 | `008` | `sg-customer` | `008-sg-customer` | Master |
+| `009` | `sg-marketing` | `009-sg-marketing` | Research/strategy/source |
 | `100` | `sg-spec` | `100-sg-spec` | Lifecycle/proof |
 | `101` | `sg-ready` | `101-sg-ready` | Lifecycle/proof |
 | `102` | `sg-start` | `102-sg-start` | Lifecycle/proof |
@@ -104,10 +105,7 @@ Frequency wins over family when a skill belongs to both. For example `007-sg-con
 | `201` | `sg-enrich` | `201-sg-enrich` | Content/research/copy |
 | `202` | `sg-repurpose` | `202-sg-repurpose` | Content/research/copy |
 | `203` | `sg-research` | `203-sg-research` | Content/research/copy |
-| `204` | `sg-market-study` | `204-sg-market-study` | Content/research/copy |
 | `205` | `sg-veille` | `205-sg-veille` | Content/research/copy |
-| `206` | `sg-audit-copy` | `206-sg-audit-copy` | Content/research/copy |
-| `207` | `sg-audit-copywriting` | `207-sg-audit-copywriting` | Content/research/copy |
 | `300` | `sg-docs` | `300-sg-docs` | Docs/context/support |
 | `301` | `sg-context` | `301-sg-context` | Docs/context/support |
 | `302` | `sg-help` | `302-sg-help` | Docs/context/support |
@@ -126,7 +124,6 @@ Frequency wins over family when a skill belongs to both. For example `007-sg-con
 | `405` | `sg-prod` | `405-sg-prod` | Audit/quality/ops |
 | `406` | `sg-seo` | `406-sg-seo` | Audit/quality/ops |
 | `407` | `sg-audit-translate` | `407-sg-audit-translate` | Audit/quality/ops |
-| `408` | `sg-audit-gtm` | `408-sg-audit-gtm` | Audit/quality/ops |
 | `600` | `sg-local-cloud-sync` | `600-sg-local-cloud-sync` | Data/activation |
 | `601` | `sg-product-entitlements` | `601-sg-product-entitlements` | Data/activation |
 | `602` | `sg-platform-parity` | `602-sg-platform-parity` | Data/activation |

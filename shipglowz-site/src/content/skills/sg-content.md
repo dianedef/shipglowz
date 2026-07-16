@@ -12,7 +12,7 @@ problem: "Content work can start from many places: a source note, a build conver
 outcome: "You get a routed content workflow that checks the content map, editorial governance, claims, target surfaces, specialist skills, validation, and ship scope before treating content as done."
 founder_angle: "Content is not just writing. For ShipGlowz, it is a product surface that must stay aligned with the real workflow, public promises, support answers, and shipped behavior. ShipGlowz also treats declared products as governed surfaces: product inventory, public routes, and proof-backed claims stay aligned before copy is considered done."
 when_to_use:
-  - "When you want to manage content work but do not know whether to start with repurposing, drafting, enrichment, docs, copy audit, SEO, or research"
+  - "When you want to manage content work but do not know whether to start with repurposing, drafting, enrichment, docs, marketing review, SEO, or research"
   - "When a content update touches public pages, README, FAQ, public docs, public skill pages, pricing, support copy, or claims"
   - "When product governance needs to stay visible in the content layer for declared products and sales surfaces"
   - "When a source idea should become content only after surface, evidence, and claim checks"
@@ -45,9 +45,9 @@ argument_modes:
   - argument: "enrich"
     effect: "Routes existing content through the enrichment lane."
     consequence: "Improves current pages while preserving runtime schemas and public claims."
-  - argument: "audit / copy / copywriting / seo"
+  - argument: "audit / marketing / seo"
     effect: "Routes quality review to the relevant audit lane."
-    consequence: "Separates sentence-level copy, persuasion strategy, and SEO/search intent."
+    consequence: "Routes market, GTM, copy, and copywriting review to explicit `009-sg-marketing` modes; SEO/search intent stays separate."
   - argument: "apply / publish / ship"
     effect: "Runs validation and ship routing for content changes."
     consequence: "Requires bounded dirty scope, public build proof when relevant, and verification before ship."
@@ -59,12 +59,10 @@ related_skills:
   - "sg-repurpose"
   - "sg-redact"
   - "sg-enrich"
-  - "sg-audit-copy"
-  - "sg-audit-copywriting"
+  - "sg-marketing"
   - "sg-seo"
   - "sg-docs"
   - "sg-veille"
-  - "sg-market-study"
 featured: true
 order: 355
 ---

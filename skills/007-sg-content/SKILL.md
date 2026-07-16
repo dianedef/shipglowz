@@ -1,7 +1,7 @@
 ---
 name: 007-sg-content
 description: "Content lifecycle router."
-argument-hint: '[goal | source | file | mode: plan, repurpose, draft, enrich, audit, seo, editorial, apply, ship]'
+argument-hint: '[goal | source | file | mode: plan, repurpose, draft, enrich, audit, marketing, seo, editorial, apply, ship]'
 ---
 
 Primary artifact type: `master-workflow`.

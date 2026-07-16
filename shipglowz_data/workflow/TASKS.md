@@ -40,6 +40,7 @@
 
 ## Skills
 
+🟢 [ShipGlowz] task: Consolider les skills marketing sous 009-sg-marketing avec les modes market, gtm, copy et copywriting | status: done | area: marketing-skill-surface | id: consolidate-marketing-skills-under-sg-marketing | spec: shipglowz_data/workflow/specs/consolidate-marketing-skills-under-sg-marketing.md | ship_status: shipped | next: none
 🟢 [ShipGlowz] task: Consolider la maintenance des skills dans les modes et playbooks internes de 900-shipglowz-core | status: done | area: skills-maintenance-core | id: consolidate-skill-maintenance-under-shipglowz-core | spec: shipglowz_data/workflow/specs/consolidate-skill-maintenance-under-shipglowz-core.md | ship_status: shipped | next: none
 🟢 [ShipFlow] task: Ajouter un mode de statut pour les conversations Codex lie au tracker local et son playbook reutilisable | status: done | area: conversation-status-index | source: decision utilisateur 2026-07-15 | next: none
 🟢 [ShipGlowz] task: Ajouter un catalogue borne de roles specialistes technologiques, profils activables et references de fraicheur | status: done | area: skills-technology-roles | spec: shipglowz_data/workflow/specs/technology-specialist-operator-roles.md | next: none
@@ -119,7 +120,7 @@
 | 🟠 | Harmoniser tous les sous-menus CLI : lettres au lieu de chiffres, `x) Cancel` unique, et comportement Cancel cohérent entre `gum` et fallback bash | ✅ done |
 | 🟠 | Regrouper le menu racine ShipFlow en entrées lisibles avec sous-menus iconés (`Dashboard`, `Deploy / Start`, `Environments`, `Tools`, `System`, `Agents / ShipFlow`, `Help`) | ✅ done |
 | ✅ | Aligner `sg-veille` avec la gouvernance contenu : router les idées blog/newsletter vers `sg-content`/`sg-repurpose` et signaler `surface missing: blog` quand aucune surface n'est déclarée | ✅ done |
-| 🟢 | Ajouter un handoff contenu à `sg-research` et `sg-market-study` quand leurs rapports recommandent des contenus publics, avec sources, claims et route vers `sg-content` | 💤 deferred |
+| 🟢 | Ajouter un handoff contenu à `sg-research` et `009-sg-marketing market` quand leurs rapports recommandent des contenus publics, avec sources, claims et route vers `sg-content` | 💤 deferred |
 | 🟢 | Renforcer `sg-audit` master pour charger explicitement les corpus éditorial/technique quand l'audit touche des surfaces publiques, claims ou docs mappées | 💤 deferred |
 | 🟢 | Ajouter une micro-intégration `technical-docs-corpus` à `sg-content`/`sg-repurpose` quand les opportunités ou handoffs touchent des docs techniques internes | 💤 deferred |
 | 🟡 | Cadrer une grille de notation éditoriale réutilisable par les skills contenu, avec critères communs et règles spécifiques par projet depuis le corpus de gouvernance — preuve sample rubric ajoutée et `sg-verify` validé | ✅ done |

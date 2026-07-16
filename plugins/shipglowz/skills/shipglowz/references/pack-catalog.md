@@ -80,16 +80,13 @@ Purpose: content, research, SEO, copy, GTM, and editorial workflows.
 Candidate skills:
 
 - `007-sg-content`
+- `009-sg-marketing`
 - `200-sg-redact`
 - `201-sg-enrich`
 - `202-sg-repurpose`
 - `203-sg-research`
-- `204-sg-market-study`
 - `205-sg-veille`
-- `206-sg-audit-copy`
-- `207-sg-audit-copywriting`
 - `406-sg-seo`
-- `408-sg-audit-gtm`
 
 Packaging status: planned. Needs public/private data boundary review.
 

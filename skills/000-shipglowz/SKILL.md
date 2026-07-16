@@ -126,7 +126,8 @@ For requests involving declared products, sales surfaces, or public claims, pref
 | Bug report, `BUG-ID`, retest, closure, fix state, or bug ship-risk question | `003-sg-bug <instruction>` |
 | Release confidence, preview/prod deploy, deployed truth, runtime logs, production health, post-deploy proof | `004-sg-deploy <instruction>` |
 | Deploy-target recommendation for an app project | `004-sg-deploy <instruction>` — `004-sg-deploy` loads the canonical advisory matrix in `skills/references/deploy-target-matrix.md`; ShipGlowz advises, but final choice remains project-contextual |
-| Content strategy, repurposing, drafting, enrichment, SEO/copy audit, editorial governance, apply/publish content | `007-sg-content <instruction>` |
+| Content strategy, repurposing, drafting, enrichment, SEO audit, editorial governance, apply/publish content | `007-sg-content <instruction>` |
+| Market study, GTM audit, copy clarity audit, or persuasion/copywriting audit | `009-sg-marketing <market|gtm|copy|copywriting> <instruction>` |
 | Source intake, pasted email/article/transcript/URL classification, project fit, angle selection, or owner-skill choice | Load `source-intake-classification.md`, then route to the owner skill |
 | Design request, UI/UX work, redesign, design tokens, playground, accessibility design, component design, visual proof, or token migration | `006-sg-design <instruction>` |
 | End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-customer <instruction>` |

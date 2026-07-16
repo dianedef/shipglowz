@@ -34,7 +34,7 @@ limits:
 related_skills:
   - "sg-enrich"
   - "sg-redact"
-  - "sg-market-study"
+  - "sg-marketing"
 featured: false
 order: 190
 ---

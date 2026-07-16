@@ -32,7 +32,7 @@ limits:
 related_skills:
   - "sg-backlog"
   - "sg-tasks"
-  - "sg-market-study"
+  - "sg-marketing"
 featured: false
 order: 420
 ---

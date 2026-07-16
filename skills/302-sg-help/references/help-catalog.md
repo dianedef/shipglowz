@@ -170,9 +170,8 @@ Only bootstrap/install owners need the clone contract. Most help answers should 
 | `/400-sg-audit` | Master orchestrator (all 8 domains) | `@file`, `global`, or nothing |
 | `/401-sg-audit-code` | Architecture, security, reliability, system fit (anti-duplication) | `@file`, `global`, or nothing |
 | `/006-sg-design` | Design system, playground, UI/design-token/component/accessibility audits | `system [scope]`, `playground [route]`, `audit <ui|tokens|components|a11y> [scope]` |
-| `/206-sg-audit-copy` | Copywriting, tone, CTAs | `@file`, `global`, or nothing |
+| `/009-sg-marketing` | Market study, GTM, copy clarity, or persuasion audit | `market|gtm|copy|copywriting <target>` |
 | `/406-sg-seo` | Meta tags, structured data, links | `@file`, `global`, or nothing |
-| `/408-sg-audit-gtm` | Go-to-market, conversion, trust | `@file`, `global`, or nothing |
 | `/705-sg-conversation-audit` | Conversation quality classification and action routing from saved transcripts | `latest`, `path <file-or-dir>`, `export shipflow`, `report=agent` |
 | `/407-sg-audit-translate` | i18n completeness, consistency, missing-translation sync | `@file`, `global`, `sync`, `apply`, or nothing |
 | `/402-sg-deps` | Dependencies: vulns, outdated, unused, licenses | `global`, or nothing |
@@ -239,10 +238,8 @@ Internal role matrix:
 | `skills/707-name/SKILL.md` | non-applicable | helper | Never writes to specs; report non-applicable when useful. |
 | `skills/706-continue/SKILL.md` | conditionnel | pilotage | Route to `/100-sg-spec` only when continuation clearly needs a durable chantier. |
 | `skills/401-sg-audit-code/SKILL.md` | conditionnel | source-de-chantier | Code findings become a chantier for P0/P1, architectural/security risk, or multi-file remediation. |
-| `skills/206-sg-audit-copy/SKILL.md` | conditionnel | source-de-chantier | Copy findings become a chantier for multi-page conversion, legal, trust, or positioning work. |
-| `skills/207-sg-audit-copywriting/SKILL.md` | conditionnel | source-de-chantier | Strategic copy findings become a chantier when persuasion, offer, or funnel decisions are required. |
+| `skills/009-sg-marketing/SKILL.md` | conditionnel | source-de-chantier | Market, GTM, copy, or copywriting findings become a chantier when product, positioning, offer, funnel, legal, trust, or multi-page decisions are required. |
 | `skills/006-sg-design/SKILL.md` | obligatoire | lifecycle | The sole public design owner; explicit audit modes preserve source-de-chantier evaluation before routing remediation. |
-| `skills/408-sg-audit-gtm/SKILL.md` | conditionnel | source-de-chantier | GTM findings become a chantier when offer, funnel, analytics, pricing, or trust changes require decisions. |
 | `skills/406-sg-seo/SKILL.md` | conditionnel | source-de-chantier | SEO findings become a chantier for indexation, schema, content architecture, or multi-page remediation. |
 | `skills/407-sg-audit-translate/SKILL.md` | conditionnel | source-de-chantier | Translation findings become a chantier for locale strategy, broad sync, or quality gates. |
 | `skills/400-sg-audit/SKILL.md` | conditionnel | source-de-chantier | Master audit findings become a chantier for transversal P1/P2 clusters or multi-domain remediation. |
@@ -264,7 +261,6 @@ Internal role matrix:
 | `skills/106-sg-fix/SKILL.md` | conditionnel | source-de-chantier | Bug triage becomes a chantier when the fix is non-local, risky, or spec-first. |
 | `skills/302-sg-help/SKILL.md` | non-applicable | helper | Help is doctrine/read-only; never writes to specs. |
 | `skills/305-sg-init/SKILL.md` | conditionnel | support-de-chantier | Supports project bootstrap; route to spec only when setup policy must be formalized. |
-| `skills/204-sg-market-study/SKILL.md` | conditionnel | source-de-chantier | Market findings become a chantier when they require product, GTM, content, or implementation decisions. |
 | `skills/404-sg-migrate/SKILL.md` | conditionnel | source-de-chantier | Migration findings become a chantier for breaking changes, staged upgrades, or rollback/validation planning. |
 | `skills/002-sg-maintain/SKILL.md` | obligatoire | lifecycle | Master maintenance lifecycle: triage, spec/readiness, bounded delegated execution, verification, and ship/deploy routing. |
 | `skills/704-sg-model/SKILL.md` | non-applicable | helper | Model advice does not mutate specs; report non-trace when useful. |
@@ -597,7 +593,8 @@ project/shipglowz_data/
 ```bash
 /007-sg-content                  # Route content work through map, editorial gates, owner skills, validation
 /007-sg-content repurpose        # Extract and store a source-faithful pack, then route docs/site/FAQ/content work
-/007-sg-content audit seo        # Route public content through copy, copywriting, and SEO audits as needed
+/009-sg-marketing copy site/src/pages/pricing.astro  # Review copy clarity, trust, and CTA fit
+/009-sg-marketing copywriting launch offer            # Review persona, offer, objections, and persuasion
 ```
 
 ### Cross-project overview

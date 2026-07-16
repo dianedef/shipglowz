@@ -347,7 +347,7 @@ next_step: "/300-sg-docs update"
 [Comment les utilisateurs trouvent le produit ? SEO, réseaux sociaux, bouche-à-oreille, paid ads...]
 
 ## Concurrents connus
-[À compléter plus tard — laisser vide avec un placeholder "À renseigner via /204-sg-market-study"]
+[À compléter plus tard — laisser vide avec un placeholder "À renseigner via /009-sg-marketing market"]
 ```
 
 Si l'utilisateur donne une réponse courte, compléter intelligemment à partir du stack détecté et du contenu existant. Marquer clairement les sections devinées avec `<!-- à confirmer -->`.

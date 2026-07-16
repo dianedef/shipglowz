@@ -183,7 +183,7 @@ For each opportunity, include:
 - source proof from the conversation or supplied text
 - content move: add section, add example, add FAQ, add comparison, add demonstration, add warning, update claim, or skip
 - priority: `must write`, `should write`, `optional`, or `do not write`
-- next step: `300-sg-docs`, `201-sg-enrich`, `200-sg-redact`, `206-sg-audit-copy`, `207-sg-audit-copywriting`, or `406-sg-seo`
+- next step: `300-sg-docs`, `201-sg-enrich`, `200-sg-redact`, `009-sg-marketing copy|copywriting|gtm`, or `406-sg-seo`
 
 Load `$SHIPFLOW_ROOT/skills/references/content-owner-handoffs.md` for the canonical owner list and minimum handoff payload.
 
@@ -499,8 +499,8 @@ Use this routing map:
 | Internal documentation, README, workflow docs, technical docs, editorial governance docs | `300-sg-docs` |
 | Existing public page, docs page, skill page, FAQ, or article that should be improved | `201-sg-enrich` |
 | New long-form article, guide, editorial, newsletter draft, or article outline to write | `200-sg-redact` |
-| Clarity, tone, CTA, page-level copy friction, or message-fit review | `206-sg-audit-copy` |
-| Persona, offer, persuasion, conversion strategy, or marketing copy review | `207-sg-audit-copywriting` |
+| Clarity, tone, CTA, page-level copy friction, or message-fit review | `009-sg-marketing copy` |
+| Persona, offer, persuasion, conversion strategy, or marketing copy review | `009-sg-marketing copywriting` |
 | Search intent, on-page SEO, metadata, internal linking, or discoverability review | `406-sg-seo` |
 
 Each handoff must include:
@@ -539,7 +539,7 @@ When this skill finishes:
 - if the user wants polished docs, route the best doc sections into `300-sg-docs`
 - if the user wants public copy or long-form content, route the proven marketing sections into `200-sg-redact`
 - if the user wants existing content improved, route the target surfaces into `201-sg-enrich`
-- if the user needs copy quality, conversion, persuasion, SEO, or search-intent review, route to `206-sg-audit-copy`, `207-sg-audit-copywriting`, or `406-sg-seo`
+- if the user needs copy quality, conversion, persuasion, GTM, SEO, or search-intent review, route to `009-sg-marketing copy|copywriting|gtm` or `406-sg-seo`
 - if the user wants current stats, market context, or external validation, route into `201-sg-enrich`
 - if the user chooses one article name or title, route to `200-sg-redact` with the selected promise, source proof, and surface status
 

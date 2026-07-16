@@ -41,12 +41,13 @@ This reference centralizes who owns the next step. Local skills may keep activat
 | --- | --- |
 | External URL/source triage | `205-sg-veille` |
 | Deep research report | `203-sg-research` |
-| Market, keyword, competitor, or demand study | `204-sg-market-study` |
+| Market, keyword, competitor, or demand study | `009-sg-marketing market` |
 | Source-faithful pack, reusable source analysis, or applied repurposing handoff | `202-sg-repurpose` |
 | Original long-form article, guide, editorial, or public draft | `200-sg-redact` |
 | Upgrade existing content with research, structure, or clarity | `201-sg-enrich` |
-| Clarity, tone, CTA, and page-level copy audit | `206-sg-audit-copy` |
-| Persona, offer, persuasion, and conversion audit | `207-sg-audit-copywriting` |
+| Positioning, funnel, trust, offer, or launch-readiness audit | `009-sg-marketing gtm` |
+| Clarity, tone, CTA, and page-level copy audit | `009-sg-marketing copy` |
+| Persona, offer, persuasion, and conversion audit | `009-sg-marketing copywriting` |
 | Technical or on-page SEO / search-intent audit | `406-sg-seo` |
 | README, docs, or content-governance update | `300-sg-docs` |
 | Public browser proof | `108-sg-browser` |

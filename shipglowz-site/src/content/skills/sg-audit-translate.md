@@ -51,7 +51,7 @@ limits:
   - "Strong translation still depends on product context and tone decisions"
 related_skills:
   - "sg-docs"
-  - "sg-audit-copy"
+  - "sg-marketing"
   - "sg-seo"
   - "sg-redact"
 featured: false

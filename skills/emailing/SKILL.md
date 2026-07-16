@@ -41,7 +41,7 @@ Default to `report=user`: concise, sequence-first, and in the user's active lang
 - Use `skills/references/source-intake-classification.md` when the user provides an email, URL, article, transcript, or example as inspiration before adapting it into a sequence.
 - Use `100-sg-spec` when sequence work needs a durable contract before implementation.
 - Route upstream content/source work to `007-sg-content`, `200-sg-redact`, or `202-sg-repurpose` when the brief is not yet sequence-ready.
-- Route tone, clarity, conversion, and persuasion checks to `206-sg-audit-copy` or `207-sg-audit-copywriting` when review is the main ask.
+- Route tone, clarity, conversion, and persuasion checks to `009-sg-marketing copy` or `009-sg-marketing copywriting` when review is the main ask.
 
 ## Core Rules
 

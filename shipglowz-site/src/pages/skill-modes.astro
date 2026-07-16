@@ -9,7 +9,7 @@ const masterSkillCheatsheet = [
     command: "shipflow <instruction>",
     when: "Recommended non-technical first command when you want ShipGlowz to choose the route.",
     modes:
-      "Answers pure conversation directly; routes feature/code/docs to sf-build, maintenance to sf-maintain, bugs to sf-bug, release/deploy/prod proof to sf-deploy, content to sf-content, design to sf-design, customer experience to sf-customer, local-to-cloud sync to sf-local-cloud-sync, internal skill maintenance to the internal 900 core workflow, and obvious specialist audits to sf-audit-*. Asks one numbered question when ambiguous."
+      "Answers pure conversation directly; routes feature/code/docs to sf-build, maintenance to sf-maintain, bugs to sf-bug, release/deploy/prod proof to sf-deploy, content to sf-content, marketing study/GTM/copy work to 009-sg-marketing, design to sf-design, customer experience to sf-customer, local-to-cloud sync to sf-local-cloud-sync, internal skill maintenance to the internal 900 core workflow, and obvious specialist audits to sf-audit-*. Asks one numbered question when ambiguous."
   },
   {
     command: "sf-build <story, bug, or goal>",
@@ -40,6 +40,12 @@ const masterSkillCheatsheet = [
     when: "Content management across strategy, repurposing, drafting, enrichment, audits, docs, validation, and ship routing.",
     modes:
       "plan, repurpose, draft, enrich, audit, seo, editorial, apply, and ship select the content lifecycle lane while content map and editorial gates keep public surfaces safe. Add score, quality gate, or grille projet when the content needs project-aware rubric scoring."
+  },
+  {
+    command: "009-sg-marketing <mode> <target>",
+    when: "Use when the unmet need is market evidence, GTM readiness, copy clarity, or persuasion—not a broader content lifecycle.",
+    modes:
+      "market, gtm, copy, and copywriting select one bounded marketing playbook; help lists the grammar without silently choosing a mode."
   },
   {
     command: "sf-design <design question or goal>",
@@ -127,7 +133,7 @@ const runtimeFamilies = [
   {
     title: "Research/pilotage/helper",
     use: "Clarify information, prioritize, summarize, route, or preserve context.",
-    examples: "sf-research, sf-market-study, sf-veille, sf-backlog, sf-priorities, sf-review, sf-tasks, sf-context, sf-model, sf-help, sf-status, sf-resume, sf-explore, name"
+    examples: "009-sg-marketing, sf-research, sf-veille, sf-backlog, sf-priorities, sf-review, sf-tasks, sf-context, sf-model, sf-help, sf-status, sf-resume, sf-explore, name"
   }
 ];
 

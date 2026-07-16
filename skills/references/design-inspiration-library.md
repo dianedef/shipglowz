@@ -21,8 +21,7 @@ linked_systems:
   - skills/006-sg-design/references/design-inspiration-library-operations.md
   - skills/007-sg-content/SKILL.md
   - skills/200-sg-redact/SKILL.md
-  - skills/206-sg-audit-copy/SKILL.md
-  - skills/207-sg-audit-copywriting/SKILL.md
+  - skills/009-sg-marketing/SKILL.md
   - skills/006-sg-design/SKILL.md
 depends_on:
   - artifact: skills/references/private-data-repo-contract.md

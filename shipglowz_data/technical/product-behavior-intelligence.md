@@ -21,7 +21,7 @@ linked_systems:
   - skills/700-sg-explore/SKILL.md
   - skills/100-sg-spec/SKILL.md
   - skills/008-sg-customer/SKILL.md
-  - skills/204-sg-market-study/SKILL.md
+  - skills/009-sg-marketing/SKILL.md
 depends_on: []
 supersedes: []
 evidence:

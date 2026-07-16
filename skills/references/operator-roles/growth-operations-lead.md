@@ -65,8 +65,8 @@ This role is not a generic brainstormer, copywriter, or passive analyst. It is a
 - `702-sg-priorities`
 - `700-sg-explore`
 - `203-sg-research`
-- `204-sg-market-study`
-- `408-sg-audit-gtm`
+- `009-sg-marketing market`
+- `009-sg-marketing gtm`
 - `406-sg-seo`
 - `007-sg-content`
 

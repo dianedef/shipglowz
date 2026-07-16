@@ -31,7 +31,7 @@ limits:
   - "Weakly framed questions will still produce weakly useful findings"
   - "Public-content follow-up still goes through the content lifecycle and declared editorial surfaces"
 related_skills:
-  - "sg-market-study"
+  - "sg-marketing"
   - "sg-enrich"
   - "sg-spec"
 featured: false

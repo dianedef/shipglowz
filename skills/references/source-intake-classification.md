@@ -79,7 +79,7 @@ Load this reference when:
 - the user provides a source and asks what to do with it
 - the user uses `#source`
 - a skill receives an external email, URL, transcript, article, note, or competitor/content example as inspiration
-- a route could be `emailing`, `202-sg-repurpose`, `200-sg-redact`, `007-sg-content`, `203-sg-research`, `204-sg-market-study`, `205-sg-veille`, `206-sg-audit-copy`, `207-sg-audit-copywriting`, `300-sg-docs`, or a project-specific business/content route
+- a route could be `emailing`, `202-sg-repurpose`, `200-sg-redact`, `007-sg-content`, `203-sg-research`, `009-sg-marketing market|gtm|copy|copywriting`, `205-sg-veille`, `300-sg-docs`, or a project-specific business/content route
 
 ## Invocation Pattern
 
@@ -199,9 +199,9 @@ Use `unknown` when the source cannot be classified safely. Ask one targeted ques
 - Source that should become several content formats -> `202-sg-repurpose` through `007-sg-content` when surface/governance matters.
 - Source that needs a new original article, guide, or editorial -> `200-sg-redact` after content surface and claim gates.
 - Source that needs better existing content -> `201-sg-enrich`.
-- Source that is mainly external trend, competitor, product, market, or keyword signal -> `205-sg-veille`, `203-sg-research`, or `204-sg-market-study`.
+- Source that is mainly external trend, competitor, product, market, or keyword signal -> `205-sg-veille`, `203-sg-research`, or `009-sg-marketing market` once the study question is settled.
 - Source that should become docs, README, help, FAQ, or governance content -> `300-sg-docs` or `007-sg-content` depending on lifecycle scope.
-- Source that is mainly copy quality, offer, CTA, persuasion, or positioning critique -> `206-sg-audit-copy` or `207-sg-audit-copywriting`.
+- Source that is mainly copy quality, offer, CTA, persuasion, or positioning critique -> `009-sg-marketing copy`, `copywriting`, or `gtm` according to the stated review target.
 - Source that requires a product, pricing, public claim, content-surface, or multi-step implementation decision -> `100-sg-spec` through the relevant master skill.
 
 ## Durable Ownership

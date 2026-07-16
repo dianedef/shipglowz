@@ -20,7 +20,7 @@ evidence: []
 depends_on: []
 supersedes: []
 next_review: "YYYY-MM-DD"
-next_step: "/sg-market-study update project competitors"
+next_step: "/009-sg-marketing market update project competitors"
 ---
 
 # Project Competitors And Inspirations

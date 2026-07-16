@@ -45,6 +45,6 @@ This skill audits the codebase and visible content. It does not fetch search con
 
 ## Related Skills
 
-- `206-sg-audit-copy` for language quality on indexed pages
+- `009-sg-marketing copy` for language quality on indexed pages
 - `201-sg-enrich` to upgrade content with fresher evidence
 - `400-sg-audit` for a broader multi-domain release review

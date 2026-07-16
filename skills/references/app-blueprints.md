@@ -19,7 +19,7 @@ linked_systems:
   - skills/900-shipglowz-core/SKILL.md
   - skills/100-sg-spec/SKILL.md
   - skills/306-sg-scaffold/SKILL.md
-  - skills/204-sg-market-study/SKILL.md
+  - skills/009-sg-marketing/SKILL.md
   - skills/references/master-workflow-lifecycle.md
   - skills/app-blueprints/
 depends_on: []
@@ -44,7 +44,7 @@ A blueprint is not a full spec — it is an **app anatomy reference** that:
 - Tells `001-sg-build` what kind of app this is and what patterns it follows
 - Feeds `100-sg-spec` with a pre-filled architecture section
 - Guides `306-sg-scaffold` with folder structure, naming conventions, and file patterns
-- Gives `204-sg-market-study` a target archetype for research scoping
+- Gives `009-sg-marketing market` a target archetype for research scoping
 
 ## Distribution Model
 
@@ -169,7 +169,7 @@ When a blueprint is loaded:
 - Use the route list to scaffold screens and their shell/guard wrappers.
 - Do not invent patterns not present in the blueprint or the project.
 
-### 204-sg-market-study
+### 009-sg-marketing market
 
 When a blueprint is loaded:
 - Use `app_type` to scope research to the relevant platform.

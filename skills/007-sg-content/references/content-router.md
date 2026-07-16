@@ -54,9 +54,9 @@ When a pasted source, email, URL, transcript, note, article, or example arrives 
 - `repurpose`, `source`, `conversation`, `faq`, `release notes`, `site update` -> `202-sg-repurpose` first for a source-faithful pack and durable repo memory, then onward to the right writer/apply owner if needed.
 - `draft`, `write`, `article`, `blog`, `guide`, `editorial` -> `200-sg-redact` after surface and claim gates.
 - `enrich`, `refresh`, `update @file`, `improve` -> `201-sg-enrich`.
-- `audit`, `copy`, `copywriting`, `seo` -> `206-sg-audit-copy`, `207-sg-audit-copywriting`, and/or `406-sg-seo`.
+- `audit copy`, `copy`, `copywriting`, `market`, `gtm` -> `009-sg-marketing copy|copywriting|market|gtm` with the exact mode selected from the stated need; `seo` stays with `406-sg-seo`.
 - `docs`, `readme`, `editorial`, `content governance` -> `300-sg-docs`.
-- `veille`, URLs, pasted external trend/source content -> `205-sg-veille`, `203-sg-research`, or `204-sg-market-study`.
+- `veille`, URLs, pasted external trend/source content -> `205-sg-veille` or `203-sg-research`; use `009-sg-marketing market` only once a market, keyword, competitor, or demand study is the settled need.
 - `apply`, `publish`, `ship` -> validate, then `103-sg-verify` and `005-sg-ship` when bounded.
 
 ## Spec Gate

@@ -16,7 +16,7 @@ docs_impact: yes
 linked_systems:
   - skills/000-shipglowz/SKILL.md
   - skills/302-sg-help/SKILL.md
-  - skills/408-sg-audit-gtm/SKILL.md
+  - skills/009-sg-marketing/SKILL.md
   - skills/406-sg-seo/SKILL.md
   - skills/emailing/SKILL.md
   - shipglowz_data/business/agent-profiles/
@@ -58,18 +58,18 @@ Which traffic source should we work on now, how will we measure it, and where sh
 - Qualified intent before volume.
 - CAC, ROAS, activation, and conversion evidence before channel preference.
 - Prefer one measurable acquisition bet over a broad channel list when the business context supports it.
-- Route SEO-owned issues to `406-sg-seo`; route funnel, analytics, and launch-readiness issues to `408-sg-audit-gtm`; route sequence-owned email work to `emailing`.
+- Route SEO-owned issues to `406-sg-seo`; route funnel, analytics, and launch-readiness issues to `009-sg-marketing gtm`; route sequence-owned email work to `emailing`.
 
 ## Preferred Skills
 
-- `408-sg-audit-gtm`
+- `009-sg-marketing gtm`
 - `406-sg-seo`
 - `emailing`
-- `204-sg-market-study`
+- `009-sg-marketing market`
 - `203-sg-research`
 - `007-sg-content`
-- `206-sg-audit-copy`
-- `207-sg-audit-copywriting`
+- `009-sg-marketing copy`
+- `009-sg-marketing copywriting`
 
 ## Output Shape
 

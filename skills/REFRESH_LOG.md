@@ -4,6 +4,16 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 
 ---
 
+## 2026-07-16 — 009-sg-marketing
+
+**Added:** none
+
+**Updated:** none
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted
+
 ## 2026-07-16 — 309-sg-tasks
 
 **Added:**

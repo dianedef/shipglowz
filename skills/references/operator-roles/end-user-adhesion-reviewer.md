@@ -62,10 +62,10 @@ If I were the end user, would I understand this, trust it, want it, and continue
 
 - `008-sg-customer`
 - `007-sg-content`
-- `206-sg-audit-copy`
-- `207-sg-audit-copywriting`
+- `009-sg-marketing copy`
+- `009-sg-marketing copywriting`
 - `406-sg-seo`
-- `408-sg-audit-gtm`
+- `009-sg-marketing gtm`
 - `006-sg-design audit ui`
 
 ## Evidence Sources

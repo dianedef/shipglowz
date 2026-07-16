@@ -26,6 +26,11 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 ---
 # ShipFlow Changelog
 
+## [2026-07-16]
+
+### Changed
+- Consolidated the public marketing-skill surface into `009-sg-marketing` modes for market study, GTM, copy, and copywriting; migrated active routing, runtime, catalog, documentation, and public discovery guidance while retiring the four predecessor entrypoints. The local/runtime/public-surface migration was verified; this does not claim a production marketing outcome.
+
 ## [2026-07-15]
 
 ### Changed

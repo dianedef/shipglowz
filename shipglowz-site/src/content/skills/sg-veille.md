@@ -37,7 +37,7 @@ related_skills:
   - "sg-content"
   - "sg-repurpose"
   - "sg-research"
-  - "sg-market-study"
+  - "sg-marketing"
   - "sg-backlog"
 featured: false
 order: 450

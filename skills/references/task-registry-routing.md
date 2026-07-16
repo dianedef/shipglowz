@@ -17,8 +17,7 @@ linked_systems:
   - shipglowz_data/workflow/TASKS.md
   - shipglowz_data/editorial/ROADMAP.md
   - skills/205-sg-veille/SKILL.md
-  - skills/206-sg-audit-copy/SKILL.md
-  - skills/207-sg-audit-copywriting/SKILL.md
+  - skills/009-sg-marketing/SKILL.md
   - skills/406-sg-seo/SKILL.md
   - skills/309-sg-tasks/SKILL.md
   - skills/references/operational-record-format.md
