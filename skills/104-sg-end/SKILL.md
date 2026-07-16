@@ -19,13 +19,13 @@ This `SKILL.md` is the activation contract. Keep closure semantics here; task-ro
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before closing a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when a unique spec exists. Append a current `104-sg-end` row with result `closed`, `deferred`, `blocked`, or `not applicable`, update `Current Chantier Flow`, and end the report with the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec is available, do not write to a spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before closing a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when a unique spec exists. Append a current `104-sg-end` row with result `closed`, `deferred`, `blocked`, or `not applicable`, update `Current Chantier Flow`, and open the report with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec is available, do not write to a spec; use a `(local)` chantier header with a short work name.
 
 ## Report Modes
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, outcome-first, and using the compact chantier block. The detailed report template below is for `report=agent`, blocked runs, or explicit handoff.
+Default to `report=user`: concise, outcome-first, and using the opening chantier header. The detailed report template below is for `report=agent`, blocked runs, or explicit handoff.
 
 ## Required References
 
@@ -193,7 +193,7 @@ Reste a faire:
 Prochaine etape:
 - [/005-sg-ship puis /405-sg-prod si la validation preview-push est requise | /005-sg-ship | explicit action | None]
 
-Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [closed | deferred | blocked | not applicable]`; do not append a verdict after this body.
+Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : [closed | deferred | blocked | not applicable]`; do not append a verdict after this body.
 ```
 
 ### Rules

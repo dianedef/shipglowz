@@ -447,7 +447,7 @@ Reste a faire:
 Prochaine etape:
 - /101-sg-ready [titre]
 
-Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : draft saved`; do not append a verdict after this body.
+Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : draft saved`; do not append a verdict after this body.
 ```
 
 ---

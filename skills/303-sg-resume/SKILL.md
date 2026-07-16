@@ -14,8 +14,11 @@ Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/reference
 Trace category: `non-applicable`.
 Process role: `helper`.
 
-This skill does not write to chantier specs. If invoked inside a spec-first flow, do not modify `Skill Run History`; include `Chantier: non applicable` or `Chantier: non trace` in the final report when useful, with the reason and the next lifecycle command if one is obvious.
+This skill does not write to chantier specs. If invoked inside a spec-first flow, do not modify `Skill Run History`; use a `(local)` chantier header with a short work name.
 
+## Report Modes
+
+Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md` and use the shared chantier-then-verdict opening.
 
 # SF Résume
 

@@ -19,7 +19,7 @@ This `SKILL.md` is the activation contract. Before editing or expanding this ski
 Trace category: `conditionnel`.
 Process role: `source-de-chantier`.
 
-Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and include a final `Chantier` block. If no unique chantier is identified, do not write to any spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and open the report with the opening chantier header. If no unique chantier is identified, do not write to any spec; use a `(local)` chantier header with a short work name.
 
 ## Chantier Potential Intake
 
@@ -128,7 +128,7 @@ Allowed `107-sg-test` bug transitions:
 
 ## Final Report
 
-When first prompting the user, output only the manual test card. After the user replies and logs are written, output the compact `Test Logged` report from `manual-qa-workflow.md`, plus the final `Chantier` block when a unique chantier is attached.
+When first prompting the user, output only the manual test card. After the user replies and logs are written, open the compact `Test Logged` report from `manual-qa-workflow.md` with the shared chantier header and verdict.
 
 ## Rules
 

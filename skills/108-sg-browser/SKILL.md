@@ -19,7 +19,7 @@ This `SKILL.md` is the activation contract. Before editing or expanding this ski
 Trace category: `conditionnel`.
 Process role: `source-de-chantier`.
 
-Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and include a final `Chantier` block. If no unique chantier is identified, do not write to any spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and open the report with the opening chantier header. If no unique chantier is identified, do not write to any spec; use a `(local)` chantier header with a short work name.
 
 ## Chantier Potential Intake
 
@@ -138,7 +138,7 @@ Report in the user's active language. Keep stable labels, commands, and machine 
 
 Internal instructions, workflow rules, stable headings, stop conditions, acceptance criteria, and validation notes stay in English. User-facing observations and explanations use the user's active language; French output must be natural and accented while command names, paths, stable labels, and verdict labels remain English.
 
-Every final report must open with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [pass / fail / partial / blocked / needs-auth / needs-deploy / needs-manual-test / unsafe-action]`, then include:
+Every final report must open with `🎯 VERDICT (HH:mm) : [pass / fail / partial / blocked / needs-auth / needs-deploy / needs-manual-test / unsafe-action]`, then include:
 - `Target`
 - `Environment`
 - `Playwright MCP runtime`
@@ -183,7 +183,7 @@ If a finding crosses the chantier threshold, report `Chantier potentiel` and rou
 ```text
 ## Browser Verification: [objective]
 
-🎯 VERDICT (YYYY-MM-DD HH:mm) : [pass / fail / partial / blocked / needs-auth / needs-deploy / needs-manual-test / unsafe-action]
+🎯 VERDICT (HH:mm) : [pass / fail / partial / blocked / needs-auth / needs-deploy / needs-manual-test / unsafe-action]
 
 Target: [URL]
 Environment: [local / preview / production / unknown]

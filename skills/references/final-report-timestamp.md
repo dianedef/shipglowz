@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.5.0"
 project: ShipGlowz
 created: "2026-05-05"
-updated: "2026-07-15"
+updated: "2026-07-16"
 status: active
 source_skill: manual
 scope: final-report-timestamp
@@ -23,29 +23,43 @@ supersedes: []
 evidence:
   - "User request 2026-05-05: final reports need a visible Paris-time verdict timestamp so stale verdicts after crash or resume are not mistaken for current state."
   - "User decision 2026-07-15: verdicts appear first as a compact timestamped heading so the operator can read the response and any decision options without a trailing status block."
+  - "User decision 2026-07-16: the chantier local/spec name is the first line and the timestamped verdict follows immediately below it."
+  - "User decision 2026-07-16: show only Europe/Paris time (`HH:mm`) in the verdict header and omit the calendar date."
+  - "User decision 2026-07-16: use 🧱 for normal chantier headers and reserve 🚧 for a genuinely blocked verdict."
 next_review: "2026-06-05"
 next_step: "/103-sg-verify final report timestamp contract"
 ---
 
-# Final Report Verdict Header
+# Final Report Opening Headers
 
-Every ShipGlowz final report must begin with a concise, visible verdict in Europe/Paris local time. The verdict is a heading for the response, not its trailing footer.
+Every ShipGlowz final report places a concise, visible verdict in Europe/Paris local time immediately after the chantier header. The verdict remains an opening heading, not a trailing footer.
 
 ## Required Opening
 
-Use this as the first visible line of every final report:
+Use this two-line opening for every final report:
 
 ```text
-🎯 VERDICT (YYYY-MM-DD HH:mm) : <verdict or status>
+🧱 CHANTIER (<local|spec>) : <name>
+🎯 VERDICT (HH:mm) : <verdict or status>
 ```
 
 Use the literal `VERDICT` label prefixed by `🎯` for user-facing reports, including reports that would otherwise use a named verdict label. Named internal status fields may remain in agent-mode artifacts.
 
+For a genuinely blocked verdict, replace the first marker only:
+
+```text
+🚧 CHANTIER (<local|spec>) : <name>
+🎯 VERDICT (HH:mm) : bloqué
+```
+
 ## Rules
 
 - Use `Europe/Paris` local time, not UTC, for the visible report timestamp.
-- The timestamp is when the verdict or final status is pronounced, not when the task started.
+- The displayed time is when the verdict or final status is pronounced, not when the task started.
+- Display only `HH:mm`; do not include the calendar date in the verdict header.
 - Keep UTC timestamps for internal ledgers, specs, run histories, and machine-readable artifacts that already require UTC.
+- Put exactly one chantier header before the verdict; follow `reporting-contract.md` for local/spec selection and naming.
+- Keep `🧱` for normal, successful, partial, or in-progress runs; use `🚧` only when the verdict is blocked.
 - Put the substantive response immediately below the verdict: result, proof, limits, and any decision question.
 - When owner routing helps the operator understand the next action, add `🧭 Route: <owner> — <short reason>` directly below the verdict.
 - Do not append a second verdict, timestamp, reminder, or commentary after the response. When a numbered decision is required, the final visible content must be the options followed by `Réponds avec le numéro, ou précise une autre option.`

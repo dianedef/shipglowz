@@ -13,13 +13,13 @@ Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/reference
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before executing, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`. If exactly one chantier spec is in scope, read `Skill Run History` and `Current Chantier Flow`, append a current `001-sg-build` row with result `implemented`, `partial`, `blocked`, or `rerouted`, update `Current Chantier Flow`, and end with the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec exists, do not write to a spec and report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before executing, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`. If exactly one chantier spec is in scope, read `Skill Run History` and `Current Chantier Flow`, append a current `001-sg-build` row with result `implemented`, `partial`, `blocked`, or `rerouted`, update `Current Chantier Flow`, and open with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec exists, do not write to a spec and use a `(local)` chantier header with a short work name.
 
 ## Report Modes
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, outcome-first, and using the compact chantier block. Use `report=agent` only when explicitly requested or when `001-sg-build` is preparing an internal handoff for another agent. When invoking downstream skills for internal evidence, pass `report=agent` or `handoff` only when detailed evidence is needed.
+Default to `report=user`: concise, outcome-first, and using the opening chantier header. Use `report=agent` only when explicitly requested or when `001-sg-build` is preparing an internal handoff for another agent. When invoking downstream skills for internal evidence, pass `report=agent` or `handoff` only when detailed evidence is needed.
 
 ## Master Delegation
 

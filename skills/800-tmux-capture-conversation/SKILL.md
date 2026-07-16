@@ -15,7 +15,7 @@ Before resolving ShipGlowz-owned files, load `$SHIPFLOW_ROOT/skills/references/c
 Trace category: `non-applicable`.
 Process role: `helper`.
 
-This skill captures a local terminal transcript and does not write to chantier specs. If invoked inside a spec-first flow, do not modify `Skill Run History`; report `Chantier: non applicable` only when useful.
+This skill captures a local terminal transcript and does not write to chantier specs. If invoked inside a spec-first flow, do not modify `Skill Run History`; use a `(local)` chantier header only when useful.
 
 ## Core Rule
 

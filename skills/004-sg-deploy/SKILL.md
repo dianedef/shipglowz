@@ -15,15 +15,15 @@ Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/reference
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before deploying a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when a unique spec exists. Append a current `004-sg-deploy` row with result `deployed`, `partial`, `blocked`, or `rerouted`, update `Current Chantier Flow`, and end the report with the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
+Before deploying a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when a unique spec exists. Append a current `004-sg-deploy` row with result `deployed`, `partial`, `blocked`, or `rerouted`, update `Current Chantier Flow`, and open the report with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-If no unique chantier spec is identified, do not write to a spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+If no unique chantier spec is identified, do not write to a spec; use a `(local)` chantier header with a short work name.
 
 ## Report Modes
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, evidence-first, and using the compact chantier block. For `report=agent`, blocked runs, or explicit handoff, use `$SHIPFLOW_ROOT/skills/004-sg-deploy/references/deploy-report-template.md`.
+Default to `report=user`: concise, evidence-first, and using the opening chantier header. For `report=agent`, blocked runs, or explicit handoff, use `$SHIPFLOW_ROOT/skills/004-sg-deploy/references/deploy-report-template.md`.
 
 ## Mission
 

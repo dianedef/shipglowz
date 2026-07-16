@@ -15,13 +15,13 @@ Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/reference
 Trace category: `conditionnel`.
 Process role: `source-de-chantier`.
 
-Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and include a final `Chantier` block. If no unique chantier is identified, do not write to any spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and open the report with the opening chantier header. If no unique chantier is identified, do not write to any spec; use a `(local)` chantier header with a short work name.
 
 ## Report Modes
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, lifecycle-first, and using the compact chantier block. The detailed report template below is for `report=agent`, blocked runs, or explicit handoff.
+Default to `report=user`: concise, lifecycle-first, and using the opening chantier header. The detailed report template below is for `report=agent`, blocked runs, or explicit handoff.
 
 ## Master Delegation
 
@@ -282,7 +282,7 @@ Reste a faire:
 Prochaine etape:
 - [command]
 
-Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [executed | routed | blocked | no action]`; do not append a verdict after this body.
+Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : [executed | routed | blocked | no action]`; do not append a verdict after this body.
 ```
 
 ## Rules

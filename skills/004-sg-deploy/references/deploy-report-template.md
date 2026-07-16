@@ -87,7 +87,7 @@ Reste a faire:
 Prochaine etape:
 - [command or none]
 
-Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [deployed | partial | blocked | rerouted]`; do not append a verdict after this body.
+Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : [deployed | partial | blocked | rerouted]`; do not append a verdict after this body.
 ```
 
 ## User Report Compression

@@ -1,7 +1,7 @@
 ---
 artifact: playbook
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: ShipGlowz
 created: "2026-07-15"
 updated: "2026-07-16"
@@ -17,12 +17,14 @@ linked_systems:
   - skills/309-sg-tasks/SKILL.md
   - shipglowz_data/workflow/TASKS.md
   - ~/.codex/state_5.sqlite
+  - tools/prune_codex_sessions.py
 depends_on: []
 supersedes: []
 evidence:
   - "Operator request on 2026-07-15: reuse the Codex conversation rename workflow as a task-tracker mode."
   - "Codex UI session titles are stored in the local threads table; project tasks are stored in the local TASKS.md tracker."
   - "Operator decision on 2026-07-16: tracker-less cwd scopes remain valid, older same-subject sessions close, and sessions inactive for more than 30 days close without changing linked task completion."
+  - "Operator decision on 2026-07-16: project session cleanup uses a dry-run-first prune that excludes the active thread and open work."
 next_review: "2026-08-15"
 next_step: "/309-sg-tasks sessions <project>"
 ---
@@ -44,6 +46,7 @@ or a single conversation rename. Invoke:
 
 ```text
 /309-sg-tasks sessions <project-or-cwd>
+/309-sg-tasks sessions prune <project-or-cwd>
 /309-sg-tasks name-conversation
 ```
 
@@ -70,29 +73,75 @@ Use the exact tracker vocabulary in both the thread title and any linked task:
 Use a short title shaped as `<STATUS> - <work title>`, with the tracker status
 uppercased. Keep the original Codex thread `id` unchanged.
 
+The work title is the navigation label, not a workflow label: it must expose
+the concrete object, system, or outcome at the heart of the conversation.
+Reject generic labels such as `Review work`, `Review ContentGlowz work`,
+`General task`, or a skill name alone.
+
+## Incremental Idempotence Gate
+
+A title matching `^(TODO|DOING|IN_PROGRESS|BLOCKED|DONE) - .+` is already
+managed when its work title is not a prohibited generic label. On ordinary
+`sessions` runs, skip it completely: do not read its preview or first message,
+reclassify its status, rewrite its title, apply duplicate or inactivity rules,
+or mutate a tracker record linked to it.
+
+Only unmanaged titles enter triage. An operator may override this gate by
+explicitly asking to refresh existing titles or by naming thread ids.
+
+## Project Session Prune
+
+Use `sessions prune` to reclaim rollout disk space without deleting active
+work. Resolve and preflight `$SHIPFLOW_ROOT/tools/prune_codex_sessions.py`, then
+invoke the tool instead of writing ad hoc SQL or deleting rollout files from
+the agent.
+
+The default run is a dry-run. Candidate sessions must all match the exact
+absolute `cwd`, have a canonical `DONE - ...` title, and be inactive for
+strictly more than 30 days. The current `CODEX_THREAD_ID` is always excluded.
+Missing or unsafe rollout paths are reported and preserved.
+
+An apply run requires `--apply` and `--confirm-cwd` equal to the resolved
+absolute target. The planner rejects unsafe descendant trees, collapses
+eligible descendants under one root, and delegates mutation to the supported
+native `codex delete --force <UUID>` command. It stops on the first native
+failure, verifies outcomes, and never runs `VACUUM`. Pruning never mutates
+`TASKS.md`, session titles, or another project's state directly.
+
+Pressure scenarios:
+
+- `SESSION-PRUNE-DRY-RUN`: preview performs no writes.
+- `SESSION-PRUNE-CWD-ISOLATION`: exact cwd prevents cross-project deletion.
+- `SESSION-PRUNE-ACTIVE-EXCLUSION`: the current thread is never pruned.
+- `SESSION-PRUNE-CONFIRMATION`: apply fails before staging without exact confirmation.
+- `SESSION-PRUNE-SUBTREE-SAFETY`: cross-cwd, current, open, noneligible, or active-job descendants block their root.
+- `SESSION-PRUNE-NATIVE-FAILURE`: stop after the first failed native deletion and report a retryable partial result.
+
 ## Execution Order
 
 1. Resolve the exact absolute `cwd`. Read the current local tracker when it
    exists. If the directory has no tracker, keep the `cwd` as the session scope
    and do not create `TASKS.md` or `shipglowz_data/` solely for this review.
-2. Query `threads` using exact `cwd`; never match by project name in text.
-3. Read enough session context to derive the work title, subject, last activity,
+2. Query only `id` and `title` using exact `cwd`; never match by project name in text.
+3. Partition rows through the incremental idempotence gate and stop processing managed rows.
+4. Read enough context only for unmanaged sessions to derive the work title, subject, last activity,
    and evidence state.
-4. Group only high-confidence same-subject sessions. Prefer normalized exact
+5. Group only high-confidence same-subject unmanaged sessions. Prefer normalized exact
    matches or clear semantic equivalence; leave ambiguous neighboring topics
    separate. Keep the row with the latest activity timestamp as the canonical
    open session and mark older duplicates `done`.
-5. Mark a non-current session `done` when its latest activity is more than 30
+6. Mark an unmanaged non-current session `done` when its latest activity is more than 30
    days old, unless its context explicitly proves a named blocker or intentional
    continuing work. This is session cleanup, not proof that a linked task is
    complete.
-6. Classify the remaining thread using the status contract. Treat missing proof as
+7. Classify the remaining unmanaged thread using the status contract. Treat missing proof as
    `in_progress`, `todo`, or `blocked`, not as `done`.
-7. Update `threads.title` in SQLite so the Codex UI reflects the result.
-8. If durable follow-up exists and a project tracker exists, update one canonical `task` record in
+8. Derive a semantic work title from the first clear request and conversation evidence; do not copy a generic existing title.
+9. Update only unmanaged `threads.title` rows in SQLite so the Codex UI reflects the result.
+10. If durable follow-up exists and a project tracker exists, update one canonical `task` record in
    `TASKS.md` and add `session_id: <thread id>` (or preserve an existing
    `conversation_id` field). Follow the operational-record format.
-9. Re-read the SQLite source and any existing tracker, then report the mapping, unresolved ambiguity, and
+11. Re-read the SQLite source and any existing tracker, then report the renamed mapping, skipped-managed count, unresolved ambiguity, and
    next action.
 
 ## Decision Gates
@@ -102,6 +151,7 @@ uppercased. Keep the original Codex thread `id` unchanged.
   through the duplicate or 30-day cleanup rules, but that must not mark a
   linked task `done`.
 - The current thread is never auto-closed by duplicate or inactivity cleanup.
+- Already managed semantic titles are immutable during ordinary `sessions` runs, even when their status appears stale or they resemble another managed conversation.
 - Choose the newest same-subject session by the best available activity field
   (`recency_at_ms`, then `updated_at_ms`); preserve all thread ids and content.
 - A conversation without durable project follow-up gets a renamed session but
@@ -142,6 +192,8 @@ method and `TASKS.md` remains the operational record.
   the strict `more than 30 days` cutoff; do not use `30 days or more`.
 - closure is uncertain: keep the session open under `in_progress`, `todo`, or
   `blocked` and name the missing evidence.
+- prune reports candidates but the operator did not request apply: stop after
+  the preview; a dry-run is the successful default outcome.
 
 ## Validation
 

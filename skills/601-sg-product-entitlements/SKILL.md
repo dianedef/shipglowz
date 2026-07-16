@@ -15,7 +15,7 @@ Process role: `lifecycle`.
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`.
 
-If a unique ready spec is attached, append the run row to `Skill Run History` and update `Current Chantier Flow` in that spec before reporting. Use the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
+If a unique ready spec is attached, append the run row to `Skill Run History` and update `Current Chantier Flow` in that spec before reporting. Use the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
 ## Report Modes
 

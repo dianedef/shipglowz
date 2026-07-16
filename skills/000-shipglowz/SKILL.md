@@ -13,7 +13,7 @@ Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/reference
 Trace category: `non-applicable`.
 Process role: `helper`.
 
-`000-shipglowz` does not write to chantier specs, bug files, release scopes, content surfaces, commits, or deployment state. The selected owner skill owns durable state and chantier tracing after handoff. If invoked inside a spec-first flow, do not modify `Skill Run History`; include `Chantier: non applicable` or `Chantier: non trace` only when useful, with the selected route and reason.
+`000-shipglowz` does not write to chantier specs, bug files, release scopes, content surfaces, commits, or deployment state. The selected owner skill owns durable state and chantier tracing after handoff. If invoked inside a spec-first flow, do not modify `Skill Run History`; use a `(local)` chantier header with a short work name.
 
 ## Report Modes
 
@@ -201,9 +201,10 @@ Stop and report `blocked` when:
 For direct answers:
 
 ```text
+🧱 CHANTIER (local) : <short request name>
+🎯 VERDICT (HH:mm) : answered
 Result: [answer]
 Route: direct answer
-Chantier: non applicable
 ```
 
 For handoff:
@@ -221,11 +222,12 @@ Then continue with the selected skill's final-report contract.
 For blocked routing:
 
 ```text
+🧱 CHANTIER (local) : <short request name>
+🎯 VERDICT (HH:mm) : blocked
 Route: blocked
 Reason: [short reason]
 Decision needed:
 1. [numbered routing question]
-Chantier: non applicable
 ```
 
 ## Rules

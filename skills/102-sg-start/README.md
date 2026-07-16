@@ -33,7 +33,7 @@ The skill is designed to preserve the promised user outcome, not just complete a
 - implemented code changes for the scoped task
 - task tracking moved to in-progress
 - focused validation results tied to the user story
-- a concise execution report with files changed, checks run, and documentation impact
+- a concise execution report with the outcome, checks run, and documentation impact
 - or a reroute to `100-sg-spec` and `101-sg-ready` if the contract is not strong enough
 - when needed, an explicit diagnostic pass through `109-sg-auth-debug` before or during the implementation
 - when needed, a route to `108-sg-browser` for non-auth browser proof before or after implementation

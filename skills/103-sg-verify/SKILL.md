@@ -19,7 +19,7 @@ This `SKILL.md` is the activation contract. Load `$SHIPFLOW_ROOT/skills/referenc
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before verifying a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when a unique spec exists. Append a current `103-sg-verify` row with result `verified`, `not verified`, `partial`, or `blocked`, update `Current Chantier Flow`, and end the report with the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec is available, do not write to a spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before verifying a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when a unique spec exists. Append a current `103-sg-verify` row with result `verified`, `not verified`, `partial`, or `blocked`, update `Current Chantier Flow`, and open the report with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec is available, do not write to a spec; use a `(local)` chantier header with a short work name.
 
 Verification semantics:
 
@@ -39,7 +39,7 @@ When reporting any failure state, load `$SHIPFLOW_ROOT/skills/references/actiona
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, findings-first when verification fails, compact chantier block.
+Default to `report=user`: concise, findings-first when verification fails, opening chantier header.
 Use `report=agent` for handoff, blocked runs, or explicit verbose request.
 
 ## Mission

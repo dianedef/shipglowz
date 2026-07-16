@@ -2,7 +2,7 @@
 name: 309-sg-tasks
 description: "Update task trackers and suggest next steps."
 disable-model-invocation: false
-argument-hint: [sessions|name-conversation|optional focus area or task type]
+argument-hint: [sessions|sessions prune|name-conversation|optional focus area or task type]
 ---
 
 ## Canonical Paths
@@ -14,7 +14,7 @@ Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/reference
 Trace category: `conditionnel`.
 Process role: `pilotage`.
 
-Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and include a final `Chantier` block. If no unique chantier is identified, do not write to any spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and open the report with the opening chantier header. If no unique chantier is identified, do not write to any spec; use a `(local)` chantier header with a short work name.
 
 
 ## Context
@@ -71,18 +71,21 @@ Use this sub-flow when the user asks to "tri", "rename", "clean up", or "review"
 - Prefer the current project root's sessions over unrelated repositories.
 - Rename the session with a short explicit title derived from the conversation history or the first clear task sentence.
 - Use the display format `<STATUS> - <work title>` with the status uppercased: `TODO - ...`, `DOING - ...`, `IN_PROGRESS - ...`, `BLOCKED - ...`, or `DONE - ...`.
+- The work title must expose the concrete object, system, or outcome at a glance. Never use generic labels such as `Review work`, `Review ContentGlowz work`, `General task`, or a skill name alone.
+- Treat a title matching `^(TODO|DOING|IN_PROGRESS|BLOCKED|DONE) - .+` as already managed when its work title is not one of the prohibited generic labels. Skip that thread without reading its conversation context, reclassifying it, rewriting it, or touching a linked tracker record.
+- Reprocess an already managed title only when the operator explicitly asks to refresh existing titles or names the thread id.
 - Keep the original `id` unchanged; only change the display title and, when needed, the task tracker entry.
 - If the conversation yields a durable follow-up for the repo, add or update the matching tracker item in the local `TASKS.md` using the existing operational record format.
 
 ### Suggested Workflow
 
 1. Read the current repository `TASKS.md` and `CLAUDE.md` if needed for context.
-2. Inspect `~/.codex/state_5.sqlite` for `threads` rows with the current repo `cwd`.
-3. Use the conversation `preview` or `first_user_message` to infer a compact explicit title.
-4. Rename the thread in SQLite, not just in `session_index.jsonl`, when the UI list is the target.
-5. Set the SQLite title to `<STATUS> - <work title>`, keeping the status uppercase and the work title concise.
-6. If the conversation implies a durable repo task, add it to `TASKS.md` with a clear actionable title.
-7. Report the renamed thread ids, the new titles, and any tracker updates.
+2. Query only `id` and `title` first for rows with the exact repo `cwd`.
+3. Exclude already managed semantic titles before reading previews or first messages.
+4. Read context only for remaining unmanaged threads and infer a compact explicit title.
+5. Rename only those unmanaged threads in SQLite, not just in `session_index.jsonl`.
+6. If an unmanaged conversation implies a durable repo task, add it to `TASKS.md` with a clear actionable title.
+7. Report renamed and skipped-managed counts plus any tracker updates.
 
 ## Sessions Mode
 
@@ -111,27 +114,40 @@ conversation.
 
 1. scope by exact absolute `cwd`; read an existing local tracker, but do not
    create `TASKS.md` or `shipglowz_data/` for a tracker-less directory;
-2. inspect Codex `threads` rows filtered by the exact project `cwd`;
-3. for high-confidence same-subject threads, keep the most recently active
+2. query `id` and `title` for Codex `threads` rows filtered by the exact project `cwd`, then skip already managed semantic titles without reading or writing them;
+3. inspect conversation context only for unmanaged titles;
+4. for high-confidence same-subject unmanaged threads, keep the most recently active
    open and mark older duplicates `done`; never change linked task status;
-4. mark non-current sessions inactive for more than 30 days `done`, unless
+5. mark unmanaged non-current sessions inactive for more than 30 days `done`, unless
    explicit evidence shows they are blocked or intentionally active;
-5. classify the remaining threads with the tracker vocabulary, preserving the
+6. classify the remaining unmanaged threads with the tracker vocabulary, preserving the
    original thread id and deriving a concise work title;
-6. update `threads.title` to `<STATUS> - <work title>` using one exact uppercase status;
-7. create or update a concise tracker task only when the conversation yielded
+7. update only unmanaged `threads.title` rows to `<STATUS> - <work title>` using one exact uppercase status;
+8. create or update a concise tracker task only when an unmanaged conversation yielded
   durable follow-up, recording `session_id` rather than transcript content;
-8. report renamed sessions, tracker links, ambiguous cases, and validation.
+9. report renamed sessions, skipped-managed count, tracker links, ambiguous cases, and validation.
 
 `/309-sg-tasks name-conversation` proposes or applies one title using the same
 status vocabulary. It must not mutate `TASKS.md` unless the conversation also
 produced a durable task.
+
+`/309-sg-tasks sessions prune [cwd]` loads the session playbook and the
+ShipGlowz-owned `tools/prune_codex_sessions.py`. It previews by default and may
+apply only after the operator confirms the exact absolute `cwd`. Prune is
+restricted to canonical `DONE - ...` sessions inactive for strictly more than
+30 days by default, always excludes `CODEX_THREAD_ID`, never runs `VACUUM`, and
+never mutates project trackers. Follow the tool's dry-run/apply contract; do
+not reproduce destructive SQLite or filesystem logic ad hoc in the agent.
 
 ### Pressure scenarios
 
 - `CONVERSATION-STATUS-DRIFT`: a thread title uses `ok`, `cours`, `done`, or
   another non-tracker label; map it to the exact local vocabulary before
   writing.
+- `CONVERSATION-IDEMPOTENT-SKIP`: a thread already has a canonical uppercase
+  status prefix and a non-generic work title; skip it without context reads,
+  status changes, title writes, duplicate cleanup, inactivity cleanup, or
+  tracker mutation unless the operator explicitly targets it for refresh.
 - `CONVERSATION-CWD-COLLISION`: sessions from another repository mention the
   project name; filter by exact `threads.cwd` and leave unrelated rows alone.
 - `CONVERSATION-CLOSURE-OVERCLAIM`: a thread sounds finished but lacks
@@ -145,6 +161,9 @@ produced a durable task.
 - `CONVERSATION-INACTIVE-30D`: close non-current sessions after more than 30
   inactive days unless explicit evidence overrides the rule; task status is
   independent.
+- `CONVERSATION-PRUNE-SAFETY`: pruning starts as a dry-run, uses exact `cwd`,
+  excludes the current thread, requires exact apply confirmation, and deletes
+  neither open-status sessions nor another project's rows or rollout files.
 
 ## Conversation Naming
 
@@ -158,8 +177,9 @@ Use this sub-flow when the user asks for a name for the current conversation, wa
 
 ### Naming Rules
 
-- Derive the title from the actual work discussed in the thread, not from vague filler words.
+- Derive the title from the actual work discussed in the thread, not from vague filler words or the workflow stage alone.
 - Prefer a title that names the project, action, or outcome.
+- The title must answer “what is being changed, verified, researched, or decided?” in a few words.
 - Use `done` when the thread shows the task was completed and no important follow-up remains.
 - Use `in_progress` when work started but implementation or proof remains; use `todo` when it is only identified and `blocked` when a named dependency prevents progress.
 - If the thread is ambiguous, give the safest title plus a caveat rather than inventing certainty.

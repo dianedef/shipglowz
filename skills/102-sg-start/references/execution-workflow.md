@@ -349,7 +349,9 @@ Local auto-verify is not closure, ship, or full lifecycle orchestration. It must
 
 ### Step 8 — Report
 
-Output one concise execution report:
+For `report=agent` only, output the detailed execution report below. In
+`report=user`, follow the shared reporting contract and omit file names, paths,
+counts, agent groups, and other handoff-only detail.
 
 ```text
 ## Started and Implemented: [task name]
@@ -427,7 +429,7 @@ Reste a faire:
 Prochaine etape:
 - [/103-sg-verify [task] | /005-sg-ship [task] puis /405-sg-prod si le mode impose une preview Vercel]
 
-Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [implemented | partial | blocked | rerouted]`; do not append a verdict after this body.
+Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : [implemented | partial | blocked | rerouted]`; do not append a verdict after this body.
 ```
 
 ### Rules

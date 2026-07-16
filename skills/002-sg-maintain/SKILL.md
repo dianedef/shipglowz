@@ -15,7 +15,7 @@ Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/reference
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before executing, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`. Search for a matching active `specs/*.md` chantier. If exactly one chantier owns the maintenance scope, append the current `002-sg-maintain` run to `Skill Run History`, update `Current Chantier Flow`, and include the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
+Before executing, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`. Search for a matching active `specs/*.md` chantier. If exactly one chantier owns the maintenance scope, append the current `002-sg-maintain` run to `Skill Run History`, update `Current Chantier Flow`, and include the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
 If no matching chantier exists and the maintenance work is non-trivial, run or route through `100-sg-spec` and `101-sg-ready` before implementation. If the work is a narrow local fix safe without a full spec, write a short maintenance mini-contract in the final report and continue in delegated sequential mode. If multiple specs plausibly match, ask the user to select one.
 
@@ -23,7 +23,7 @@ If no matching chantier exists and the maintenance work is non-trivial, run or r
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, lifecycle-result first, and using the compact chantier block. Use `report=agent`, `handoff`, `verbose`, or `full-report` for detailed evidence matrices or downstream handoff.
+Default to `report=user`: concise, lifecycle-result first, and using the opening chantier header. Use `report=agent`, `handoff`, `verbose`, or `full-report` for detailed evidence matrices or downstream handoff.
 
 ## Master Delegation
 
@@ -281,6 +281,8 @@ Stop and report `blocked` when:
 User-mode report:
 
 ```text
+🧱 CHANTIER (<local|spec>) : <name>
+🎯 VERDICT (HH:mm) : <status>
 ## Maintenance: <project>
 
 Result: <completed | verified | shipped | ship-ready | needs attention | blocked>
@@ -291,7 +293,6 @@ Ship: <004-sg-deploy | 005-sg-ship | no-ship | blocked with reason>
 
 Security posture: <clear | partial | needs review | blocked> - <reason>
 Proof gaps: <short list or none>
-Chantier: <compact chantier block>
 ```
 
 Agent mode may add:

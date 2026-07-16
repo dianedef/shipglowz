@@ -19,7 +19,7 @@ This `SKILL.md` is the activation contract. Before editing or expanding this ski
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before creating or updating a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`. `100-sg-spec` must initialize the chantier registry entry inside the spec itself: frontmatter includes `created_at`, `updated_at`, and `source_model`; the body includes `Skill Run History` and `Current Chantier Flow`; and the first history row records the current `100-sg-spec` run. End the report with the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no chantier spec is created or updated, report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before creating or updating a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`. `100-sg-spec` must initialize the chantier registry entry inside the spec itself: frontmatter includes `created_at`, `updated_at`, and `source_model`; the body includes `Skill Run History` and `Current Chantier Flow`; and the first history row records the current `100-sg-spec` run. Open the report with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no chantier spec is created or updated, use a `(local)` chantier header with a short work name.
 
 If the user input or a source skill provides a `Chantier potentiel` block, treat it as primary intake context. Preserve its proposed title, reason, severity, scope, evidence, recommended spec, and next step in the new or updated spec instead of flattening it into a vague task description.
 
@@ -27,7 +27,7 @@ If the user input or a source skill provides a `Chantier potentiel` block, treat
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, spec-path first, next-step oriented, and using the compact chantier block. Use `report=agent`, blocked, handoff, verbose, or full report only when detailed evidence is needed.
+Default to `report=user`: concise, spec-path first, next-step oriented, and using the opening chantier header. Use `report=agent`, blocked, handoff, verbose, or full report only when detailed evidence is needed.
 
 ## Mission
 
@@ -54,7 +54,7 @@ Parse `$ARGUMENTS` and the latest user request, then choose the smallest safe pa
 - Blueprint intake (handoff includes `blueprint: [id]` or a blueprint path in context): load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`, then load the specified blueprint and pre-fill the spec's Architecture, Stack, Models, and Routes sections before entering the normal workflow. The blueprint is the app skeleton; the spec builds on it with project-specific decisions.
 - New non-trivial work or a `Chantier potentiel` intake: load `references/spec-creation-workflow.md` and create or update a durable spec.
 - If the user says they want to start a new change but the durable work item does not yet exist, route into spec creation immediately instead of staging a parallel OpenSpec-style scaffold first.
-- Small/local work where a spec would add no useful contract: report `Chantier: non applicable` and route directly to the owner skill.
+- Small/local work where a spec would add no useful contract: use a `(local)` chantier header and route directly to the owner skill.
 - Missing actor, trigger, observable result, scope boundary, security/data policy, or operator-owned business/product framing that changes behavior: ask the smallest targeted question before writing the spec.
 
 ## Core Execution Rules

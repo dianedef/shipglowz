@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.6.0"
+artifact_version: "1.9.0"
 project: ShipGlowz
 created: "2026-05-03"
-updated: "2026-07-15"
+updated: "2026-07-16"
 status: active
 source_skill: 001-sg-build
 scope: skill-reporting-contract
@@ -34,6 +34,11 @@ evidence:
   - "User decision 2026-06-10: routine subagent orchestration should not be narrated to the user; results matter more than process."
   - "User decision 2026-07-15: the timestamped verdict is the opening line; the response and any decision options follow, with no trailing verdict footer."
   - "User decision 2026-07-15: use a small semantic emoji vocabulary for verdicts, routes, and decisions so reports scan quickly without visual noise."
+  - "User decision 2026-07-16: default skill reports must omit modified-file sections, file names, paths, and counts."
+  - "User decision 2026-07-16: every skill report opens with a one-line local/spec chantier name immediately before the timestamped verdict; user reports no longer end with a chantier block."
+  - "User decision 2026-07-16: the visible verdict marker contains Paris time only (`HH:mm`), without the calendar date."
+  - "User decision 2026-07-16: successful validation evidence should be compacted into one emoji-labelled line with middle-dot separators."
+  - "User decision 2026-07-16: use 🧱 for a normal chantier, reserve 🚧 for a blocked run, and use 📂, 🔨, and 📌 only for scope, active work, and priority or decision context."
 next_review: "2026-06-04"
 next_step: "/103-sg-verify shipflow-skill-reporting-and-proof-hardening"
 ---
@@ -80,10 +85,11 @@ contract labels may stay in English when translation would weaken traceability.
 
 Default user-mode reports must fit this shape unless the skill has a stricter local format:
 
-1. `🎯 VERDICT (YYYY-MM-DD HH:mm) : <status>` as the first visible line
-2. outcome and proof summary or check summary
-3. limits only when they affect trust, risk, or next action
-4. one real next step or one numbered decision question only when the user must act
+1. `🧱 CHANTIER (<local|spec>) : <name>` as the first visible line
+2. `🎯 VERDICT (HH:mm) : <status>` immediately below it
+3. outcome and proof summary or check summary
+4. limits only when they affect trust, risk, or next action
+5. one real next step or one numbered decision question only when the user must act
 
 ## Active Work Continuation Rule
 
@@ -144,17 +150,49 @@ When routing is relevant to the operator, add one concise line directly below th
 
 Do not include full checklists, validation matrices, phase ledgers, file inventories, raw command output, or lifecycle internals in successful user-mode reports. Keep that detail in the durable artifact or use `report=agent`.
 
+Do not include a modified-files section in `report=user`. Omit modified file
+names, paths, or counts even when the list would be short. Summarize the
+product, documentation, or technical surface changed only when that context
+helps the operator understand the outcome. Detailed file evidence belongs in
+the durable artifact or in an explicitly requested `report=agent` handoff.
+
 Do not report routine subagent orchestration in user mode. Mention it only when availability, degraded execution, model override status, cost/risk, or topology changes trust or the user's next decision.
 
 When a task is complete, prefer the end state over the story of how it was completed. One short sentence about what changed is usually enough.
 
 Use a small semantic emoji vocabulary when it improves scanning, not as
-decoration. Use at most one emoji per labelled line and do not add emoji to
-ordinary prose. Good defaults are `🎯` for the verdict, `🧭` for route/owner,
-`✅` for passed or recommended, `⚠️` for limits/risk, `🚀` for pushed/shipped,
-and `📝` for docs/bookkeeping. For decision options, place one meaningful emoji
-after the option number (for example `1. ✅ ...`, `2. 🛍️ ...`, `3. 🚚 ...`).
+decoration. Use at most one emoji per labelled line, except for the compact
+validation line defined below, and do not add emoji to ordinary prose.
+
+The chantier and work-context vocabulary is fixed:
+
+- `🧱` for the normal chantier header
+- `🚧` only when the run is blocked
+- `📂` for a dossier or scope
+- `🔨` for active implementation or repair
+- `📌` for a priority, decision, or next action
+
+Do not use `🏗️`, `🛠️`, or `⚙️` as chantier markers. Other stable status markers
+remain available: `🎯` for the verdict, `🧭` for route/owner, `✅` for passed or
+recommended, `⚠️` for limits/risk, `🚀` for pushed/shipped, `📝` for
+docs/bookkeeping, `🧾` for metadata, and `🔄` for synchronization. For decision
+options, place one meaningful emoji after the option number when it helps.
 Keep agent/handoff reports mostly plain except for material status markers.
+
+### Compact Validation Line
+
+When several successful checks support the verdict, combine them into one
+short line with middle-dot separators:
+
+```text
+✅ Tests 18/18 · 🧾 Métadonnées OK · 🔄 Sync 236/236
+```
+
+Include only segments backed by the current run. Prefer `<passed>/<run>` or
+`<ok>/<checked>` when totals are known; otherwise use a short `OK`. Keep labels
+in the operator's active language, prevent wrapping when practical, and omit
+the final period. Do not turn warnings, failures, skipped checks, or material
+proof gaps into a success segment; report those separately with `⚠️`.
 
 For ship reports, organize user-mode text as:
 
@@ -184,7 +222,7 @@ Only include sections that change the user's next decision:
 - bug/security/risk gate when non-empty or relevant
 - documentation/public-content gap when relevant
 - next step only when it is real
-- chantier block only when a chantier is in scope or explicitly non-traced
+- detailed chantier state only in `report=agent` when it affects the handoff
 
 Translate internal gate names into their user consequence when possible. Prefer
 `⚠️ Limites: pas de shipglowz_data/workflow/BUGS.md, donc risque bug non evalue` over a bare
@@ -211,23 +249,38 @@ Agent mode must still avoid dumping raw secrets, cookies, tokens, private logs, 
 
 Agent mode is the correct place for detailed readiness checklists, validation matrices, file lists, evidence tables, route rationale, and handoff notes. Master skills that need such detail from downstream skills must request `report=agent`; downstream skills must not guess that detail is wanted.
 
-## Compact Chantier Block
+## Chantier Header
 
-Use this block in user mode:
+Every user-mode report starts with exactly one chantier line:
 
 ```text
-## Chantier
-
-specs/example.md
-
-Flux: 100-sg-spec ✅ -> 101-sg-ready ✅ -> 102-sg-start ✅ -> 103-sg-verify ✅ -> 104-sg-end ✅ -> 005-sg-ship ✅🎯
-Reste a faire: <only if non-empty>
-Prochaine etape: <only if non-empty>
+🧱 CHANTIER (local) : <short work name>
 ```
 
-Use `non applicable: <reason>` or `non trace: <reason>` in place of the spec path when no spec is written.
+Use `(spec)` instead of `(local)` when exactly one chantier spec owns the run:
 
-Use fuller chantier metadata only in `report=agent`, when blocked, or when another agent needs the trace state.
+```text
+🧱 CHANTIER (spec) : <spec title>
+```
+
+When the verdict is genuinely blocked, replace only the chantier marker:
+
+```text
+🚧 CHANTIER (<local|spec>) : <name>
+🎯 VERDICT (HH:mm) : bloqué
+```
+
+Do not use `🚧` for partial progress, routine warnings, work in progress, or a
+chantier that merely remains open.
+
+For `(spec)`, use the human-readable spec title; fall back to the filename stem
+only when no title is available. For `(local)`, derive a short stable name from
+the current operator goal or bounded task. Do not expose `non trace`, `non
+applicable`, a spec path, lifecycle flow, or trace metadata in the user-mode
+header. Do not repeat chantier information in a trailing user-mode block.
+
+Fuller chantier metadata remains available in `report=agent` when another
+agent needs trace state.
 
 ## Audit Reports
 
@@ -269,13 +322,20 @@ Use these scenarios when changing reporting behavior or reviewing a skill report
 - `SSRP-003 human blocked safety`: a safety or security gate blocks work. The user report names the gate, summarizes redacted evidence, gives the safest next action, and does not expose secrets or bulk logs.
 - `SSRP-004 agent handoff`: another skill needs detailed evidence. The caller passes `report=agent`, and the report may include checklists, matrices, files, commands, and lifecycle internals.
 - `SSRP-005 proof limit`: a completion claim lacks full proof. The user report stays short but names the missing proof or explicit exception before claiming completion.
+- `SSRP-008 no modified-file inventory`: a skill changes one or more files and succeeds in `report=user`. The report summarizes the outcome and proof without a modified-files heading, file names, paths, or counts; an explicitly requested `report=agent` may retain that evidence for a technical handoff.
+- `SSRP-009 chantier opening`: a local task and a spec-owned task each produce a user report. The local report opens with `🧱 CHANTIER (local) : <short work name>` and the spec-owned report opens with `🧱 CHANTIER (spec) : <spec title>`; both place the verdict immediately below and omit any trailing chantier block.
+- `SSRP-010 compact validation line`: tests, metadata lint, and runtime synchronization all pass. The user report emits `✅ Tests 18/18 · 🧾 Métadonnées OK · 🔄 Sync 236/236` on one line, omits unavailable segments, and reports any warning or failure separately instead of disguising it as success.
+- `SSRP-011 chantier emoji semantics`: a normal run opens with `🧱 CHANTIER`; a genuinely blocked run opens with `🚧 CHANTIER`; `📂`, `🔨`, and `📌` appear only for dossier/scope, active implementation/repair, and priority/decision/next-action context respectively.
 
 ## Verdict Header
 
-Start every final report with:
+Start every final report with the chantier line followed by the verdict:
 
 ```text
-🎯 VERDICT (YYYY-MM-DD HH:mm) : <verdict or status>
+🧱 CHANTIER (<local|spec>) : <name>
+🎯 VERDICT (HH:mm) : <verdict or status>
 ```
+
+For a blocked verdict, use `🚧 CHANTIER` instead of `🧱 CHANTIER`.
 
 Follow the exact placement and exception rules in `$SHIPFLOW_ROOT/skills/references/final-report-timestamp.md`. Do not add a closing verdict or timestamp. If the report asks a numbered question, its final visible text is the options and the reply instruction.

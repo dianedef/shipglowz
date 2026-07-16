@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.5.1"
+artifact_version: "0.7.0"
 project: ShipGlowz
 created: "2026-04-27"
-updated: "2026-07-15"
+updated: "2026-07-16"
 status: draft
 source_skill: 102-sg-start
 scope: chantier-tracking
@@ -39,6 +39,9 @@ evidence:
   - "006-sg-design added as an obligatoire lifecycle master skill."
   - "003-sg-bug clarified as bug lifecycle execution through owner skills and bounded subagents."
   - "900-shipglowz-core consolidated as the lifecycle core audit and packaging owner."
+  - "User decision 2026-07-16: replace the trailing user-mode chantier block with a local/spec chantier name header before the verdict."
+  - "User decision 2026-07-16: the verdict header displays Paris time only, without the date."
+  - "User decision 2026-07-16: normal chantier headers use 🧱 and 🚧 is reserved for genuinely blocked runs."
 next_review: "2026-05-27"
 next_step: "/103-sg-verify Specs as chantier registry"
 ---
@@ -53,9 +56,9 @@ Chantier tracking has two separate axes. Do not collapse them into one label.
 
 Trace category answers: may this skill write a run trace into an existing chantier spec?
 
-- `obligatoire`: lifecycle spec-first skills. When a unique chantier spec is identified, read the spec, append or update `Skill Run History`, update `Current Chantier Flow`, and end the user report with the compact `Chantier` block from `skills/references/reporting-contract.md`.
-- `conditionnel`: cross-cutting skills. Trace only when the run is attached to one unique chantier spec. If no unique spec is available, do not write to any spec and report `Chantier: non applicable` or `Chantier: non trace` with the reason. Final output still follows `skills/references/reporting-contract.md`.
-- `non-applicable`: helper/session/discovery skills. Do not write to specs. If invoked inside a chantier flow, mention that chantier tracking is non-applicable or not traced and point to the lifecycle next step when useful. Non-applicable for spec trace does not forbid non-spec durable artifacts when a skill contract allows them (for example `700-sg-explore` and `exploration_report`).
+- `obligatoire`: lifecycle spec-first skills. When a unique chantier spec is identified, read the spec, append or update `Skill Run History`, update `Current Chantier Flow`, and open the user report with the `(spec)` chantier header from `skills/references/reporting-contract.md`.
+- `conditionnel`: cross-cutting skills. Trace only when the run is attached to one unique chantier spec. If no unique spec is available, do not write to any spec and use a `(local)` chantier header. Final output still follows `skills/references/reporting-contract.md`.
+- `non-applicable`: helper/session/discovery skills. Do not write to specs and use a `(local)` chantier header for the current goal. Non-applicable for spec trace does not forbid non-spec durable artifacts when a skill contract allows them (for example `700-sg-explore` and `exploration_report`).
 
 Process role answers: can this skill originate, support, steer, or merely inspect a chantier?
 
@@ -87,7 +90,7 @@ Never open a chantier for every micro-finding, never attach to an ambiguous spec
 
 ## Chantier Potentiel Block
 
-Source skills should add this block after their findings and before or near the regular `Chantier` block:
+Source skills should add this block after their findings when its decision detail is useful:
 
 ```text
 ## Chantier potentiel
@@ -103,7 +106,7 @@ Spec recommandee: /100-sg-spec <title and compact context>
 Prochaine etape: <next ShipGlowz command or explicit none>
 ```
 
-This block coexists with the compact `Chantier` block. If the source skill is already attached to one unique chantier and the findings remain inside that chantier, use `Chantier potentiel: non` and point back to the current lifecycle next step.
+The report still opens with the shared chantier header. If the source skill is already attached to one unique chantier and the findings remain inside that chantier, use `Chantier potentiel: non` and point back to the current lifecycle next step.
 
 ## Role Matrix
 
@@ -134,26 +137,36 @@ This block coexists with the compact `Chantier` block. If the source skill is al
 - Use the best available model label. If the runtime does not expose it, use `unknown` or the operator-provided name.
 - Never invent past runs. Only record the current run or facts already present in the spec/report.
 
-## Final Report Block
+## Final Report Header
 
-Load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md` before producing final output. That contract also loads the shared final-report timestamp brick. Use the compact block in `report=user` and the fuller metadata block only in `report=agent`, blocked runs, or handoffs that need trace state.
+Load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md` before producing final output. That contract also loads the shared final-report timestamp brick. Use the two-line opening in `report=user`; add fuller metadata only in `report=agent`, blocked runs, or handoffs that need trace state.
 
-Compact user-mode block:
+Local user-mode opening:
 
 ```text
-## Chantier
-
-<spec path | non applicable: reason | non trace: reason>
-
-Flux: 100-sg-spec <marker> -> 101-sg-ready <marker> -> 102-sg-start <marker> -> 103-sg-verify <marker> -> 104-sg-end <marker> -> 005-sg-ship <marker>
-Reste a faire: <only if non-empty>
-Prochaine etape: <only if non-empty>
+🧱 CHANTIER (local) : <short work name>
+🎯 VERDICT (HH:mm) : <verdict>
 ```
 
-Detailed agent-mode block:
+Spec-owned user-mode opening:
 
 ```text
-## Chantier
+🧱 CHANTIER (spec) : <spec title>
+🎯 VERDICT (HH:mm) : <verdict>
+```
+
+If the run is genuinely blocked, use `🚧 CHANTIER` in place of `🧱 CHANTIER`.
+An open, partial, or in-progress chantier keeps `🧱` unless the verdict itself
+is blocked.
+
+Use the spec title rather than its path. If no unique spec owns the run, use
+`local` and name the current bounded goal; do not surface internal `non trace`
+or `non applicable` states in `report=user`.
+
+Detailed agent-mode metadata may follow the report body when needed:
+
+```text
+## Chantier metadata
 
 Skill courante: <skill>
 Chantier: <spec path | non applicable | non trace>
@@ -171,8 +184,4 @@ Reste a faire:
 
 Prochaine etape:
 - <command or explicit none>
-
-🎯 VERDICT (YYYY-MM-DD HH:mm) : <verdict>
-
-<Detailed agent-mode report body>
 ```

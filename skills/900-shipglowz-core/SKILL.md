@@ -16,7 +16,7 @@ Follow the shared `ShipGlowz-Owned Tool Preflight` doctrine from `$SHIPFLOW_ROOT
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-For a unique spec-first chantier, append the current `900-shipglowz-core` run, update `Current Chantier Flow`, and report the compact chantier block. If no unique chantier is in scope, do not write a spec; report `Chantier: non trace` and route non-trivial build work to `100-sg-spec`.
+For a unique spec-first chantier, append the current `900-shipglowz-core` run, update `Current Chantier Flow`, and use the opening chantier header. If no unique chantier is in scope, do not write a spec; use a `(local)` chantier header and route non-trivial build work to `100-sg-spec`.
 
 ## Report Modes
 

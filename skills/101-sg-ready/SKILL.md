@@ -19,7 +19,7 @@ This `SKILL.md` is the activation contract. Keep the readiness gate here; detail
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before evaluating a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when present. When a unique spec is evaluated, append a current `101-sg-ready` row with result `ready`, `not ready`, or `blocked`, add `Skill Run History` if missing without removing contract sections, update `Current Chantier Flow`, and end the report with the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec can be identified, do not write a trace; report `Chantier: non trace` and route to `/100-sg-spec` or explicit spec selection.
+Before evaluating a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when present. When a unique spec is evaluated, append a current `101-sg-ready` row with result `ready`, `not ready`, or `blocked`, add `Skill Run History` if missing without removing contract sections, update `Current Chantier Flow`, and open the report with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec can be identified, do not write a trace; use a `(local)` chantier header and route to `/100-sg-spec` or explicit spec selection.
 
 If this run creates or mutates a `spec:` operational summary line, first load `$SHIPFLOW_ROOT/skills/references/operational-record-format.md`. Pure readiness review of existing spec content is reader-only for that contract.
 
@@ -27,7 +27,7 @@ If this run creates or mutates a `spec:` operational summary line, first load `$
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, readiness verdict first, blockers only when they require user action, and using the compact chantier block. Do not show the full checklist to a human by default. The detailed checklist report below is for `report=agent`, blocked runs, explicit handoff, or explicit verbose/full-report requests.
+Default to `report=user`: concise, readiness verdict first, blockers only when they require user action, and using the opening chantier header. Do not show the full checklist to a human by default. The detailed checklist report below is for `report=agent`, blocked runs, explicit handoff, or explicit verbose/full-report requests.
 
 ## Mission
 

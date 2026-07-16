@@ -41,6 +41,7 @@ It is designed for operational clarity, not note-taking. The goal is to keep `TA
 /309-sg-tasks onboarding
 /309-sg-tasks tests
 /309-sg-tasks sessions /home/claude/temuglowz
+/309-sg-tasks sessions prune /home/claude/temuglowz
 /309-sg-tasks name-conversation
 ```
 
@@ -68,4 +69,13 @@ exact absolute `cwd`; the mode does not scaffold governance just to rename
 sessions. For one subject, only the most recently active session remains open;
 older high-confidence duplicates are marked `done`. Non-current sessions with
 more than 30 days of inactivity are also marked `done`, without closing any
-linked project task.
+linked project task. These cleanup rules apply only to unmanaged titles. A
+semantic title already shaped as `STATUS - work title` is skipped without
+context inspection or mutation unless the operator explicitly requests a
+refresh.
+
+`sessions prune` previews old completed sessions for one exact project and
+reclaims their rollout files only after explicit apply confirmation. It skips
+the active thread, open statuses, unsafe or missing rollout paths, and every
+other project. The default threshold is strictly more than 30 inactive days;
+the default invocation is always non-mutating.

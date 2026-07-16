@@ -17,7 +17,7 @@ This `SKILL.md` is the activation contract. Before editing or expanding this ski
 Trace category: `non-applicable`.
 Process role: `helper`.
 
-This skill does not write to chantier specs. If invoked inside a spec-first flow, do not modify `Skill Run History`; include `Chantier: non applicable` or `Chantier: non trace` only when useful.
+This skill does not write to chantier specs. If invoked inside a spec-first flow, do not modify `Skill Run History`; use a `(local)` chantier header with a short work name.
 
 ## Report Modes
 

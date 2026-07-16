@@ -19,7 +19,7 @@ This `SKILL.md` is the activation contract. Before editing or expanding this ski
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before executing from a ready spec, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, read the spec's `Skill Run History` and `Current Chantier Flow`, and preserve that flow in the execution contract. When a unique spec is used, append a current `102-sg-start` row with result `implemented`, `partial`, `blocked`, or `rerouted`, update `Current Chantier Flow`, and end the report with the compact `Chantier` block from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If the task is direct or no unique chantier spec is identified, do not write to a spec; report `Chantier: non applicable` or `Chantier: non trace` with the reason.
+Before executing from a ready spec, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, read the spec's `Skill Run History` and `Current Chantier Flow`, and preserve that flow in the execution contract. When a unique spec is used, append a current `102-sg-start` row with result `implemented`, `partial`, `blocked`, or `rerouted`, update `Current Chantier Flow`, and open the report with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If the task is direct or no unique chantier spec is identified, do not write to a spec; use a `(local)` chantier header with a short work name.
 
 Result semantics:
 - Use `implemented` when the planned code, docs, and tests within `102-sg-start` scope were completed, even if runtime, manual, hosted, production, Sentry, or device-only verification remains pending.
@@ -39,7 +39,7 @@ Any temporary build output, cache, or scratch preview created during implementat
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, outcome-first, and using the compact chantier block. Use `report=agent`, blocked, handoff, verbose, or full report only when detailed evidence is needed.
+Default to `report=user`: concise, outcome-first, and using the opening chantier header. Use `report=agent`, blocked, handoff, verbose, or full report only when detailed evidence is needed.
 
 ## Required References
 

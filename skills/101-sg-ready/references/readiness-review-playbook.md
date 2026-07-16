@@ -258,7 +258,7 @@ Spec: [path]
 Flux: 100-sg-spec [marker] -> 101-sg-ready [marker] -> 102-sg-start [marker] -> 103-sg-verify [marker] -> 104-sg-end [marker] -> 005-sg-ship [marker]
 [Prochaine etape: only if real]
 
-🎯 VERDICT (YYYY-MM-DD HH:mm) : [ready | not ready | blocked]
+🎯 VERDICT (HH:mm) : [ready | not ready | blocked]
 
 <Response body, including any required decision options>
 ```
@@ -326,7 +326,7 @@ Reste a faire:
 Prochaine etape:
 - [/102-sg-start title | /100-sg-spec title | explicit action]
 
-Open the user-facing report with `🎯 VERDICT (YYYY-MM-DD HH:mm) : [ready | not ready | blocked]`; do not append a verdict after this body.
+Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : [ready | not ready | blocked]`; do not append a verdict after this body.
 ```
 
 ## Reviewer Rules
