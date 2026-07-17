@@ -4,6 +4,16 @@ Chronological log of skill refreshes via `/900-shipglowz-core refresh <skill>`. 
 
 ---
 
+## 2026-07-17 — 205-sg-veille
+
+**Added:** compact two-mode dispatcher, focused triage and persistence/reporting playbooks, plus deterministic scenario-first contract proof.
+
+**Updated:** bare URL/text defaults to `triage`; explicit-decision, redaction, target re-read/minimal patch, four-axis, marketplace/feedback, and neighboring-owner boundaries are now lazily loaded without changing the public skill identity.
+
+**New phases:** none.
+
+**Sources:** 0 URLs consulted; fresh-docs not needed for this local skill-contract migration.
+
 ## 2026-07-17 — 008-sg-customer
 
 **Added:** exact `audit`, `flow`, `onboarding`, and `recovery` dispatcher modes with bounded local playbooks and deterministic CA 1–12 contract proof.

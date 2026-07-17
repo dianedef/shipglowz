@@ -14,13 +14,13 @@ when_to_use:
   - "When you have links or pasted content to review"
   - "When market or product signals need structured triage"
   - "When a source may affect the product inventory, public claims, or sales surfaces"
-  - "When you want to turn reading into backlog or research actions"
+  - "When you want to turn reading into a bounded decision or a clear owner handoff"
 what_you_give:
   - "One or more URLs or pasted source material"
   - "The current project or business context"
 what_you_get:
   - "A relevance-oriented summary"
-  - "Suggested next actions for each source"
+  - "Source-specific options and an explicit decision before any durable follow-up"
   - "Project-local governance context checks before scoring"
   - "sg-content repurpose handoffs or surface-missing findings for public-content ideas"
   - "Explicit callouts when a source touches declared products or proof-backed claims"
@@ -30,7 +30,7 @@ example_prompts:
   - "/sg-veille these five competitor pages"
   - "/sg-veille pasted notes from founder forum"
 limits:
-  - "It helps triage incoming information; it does not replace deeper market or product research"
+  - "It helps triage incoming information; it does not replace deeper market or product research, content production, documentation work, or tracker maintenance"
   - "The quality of the outcome depends on the relevance of the inputs you feed it"
   - "It should not invent blog, newsletter, or social surfaces that are not declared in the project's content map"
 related_skills:
