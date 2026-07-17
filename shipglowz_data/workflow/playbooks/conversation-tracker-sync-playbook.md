@@ -1,7 +1,7 @@
 ---
 artifact: playbook
 metadata_schema_version: "1.0"
-artifact_version: "1.3.0"
+artifact_version: "1.4.0"
 project: ShipGlowz
 created: "2026-07-15"
 updated: "2026-07-16"
@@ -27,6 +27,7 @@ evidence:
   - "Operator decision on 2026-07-16: tracker-less cwd scopes remain valid, older same-subject sessions close, and sessions inactive for more than 30 days close without changing linked task completion."
   - "Operator decision on 2026-07-16: project session cleanup uses a dry-run-first prune that excludes the active thread and open work."
   - "Operator decision on 2026-07-16: sessions rename <status> renames only the current Codex conversation using STATUS - semantic title."
+  - "Operator correction on 2026-07-16: session names summarize the latest conversation objective or its outcome in at most five words and never truncate message text."
 next_review: "2026-08-15"
 next_step: "/309-sg-tasks sessions <project>"
 ---
@@ -74,17 +75,28 @@ Use the exact tracker vocabulary in both the thread title and any linked task:
 | `done` | implementation and required proof are complete |
 
 Use a short title shaped as `<STATUS> - <work title>`, with the tracker status
-uppercased. Keep the original Codex thread `id` unchanged.
+uppercased. The work title contains at most five words; the status prefix does
+not count. Keep the original Codex thread `id` unchanged.
 
 The work title is the navigation label, not a workflow label: it must expose
 the concrete object, system, or outcome at the heart of the conversation.
 Reject generic labels such as `Review work`, `Review ContentGlowz work`,
 `General task`, or a skill name alone.
 
+Derive the work title from the complete available conversation chronology.
+Always summarize the latest user objective or its achieved outcome; earlier
+objectives may only disambiguate it. A SQLite preview, the first message, or an
+existing title may locate the conversation but is not sufficient naming
+evidence. Never form a title through prefix slicing, first-N-word extraction,
+stop-word filtering, or character truncation. If the conversation cannot be
+read far enough to identify its latest objective confidently, leave the title
+unchanged and report it as ambiguous.
+
 ## Incremental Idempotence Gate
 
 A title matching `^(TODO|DOING|IN_PROGRESS|BLOCKED|DONE) - .+` is already
-managed when its work title is not a prohibited generic label. On ordinary
+managed when its work title is not a prohibited generic label and contains at
+most five words. On ordinary
 `sessions` runs, skip it completely: do not read its preview or first message,
 reclassify its status, rewrite its title, apply duplicate or inactivity rules,
 or mutate a tracker record linked to it.
@@ -128,7 +140,8 @@ preflight `$SHIPFLOW_ROOT/tools/rename_codex_session.py`, then pass the status
 and unprefixed work title to the helper. The explicit command authorizes this
 single rename, so no second confirmation is needed.
 
-The helper accepts only the status contract vocabulary, resolves the current
+The helper accepts only the status contract vocabulary and work titles of at
+most five words, resolves the current
 conversation from `CODEX_THREAD_ID`, requires its stored cwd to equal the exact
 absolute current cwd, writes only `threads.title`, and verifies the persisted
 value. It rejects generic or already-prefixed work titles. Do not inspect or
@@ -140,6 +153,7 @@ Pressure scenarios:
 - `SESSION-RENAME-CWD-ISOLATION`: a cwd mismatch fails without mutation.
 - `SESSION-RENAME-STATUS-GATE`: unsupported statuses fail before mutation.
 - `SESSION-RENAME-SEMANTIC-GATE`: empty, generic, control-character, or already-prefixed work titles fail.
+- `SESSION-RENAME-FIVE-WORD-GATE`: a six-word work title fails without mutation.
 - `SESSION-RENAME-IDEMPOTENT`: repeating the same title is a successful no-op.
 
 ## Execution Order
@@ -149,8 +163,10 @@ Pressure scenarios:
    and do not create `TASKS.md` or `shipglowz_data/` solely for this review.
 2. Query only `id` and `title` using exact `cwd`; never match by project name in text.
 3. Partition rows through the incremental idempotence gate and stop processing managed rows.
-4. Read enough context only for unmanaged sessions to derive the work title, subject, last activity,
-   and evidence state.
+4. Read the complete available chronology only for unmanaged sessions, through
+   the latest objective and outcome, to derive the work title, subject, last
+   activity, and evidence state. Do not substitute SQLite preview fields for
+   the conversation.
 5. Group only high-confidence same-subject unmanaged sessions. Prefer normalized exact
    matches or clear semantic equivalence; leave ambiguous neighboring topics
    separate. Keep the row with the latest activity timestamp as the canonical
@@ -161,7 +177,10 @@ Pressure scenarios:
    complete.
 7. Classify the remaining unmanaged thread using the status contract. Treat missing proof as
    `in_progress`, `todo`, or `blocked`, not as `done`.
-8. Derive a semantic work title from the first clear request and conversation evidence; do not copy a generic existing title.
+8. Derive an original semantic work title of at most five words from the latest
+   objective or its achieved outcome. Do not copy or mechanically shorten
+   message text. Leave the title unchanged and report ambiguity when the
+   available chronology is insufficient.
 9. Update only unmanaged `threads.title` rows in SQLite so the Codex UI reflects the result.
 10. If durable follow-up exists and a project tracker exists, update one canonical `task` record in
    `TASKS.md` and add `session_id: <thread id>` (or preserve an existing

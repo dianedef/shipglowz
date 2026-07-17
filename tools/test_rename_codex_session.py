@@ -12,6 +12,7 @@ from unittest import mock
 
 from tools import rename_codex_session as rename
 
+ROOT = Path(__file__).resolve().parents[1]
 
 class SessionRenameTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -136,6 +137,20 @@ class SessionRenameTests(unittest.TestCase):
         )
         self.assertEqual(report["title"], "IN_PROGRESS - Codex session rename mode")
 
+    def test_work_title_rejects_more_than_five_words_without_mutation(self) -> None:
+        before = self.titles()
+        with self.assertRaises(rename.RenameError) as caught:
+            rename.rename_session(
+                db_path=self.db_path,
+                cwd=self.project,
+                current_thread_id=self.current_id,
+                status="done",
+                work_title="Copy the opening conversation sentence fragment",
+            )
+        self.assertEqual(caught.exception.code, "work_title_too_long")
+        self.assertEqual(caught.exception.details, {"word_count": 6, "max_words": 5})
+        self.assertEqual(self.titles(), before)
+
     def test_missing_thread_fails_without_mutation(self) -> None:
         before = self.titles()
         with self.assertRaises(rename.RenameError) as caught:
@@ -201,6 +216,22 @@ class SessionRenameTests(unittest.TestCase):
         self.assertEqual(result, 2)
         self.assertEqual(payload["error"], "current_thread_conflict")
         self.assertEqual(self.titles()[self.current_id], "Old current title")
+
+
+class SessionNamingContractTests(unittest.TestCase):
+    def test_contract_requires_latest_objective_and_forbids_truncation(self) -> None:
+        skill = (ROOT / "skills" / "309-sg-tasks" / "SKILL.md").read_text(encoding="utf-8")
+        playbook = (
+            ROOT
+            / "shipglowz_data"
+            / "workflow"
+            / "playbooks"
+            / "conversation-tracker-sync-playbook.md"
+        ).read_text(encoding="utf-8")
+        for text in (skill, playbook):
+            self.assertIn("latest objective", text)
+            self.assertIn("at most five words", text)
+            self.assertIn("first-N-word extraction", text)
 
 
 if __name__ == "__main__":

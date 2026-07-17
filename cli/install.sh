@@ -1599,7 +1599,7 @@ configure_aliases() {
     [ -f "$bashrc" ] || touch "$bashrc"
     sed -i '/^# >>> ShipGlowz AI aliases >>>$/,/^# <<< ShipGlowz AI aliases <<<$/{d}' "$bashrc"
     sed -i '/^# >>> ShipFlow AI aliases >>>$/,/^# <<< ShipFlow AI aliases <<<$/{d}' "$bashrc"
-    sed -i '/^alias \(shipglowz\|shipflow\|sg\|sf\|s\|c\|co\|cask\|coask\|ch\|re\|reload\)=/d' "$bashrc"
+    sed -i '/^alias \(shipglowz\|shipflow\|sg\|sf\|s\|c\|co\|cask\|coask\|ch\|re\|reload\|update-codex\)=/d' "$bashrc"
     cat >> "$bashrc" << ALIASES
 
 # >>> ShipGlowz AI aliases >>>
@@ -1610,6 +1610,18 @@ alias sf='$SHIPGLOWZ_INSTALL_ROOT/cli/shipglowz.sh'
 alias s='$SHIPGLOWZ_INSTALL_ROOT/cli/shipglowz.sh'
 alias c='$c_alias'
 alias co='codex'
+function update-codex {
+    local latest installed
+    latest="\$(pnpm view @openai/codex@latest version)" || return 1
+    pnpm add -g "@openai/codex@\$latest" || return 1
+    hash -r
+    installed="\$(codex --version | awk '{print \$2}')"
+    if [ "\$installed" != "\$latest" ]; then
+        printf 'Codex update mismatch: installed=%s latest=%s\n' "\$installed" "\$latest" >&2
+        return 1
+    fi
+    printf 'codex-cli %s\n' "\$installed"
+}
 alias cask='claude --permission-mode default'
 alias coask='$coask_alias'
 alias ch='clear; tmux clear-history'

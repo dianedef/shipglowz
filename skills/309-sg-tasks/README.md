@@ -78,7 +78,9 @@ refresh.
 `sessions rename <status>` renames only the current Codex conversation. The
 status must be `todo`, `doing`, `in_progress`, `blocked`, or `done`; the skill
 derives the concrete work title from the visible conversation and persists
-`STATUS - work title`. It does not inspect other sessions or update `TASKS.md`.
+`STATUS - work title`. The work title summarizes the latest objective or its
+outcome in at most five words and never truncates message text. It does not
+inspect other sessions or update `TASKS.md`.
 
 `sessions prune` previews old completed sessions for one exact project and
 reclaims their rollout files only after explicit apply confirmation. It skips

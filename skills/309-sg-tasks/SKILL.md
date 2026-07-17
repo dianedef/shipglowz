@@ -84,15 +84,15 @@ conversation.
 
 1. scope by exact absolute `cwd`; read an existing local tracker, but do not
    create `TASKS.md` or `shipglowz_data/` for a tracker-less directory;
-2. query `id` and `title` for Codex `threads` rows filtered by the exact project `cwd`, then skip already managed semantic titles without reading or writing them;
-3. inspect conversation context only for unmanaged titles;
+2. query `id` and `title` for Codex `threads` rows filtered by the exact project `cwd`, then skip only managed titles whose work title is semantic and contains at most five words;
+3. inspect the complete available conversation for every unmanaged title, from the first request through the latest objective and outcome; a preview or first-message field alone is insufficient;
 4. for high-confidence same-subject unmanaged threads, keep the most recently active
    open and mark older duplicates `done`; never change linked task status;
 5. mark unmanaged non-current sessions inactive for more than 30 days `done`, unless
    explicit evidence shows they are blocked or intentionally active;
 6. classify the remaining unmanaged threads with the tracker vocabulary, preserving the
-   original thread id and deriving a concise work title;
-7. update only unmanaged `threads.title` rows to `<STATUS> - <work title>` using one exact uppercase status;
+   original thread id and deriving a semantic work title of at most five words;
+7. update only unmanaged `threads.title` rows to `<STATUS> - <work title>` using one exact uppercase status; never build the work title by truncating, taking the first words, or removing stop words from a message;
 8. create or update a concise tracker task only when an unmanaged conversation yielded
   durable follow-up, recording `session_id` rather than transcript content;
 9. report renamed sessions, skipped-managed count, tracker links, ambiguous cases, and validation.
@@ -105,7 +105,8 @@ produced a durable task.
 the visible conversation, then invokes the ShipGlowz-owned
 `tools/rename_codex_session.py` with that title. Accept only `todo`, `doing`,
 `in_progress`, `blocked`, or `done`; target only `CODEX_THREAD_ID` in the exact
-current `cwd`; persist `<STATUS> - <work title>`; and never inspect other
+current `cwd`; persist `<STATUS> - <work title>` with at most five work-title
+words; and never inspect other
 threads or mutate `TASKS.md`. The explicit command authorizes this one rename;
 do not ask for a second confirmation.
 
@@ -145,42 +146,19 @@ not reproduce destructive SQLite or filesystem logic ad hoc in the agent.
 - `CONVERSATION-RENAME-CURRENT-ONLY`: an explicit `sessions rename <status>`
   changes only `CODEX_THREAD_ID` in the exact current cwd, rejects generic work
   titles, and leaves project trackers and every other thread untouched.
+- `CONVERSATION-TITLE-TRUNCATION`: a first request or preview begins with a
+  long sentence; read through the latest objective and outcome, then write an
+  original semantic summary of at most five words. Never use prefix slicing,
+  first-N-word extraction, stop-word filtering, or character truncation.
 
 ## Conversation Naming
 
-Use this sub-flow when the user asks for a name for the current conversation, wants a title that is more explicit, or wants a tracker-compatible status based on the visible thread state.
-
-### Goal
-
-- Propose one or more clear conversation titles from the current thread context.
-- Include one exact uppercase status prefix recommendation: `TODO`, `DOING`, `IN_PROGRESS`, `BLOCKED`, or `DONE`.
-- Keep the title short enough to fit naturally in the Codex session list.
-
-### Naming Rules
-
-- Derive the title from the actual work discussed in the thread, not from vague filler words or the workflow stage alone.
-- Prefer a title that names the project, action, or outcome.
-- The title must answer “what is being changed, verified, researched, or decided?” in a few words.
-- Use `done` when the thread shows the task was completed and no important follow-up remains.
-- Use `in_progress` when work started but implementation or proof remains; use `todo` when it is only identified and `blocked` when a named dependency prevents progress.
-- If the thread is ambiguous, give the safest title plus a caveat rather than inventing certainty.
-
-### Output Shape
-
-Return:
-
-- `Suggested title: ...`
-- `Status: todo | doing | in_progress | blocked | done`
-- `Why: ...`
-- `Optional alternates: ...` when the thread supports more than one strong title
-
-### Suggested Workflow
-
-1. Read the current conversation context.
-2. Extract the main action, object, and outcome.
-3. Produce one strong title and, if useful, one alternate.
-4. Prefix the suggested title with the exact uppercase tracker status when the status is clear.
-5. If the user wants a rename, use the same analysis to update the Codex session title.
+For `name-conversation` and all rename flows, load the session playbook. Read
+the complete available conversation through its latest objective and outcome,
+then propose `<STATUS> - <work title>` with at most five work-title words.
+Earlier objectives may only disambiguate the latest one. Never generate the
+title by copying or shortening message text. Report `Suggested title`, tracker
+`Status`, and a one-line `Why`; add an alternate only when ambiguity is real.
 
 ## Tracker synchronization rules
 

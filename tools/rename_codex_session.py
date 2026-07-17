@@ -30,6 +30,7 @@ GENERIC_TITLES = frozenset(
     }
 )
 REQUIRED_COLUMNS = frozenset({"id", "cwd", "title"})
+MAX_WORK_TITLE_WORDS = 5
 
 
 class RenameError(RuntimeError):
@@ -59,8 +60,13 @@ def normalize_work_title(value: str) -> str:
         raise RenameError("invalid_work_title", "Pass the semantic work title without a status prefix")
     if title.casefold() in GENERIC_TITLES:
         raise RenameError("generic_work_title", "Work title must identify the concrete work")
-    if len(title) > 120:
-        raise RenameError("invalid_work_title", "Work title must be 120 characters or fewer")
+    word_count = len(title.split())
+    if word_count > MAX_WORK_TITLE_WORDS:
+        raise RenameError(
+            "work_title_too_long",
+            f"Work title must contain at most {MAX_WORK_TITLE_WORDS} words",
+            details={"word_count": word_count, "max_words": MAX_WORK_TITLE_WORDS},
+        )
     return title
 
 
