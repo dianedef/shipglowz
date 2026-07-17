@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.6.0"
+artifact_version: "1.7.0"
 project: ShipGlowz
 created: "2026-05-05"
 updated: "2026-07-17"
@@ -15,6 +15,7 @@ security_impact: none
 docs_impact: yes
 linked_systems:
   - skills/*/SKILL.md
+  - skills/references/preferred-stacks.md
   - skills/references/master-workflow-lifecycle.md
   - skills/references/decision-quality-contract.md
   - skills/references/entrypoint-routing.md
@@ -35,6 +36,7 @@ evidence:
   - "User decision 2026-06-28: the operator is not here to code, but is happy to answer precise business-critical questions that the repository cannot answer."
   - "User decision 2026-07-15: a greenfield product stack must be chosen with the operator at the product-consequence level instead of being silently fixed by the agent."
   - "Operator correction 2026-07-17: greenfield platform scope must be established before stack options; ShipGlowz must not silently exclude mobile applications and thereby omit Flutter from the decision."
+  - "Operator correction 2026-07-17: ShipGlowz must apply the established Astro-site and Flutter-app preference before proposing a broad greenfield stack comparison."
 next_review: "2026-06-05"
 next_step: "/104-sg-end greenfield platform footprint question contract"
 ---
@@ -112,13 +114,20 @@ web technology even when Flutter owns the mobile applications.
 
 ## Greenfield Technology Decision Rule
 
-For a new product with no established stack and no previously accepted
-blueprint, the overall technology direction is not a routine implementation
-detail. Before freezing the spec, the agent must research the professional
-options, recommend one direction in plain language, explain the consequences
-that the operator owns (ongoing cost, hosting and data control, payment or
-service providers, maintenance burden, portability, and material lock-in), and
-ask one bundled numbered decision.
+After the platform footprint is known, load
+`skills/references/preferred-stacks.md`. An operator-approved preset counts as
+an established direction for the surfaces it covers and must be applied before
+blueprint matching or a broad technology comparison. Do not repeatedly ask the
+operator to approve Astro for a public/SEO site, Flutter for application
+surfaces, or Vercel for compatible web outputs when the preset applies.
+
+For a new product with material technology choices that remain uncovered by an
+accepted preset or blueprint, the remaining direction is not a routine
+implementation detail. Before freezing it, the agent must research the
+professional options, recommend one direction in plain language, explain the
+consequences that the operator owns (ongoing cost, hosting and data control,
+payment or service providers, maintenance burden, portability, and material
+lock-in), and ask one bundled numbered decision.
 
 Do not turn this into a questionnaire about packages, folder structure, state
 libraries, or other low-level mechanics the agent should choose. The operator
@@ -220,3 +229,4 @@ Name the condition that would make another option better when that matters.
 - `SSRP-007 operator-owned business truth`: when the missing fact is business, audience, product, or framing context that the operator uniquely knows and the repository cannot prove, the skill asks one precise numbered question and continues after the answer instead of calling the task blocked.
 - `SSRP-008 greenfield stack partnership`: given the operator asks to create a new product with no accepted stack, when the framework, hosting, data, or provider direction affects ongoing cost, control, maintenance, portability, or lock-in, then the agent presents one recommended product-level stack direction with practical alternatives and obtains a numbered decision before the spec freezes it.
 - `SSRP-009 greenfield platform footprint`: given the operator asks for a new Internet product and does not explicitly accept or reject native apps, when platform scope would change the credible framework options, then the agent establishes web/iOS/Android/desktop intent before blueprint matching or stack recommendation and does not silently place mobile apps in `Scope Out`.
+- `SSRP-010 preferred stack preset`: given the established footprint includes a public SEO site plus web/iOS/Android application surfaces, when no project constraint contradicts the defaults, then the agent applies Astro plus Flutter with Vercel web hosting before blueprint matching and asks only about uncovered material providers or justified exceptions.

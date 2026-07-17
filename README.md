@@ -182,17 +182,28 @@ https://shipglowz.com
 
 It is the public explanation, docs, pricing hypothesis, FAQ, and skill-discovery surface. The GitHub repository remains the source of truth for the full ShipGlowz skill and reference corpus.
 
-### Server CLI install
+### Local or server install
 
 ```bash
-# Install without manually cloning the repository
-curl -fsSL https://shipglowz.com/install | sudo sh
+# Detect Termux/root automatically, otherwise ask local or full
+curl -fsSL https://www.winflowz.com/shipglowz-script | sh
 ```
 
-Manual equivalent:
+The repository is private, so GitHub access must already be configured for the
+current account. Termux selects `local` without `sudo`; an existing root shell
+selects `full`. In a non-interactive environment, put the mode on the consuming
+shell:
+
+```bash
+curl -fsSL https://www.winflowz.com/shipglowz-script | SHIPGLOWZ_INSTALL_MODE=local sh
+curl -fsSL https://www.winflowz.com/shipglowz-script | sudo env SHIPGLOWZ_INSTALL_MODE=full sh
+```
+
+Manual equivalents:
 
 ```bash
 cd ~/shipglowz
+./local/install.sh
 sudo ./cli/install.sh
 ```
 
@@ -226,7 +237,10 @@ The bootstrap target defaults to `${SHIPGLOWZ_ROOT:-$HOME/.shipglowz/source}`. T
 
 ### Install Privilege Model
 
-ShipGlowz's installer is intentionally a root-level installer. It must be run with `sudo ./cli/install.sh` because it manages machine-wide dependencies and service configuration:
+ShipGlowz's complete server installer is intentionally root-level. The public
+bootstrap itself starts without `sudo` so it can route Termux and workstations
+to the user-local installer. Full mode delegates to `sudo ./cli/install.sh`
+because it manages machine-wide dependencies and service configuration:
 
 - system packages and tools such as Node.js, PM2, Flox, Caddy, GitHub CLI, `jq`, `fuser`, and `ss`
 - global CLI binaries under `/usr/local`

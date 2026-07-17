@@ -16,6 +16,10 @@ Last reviewed: 2026-04-26
 
 ## Default Stack Assumption
 
+The canonical cross-workflow source is
+`$SHIPFLOW_ROOT/skills/references/preferred-stacks.md`. This auth-specific
+reference applies its SDK consequences; it does not own stack selection.
+
 - Apps: Flutter.
 - Sites: Astro.
 - Backend/data: Convex.

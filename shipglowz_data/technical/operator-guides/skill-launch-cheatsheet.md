@@ -1,7 +1,7 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "1.8.2"
+artifact_version: "1.9.0"
 project: ShipGlowz
 created: "2026-05-04"
 updated: "2026-07-17"
@@ -44,6 +44,7 @@ evidence:
   - "Public/docs handoff clarity updated: numeric examples now match three-digit runtime names, and runtime invocation notes distinguish manual user commands from OpenCode/KiloCode internal calls."
   - "Added direct links to repo-visible OpenCode and KiloCode runtime pages."
   - "2026-07-17 atomic routing update: deterministic micro-edits execute directly before owner-skill routing."
+  - "2026-07-17 sg-verify update: mode=excellence or an unambiguous natural-language request adds a distinct critical focus after standard métier verification."
 next_step: "/300-sg-docs audit shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md"
 ---
 
@@ -199,6 +200,7 @@ Content scoring examples:
 | Manual QA or retest evidence | `107-sg-test` | Target a guided scenario, checklist-first manual proof, test log, retest, or bug file update. |
 | Deployment truth | `405-sg-prod` | Target deployment URL, build logs, runtime logs, preview/prod health, or live readiness. |
 | Technical checks | `105-sg-check` | Target typecheck, lint, build, tests, dependency checks, or shell validation. |
+| Readiness or excellence verification | `103-sg-verify [mode=standard|mode=excellence] [scope]` | Standard mode vérifie le métier et la ship-readiness. `mode=excellence` ou une demande naturelle non ambiguë d’excellence ajoute une seconde focale critique et retourne `verified_with_excellence_gaps` ou `excellent`; il ne remplace pas un audit spécialiste. |
 | Documentation work | `300-sg-docs [mode or target]` | `readme`, `api`, `components`, `audit`, `update`, `metadata`, `technical`, `editorial`, or a file path. |
 | Git/GitHub hygiene | `310-sg-github-hygiene [mode]` | `audit`, `branches`, `dependabot`, `fix`, plus current-repo or workspace scope. |
 | Audit lane | `400-sg-audit*` | Choose the audit owner: code, design, copy, SEO, GTM, deps, perf, a11y, translation, components, or design tokens. |
@@ -234,6 +236,7 @@ Model routing note: `704-sg-model` recommends the right model for the current sc
 | `602-sg-platform-parity` | project, feature, or spec path; `platforms=web,android,ios,windows,macos,linux`; `report=agent` |
 | `006-sg-design` | `system`; `playground [route]`; `audit ui|tokens|components|a11y [scope]`; library/redesign/migration; detailed report modes |
 | `005-sg-ship` | no special argument; `skip-check`; `end la tache`; `end`; `fin`; `close task`; `all-dirty`; `ship-all`; `tout-dirty` |
+| `103-sg-verify` | no mode/`mode=standard` for métier correctness, proof, risk, and ship-readiness; `mode=excellence` or an unambiguous natural-language excellence request for a fresh second focus beyond acceptance criteria; verdicts `verified`, `verified_with_excellence_gaps`, or `excellent`, while proof/risk failures keep precedence |
 | `407-sg-audit-translate` | no special argument; file path or scope; `global`; `sync`; `apply`; `sync [path]`; `apply [path]` |
 | `309-sg-tasks` | `sessions <project-or-cwd>`; `sessions rename <status>`; `sessions prune <project-or-cwd>`; `name-conversation` | Rename unmanaged titles or only the current thread, preserve forks, and preview safe project-scoped pruning; prune apply requires exact confirmation. |
 

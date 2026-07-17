@@ -8,6 +8,8 @@
 
 It complements technical checks with product, documentation, and security-minded validation.
 
+Standard mode answers whether the work is correct, proven, and ready against its métier contract. Explicit `mode=excellence`, or an unambiguous natural-language request for an excellence pass, keeps those gates then adds a fresh critical focus on material missed opportunities, incoherence, duplication, avoidable user or operator friction, durability, and choices that are correct but merely adequate.
+
 It also respects the project development mode: when Vercel preview-push validation is required, `103-sg-verify` must not call work ready to ship until the needed `005-sg-ship` -> `405-sg-prod` preview evidence exists.
 
 ## Who It's For
@@ -24,6 +26,7 @@ It also respects the project development mode: when Vercel preview-push validati
 - when auth, payments, data, docs, or dependencies may be involved
 - when protected routes or browser auth flows need real evidence before you call the work done
 - when non-auth page behavior needs browser evidence before you claim the user-visible outcome is proven
+- when standard verification already passed but you want to challenge what remains materially average
 
 ## What You Give It
 
@@ -41,6 +44,9 @@ It also respects the project development mode: when Vercel preview-push validati
 - a push toward `108-sg-browser` when non-auth browser-observable behavior was not proven
 - a push toward `109-sg-auth-debug` when auth behavior was not proven in a real browser
 - a clear warning when local evidence is not enough for a Vercel-preview validation surface
+- `verified` for a passing standard run, without an excellence claim
+- `verified_with_excellence_gaps` when readiness passes but a material excellence gap needs bounded follow-up
+- `excellent` only after an evidenced excellence pass finds no material gap
 
 ## Typical Examples
 
@@ -48,11 +54,12 @@ It also respects the project development mode: when Vercel preview-push validati
 /103-sg-verify
 /103-sg-verify invite flow
 /103-sg-verify billing webhook retry handling
+/103-sg-verify mode=excellence current verified work
 ```
 
 ## Limits
 
-`103-sg-verify` is not a full audit and it is not purely technical. It can correct stable code in some cases, but its main job is to judge evidence honestly. If the contract is weak or validation is missing, the result should stay uncertain rather than pretending the work is safe.
+`103-sg-verify` is not a full audit and it is not purely technical. Excellence mode does not replace specialist audits for design, copy, security, performance, or architecture. It can correct stable bounded issues in some cases, but missing proof or blocking risk keeps `partial`, `not verified`, or `blocked` precedence over any excellence verdict.
 
 ## Related Skills
 

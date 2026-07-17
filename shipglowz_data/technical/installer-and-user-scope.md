@@ -1,10 +1,10 @@
 ---
 artifact: technical_module_context
 metadata_schema_version: "1.0"
-artifact_version: "1.0.6"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-05-01"
-updated: "2026-06-30"
+updated: "2026-07-17"
 status: reviewed
 source_skill: sg-start
 scope: installer-and-user-scope
@@ -33,6 +33,7 @@ evidence:
   - "Remote Agents menu includes Turso guidance while local menu owns the SSH tunnel flow."
   - "Short remote ShipGlowz bootstrap added for clone-free install."
   - "Installer now supports per-agent user-space selection for Claude, Codex, OpenCode, and KiloCode, plus separate runtime/TUI choices."
+  - "Unified bootstrap modes route Android Termux to local/install.sh without sudo and retain root-only full server installation."
 next_review: "2026-06-01"
 next_step: "/sg-docs technical audit installer"
 ---
@@ -51,13 +52,17 @@ This doc covers `cli/install.sh` and the root/user boundary for ShipGlowz setup.
 | `tools/shipglowz_sync_skills.sh` | Shared Claude/Codex skill symlink sync helper | Reuse instead of duplicating skill-link repair logic |
 | `README.md` | Operator install contract | Update when commands, privilege, or installed tooling changes |
 | `local/install.sh`, `local/install_local.ps1` | Workstation-side setup | Keep separate from root server install assumptions |
+| `install-shipglowz.sh` | Canonical remote bootstrap and local/full mode selector | Resolve mode before privilege checks; preserve user home and repository ownership |
+| `tools/sync_shipglowz_public_bootstrap.sh` | WinGlowz public artifact parity | Keep the generated public shell asset byte-for-byte identical to the canonical bootstrap |
 | `.env.example` | Example configuration | Keep secrets as placeholders only |
 
 ## Entrypoints
 
-- `curl -fsSL https://shipflowzsite.vercel.app/shipflow-script | sudo sh`: short remote bootstrap. It clones or updates `~/shipflow` for the invoking sudo user, stashes local dirty repo changes before updating, then delegates to `~/shipflow/cli/install.sh`.
-- `install-shipglowz.sh`: raw bootstrap script used by the short remote endpoint.
+- `curl -fsSL https://www.winflowz.com/shipglowz-script | sh`: short remote bootstrap. Termux selects local mode, root selects full mode, and other interactive shells ask via `/dev/tty`.
+- `install-shipglowz.sh`: canonical bootstrap. `SHIPGLOWZ_INSTALL_MODE=local|full` provides deterministic non-interactive selection when applied to the consuming `sh` process.
+- `tools/sync_shipglowz_public_bootstrap.sh --check --winglowz-root <path>`: verifies that WinGlowz serves the generated canonical artifact rather than an independently maintained template.
 - `sudo ./cli/install.sh`: server installer.
+- `./local/install.sh`: local tunnel and remote-login installer, including Android Termux.
 - `configure_command_wrappers`: installs global `shipflow`, `sf`, and helper command symlinks such as `shipflow-turso-login` and `shipflow-turso-ssh`.
 - `setup_user`: per-user configuration for eligible users.
 - `resolve_install_components`: interactive or env-driven selector for user-space agents (`claude`, `codex`, `opencode`, `kilocode`), ShipGlowz runtime config, and TUI.
@@ -70,11 +75,14 @@ This doc covers `cli/install.sh` and the root/user boundary for ShipGlowz setup.
 ## Control Flow
 
 ```text
-curl -fsSL https://shipflowzsite.vercel.app/shipflow-script | sudo sh
-  -> install git/curl/bash bootstrap dependencies when missing
-  -> clone or update ShipGlowz under the invoking user's home
-  -> stash local dirty repo changes before update
-  -> exec sudo/root cli/install.sh
+curl -fsSL https://www.winflowz.com/shipglowz-script | sh
+  -> resolve SHIPGLOWZ_INSTALL_MODE, Termux, root, or /dev/tty choice
+  -> reject ambiguous non-interactive and unsupported Termux/full combinations
+  -> install bootstrap dependencies with pkg (Termux) or apt (full server)
+  -> clone or update private ShipGlowz under the selected user's home
+  -> stash local dirty repository changes before update
+  -> local: exec user-local local/install.sh
+  -> full: exec root cli/install.sh
 
 sudo ./cli/install.sh
   -> verify root scope
@@ -90,7 +98,11 @@ sudo ./cli/install.sh
 ## Invariants
 
 - Server install is root-level and should fail clearly without root.
-- The remote bootstrap must preserve the root boundary: it may prepare the repository, but the real system setup still runs through `cli/install.sh` as root.
+- The remote bootstrap must resolve the mode before enforcing privileges. `local` never requires `sudo`; `full` preserves the root boundary and runs through `cli/install.sh` as root.
+- Android Termux always selects or accepts only `local`, even if `sudo` or `tsu` happens to be installed.
+- Prompts read `/dev/tty`, never the script pipeline's standard input. Ambiguous non-interactive runs fail with explicit mode commands.
+- The private repository requires pre-existing authorized GitHub access. Errors must not recommend putting a token in the remote URL or log credentials.
+- WinGlowz's generated public bootstrap must remain byte-for-byte identical to `install-shipglowz.sh`; drift is a validation failure.
 - Daily work should run under an operational user, not by forcing all state into root.
 - The installer installs the PM2 binary but must not configure PM2 boot
   autostart by default; environments should start explicitly under the
@@ -140,7 +152,10 @@ sudo ./cli/install.sh
 ## Validation
 
 ```bash
+sh -n install-shipglowz.sh
 bash -n cli/install.sh local/install.sh local/turso-login.sh local/turso-ssh.sh
+bash tests/install/bootstrap-mode-selection.sh
+tools/sync_shipglowz_public_bootstrap.sh --check --winglowz-root /home/claude/winglowz
 bash -n tools/shipglowz_sync_skills.sh tests/skills/runtime-sync.sh
 bash tests/skills/runtime-sync.sh
 tools/shipglowz_sync_skills.sh --check --all

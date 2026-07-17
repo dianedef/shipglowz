@@ -4,6 +4,60 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 
 ---
 
+## 2026-07-17 — 101-sg-ready
+
+**Added:**
+- [readiness] Proof that compatible operator-approved preferred stack presets were applied before accepting a blueprint or provider direction.
+
+**Updated:**
+- [stop condition] Ignoring, replacing, or re-asking an applicable preset without a project conflict now fails readiness.
+
+**New phases:** none
+
+**Sources:** 3 URLs consulted (official Astro architecture and Vercel deployment docs, official Flutter web embedding docs)
+
+## 2026-07-17 — 100-sg-spec
+
+**Added:**
+- [greenfield] Canonical preferred-stack resolution after platform footprint and before blueprint or technology comparison.
+
+**Updated:**
+- [question scope] Only uncovered providers and justified exceptions remain operator decisions when a preset applies.
+
+**New phases:** none
+
+**Sources:** 3 URLs consulted (official Astro architecture and Vercel deployment docs, official Flutter web embedding docs)
+
+## 2026-07-17 — 001-sg-build
+
+**Added:**
+- [lifecycle] Preferred stack preset gate between platform footprint and blueprint matching.
+
+**Updated:**
+- [greenfield] Astro for public/SEO surfaces and Flutter for web/iOS/Android application surfaces are reused without repeated approval when compatible.
+
+**New phases:**
+- Preferred stack preset resolution.
+
+**Sources:** 3 URLs consulted (official Astro architecture and Vercel deployment docs, official Flutter web embedding docs)
+
+## 2026-07-17 — 103-sg-verify
+
+**Added:**
+- [mode] Explicit excellence focus after standard métier and ship-readiness verification.
+- [verdicts] `verified_with_excellence_gaps` and `excellent` with proof/risk precedence and preserved verification history.
+- [proof] Six pressure scenarios plus focused contract tests for mode selection, materiality, reopening, and proportionality.
+
+**Updated:**
+- [activation] Exact `mode=excellence` and an unambiguous natural-language excellence request select the second focus; standard remains the default.
+- [layering] Detailed excellence questions, materiality rules, repair boundaries, and owner routes stay in the local verification-gates reference.
+- [documentation] Skill README, operator cheatsheet, and public skill page expose the focus without presenting it as a specialist audit.
+
+**New phases:**
+- Fresh excellence focus after the standard gates pass.
+
+**Sources:** 0 URLs consulted (operator decision and local skill-contract review; fresh-docs not needed)
+
 ## 2026-07-17 — 007-sg-content
 
 **Added:** none

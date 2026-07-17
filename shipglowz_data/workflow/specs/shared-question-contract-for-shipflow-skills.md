@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: ShipGlowz
 created: "2026-05-05"
 created_at: "2026-05-05 17:07:53 UTC"
 updated: "2026-07-17"
-updated_at: "2026-07-17 08:48:04 UTC"
+updated_at: "2026-07-17 13:39:53 UTC"
 status: ready
 source_skill: sg-skill-build
 source_model: "GPT-5 Codex"
@@ -19,6 +19,7 @@ security_impact: yes
 docs_impact: yes
 linked_systems:
   - skills/references/question-contract.md
+  - skills/references/preferred-stacks.md
   - skills/references/master-workflow-lifecycle.md
   - skills/references/entrypoint-routing.md
   - skills/sg-build/SKILL.md
@@ -42,7 +43,8 @@ evidence:
   - "User decision 2026-05-04: questions should be numbered, explain why, include helpful icons when useful, and name the recommended answer."
   - "User decision 2026-05-04: a skill may proceed by default only when the default is compatible with project context and current best practices."
   - "Operator correction 2026-07-17: platform footprint must be established before greenfield blueprint and stack decisions; an initially omitted mobile surface must not be silently excluded."
-next_step: "/104-sg-end greenfield platform footprint question contract"
+  - "Operator correction 2026-07-17: the established Astro-site and Flutter-app defaults must be resolved before blueprint matching or a broad technology comparison."
+next_step: "/104-sg-end preferred stack preset contract"
 ---
 
 # Spec: Shared Question Contract For ShipGlowz Skills
@@ -128,6 +130,10 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
   - Files: shared question and blueprint doctrine plus build/spec/readiness owner contracts.
   - Validate with: focused `SSRP-009` scans, metadata lint, skill audits, budget audit, and runtime sync checks.
 
+- [x] Task 6: Apply operator-approved preferred stack presets before blueprint matching.
+  - Files: `skills/references/preferred-stacks.md`, shared question/blueprint/lifecycle doctrine, and build/spec/readiness owner contracts.
+  - Validate with: focused `PSP-003` and `SSRP-010` scans, metadata lint, core tests, skill audit, budget audit, runtime sync, and project-spec coherence checks.
+
 ## Skill Run History
 
 | Date UTC | Skill | Model | Action | Result | Next step |
@@ -137,6 +143,8 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 | 2026-05-05 17:14:48 UTC | sg-ship | GPT-5 Codex | Quick ship requested for `shared question contract`; staged the bounded question-contract scope after checks, then committed and pushed it. | shipped | none |
 | 2026-07-17 08:46:16 UTC | 900-shipglowz-core | GPT-5 Codex | Extended the shared greenfield decision contract after the Best Fried Chicken scope failure: platform footprint now precedes blueprint/stack selection, and Flutter must be considered when iOS/Android are required. | implemented | /103-sg-verify greenfield platform footprint question contract |
 | 2026-07-17 08:48:04 UTC | 103-sg-verify | GPT-5 Codex | Verified the `SSRP-009` ordering and failure scenario across build, blueprint, spec, and readiness owners; official Flutter docs, metadata lint, core tests, skill audit, budget audit, runtime sync, and diff checks passed. | verified | /104-sg-end greenfield platform footprint question contract |
+| 2026-07-17 13:38:03 UTC | 900-shipglowz-core | GPT-5 Codex | Promoted the existing Astro-site and Flutter-app convention into a canonical preferred-stack preset resolved before blueprints, then aligned the Best Fried Chicken architecture and narrowed its open technology decision to the shared backend. | implemented | /103-sg-verify preferred stack preset contract |
+| 2026-07-17 13:39:53 UTC | 103-sg-verify | GPT-5 Codex | Verified `PSP-003` and `SSRP-010` across lifecycle, build, blueprint, spec, and readiness contracts; metadata, core tests, skill audit, budget, runtime sync, project-doc coherence, and diff checks passed. | verified | /104-sg-end preferred stack preset contract |
 
 ## Current Chantier Flow
 
@@ -147,4 +155,6 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 - `sg-verify`: verified; metadata lint, skill budget, runtime sync, targeted wording checks, bug gate review, AGENTS alias check, diff whitespace, and Astro build passed.
 - `sg-ship`: shipped; quick mode commit + push.
 - `900-shipglowz-core`: implemented follow-up correction for greenfield platform-footprint decisions.
+- `900-shipglowz-core preferred stack follow-up`: implemented; canonical Astro/Flutter/Vercel presets now resolve before blueprint matching and the active product spec is aligned.
 - `103-sg-verify`: verified; `SSRP-009`, metadata, core tests, audit, budget, runtime sync, and focused ordering/coherence scans pass.
+- `103-sg-verify preferred stack follow-up`: verified; `PSP-003`, `SSRP-010`, metadata, core tests, audits, runtime sync, project coherence, and diff checks pass.

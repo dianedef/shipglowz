@@ -1,10 +1,10 @@
 ---
 artifact: skill_reference
 metadata_schema_version: "1.0"
-artifact_version: "1.3.0"
+artifact_version: "1.4.0"
 project: "shipflow"
 created: "2026-06-10"
-updated: "2026-06-28"
+updated: "2026-07-17"
 status: active
 source_skill: 001-sg-build
 scope: "build-lifecycle-workflow"
@@ -17,6 +17,7 @@ linked_systems:
   - "skills/001-sg-build/SKILL.md"
   - "skills/references/master-workflow-lifecycle.md"
   - "skills/references/master-delegation-semantics.md"
+  - "skills/references/preferred-stacks.md"
   - "skills/references/app-blueprints.md"
 depends_on:
   - artifact: "skills/references/skill-instruction-layering.md"
@@ -26,6 +27,7 @@ supersedes: []
 evidence:
   - "Extracted from 001-sg-build/SKILL.md during residual body-risk cleanup."
   - "Clarified that 102-sg-start local auto-verify is not full 001-sg-build lifecycle orchestration."
+  - "Operator correction 2026-07-17: resolve the canonical preferred stack after platform footprint and before blueprint matching."
 next_step: "none"
 ---
 
@@ -78,17 +80,18 @@ If the best-practice answer is clear, low-risk, reversible, inside contract, com
 After work item resolution, before spec creation:
 
 1. Apply the Greenfield Platform Footprint Rule from `$SHIPFLOW_ROOT/skills/references/question-contract.md`; distinguish browser, PWA, iOS/Android, desktop, launch phase, and roadmap targets when they change architecture.
-2. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` for the full contract.
-3. Extract keywords from the user request: normalize to lowercase, remove stopwords, keep nouns.
-4. **Read the registry** at `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`. Parse `available_blueprints` for match candidates.
-5. Score each candidate first by required-platform compatibility, then by keyword overlap against `match_keywords`, `name`, and `description`.
-6. For matched candidates, **resolve the blueprint file**:
+2. Load `$SHIPFLOW_ROOT/skills/references/preferred-stacks.md` and apply compatible operator-approved presets before proposing technology alternatives.
+3. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` for the full contract.
+4. Extract keywords from the user request: normalize to lowercase, remove stopwords, keep nouns.
+5. **Read the registry** at `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`. Parse `available_blueprints` for match candidates.
+6. Score each candidate first by required-platform compatibility, then by keyword overlap against `match_keywords`, `name`, and `description`.
+7. For matched candidates, **resolve the blueprint file**:
    a. Check `$SHIPFLOW_ROOT/skills/app-blueprints/<id>/blueprint.md` (local cache).
    b. If missing but `source.repo` is set in the registry, clone the repo: `git clone --depth 1 <repo> $SHIPFLOW_ROOT/skills/app-blueprints/<id>/`. Use `$HOME/.shipflow/blueprints/<id>/` as fallback if `$SHIPFLOW_ROOT` is unavailable.
    c. If both fail, exclude this candidate.
-7. If no local match is found in the registry, fall back to scanning `$SHIPFLOW_ROOT/skills/app-blueprints/*/blueprint.md` for orphaned local blueprints not yet in the registry.
-8. Pick the best exact archetype match (score > 0). If a candidate is platform-compatible but domain-mismatched, keep it as a stack/conventions reference rather than inheriting its models and routes. If tied, ask the user.
-9. If a match is found:
+8. If no local match is found in the registry, fall back to scanning `$SHIPFLOW_ROOT/skills/app-blueprints/*/blueprint.md` for orphaned local blueprints not yet in the registry.
+9. Pick the best exact archetype match (score > 0). If a candidate is platform-compatible but domain-mismatched, keep it as a stack/conventions reference rather than inheriting its models and routes. If tied, ask the user.
+10. If a match is found:
    - Read the full blueprint file.
    - Keep the blueprint path in context for downstream skills.
    - When routing to `100-sg-spec`, include a handoff note: `blueprint: [id]`.
@@ -97,7 +100,7 @@ After work item resolution, before spec creation:
      ```text
      Blueprint: [id] (v[version]) — resolved from [local | cloned from <repo>]
      ```
-10. If no match, proceed without blueprint. This is normal for novel app types.
+11. If no match, proceed without blueprint. This is normal for novel app types.
 
 Add to the final report:
 ```text

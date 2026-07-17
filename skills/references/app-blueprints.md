@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.3.0"
+artifact_version: "1.4.0"
 project: ShipGlowz
 created: "2026-06-23"
 updated: "2026-07-17"
@@ -14,6 +14,7 @@ risk_level: medium
 security_impact: no
 docs_impact: yes
 linked_systems:
+  - skills/references/preferred-stacks.md
   - skills/001-sg-build/SKILL.md
   - skills/001-sg-build/references/build-lifecycle-workflow.md
   - skills/900-shipglowz-core/SKILL.md
@@ -31,6 +32,7 @@ evidence:
   - "User decision 2026-06-25: blueprint extraction is a ShipGlowz-internal operation, owned by 900-shipglowz-core build."
   - "Extracted from contentglowz_app as first concrete Flutter blueprint."
   - "Operator correction 2026-07-17: blueprint matching must follow an explicit greenfield platform footprint so mobile-capable Flutter directions are not omitted by a website-only assumption."
+  - "Operator correction 2026-07-17: preferred stack presets must resolve before blueprints so a domain-mismatched blueprint cannot displace the established Astro-site and Flutter-app direction."
 next_review: "2026-08-15"
 next_step: "Create GitHub repos for each blueprint, update registry URLs"
 ---
@@ -108,6 +110,11 @@ Body sections:
 Before keyword scoring, apply the Greenfield Platform Footprint Rule from
 `skills/references/question-contract.md`. Product-domain keywords alone are not
 enough: platform compatibility is a required matching dimension.
+
+Then apply `skills/references/preferred-stacks.md`. A blueprint may refine an
+accepted preset with validated architecture and conventions, but it must not
+silently replace that preset. If they conflict, keep the preset and treat the
+blueprint as evidence for a clearly disclosed exception only.
 
 - Exclude a blueprint that cannot cover a required platform.
 - Surface a Flutter-capable candidate when iOS/Android are required, even when

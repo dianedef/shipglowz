@@ -1,10 +1,10 @@
 ---
 artifact: skill_reference
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: "shipflow"
 created: "2026-05-16"
-updated: "2026-05-16"
+updated: "2026-07-17"
 status: draft
 source_skill: 100-sg-spec
 scope: "100-sg-spec-workflow"
@@ -25,6 +25,7 @@ depends_on:
 supersedes: []
 evidence:
   - "Extracted during compact-shipflow-skill-instructions-phase-4 to preserve lifecycle workflow detail outside the activation body."
+  - "Operator correction 2026-07-17: apply preferred stack presets before blueprint intake or a greenfield technology comparison."
 next_step: "none"
 ---
 
@@ -88,6 +89,11 @@ Documenter séparément les surfaces de lancement et de roadmap (site public,
 application web/PWA, iOS, Android, desktop). Ne jamais traduire l'absence du mot
 `mobile` dans la première demande en exclusion des applications mobiles, ni
 confondre `responsive/mobile-first` avec une application iOS/Android.
+
+Charger ensuite `$SHIPFLOW_ROOT/skills/references/preferred-stacks.md` et
+appliquer les presets compatibles avant de chercher un blueprint ou de proposer
+une comparaison technologique. Ne demander à l'opératrice que les choix
+matériels non couverts ou une exception justifiée.
 
 **Si un contexte `blueprint: [id]` est fourni** (handoff de `001-sg-build`) :
 1. Charger `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` pour le contrat du système.

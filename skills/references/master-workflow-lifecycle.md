@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.5.0"
+artifact_version: "1.6.0"
 project: ShipGlowz
 created: "2026-05-04"
-updated: "2026-06-23"
+updated: "2026-07-17"
 status: active
 source_skill: 009-sg-skill-build
 scope: master-workflow-lifecycle
@@ -27,6 +27,7 @@ linked_systems:
   - skills/references/decision-quality-contract.md
   - skills/references/question-contract.md
   - skills/references/chantier-tracking.md
+  - skills/references/preferred-stacks.md
   - skills/references/app-blueprints.md
   - docs/technical/skill-runtime-and-lifecycle.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
@@ -39,7 +40,7 @@ depends_on:
     artifact_version: "1.4.0"
     required_status: active
   - artifact: "skills/references/question-contract.md"
-    artifact_version: "1.3.0"
+    artifact_version: "1.7.0"
     required_status: active
   - artifact: "skills/references/chantier-tracking.md"
     artifact_version: "0.4.4"
@@ -57,6 +58,7 @@ evidence:
   - "Spec auto-follow-through-for-local-only-102-sg-start-verification.md defines bounded local auto-verify for 102-sg-start without changing full 001-sg-build lifecycle ownership."
   - "User decision 2026-06-23: blueprints act as global spec skeletons for app archetypes, consumed by the Blueprint Gate in 001-sg-build."
   - "User decision 2026-06-23: Blueprint Gate fires after work item resolution and before the readiness gate for app creation work items."
+  - "Operator correction 2026-07-17: preferred stack presets resolve after platform footprint and before blueprint matching."
 next_review: "2026-06-04"
 next_step: "/103-sg-verify master workflow lifecycle reference"
 ---
@@ -109,6 +111,8 @@ Master skills adapt this skeleton to their local owner routes:
 ```text
 intake
   -> work item resolution
+  -> platform footprint (greenfield app creation only)
+  -> preferred stack preset (greenfield app creation only)
   -> blueprint gate (app creation only)
   -> readiness gate
   -> model/topology routing
@@ -138,14 +142,16 @@ Before creating a new durable artifact, search for an existing matching work ite
 
 If exactly one work item owns the request, continue it. If several match, ask the user to choose. If none exists and the work is non-trivial, create or route to the correct durable artifact owner.
 
-### 3. Blueprint Gate (App Creation Only)
+### 3. Preferred Stack And Blueprint Gates (App Creation Only)
 
 Before the readiness gate, when the work item targets a new application or major new module:
 
-1. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`.
-2. Scan available blueprints for a match against the request archetype.
-3. If a match is found, load the blueprint into the active context.
-4. Pass the blueprint to downstream skills (`100-sg-spec`, `306-sg-scaffold`) via handoff.
+1. Establish the platform footprint using `$SHIPFLOW_ROOT/skills/references/question-contract.md`.
+2. Load `$SHIPFLOW_ROOT/skills/references/preferred-stacks.md` and apply compatible operator-approved presets.
+3. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`.
+4. Scan available blueprints for a match against the request archetype.
+5. If a match is found, load the blueprint into the active context without silently overriding an accepted preset.
+6. Pass the blueprint to downstream skills (`100-sg-spec`, `306-sg-scaffold`) via handoff.
 
 The blueprint is a global spec skeleton — it pre-fills architecture, stack, models, and conventions. It does not replace spec writing. If no blueprint matches, proceed normally.
 

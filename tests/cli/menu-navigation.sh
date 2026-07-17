@@ -14,6 +14,7 @@ source "$REPO_ROOT/cli/lib.sh"
 # control-flow test.
 clear() { :; }
 ui_screen_header() { :; }
+print_header() { :; }
 
 source "$REPO_ROOT/cli/shipglowz_devserver_bash.sh"
 _bash_run_menu() {
@@ -24,6 +25,20 @@ _bash_run_nested_menu "Test" "x|Back|__EXIT__"
 ui_should_skip_next_pause
 ! ui_should_return_to_main_menu
 
+(
+    bash_root_calls=0
+    _bash_run_menu() {
+        bash_root_calls=$((bash_root_calls + 1))
+        if [ "$bash_root_calls" -eq 1 ]; then
+            ui_return_to_main_menu
+            return 0
+        fi
+        exit 0
+    }
+    ui_pause() { exit 1; }
+    run_menu
+)
+
 source "$REPO_ROOT/cli/shipglowz_devserver_gum.sh"
 _gum_run_menu() {
     ui_return_to_main_menu
@@ -32,5 +47,19 @@ _gum_run_menu() {
 _gum_run_nested_menu "Test" "" "x|Back|__EXIT__"
 ui_should_skip_next_pause
 ! ui_should_return_to_main_menu
+
+(
+    gum_root_calls=0
+    _gum_run_menu() {
+        gum_root_calls=$((gum_root_calls + 1))
+        if [ "$gum_root_calls" -eq 1 ]; then
+            ui_return_to_main_menu
+            return 0
+        fi
+        exit 0
+    }
+    _gum_pause() { exit 1; }
+    run_menu
+)
 
 echo "Grouped-menu return to root passed"

@@ -43,7 +43,7 @@ Load `$SHIPFLOW_ROOT/skills/001-sg-build/references/build-lifecycle-workflow.md`
 
 Before applying any named operator profile semantics in `$ARGUMENTS`, load `$SHIPFLOW_ROOT/skills/references/profile-activation.md` and follow its canonical resolution, precedence, fallback, reporting, and project-context rules.
 
-Before the Blueprint Gate, load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`.
+Before the Blueprint Gate, load `$SHIPFLOW_ROOT/skills/references/preferred-stacks.md`, then `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`.
 
 Before asking a user-facing question, load `$SHIPFLOW_ROOT/skills/references/question-contract.md`.
 
@@ -57,7 +57,7 @@ Before UI, mobile, component, layout, typography, spacing, color, shadow/elevati
 
 `001-sg-build` is the user-facing lifecycle orchestrator (`master-workflow`) and keeps user interaction high level while executing:
 
-`intake -> existing chantier check -> greenfield platform footprint -> blueprint gate -> greenfield technology decision -> spec/readiness loop -> governance corpus gate -> model routing gate -> start -> verify -> end -> ship`
+`intake -> existing chantier check -> greenfield platform footprint -> preferred stack preset -> blueprint gate -> remaining greenfield technology decision -> spec/readiness loop -> governance corpus gate -> model routing gate -> start -> verify -> end -> ship`
 
 It answers one operational question:
 
@@ -104,13 +104,14 @@ Before creating any spec:
 After work item resolution, before spec creation:
 
 1. Apply the Greenfield Platform Footprint Rule from `$SHIPFLOW_ROOT/skills/references/question-contract.md`; do not infer that responsive web excludes native mobile apps.
-2. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`.
-3. Read the registry at `$SHIPFLOW_ROOT/skills/app-blueprints/README.md` for platform-compatible candidate matches.
-4. For each candidate, resolve the blueprint: check local cache first, then clone from `source.repo` if set.
-5. If matched, load the blueprint into the active context and pass it to downstream skills.
-6. If a candidate fits the platforms but not the product archetype, use it only as a stack/conventions reference.
-7. If no match, proceed without a blueprint.
-8. If multiple blueprints match, ask the user to choose.
+2. Load `$SHIPFLOW_ROOT/skills/references/preferred-stacks.md` and apply compatible operator-approved presets.
+3. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`.
+4. Read the registry at `$SHIPFLOW_ROOT/skills/app-blueprints/README.md` for platform-compatible candidate matches.
+5. For each candidate, resolve the blueprint: check local cache first, then clone from `source.repo` if set.
+6. If matched, load the blueprint into the active context and pass it to downstream skills without silently overriding an accepted preset.
+7. If a candidate fits the platforms but not the product archetype, use it only as a stack/conventions reference.
+8. If no match, proceed without a blueprint.
+9. If multiple blueprints match, ask the user to choose.
 
 The blueprint pre-fills architecture, stack, models, routes, and conventions for `100-sg-spec` and `306-sg-scaffold`. It is not a substitute for a spec — it is a starting skeleton.
 
@@ -118,8 +119,8 @@ In the final report, add `Blueprint: [id] (version) — resolved from [local | c
 
 ## Spec And Readiness Loop
 
-For a greenfield product with no established stack or previously accepted
-blueprint, apply the Greenfield Technology Decision Rule from
+For a greenfield product with material technology choices not covered by an
+accepted preferred preset or blueprint, apply the Greenfield Technology Decision Rule from
 `$SHIPFLOW_ROOT/skills/references/question-contract.md` before allowing the
 spec to freeze architecture, hosting, data, payment, or material provider
 choices. Present one researched recommendation at the product-consequence

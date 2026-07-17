@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-06-27"
-updated: "2026-06-27"
+updated: "2026-07-17"
 status: active
 source_skill: 009-sg-skill-build
 scope: 101-sg-ready-review-playbook
@@ -25,6 +25,7 @@ supersedes: []
 evidence:
   - "2026-06-27 targeted hardening pass moved long readiness heuristics out of the 101-sg-ready activation contract while preserving local readiness gates."
   - "2026-06-26 batch A hardening audit identified 101-sg-ready body-size pressure as the clearest execution-fidelity risk in the current corpus."
+  - "Operator correction 2026-07-17: readiness must prove that compatible preferred stack presets were applied before blueprint or provider decisions."
 next_review: "2026-07-04"
 next_step: "/103-sg-verify 101-sg-ready execution-fidelity compaction"
 ---
@@ -79,6 +80,7 @@ Before looking at implementation detail, verify that the spec clearly links:
 - the business or operational value
 - the explicit scope limits
 - the declared launch and roadmap platform footprint for greenfield products when it affects architecture
+- the compatible presets from `$SHIPFLOW_ROOT/skills/references/preferred-stacks.md`, or a documented reason each applicable preset is unsuitable
 
 Refuse the spec if a fresh reader cannot answer without hesitation:
 

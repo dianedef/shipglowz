@@ -195,6 +195,9 @@ run_menu() {
 
         _gum_run_menu "ShipGlowz DevServer" "" "screen" "${MAIN_MENU_ITEMS[@]}"
         local rc=$?
+        if ui_should_return_to_main_menu; then
+            continue
+        fi
         if [ $rc -eq 0 ]; then
             if ui_should_skip_next_pause; then
                 continue

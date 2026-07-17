@@ -1867,7 +1867,7 @@ disk_cleanup_menu() {
 
     echo ""
     echo -e "  ${CYAN}x)${NC} Return to the main menu"
-    echo -e "${YELLOW}Choose:${NC} \c"
+    echo -e "${YELLOW}Press x (no Enter):${NC} \c"
     local final_choice
     ui_read_choice final_choice
     if ui_is_back_choice "$final_choice"; then
@@ -10528,6 +10528,12 @@ action_adv_help() { show_help; }
 action_cleanup() {
     local rc=0
     disk_cleanup_menu || rc=$?
+    # An explicit return to the root menu must not wait on the status refresh.
+    # That refresh can take several seconds under disk pressure, which makes
+    # the completed cleanup screen appear stuck after the operator presses x.
+    if [ "${SHIPGLOWZ_RETURN_TO_MAIN_MENU:-false}" = "true" ]; then
+        return "$rc"
+    fi
     if ui_should_skip_next_pause; then
         ui_skip_next_pause
         return "$rc"

@@ -115,3 +115,16 @@
 - Bug pointer: BUG-2026-07-13-002 -> shipglowz_data/workflow/bugs/BUG-2026-07-13-002.md
 - Evidence pointer: shipglowz_data/workflow/test-checklists/password-to-ssh-key-promotion.md; provider VM retained by operator request; no host, password, token, or key material recorded
 - Follow-up: /107-sg-test password-to-ssh-key-promotion from Android Termux on the retained QA server
+
+## 2026-07-17 - Public ShipGlowz bootstrap on Android Termux
+
+- Scope: BUG-2026-07-17-001
+- Environment: production public endpoint on Android Termux
+- Tester: user
+- Source: 107-sg-test
+- Status: fail
+- Confidence: high
+- Result summary: The documented sudo pipeline fails because Termux has no sudo; without sudo, the public bootstrap exits on its root guard and never routes to `local/install.sh`.
+- Bug pointer: BUG-2026-07-17-001 -> shipglowz_data/workflow/bugs/BUG-2026-07-17-001.md
+- Evidence pointer: user-reported real-device reproduction plus supplied HTTP 200, short SHA-prefix mismatch, and public route ownership; no secrets or device identifiers stored
+- Follow-up: /106-sg-fix BUG-2026-07-17-001

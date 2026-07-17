@@ -1,7 +1,7 @@
 ---
 name: 103-sg-verify
-description: "Verify ship readiness, correctness, coherence, and risk."
-argument-hint: [optional: tâche ou scope à vérifier]
+description: "Verify ship readiness or run an excellence-focused second pass."
+argument-hint: "[mode=standard|mode=excellence] [task or scope]"
 ---
 
 Primary artifact type: `specialist-workflow`.
@@ -19,13 +19,14 @@ This `SKILL.md` is the activation contract. Load `$SHIPFLOW_ROOT/skills/referenc
 Trace category: `obligatoire`.
 Process role: `lifecycle`.
 
-Before verifying a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when a unique spec exists. Append a current `103-sg-verify` row with result `verified`, `not verified`, `partial`, or `blocked`, update `Current Chantier Flow`, and open the report with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec is available, do not write to a spec; use a `(local)` chantier header with a short work name.
+Before verifying a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md`, then read the spec's `Skill Run History` and `Current Chantier Flow` when a unique spec exists. Append a current `103-sg-verify` row with result `verified`, `verified_with_excellence_gaps`, `excellent`, `not verified`, `partial`, or `blocked`, update `Current Chantier Flow`, and open the report with the opening chantier header from `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. If no unique spec is available, do not write to a spec; use a `(local)` chantier header with a short work name.
 
 Verification semantics:
 
 - `partial`: implementation appears complete but required proof is missing (manual QA, preview/prod proof, browser/auth proof, Sentry pointer, device-only validation). Each missing proof gap must be routed to a concrete next owner (`405-sg-prod`, `108-sg-browser`, `109-sg-auth-debug`, `107-sg-test`, `005-sg-ship`, etc.) with proof type, scenario, and target/environment when knowable; if target/environment is unknown, route to `405-sg-prod` with explicit target discovery task and do not claim readiness.
 - Never downgrade completed `102-sg-start` implementation semantics only because verification evidence is incomplete.
 - Keep the distinction explicit: `102-sg-start: implemented` vs `103-sg-verify: partial`.
+- Record the selected `mode=standard|excellence` in the history action and the matching verdict in the result. Never rewrite or erase an earlier `verified` row when a later excellence pass opens bounded follow-up.
 
 When `103-sg-verify` partial is caused by hosted/deployed/provider proof, the next routing contract is mandatory:
 
@@ -42,14 +43,31 @@ Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/report
 Default to `report=user`: concise, findings-first when verification fails, opening chantier header.
 Use `report=agent` for handoff, blocked runs, or explicit verbose request.
 
+## Mode Detection
+
+Parse the request before selecting checks:
+
+- No mode or `mode=standard` selects `standard`: run métier correctness, contract, proof, risk, and ship-readiness gates. A standard pass may return `verified` but makes no excellence claim.
+- `mode=excellence` or an unambiguous natural-language request for an excellence pass selects `excellence`: run the standard gates first, then load the detailed excellence pass in `references/verification-gates.md` and perform a fresh second pass beyond the acceptance criteria.
+- No reliable scope, or conflicting/unknown `mode=` values, stops with the existing `not verified` or `blocked` semantics; do not guess.
+
+Verdict precedence:
+
+- `verified`: standard métier and ship-readiness gates pass; no excellence claim is made.
+- `verified_with_excellence_gaps`: standard readiness passes first, but the explicit excellence pass finds at least one material gap with evidence and a bounded repair or owner route.
+- `excellent`: standard readiness passes first, the fresh second pass is complete, and no material excellence gap remains.
+- Proof, correctness, security, and blocking-risk results (`partial`, `not verified`, `blocked`) take precedence over excellence verdicts; when one applies, `excellent` is forbidden.
+- Always make the selected focus and verdict visible in the report; standard success must not be presented as excellence.
+
 ## Mission
 
-`103-sg-verify` judges proof quality and ship-readiness against the user story, implementation completeness, correctness, coherence, dependencies, and risk. It may repair stable local issues when needed, but it must keep verification verdict ownership distinct from `102-sg-start` implementation, `104-sg-end` closure, and `005-sg-ship` commit/push.
+`103-sg-verify` judges proof quality and ship-readiness, then challenges merely adequate work when excellence mode is explicit. It may repair stable bounded local issues, but scope-changing, specialist, hosted-proof, product-decision, or security-sensitive gaps must be routed to their owner. Keep verification verdict ownership distinct from `102-sg-start` implementation, `104-sg-end` closure, and `005-sg-ship` commit/push.
 
-`103-sg-verify` answers one question:
+`103-sg-verify` answers the question selected by its focus:
 
 ```text
-Is this work actually proven enough to move forward, and if not which next owner owns the missing proof?
+standard: Is this work proven enough to move forward, and who owns missing proof?
+excellence: Once readiness passes, what material quality gap remains, and who owns follow-up?
 ```
 
 ## Context
@@ -93,7 +111,8 @@ Mandatory explicit checks:
 - fresh external docs verdict (`fresh-docs checked|not needed|gap|conflict`)
 - documentation coherence verdict
 - language doctrine verdict for ShipGlowz artifacts
-- decision quality and excellence verdict: pass/partial/fail for the primary metrics in `decision-quality-contract.md`
+- `Decision Quality Baseline` verdict: pass/partial/fail for the primary metrics and shared excellence quality bar in `decision-quality-contract.md`; this applies in every mode.
+- `Excellence Focus Verdict`: report `verified_with_excellence_gaps` or `excellent` only when the selected mode is `excellence`.
 - editorial score gate verdict when a spec/workflow requires content quality proof
 
 ## Required References

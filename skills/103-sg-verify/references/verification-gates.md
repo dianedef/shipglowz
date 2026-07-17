@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.2.0"
+artifact_version: "0.3.0"
 project: ShipGlowz
 created: "2026-05-16"
-updated: "2026-05-16"
+updated: "2026-07-17"
 status: draft
 source_skill: 102-sg-start
 scope: 103-sg-verify-gates
@@ -18,6 +18,7 @@ linked_systems:
   - skills/references/documentation-freshness-gate.md
   - skills/references/project-development-mode.md
   - skills/references/sentry-observability.md
+  - tools/test_103_sg_verify_excellence_contract.py
 depends_on:
   - artifact: "skills/references/chantier-tracking.md"
     artifact_version: "0.5.0"
@@ -29,15 +30,16 @@ supersedes: []
 evidence:
   - "Extracted from 103-sg-verify SKILL.md during compact-skill pilot."
   - "User decision 2026-05-24: Flutter mobile UI proof should use widget tests and Flutter Web smoke before APK/device testing."
+  - "Operator decision 2026-07-17: excellence is a distinct critical focus after métier verification, not merely a deeper standard run."
 next_review: "2026-06-16"
-next_step: "/103-sg-verify Compact ShipGlowz Skill Instructions"
+next_step: "/103-sg-verify mode=excellence sg-verify excellence focus mode"
 ---
 
 # 103-sg-verify Detailed Gates
 
 ## Step Skeleton
 
-1. Identify scope/work item.
+1. Identify scope/work item and select `standard` or explicit `excellence` mode.
 2. Resolve development mode and required validation surface.
 3. Verify user story outcome.
 4. Verify success behavior and error behavior.
@@ -49,7 +51,8 @@ next_step: "/103-sg-verify Compact ShipGlowz Skill Instructions"
 10. Verify Flutter mobile proof ladder when Flutter UI or APK/device evidence is in scope.
 11. Verify coherence (project patterns, language doctrine, docs coherence).
 12. Verify dependency, risk, and quick technical checks.
-13. Report verdict with next command and chantier block.
+13. In excellence mode only, run the fresh excellence focus pass after standard readiness succeeds.
+14. Report the selected focus, verdict, and any concrete repair or owner route.
 
 ## Development Mode Gate
 
@@ -177,6 +180,52 @@ Check diff for:
 - new dependencies relevance and vulnerability risk
 - obvious security/performance/data risks
 - destructive/migration hazards
+
+## Excellence Focus Pass
+
+Run this section only when `excellence` was selected through explicit `mode=excellence` or an unambiguous natural-language request, and only after the standard métier, proof, correctness, security, and risk gates pass. This is a fresh second focus beyond the acceptance criteria, not a rerun of the standard checklist and not a request for more test volume by default.
+
+Challenge the verified work with concrete evidence:
+
+1. **User value and comprehension:** Is a meaningful user outcome, explanation, recovery path, or trust signal still weaker than it reasonably could be?
+2. **Cross-surface coherence:** Do behavior, structure, terminology, public docs, runtime surfaces, and owner contracts disagree in a way that creates confusion or drift?
+3. **Duplication and structure:** Is repeated logic, content, process, or policy creating avoidable inconsistency or maintenance cost?
+4. **User or operator friction:** Does the implementation preserve a manual step, unclear route, hidden state, or repeated workload that the current structure could remove safely?
+5. **Durability and robustness:** Is the choice correct today but fragile under ordinary extension, failure, upgrade, scale, or future maintenance?
+6. **Merely adequate choices:** Is there a bounded professional alternative that materially improves the outcome without changing the accepted product contract?
+
+Do not claim `excellent` from inherited confidence, the standard checklist alone, or a generic statement that nothing obvious was found. Name the surfaces challenged and the evidence used.
+
+### Materiality Boundary
+
+A gap is material only when resolving it would meaningfully improve at least one of: user outcome or comprehension, cross-surface coherence, correctness or reliability margin, security/privacy, performance or operational robustness, maintainability/durability, avoidable duplication, or operator workload. It must be evidence-backed, concrete enough to change a reasonable ship, follow-up, or architecture decision, and have a repair or owner route.
+
+Pure taste, unsupported polish, speculative preferences, and generic “could be better” observations are non-material suggestions. They may be reported as optional context, but they do not reopen the chantier and cannot produce `verified_with_excellence_gaps`.
+
+### Verdict And Trace Routing
+
+- Return `verified_with_excellence_gaps` when standard readiness is valid and at least one material gap remains. Preserve any earlier standard `verified` history row; append the excellence result instead of rewriting history.
+- Return `excellent` only when standard readiness passes, the fresh excellence pass is evidenced, and no material gap remains.
+- Keep `partial`, `not verified`, or `blocked` when proof, correctness, security, or blocking risk fails. These verdicts take precedence; never relabel the failure as an excellence gap.
+- Record non-material suggestions without reopening follow-up work.
+
+### Repair And Owner Boundary
+
+`103-sg-verify` may repair a stable, bounded local issue when the contract and correct result are already clear, then rerun the affected evidence. Otherwise route the gap rather than expanding verification into an implicit audit or product redesign:
+
+- product meaning, acceptance criteria, architecture, or scope change -> `100-sg-spec` (use `700-sg-explore` first only when the decision itself is unclear)
+- design, copy, code/security, or performance specialist investigation -> `006-sg-design`, `009-sg-marketing`, `401-sg-audit-code`, or `403-sg-perf`
+- hosted, preview, production, browser, auth, or manual proof -> the existing `005-sg-ship`, `405-sg-prod`, `108-sg-browser`, `109-sg-auth-debug`, or `107-sg-test` proof route with scenario and target/environment
+- multi-owner or security-sensitive repair -> the appropriate ready-spec lifecycle or specialist owner; do not mutate it opportunistically from verification
+
+### Pressure Scenarios
+
+- `EXCELLENCE-001 STANDARD-DEFAULT`: A normal invocation selects standard métier and ship-readiness verification, may return `verified`, and makes no excellence claim.
+- `EXCELLENCE-002 MATERIAL-GAP`: A prior standard `verified` result exists; the fresh excellence pass finds evidence-backed duplication or incoherence. Return `verified_with_excellence_gaps`, preserve the prior row, and route bounded follow-up.
+- `EXCELLENCE-003 NO-MATERIAL-GAP`: Standard readiness passes and the evidenced fresh pass finds no material gap. `excellent` is allowed.
+- `EXCELLENCE-004 PROOF-OR-RISK-FAILURE`: Hosted proof is missing or a correctness/security risk blocks. Keep `partial`, `not verified`, or `blocked`; an excellence verdict is forbidden.
+- `EXCELLENCE-005 NON-MATERIAL-SUGGESTION`: The pass finds only taste-level wording or formatting preferences. Record them at most as optional suggestions and do not reopen the chantier.
+- `EXCELLENCE-006 ATOMIC-PROPORTIONALITY`: A deterministic atomic change has focused evidence for its exact contract. Excellence accepts that focused evidence and does not force an unrelated exhaustive audit.
 
 ## Technical Checks Gate
 
