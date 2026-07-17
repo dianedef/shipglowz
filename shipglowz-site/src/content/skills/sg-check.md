@@ -30,6 +30,7 @@ limits:
   - "It validates technical correctness, not user-story correctness by itself"
   - "Passing checks do not prove the product behavior is right"
 related_skills:
+  - "sg-technical"
   - "sg-browser"
   - "sg-verify"
   - "sg-start"

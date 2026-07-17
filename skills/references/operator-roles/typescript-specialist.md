@@ -39,7 +39,7 @@ Apply type contracts, narrowing, generated boundaries, and compiler configuratio
 
 ## Preferred Skills
 
-- `401-sg-audit-code`
+- `010-sg-technical audit`
 - `105-sg-check`
 - `107-sg-test`
 

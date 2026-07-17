@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "0.1.0"
+artifact_version: "0.1.1"
 project: ShipGlowz
 created: "2026-06-29"
 created_at: "2026-06-29 09:42:00 UTC"
-updated: "2026-06-29"
-updated_at: "2026-06-29 09:42:00 UTC"
+updated: "2026-07-17"
+updated_at: "2026-07-17 14:20:26 UTC"
 status: draft
 source_skill: 100-sg-spec
 source_model: "GPT-5 Codex"
@@ -106,7 +106,7 @@ Migrate audit-named skills in controlled batches. Keep numeric codes stable, ren
   - preferred target: `006-sg-design` owns mode `audit`
   - `502-sg-audit-design` must either become `502-sg-design-review` as a specialist mode helper or be deprecated/absorbed through a documented route
 - Decide and implement the correct code lane treatment:
-  - target candidate: `401-sg-code`, with mode `audit`
+  - canonical target: `$010-sg-technical audit <target>` through `skills/010-sg-technical/SKILL.md` and its technical-audit playbook
   - keep `400-sg-audit` as the cross-domain audit master only if the word `audit` is still semantically the product identity; otherwise rename to `400-sg-review` or `400-sg-quality`
 - Re-evaluate content/copy lanes separately:
   - `206-sg-audit-copy`
@@ -254,9 +254,9 @@ Do not update:
    - Files: `skills/006-sg-design/**`, `skills/502-sg-audit-design/**`, public pages, help docs.
    - Action: either absorb `502` into `006-sg-design audit` or rename `502` to a non-audit specialist helper such as `502-sg-design-review`; document the final route.
 
-8. Decide and implement code/copy lanes.
-   - Files: `skills/401-sg-audit-code/**`, `skills/206-sg-audit-copy/**`, `skills/207-sg-audit-copywriting/**`, public pages, routing docs.
-   - Action: choose domain-first or review-helper names, then migrate only after the route is unambiguous.
+8. Align the already-consolidated code lane and decide the copy lanes.
+   - Files: `skills/010-sg-technical/SKILL.md`, `skills/010-sg-technical/references/technical-audit-playbook.md`, `skills/206-sg-audit-copy/**`, `skills/207-sg-audit-copywriting/**`, public pages, routing docs.
+   - Action: preserve `$010-sg-technical audit <target>` as the exact code/security audit route; choose domain-first or review-helper names only for the separate copy lanes, then migrate those lanes after their route is unambiguous.
 
 9. Migrate auth debug to auth domain router.
    - Files: `skills/109-sg-auth-debug/**`, public skill page if present, help docs, routing docs, skill code index, runtime symlinks.

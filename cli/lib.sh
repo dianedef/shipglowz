@@ -5827,7 +5827,7 @@ launch_codex_pnpm_migration() {
         return 1
     fi
 
-    codex_prompt="Le projet de ce workspace utilise actuellement npm. Migre-le proprement vers pnpm: inspecte package.json et les lockfiles, convertis depuis package-lock.json si besoin, regenere les dependances avec pnpm, mets a jour les fichiers necessaires, puis valide avec des checks proportionnes. Si le workflow ShipGlowz /404-sg-migrate pnpm est disponible ici, utilise-le."
+    codex_prompt="Le projet de ce workspace utilise actuellement npm. Migre-le proprement vers pnpm: inspecte package.json et les lockfiles, convertis depuis package-lock.json si besoin, regenere les dependances avec pnpm, mets a jour les fichiers necessaires, puis valide avec des checks proportionnes. Si le workflow ShipGlowz /010-sg-technical migrate pnpm est disponible ici, utilise-le."
 
     if [ -r /dev/tty ]; then
         printf '%b' "${BLUE}🧭 Ouverture de Codex pour la migration pnpm...${NC}\n" > /dev/tty

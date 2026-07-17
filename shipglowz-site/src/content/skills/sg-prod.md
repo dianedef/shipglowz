@@ -30,6 +30,7 @@ limits:
   - "It checks visible production health, not every hidden failure mode"
   - "Deeper incidents may still require logs, tracing, or product-specific debugging"
 related_skills:
+  - "sg-technical"
   - "sg-ship"
   - "sg-check"
   - "sg-browser"

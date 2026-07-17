@@ -38,8 +38,8 @@ Use this skill when the operator wants one of these outcomes:
 Do not use this skill for:
 
 - ordinary commit/push flow already owned by `005-sg-ship`
-- full dependency risk audits already owned by `402-sg-deps`
-- major-version dependency migrations already owned by `404-sg-migrate`
+- full dependency risk audits already owned by `010-sg-technical deps`
+- major-version dependency migrations already owned by `010-sg-technical migrate`
 - CI log debugging already owned by `github:gh-fix-ci`
 - review-thread resolution already owned by `github:gh-address-comments`
 
@@ -156,7 +156,7 @@ When Dependabot PRs exist:
 
 - separate patch/minor from major upgrades
 - separate normal app dependencies from GitHub Actions, deploy, auth, billing, and infra packages
-- route major upgrades to `404-sg-migrate`
+- route major upgrades to `010-sg-technical migrate`
 - route failing CI investigation to `github:gh-fix-ci`
 
 ### Dependabot queue continuation
@@ -165,7 +165,7 @@ In an approved mutating `dependabot` or `fix` run, process the refreshed backlog
 
 - Maintain a terminal disposition ledger keyed by PR. Every reliably classified known PR receives exactly one final disposition: `merged`, `closed`, `deferred`, `routed`, or `blocked`. These dispositions describe observed run state; they grant no new mutation authority.
 - Record `merged` or `closed` only after that authorized action actually succeeds. `deferred` names the future condition or decision owner. `routed` names the owner and reason and does not imply downstream success. `blocked` names the unmet safety condition after agent-runnable recovery is exhausted.
-- Treat a major, sensitive, conflicted, stale, failing, or incompatible PR as an item-scoped blocker: quarantine it, route dependency risk to `402-sg-deps`, major migration to `404-sg-migrate`, or failing CI to `github:gh-fix-ci`, then continue independent eligible pull requests while global operating conditions remain valid.
+- Treat a major, sensitive, conflicted, stale, failing, or incompatible PR as an item-scoped blocker: quarantine it, route dependency risk to `010-sg-technical deps`, major migration to `010-sg-technical migrate`, or failing CI to `github:gh-fix-ci`, then continue independent eligible pull requests while global operating conditions remain valid.
 - After every merge, close, branch update, or other queue mutation, refresh current open PRs, check results, and base state from GitHub before selecting the next action; reclassify changed items and update the existing ledger row instead of duplicating it.
 - Continue until no actionable pull request remains. Each pass must mutate one eligible item, assign a terminal disposition, or stop on a named queue-wide blocker.
 - Only queue-wide blockers stop the full queue: loss of GitHub authentication, repository access, operator authorization for the requested mutation lane, or reliable refreshed queue truth. List any remaining PRs as unverified when reliable classification is impossible.

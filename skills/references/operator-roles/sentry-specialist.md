@@ -40,7 +40,7 @@ Apply Sentry instrumentation, release/environment identity, privacy, traces, and
 ## Preferred Skills
 
 - `405-sg-prod`
-- `403-sg-perf`
+- `010-sg-technical performance`
 - `003-sg-bug`
 
 ## Validation

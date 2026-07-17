@@ -125,14 +125,14 @@ Only launch (project × domain) pairs where: user selected the project AND user 
 ### Step 3: Read domain checklists
 
 Read each selected domain skill to get their PROJECT MODE checklists:
-- `$HOME/.codex/skills/401-sg-audit-code/SKILL.md`
+- `$HOME/.codex/skills/010-sg-technical/references/technical-audit-playbook.md`
 - `$HOME/.codex/skills/006-sg-design/SKILL.md` (use `audit ui` mode)
 - `$HOME/.codex/skills/009-sg-marketing/SKILL.md` (`copy` mode)
 - `$HOME/.codex/skills/406-sg-seo/SKILL.md`
 - `$HOME/.codex/skills/009-sg-marketing/SKILL.md` (`gtm` mode)
 - `$HOME/.codex/skills/407-sg-audit-translate/SKILL.md`
-- `$HOME/.codex/skills/402-sg-deps/SKILL.md`
-- `$HOME/.codex/skills/403-sg-perf/SKILL.md`
+- `$HOME/.codex/skills/010-sg-technical/references/dependency-audit-playbook.md`
+- `$HOME/.codex/skills/010-sg-technical/references/performance-audit-playbook.md`
 
 ### Step 4: Launch ALL agents
 

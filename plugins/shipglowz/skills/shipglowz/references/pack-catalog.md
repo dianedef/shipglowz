@@ -101,15 +101,12 @@ Packaging status: planned. Good public candidate after validating mode playbooks
 
 ### `shipflow-quality`
 
-Purpose: audits, dependencies, performance, migrations, translation, and technical posture.
+Purpose: broad audits, unified technical posture, and translation quality.
 
 Candidate skills:
 
 - `400-sg-audit`
-- `401-sg-audit-code`
-- `402-sg-deps`
-- `403-sg-perf`
-- `404-sg-migrate`
+- `010-sg-technical` (`audit`, `deps`, `performance`, `migrate`)
 - `407-sg-audit-translate`
 
 Packaging status: planned. Needs careful command and network permission wording.

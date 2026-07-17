@@ -52,7 +52,7 @@ class GitHubHygieneContractTests(unittest.TestCase):
         self.assertIn("DEPENDABOT-MIXED-QUEUE-CONTINUES", self.text)
 
     def test_specialist_routes_remain_explicit(self) -> None:
-        for owner in ("402-sg-deps", "404-sg-migrate", "github:gh-fix-ci"):
+        for owner in ("010-sg-technical deps", "010-sg-technical migrate", "github:gh-fix-ci"):
             self.assertIn(owner, self.text)
 
     def test_existing_merge_safety_gates_remain_intact(self) -> None:

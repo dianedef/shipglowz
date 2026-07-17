@@ -125,7 +125,7 @@ rg -n "CrewAI role|LLM/provider|tools|memory|Validation|Maintenance Rule" shipgl
 ## Reader Checklist
 
 - `crewai`, `crewai.tools`, `Agent`, `Task`, `Crew`, `Process`, `Flow`, `kickoff`, `output_pydantic`, or CrewAI CLI/config found -> check for a governance-root CrewAI usage note.
-- CrewAI dependency range, lockfiles, Python version, LiteLLM/OpenAI/Pydantic constraints, or extras changed -> route to `sg-deps` or `sg-migrate`.
+- CrewAI dependency range, lockfiles, Python version, LiteLLM/OpenAI/Pydantic constraints, or extras changed -> route to `010-sg-technical deps` or `010-sg-technical migrate`.
 - Agent tools changed -> verify input validation, provider credential scope, secret redaction, and failure envelopes.
 - Structured output or fallback parsing changed -> run focused tests proving invalid/raw model output is handled safely.
 - CrewAI release notes mention executors, kickoff/status behavior, output handling, CLI extraction, tool naming, memory, tracing, or dependency security -> compare against local code and docs.

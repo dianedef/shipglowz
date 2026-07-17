@@ -54,10 +54,10 @@ Keep the boundary explicit: `400-sg-audit` owns broad audit planning, domain sel
 
 Route directly instead of staying in `400-sg-audit` when the scope is already narrow:
 
-- code correctness, security, architecture, or test posture -> `401-sg-audit-code`
-- dependency risk, licenses, or supply-chain posture -> `402-sg-deps`
-- performance, bundles, rendering, CWV, data, or database efficiency -> `403-sg-perf`
-- migration risk -> `404-sg-migrate`
+- code correctness, security, architecture, or test posture -> `010-sg-technical audit`
+- dependency risk, licenses, or supply-chain posture -> `010-sg-technical deps`
+- performance, bundles, rendering, CWV, data, or database efficiency -> `010-sg-technical performance`
+- migration risk -> `010-sg-technical migrate`
 - live deployment truth, health, or runtime behavior -> `405-sg-prod`
 
 ## Core Execution Rules

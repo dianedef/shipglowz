@@ -67,7 +67,7 @@ Read the relevant global platform note when a task depends on:
 - SDK behavior, API shape, release notes, deprecations, migrations, or security advisories
 - auth callbacks, cookies, domains, webhooks, storage, AI providers, background jobs, or external APIs
 - dependency upgrades where release notes may imply code or configuration changes
-- an `sg-deps`, `sg-audit-code`, `sg-migrate`, `sg-prod`, `sg-auth-debug`, `sg-verify`, or future `sg-tech-watch` decision
+- a `010-sg-technical deps|audit|migrate`, `sg-prod`, `sg-auth-debug`, `sg-verify`, or future `sg-tech-watch` decision
 
 Then read the governance-root usage note if one exists or if project-specific provider behavior affects the decision. If the project clearly needs a local note but has none, report a documentation gap and recommend creating one from `templates/project_platform_usage.md`.
 

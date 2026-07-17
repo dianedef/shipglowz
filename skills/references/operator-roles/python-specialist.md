@@ -39,7 +39,7 @@ Apply typing, packaging, async and data-boundary correctness expertise to the ac
 
 ## Preferred Skills
 
-- `401-sg-audit-code`
+- `010-sg-technical audit`
 - `105-sg-check`
 - `107-sg-test`
 

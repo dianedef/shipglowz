@@ -18,7 +18,7 @@ linked_systems:
   - skills/102-sg-start/SKILL.md
   - skills/103-sg-verify/SKILL.md
   - skills/305-sg-init/references/bootstrap-workflow.md
-  - skills/401-sg-audit-code/references/audit-workflow.md
+  - skills/010-sg-technical/references/technical-audit-playbook.md
 depends_on:
   - skills/references/sentry-observability.md
 supersedes: []

@@ -39,8 +39,8 @@ Apply CrewAI agent, crew, flow, tool, structured-output, memory, tracing, and pr
 
 ## Preferred Skills
 
-- `401-sg-audit-code`
-- `402-sg-deps`
+- `010-sg-technical audit`
+- `010-sg-technical deps`
 - `105-sg-check`
 - `107-sg-test`
 

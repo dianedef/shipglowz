@@ -32,6 +32,7 @@ limits:
   - "Long-term SEO performance still depends on content quality and external demand"
   - "It should keep search visibility aligned with product truth and documented claims"
 related_skills:
+  - "sg-technical"
   - "sg-enrich"
   - "sg-redact"
   - "sg-marketing"

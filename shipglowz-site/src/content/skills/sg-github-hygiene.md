@@ -45,15 +45,14 @@ argument_modes:
     consequence: "Useful when you want help cleaning the easy cases without hiding the risky ones."
 limits:
   - "It does not replace sg-ship for commits and pushes"
-  - "It does not replace sg-deps for dependency risk analysis"
-  - "It routes major upgrade lanes to sg-migrate instead of auto-merging them"
+  - "It does not replace sg-technical deps for dependency risk analysis"
+  - "It routes major upgrade lanes to sg-technical migrate instead of auto-merging them"
   - "It blocks dirty, diverged, protected, sensitive, or conflict-prone branch actions instead of forcing them through"
   - "It does not silently delete branches with unique local commits or bypass GitHub protections"
 related_skills:
   - "sg-status"
   - "sg-maintain"
-  - "sg-deps"
-  - "sg-migrate"
+  - "sg-technical"
   - "sg-ship"
 featured: false
 order: 360

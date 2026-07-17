@@ -154,8 +154,8 @@ Public categories make the catalog easier to browse. Runtime families explain ho
 | --- | --- | --- |
 | Lifecycle/master | Carry work across several gates. | `000-shipglowz`, `001-sg-build`, `002-sg-maintain`, `004-sg-deploy`, `006-sg-design`, `007-sg-content`, `008-sg-customer`, `900-shipglowz-core build`, plus `100-sg-spec -> 101-sg-ready -> 102-sg-start -> 103-sg-verify -> 104-sg-end -> 005-sg-ship` |
 | Data trust/source | Frame local-first data becoming account-backed cloud data and product access becoming entitlement-backed. | `600-sg-local-cloud-sync`, `601-sg-product-entitlements` |
-| Audit/source | Expose quality, security, performance, SEO, copy, design, dependency, parity, or GTM risk that may deserve a chantier. | `400-sg-audit*`, `402-sg-deps`, `403-sg-perf`, `602-sg-platform-parity` |
-| Bug/proof | Diagnose failures, validate behavior, or confirm deployment truth. | `003-sg-bug`, `106-sg-fix`, `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check`, `404-sg-migrate` |
+| Audit/source | Expose quality, security, performance, SEO, copy, design, dependency, parity, or GTM risk that may deserve a chantier. | `400-sg-audit`, `010-sg-technical`, `602-sg-platform-parity` |
+| Bug/proof | Diagnose failures, validate behavior, or confirm deployment truth. | `003-sg-bug`, `106-sg-fix`, `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check` |
 | Content/docs/support | Keep public content, documentation, scaffolding, changelogs, skill contracts, governance surfaces, and git/GitHub hygiene coherent with shipped behavior. | `007-sg-content repurpose`, `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `304-sg-changelog`, `306-sg-scaffold`, `305-sg-init`, `310-sg-github-hygiene` |
 | Research/pilotage/helper | Clarify information, prioritize, summarize, route, or preserve context without owning full lifecycle closure. | `009-sg-marketing`, `203-sg-research`, `205-sg-veille`, `701-sg-backlog`, `702-sg-priorities`, `703-sg-review`, `309-sg-tasks`, `301-sg-context`, `704-sg-model`, `302-sg-help`, `308-sg-status`, `303-sg-resume`, `700-sg-explore`, `707-name` |
 | Internal/meta | Operator-only tools for maintaining ShipGlowz itself. | `900-shipglowz-core` |
@@ -208,8 +208,8 @@ Content scoring examples:
 | Conversation quality lane | `705-sg-conversation-audit` | Classify recurring conversation execution defects and route concrete owner follow-up paths. |
 | Internal ShipGlowz Core audit | `900-shipglowz-core audit [scope]` | Operator-only execution-fidelity audit for ShipGlowz itself; use `900-shipglowz-core packaging [scope]` for plugin-packaging readiness. Neither mode is a public user-plugin surface. |
 | Design system creation | `006-sg-design system [target]` | Use when no coherent professional token system exists; follow with `playground` or `audit tokens` as needed. |
-| Dependency posture | `402-sg-deps` | Target dependency drift, vulnerabilities, licenses, or config. |
-| Framework migration | `404-sg-migrate [package[@version]]` | Use a structured package target such as `astro@5`, a package name, or no argument for discovery. |
+| Technical posture | `010-sg-technical <audit|deps|performance> [target]` | Select exactly one code/security, dependency, or performance lane. |
+| Framework migration | `010-sg-technical migrate [package[@version]]` | Use a structured package target such as `astro@5`, a package name, or no argument for discovery. |
 | Orientation and routing | `308-sg-status`, `302-sg-help`, `704-sg-model`, `303-sg-resume` | Use for git dashboard, workflow help, model choice, or concise context transfer. |
 | Conversation naming, status, and cleanup | `309-sg-tasks sessions <project-or-cwd>` | Review unmanaged Codex titles; use `sessions rename <status>` for the current conversation or `sessions prune <project-or-cwd>` for a dry-run preview before deletion. |
 
@@ -247,7 +247,7 @@ An argument can be one of three things:
 | Argument type | Meaning | Example |
 | --- | --- | --- |
 | Mode keyword | A word or flag switches the workflow. | `002-sg-maintain quick`, `004-sg-deploy skip-check`, `005-sg-ship all-dirty` |
-| Structured input | The shape of the argument selects a target. | `404-sg-migrate astro@5`, `003-sg-bug BUG-2026-05-03-001` |
+| Structured input | The shape of the argument selects a target. | `010-sg-technical migrate astro@5`, `003-sg-bug BUG-2026-05-03-001` |
 | Free-form task | The argument is the actual work description. | `001-sg-build add a markdown skill cheatsheet` |
 
 When in doubt, read the skill's `argument-hint` and mode-detection section. If no mode rule matches, treat the argument as a task or target description.

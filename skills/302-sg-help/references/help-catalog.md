@@ -168,14 +168,12 @@ Only bootstrap/install owners need the clone contract. Most help answers should 
 | Skill | Purpose | Arguments |
 |-------|---------|-----------|
 | `/400-sg-audit` | Master orchestrator (all 8 domains) | `@file`, `global`, or nothing |
-| `/401-sg-audit-code` | Architecture, security, reliability, system fit (anti-duplication) | `@file`, `global`, or nothing |
+| `/010-sg-technical` | Code/security, dependencies, performance, and breaking migrations | `audit [target]`, `deps [global]`, `performance [target]`, `migrate [package@version]`, or `help` |
 | `/006-sg-design` | Design system, playground, UI/design-token/component/accessibility audits | `system [scope]`, `playground [route]`, `audit <ui|tokens|components|a11y> [scope]` |
 | `/009-sg-marketing` | Market study, GTM, copy clarity, or persuasion audit | `market|gtm|copy|copywriting <target>` |
 | `/406-sg-seo` | Meta tags, structured data, links | `@file`, `global`, or nothing |
 | `/705-sg-conversation-audit` | Conversation quality classification and action routing from saved transcripts | `latest`, `path <file-or-dir>`, `export shipflow`, `report=agent` |
 | `/407-sg-audit-translate` | i18n completeness, consistency, missing-translation sync | `@file`, `global`, `sync`, `apply`, or nothing |
-| `/402-sg-deps` | Dependencies: vulns, outdated, unused, licenses | `global`, or nothing |
-| `/403-sg-perf` | Performance: bundle, CWV, rendering, data | `@file`, `global`, or nothing |
 
 ### DevOps & Shipping
 
@@ -237,7 +235,7 @@ Internal role matrix:
 | `skills/000-shipglowz/SKILL.md` | non-applicable | helper | Primary router only; selected owner skill owns durable state and chantier tracing. |
 | `skills/707-name/SKILL.md` | non-applicable | helper | Never writes to specs; report non-applicable when useful. |
 | `skills/706-continue/SKILL.md` | conditionnel | pilotage | Route to `/100-sg-spec` only when continuation clearly needs a durable chantier. |
-| `skills/401-sg-audit-code/SKILL.md` | conditionnel | source-de-chantier | Code findings become a chantier for P0/P1, architectural/security risk, or multi-file remediation. |
+| `skills/010-sg-technical/SKILL.md` | conditionnel | source-de-chantier | Technical findings become a chantier for P0/P1, architecture/security/supply-chain/performance risk, breaking migration, or multi-file remediation. |
 | `skills/009-sg-marketing/SKILL.md` | conditionnel | source-de-chantier | Market, GTM, copy, or copywriting findings become a chantier when product, positioning, offer, funnel, legal, trust, or multi-page decisions are required. |
 | `skills/006-sg-design/SKILL.md` | obligatoire | lifecycle | The sole public design owner; explicit audit modes preserve source-de-chantier evaluation before routing remediation. |
 | `skills/406-sg-seo/SKILL.md` | conditionnel | source-de-chantier | SEO findings become a chantier for indexation, schema, content architecture, or multi-page remediation. |
@@ -250,7 +248,6 @@ Internal role matrix:
 | `skills/105-sg-check/SKILL.md` | conditionnel | source-de-chantier | Failed checks become a chantier when failures span domains, block release, or need staged remediation. |
 | `skills/705-sg-conversation-audit/SKILL.md` | conditionnel | source-de-chantier | Conversation evidence findings become a chantier when recurrence, repeatable routing gaps, or cross-owner quality risks appear. |
 | `skills/301-sg-context/SKILL.md` | non-applicable | helper | Context discovery is read-only; not a chantier source. |
-| `skills/402-sg-deps/SKILL.md` | conditionnel | source-de-chantier | Dependency findings become a chantier for critical/high risk, supply-chain trust, migration, or automation gaps. |
 | `skills/300-sg-docs/SKILL.md` | conditionnel | support-de-chantier | Supports docs coherence; not a source unless the user asks to frame a spec. |
 | `skills/104-sg-end/SKILL.md` | obligatoire | lifecycle | Closes an existing chantier; not a source. |
 | `skills/004-sg-deploy/SKILL.md` | obligatoire | lifecycle | Orchestrates the release confidence loop through checks, ship, deploy truth, post-deploy evidence, verification, and changelog routing. |
@@ -261,13 +258,11 @@ Internal role matrix:
 | `skills/106-sg-fix/SKILL.md` | conditionnel | source-de-chantier | Bug triage becomes a chantier when the fix is non-local, risky, or spec-first. |
 | `skills/302-sg-help/SKILL.md` | non-applicable | helper | Help is doctrine/read-only; never writes to specs. |
 | `skills/305-sg-init/SKILL.md` | conditionnel | support-de-chantier | Supports project bootstrap; route to spec only when setup policy must be formalized. |
-| `skills/404-sg-migrate/SKILL.md` | conditionnel | source-de-chantier | Migration findings become a chantier for breaking changes, staged upgrades, or rollback/validation planning. |
 | `skills/002-sg-maintain/SKILL.md` | obligatoire | lifecycle | Master maintenance lifecycle: triage, spec/readiness, bounded delegated execution, verification, and ship/deploy routing. |
 | `skills/704-sg-model/SKILL.md` | non-applicable | helper | Model advice does not mutate specs; report non-trace when useful. |
 | `skills/008-sg-customer/SKILL.md` | conditionnel | source-de-chantier | Customer-experience findings become a chantier when UX/UI clarity, activation, onboarding, permissions, docs, proof, or multiple surfaces need implementation. |
 | `skills/600-sg-local-cloud-sync/SKILL.md` | conditionnel | source-de-chantier | Sync findings become a chantier when local/cloud data promotion, account association, merge policy, sync UX, sensitive-data policy, or proof needs implementation. |
 | `skills/601-sg-product-entitlements/SKILL.md` | obligatoire | lifecycle | Product-entitlement work becomes a chantier for access ownership, provider events, backend gates, support flows, and sync handoff implementation. |
-| `skills/403-sg-perf/SKILL.md` | conditionnel | source-de-chantier | Perf findings become a chantier for Core Web Vitals risk, systemic rendering/fetching issues, or multi-file remediation. |
 | `skills/702-sg-priorities/SKILL.md` | conditionnel | pilotage | Priority work routes to `/100-sg-spec` only when an item needs a durable contract. |
 | `skills/405-sg-prod/SKILL.md` | conditionnel | source-de-chantier | Production incidents become a chantier for outage, deploy, runtime, rollback, or monitoring follow-up. |
 | `skills/101-sg-ready/SKILL.md` | obligatoire | lifecycle | Gates an existing spec; not a source. |
@@ -309,7 +304,7 @@ Report rule: every applicable report ends with a `Chantier` block. Conditional s
 
 | Skill | Purpose | Arguments |
 |-------|---------|-----------|
-| `/404-sg-migrate` | Framework upgrade assistant | `[package@version]` |
+| `/010-sg-technical migrate` | Framework/package breaking migration | `[package@version]` |
 | `/304-sg-changelog` | Auto-generate CHANGELOG from git | `[tag]`, `[date]`, `all` |
 
 ---
@@ -321,7 +316,7 @@ Report rule: every applicable report ends with a `Chantier` block. Conditional s
 /406-sg-seo @src/pages/index.astro
 
 # PROJECT MODE — audit current project (default)
-/401-sg-audit-code
+/010-sg-technical audit
 
 # GLOBAL MODE — audit ALL applicable projects
 /400-sg-audit global
@@ -382,7 +377,7 @@ Run any skill from `~/` (no project markers) and it asks **"Which project(s)?"**
 - `106-sg-fix` must reroute instead of applying a "small fix" when the bug may actually hide a contract or security decision.
 - `306-sg-scaffold` must preserve existing product/system coherence and avoid generating unsafe public-by-default artifacts.
 - `105-sg-check` and `405-sg-prod` must surface risky unknowns clearly instead of treating green checks as proof of product safety.
-- `401-sg-audit-code` must review business-flow abuse and product coherence, not just code style and raw security smells.
+- `010-sg-technical audit` must review business-flow abuse and product coherence, not just code style and raw security smells.
 
 ### Project development mode
 - Every project should document `## ShipGlowz Development Mode` in `CLAUDE.md`, or `SHIPFLOW.md` when no `CLAUDE.md` exists.
@@ -431,7 +426,7 @@ Run any skill from `~/` (no project markers) and it asks **"Which project(s)?"**
 
 ### Audit and dependency posture
 - `400-sg-audit` should orchestrate domain audits around linked systems, user outcomes, and downstream consequences, not just isolated file quality.
-- `402-sg-deps` should treat dependency changes as product and security changes: supply chain, trust, runtime blast radius, and commercial license risk all matter.
+- `010-sg-technical deps` should treat dependency changes as product and security changes: supply chain, trust, runtime blast radius, and commercial license risk all matter.
 - Business-facing audits should treat public promises as contracts: if GTM, copy, SEO, or design promises something the app/docs do not prove, the issue is material.
 
 ### One-pass rule
@@ -567,7 +562,7 @@ project/shipglowz_data/
 
 ### Framework upgrade
 ```bash
-/404-sg-migrate astro@5          # Research + plan + apply
+/010-sg-technical migrate astro@5 # Research + plan + approved apply
 /105-sg-check                    # Verify build
 /304-sg-changelog                # Document the upgrade
 /005-sg-ship                     # Commit and push
@@ -577,9 +572,9 @@ project/shipglowz_data/
 ```bash
 /400-sg-audit                    # All 8 domains, current project
 /400-sg-audit global             # All 8 domains, all projects
-/401-sg-audit-code               # Code only, current project
-/402-sg-deps global              # Dependencies across all projects
-/403-sg-perf @src/pages/index.astro  # Performance for one file
+/010-sg-technical audit           # Code only, current project
+/010-sg-technical deps global     # Dependencies across all projects
+/010-sg-technical performance @src/pages/index.astro  # Performance for one file
 ```
 
 ### Maintenance pass
@@ -663,9 +658,9 @@ project/shipglowz_data/
 
 **New project?** → `/305-sg-init` (bootstrap tracking)
 
-**Outdated dependencies?** → `/402-sg-deps` (full audit) or `/105-sg-check` (quick scan)
+**Outdated dependencies?** → `/010-sg-technical deps` (full audit) or `/105-sg-check` (quick scan)
 
-**Need to upgrade a framework?** → `/404-sg-migrate package@version`
+**Need to upgrade a framework?** → `/010-sg-technical migrate package@version`
 
 **Generate docs?** → `/300-sg-docs readme` or `/300-sg-docs api`
 

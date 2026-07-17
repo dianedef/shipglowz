@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "2.4.0"
+artifact_version: "2.5.0"
 project: ShipGlowz
 created: "2026-06-10"
 updated: "2026-07-15"
@@ -34,6 +34,7 @@ evidence:
   - "2026-06-11 310-sg-github-hygiene added as the git/GitHub sync, stale branch, PR drift, and Dependabot hygiene skill."
   - "2026-07-15 design consolidation retired 409 and 500-504 as public skills; their capabilities now live as modes and playbooks under 006-sg-design."
   - "2026-07-15 skill-maintenance consolidation retired 009 and 307; their capabilities now live as modes under the internal-only 900-shipglowz-core."
+  - "2026-07-17 technical consolidation assigned 010 and retired 401-404; their capabilities now live as explicit modes under 010-sg-technical."
 next_review: "2026-08-15"
 next_step: "/104-sg-end consolidate design skill surface into modes and playbooks"
 ---
@@ -68,7 +69,7 @@ operator invocation: $001-sg-build
 | `100-199` | Lifecycle and proof | Spec, readiness, execution, verification, checks, fixes, browser/auth/test proof. |
 | `200-299` | Content, research, and copy | Writing, enrichment, repurposing, market/research/watch, and copy audits. |
 | `300-399` | Docs, context, and support | Docs, help, context, changelog, init, scaffold, status, tasks. |
-| `400-499` | Audit, quality, and ops risk | Audit master, code/deps/perf/migrate/prod/SEO/i18n/GTM. |
+| `400-499` | Audit, quality, and ops risk | Broad audit, production proof, SEO, and i18n; technical depth moved to high-frequency entrypoint 010. |
 | `500-599` | Unassigned legacy band | Former design-specialist band; design now routes through `006-sg-design` modes. Reuse requires a ready taxonomy decision. |
 | `600-699` | Data and activation | Local-cloud sync, entitlements, parity, and future account/data surfaces. |
 | `700-799` | Pilotage and session helpers | Explore, backlog, priorities, review, model choice, resume helpers. |
@@ -91,6 +92,7 @@ Frequency wins over family when a skill belongs to both. For example `007-sg-con
 | `007` | `sg-content` | `007-sg-content` | Master |
 | `008` | `sg-customer` | `008-sg-customer` | Master |
 | `009` | `sg-marketing` | `009-sg-marketing` | Research/strategy/source |
+| `010` | `sg-technical` | `010-sg-technical` | Audit/technical/source |
 | `100` | `sg-spec` | `100-sg-spec` | Lifecycle/proof |
 | `101` | `sg-ready` | `101-sg-ready` | Lifecycle/proof |
 | `102` | `sg-start` | `102-sg-start` | Lifecycle/proof |
@@ -116,10 +118,6 @@ Frequency wins over family when a skill belongs to both. For example `007-sg-con
 | `309` | `sg-tasks` | `309-sg-tasks` | Docs/context/support |
 | `310` | `sg-github-hygiene` | `310-sg-github-hygiene` | Docs/context/support |
 | `400` | `sg-audit` | `400-sg-audit` | Audit/quality/ops |
-| `401` | `sg-audit-code` | `401-sg-audit-code` | Audit/quality/ops |
-| `402` | `sg-deps` | `402-sg-deps` | Audit/quality/ops |
-| `403` | `sg-perf` | `403-sg-perf` | Audit/quality/ops |
-| `404` | `sg-migrate` | `404-sg-migrate` | Audit/quality/ops |
 | `405` | `sg-prod` | `405-sg-prod` | Audit/quality/ops |
 | `406` | `sg-seo` | `406-sg-seo` | Audit/quality/ops |
 | `407` | `sg-audit-translate` | `407-sg-audit-translate` | Audit/quality/ops |

@@ -1,9 +1,30 @@
 ---
-name: 403-sg-perf
-description: "Audit performance, bundles, rendering, CWV, data, and databases."
-disable-model-invocation: true
-argument-hint: '[file-path | "global"] (omit for full project)'
+artifact: skill_reference
+metadata_schema_version: "1.0"
+artifact_version: "1.0.0"
+project: ShipGlowz
+created: "2026-07-17"
+updated: "2026-07-17"
+status: active
+source_skill: 010-sg-technical
+scope: performance-audit-playbook
+owner: Diane
+confidence: high
+risk_level: high
+security_impact: yes
+docs_impact: yes
+linked_systems:
+  - skills/010-sg-technical/SKILL.md
+depends_on: []
+supersedes: []
+evidence:
+  - "Transferred exhaustively from the retired performance skill during the 010-sg-technical consolidation."
+next_step: "/103-sg-verify consolidate technical skills under sg-technical"
 ---
+
+# Performance Audit Playbook
+
+Load this playbook only for `010-sg-technical performance`. It preserves the retired performance contract; its former invocation is provenance, not an alias.
 
 ## Canonical Paths
 
@@ -34,7 +55,7 @@ Because this skill has process role `source-de-chantier`, evaluate the standard 
 
 ## Mode detection
 
-- `403-sg-perf` answers one specialist question:
+- `010-sg-technical performance` answers one specialist question:
 
 ```text
 What performance risks are limiting this scope across bundle, rendering, loading, fetching, caching, or database behavior?
@@ -44,7 +65,7 @@ What performance risks are limiting this scope across bundle, rendering, loading
 - **`$ARGUMENTS` is a file path** → FILE MODE: deep performance review of that single file.
 - **`$ARGUMENTS` is empty** → PROJECT MODE: full performance audit.
 
-Keep the boundary explicit: stay in `403-sg-perf` when performance is already the dominant audit domain. Route back to `400-sg-audit` only when the operator needs multi-domain audit planning or consolidation beyond performance.
+Keep the boundary explicit: stay in `010-sg-technical performance` when performance is already the dominant audit domain. Route back to `400-sg-audit` only when the operator needs multi-domain audit planning or consolidation beyond performance.
 
 ---
 
@@ -135,7 +156,7 @@ Score each category **A/B/C/D**.
 
 ### Step 3: Fix
 
-Fix issues rated B or worse. Explain each change.
+Remain read-only by default. Fix issues rated B or worse only when the operator explicitly authorizes the exact fix scope or an active lifecycle contract already does. Stop for architecture, behavior, permission, destructive, or cross-scope decisions. Explain each authorized change.
 
 ### Step 4: Report
 
@@ -316,6 +337,8 @@ Analyze the project's build output and dependency weight.
 ### PHASE 6: FIX + REPORT
 
 #### Fix Priority
+Remain read-only unless the exact fix scope is authorized by the operator or an active lifecycle contract. For authorized fixes, use this priority:
+
 1. **Critical** — N+1 queries, missing indexes, unbounded queries, memory leaks
 2. **High** — Missing code splitting, no image optimization, waterfall requests
 3. **Medium** — Missing lazy loading, suboptimal caching, minor CWV issues
@@ -407,6 +430,9 @@ Create either file if missing with a short heading and traffic-first audit recor
 ## Important
 
 - audit-seo keeps its own SEO-specific performance checks (render-blocking resources, LCP for SEO ranking). This skill does **deep** performance analysis.
+- SEO ranking decisions route to `406-sg-seo`; hosted and live runtime truth routes to `405-sg-prod`.
+- Label every claim as static readiness, local measurement, browser measurement, hosted/runtime evidence, or production evidence. Never present an unmeasured optimization guess as a proven bottleneck.
+- Audit and performance findings are read-only by default and never imply permission to mutate project state.
 - Be specific about file paths and line numbers for every issue.
 - Detect the stack automatically. Only audit relevant sections (e.g., skip CWV for React Native).
 - For Bash/Shell projects, focus on script efficiency and caching patterns.

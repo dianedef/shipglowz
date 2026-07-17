@@ -6,34 +6,34 @@ project: ShipGlowz
 created: "2026-05-16"
 updated: "2026-05-16"
 status: draft
-source_skill: 102-sg-start
-scope: 401-sg-audit-code-audit-workflow
+source_skill: 010-sg-technical
+scope: 010-sg-technical-audit-playbook
 owner: unknown
 confidence: high
 risk_level: high
 security_impact: yes
 docs_impact: yes
 linked_systems:
-  - skills/401-sg-audit-code/SKILL.md
-  - skills/401-sg-audit-code/references/audit-workflow.md
+  - skills/010-sg-technical/SKILL.md
+  - skills/010-sg-technical/references/technical-audit-playbook.md
 depends_on:
   - artifact: "skills/references/skill-instruction-layering.md"
     artifact_version: "0.1.0"
     required_status: "draft"
 supersedes: []
 evidence:
-  - "Extracted from skills/401-sg-audit-code/SKILL.md during Compact ShipGlowz Skill Instructions Phase 2."
+  - "Transferred exhaustively into the technical audit mode during the 010-sg-technical consolidation."
 next_review: "2026-06-16"
 next_step: "/103-sg-verify Compact ShipGlowz Skill Instructions Phase 2"
 ---
 
-# Audit Workflow
+# Technical Audit Playbook
 
 ## Purpose
 
 GLOBAL, FILE, and PROJECT mode workflow, phase checklists, scoring, fix/report rules, and tracking details.
 
-This reference preserves the detailed pre-compaction instructions for `401-sg-audit-code`. The top-level `SKILL.md` is now the activation contract; load this file only when the selected mode needs the detailed workflow, checklist, templates, or examples below.
+This playbook is the exhaustive destination for the retired code-audit contract. Load it only for `010-sg-technical audit`; the compact dispatcher remains the activation contract.
 
 ## Detailed Instructions
 
@@ -273,7 +273,7 @@ Score each category **A/B/C/D**. Be strict.
 For each issue rated B or worse:
 1. Explain the problem with the specific line.
 2. Explain the concrete user impact, product incoherence, abuse path, or security risk.
-3. Fix it directly in the code (prefer **reuse over invention**: delete duplicates and call the existing helper/module).
+3. When the exact fix scope is authorized, fix it directly in the code (prefer **reuse over invention**: delete duplicates and call the existing helper/module). Otherwise report the findings and the proposed remediation only.
 4. For architectural choices, propose 2 options and ask.
 
 ### Step 4: Report
@@ -427,7 +427,7 @@ Read the project structure, entry points, configs, and 10-15 key files. Audit:
 
 #### 3.6 Dependency Health (quick check)
 
-> Deep dependency analysis has moved to `/402-sg-deps`.
+> Deep dependency analysis belongs to `010-sg-technical deps`.
 
 - [ ] Lock file committed
 
@@ -435,7 +435,7 @@ Read the project structure, entry points, configs, and 10-15 key files. Audit:
 
 ### PHASE 4: PERFORMANCE (quick scan)
 
-> Deep performance analysis has moved to `/403-sg-perf`.
+> Deep performance analysis belongs to `010-sg-technical performance`.
 
 Quick architecture-level checks only:
 
@@ -562,13 +562,13 @@ Quick architecture-level checks only:
 
 ### PHASE 8: FIX
 
-Fix all issues in code. Priority:
+Apply fixes only when the exact fix scope is authorized by the operator or an active lifecycle contract. Otherwise report findings and proposed remediation without changing project code. For authorized fixes, use this priority:
 1. **CRITICAL USER / SECURITY** — broken user promise, auth bypass, cross-tenant leak, injection, secrets, destructive incoherence
 2. **WORKFLOW INTEGRITY** — replay, duplicate action, invalid state transition, missing idempotency, partial failure corruption
 3. **PRODUCT COHERENCE** — misleading status, wrong actor flow, missing denied/error/recovery states
 4. **ARCHITECTURE** — circular deps, god files, untyped boundaries, convention drift in critical paths
 5. **RELIABILITY** — silent error swallowing, missing error boundaries, weak observability on high-risk flows
-6. **PERFORMANCE** — critical issues only (N+1, blocking ops); run `/403-sg-perf` for deep analysis
+6. **PERFORMANCE** — critical issues only (N+1, blocking ops); run `010-sg-technical performance` for deep analysis
 7. **BEST PRACTICES** — deprecated patterns, legacy APIs
 
 ### PHASE 9: REPORT
@@ -599,9 +599,9 @@ ARCHITECTURE                           [A/B/C/D]
   Error Resilience                     [A/B/C/D]
   Type Safety                          [A/B/C/D]
   Consistency & Reuse                  [A/B/C/D]
-  Dependency Health (quick)            [A/B/C/D]  → /402-sg-deps for full audit
+  Dependency Health (quick)            [A/B/C/D]  → 010-sg-technical deps for full audit
 
-PERFORMANCE (quick scan)               [A/B/C/D]  → /403-sg-perf for full audit
+PERFORMANCE (quick scan)               [A/B/C/D]  → 010-sg-technical performance for full audit
 
 SECURITY                               [A/B/C/D]
   Auth & Authorization                 [A/B/C/D]
@@ -687,3 +687,6 @@ Create either file if missing with a short heading and traffic-first audit recor
 - Be extra strict about duplication and “convention drift” (common in AI-assisted codebases): prefer consolidating existing patterns over adding new ones.
 - For shell/Bash projects: focus on input validation, quoting, `set -euo pipefail`, ShellCheck.
 - Don't refactor working code for aesthetics. Only change code with a concrete issue.
+- Audit is read-only by default. Apply a fix only when the operator explicitly authorizes the exact scope or an active lifecycle contract already does; findings alone never grant mutation authority.
+- Incomplete permissions, tests, runtime diagnostics, provider state, or security context must be reported as a proof gap. Static or partial evidence never proves code safe.
+- Inspect trust boundaries with least authority and redact secrets, cookies, tokens, private payloads, customer data, and raw private logs from reports and durable records.

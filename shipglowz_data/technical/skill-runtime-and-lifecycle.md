@@ -136,8 +136,8 @@ Current family boundaries:
 
 - Lifecycle/master: `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, `104-sg-end`, `005-sg-ship`, `001-sg-build`, `004-sg-deploy`, `002-sg-maintain`, `006-sg-design`, `007-sg-content`, `008-sg-customer`, `900-sg-shipglowz-core` (internal-only; its `audit` and `packaging` modes remain read-only assessment paths).
 - Data trust/source: `600-sg-local-cloud-sync`, `601-sg-product-entitlements`.
-- Audit/source: `400-sg-audit*`, `402-sg-deps`, `403-sg-perf`.
-- Bug/proof/source: `003-sg-bug`, `106-sg-fix`, `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check`, `404-sg-migrate`.
+- Audit/source: `400-sg-audit`, `010-sg-technical` (`audit`, `deps`, `performance`, `migrate`).
+- Bug/proof/source: `003-sg-bug`, `106-sg-fix`, `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check`.
 - Content/docs/support: `007-sg-content repurpose`, `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `304-sg-changelog`, `306-sg-scaffold`, `305-sg-init`, `310-sg-github-hygiene`.
 - Research/strategy/source: `009-sg-marketing`, `203-sg-research`, `205-sg-veille`.
 - Pilotage: `701-sg-backlog`, `702-sg-priorities`, `703-sg-review`, `309-sg-tasks`, `706-continue`.
@@ -388,7 +388,7 @@ Project maintenance flow:
   -> existing chantier/spec gate
   -> 100-sg-spec + 101-sg-ready when non-trivial
   -> delegated sequential maintenance lanes
-  -> 003-sg-bug / 402-sg-deps / 300-sg-docs / 105-sg-check / 401-sg-audit-code / 400-sg-audit / 404-sg-migrate / 106-sg-fix / 001-sg-build
+  -> 003-sg-bug / 010-sg-technical deps|audit|migrate / 300-sg-docs / 105-sg-check / 400-sg-audit / 106-sg-fix / 001-sg-build
   -> Documentation Update Plan and Editorial Update Plan when impacted
   -> 103-sg-verify
   -> 004-sg-deploy or 005-sg-ship
@@ -457,7 +457,7 @@ The source-derived corpus resolves from `${SHIPGLOWZ_INSPIRATION_LIBRARY_DIR:-${
 - `004-sg-deploy` owns release orchestration only; `005-sg-ship` owns commit/push, `405-sg-prod` owns deployed truth, and proof skills own observed behavior.
 - `003-sg-bug` owns bug lifecycle execution through owner skills and bounded subagents; phase skills still own bug record mutation, diagnosis, retest evidence, verification, and shipping internals.
 - `002-sg-maintain` owns the maintenance lifecycle; bugs, dependencies, docs, checks, audits, migrations, tasks, security review, repair, verification, and ship still run through their specialist owner skills and gates.
-- `310-sg-github-hygiene` owns focused git/GitHub hygiene; commit/push stays with `005-sg-ship`, dependency risk stays with `402-sg-deps`, major upgrade lanes stay with `404-sg-migrate`, and CI diagnosis stays with `github:gh-fix-ci`.
+- `310-sg-github-hygiene` owns focused git/GitHub hygiene; commit/push stays with `005-sg-ship`, dependency risk stays with `010-sg-technical deps`, major upgrade lanes stay with `010-sg-technical migrate`, and CI diagnosis stays with `github:gh-fix-ci`.
 - `007-sg-content` owns content-management orchestration; repurposing, drafting, enrichment, marketing modes, SEO audit, docs, veille, browser proof, verification, and ship still run through their specialist owner skills and gates.
 - Design and content skills use the shared Inspiration Gate only for eligible creative direction; they shortlist from `index.yaml`, require operator selection, record selected reference IDs, and never treat discovery as approval to imitate.
 - Content owner skills (`007-sg-content` including `repurpose`, `200-sg-redact`, `201-sg-enrich`, `009-sg-marketing copy|copywriting|gtm`, `406-sg-seo`) and `103-sg-verify` must use one shared rubric contract from `skills/references/content-quality-rubric.md`; recoverable score states (`needs retry`, `duplicate_in_progress`, `conflicting_score_state`, `stale_or_mismatched_score`) are never valid verification proof.

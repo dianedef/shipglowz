@@ -115,7 +115,7 @@ rg -n "Freshness Gate|Source Map|ShipGlowz Decision Rules|Maintenance Rule" ship
 - `*.py`, `pyproject.toml`, `requirements.txt`, Python shebang, `venv`, or Python package install changes found -> check for project-local Python usage note.
 - Installer touches Python -> verify system-vs-venv boundary.
 - Python script changes file IO/subprocess/parsing -> run syntax and focused behavior validation.
-- Python dependency changes -> route to `sg-deps` or `sg-migrate` as appropriate.
+- Python dependency changes -> route to `010-sg-technical deps` or `010-sg-technical migrate` as appropriate.
 
 ## Maintenance Rule
 

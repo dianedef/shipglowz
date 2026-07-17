@@ -11,7 +11,7 @@ CHANTIER_TRACKING = ROOT / "skills" / "references" / "chantier-tracking.md"
 FINAL_TIMESTAMP = ROOT / "skills" / "references" / "final-report-timestamp.md"
 START_README = ROOT / "skills" / "102-sg-start" / "README.md"
 START_WORKFLOW = ROOT / "skills" / "102-sg-start" / "references" / "execution-workflow.md"
-MIGRATE_SKILL = ROOT / "skills" / "404-sg-migrate" / "SKILL.md"
+MIGRATE_SKILL = ROOT / "skills" / "010-sg-technical" / "SKILL.md"
 
 
 class ReportingContractTests(unittest.TestCase):

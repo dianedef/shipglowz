@@ -16,6 +16,18 @@ Chronological log of skill refreshes via `/900-shipglowz-core refresh <skill>`. 
 
 **Sources:** 0 URLs consulted (local contract refresh; fresh-docs not needed)
 
+## 2026-07-17 — 010-sg-technical
+
+**Added:**
+- [contract proof] A focused followability test now rejects playbook instructions that bypass read-only audit authority or official-source migration precedence.
+
+**Updated:**
+- [mutation safety] Audit, dependency, and performance procedures now require the dispatcher-authorized fix scope before project mutation; migration guidance keeps official sources primary and codemods inside the approved apply phase.
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted (local contract refresh; fresh-docs not needed)
+
 ## 2026-07-17 — 101-sg-ready
 
 **Added:**

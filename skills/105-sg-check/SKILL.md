@@ -85,7 +85,7 @@ If `$ARGUMENTS` is empty (not "fix" or "nofix"), use the runtime's structured qu
   - **Lint** — "ESLint, formatting, style rules"
   - **Build** — "Full production build"
   - **Test** — "Unit/integration tests"
-  - **Dependencies** — "Quick vulnerability + outdated check (run /402-sg-deps for full audit)"
+  - **Dependencies** — "Quick vulnerability + outdated check (run /010-sg-technical deps for full audit)"
 - All options pre-selected by default
 
 If `$ARGUMENTS` is "fix" or "nofix", run all detected checks (skip the prompt).
@@ -137,7 +137,7 @@ If project scripts in `CLAUDE.md` or `package.json` suggest an expected check ex
 
 ### Step 1b: Check dependencies (if selected) — quick scan only
 
-> For comprehensive dependency auditing (unused deps, license compliance, type coverage, supply chain), run `/402-sg-deps`.
+> For comprehensive dependency auditing (unused deps, license compliance, type coverage, supply chain), run `/010-sg-technical deps`.
 
 **Node.js projects** (has package.json):
 - Run `npm audit --audit-level=high` / `yarn audit` / `pnpm audit` — report critical/high vulnerabilities only
@@ -147,7 +147,7 @@ If project scripts in `CLAUDE.md` or `package.json` suggest an expected check ex
 - Run `pip-audit` if available — report critical/high vulnerabilities only
 - Run `pip list --outdated` — show summary count
 
-Report a quick summary. Do NOT auto-update dependencies. Recommend `/402-sg-deps` for full analysis (unused, duplicates, licenses, configuration).
+Report a quick summary. Do NOT auto-update dependencies. Recommend `/010-sg-technical deps` for full analysis (unused, duplicates, licenses, configuration).
 
 Do not present a clean dependency scan as a security sign-off. If dependency checks were not available, required auth to registry services, or only partial results were obtained, state that explicitly.
 
@@ -193,7 +193,7 @@ If project mode is `vercel-preview-push`, include the next deployment step expli
 - Do not modify test expectations to make tests pass. Fix the actual code.
 - If the project CLAUDE.md specifies custom check commands, use those instead.
 - A passing `105-sg-check` run means "no obvious issues in the checks that were executed", not "product is production-ready".
-- When security-relevant checks fail or are missing (for example auth flows, permission boundaries, secret/config validation, dependency audit access), call that out explicitly and recommend the next skill when appropriate (`/103-sg-verify`, `/405-sg-prod`, `/402-sg-deps`).
+- When security-relevant checks fail or are missing (for example auth flows, permission boundaries, secret/config validation, dependency audit access), call that out explicitly and recommend the next skill when appropriate (`/103-sg-verify`, `/405-sg-prod`, `/010-sg-technical deps`).
 - When browser-observable behavior is unproven but the issue is not auth-specific, recommend `/108-sg-browser [URL or scope] [objective]` rather than stretching `/109-sg-auth-debug`.
 - In `vercel-preview-push` or relevant `hybrid` mode, apply `$SHIPFLOW_ROOT/skills/references/preview-proof-routing.md` when changed behavior needs preview validation.
 

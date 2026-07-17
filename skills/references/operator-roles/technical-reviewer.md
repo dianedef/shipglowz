@@ -15,7 +15,7 @@ security_impact: yes
 docs_impact: yes
 linked_systems:
   - skills/000-shipglowz/SKILL.md
-  - skills/401-sg-audit-code/SKILL.md
+  - skills/010-sg-technical/SKILL.md
   - skills/002-sg-maintain/SKILL.md
   - shipglowz_data/business/agent-profiles/technical-reviewer.md
 depends_on:
@@ -58,7 +58,7 @@ What is technically fragile, incorrect, overcomplicated, or likely to regress?
 
 ## Preferred Skills
 
-- `401-sg-audit-code`
+- `010-sg-technical audit`
 - `002-sg-maintain`
 - `105-sg-check`
 - `300-sg-docs`

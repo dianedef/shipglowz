@@ -40,6 +40,7 @@
 
 ## Skills
 
+🟢 [ShipGlowz] task: Consolider les skills techniques sous le nouvel entrypoint public `010-sg-technical` et ses modes `audit`, `deps`, `performance` et `migrate` | status: done | area: technical-skill-surface | id: consolidate-technical-skills-under-sg-technical | spec: shipglowz_data/workflow/specs/consolidate-technical-skills-under-sg-technical.md | verification: migration locale skill/runtime/docs/publique vérifiée; tests ciblés 14/14, métadonnées 18/18, sync runtime 204/204 et deux builds publics locaux | ship_status: not_shipped | next: /005-sg-ship consolidate technical skills under sg-technical
 🟢 [ShipGlowz] task: Consolider `202-sg-repurpose` sous le mode `007-sg-content repurpose` | status: done | area: content-skill-surface | id: consolidate-repurpose-mode-under-sg-content | spec: shipglowz_data/workflow/specs/consolidate-repurpose-mode-under-sg-content.md | verification: migration skill/runtime/documentation publique vérifiée, sans promesse d’effet de contenu en production | ship_status: shipped | next: none
 🟢 [ShipGlowz] task: Consolider les skills marketing sous 009-sg-marketing avec les modes market, gtm, copy et copywriting | status: done | area: marketing-skill-surface | id: consolidate-marketing-skills-under-sg-marketing | spec: shipglowz_data/workflow/specs/consolidate-marketing-skills-under-sg-marketing.md | ship_status: shipped | next: none
 🟢 [ShipGlowz] task: Consolider la maintenance des skills dans les modes et playbooks internes de 900-shipglowz-core | status: done | area: skills-maintenance-core | id: consolidate-skill-maintenance-under-shipglowz-core | spec: shipglowz_data/workflow/specs/consolidate-skill-maintenance-under-shipglowz-core.md | ship_status: shipped | next: none
@@ -133,7 +134,7 @@
 | 🟢 | Décider au niveau ShipGlowz si les projets doivent séparer le backlog d'exécution (`shipglowz_data/workflow/TASKS.md`) et la roadmap éditoriale/contenu dans un artefact canonique distinct, puis si validé: définir le nouvel artefact, mettre à jour la doctrine canonique, adapter les skills qui écrivent aujourd'hui dans `TASKS.md`, et prévoir la migration des projets existants | ✅ done |
 
 🟢 [ShipFlow] task: Évaluer models.dev comme registre externe optionnel pour `sg-model` | status: deferred | area: model-routing | source: veille utilisateur https://models.dev/ 2026-06-10
-🟢 [ShipFlow] task: Évaluer OpenPostern comme pattern pour enrichir `sg-veille`, `sg-deps`, `sg-audit-code` et les skills de codage avec scoring vendor-risk et signaux sécurité actionnables | status: deferred | area: tech-watch-security-skills | source: veille utilisateur https://betalist.com/startups/openpostern et https://openpostern.com/ 2026-06-10
+🟢 [ShipFlow] task: Évaluer OpenPostern comme pattern pour enrichir `sg-veille`, `010-sg-technical deps`, `010-sg-technical audit` et les skills de codage avec scoring vendor-risk et signaux sécurité actionnables | status: deferred | area: tech-watch-security-skills | source: veille utilisateur https://betalist.com/startups/openpostern et https://openpostern.com/ 2026-06-10
 🟢 [ShipFlow] task: Évaluer Alpic comme référence d'infrastructure MCP/ChatGPT Apps pour packaging, déploiement, monitoring, sécurité et distribution de skills ou serveurs MCP ShipFlow | status: deferred | area: mcp-app-distribution | source: veille utilisateur https://alpic.ai/ et https://alpic.ai/blog/deploy-chatgpt-apps-on-alpic 2026-06-10
 🟢 [ShipFlow] task: Explorer si un index SQL opérationnel peut remplacer utilement une partie de `shipglowz_data` sans dégrader la source de vérité documentaire | status: deferred | area: operational-data-architecture | source: recherche Bunny Database 2026-06-12 | next: /700-sg-explore SQL operational index over shipglowz_data
 🟢 [ShipFlow] task: Réévaluer plus tard les redondances entre profils nommés et focus tags puis supprimer les doublons de gouvernance si le runtime profils les remplace proprement | status: deferred | area: operator-profiles-governance | source: décision utilisateur 2026-06-28 | next: après implémentation runtime des profils
@@ -187,7 +188,7 @@
 
 ### Audit: Deps
 
-🟠 [ShipFlow] task: Remediate the site Astro advisory with the planned major upgrade path | status: todo | area: site-deps | next: /404-sg-migrate astro 6.x upgrade
+🟠 [ShipFlow] task: Remediate the site Astro advisory with the planned major upgrade path | status: todo | area: site-deps | next: /010-sg-technical migrate astro@6
 🟡 [ShipFlow] task: Add a committed lockfile and pin the tui toolchain for reproducible dependency audits | status: todo | area: tui-deps | next: bun install --lockfile-only
 
 🟢 [ShipGlowz] task: Empêcher les scans DevServer de descendre dans le contenu des répertoires `.flox` et rendre la synchronisation du registre lazy ou stale-aware | status: done | area: runtime-cli-perf | id: devserver-startup-flox-prune | spec: shipglowz_data/workflow/specs/devserver-ui-centralization.md | evidence: scanner borné et registre lazy, atomique et stale-safe vérifiés; médianes source 0.13s et s x 0.19s | next: /005-sg-ship Optimize DevServer startup, caches, and shell UI

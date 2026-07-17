@@ -29,7 +29,7 @@ limits:
   - "It is a discovery tool first, not a direct implementation step"
   - "Broad coverage is useful for prioritization, but specialist follow-up is often needed"
 related_skills:
-  - "sg-audit-code"
+  - "sg-technical"
   - "sg-design"
   - "sg-verify"
 featured: true

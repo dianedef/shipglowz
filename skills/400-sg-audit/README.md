@@ -46,6 +46,6 @@ This skill is an orchestrator. It launches the relevant audits and synthesizes t
 
 ## Related Skills
 
-- `401-sg-audit-code` for a code-first review
+- `010-sg-technical audit` for a code-first review
 - `406-sg-seo` for search visibility and metadata issues
 - `103-sg-verify` for a final readiness pass after fixes

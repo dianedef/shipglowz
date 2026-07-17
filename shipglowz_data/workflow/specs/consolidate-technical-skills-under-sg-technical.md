@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.10"
 project: ShipGlowz
 created: "2026-07-17"
 created_at: "2026-07-17 13:36:36 UTC"
 updated: "2026-07-17"
-updated_at: "2026-07-17 13:41:10 UTC"
+updated_at: "2026-07-17 14:55:29 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: GPT-5 Codex
@@ -46,7 +46,7 @@ depends_on:
     artifact_version: "0.7.0"
     required_status: draft
   - artifact: skills/references/skill-code-index.md
-    artifact_version: "2.4.0"
+    artifact_version: "2.5.0"
     required_status: active
 supersedes: []
 evidence:
@@ -55,12 +55,12 @@ evidence:
   - "Current public/runtime surface exposes 401-sg-audit-code, 402-sg-deps, 403-sg-perf, and 404-sg-migrate as separate entrypoints."
   - "The four source contracts contain about 1,700 lines including the 401 audit playbook, while help, maintenance, audit routing, code index, pack catalog, public pages, operator guidance, and runtime links repeat their identities."
   - "Code 010 is currently unassigned in the canonical skill code index; current-user runtimes expose all four retiring source identities and no 010-sg-technical identity."
-next_step: "/102-sg-start consolidate technical skills under sg-technical"
+next_step: "none"
 ---
 
 # Spec: Consolidate Technical Skills Under 010-sg-technical
 
-🟢 [ShipGlowz] spec: Consolidate Technical Skills Under 010-sg-technical | status: ready | path: shipglowz_data/workflow/specs/consolidate-technical-skills-under-sg-technical.md | next: /102-sg-start consolidate technical skills under sg-technical
+🟢 [ShipGlowz] spec: Consolidate Technical Skills Under 010-sg-technical | status: shipped | path: shipglowz_data/workflow/specs/consolidate-technical-skills-under-sg-technical.md | next: none
 
 ## Title
 
@@ -68,7 +68,7 @@ Consolidate Technical Skills Under `010-sg-technical`
 
 ## Status
 
-Ready after adversarial review of source transfer, owner boundaries, mutation authority, security/supply-chain behavior, public/runtime discovery, and concurrent-worktree protection. Implementation, independent verification, closure, and shipping have not started.
+Implementation, independent verification, closure bookkeeping, and bounded git shipping are complete. The skill, runtime, documentation, catalog, and public-surface migration is shipped; no deployment or external production outcome is claimed.
 
 ## User Story
 
@@ -221,49 +221,49 @@ Proof path: source-completeness and scenario-first contract proof, followed by a
 
 ## Implementation Tasks
 
-- [ ] Task 1: Freeze the source-contract and active-reference inventory.
+- [x] Task 1: Freeze the source-contract and active-reference inventory.
   - Files: `skills/401-sg-audit-code/**`, `skills/402-sg-deps/**`, `skills/403-sg-perf/**`, `skills/404-sg-migrate/**`, active consumers discovered by focused scans, and the new transfer matrix.
   - Action: classify every source rule and predecessor-name occurrence as target dispatcher, target playbook, shared contract, active route/public/runtime/test surface, or historical evidence; define the narrow historical allowlist and no-alias policy.
   - User story link: prevents capability loss and stale competing entrypoints.
   - Depends on: ready spec.
   - Validate with: reviewed transfer matrix, source heading/rule inventory, and focused baseline scan.
 
-- [ ] Task 2: Create the compact `010-sg-technical` dispatcher and routing reference.
+- [x] Task 2: Create the compact `010-sg-technical` dispatcher and routing reference.
   - Files: `skills/010-sg-technical/SKILL.md`, `skills/010-sg-technical/references/technical-router.md`.
   - Action: define mode grammar, exact defaults, lazy loads, adjacent-owner handoffs, reporting/chantier posture, invalid-input behavior, security boundary, and validation hooks without embedding the four procedures.
   - User story link: creates one understandable technical entrypoint.
   - Depends on: Task 1.
   - Validate with: focused dispatcher test and activation-body budget/audit checks.
 
-- [ ] Task 3: Migrate the code/security audit contract.
+- [x] Task 3: Migrate the code/security audit contract.
   - Files: `skills/010-sg-technical/references/technical-audit-playbook.md`, source-to-mode transfer evidence.
   - Action: transfer `401` activation and audit workflow depth, including file/project/global routes, findings/scoring, correctness, trust boundaries, permissions, data/secrets, repository hygiene, architecture, reliability, duplication, tests, fixes/reporting, runtime diagnostics, and stop conditions.
   - User story link: preserves the strongest technical-risk audit under `audit`.
   - Depends on: Task 2.
   - Validate with: source-completeness comparison and code/security pressure scenarios.
 
-- [ ] Task 4: Migrate dependency, performance, and migration contracts into separate playbooks.
+- [x] Task 4: Migrate dependency, performance, and migration contracts into separate playbooks.
   - Files: `skills/010-sg-technical/references/dependency-audit-playbook.md`, `performance-audit-playbook.md`, `migration-playbook.md`, source-to-mode transfer evidence.
   - Action: preserve every execution-critical phase, applicability rule, evidence limit, tracking/reporting rule, mutation approval, rollback, and validation requirement; remove duplication only by explicit links to shared contracts.
   - User story link: preserves specialist depth while reducing public commands.
   - Depends on: Task 2.
   - Validate with: one source-completeness matrix and adversarial scenario set per mode.
 
-- [ ] Task 5: Migrate active routing and adjacent-owner handoffs.
+- [x] Task 5: Migrate active routing and adjacent-owner handoffs.
   - Files: `skills/400-sg-audit/**`, `skills/002-sg-maintain/**`, `skills/105-sg-check/**`, `skills/103-sg-verify/**`, `skills/310-sg-github-hygiene/**`, `skills/302-sg-help/**`, `skills/000-shipglowz/**`, and other active consumers from Task 1.
   - Action: replace predecessor owners with the narrowest exact `010` mode and keep `400`, `405`, `406`, `407`, and `105` ownership explicit.
   - User story link: makes routing consistent without creating a technical mega-owner.
   - Depends on: Tasks 3-4.
   - Validate with: owner-boundary scenarios and focused active-reference scan.
 
-- [ ] Task 6: Migrate code index, pack catalog, documentation, and public discovery.
+- [x] Task 6: Migrate code index, pack catalog, documentation, and public discovery.
   - Files: `skills/references/skill-code-index.md`, pack catalogs, runtime/lifecycle and operator docs, active README/AGENT/templates, `shipglowz-site/src/content/skills/sg-technical.md`, four retiring pages, and inventory-confirmed related pages.
   - Action: replace four identities with one public `010` entry, preserve no-alias/normal-not-found policy, and make public descriptions mode-specific and evidence-honest.
   - User story link: removes discovery noise on every operator-facing surface.
   - Depends on: Task 5.
   - Validate with: code-index/catalog checks, link/content scans, and public build.
 
-- [ ] Task 7: Add focused regression proof and retire the four source identities.
+- [x] Task 7: Add focused regression proof and retire the four source identities.
   - Files: `tools/test_010_sg_technical_contract.py`, retired source directories, current-user runtime links, and any generated/runtime manifest identified in Task 1.
   - Action: prove dispatcher/playbook/source/boundary/stale-name contracts, then remove `401`-`404` directories and sync runtime visibility only after all transfer gates pass.
   - User story link: ensures the consolidation is real rather than a fifth wrapper.
@@ -335,14 +335,28 @@ None. The operator selected the métier architecture, and repository inspection 
 |----------|-------|-------|--------|--------|-----------|
 | 2026-07-17 13:36:36 UTC | 100-sg-spec | GPT-5 Codex | Created the autonomous technical-skill consolidation contract after inspecting all four source contracts/playbooks, adjacent owners, active routes, public pages, code index, pack catalog, runtime identities, tests, and the prior design/marketing consolidation architecture. | drafted; no implementation performed | `/101-sg-ready consolidate technical skills under sg-technical` |
 | 2026-07-17 13:41:10 UTC | 101-sg-ready | GPT-5 Codex | Ran strict adversarial readiness review; bounded audit/dependency/performance mutation authority, hardened migrate dirty-worktree and secret handling, and structured the proof contract before rerunning readiness. | ready | `/102-sg-start consolidate technical skills under sg-technical` |
+| 2026-07-17 13:59:42 UTC | 102-sg-start | GPT-5 Codex (codex implementation profile/high recommended only; runtime override unavailable) | Implemented the `010-sg-technical` dispatcher, router, exhaustive source transfer into four lazy playbooks, active routes/docs/catalog/public/runtime migration, focused scenario-first test, predecessor retirement, and local full validation. | implemented; auto-verify run; code-index alias baseline and packaging portability reviews classified outside this chantier | `/103-sg-verify consolidate technical skills under sg-technical` |
+| 2026-07-17 13:59:42 UTC | 900-shipglowz-core build | GPT-5 Codex | Applied the skill-maintenance build contract and conservative refresh review to `010-sg-technical`; documentation and editorial surfaces are complete, fresh external docs were not needed for the local migration, and execution-time deps/migrate freshness gates remain. `skills/REFRESH_LOG.md` was intentionally not edited because it contains concurrent excluded work. | implemented; runtime links repaired; reload-only current-session picker gap remains | `/103-sg-verify consolidate technical skills under sg-technical` |
+| 2026-07-17 14:07:40 UTC | 900-shipglowz-core refresh | GPT-5 Codex (GPT-5.5 high recommended only; runtime override unavailable) | Conservatively reviewed `010-sg-technical` for 401-404 capability transfer, lazy routing, followability, mutation/security authority, context budget, and docs/runtime coherence; tightened only contradictory playbook instructions and added focused contract proof. | refreshed; 0 external sources; fresh-docs not needed; focused checks passed; pre-existing code-index alias baseline unchanged | `/103-sg-verify consolidate technical skills under sg-technical` |
+| 2026-07-17 14:16:32 UTC | 103-sg-verify mode=standard | GPT-5 Codex (GPT-5.5 high recommended only; runtime override unavailable) | Independently rebuilt source-transfer proof from `HEAD`, reviewed dispatcher/playbooks/boundaries/safety, and reran focused test, metadata, audit, budget, catalog, runtime sync, active scans, both local Astro builds, and diff checks. | not verified; active incomplete specs still contain executable predecessor paths/commands outside the historical-provenance allowlist; code-index and packaging failures remain pre-existing classified baselines | `/100-sg-spec migrate active predecessor routes in incomplete specs to exact 010-sg-technical modes` |
+| 2026-07-17 14:20:26 UTC | 100-sg-spec correction | GPT-5 Codex (GPT-5.5 high recommended only; runtime override unavailable) | Migrated active predecessor paths, commands, tests, actions, and routing language in the three verification-identified incomplete specs to the exact `010-sg-technical` modes while preserving dated predecessor evidence as history. | correction complete; prior `103-sg-verify` verdict remains not verified pending rerun | `/103-sg-verify consolidate technical skills under sg-technical` |
+| 2026-07-17 14:27:31 UTC | 102-sg-start repair | GPT-5 Codex (GPT-5.5 high recommended only; runtime override unavailable) | Hardened `TECH-ACTIVE-06` with a deterministic scan of every canonical spec, an exact reviewed factual/historical line allowlist, and named route proof for the three corrected specs. | implemented; focused contract test passed | `/103-sg-verify consolidate technical skills under sg-technical` |
+| 2026-07-17 14:32:57 UTC | 103-sg-verify mode=standard | GPT-5 Codex (GPT-5.5 high recommended only; runtime override unavailable) | Replayed independent source-transfer and full local proof, confirmed the three previously identified specs and exact-line/unused-allowlist behavior, then challenged the active-spec scan against the Test Contract's unprefixed predecessor forms. | not verified; `TECH-ACTIVE-06` scans every spec only for numbered `401`-`404` identities and misses active unprefixed routes in `openpostern-security-signal-routing-for-shipflow-skills.md` and `retire-central-shipflow-data-repository.md`; unrelated code-index alias, packaging, and 205 budget baselines remain classified outside this chantier | `/102-sg-start repair TECH-ACTIVE-06 unprefixed predecessor routes` |
+| 2026-07-17 14:42:09 UTC | 102-sg-start repair | GPT-5 Codex (GPT-5.5 high recommended only; runtime override unavailable) | Migrated the two verification-identified active specs from retired unprefixed dependency/audit/performance routes to exact `010-sg-technical` modes and playbooks, expanded `TECH-ACTIVE-06` to numbered and unprefixed slash/path/command variants, and retained only exact reviewed source-era lines under the unused-entry-failing allowlist. | implemented; scenario-first focused contract test passed; prior not-verified verdicts preserved pending independent rerun | `/103-sg-verify consolidate technical skills under sg-technical` |
+| 2026-07-17 14:46:58 UTC | 103-sg-verify mode=standard | GPT-5 Codex (GPT-5.5 high recommended only; runtime override unavailable) | Independently replayed source transfer from `git show HEAD`, verified the three numbered-route and two unprefixed-route spec repairs, challenged numbered/unprefixed bare/slash/path/command matching plus exact and unused-entry-failing allowlisting, and reran dispatcher, lazy-load, boundary, safety, active/public/catalog/runtime, metadata, audit, budget, JSON, pack, sync, build, and diff gates. | verified; focused contract 14/14, metadata 18/18, runtime sync 204/204, both public builds passed; pre-existing code-index alias failures, planned-pack portability reviews, and 205 budget risk remain classified outside this chantier | `/104-sg-end consolidate technical skills under sg-technical` |
+| 2026-07-17 14:50:18 UTC | 104-sg-end | GPT-5 Codex (gpt-5.4-mini recommended only; runtime override unavailable) | Closed the verified technical-skill consolidation in the canonical spec, task registry, and changelog without claiming git ship status or external runtime/production proof. | closed; local skill/runtime/documentation/public migration bookkeeping is complete | `/005-sg-ship consolidate technical skills under sg-technical` |
+| 2026-07-17 14:55:29 UTC | 005-sg-ship | GPT-5 Codex | Re-ran the bounded quick-ship gates, isolated the exact technical-consolidation scope from concurrent dirty work, committed it on the current branch, and pushed to its upstream without force. | shipped; focused contract 14/14, targeted metadata, audit/budget, catalog JSON, runtime sync 204/204, active scans, and diff hygiene passed; verified public builds reused because the implementation diff did not change after 103 | none |
 
 ## Current Chantier Flow
 
-- `100-sg-spec`: drafted — scope, exact modes, source transfer, exclusions, security impact, public/runtime migration, and proof contract recorded.
+- `100-sg-spec`: corrected — scope and prior implementation history preserved; active routes in the three verification-identified incomplete specs now use exact `010-sg-technical` modes.
 - `101-sg-ready`: ready — transfer completeness, owner exclusions, security/supply-chain/mutation boundaries, docs/runtime/public/catalog proof, and concurrent-worktree safety passed adversarial review.
-- `102-sg-start`: not launched.
-- `103-sg-verify`: not launched.
-- `104-sg-end`: not launched.
-- `005-sg-ship`: not launched.
+- `102-sg-start`: implemented — scenario-first source transfer, four-mode dispatcher/playbooks, active routes, docs, public/catalog/runtime migration, predecessor retirement, and local full checks completed; auto-verify run.
+- `102-sg-start repair` (first): implemented — `TECH-ACTIVE-06` scans every canonical spec deterministically, rejects every unallowlisted numbered predecessor occurrence, and proves the three initially corrected specs use exact `010` routes.
+- `102-sg-start repair` (unprefixed): implemented — the two remaining active specs now use exact `010` modes/playbooks; the scan covers numbered and unprefixed slash/path/command variants, preserves only exact reviewed source-era lines, fails stale allowlist entries, and proves all five corrected specs use exact `010` routes.
+- `900-shipglowz-core refresh`: passed — conservative 010 review aligned playbook mutation authority and official-source precedence with focused regression proof; no public/runtime route changed.
+- `103-sg-verify`: verified — both prior blockers are repaired and independently proven; source transfer, exact four-mode dispatch, owner/security/mutation boundaries, active/public/catalog/runtime retirement, and proportional local proof pass. Pre-existing code-index alias failures, planned-pack portability reviews, and the 205 budget risk remain outside this chantier.
+- `104-sg-end`: closed — canonical spec, task registry, and changelog now record the verified local skill/runtime/documentation/public migration without a ship or production claim.
+- `005-sg-ship`: shipped — the exact bounded consolidation scope is committed and pushed to the current branch upstream without force; unrelated concurrent dirty work remains outside the commit, and no deployment or external production outcome is claimed.
 
-Next command: `/102-sg-start consolidate technical skills under sg-technical`
+Next command: none

@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.1"
 project: "shipflow"
 created: "2026-06-27"
 created_at: "2026-06-27 00:00:00 UTC"
-updated: "2026-06-27"
-updated_at: "2026-06-27 00:00:00 UTC"
+updated: "2026-07-17"
+updated_at: "2026-07-17 14:20:26 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: "GPT-5 Codex"
@@ -23,8 +23,9 @@ linked_systems:
   - "skills/003-sg-bug/SKILL.md"
   - "skills/004-sg-deploy/SKILL.md"
   - "skills/400-sg-audit/SKILL.md"
-  - "skills/401-sg-audit-code/SKILL.md"
-  - "skills/403-sg-perf/SKILL.md"
+  - "skills/010-sg-technical/SKILL.md"
+  - "skills/010-sg-technical/references/technical-audit-playbook.md"
+  - "skills/010-sg-technical/references/performance-audit-playbook.md"
   - "shipglowz_data/workflow/TASKS.md"
   - "tools/audit_shipflow_skills.py"
   - "tools/skill_budget_audit.py"
@@ -69,7 +70,7 @@ This phase must make master-vs-owner boundaries mechanically obvious from the fi
 - `002-sg-maintain` makes it obvious that it owns existing-project upkeep selection and continuation, not feature delivery, single-bug ownership, or release-confidence ownership.
 - `003-sg-bug` makes it obvious that it owns one bug loop at a time, not broad maintenance or release orchestration.
 - `004-sg-deploy` makes it obvious that it owns bounded release confidence after implementation, not feature implementation or generic maintenance.
-- `400-sg-audit` makes it obvious that it owns broad audit planning/consolidation, while `401-sg-audit-code` and `403-sg-perf` own specialist depth when one domain is already clear.
+- `400-sg-audit` makes it obvious that it owns broad audit planning/consolidation, while `$010-sg-technical audit <target>` and `$010-sg-technical performance <target>` own specialist depth when the technical lane is already clear.
 - A fresh agent can infer whether to stay in the master skill or route directly to the narrower owner without reading deep examples.
 
 ## Error Behavior
@@ -83,7 +84,7 @@ This phase must make master-vs-owner boundaries mechanically obvious from the fi
 - `BUILD-VS-MAINTAIN`: the operator asks to "clean up" or "improve" a project and an agent must decide whether the work is upkeep or feature delivery.
 - `BUG-VS-DEPLOY`: the operator mentions a failure near release time and an agent must decide whether the dominant job is bug-loop ownership or release-confidence proof.
 - `MASTER-VS-OWNER`: an agent sees a master skill name and incorrectly stays there instead of routing to the earliest narrower owner.
-- `AUDIT-MASTER-VS-SPECIALIST`: an agent wants a code or perf review and must decide whether to start with `400` or route directly to `401` or `403`.
+- `AUDIT-MASTER-VS-SPECIALIST`: an agent wants a code or performance review and must decide whether to start with `400-sg-audit` or route directly to `$010-sg-technical audit <target>` or `$010-sg-technical performance <target>`.
 
 ## Scope In
 
@@ -93,8 +94,9 @@ This phase must make master-vs-owner boundaries mechanically obvious from the fi
   - `skills/003-sg-bug/SKILL.md`
   - `skills/004-sg-deploy/SKILL.md`
   - `skills/400-sg-audit/SKILL.md`
-  - `skills/401-sg-audit-code/SKILL.md`
-  - `skills/403-sg-perf/SKILL.md`
+  - `skills/010-sg-technical/SKILL.md`
+  - `skills/010-sg-technical/references/technical-audit-playbook.md`
+  - `skills/010-sg-technical/references/performance-audit-playbook.md`
 - narrow task-tracker update for this phase-2 slice
 
 ## Scope Out
@@ -113,8 +115,8 @@ This phase must make master-vs-owner boundaries mechanically obvious from the fi
 - `tools/shipflow_sync_skills.sh --check --skill 003-sg-bug`
 - `tools/shipflow_sync_skills.sh --check --skill 004-sg-deploy`
 - `tools/shipflow_sync_skills.sh --check --skill 400-sg-audit`
-- `tools/shipflow_sync_skills.sh --check --skill 401-sg-audit-code`
-- `tools/shipflow_sync_skills.sh --check --skill 403-sg-perf`
+- `tools/shipflow_sync_skills.sh --check --skill 010-sg-technical`
+- targeted route checks for `$010-sg-technical audit <target>` and `$010-sg-technical performance <target>`
 - targeted `rg` checks for `answers one`, `route directly`, `stay`, `owns`, and `not`
 
 ## Implementation Tasks

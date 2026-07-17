@@ -21,7 +21,7 @@ what_you_give:
 what_you_get:
   - "A lifecycle maintenance result: completed, verified, shipped, ship-ready, or blocked"
   - "Spec/readiness routing when maintenance is non-trivial"
-  - "Delegated execution through owner skills such as sg-bug, sg-deps, sg-docs, sg-check, sg-audit-code, sg-audit, sg-migrate, sg-fix, sg-build, sg-deploy, or sg-ship"
+  - "Delegated execution through owner skills such as sg-bug, sg-technical, sg-docs, sg-check, sg-audit, sg-fix, sg-build, sg-deploy, or sg-ship"
   - "Clear proof gaps and ship blockers when evidence is partial"
 example_prompts:
   - "/sg-maintain"
@@ -39,7 +39,7 @@ argument_modes:
     consequence: "Keeps the old report-only behavior when you explicitly want no writes."
   - argument: "security"
     effect: "Runs the security maintenance lifecycle for bug risk, dependency vulnerabilities, secret/config hygiene, auth and permission surfaces, remediation gates, verification, and ship routing."
-    consequence: "Uses sg-deps and sg-audit-code without inventing a separate security audit."
+    consequence: "Uses sg-technical deps and sg-technical audit without inventing a separate security audit."
   - argument: "deps / docs / audits"
     effect: "Focuses the maintenance lifecycle on one owner lane."
     consequence: "Still verifies and routes ship when the lane changes the project."
@@ -50,17 +50,15 @@ argument_modes:
     effect: "Builds a workspace maintenance dashboard from the project registry."
     consequence: "Asks which projects to inspect before doing heavier work."
 limits:
-  - "It orchestrates maintenance skills; it does not replace sg-deps, sg-docs, sg-audit-code, sg-audit, sg-migrate, sg-check, sg-fix, sg-build, sg-deploy, or sg-ship"
+  - "It orchestrates maintenance skills; it does not replace sg-technical, sg-docs, sg-audit, sg-check, sg-fix, sg-build, sg-deploy, or sg-ship"
   - "It executes through owner skills and bounded subagents instead of duplicating their internals"
   - "It does not ship when checks, verification, deployment proof, high-risk bugs, or security gates are unresolved"
 related_skills:
   - "sg-bug"
-  - "sg-deps"
+  - "sg-technical"
   - "sg-docs"
   - "sg-check"
-  - "sg-audit-code"
   - "sg-audit"
-  - "sg-migrate"
   - "sg-tasks"
   - "sg-fix"
   - "sg-build"

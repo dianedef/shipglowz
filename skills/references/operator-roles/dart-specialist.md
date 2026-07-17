@@ -39,7 +39,7 @@ Apply null safety, async behavior, package structure, analyzer rules, and genera
 
 ## Preferred Skills
 
-- `401-sg-audit-code`
+- `010-sg-technical audit`
 - `105-sg-check`
 - `107-sg-test`
 

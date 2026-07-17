@@ -27,8 +27,7 @@ linked_systems:
   - skills/102-sg-start/SKILL.md
   - skills/103-sg-verify/SKILL.md
   - skills/305-sg-init/SKILL.md
-  - skills/401-sg-audit-code/SKILL.md
-  - skills/403-sg-perf/SKILL.md
+  - skills/010-sg-technical/SKILL.md
 depends_on: []
 supersedes: []
 evidence:

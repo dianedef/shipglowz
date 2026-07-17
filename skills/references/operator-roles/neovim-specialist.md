@@ -16,7 +16,7 @@ docs_impact: yes
 linked_systems:
   - shipglowz_data/technical/external-platforms/neovim.md
   - skills/002-sg-maintain/SKILL.md
-  - skills/401-sg-audit-code/SKILL.md
+  - skills/010-sg-technical/SKILL.md
   - skills/105-sg-check/SKILL.md
   - shipglowz_data/business/agent-profiles/neovim-specialist.md
 depends_on:
@@ -52,7 +52,7 @@ This role applies Neovim and Lua configuration expertise to the active owner ski
 ## Preferred Skills
 
 - `002-sg-maintain`
-- `401-sg-audit-code`
+- `010-sg-technical audit`
 - `105-sg-check`
 - `107-sg-test`
 - `300-sg-docs`

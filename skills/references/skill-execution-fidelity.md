@@ -206,7 +206,7 @@ Good:
 
 ```text
 This project uses npm.
-Continue now with npm, or open Codex and run `/404-sg-migrate pnpm` for the guided migration path.
+Continue now with npm, or open Codex and run `/010-sg-technical migrate pnpm` for the guided migration path.
 ```
 
 Do not over-promote unrelated skills. Suggest the owner skill only when it is a natural extension of the current friction and improves the user's chance of success.

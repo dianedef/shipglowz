@@ -114,7 +114,7 @@ rg -n "Freshness Gate|Source Map|ShipGlowz Decision Rules|Maintenance Rule" ship
 
 - `astro`, `astro.config`, `src/content.config`, `.astro`, `getCollection`, adapter config, or Astro deploy docs found -> check for project-local Astro usage note.
 - Public content changed -> check editorial corpus plus Astro content schema.
-- Dependency upgrade touches Astro/Vite/Zod -> route to `sg-migrate` and require build proof.
+- Dependency upgrade touches Astro/Vite/Zod -> route to `010-sg-technical migrate` and require build proof.
 - Env var change -> verify server/client exposure and deploy provider configuration.
 
 ## Maintenance Rule

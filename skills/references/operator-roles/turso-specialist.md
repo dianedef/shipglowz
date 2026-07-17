@@ -39,7 +39,7 @@ Apply hosted and embedded Turso/libSQL architecture, schema proof, migration, re
 
 ## Preferred Skills
 
-- `401-sg-audit-code`
+- `010-sg-technical audit`
 - `105-sg-check`
 - `107-sg-test`
 - `405-sg-prod`

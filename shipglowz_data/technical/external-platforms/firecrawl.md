@@ -134,7 +134,7 @@ rg -n "integration path|endpoint|retention|Validation|Maintenance Rule" shipglow
 - Firecrawl release/changelog changes mention endpoints, SDKs, MCP, retention, parsing, browser interaction, or reliability/security fixes -> compare against current project code and docs.
 - Code touches scraping, crawling, document parsing, web search, or browser automation -> run the Freshness Gate and check relevant Firecrawl docs.
 - Project uses Firecrawl for user/customer data -> verify retention, secret handling, compliance, and logging assumptions before giving a high-confidence verdict.
-- Major Firecrawl release affects integration shape -> route upgrades to `sg-deps` or `sg-migrate`; route code impact to `sg-audit-code`; route docs impact to `sg-docs`.
+- Major Firecrawl release affects integration shape -> route upgrades to `010-sg-technical deps` or `010-sg-technical migrate`; route code impact to `010-sg-technical audit`; route docs impact to `sg-docs`.
 
 ## Maintenance Rule
 

@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.1"
 project: "ShipGlowz"
 created: "2026-05-25"
 created_at: "2026-05-25 14:51:37 UTC"
-updated: "2026-05-25"
-updated_at: "2026-05-25 16:25:37 UTC"
+updated: "2026-07-17"
+updated_at: "2026-07-17 14:36:35 UTC"
 status: ready
 source_skill: sg-spec
 source_model: "GPT-5 Codex"
@@ -31,9 +31,10 @@ linked_systems:
   - "skills/sg-backlog/SKILL.md"
   - "skills/sg-priorities/SKILL.md"
   - "skills/sg-review/SKILL.md"
-  - "skills/sg-audit*/"
-  - "skills/sg-deps/SKILL.md"
-  - "skills/sg-perf/SKILL.md"
+  - "skills/400-sg-audit/"
+  - "skills/010-sg-technical/references/technical-audit-playbook.md"
+  - "skills/010-sg-technical/references/dependency-audit-playbook.md"
+  - "skills/010-sg-technical/references/performance-audit-playbook.md"
   - "skills/sg-help/references/help-catalog.md"
   - "tui/src/main.ts"
   - "tui/src/sources/readers.ts"

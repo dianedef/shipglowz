@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "0.1.0"
+artifact_version: "0.1.1"
 project: "ShipGlowz"
 created: "2026-06-18"
 created_at: "2026-06-18 21:13:04 UTC"
-updated: "2026-06-18"
-updated_at: "2026-06-18 21:13:04 UTC"
+updated: "2026-07-17"
+updated_at: "2026-07-17 14:20:26 UTC"
 status: draft
 source_skill: 100-sg-spec
 source_model: "GPT-5 Codex"
@@ -22,8 +22,8 @@ linked_systems:
   - "skills/105-sg-check/SKILL.md"
   - "skills/005-sg-ship/SKILL.md"
   - "skills/400-sg-audit/SKILL.md"
-  - "skills/401-sg-audit-code/SKILL.md"
-  - "skills/401-sg-audit-code/references/audit-workflow.md"
+  - "skills/010-sg-technical/SKILL.md"
+  - "skills/010-sg-technical/references/technical-audit-playbook.md"
   - "skills/900-shipflow-core/SKILL.md"
   - "tools/audit_shipflow_skills.py"
   - "tools/audit_gitignore_hygiene.py"
@@ -41,7 +41,7 @@ depends_on:
 supersedes: []
 evidence:
   - "Current ShipGlowz worktree on 2026-06-18 shows `.gitignore` modified while tracked transient artifacts under `site/.playwright-mcp/` are deleted, proving repo-hygiene drift can coexist with ordinary work."
-  - "401-sg-audit-code workflow currently checks only `.env` presence in `.gitignore`, which is too narrow for generated local-tool outputs and tracked transient artifacts."
+  - "At spec creation on 2026-06-18, the former 401-sg-audit-code workflow checked only `.env` presence in `.gitignore`, which was too narrow for generated local-tool outputs and tracked transient artifacts."
   - "005-sg-ship currently runs a secret pre-stage check but has no dedicated hard mechanical gate for broad `.gitignore`/transient-artifact hygiene."
   - "102-sg-start and 105-sg-check currently rely on general guardrails and check interpretation, not a shared machine-readable repo-hygiene verdict."
 next_step: "/101-sg-ready shipglowz_data/workflow/specs/shipflow-gitignore-and-repo-hygiene-hard-gates-for-agents-and-audits.md"
@@ -59,7 +59,7 @@ Draft. Intended to be implementation-ready after `/101-sg-ready` without widenin
 
 En tant qu'opératrice ShipGlowz, je veux que les skills d'exécution, de checks, de ship et d'audit détectent puis bloquent mécaniquement les artefacts locaux, secrets et sorties transitoires mal ignorées avant qu'un agent implémente, valide ou pousse, afin d'éviter les commits pollués, les faux verdicts "green", et les fuites de fichiers locaux.
 
-Acteur principal: opératrice ShipGlowz qui délègue à `102-sg-start`, `105-sg-check`, `005-sg-ship`, `900-shipflow-core`, `400-sg-audit`, ou `401-sg-audit-code`.
+Acteur principal: opératrice ShipGlowz qui délègue à `102-sg-start`, `105-sg-check`, `005-sg-ship`, `900-shipflow-core`, `400-sg-audit`, ou `$010-sg-technical audit <target>`.
 
 Déclencheur: un agent s'apprête à implémenter, lancer des checks, auditer ou shipper dans un repo contenant soit des patterns `.gitignore` insuffisants, soit des fichiers transitoires/secrets déjà suivis ou non ignorés.
 
@@ -74,7 +74,7 @@ Avant toute implémentation, check, audit de conformité, ou ship, ShipGlowz doi
 - Given un repo avec artefacts transitoires suivis ou non ignorés, when `102-sg-start` initialise son exécution, then il stoppe avant toute modification non triviale et route vers une remédiation d'hygiène ou vers une spec existante qui possède explicitement ce nettoyage.
 - Given un repo avec règles `.gitignore` manquantes pour des sorties locales connues, when `105-sg-check` lance son pass de confiance, then il renvoie un verdict bloquant avec la liste des patterns/path concernés avant d'interpréter le repo comme "green".
 - Given un repo sale avant commit/push, when `005-sg-ship` prépare le stage, then il bloque le ship même si `skip-check` est demandé, car la gate d'hygiène fait partie des préconditions de sécurité et de confiance, pas des checks optionnels.
-- Given un audit interne ShipGlowz, when `900-shipflow-core` ou `401-sg-audit-code` inspecte les skills/workflows, then l'audit produit un finding scenario-first si un skill lifecycle manque la gate mécanique ou si le workflow d'audit reste limité au seul check `.env`.
+- Given un audit interne ShipGlowz, when `900-shipflow-core` ou `$010-sg-technical audit <target>` inspecte les skills/workflows, then l'audit produit un finding scenario-first si un skill lifecycle manque la gate mécanique ou si le workflow d'audit reste limité au seul check `.env`.
 - Given un repo propre ou un chantier où les chemins transitoires sont explicitement dans le scope de travail, when le tool renvoie `clean` ou un allowlist contractuel valide, then les skills continuent normalement et reportent que la gate d'hygiène a été satisfaite.
 
 ## Error Behavior
@@ -91,13 +91,13 @@ ShipGlowz a déjà des garde-fous sur la qualité, la preuve et le ship, mais il
 1. risque sécurité et confidentialité: fichiers `.env`, credentials, exports locaux ou caches de tooling peuvent entrer dans l'index ou rester visibles dans un diff;
 2. risque opératoire: un check ou un audit peut conclure "green" alors que le repo contient du bruit local, des suppressions de sorties transitoires déjà trackées, ou des patterns `.gitignore` incomplets qui dégradent les futures sessions agentiques.
 
-La preuve locale actuelle confirme le problème: la worktree contient une modification de `.gitignore` et des suppressions de fichiers `site/.playwright-mcp/*.yml`, signe qu'un outillage local a déjà produit des artefacts suivis ou mal nettoyés. En parallèle, `401-sg-audit-code` ne vérifie mécaniquement que `.env` dans `.gitignore`, ce qui est trop étroit.
+La preuve locale capturée le 2026-06-18 confirmait le problème: la worktree contenait une modification de `.gitignore` et des suppressions de fichiers `site/.playwright-mcp/*.yml`, signe qu'un outillage local avait déjà produit des artefacts suivis ou mal nettoyés. En parallèle, l'ancien `401-sg-audit-code` ne vérifiait mécaniquement que `.env` dans `.gitignore`, ce qui était trop étroit.
 
 ## Solution
 
 Introduire une gate mécanique unique `tools/audit_gitignore_hygiene.py`, puis l'imposer explicitement dans `102-sg-start`, `105-sg-check`, et `005-sg-ship`. Le tool doit produire un verdict structuré et conservateur (`clean`, `hard`, `review`, `style`) à partir de l'état Git, de `.gitignore`, et d'un jeu minimal de règles ShipGlowz pour artefacts locaux/transitoires/sensibles. Les skills lifecycle traitent `hard` comme bloquant, `review` comme finding à reporter ou à auditer selon le contexte, et `style` comme non bloquant.
 
-En parallèle, étendre la couverture scenario-first dans `900-shipflow-core`, `400-sg-audit`, `401-sg-audit-code`, et le workflow de `401-sg-audit-code` pour que l'absence de gate, le scope trop étroit des checks `.gitignore`, ou le passage abusif d'un repo sale soient auditables et vérifiables.
+En parallèle, étendre la couverture scenario-first dans `900-shipflow-core`, `400-sg-audit`, et `$010-sg-technical audit <target>` via `skills/010-sg-technical/references/technical-audit-playbook.md` pour que l'absence de gate, le scope trop étroit des checks `.gitignore`, ou le passage abusif d'un repo sale soient auditables et vérifiables.
 
 ## Scope In
 
@@ -110,7 +110,7 @@ En parallèle, étendre la couverture scenario-first dans `900-shipflow-core`, `
 - Ajouter une gate bloquante dans `skills/105-sg-check/SKILL.md` avant de déclarer un pass de checks techniquement fiable.
 - Ajouter une gate bloquante dans `skills/005-sg-ship/SKILL.md` avant stage/commit/push, non contournable via `skip-check`.
 - Ajouter une couverture scenario-first dans `skills/900-shipflow-core/SKILL.md` et/ou `tools/audit_shipflow_skills.py` pour vérifier la présence de la gate et classifier les écarts.
-- Étendre `skills/400-sg-audit/SKILL.md`, `skills/401-sg-audit-code/SKILL.md`, et `skills/401-sg-audit-code/references/audit-workflow.md` pour traiter repo hygiene / `.gitignore` comme axe d'audit explicite, pas comme sous-ligne `.env` isolée.
+- Étendre `skills/400-sg-audit/SKILL.md`, `skills/010-sg-technical/SKILL.md`, et `skills/010-sg-technical/references/technical-audit-playbook.md` afin que `$010-sg-technical audit <target>` traite repo hygiene / `.gitignore` comme axe d'audit explicite, pas comme sous-ligne `.env` isolée.
 - Prévoir une sortie machine lisible (`--format json|markdown|text`) et des exit codes stables pour que les skills puissent consommer le verdict sans parser des phrases fragiles.
 
 ## Scope Out
@@ -192,8 +192,8 @@ En parallèle, étendre la couverture scenario-first dans `900-shipflow-core`, `
 - `skills/005-sg-ship/SKILL.md`
 - `skills/900-shipflow-core/SKILL.md`
 - `skills/400-sg-audit/SKILL.md`
-- `skills/401-sg-audit-code/SKILL.md`
-- `skills/401-sg-audit-code/references/audit-workflow.md`
+- `skills/010-sg-technical/SKILL.md`
+- `skills/010-sg-technical/references/technical-audit-playbook.md`
 - `tools/audit_shipflow_skills.py`
 - `git` CLI and repo metadata (`git status`, `git ls-files`, `git check-ignore`)
 
@@ -209,7 +209,7 @@ En parallèle, étendre la couverture scenario-first dans `900-shipflow-core`, `
 
 - Durcit directement les garde-fous de `102`, `105`, et `005`.
 - Donne à `900-shipflow-core` un axe d'audit plus robuste que la simple revue textuelle des contracts.
-- Étend `401-sg-audit-code` au-delà de la ligne `.env` dans `.gitignore`.
+- Étend le mode `$010-sg-technical audit <target>` au-delà de la ligne `.env` dans `.gitignore`.
 - Réduit les faux signaux de "repo clean enough" avant commit, verify, ou audit.
 - Peut imposer des mises à jour ciblées de `.gitignore` dans les futurs chantiers, mais cette spec n'en exécute aucune.
 
@@ -273,19 +273,19 @@ En parallèle, étendre la couverture scenario-first dans `900-shipflow-core`, `
   - Depends on: Tasks 2-5.
   - Validate with: `rg -n "gitignore|repo hygiene|hygiene gate" skills/400-sg-audit/SKILL.md`
 
-- [ ] Task 7: Extend code-audit skill and checklist
-  - File: `skills/401-sg-audit-code/SKILL.md`
+- [ ] Task 7: Extend the technical audit mode contract
+  - File: `skills/010-sg-technical/SKILL.md`
   - Action: Add repo-hygiene and `.gitignore` coverage to the code audit mission/rules where appropriate.
   - User story link: Makes code audits detect this class of workflow-security failure.
   - Depends on: Tasks 2-5.
-  - Validate with: `rg -n "gitignore|repo hygiene|transient|secret" skills/401-sg-audit-code/SKILL.md`
+  - Validate with: `rg -n "gitignore|repo hygiene|transient|secret" skills/010-sg-technical/SKILL.md`
 
 - [ ] Task 8: Replace env-only checklist coverage with scenario-first repo-hygiene coverage
-  - File: `skills/401-sg-audit-code/references/audit-workflow.md`
+  - File: `skills/010-sg-technical/references/technical-audit-playbook.md`
   - Action: Expand the security/configuration checklist from `.env`-only to broader repo-hygiene cases, with required scenarios and classification guidance.
   - User story link: Prevents audits from missing non-env transient or local-output leaks.
   - Depends on: Task 7.
-  - Validate with: `rg -n "\\.gitignore|repo hygiene|tracked transient|GIH-" skills/401-sg-audit-code/references/audit-workflow.md`
+  - Validate with: `rg -n "\\.gitignore|repo hygiene|tracked transient|GIH-" skills/010-sg-technical/references/technical-audit-playbook.md`
 
 - [ ] Task 9: Integrate the mechanical checker into ShipGlowz skill auditing
   - File: `tools/audit_shipflow_skills.py`
@@ -309,7 +309,7 @@ En parallèle, étendre la couverture scenario-first dans `900-shipflow-core`, `
 - [ ] AC 4: Given a spec whose scope is specifically repo-hygiene cleanup, when `102-sg-start` runs, then it may continue despite the dirty hygiene surface, but only after explicitly naming that owned exception in the execution/report contract.
 - [ ] AC 5: Given `skip-check` in `005-sg-ship`, when `hard` hygiene findings exist, then ship is still blocked because hygiene gating is not an optional check lane.
 - [ ] AC 6: Given `900-shipflow-core` or `tools/audit_shipflow_skills.py` audits a lifecycle skill missing the hygiene gate, then it emits a deterministic finding tied to at least one `GIH-*` scenario.
-- [ ] AC 7: Given `401-sg-audit-code` runs on a project with unsafe transient or secret local outputs, then the audit can report a finding even when `.env` is not the only issue.
+- [ ] AC 7: Given `$010-sg-technical audit <target>` runs on a project with unsafe transient or secret local outputs, then the audit can report a finding even when `.env` is not the only issue.
 - [ ] AC 8: Given a clean repo with no unsafe hygiene findings, when the tool runs, then it returns `clean`, exit `0`, and does not block normal lifecycle flow.
 
 ## Test Strategy
@@ -332,7 +332,7 @@ En parallèle, étendre la couverture scenario-first dans `900-shipflow-core`, `
 
 1. Land `tools/audit_gitignore_hygiene.py` with stable exit codes and fixture-level proof.
 2. Wire `102-sg-start`, `105-sg-check`, and `005-sg-ship` to the tool and ship the blocker semantics first.
-3. Extend `900-shipflow-core`, `400-sg-audit`, `401-sg-audit-code`, and the audit workflow/checklist with `GIH-*` scenarios.
+3. Extend `900-shipflow-core`, `400-sg-audit`, `$010-sg-technical audit <target>`, and its technical-audit playbook with `GIH-*` scenarios.
 4. Verify with `103-sg-verify` using the dedicated checklist and meta-audit.
 5. Close with `104-sg-end` only after runtime docs/changelog coherence is either updated or explicitly marked not needed.
 
@@ -344,12 +344,12 @@ python3 tools/audit_gitignore_hygiene.py --format json
 python3 tools/audit_shipflow_skills.py
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 tools/shipflow_sync_skills.sh --check --all
-rg -n "audit_gitignore_hygiene|repo hygiene|gitignore" skills/102-sg-start/SKILL.md skills/105-sg-check/SKILL.md skills/005-sg-ship/SKILL.md skills/900-shipflow-core/SKILL.md skills/400-sg-audit/SKILL.md skills/401-sg-audit-code/SKILL.md skills/401-sg-audit-code/references/audit-workflow.md
+rg -n "audit_gitignore_hygiene|repo hygiene|gitignore" skills/102-sg-start/SKILL.md skills/105-sg-check/SKILL.md skills/005-sg-ship/SKILL.md skills/900-shipflow-core/SKILL.md skills/400-sg-audit/SKILL.md skills/010-sg-technical/SKILL.md skills/010-sg-technical/references/technical-audit-playbook.md
 ```
 
 ## Execution Notes
 
-- Read first: `skills/102-sg-start/SKILL.md`, `skills/105-sg-check/SKILL.md`, `skills/005-sg-ship/SKILL.md`, `skills/900-shipflow-core/SKILL.md`, `skills/401-sg-audit-code/references/audit-workflow.md`.
+- Read first: `skills/102-sg-start/SKILL.md`, `skills/105-sg-check/SKILL.md`, `skills/005-sg-ship/SKILL.md`, `skills/900-shipflow-core/SKILL.md`, `skills/010-sg-technical/SKILL.md`, and `skills/010-sg-technical/references/technical-audit-playbook.md` before executing `$010-sg-technical audit <target>`.
 - Implement the tool before changing skill wording so the contracts can reference a real command, exit code map, and output format.
 - Keep the first version conservative and focused on high-confidence findings: tracked transient outputs, missing `.gitignore`, known secret/local files, and obviously unsafe local-tool directories.
 - Do not auto-edit `.gitignore`, `git rm`, or clean the worktree from inside the tool; routing and lifecycle ownership must stay explicit.

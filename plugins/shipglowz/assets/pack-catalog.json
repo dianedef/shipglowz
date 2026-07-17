@@ -79,10 +79,7 @@
       "status": "planned",
       "skills": [
         "400-sg-audit",
-        "401-sg-audit-code",
-        "402-sg-deps",
-        "403-sg-perf",
-        "404-sg-migrate",
+        "010-sg-technical",
         "407-sg-audit-translate"
       ]
     },

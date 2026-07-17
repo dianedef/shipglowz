@@ -60,8 +60,8 @@ What are we underestimating, forgetting, or making fragile before we move?
 
 - `702-sg-priorities`
 - `700-sg-explore`
-- `401-sg-audit-code`
-- `403-sg-perf`
+- `010-sg-technical audit`
+- `010-sg-technical performance`
 - `406-sg-seo`
 - `009-sg-marketing gtm`
 - `300-sg-docs`

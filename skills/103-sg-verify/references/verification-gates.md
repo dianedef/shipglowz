@@ -214,7 +214,7 @@ Pure taste, unsupported polish, speculative preferences, and generic “could be
 `103-sg-verify` may repair a stable, bounded local issue when the contract and correct result are already clear, then rerun the affected evidence. Otherwise route the gap rather than expanding verification into an implicit audit or product redesign:
 
 - product meaning, acceptance criteria, architecture, or scope change -> `100-sg-spec` (use `700-sg-explore` first only when the decision itself is unclear)
-- design, copy, code/security, or performance specialist investigation -> `006-sg-design`, `009-sg-marketing`, `401-sg-audit-code`, or `403-sg-perf`
+- design, copy, code/security, or performance specialist investigation -> `006-sg-design`, `009-sg-marketing`, `010-sg-technical audit`, or `010-sg-technical performance`
 - hosted, preview, production, browser, auth, or manual proof -> the existing `005-sg-ship`, `405-sg-prod`, `108-sg-browser`, `109-sg-auth-debug`, or `107-sg-test` proof route with scenario and target/environment
 - multi-owner or security-sensitive repair -> the appropriate ready-spec lifecycle or specialist owner; do not mutate it opportunistically from verification
 

@@ -76,12 +76,12 @@ Keep the first decision explicit:
 Orchestrate existing skills; do not duplicate their internals.
 
 - `003-sg-bug` owns bug lifecycle execution, bug files, retests, verification, and ship risk.
-- `402-sg-deps` owns dependency health, vulnerabilities, supply chain, licenses, drift, and config.
+- `010-sg-technical deps` owns dependency health, vulnerabilities, supply chain, licenses, drift, and config.
 - `300-sg-docs` owns documentation update/audit, metadata, technical corpus, editorial corpus, and stale-doc repair.
 - `105-sg-check` owns local typecheck, lint, build, tests, and quick dependency checks.
 - `400-sg-audit` owns broad multi-domain audits.
-- `401-sg-audit-code` owns code, architecture, reliability, and security review.
-- `404-sg-migrate` owns framework/package upgrade migrations and breaking-change work.
+- `010-sg-technical audit` owns code, architecture, reliability, and security review.
+- `010-sg-technical migrate` owns framework/package upgrade migrations and breaking-change work.
 - `309-sg-tasks` owns tracker reconciliation and durable task updates.
 - `106-sg-fix`, `001-sg-build`, and `004-sg-deploy` own repair, feature work, and release execution.
 - `100-sg-spec`, `101-sg-ready`, `102-sg-start`, `103-sg-verify`, `104-sg-end`, and `005-sg-ship` own lifecycle gates.
@@ -95,7 +95,7 @@ When the next owner is already obvious, route directly instead of lingering in m
 - new product/story delivery -> `001-sg-build`
 - one bug lifecycle -> `003-sg-bug`
 - bounded release confidence, deployment truth, or post-push proof -> `004-sg-deploy`
-- one obvious specialist audit lane -> `400-sg-audit`, `401-sg-audit-code`, `402-sg-deps`, or `403-sg-perf`
+- one obvious specialist audit lane -> `400-sg-audit` or the exact `010-sg-technical audit|deps|performance` mode
 
 ## Execution Modes
 
@@ -133,7 +133,7 @@ Parse `$ARGUMENTS`:
 - `quick` -> read-only maintenance triage only; do not create specs, edit files, or ship.
 - `full` -> run the broad maintenance lifecycle with deeper audit/check/dependency/docs lanes.
 - `security` -> run the security maintenance lifecycle: bug risk, dependency vulnerability posture, secret/config hygiene, auth/permission surfaces, code-security review, remediation when safe, verification, and ship/deploy routing.
-- `deps` -> run the dependency maintenance lane through `402-sg-deps`, remediation/migration when needed, verification, and ship routing.
+- `deps` -> run the dependency maintenance lane through `010-sg-technical deps`, remediation/migration when needed, verification, and ship routing.
 - `docs` -> run the docs/governance maintenance lane through `300-sg-docs`, validation, verification, and ship routing.
 - `audits` -> run the audit maintenance lane through `400-sg-audit` or narrower audit skills, then remediation lifecycle for findings that cross the implementation threshold.
 - `global` -> workspace maintenance dashboard using local project discovery (`shipglowz_data/` markers), then ask which projects to inspect or execute. Do not modify multiple projects without explicit project selection.
@@ -187,7 +187,7 @@ intake
 Recommended owner-skill order for broad maintenance:
 
 ```text
-003-sg-bug -> 402-sg-deps -> 300-sg-docs update/audit -> 105-sg-check nofix -> 401-sg-audit-code or 400-sg-audit -> 404-sg-migrate candidates -> 106-sg-fix/001-sg-build -> 309-sg-tasks -> 103-sg-verify -> 004-sg-deploy/005-sg-ship
+003-sg-bug -> 010-sg-technical deps -> 300-sg-docs update/audit -> 105-sg-check nofix -> 010-sg-technical audit or 400-sg-audit -> 010-sg-technical migrate candidates -> 106-sg-fix/001-sg-build -> 309-sg-tasks -> 103-sg-verify -> 004-sg-deploy/005-sg-ship
 ```
 
 Run phases sequentially when one phase can change the risk interpretation of the next. Use parallel subagents only with ready non-overlapping `Execution Batches`.
@@ -197,7 +197,7 @@ Run phases sequentially when one phase can change the risk interpretation of the
 Use subagents for real master-skill work when the runtime supports it.
 
 - Triage Reader: read-only; inspect bugs, deps, docs, checks, audits, migrations, security signals, specs, and project mode; return a ranked maintenance plan.
-- Lane Executor: write-capable only for one assigned owner lane and write set; use `402-sg-deps`, `300-sg-docs`, `106-sg-fix`, `001-sg-build`, `404-sg-migrate`, or `105-sg-check fix` as appropriate.
+- Lane Executor: write-capable only for one assigned owner lane and write set; use `010-sg-technical deps`, `300-sg-docs`, `106-sg-fix`, `001-sg-build`, `010-sg-technical migrate`, or `105-sg-check fix` as appropriate.
 - Technical Reader: read-only; produce the `Documentation Update Plan`.
 - Editorial Reader: read-only; produce the `Editorial Update Plan` and `Claim Impact Plan` when public surfaces changed.
 - Integrator: consolidate outputs, run focused validations, resolve doc/editorial gates, and decide whether verification can start.
@@ -220,15 +220,15 @@ stop conditions
 
 ShipGlowz does not need a separate `400-sg-audit-security` yet. Security maintenance is covered by two existing owners:
 
-- `402-sg-deps`: dependency vulnerabilities, supply chain, package drift, licenses, registry/config posture.
-- `401-sg-audit-code`: authn/authz, tenant boundaries, trust boundaries, secrets, webhooks, destructive actions, input validation, secure failure modes, abuse resistance.
+- `010-sg-technical deps`: dependency vulnerabilities, supply chain, package drift, licenses, registry/config posture.
+- `010-sg-technical audit`: authn/authz, tenant boundaries, trust boundaries, secrets, webhooks, destructive actions, input validation, secure failure modes, abuse resistance.
 
 `002-sg-maintain security` should:
 
 1. Check `shipglowz_data/workflow/bugs/*.md` first, then optional `shipglowz_data/workflow/BUGS.md` if present, for open high/critical security, auth, permissions, data, webhook, or secret issues.
 2. Check whether the project has auth, payments, webhooks, public APIs, multi-tenant data, admin actions, or production secrets.
-3. Run or route to `/402-sg-deps` for dependency/security posture and remediation proposals.
-4. Run or route to `/401-sg-audit-code report=agent` when code-level security review is needed.
+3. Run or route to `/010-sg-technical deps` for dependency/security posture and remediation proposals.
+4. Run or route to `/010-sg-technical audit report=agent` when code-level security review is needed.
 5. Create or continue a spec when remediation crosses the chantier threshold.
 6. Execute safe remediations through bounded owner skills/subagents.
 7. Verify and ship only when security, dependency, docs, and check gates allow it.
@@ -310,7 +310,7 @@ Agent mode may add:
 - Maintenance is not complete until it is verified, shipped, ship-ready with `no-ship`, or blocked at a named gate.
 - Prefer "needs review" over "safe" when security evidence is partial.
 - Do not invent audit freshness. Use `AUDIT_LOG.md`, `shipglowz_data/workflow/bugs/*.md`, optional `shipglowz_data/workflow/BUGS.md`, `shipglowz_data/workflow/TEST_LOG.md`, specs, and command output.
-- Do not conflate `404-sg-migrate` and `402-sg-deps`: deps finds risk and drift; migrate executes breaking-change upgrade work.
+- Do not conflate `010-sg-technical migrate` and `010-sg-technical deps`: deps finds risk and drift; migrate plans and executes approved breaking-change upgrade work.
 - Do not treat missing `SECURITY.md` as a blocker for small local tools, but report it for public, auth, payments, webhook, or multi-user products.
 - When maintenance reveals implementation work, execute it through bounded owner skills/subagents after the appropriate spec/readiness gate.
 - Do not commit, push, deploy, or mark complete without the relevant `005-sg-ship` or `004-sg-deploy` gate.

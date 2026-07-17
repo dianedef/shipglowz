@@ -56,7 +56,7 @@ It does not replace `108-sg-browser` for visible page assertions, console/networ
 
 ## Related Skills
 
-- `402-sg-deps` for a full dependency audit
+- `010-sg-technical deps` for a full dependency audit
 - `108-sg-browser` when green checks still need non-auth page, visual, console, or network evidence
 - `103-sg-verify` when the change is high-stakes
 - `405-sg-prod` after deployment

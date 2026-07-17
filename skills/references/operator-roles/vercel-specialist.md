@@ -41,7 +41,7 @@ Apply Vercel build, runtime, environment, routing, domain, and deployment behavi
 
 - `004-sg-deploy`
 - `405-sg-prod`
-- `403-sg-perf`
+- `010-sg-technical performance`
 
 ## Validation
 
