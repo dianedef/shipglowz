@@ -20,7 +20,7 @@ depends_on:
 supersedes: []
 evidence:
   - "Le rapport de recherche met explicitement en avant une liste technique d'execution et des aptitudes de priorisation, synthese et collaboration."
-next_step: "/202-sg-repurpose ou /300-sg-docs pour brancher cette checklist dans les chantiers SEO"
+next_step: "/007-sg-content repurpose <source> ou /300-sg-docs pour brancher cette checklist dans les chantiers SEO"
 ---
 
 # Checklist SEO - Charge de referencement web

@@ -83,7 +83,6 @@ Candidate skills:
 - `009-sg-marketing`
 - `200-sg-redact`
 - `201-sg-enrich`
-- `202-sg-repurpose`
 - `203-sg-research`
 - `205-sg-veille`
 - `406-sg-seo`

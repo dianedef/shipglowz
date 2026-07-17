@@ -32,7 +32,7 @@ evidence:
   - "README.md lists the canonical project docs"
   - "site/src/pages/docs.astro exposes the public docs overview"
   - "site/src/content/skills contains public skill content"
-  - "skills/202-sg-repurpose/SKILL.md needs a reusable content surface map"
+  - "skills/007-sg-content/references/repurpose-playbook.md needs a reusable content surface map"
   - "skills/references/canonical-paths.md defines ShipGlowz-owned path resolution"
   - "Corrected public skill page route paths against site/src/pages/skills/ on 2026-05-01"
   - "shipglowz_data/editorial/ added as the public-content governance layer for surface impact, claims, page intent, Astro schema policy, and blog/article stop conditions"
@@ -68,7 +68,7 @@ depends_on:
     required_status: "reviewed"
 supersedes: []
 next_review: "2026-05-26"
-next_step: "/sg-repurpose"
+next_step: "/007-sg-content repurpose <source>"
 ---
 
 # Content Map
@@ -122,8 +122,8 @@ For public-content governance details, use `shipglowz_data/editorial/` after thi
 | Skill workflow | `site/src/pages/skills/index.astro`, `site/src/pages/skills/[slug].astro`, `site/src/pages/skill-modes.astro`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md` | `site/src/content/skills/*.md`, `skills/*/SKILL.md` | Choose the right skill for a task | Public skill pages should match internal skill names and promises; skill bodies stay English unless an explicit source-alignment plan says otherwise; localized hubs may explain this policy | live |
 | Remote agent operations | `site/src/pages/remote-mcp-oauth-tunnel.astro` | `site/src/pages/docs.astro`, `README.md`, `local/README.md`, `shipglowz_data/workflow/specs/local-mcp-oauth-tunnel-login.md` | Understand why remote agents need local callback routing for OAuth MCP login | Dedicated guide owns the SEO topic; docs overview points to it; repo docs point operators to the local guided setup | live |
 | Terminal operator cockpit | `site/src/pages/docs.astro#terminal-tui` | `tui/README.md`, `shipglowz_data/technical/terminal-tui.md`, `README.md`, `shipglowz_data/workflow/specs/shipflow-terminal-tui-v1.md` | Understand the optional read-only TUI and how it fits with skills, Gum, and Flutter | Public docs state the boundary; repo docs and technical contract carry setup, keys, source policy, and validation | live |
-| Content lifecycle and repurposing | `shipglowz_data/editorial/content-map.md`, `site/src/content/skills/sg-content.md` | `skills/007-sg-content/SKILL.md`, `skills/202-sg-repurpose/SKILL.md`, `skills/200-sg-redact/SKILL.md`, `skills/201-sg-enrich/SKILL.md`, `shipglowz_data/editorial/`, future public docs section | Manage content strategy, source reuse, drafting, enrichment, audits, and ship validation without inventing undeclared surfaces | `007-sg-content` starts with this map and the editorial layer, then routes to specialist content skills such as `202-sg-repurpose` | live |
-| Content quality scoring | `skills/references/content-quality-rubric.md` | `skills/007-sg-content/SKILL.md`, `skills/202-sg-repurpose/SKILL.md`, `skills/200-sg-redact/SKILL.md`, `skills/201-sg-enrich/SKILL.md`, `skills/009-sg-marketing/SKILL.md`, `skills/406-sg-seo/SKILL.md`, `skills/103-sg-verify/SKILL.md` | Keep project-aware scoring and blocked criteria consistent across owner skills | Owner skills must consume one rubric output schema; `103-sg-verify` rejects stale/recoverable score states as proof | live |
+| Content lifecycle and repurposing | `shipglowz_data/editorial/content-map.md`, `site/src/content/skills/sg-content.md` | `skills/007-sg-content/SKILL.md`, `skills/007-sg-content/references/repurpose-playbook.md`, `skills/200-sg-redact/SKILL.md`, `skills/201-sg-enrich/SKILL.md`, `shipglowz_data/editorial/`, future public docs section | Manage content strategy, source reuse, drafting, enrichment, audits, and ship validation without inventing undeclared surfaces | `007-sg-content repurpose <source>` creates the source-faithful pack, then routes to the next specialist owner | live |
+| Content quality scoring | `skills/references/content-quality-rubric.md` | `skills/007-sg-content/SKILL.md`, `skills/200-sg-redact/SKILL.md`, `skills/201-sg-enrich/SKILL.md`, `skills/009-sg-marketing/SKILL.md`, `skills/406-sg-seo/SKILL.md`, `skills/103-sg-verify/SKILL.md` | Keep project-aware scoring and blocked criteria consistent across owner skills | Owner skills must consume one rubric output schema; `103-sg-verify` rejects stale/recoverable score states as proof | live |
 | Editorial governance | `shipglowz_data/editorial/README.md` | `shipglowz_data/editorial/public-surface-map.md`, `shipglowz_data/editorial/page-intent-map.md`, `shipglowz_data/editorial/claim-register.md`, `shipglowz_data/editorial/editorial-update-gate.md`, `shipglowz_data/editorial/astro-content-schema-policy.md`, `shipglowz_data/editorial/blog-and-article-surface-policy.md` | Keep public pages, README, FAQ, skill pages, indexed blog articles, standalone editorial pages, and claims aligned with product truth | Public-content work starts at `shipglowz_data/editorial/content-map.md`, then uses the editorial layer for gates and evidence | live |
 
 ## Page Roles
@@ -170,7 +170,7 @@ For public-content governance details, use `shipglowz_data/editorial/` after thi
 | Public content, claim, FAQ, pricing, docs, README, or skill promise change | `shipglowz_data/editorial/content-map.md`, `shipglowz_data/editorial/public-surface-map.md`, `shipglowz_data/editorial/page-intent-map.md`, `shipglowz_data/editorial/claim-register.md`, `shipglowz_data/editorial/editorial-update-gate.md`, target public surface |
 | Astro runtime content edit | `site/src/content.config.ts`, `shipglowz_data/editorial/astro-content-schema-policy.md`, target content collection, public route renderer |
 | Blog or article request | `shipglowz_data/editorial/blog-and-article-surface-policy.md`, `shipglowz_data/editorial/content-map.md`, declared Astro route/content collection; use the `articles` collection and `/blog` routes by default, or an existing standalone editorial page when route intent is already narrower |
-| Content lifecycle or repurposing output | `sg-content`, `shipglowz_data/editorial/content-map.md`, `shipglowz_data/editorial/`, target content surface, evidence ledger from `sg-repurpose` |
+| Content lifecycle or repurposing output | `007-sg-content repurpose <source>`, `shipglowz_data/editorial/content-map.md`, `shipglowz_data/editorial/`, target content surface, evidence ledger from the repurpose pack |
 | New semantic cluster | Pillar page, supporting pages, internal links, FAQ/support candidates |
 | Local tunnel or remote OAuth workflow change | `README.md`, `local/README.md`, `site/src/pages/docs.astro`, `site/src/pages/remote-mcp-oauth-tunnel.astro`, `shipglowz_data/editorial/content-map.md`, `shipglowz_data/workflow/specs/local-mcp-oauth-tunnel-login.md` |
 

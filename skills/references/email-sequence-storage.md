@@ -120,7 +120,7 @@ Keep the body sequence-first: campaign intent, segment and exclusions, step-by-s
 ## Ownership
 
 - `emailing` owns durable audience sequence files.
-- `202-sg-repurpose` owns durable source-faithful packs and may hand a pack to `emailing`.
+- `007-sg-content repurpose <source>` owns durable source-faithful packs and may hand a pack to `emailing`.
 - The project's business, product, branding, GTM, and editorial contracts govern the sequence's claims, positioning, and declared public surfaces.
 
 ## Validation

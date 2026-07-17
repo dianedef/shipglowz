@@ -15,7 +15,6 @@ security_impact: yes
 docs_impact: yes
 linked_systems:
   - skills/007-sg-content/SKILL.md
-  - skills/202-sg-repurpose/SKILL.md
   - skills/200-sg-redact/SKILL.md
   - skills/201-sg-enrich/SKILL.md
   - skills/009-sg-marketing/SKILL.md
@@ -65,7 +64,6 @@ Use one shared editorial rubric for content skills so the final quality score, b
 Only these skills can produce or consume a rubric output:
 
 - `007-sg-content`
-- `202-sg-repurpose`
 - `200-sg-redact`
 - `201-sg-enrich`
 - `009-sg-marketing` (`gtm`, `copy`, or `copywriting` mode)
@@ -99,7 +97,7 @@ If versions are missing or not loadable for a project-aware run, return `project
   "project_id": "<string>",
   "surface": "<blog|article|doc|newsletter|social|other>",
   "evaluator": {
-    "skill": "<007-sg-content|202-sg-repurpose|200-sg-redact|201-sg-enrich|009-sg-marketing|406-sg-seo|103-sg-verify>",
+    "skill": "<007-sg-content|200-sg-redact|201-sg-enrich|009-sg-marketing|406-sg-seo|103-sg-verify>",
     "role": "<producer|auditor|verifier>",
     "initiated_by": "<operator|workflow|unknown>"
   },

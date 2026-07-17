@@ -37,7 +37,7 @@ evidence:
   - "User decision 2026-06-10: SKILL.md is the activation contract; detailed playbooks, examples, matrices, and edge cases belong in references."
   - "User correction 2026-07-17: an explicit Lorem ipsum replacement must not trigger content, design, or lifecycle skill exploration."
 next_review: "2026-08-17"
-next_step: "/103-sg-verify shipflow-skill-execution-fidelity-plugin-pilot"
+next_step: "/104-sg-end shipflow-skill-execution-fidelity-plugin-pilot"
 ---
 
 # Skill Execution Fidelity

@@ -4,6 +4,17 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 
 ---
 
+## 2026-07-17 — 007-sg-content
+
+**Added:** none
+
+**Updated:**
+- [reporting] Removed the stale local report template; the shared reporting contract remains the sole report shape, with content-lane, owner-boundary, editorial, and Fresh Docs Gate context retained.
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted (local contract, mode/playbook, active-surface, and regression review)
+
 ## 2026-07-17 — 102-sg-start
 
 **Added:** none

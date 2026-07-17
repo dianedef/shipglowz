@@ -22,7 +22,7 @@ what_you_get:
   - "A relevance-oriented summary"
   - "Suggested next actions for each source"
   - "Project-local governance context checks before scoring"
-  - "sg-content / sg-repurpose handoffs or surface-missing findings for public-content ideas"
+  - "sg-content repurpose handoffs or surface-missing findings for public-content ideas"
   - "Explicit callouts when a source touches declared products or proof-backed claims"
   - "Less information sprawl in your workflow"
 example_prompts:
@@ -35,7 +35,6 @@ limits:
   - "It should not invent blog, newsletter, or social surfaces that are not declared in the project's content map"
 related_skills:
   - "sg-content"
-  - "sg-repurpose"
   - "sg-research"
   - "sg-marketing"
   - "sg-backlog"
@@ -47,4 +46,4 @@ order: 450
 
 `sg-veille` uses the cross-project registry to discover candidate projects, but it scores relevance from each project's local `shipglowz_data/` contracts. Research output belongs under `shipglowz_data/workflow/research/`, not an ad hoc research directory.
 
-When a source suggests a blog, newsletter, social post, public docs update, or claim-sensitive content, `sg-veille` routes through `sg-content` / `sg-repurpose` and the editorial corpus. If no blog/article surface is declared, the correct finding is `surface missing: blog`.
+When a source suggests a blog, newsletter, social post, public docs update, or claim-sensitive content, `sg-veille` routes through `sg-content repurpose <source>` and the editorial corpus. If no blog/article surface is declared, the correct finding is `surface missing: blog`.

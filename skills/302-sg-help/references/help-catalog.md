@@ -272,7 +272,7 @@ Internal role matrix:
 | `skills/405-sg-prod/SKILL.md` | conditionnel | source-de-chantier | Production incidents become a chantier for outage, deploy, runtime, rollback, or monitoring follow-up. |
 | `skills/101-sg-ready/SKILL.md` | obligatoire | lifecycle | Gates an existing spec; not a source. |
 | `skills/200-sg-redact/SKILL.md` | conditionnel | support-de-chantier | Supports content production; not a source by default. |
-| `skills/202-sg-repurpose/SKILL.md` | conditionnel | support-de-chantier | Supports repurposing; route only when work must become a spec. |
+| `skills/007-sg-content/references/repurpose-playbook.md` | obligatoire | lifecycle | Bounded `repurpose <source>` mode; preserve the parent content lifecycle trace. |
 | `skills/203-sg-research/SKILL.md` | conditionnel | source-de-chantier | Research becomes a chantier when it produces implementation, architecture, product, or GTM decisions. |
 | `skills/303-sg-resume/SKILL.md` | non-applicable | helper | Thread recap does not mutate specs; report non-trace when useful. |
 | `skills/703-sg-review/SKILL.md` | conditionnel | pilotage | Review routes to `/100-sg-spec` only for explicit follow-up work. |

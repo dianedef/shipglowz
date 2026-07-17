@@ -14,9 +14,7 @@ risk_level: medium
 security_impact: yes
 docs_impact: yes
 linked_systems:
-  - skills/202-sg-repurpose/SKILL.md
-  - skills/202-sg-repurpose/references/output-pack.md
-  - skills/202-sg-repurpose/references/repurpose-workflow.md
+  - skills/007-sg-content/references/repurpose-playbook.md
   - skills/references/repurpose-pack-storage.md
 depends_on:
   - artifact: "skills/references/repurpose-pack-storage.md"
@@ -24,7 +22,7 @@ depends_on:
     required_status: "active"
 supersedes: []
 evidence:
-  - "202-sg-repurpose repeated the same source-faithful pack structure in both its output template and workflow reference."
+  - "The retired repurpose owner repeated the same source-faithful pack structure in its output template and workflow reference."
   - "007-sg-content now treats source-faithful extraction as a reusable lane, which benefits from a shared contract."
 next_review: "2026-08-09"
 next_step: "/103-sg-verify source-faithful-pack-contract"

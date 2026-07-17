@@ -24,7 +24,7 @@ what_you_get:
   - "A mode decision and routed owner-skill sequence"
   - "Content map and editorial governance checks before public output"
   - "Product-registry and claim-coherence checks when the content references declared products or sales surfaces"
-  - "Specialist handoff to a source-faithful repurposing pack, its versioned repo memory, drafting, enrichment, audits, docs, research, or ship gates"
+  - "A self-owned `repurpose` mode for a source-faithful pack, versioned repo memory, and downstream handoffs to drafting, enrichment, audits, docs, research, or ship gates"
   - "Optional project-aware quality scoring with global score, criterion scores, status, evidence, recommendations, and confidence"
   - "Validation and a concise content lifecycle report"
 example_prompts:
@@ -36,9 +36,9 @@ argument_modes:
   - argument: "plan / strategy"
     effect: "Creates or routes a content plan before edits."
     consequence: "Uses the content map and may require a spec when multiple surfaces or claims are affected."
-  - argument: "repurpose"
-    effect: "Routes source material through the source-faithful pack lane."
-    consequence: "Useful after a build conversation, source note, release, or product explanation when the downstream surface still needs to be chosen or briefed."
+  - argument: "repurpose <source>"
+    effect: "Creates a source-faithful pack inside the content lifecycle."
+    consequence: "Useful after a build conversation, source note, release, or product explanation when the downstream surface still needs to be chosen or briefed; `verbatim`, `mot pour mot`, and `copie exacte` preserve exact archival text without analysis."
   - argument: "draft / article / blog / guide"
     effect: "Routes original long-form writing through the drafting lane."
     consequence: "Stops with surface missing when no declared blog or article path exists."
@@ -52,11 +52,10 @@ argument_modes:
     effect: "Runs validation and ship routing for content changes."
     consequence: "Requires bounded dirty scope, public build proof when relevant, and verification before ship."
 limits:
-  - "It does not replace specialist writing, repurposing, enrichment, audit, docs, research, or SEO skills"
+  - "It does not replace specialist writing, enrichment, audit, docs, research, or SEO skills after its bounded repurpose pack"
   - "It does not invent undeclared blog, newsletter, social, or support paths"
   - "It blocks unsupported sensitive claims instead of making them sound better"
 related_skills:
-  - "sg-repurpose"
   - "sg-redact"
   - "sg-enrich"
   - "sg-marketing"
@@ -70,7 +69,8 @@ order: 355
 ## The Content Lifecycle Entrypoint
 
 Use `sg-content` when the problem is content management rather than one narrow
-writing task. It decides whether the next owner is repurposing, drafting,
+writing task. Its `repurpose <source>` mode creates the source-faithful pack;
+it then decides whether the next owner is drafting,
 enrichment, copy audit, SEO, docs, research, verification, or ship routing.
 
 The skill starts from the content map and editorial governance layer, so public

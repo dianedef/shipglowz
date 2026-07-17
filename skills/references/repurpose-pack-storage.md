@@ -14,7 +14,6 @@ risk_level: medium
 security_impact: low
 docs_impact: yes
 linked_systems:
-  - skills/202-sg-repurpose/SKILL.md
   - skills/007-sg-content/SKILL.md
   - shipglowz_data/workflow/repurpose-packs/
   - shipglowz_data/README.md
@@ -116,13 +115,12 @@ Optional article or email-specific appendices are allowed only when they are jus
 
 ## Ownership
 
-- `202-sg-repurpose` owns writing and refreshing durable repurpose packs.
-- `007-sg-content` may route to `202-sg-repurpose` for pack creation before downstream writing or application.
+- `007-sg-content repurpose <source>` owns writing and refreshing durable repurpose packs.
 - Other skills may read these packs as source memory, but they should not silently rewrite them unless they become the clear owner through an explicit handoff.
 
 ## Validation
 
 ```bash
 python3 tools/shipglowz_metadata_lint.py skills/references/repurpose-pack-storage.md shipglowz_data/workflow/repurpose-packs/README.md
-rg -n "repurpose-pack-storage|repurpose-packs" skills/202-sg-repurpose/SKILL.md skills/202-sg-repurpose/references/repurpose-workflow.md skills/007-sg-content/SKILL.md shipglowz_data/README.md
+rg -n "repurpose-pack-storage|repurpose-packs" skills/007-sg-content/SKILL.md skills/007-sg-content/references/repurpose-playbook.md shipglowz_data/README.md
 ```

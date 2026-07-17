@@ -159,7 +159,7 @@ Nested `apps/foo/shipglowz_data/` or sibling `foo_app/shipglowz_data/` directori
 | `sg-docs migrate-layout` | Move root legacy artifacts and nested monorepo governance copies into governance-root `shipglowz_data/`, resolve collisions, update references, then run metadata lint. |
 | `sg-docs metadata` | Validate metadata only after layout classification; root legacy governance files are not compliant even with valid frontmatter. |
 | `sg-start` / `sg-verify` | Prefer canonical `shipglowz_data/` dependencies; treat root references in old specs as legacy context and flag migration debt. |
-| `sg-content` / `sg-repurpose` | Read `shipglowz_data/editorial/content-map.md` and optional business registries; recommend `sg-docs migrate-layout` when public content depends on root legacy docs. |
+| `sg-content` / `sg-content repurpose` | Read `shipglowz_data/editorial/content-map.md` and optional business registries; recommend `sg-docs migrate-layout` when public content depends on root legacy docs. |
 | `009-sg-marketing market` / `009-sg-marketing gtm` | Read and update business/GTM/registry artifacts only at canonical `shipglowz_data/business/` paths. |
 | `sg-ship` / `sg-end` | Do not close layout-changing work until linter and docs references agree on canonical paths. |
 

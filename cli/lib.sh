@@ -228,7 +228,7 @@ _ui_normalize_choice() {
 
     choice="${choice#"${choice%%[![:space:]]*}"}"
     choice="${choice%"${choice##*[![:space:]]}"}"
-    choice=$(printf '%s' "$choice" | tr '[:upper:]' '[:lower:]')
+    choice="${choice,,}"
 
     case "$choice" in
         esc|escape|backspace) choice="x" ;;
@@ -290,25 +290,26 @@ ui_should_skip_next_pause() {
 }
 
 _ui_drain_tty_until_quiet() {
-    local quiet_reads="${1:-3}"
-    local timeout="${2:-0.04}"
-    local quiet_count=0
+    local max_bytes="${1:-64}"
+    local timeout="${2:-0.01}"
+    local drained=0
 
     if ! { [ -r /dev/tty ] && : < /dev/tty; } 2>/dev/null; then
         return 0
     fi
 
-    while [ "$quiet_count" -lt "$quiet_reads" ]; do
-        if read -rsn1 -t "$timeout" _ < /dev/tty 2>/dev/null; then
-            quiet_count=0
-        else
-            quiet_count=$((quiet_count + 1))
-        fi
+    # An idle terminal returns immediately. Only open a short quiet window
+    # after input is already pending, then bound the amount consumed so this
+    # helper cannot wait indefinitely on a noisy terminal.
+    read -rsn1 -t 0 _ < /dev/tty 2>/dev/null || return 0
+    while [ "$drained" -lt "$max_bytes" ]; do
+        read -rsn1 -t "$timeout" _ < /dev/tty 2>/dev/null || break
+        drained=$((drained + 1))
     done
 }
 
 ui_flush_pending_input() {
-    _ui_drain_tty_until_quiet 3 0.04
+    _ui_drain_tty_until_quiet 64 0.01
 }
 
 ui_is_back_choice() {
@@ -345,7 +346,7 @@ ui_read_key() {
 
     if [ -r /dev/tty ] && { : < /dev/tty; } 2>/dev/null; then
         read -rsn1 __value < /dev/tty
-        _ui_drain_tty_until_quiet 3 0.04
+        _ui_drain_tty_until_quiet 64 0.01
         printf '\r\n' >&2
     else
         read -r __value
@@ -2232,7 +2233,7 @@ clean_all_safe_targets() {
             echo "pm2 kill"
         else
             pm2 kill >/dev/null 2>&1 || true
-            invalidate_pm2_cache
+            invalidate_after_pm2_mutation
             echo -e "${GREEN}Stopped empty PM2 daemon.${NC}"
         fi
     fi
@@ -2294,11 +2295,13 @@ stop_user_caddy() {
 }
 
 user_caddy_routes_from_pm2() {
-    get_pm2_data_cached 2>/dev/null | awk -F'|' '
-        ($2 == "online" || $2 == "launching") && $3 ~ /^[0-9]+$/ && $1 ~ /^[A-Za-z0-9._-]+$/ {
-            print $1 "|" $3
-        }
-    '
+    local data="" name status port cwd
+    pm2_data_load data 2>/dev/null || return 1
+    while IFS='|' read -r name status port cwd; do
+        if [[ "$status" =~ ^(online|launching)$ ]] && [[ "$port" =~ ^[0-9]+$ ]] && [[ "$name" =~ ^[A-Za-z0-9._-]+$ ]]; then
+            printf '%s|%s\n' "$name" "$port"
+        fi
+    done <<< "$data"
 }
 
 write_user_caddyfile() {
@@ -2597,7 +2600,7 @@ aggressive_cleanup_menu() {
             echo "pm2 kill"
         else
             pm2 kill >/dev/null 2>&1 || true
-            invalidate_pm2_cache
+            invalidate_after_pm2_mutation
             echo -e "${GREEN}Stopped empty PM2 daemon.${NC}"
         fi
     fi
@@ -3023,7 +3026,7 @@ refresh_menu_status_cache_async_if_stale() {
     fi
 
     (
-        echo $$ > "$MENU_STATUS_LOCK_FILE"
+        echo "$BASHPID" > "$MENU_STATUS_LOCK_FILE"
         refresh_menu_status_cache_sync >/dev/null 2>&1 || true
         rm -f "$MENU_STATUS_LOCK_FILE" 2>/dev/null || true
     ) >/dev/null 2>&1 &
@@ -3257,7 +3260,8 @@ updates_menu() {
 select_environment() {
     local prompt_text="${1:-Select an environment}"
 
-    local all_envs=$(list_all_environments)
+    local all_envs=""
+    environment_names_load all_envs || all_envs=""
 
     if [ -z "$all_envs" ]; then
         echo -e "${RED}No environments found${NC}" >&2
@@ -3265,14 +3269,20 @@ select_environment() {
     fi
 
     # Fetch PM2 data once and build a lookup to avoid repeated pm2 jlist calls.
-    local pm2_data
-    pm2_data=$(get_pm2_data_cached) || pm2_data=""
+    local pm2_data=""
+    pm2_data_load pm2_data || pm2_data=""
 
     local options=()
     while IFS= read -r env; do
         local status="not_found"
         if [ -n "$pm2_data" ]; then
-            status=$(printf '%s\n' "$pm2_data" | awk -F'|' -v n="$env" '$1 == n {print $2; exit}')
+            local pm2_name pm2_status pm2_port pm2_cwd
+            while IFS='|' read -r pm2_name pm2_status pm2_port pm2_cwd; do
+                if [ "$pm2_name" = "$env" ]; then
+                    status="$pm2_status"
+                    break
+                fi
+            done <<< "$pm2_data"
             [ -z "$status" ] && status="not_found"
         fi
         local icon
@@ -3292,21 +3302,28 @@ select_environment() {
 select_stop_target() {
     local prompt_text="${1:-Select environment to stop}"
 
-    local all_envs=$(list_all_stop_targets)
+    local all_envs=""
+    stop_targets_load all_envs || all_envs=""
 
     if [ -z "$all_envs" ]; then
         echo -e "${RED}No environments or PM2 apps found${NC}" >&2
         return 1
     fi
 
-    local pm2_data
-    pm2_data=$(get_pm2_data_cached) || pm2_data=""
+    local pm2_data=""
+    pm2_data_load pm2_data || pm2_data=""
 
     local options=()
     while IFS= read -r env; do
         local status="not_found"
         if [ -n "$pm2_data" ]; then
-            status=$(printf '%s\n' "$pm2_data" | awk -F'|' -v n="$env" '$1 == n {print $2; exit}')
+            local pm2_name pm2_status pm2_port pm2_cwd
+            while IFS='|' read -r pm2_name pm2_status pm2_port pm2_cwd; do
+                if [ "$pm2_name" = "$env" ]; then
+                    status="$pm2_status"
+                    break
+                fi
+            done <<< "$pm2_data"
             [ -z "$status" ] && status="not_found"
         fi
         local icon
@@ -3976,94 +3993,307 @@ SHIPGLOWZ_REGISTRY="${SHIPGLOWZ_REGISTRY:-${SHIPFLOW_REGISTRY:-$SHIPGLOWZ_STATE_
 SHIPFLOW_REGISTRY="$SHIPGLOWZ_REGISTRY"
 SHIPGLOWZ_REGISTRY_SYNCED=false
 SHIPFLOW_REGISTRY_SYNCED=false
+: "${SHIPGLOWZ_REGISTRY_CACHE_TTL:=300}"
+: "${SHIPGLOWZ_REGISTRY_LOCK_ATTEMPTS:=20}"
+: "${SHIPGLOWZ_REGISTRY_LOCK_INTERVAL:=0.05}"
 
-ensure_registry() {
-    mkdir -p "$(dirname "$SHIPGLOWZ_REGISTRY")"
-    if [ ! -f "$SHIPGLOWZ_REGISTRY" ]; then
-        registry_sync
-    fi
+SHIPGLOWZ_REGISTRY_INVALIDATED_FILE="${SHIPGLOWZ_REGISTRY_INVALIDATED_FILE:-${SHIPGLOWZ_REGISTRY}.invalidated}"
+SHIPGLOWZ_REGISTRY_LOCK_DIR="${SHIPGLOWZ_REGISTRY_LOCK_DIR:-${SHIPGLOWZ_REGISTRY}.lock}"
+
+_shipglowz_assign() {
+    local target="$1"
+    local value="${2:-}"
+    [[ "$target" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]] || return 1
+    printf -v "$target" '%s' "$value"
 }
 
-registry_sync() {
-    mkdir -p "$(dirname "$SHIPGLOWZ_REGISTRY")"
-    # One pm2 jlist call + one find
-    local pm2_data
-    if command -v pm2 >/dev/null 2>&1; then
-        if command -v jq >/dev/null 2>&1; then
-            pm2_data=$(pm2 jlist 2>/dev/null | jq -r '.[] | "\(.name)|\(.pm2_env.status // "stopped")|\(.pm2_env.env.PORT // "")|\(.pm2_env.pm_cwd // "")"' 2>/dev/null)
-        else
-            pm2_data=$(pm2 jlist 2>/dev/null | python3 -c "
-import sys, json
-try:
-    apps = json.load(sys.stdin)
-    for app in apps:
-        n = app.get('name', '')
-        s = app.get('pm2_env', {}).get('status', 'stopped')
-        p = app.get('pm2_env', {}).get('env', {}).get('PORT', '')
-        c = app.get('pm2_env', {}).get('pm_cwd', '')
-        print(f'{n}|{s}|{p}|{c}')
-except: pass
-" 2>/dev/null)
-        fi
-    fi
+# Emit one canonical name|path pair for every Flox project. The matched .flox
+# directory is pruned so its package/cache internals are never traversed.
+scan_flox_projects() {
+    [ -d "$PROJECTS_DIR" ] || return 0
 
-    # Build map: name -> path from .flox dirs
-    local path_map=""
-    local flox_dirs
-    flox_dirs=$(find "$PROJECTS_DIR" -maxdepth 4 \
+    local scan_file
+    scan_file=$(mktemp "${TMPDIR:-/tmp}/shipglowz-flox-scan.XXXXXX" 2>/dev/null) || return 1
+    register_temp_file "$scan_file"
+
+    if ! find "$PROJECTS_DIR" -maxdepth 4 \
         \( -name "node_modules" -o -name ".git" -o -name "venv" -o -name ".venv" \
            -o -name "__pycache__" -o -name "target" -o -name ".next" -o -name ".nuxt" \
            -o -name "dist" -o -name ".cache" -o -name ".pnpm" -o -name ".yarn" \) -prune \
-        -o -type d -name ".flox" -print 2>/dev/null)
-    while IFS= read -r flox_dir; do
-        [ -z "$flox_dir" ] && continue
-        local dname
-        dname=$(basename "$(dirname "$flox_dir")")
-        path_map="$path_map${dname}|$(dirname "$flox_dir")"$'\n'
-    done <<< "$flox_dirs"
+        -o -type d -name ".flox" -print0 -prune > "$scan_file" 2>/dev/null; then
+        rm -f "$scan_file" 2>/dev/null || true
+        return 1
+    fi
 
-    > "$SHIPGLOWZ_REGISTRY"
-    # Write entries from pm2 data first
-    if [ -n "$pm2_data" ]; then
-        while IFS='|' read -r name status port cwd; do
-            [ -z "$name" ] && continue
-            local path="$cwd"
-            if [ -z "$path" ] || [ ! -d "$path" ]; then
-                path=$(echo "$path_map" | while IFS='|' read -r pn pp; do
-                    [ "$pn" = "$name" ] && echo "$pp" && exit 0
-                done)
-            fi
-            # Skip entries without a .flox project directory (PM2 modules, orphans)
-            if [ -z "$path" ] || [ ! -d "$path/.flox" ]; then
+    local flox_dir project_dir name
+    declare -A seen_names=()
+    while IFS= read -r -d '' flox_dir; do
+        project_dir="${flox_dir%/.flox}"
+        [ -d "$project_dir/.flox" ] || continue
+        case "$project_dir" in
+            *'|'*|*$'\n'*)
+                log WARNING "Skipping Flox project with unsupported registry path"
                 continue
+                ;;
+        esac
+        name=$(derive_pm2_app_name "$project_dir") || continue
+        case "$name" in
+            ''|*'|'*|*$'\n'*) continue ;;
+        esac
+        if [ -n "${seen_names[$name]+x}" ]; then
+            log WARNING "Skipping duplicate environment name: $name"
+            continue
+        fi
+        seen_names[$name]=1
+        printf '%s|%s\n' "$name" "$project_dir"
+    done < "$scan_file"
+
+    rm -f "$scan_file" 2>/dev/null || true
+}
+
+registry_is_valid() {
+    local file="${1:-$SHIPGLOWZ_REGISTRY}"
+    [ -f "$file" ] || return 1
+
+    local name status port path extra
+    while IFS='|' read -r name status port path extra || [ -n "$name$status$port$path$extra" ]; do
+        [ -n "$name" ] || return 1
+        [ -z "$extra" ] || return 1
+        [[ "$path" == /* ]] || return 1
+        [ -d "$path/.flox" ] || return 1
+        case "$name$status$port$path" in *$'\n'*) return 1 ;; esac
+    done < "$file"
+    return 0
+}
+
+_registry_acquire_lock() {
+    local attempt=0 pid=""
+    while [ "$attempt" -lt "$SHIPGLOWZ_REGISTRY_LOCK_ATTEMPTS" ]; do
+        if mkdir "$SHIPGLOWZ_REGISTRY_LOCK_DIR" 2>/dev/null; then
+            printf '%s\n' "$BASHPID" > "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid"
+            return 0
+        fi
+
+        if [ -r "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" ]; then
+            IFS= read -r pid < "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" || pid=""
+        fi
+        if [ -z "$pid" ] || ! kill -0 "$pid" 2>/dev/null; then
+            rm -f "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" 2>/dev/null || true
+            rmdir "$SHIPGLOWZ_REGISTRY_LOCK_DIR" 2>/dev/null || true
+            continue
+        fi
+
+        sleep "$SHIPGLOWZ_REGISTRY_LOCK_INTERVAL"
+        attempt=$((attempt + 1))
+    done
+    return 1
+}
+
+_registry_release_lock() {
+    local pid=""
+    if [ -r "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" ]; then
+        IFS= read -r pid < "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" || pid=""
+    fi
+    [ "$pid" = "$BASHPID" ] || return 0
+    rm -f "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" 2>/dev/null || true
+    rmdir "$SHIPGLOWZ_REGISTRY_LOCK_DIR" 2>/dev/null || true
+}
+
+invalidate_environment_index_cache() {
+    ENV_INDEX_CACHE=""
+    ENV_INDEX_CACHE_LOADED=false
+    ENV_LIST_CACHE=""
+    ENV_LIST_CACHE_TIME=0
+    RESOLVE_PATH_CACHE=""
+    RESOLVE_PATH_CACHE_TIME=0
+}
+
+invalidate_registry_cache() {
+    invalidate_environment_index_cache
+    mkdir -p "$(dirname "$SHIPGLOWZ_REGISTRY")" 2>/dev/null || return 1
+    : > "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" 2>/dev/null || return 1
+    SHIPGLOWZ_REGISTRY_SYNCED=false
+    SHIPFLOW_REGISTRY_SYNCED=false
+}
+
+ensure_registry() {
+    local registry_valid=false
+    registry_is_valid "$SHIPGLOWZ_REGISTRY" && registry_valid=true
+
+    if [ "$SHIPGLOWZ_REGISTRY_SYNCED" = "true" ] && [ "$registry_valid" = "true" ] && [ ! -e "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" ]; then
+        return 0
+    fi
+
+    local stale=true now mtime=0 ttl="$SHIPGLOWZ_REGISTRY_CACHE_TTL"
+    [[ "$ttl" =~ ^[0-9]+$ ]] || ttl=300
+    if [ "$registry_valid" = "true" ] && [ ! -e "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" ]; then
+        now=$(date +%s)
+        mtime=$(stat -c %Y "$SHIPGLOWZ_REGISTRY" 2>/dev/null || printf '0')
+        if [ $((now - mtime)) -lt "$ttl" ]; then
+            stale=false
+        fi
+    fi
+
+    if [ "$stale" = "false" ]; then
+        SHIPGLOWZ_REGISTRY_SYNCED=true
+        SHIPFLOW_REGISTRY_SYNCED=true
+        return 0
+    fi
+
+    if registry_sync; then
+        return 0
+    fi
+
+    # A refresh failure never destroys a complete last-known-good snapshot.
+    if [ "$registry_valid" = "true" ]; then
+        log WARNING "Registry refresh unavailable; using last-known-good snapshot"
+        return 0
+    fi
+    log ERROR "Environment registry is unavailable and could not be rebuilt"
+    return 1
+}
+
+registry_sync() {
+    local registry_dir
+    registry_dir=$(dirname "$SHIPGLOWZ_REGISTRY")
+    mkdir -p "$registry_dir" 2>/dev/null || return 1
+    chmod 700 "$registry_dir" 2>/dev/null || true
+    _registry_acquire_lock || return 1
+
+    local discovery_file snapshot_file
+    discovery_file=$(mktemp "$registry_dir/.envs.discovery.XXXXXX" 2>/dev/null) || {
+        _registry_release_lock
+        return 1
+    }
+    snapshot_file=$(mktemp "$registry_dir/.envs.reg.XXXXXX" 2>/dev/null) || {
+        rm -f "$discovery_file" 2>/dev/null || true
+        _registry_release_lock
+        return 1
+    }
+    register_temp_file "$discovery_file"
+    register_temp_file "$snapshot_file"
+    chmod 600 "$discovery_file" "$snapshot_file" 2>/dev/null || true
+
+    if ! scan_flox_projects > "$discovery_file"; then
+        rm -f "$discovery_file" "$snapshot_file" 2>/dev/null || true
+        _registry_release_lock
+        return 1
+    fi
+
+    local pm2_data=""
+    local pm2_available=true
+    pm2_data_load pm2_data 2>/dev/null || pm2_available=false
+
+    declare -A paths=() previous_status=() previous_port=() seen=()
+    local name path status port cwd extra
+    while IFS='|' read -r name path extra; do
+        [ -n "$name" ] && [ -n "$path" ] && [ -z "$extra" ] || continue
+        paths[$name]="$path"
+    done < "$discovery_file"
+
+    if registry_is_valid "$SHIPGLOWZ_REGISTRY"; then
+        while IFS='|' read -r name status port path; do
+            previous_status[$name]="$status"
+            previous_port[$name]="$port"
+        done < "$SHIPGLOWZ_REGISTRY"
+    fi
+
+    if [ "$pm2_available" = "true" ]; then
+        while IFS='|' read -r name status port cwd extra; do
+            [ -n "$name" ] && [ -z "$extra" ] || continue
+            path="${paths[$name]:-}"
+            if [ -n "$cwd" ] && [ -d "$cwd/.flox" ]; then
+                path="$cwd"
             fi
-            echo "$name|$status|$port|$path" >> "$SHIPGLOWZ_REGISTRY"
+            [ -n "$path" ] && [ -d "$path/.flox" ] || continue
+            case "$name$status$port$path" in *'|'*|*$'\n'*) continue ;; esac
+            printf '%s|%s|%s|%s\n' "$name" "${status:-unknown}" "$port" "$path" >> "$snapshot_file"
+            seen[$name]=1
         done <<< "$pm2_data"
     fi
-    # Add any envs from .flox not in pm2
-    while IFS='|' read -r pn pp; do
-        [ -z "$pn" ] && continue
-        if ! grep -q "^${pn}|" "$SHIPGLOWZ_REGISTRY" 2>/dev/null; then
-            echo "$pn|stopped||$pp" >> "$SHIPGLOWZ_REGISTRY"
-        fi
-    done <<< "$path_map"
 
+    while IFS='|' read -r name path extra; do
+        [ -n "$name" ] && [ -n "$path" ] && [ -z "$extra" ] || continue
+        [ -z "${seen[$name]+x}" ] || continue
+        status="stopped"
+        port=""
+        if [ "$pm2_available" = "false" ] && [ -n "${previous_status[$name]+x}" ]; then
+            status="${previous_status[$name]}"
+            port="${previous_port[$name]:-}"
+        fi
+        printf '%s|%s|%s|%s\n' "$name" "$status" "$port" "$path" >> "$snapshot_file"
+    done < "$discovery_file"
+
+    if ! registry_is_valid "$snapshot_file"; then
+        rm -f "$discovery_file" "$snapshot_file" 2>/dev/null || true
+        _registry_release_lock
+        return 1
+    fi
+
+    chmod 600 "$snapshot_file" 2>/dev/null || true
+    if ! mv -f "$snapshot_file" "$SHIPGLOWZ_REGISTRY" 2>/dev/null; then
+        rm -f "$discovery_file" "$snapshot_file" 2>/dev/null || true
+        _registry_release_lock
+        return 1
+    fi
+    rm -f "$discovery_file" "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" 2>/dev/null || true
+    _registry_release_lock
+
+    invalidate_environment_index_cache
     SHIPGLOWZ_REGISTRY_SYNCED=true
     SHIPFLOW_REGISTRY_SYNCED=true
+    return 0
 }
 
 registry_update() {
-    local name=$1 status=$2 port=$3
-    mkdir -p "$(dirname "$SHIPGLOWZ_REGISTRY")"
-    local path=""
-    if grep -q "^${name}|" "$SHIPGLOWZ_REGISTRY" 2>/dev/null; then
-        path=$(grep "^${name}|" "$SHIPGLOWZ_REGISTRY" | head -1 | cut -d'|' -f4)
-        grep -v "^${name}|" "$SHIPGLOWZ_REGISTRY" > "${SHIPGLOWZ_REGISTRY}.tmp"
-        echo "$name|$status|$port|$path" >> "${SHIPGLOWZ_REGISTRY}.tmp"
-        mv "${SHIPGLOWZ_REGISTRY}.tmp" "$SHIPGLOWZ_REGISTRY"
-    else
-        echo "$name|$status|$port|" >> "$SHIPGLOWZ_REGISTRY"
+    local target_name="$1" target_status="$2" target_port="$3" target_path="${4:-}"
+    case "$target_name$target_status$target_port$target_path" in *'|'*|*$'\n'*) return 1 ;; esac
+    if ! registry_is_valid "$SHIPGLOWZ_REGISTRY"; then
+        ensure_registry || return 1
     fi
+    _registry_acquire_lock || return 1
+
+    local registry_dir tmp_file name status port path
+    registry_dir=$(dirname "$SHIPGLOWZ_REGISTRY")
+    tmp_file=$(mktemp "$registry_dir/.envs.update.XXXXXX" 2>/dev/null) || {
+        _registry_release_lock
+        return 1
+    }
+    register_temp_file "$tmp_file"
+    chmod 600 "$tmp_file" 2>/dev/null || true
+
+    local updated=false
+    while IFS='|' read -r name status port path; do
+        if [ "$name" = "$target_name" ]; then
+            [ -n "$target_path" ] || target_path="$path"
+            printf '%s|%s|%s|%s\n' "$target_name" "$target_status" "$target_port" "$target_path" >> "$tmp_file"
+            updated=true
+        else
+            printf '%s|%s|%s|%s\n' "$name" "$status" "$port" "$path" >> "$tmp_file"
+        fi
+    done < "$SHIPGLOWZ_REGISTRY"
+
+    if [ "$updated" = "false" ]; then
+        [ -n "$target_path" ] && [ -d "$target_path/.flox" ] || {
+            rm -f "$tmp_file" 2>/dev/null || true
+            _registry_release_lock
+            return 1
+        }
+        printf '%s|%s|%s|%s\n' "$target_name" "$target_status" "$target_port" "$target_path" >> "$tmp_file"
+    fi
+
+    if ! registry_is_valid "$tmp_file" || ! mv -f "$tmp_file" "$SHIPGLOWZ_REGISTRY" 2>/dev/null; then
+        rm -f "$tmp_file" 2>/dev/null || true
+        _registry_release_lock
+        return 1
+    fi
+    chmod 600 "$SHIPGLOWZ_REGISTRY" 2>/dev/null || true
+    rm -f "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" 2>/dev/null || true
+    _registry_release_lock
+    invalidate_environment_index_cache
+    SHIPGLOWZ_REGISTRY_SYNCED=true
+    SHIPFLOW_REGISTRY_SYNCED=true
+    return 0
 }
 
 # ============================================================================
@@ -4073,9 +4303,7 @@ registry_update() {
 # Global cache variables
 PM2_DATA_CACHE=""
 PM2_DATA_CACHE_TIME=0
-
-# Sync registry on lib.sh load (one pm2 jlist + one find per session)
-registry_sync 2>/dev/null || true
+PM2_DATA_CACHE_VALID=false
 
 # -----------------------------------------------------------------------------
 # get_pm2_data_cached - Fetch and cache all PM2 application data
@@ -4103,30 +4331,38 @@ registry_sync 2>/dev/null || true
 # Example:
 #   get_pm2_data_cached
 # -----------------------------------------------------------------------------
-get_pm2_data_cached() {
-    local current_time=$(date +%s)
-    local cache_age=$((current_time - PM2_DATA_CACHE_TIME))
+pm2_data_load() {
+    local target="$1"
+    local current_time cache_age ttl="${SHIPGLOWZ_PM2_CACHE_TTL:-5}"
+    current_time=$(date +%s)
+    cache_age=$((current_time - PM2_DATA_CACHE_TIME))
+    [[ "$ttl" =~ ^[0-9]+$ ]] || ttl=5
 
-    # Return cached data if fresh
-    if [ "$SHIPGLOWZ_PM2_CACHE_ENABLED" = "true" ] && [ $cache_age -lt $SHIPGLOWZ_PM2_CACHE_TTL ] && [ -n "$PM2_DATA_CACHE" ]; then
+    if [ "${SHIPGLOWZ_PM2_CACHE_ENABLED:-true}" = "true" ] && [ "$PM2_DATA_CACHE_VALID" = "true" ] && [ "$cache_age" -lt "$ttl" ]; then
         log DEBUG "Using cached PM2 data (age: ${cache_age}s)"
-        echo "$PM2_DATA_CACHE"
-        return 0
+        _shipglowz_assign "$target" "$PM2_DATA_CACHE"
+        return $?
     fi
 
-    # Fetch fresh data
     log DEBUG "Fetching fresh PM2 data"
     if ! command -v pm2 >/dev/null 2>&1; then
         log WARNING "PM2 not installed"
         return 1
     fi
 
-    # Get all PM2 data in one call: name|status|port|cwd
-    # Use jq if available (faster), fallback to python3
-    if [ "$SHIPGLOWZ_PREFER_JQ" = "true" ] && command -v jq >/dev/null 2>&1; then
-        PM2_DATA_CACHE=$(pm2 jlist 2>/dev/null | jq -r '.[] | "\(.name)|\(.pm2_env.status // "unknown")|\(.pm2_env.env.PORT // "")|\(.pm2_env.pm_cwd // "")"' 2>/dev/null)
+    local pm2_json parsed=""
+    if ! pm2_json=$(pm2 jlist 2>/dev/null); then
+        log WARNING "PM2 application snapshot unavailable"
+        return 1
+    fi
+
+    if [ "${SHIPGLOWZ_PREFER_JQ:-true}" = "true" ] && command -v jq >/dev/null 2>&1; then
+        if ! parsed=$(printf '%s' "$pm2_json" | jq -r '.[] | "\(.name)|\(.pm2_env.status // "unknown")|\(.pm2_env.env.PORT // "")|\(.pm2_env.pm_cwd // "")"' 2>/dev/null); then
+            log WARNING "PM2 returned invalid JSON"
+            return 1
+        fi
     elif command -v python3 >/dev/null 2>&1; then
-        PM2_DATA_CACHE=$(pm2 jlist 2>/dev/null | python3 -c "
+        if ! parsed=$(printf '%s' "$pm2_json" | python3 -c "
 import sys, json
 try:
     apps = json.load(sys.stdin)
@@ -4139,14 +4375,29 @@ try:
 except Exception as e:
     import sys
     print(f'ERROR: {e}', file=sys.stderr)
-" 2>/dev/null)
+    sys.exit(1)
+" 2>/dev/null); then
+            log WARNING "PM2 returned invalid JSON"
+            return 1
+        fi
     else
         log ERROR "No JSON parser available (jq or python3 required)"
         return 1
     fi
 
+    PM2_DATA_CACHE="$parsed"
     PM2_DATA_CACHE_TIME=$current_time
-    echo "$PM2_DATA_CACHE"
+    PM2_DATA_CACHE_VALID=true
+    _shipglowz_assign "$target" "$PM2_DATA_CACHE"
+}
+
+# Description:
+#   Compatibility stdout wrapper around parent-shell pm2_data_load().
+get_pm2_data_cached() {
+    local data=""
+    pm2_data_load data || return 1
+    [ -n "$data" ] && printf '%s\n' "$data"
+    return 0
 }
 
 # -----------------------------------------------------------------------------
@@ -4170,6 +4421,13 @@ invalidate_pm2_cache() {
     log DEBUG "Invalidating PM2 cache"
     PM2_DATA_CACHE=""
     PM2_DATA_CACHE_TIME=0
+    PM2_DATA_CACHE_VALID=false
+    invalidate_environment_index_cache
+}
+
+invalidate_after_pm2_mutation() {
+    invalidate_pm2_cache
+    invalidate_registry_cache 2>/dev/null || true
 }
 
 ENV_LIST_CACHE=""
@@ -4217,8 +4475,8 @@ get_pm2_app_data() {
     local app_name=$1
     local field=$2  # status, port, or cwd
 
-    local data
-    data=$(get_pm2_data_cached) || return 1
+    local data=""
+    pm2_data_load data || return 1
     if [ -z "$data" ]; then
         return 1
     fi
@@ -4238,14 +4496,22 @@ get_pm2_app_data() {
 }
 
 list_pm2_app_names() {
-    get_pm2_data_cached 2>/dev/null | awk -F'|' '{print $1}'
+    local data="" name status port cwd
+    pm2_data_load data 2>/dev/null || return 1
+    while IFS='|' read -r name status port cwd; do
+        [ -n "$name" ] && printf '%s\n' "$name"
+    done <<< "$data"
 }
 
 pm2_app_exists_by_name() {
     local app_name="$1"
     [ -z "$app_name" ] && return 1
-
-    list_pm2_app_names | awk -v name="$app_name" '$0 == name {found=1} END {exit found ? 0 : 1}'
+    local data="" name status port cwd
+    pm2_data_load data 2>/dev/null || return 1
+    while IFS='|' read -r name status port cwd; do
+        [ "$name" = "$app_name" ] && return 0
+    done <<< "$data"
+    return 1
 }
 
 pm2_daemon_pid() {
@@ -4253,11 +4519,18 @@ pm2_daemon_pid() {
 }
 
 pm2_has_apps() {
-    [ -n "$(list_pm2_app_names 2>/dev/null)" ]
+    local data=""
+    pm2_data_load data 2>/dev/null || return 1
+    [ -n "$data" ]
 }
 
 pm2_has_running_apps() {
-    get_pm2_data_cached 2>/dev/null | awk -F'|' '$2 == "online" || $2 == "launching" {found=1} END {exit found ? 0 : 1}'
+    local data="" name status port cwd
+    pm2_data_load data 2>/dev/null || return 1
+    while IFS='|' read -r name status port cwd; do
+        case "$status" in online|launching) return 0 ;; esac
+    done <<< "$data"
+    return 1
 }
 
 stop_empty_pm2_daemon() {
@@ -4281,7 +4554,7 @@ stop_empty_pm2_daemon() {
     fi
 
     pm2 kill >/dev/null 2>&1 || true
-    invalidate_pm2_cache
+    invalidate_after_pm2_mutation
     echo -e "${GREEN}Stopped empty PM2 daemon.${NC}"
 }
 
@@ -4304,11 +4577,35 @@ get_pm2_status_by_name() {
     return 1
 }
 
+stop_targets_load() {
+    local target="$1" envs="" pm2_data="" output="" item status port cwd
+    environment_names_load envs 2>/dev/null || envs=""
+    pm2_data_load pm2_data 2>/dev/null || pm2_data=""
+    declare -A seen=()
+    while IFS= read -r item; do
+        [ -n "$item" ] || continue
+        if [ -z "${seen[$item]+x}" ]; then
+            [ -n "$output" ] && output+=$'\n'
+            output+="$item"
+            seen[$item]=1
+        fi
+    done <<< "$envs"
+    while IFS='|' read -r item status port cwd; do
+        [ -n "$item" ] || continue
+        if [ -z "${seen[$item]+x}" ]; then
+            [ -n "$output" ] && output+=$'\n'
+            output+="$item"
+            seen[$item]=1
+        fi
+    done <<< "$pm2_data"
+    _shipglowz_assign "$target" "$output"
+}
+
 list_all_stop_targets() {
-    {
-        list_all_environments
-        list_pm2_app_names
-    } 2>/dev/null | sed '/^[[:space:]]*$/d' | sort -u
+    local targets=""
+    stop_targets_load targets || return 1
+    [ -n "$targets" ] && printf '%s\n' "$targets"
+    return 0
 }
 
 pm2_stop_app_by_name() {
@@ -4326,7 +4623,7 @@ pm2_stop_app_by_name() {
 
     if pm2 stop "$app_name" 2>/dev/null; then
         pm2 save --force >/dev/null 2>&1
-        invalidate_pm2_cache
+        invalidate_after_pm2_mutation
         success "Projet $app_name arrêté"
         log INFO "Stopped PM2 app: $app_name"
         return 0
@@ -4394,13 +4691,16 @@ get_all_pm2_ports() {
         return 0
     fi
 
-    local data=$(get_pm2_data_cached)
+    local data=""
+    pm2_data_load data || return 0
     if [ -z "$data" ]; then
         return 0
     fi
 
-    # Extract ports from cached data
-    echo "$data" | awk -F'|' '{if ($3 != "") print $3}' | tr '\n' ' '
+    local name status port cwd
+    while IFS='|' read -r name status port cwd; do
+        [ -n "$port" ] && printf '%s ' "$port"
+    done <<< "$data"
 }
 
 # -----------------------------------------------------------------------------
@@ -4458,15 +4758,14 @@ find_available_port() {
 # Get project status from PM2 - OPTIMIZED
 get_pm2_status() {
     local identifier=$1
-    local project_dir=$(resolve_project_path "$identifier")
-
-    if [ -z "$project_dir" ]; then
-        echo "not-found"
-        return 1
+    local project_dir="" env_name=""
+    if [[ "$identifier" == /* ]]; then
+        resolve_project_path_into project_dir "$identifier" || project_dir=""
+        [ -n "$project_dir" ] || { echo "not-found"; return 1; }
+        env_name=$(derive_pm2_app_name "$project_dir")
+    else
+        env_name="$identifier"
     fi
-
-    local env_name
-    env_name=$(derive_pm2_app_name "$project_dir")
 
     if ! command -v pm2 >/dev/null 2>&1; then
         echo "pm2-not-installed"
@@ -4491,14 +4790,14 @@ get_pm2_status() {
 # Get port from PM2 env vars for a project - OPTIMIZED
 get_port_from_pm2() {
     local identifier=$1
-    local project_dir=$(resolve_project_path "$identifier")
-
-    if [ -z "$project_dir" ]; then
-        return 1
+    local project_dir="" env_name=""
+    if [[ "$identifier" == /* ]]; then
+        resolve_project_path_into project_dir "$identifier" || project_dir=""
+        [ -n "$project_dir" ] || return 1
+        env_name=$(derive_pm2_app_name "$project_dir")
+    else
+        env_name="$identifier"
     fi
-
-    local env_name
-    env_name=$(derive_pm2_app_name "$project_dir")
 
     if ! command -v pm2 >/dev/null 2>&1; then
         return 1
@@ -4544,51 +4843,93 @@ get_port_from_pm2() {
 RESOLVE_PATH_CACHE=""
 RESOLVE_PATH_CACHE_TIME=0
 : "${RESOLVE_PATH_CACHE_TTL:=5}"
+ENV_INDEX_CACHE=""
+ENV_INDEX_CACHE_LOADED=false
 
 invalidate_path_cache() {
-    RESOLVE_PATH_CACHE=""
-    RESOLVE_PATH_CACHE_TIME=0
+    invalidate_environment_index_cache
+    invalidate_registry_cache 2>/dev/null || true
 }
 
-resolve_project_path() {
-    local identifier=$1
+environment_index_load() {
+    local target="$1"
+    if [ "$ENV_INDEX_CACHE_LOADED" = "true" ]; then
+        _shipglowz_assign "$target" "$ENV_INDEX_CACHE"
+        return $?
+    fi
+
+    ensure_registry || return 1
+    local data="" line
+    while IFS= read -r line || [ -n "$line" ]; do
+        [ -n "$line" ] || continue
+        if [ -n "$data" ]; then
+            data+=$'\n'
+        fi
+        data+="$line"
+    done < "$SHIPGLOWZ_REGISTRY"
+    ENV_INDEX_CACHE="$data"
+    ENV_INDEX_CACHE_LOADED=true
+    _shipglowz_assign "$target" "$ENV_INDEX_CACHE"
+}
+
+environment_names_load() {
+    local target="$1" index="" output="" name status port path
+    environment_index_load index || return 1
+    while IFS='|' read -r name status port path; do
+        [ -n "$name" ] || continue
+        [ -n "$output" ] && output+=$'\n'
+        output+="$name"
+    done <<< "$index"
+    _shipglowz_assign "$target" "$output"
+}
+
+environment_identifiers_load() {
+    local target="$1" index="" output="" name status port path
+    environment_index_load index || return 1
+    declare -A seen=()
+    while IFS='|' read -r name status port path; do
+        [ -n "$name" ] || continue
+        if [ -z "${seen[$name]+x}" ]; then
+            [ -n "$output" ] && output+=$'\n'
+            output+="$name"
+            seen[$name]=1
+        fi
+        if [ -n "$path" ] && [ -z "${seen[$path]+x}" ]; then
+            [ -n "$output" ] && output+=$'\n'
+            output+="$path"
+            seen[$path]=1
+        fi
+    done <<< "$index"
+    _shipglowz_assign "$target" "$output"
+}
+
+resolve_project_path_into() {
+    local target="$1" identifier="$2"
 
     # Case 1: Identifier is already an absolute path
     if [[ "$identifier" == /* && -d "$identifier" ]]; then
-        echo "$identifier"
-        return 0
+        _shipglowz_assign "$target" "$identifier"
+        return $?
     fi
 
-    # Build cache from a single find if stale
-    local now
-    now=$(date +%s)
-    if [ -z "$RESOLVE_PATH_CACHE" ] || [ $((now - RESOLVE_PATH_CACHE_TIME)) -ge "$RESOLVE_PATH_CACHE_TTL" ]; then
-        RESOLVE_PATH_CACHE=$(find "$PROJECTS_DIR" -maxdepth 4 \
-            \( -name "node_modules" -o -name ".git" -o -name "venv" -o -name ".venv" \
-               -o -name "__pycache__" -o -name "target" -o -name ".next" -o -name ".nuxt" \
-               -o -name "dist" -o -name ".cache" -o -name ".pnpm" -o -name ".yarn" \) -prune \
-            -o -type d -name ".flox" -print 2>/dev/null | while read -r flox_dir; do
-            project_dir=$(dirname "$flox_dir")
-            echo "$(derive_pm2_app_name "$project_dir")|$project_dir"
-        done)
-        RESOLVE_PATH_CACHE_TIME=$now
-    fi
-
-    # Lookup identifier in cache
-    local found_path
-    found_path=$(echo "$RESOLVE_PATH_CACHE" | while IFS='|' read -r name path; do
-        if [ "$name" = "$identifier" ]; then
-            echo "$path"
-            exit 0
+    local index="" name status port path
+    environment_index_load index || return 1
+    while IFS='|' read -r name status port path; do
+        if [ "$name" = "$identifier" ] || [ "$path" = "$identifier" ]; then
+            _shipglowz_assign "$target" "$path"
+            return $?
         fi
-    done)
-
-    if [ -n "$found_path" ]; then
-        echo "$found_path"
-        return 0
-    fi
+    done <<< "$index"
 
     return 1
+}
+
+# Description:
+#   Compatibility stdout wrapper around parent-shell path resolution.
+resolve_project_path() {
+    local path=""
+    resolve_project_path_into path "$1" || return 1
+    printf '%s\n' "$path"
 }
 
 # Return a collision-resistant PM2 name for a project directory.
@@ -4615,62 +4956,42 @@ derive_pm2_app_name() {
 
 # List all environments (projects with Flox env)
 list_all_environments() {
-    local current_time
-    current_time=$(date +%s)
-    if [ "${SHIPGLOWZ_ENV_LIST_CACHE_ENABLED:-true}" = "true" ] && [ $((current_time - ENV_LIST_CACHE_TIME)) -lt "${SHIPGLOWZ_LIST_CACHE_TTL:-5}" ] && [ -n "$ENV_LIST_CACHE" ]; then
-        log DEBUG "Using cached env list (age: $((current_time - ENV_LIST_CACHE_TIME))s)"
-        printf '%s\n' "$ENV_LIST_CACHE"
-        return 0
-    fi
-
-    if [ -d "$PROJECTS_DIR" ]; then
-        ENV_LIST_CACHE=$(find "$PROJECTS_DIR" -maxdepth 4 \
-            \( -name "node_modules" -o -name ".git" -o -name "venv" -o -name ".venv" \
-               -o -name "__pycache__" -o -name "target" -o -name ".next" -o -name ".nuxt" \
-               -o -name "dist" -o -name ".cache" -o -name ".pnpm" -o -name ".yarn" \) -prune \
-            -o -type d -name ".flox" -print 2>/dev/null | while read -r flox_dir; do
-            # Extract the project name from the path, e.g., /root/my-robots/chatbot/.flox -> chatbot
-            project_dir=$(dirname "$flox_dir")
-            derive_pm2_app_name "$project_dir"
-        done | grep -v "^\.$" | sort)
-        ENV_LIST_CACHE_TIME=$current_time
-    fi
-
-    if [ -n "$ENV_LIST_CACHE" ]; then
-        printf '%s\n' "$ENV_LIST_CACHE"
-    fi
+    local names=""
+    environment_names_load names || return 1
+    [ -n "$names" ] && printf '%s\n' "$names"
+    return 0
 }
 
 # List all environment identifiers (for menu selection)
 list_all_environment_identifiers() {
-    list_all_environments
-    # Add one level of direct project folders that contain a Flox environment but
-    # might not be returned by the broader environment scan above.
-    if [ -d "$PROJECTS_DIR" ]; then
-        find "$PROJECTS_DIR" -maxdepth 3 -type d -name ".flox" -print 2>/dev/null | while read -r flox_dir; do
-            dirname "$flox_dir"
-        done | sort -u
-    fi
+    local identifiers=""
+    environment_identifiers_load identifiers || return 1
+    [ -n "$identifiers" ] && printf '%s\n' "$identifiers"
+    return 0
 }
 
-list_home_folders() {
-    local home_dir="${1:-$HOME}"
+home_folders_load() {
+    local target="$1" home_dir="${2:-$HOME}"
     local current_time
     current_time=$(date +%s)
 
     if [ "${SHIPGLOWZ_ENV_LIST_CACHE_ENABLED:-true}" = "true" ] && [ $((current_time - HOME_FOLDERS_CACHE_TIME)) -lt "${SHIPGLOWZ_LIST_CACHE_TTL:-5}" ] && [ -n "$HOME_FOLDERS_CACHE" ] && [ "${HOME_FOLDERS_CACHE_DIR:-}" = "$home_dir" ]; then
         log DEBUG "Using cached home folders (age: $((current_time - HOME_FOLDERS_CACHE_TIME))s)"
-        printf '%s\n' "$HOME_FOLDERS_CACHE"
-        return 0
+        _shipglowz_assign "$target" "$HOME_FOLDERS_CACHE"
+        return $?
     fi
 
     HOME_FOLDERS_CACHE=$(find "$home_dir" -maxdepth 1 -mindepth 1 -type d ! -name ".*" ! -path "$home_dir" 2>/dev/null | sort)
     HOME_FOLDERS_CACHE_DIR="$home_dir"
     HOME_FOLDERS_CACHE_TIME=$current_time
+    _shipglowz_assign "$target" "$HOME_FOLDERS_CACHE"
+}
 
-    if [ -n "$HOME_FOLDERS_CACHE" ]; then
-        printf '%s\n' "$HOME_FOLDERS_CACHE"
-    fi
+list_home_folders() {
+    local folders=""
+    home_folders_load folders "${1:-$HOME}" || return 1
+    [ -n "$folders" ] && printf '%s\n' "$folders"
+    return 0
 }
 
 # ============================================================================
@@ -6341,7 +6662,7 @@ env_start() {
         fi
     fi
 
-    project_dir=$(resolve_project_path "$identifier")
+    resolve_project_path_into project_dir "$identifier" || project_dir=""
     if [ -z "$project_dir" ]; then
         error "Projet introuvable pour l'identifiant: $identifier"
         return 1
@@ -6484,7 +6805,14 @@ env_start() {
         invalidate_pm2_cache
 
         # Verify persistent port isn't already taken by another PM2 app
-        local other_app=$(get_pm2_data_cached | awk -F'|' -v p="$port" -v n="$env_name" '$3 == p && $1 != n {print $1}')
+        local other_app="" pm2_snapshot="" pm2_name pm2_status pm2_port pm2_cwd
+        pm2_data_load pm2_snapshot || pm2_snapshot=""
+        while IFS='|' read -r pm2_name pm2_status pm2_port pm2_cwd; do
+            if [ "$pm2_port" = "$port" ] && [ "$pm2_name" != "$env_name" ]; then
+                other_app="$pm2_name"
+                break
+            fi
+        done <<< "$pm2_snapshot"
 
         # Detect if the port is currently used by this same app (normal during start/redeploy)
         local self_status=$(get_pm2_app_data "$env_name" "status")
@@ -6604,7 +6932,7 @@ for app in apps:
         legacy_cwd=$(get_pm2_app_data "$legacy_env_name" "cwd" 2>/dev/null || true)
         if [ "$legacy_cwd" = "$project_dir" ]; then
             pm2 delete "$legacy_env_name" 2>/dev/null || true
-            invalidate_pm2_cache
+            invalidate_after_pm2_mutation
         fi
     fi
 
@@ -6677,7 +7005,7 @@ for app in apps:
                 ;;
         esac
     fi
-    registry_update "$env_name" "online" "$port"
+    registry_update "$env_name" "online" "$port" "$project_dir"
 }
 
 # -----------------------------------------------------------------------------
@@ -6709,7 +7037,8 @@ env_stop() {
         return 1
     fi
 
-    local project_dir=$(resolve_project_path "$identifier")
+    local project_dir=""
+    resolve_project_path_into project_dir "$identifier" || project_dir=""
     local pm2_app_name=""
 
     if [ -n "$project_dir" ]; then
@@ -7022,7 +7351,8 @@ env_remove() {
         return 1
     fi
 
-    local project_dir=$(resolve_project_path "$identifier")
+    local project_dir=""
+    resolve_project_path_into project_dir "$identifier" || project_dir=""
 
     if [ -z "$project_dir" ]; then
         warning "Projet $identifier introuvable ou chemin invalide. Impossible de supprimer."
@@ -7038,7 +7368,7 @@ env_remove() {
         echo -e "${YELLOW}🛑 Arrêt du processus PM2 $env_name...${NC}"
         pm2 save >/dev/null 2>&1
         # Invalidate cache after PM2 state change
-        invalidate_pm2_cache
+        invalidate_after_pm2_mutation
     fi
 
     # Remove project directory (atomic operation)
@@ -7094,7 +7424,8 @@ env_rename() {
         return 1
     fi
 
-    local old_dir=$(resolve_project_path "$old_identifier")
+    local old_dir=""
+    resolve_project_path_into old_dir "$old_identifier" || old_dir=""
     if [ -z "$old_dir" ]; then
         warning "Projet $old_identifier introuvable ou chemin invalide."
         return 1
@@ -7117,7 +7448,10 @@ env_rename() {
     fi
 
     # Check new name not already used by another PM2 process
-    local existing_pm2=$(get_pm2_data_cached | awk -F'|' -v n="$new_name" '$1 == n {print $1}')
+    local existing_pm2=""
+    if pm2_app_exists_by_name "$new_name"; then
+        existing_pm2="$new_name"
+    fi
     if [ -n "$existing_pm2" ]; then
         error "Un process PM2 '$new_name' existe déjà."
         return 1
@@ -7129,7 +7463,7 @@ env_rename() {
     pm2 delete "$old_name" 2>/dev/null && {
         echo -e "${YELLOW}🛑 Process PM2 $old_name supprimé${NC}"
     }
-    invalidate_pm2_cache
+    invalidate_after_pm2_mutation
 
     # 2. Clean up Flox environment (registry + watchdog)
     if [ -d "$old_dir/.flox" ] && command -v flox >/dev/null 2>&1; then
@@ -7157,7 +7491,7 @@ env_rename() {
 
     # 6. Save PM2 state (old process removed from dump)
     pm2 save >/dev/null 2>&1
-    invalidate_pm2_cache
+    invalidate_after_pm2_mutation
     invalidate_path_cache
     invalidate_env_list_cache
     invalidate_home_folders_cache
@@ -7495,7 +7829,7 @@ auto_fix_known_issues() {
             rm -f "${cwd}/.next/dev/lock"
             pm2 start "$name" 2>/dev/null
             pm2 save 2>/dev/null
-            invalidate_pm2_cache
+            invalidate_after_pm2_mutation
             ((fixed++))
             log INFO "Auto-fix: removed stale .next/dev/lock for $name"
             echo -e "     ${GREEN}✅ Fixed${NC}"
@@ -7522,7 +7856,7 @@ auto_fix_known_issues() {
                     done <<< "$empty_files"
                     pm2 restart "$name" 2>/dev/null
                     pm2 save 2>/dev/null
-                    invalidate_pm2_cache
+                    invalidate_after_pm2_mutation
                     ((fixed++))
                     echo -e "     ${GREEN}✅ Fixed — restarted $name${NC}"
                     echo ""
@@ -7583,7 +7917,7 @@ batch_stop_all() {
     done <<< "$all_envs"
 
     pm2 save --force >/dev/null 2>&1
-    invalidate_pm2_cache
+    invalidate_after_pm2_mutation
     sync_caddy_after_pm2_change
     echo ""
     echo -e "${GREEN}Summary: $((count - failed))/$total stopped successfully${NC}"
@@ -7605,7 +7939,8 @@ batch_stop_all() {
 #   0 - Completed (even if some environments failed)
 # -----------------------------------------------------------------------------
 batch_start_all() {
-    local all_envs=$(list_all_environments)
+    local all_envs=""
+    environment_names_load all_envs || all_envs=""
 
     if [ -z "$all_envs" ]; then
         echo -e "${YELLOW}No environments found${NC}"
@@ -7656,7 +7991,8 @@ batch_start_all() {
 #   0 - Completed (even if some environments failed)
 # -----------------------------------------------------------------------------
 batch_restart_all() {
-    local all_envs=$(list_all_environments)
+    local all_envs=""
+    environment_names_load all_envs || all_envs=""
 
     if [ -z "$all_envs" ]; then
         echo -e "${YELLOW}No environments found${NC}"
@@ -7721,13 +8057,10 @@ batch_restart_all() {
 show_dashboard() {
     ui_screen_header "Environment Dashboard"
 
-    # Read registry (file read, no subprocesses)
-    local reg_data
-    reg_data=$(cat "$SHIPGLOWZ_REGISTRY" 2>/dev/null)
-    if [ -z "$reg_data" ]; then
-        registry_sync
-        reg_data=$(cat "$SHIPGLOWZ_REGISTRY" 2>/dev/null)
-    fi
+    # Read the lazy persistent snapshot. A valid empty registry is distinct
+    # from a failed refresh and must not cause repeated discovery.
+    local reg_data=""
+    environment_index_load reg_data || reg_data=""
 
     if [ -z "$reg_data" ]; then
         echo -e "${YELLOW}⚠️  No environments found${NC}"
@@ -8012,7 +8345,8 @@ env_restart() {
     fi
 
     # Resolve project directory
-    local project_dir=$(resolve_project_path "$identifier")
+    local project_dir=""
+    resolve_project_path_into project_dir "$identifier" || project_dir=""
     if [ -z "$project_dir" ]; then
         error "Environment not found: $identifier"
         return 1
@@ -8037,7 +8371,7 @@ env_restart() {
     # Restart PM2 process (atomic operation)
     if pm2 restart "$env_name" >/dev/null 2>&1; then
         pm2 save >/dev/null 2>&1
-        invalidate_pm2_cache
+        invalidate_after_pm2_mutation
 
         # pm2 restart only confirms that the process was submitted. Wait long
         # enough to catch a crash loop before advertising a localhost URL.
@@ -8106,7 +8440,8 @@ view_environment_logs() {
     fi
 
     # Resolve project directory
-    local project_dir=$(resolve_project_path "$identifier")
+    local project_dir=""
+    resolve_project_path_into project_dir "$identifier" || project_dir=""
     if [ -z "$project_dir" ]; then
         error "Environment not found: $identifier"
         return 1
@@ -8437,7 +8772,8 @@ deploy_github_project() {
     local project_dir="$PROJECTS_DIR/$project_name"
 
     # Check if project already exists
-    local existing_project=$(resolve_project_path "$project_name")
+    local existing_project=""
+    resolve_project_path_into existing_project "$project_name" || existing_project=""
     if [ -n "$existing_project" ]; then
         echo -e "${YELLOW}⚠️  Project $project_name already exists at $existing_project${NC}"
         if ! ui_confirm "Replace it?"; then
@@ -8783,7 +9119,7 @@ action_remove() {
     echo ""
     ENV_NAME=$(select_environment "Select environment to remove")
     if [ -n "$ENV_NAME" ]; then
-        PROJECT_DIR=$(resolve_project_path "$ENV_NAME")
+        resolve_project_path_into PROJECT_DIR "$ENV_NAME" || PROJECT_DIR=""
         echo ""
         echo -e "${RED}⚠️  You are about to delete:${NC}"
         echo -e "${YELLOW}   Environment: $ENV_NAME${NC}"
@@ -8803,7 +9139,7 @@ action_rename() {
     ui_screen_header "Rename Environment"
     ENV_NAME=$(select_environment "Select environment to rename")
     if [ -n "$ENV_NAME" ]; then
-        PROJECT_DIR=$(resolve_project_path "$ENV_NAME")
+        resolve_project_path_into PROJECT_DIR "$ENV_NAME" || PROJECT_DIR=""
         echo ""
         echo -e "${BLUE}   Current name: $ENV_NAME${NC}"
         echo -e "${BLUE}   Directory: $PROJECT_DIR${NC}"
@@ -9002,8 +9338,9 @@ action_navigate() {
     ui_screen_header "Navigate Projects"
     local HOME_DIR
     HOME_DIR=$(eval echo "~")
-    local folders=()
-    mapfile -t folders < <(list_home_folders "$HOME_DIR")
+    local folders=() folder_data=""
+    home_folders_load folder_data "$HOME_DIR" || folder_data=""
+    [ -n "$folder_data" ] && mapfile -t folders <<< "$folder_data"
     if [ ${#folders[@]} -eq 0 ]; then
         echo -e "${RED}❌ No folders found in $HOME_DIR${NC}"
     else
@@ -9020,8 +9357,9 @@ action_open_code() {
     ui_screen_header "Open Code Directory"
     local HOME_DIR
     HOME_DIR=$(eval echo "~")
-    local folders=()
-    mapfile -t folders < <(list_home_folders "$HOME_DIR")
+    local folders=() folder_data=""
+    home_folders_load folder_data "$HOME_DIR" || folder_data=""
+    [ -n "$folder_data" ] && mapfile -t folders <<< "$folder_data"
     if [ ${#folders[@]} -eq 0 ]; then
         echo -e "${RED}❌ No folders found in $HOME_DIR${NC}"
     else
@@ -9038,7 +9376,7 @@ action_inspector() {
     ui_screen_header "Toggle Web Inspector"
     ENV_NAME=$(select_environment "Select environment for web inspector")
     if [ -n "$ENV_NAME" ]; then
-        PROJECT_DIR=$(resolve_project_path "$ENV_NAME")
+        resolve_project_path_into PROJECT_DIR "$ENV_NAME" || PROJECT_DIR=""
         if [ -z "$PROJECT_DIR" ]; then
             echo -e "${RED}❌ Project not found: $ENV_NAME${NC}"
         else
@@ -9756,7 +10094,7 @@ blacksmith_select_project_path() {
         "Environnement ShipGlowz déployé")
             local env_name
             env_name=$(select_environment "Sélectionne l'environnement projet") || return 1
-            project_dir=$(resolve_project_path "$env_name" 2>/dev/null || true)
+            resolve_project_path_into project_dir "$env_name" 2>/dev/null || project_dir=""
             ;;
         "Chemin personnalisé")
             project_dir=$(ui_input "Chemin projet absolu:" "$PROJECTS_DIR/my-project")
@@ -10003,7 +10341,7 @@ action_publish() {
     [ -f "$CADDYFILE" ] && sudo cp "$CADDYFILE" "${CADDYFILE}.backup.$(date +%s)" 2>/dev/null
     echo -e "${BLUE}🔧 Generating Caddyfile with all online environments...${NC}"
     ROUTES=""
-    ALL_ENVS=$(list_all_environments)
+    environment_names_load ALL_ENVS || ALL_ENVS=""
     SELECTED_INCLUDED=false
     if [ -n "$ALL_ENVS" ]; then
         while IFS= read -r env; do
@@ -10617,13 +10955,5 @@ show_mobile_guide() {
     ui_pause "Appuie sur une touche pour revenir au menu..."
 }
 
-# ============================================================================
-# STARTUP — PM2 health check (uses get_pm2_health_data, reads dump.pm2 ~1ms)
-# ============================================================================
-if [ -z "${SHIPGLOWZ_PM2_CHECKED:-${SHIPFLOW_PM2_CHECKED:-}}" ]; then
-    SHIPGLOWZ_PM2_CHECKED=1
-    SHIPFLOW_PM2_CHECKED=1
-    pm2_health_scan 10 2>/dev/null | while IFS='|' read -r name restarts; do
-        echo -e "${RED}⚠️  PM2 — $name a redémarré ${restarts} fois. Logs: pm2 logs $name${NC}"
-    done
-fi
+# PM2 health is evaluated lazily by the menu/header and health surfaces. Library
+# sourcing must remain side-effect free for shortcuts that do not need PM2.

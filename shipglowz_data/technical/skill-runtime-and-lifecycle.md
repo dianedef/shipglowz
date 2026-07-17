@@ -138,7 +138,7 @@ Current family boundaries:
 - Data trust/source: `600-sg-local-cloud-sync`, `601-sg-product-entitlements`.
 - Audit/source: `400-sg-audit*`, `402-sg-deps`, `403-sg-perf`.
 - Bug/proof/source: `003-sg-bug`, `106-sg-fix`, `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check`, `404-sg-migrate`.
-- Content/docs/support: `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `202-sg-repurpose`, `304-sg-changelog`, `306-sg-scaffold`, `305-sg-init`, `310-sg-github-hygiene`.
+- Content/docs/support: `007-sg-content repurpose`, `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `304-sg-changelog`, `306-sg-scaffold`, `305-sg-init`, `310-sg-github-hygiene`.
 - Research/strategy/source: `009-sg-marketing`, `203-sg-research`, `205-sg-veille`.
 - Pilotage: `701-sg-backlog`, `702-sg-priorities`, `703-sg-review`, `309-sg-tasks`, `706-continue`.
 - Helper/session/router: `000-shipglowz`, `301-sg-context`, `704-sg-model`, `302-sg-help`, `308-sg-status`, `303-sg-resume`, `700-sg-explore`, `707-name`, `800-tmux-capture-conversation`, `801-clean-conversation-transcript`.
@@ -401,7 +401,7 @@ Content lifecycle flow:
   -> CONTENT_MAP and editorial corpus
   -> surface, source, claim, and schema gates
   -> 205-sg-veille / 203-sg-research / 009-sg-marketing market when source or market evidence is missing
-  -> 202-sg-repurpose / 200-sg-redact / 201-sg-enrich
+  -> 007-sg-content repurpose / 200-sg-redact / 201-sg-enrich
   -> 009-sg-marketing copy|copywriting|gtm / 406-sg-seo
   -> 300-sg-docs for docs or editorial governance updates
   -> npm --prefix site run build and 108-sg-browser when public site proof is needed
@@ -460,7 +460,7 @@ The source-derived corpus resolves from `${SHIPGLOWZ_INSPIRATION_LIBRARY_DIR:-${
 - `310-sg-github-hygiene` owns focused git/GitHub hygiene; commit/push stays with `005-sg-ship`, dependency risk stays with `402-sg-deps`, major upgrade lanes stay with `404-sg-migrate`, and CI diagnosis stays with `github:gh-fix-ci`.
 - `007-sg-content` owns content-management orchestration; repurposing, drafting, enrichment, marketing modes, SEO audit, docs, veille, browser proof, verification, and ship still run through their specialist owner skills and gates.
 - Design and content skills use the shared Inspiration Gate only for eligible creative direction; they shortlist from `index.yaml`, require operator selection, record selected reference IDs, and never treat discovery as approval to imitate.
-- Content owner skills (`007-sg-content`, `202-sg-repurpose`, `200-sg-redact`, `201-sg-enrich`, `009-sg-marketing copy|copywriting|gtm`, `406-sg-seo`) and `103-sg-verify` must use one shared rubric contract from `skills/references/content-quality-rubric.md`; recoverable score states (`needs retry`, `duplicate_in_progress`, `conflicting_score_state`, `stale_or_mismatched_score`) are never valid verification proof.
+- Content owner skills (`007-sg-content` including `repurpose`, `200-sg-redact`, `201-sg-enrich`, `009-sg-marketing copy|copywriting|gtm`, `406-sg-seo`) and `103-sg-verify` must use one shared rubric contract from `skills/references/content-quality-rubric.md`; recoverable score states (`needs retry`, `duplicate_in_progress`, `conflicting_score_state`, `stale_or_mismatched_score`) are never valid verification proof.
 - `006-sg-design` owns the public design lifecycle; its system, playground, and audit modes load bounded playbooks, while implementation, browser proof, verification, and shipping remain lifecycle gates.
 - `008-sg-customer` owns customer activation contracts; implementation, visual design, docs/content, browser proof, and manual QA still run through `001-sg-build`, `006-sg-design`, `300-sg-docs`/`007-sg-content`, `108-sg-browser`, and `107-sg-test` when needed.
 - `900-shipglowz-core build` owns internal skill-maintenance orchestration and must route to `700-sg-explore` before `100-sg-spec` when skill intent, placement, public promise, or governance policy is too fuzzy for one targeted question to settle.

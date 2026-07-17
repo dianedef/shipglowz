@@ -52,8 +52,8 @@ evidence:
   - "User decision 2026-05-06: design-related requests should route to a master `006-sg-design` lifecycle entrypoint."
   - "2026-06-11 ShipGlowz Core natural-language routing added for internal 900-shipglowz-core."
   - "Operator correction 2026-07-17: deterministic micro-edits must bypass domain and lifecycle routing."
-next_review: "2026-06-04"
-next_step: "/103-sg-verify specs/shipflow-primary-router-skill.md"
+next_review: "2026-08-17"
+next_step: "/104-sg-end shipflow-skill-execution-fidelity-plugin-pilot"
 ---
 
 # Entrypoint Routing

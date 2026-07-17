@@ -51,7 +51,8 @@ When a pasted source, email, URL, transcript, note, article, or example arrives 
 ## Mode Map
 
 - `plan`, `strategy`, `calendar`, `content plan` -> content plan, use `100-sg-spec` when durable or multi-surface.
-- `repurpose`, `source`, `conversation`, `faq`, `release notes`, `site update` -> `202-sg-repurpose` first for a source-faithful pack and durable repo memory, then onward to the right writer/apply owner if needed.
+- `repurpose <source>` -> load `references/repurpose-playbook.md`; this self-owned lane first classifies source safety, then creates a source-faithful pack and governed durable memory when justified, before handing downstream work to the right owner. A bare `repurpose` asks for a source. `verbatim`, `mot pour mot`, and `copie exacte` select the exact-preservation archival branch, never analysis.
+- `source`, `conversation`, `faq`, `release notes`, `site update` -> resolve whether the request is explicit repurposing; use the local `repurpose <source>` lane when it is, otherwise choose the smallest owner below.
 - `draft`, `write`, `article`, `blog`, `guide`, `editorial` -> `200-sg-redact` after surface and claim gates.
 - `enrich`, `refresh`, `update @file`, `improve` -> `201-sg-enrich`.
 - `audit copy`, `copy`, `copywriting`, `market`, `gtm` -> `009-sg-marketing copy|copywriting|market|gtm` with the exact mode selected from the stated need; `seo` stays with `406-sg-seo`.
@@ -88,7 +89,7 @@ Use `$SHIPFLOW_ROOT/skills/references/content-owner-handoffs.md` as the owner ma
 
 Local `007-sg-content` routing rule:
 
-- when the work starts from source material and the downstream surface is not yet fully resolved, route to `202-sg-repurpose` first for the source-faithful pack and durable repo memory, then continue to the next owner if needed
+- when work starts from source material and its downstream surface is not fully resolved, run the bounded `repurpose <source>` lane first for a safe source-faithful pack and governed durable memory, then continue to the next owner if needed
 
 ## Operator Initiative Rules
 

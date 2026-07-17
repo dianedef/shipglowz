@@ -155,7 +155,7 @@ Public categories make the catalog easier to browse. Runtime families explain ho
 | Data trust/source | Frame local-first data becoming account-backed cloud data and product access becoming entitlement-backed. | `600-sg-local-cloud-sync`, `601-sg-product-entitlements` |
 | Audit/source | Expose quality, security, performance, SEO, copy, design, dependency, parity, or GTM risk that may deserve a chantier. | `400-sg-audit*`, `402-sg-deps`, `403-sg-perf`, `602-sg-platform-parity` |
 | Bug/proof | Diagnose failures, validate behavior, or confirm deployment truth. | `003-sg-bug`, `106-sg-fix`, `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, `405-sg-prod`, `105-sg-check`, `404-sg-migrate` |
-| Content/docs/support | Keep public content, documentation, scaffolding, changelogs, skill contracts, governance surfaces, and git/GitHub hygiene coherent with shipped behavior. | `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `202-sg-repurpose`, `304-sg-changelog`, `306-sg-scaffold`, `305-sg-init`, `310-sg-github-hygiene` |
+| Content/docs/support | Keep public content, documentation, scaffolding, changelogs, skill contracts, governance surfaces, and git/GitHub hygiene coherent with shipped behavior. | `007-sg-content repurpose`, `300-sg-docs`, `200-sg-redact`, `201-sg-enrich`, `304-sg-changelog`, `306-sg-scaffold`, `305-sg-init`, `310-sg-github-hygiene` |
 | Research/pilotage/helper | Clarify information, prioritize, summarize, route, or preserve context without owning full lifecycle closure. | `009-sg-marketing`, `203-sg-research`, `205-sg-veille`, `701-sg-backlog`, `702-sg-priorities`, `703-sg-review`, `309-sg-tasks`, `301-sg-context`, `704-sg-model`, `302-sg-help`, `308-sg-status`, `303-sg-resume`, `700-sg-explore`, `707-name` |
 | Internal/meta | Operator-only tools for maintaining ShipGlowz itself. | `900-shipglowz-core` |
 
@@ -184,7 +184,7 @@ Content scoring examples:
 ```text
 /007-sg-content audit article avec grille projet
 /200-sg-redact finalise puis note ce brouillon
-/202-sg-repurpose transforme cette source en article et applique la grille qualite
+/007-sg-content repurpose transforme cette source en article et applique la grille qualite
 /103-sg-verify verifier le gate de score editorial
 ```
 

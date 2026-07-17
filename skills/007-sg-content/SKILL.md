@@ -62,6 +62,7 @@ Do not activate it for an explicit atomic string, placeholder, typo, heading-tag
 Load before routing or execution:
 
 - `$SHIPFLOW_ROOT/skills/007-sg-content/references/content-router.md` for mode selection, spec gates, governance gates, owner routing, and rubric details.
+- `$SHIPFLOW_ROOT/skills/007-sg-content/references/repurpose-playbook.md` only for the explicit `repurpose <source>` lane; it preserves source-faithful, verbatim, storage, safety, and handoff behavior without creating another public command.
 - `$SHIPFLOW_ROOT/skills/references/content-owner-handoffs.md` for the canonical content-owner matrix and minimum handoff payload.
 - `$SHIPFLOW_ROOT/skills/references/source-intake-classification.md` when the input is a pasted source, email, URL, transcript, note, article, or example whose project, angle, or owner route is not already settled.
 - `$SHIPFLOW_ROOT/skills/references/editorial-content-corpus.md` when public content, README public promises, docs, FAQ, pricing, support copy, public skill pages, blog/article intent, claims, or runtime content are in scope.
@@ -147,35 +148,14 @@ Stop and report `blocked` when:
 
 ## Final Report
 
-Use `report=user` by default:
-
-```text
-## Content Lifecycle: [goal or surface]
-
-Result: [implemented / partial / blocked / rerouted]
-Route: [owner skills used or next owner skill]
-Checks: [passed / failed / skipped with reason]
-Editorial: [complete / no editorial impact / blocked]
-Fresh external docs: [checked / not needed / gap / conflict]
-Next step: [only when real]
-
-## Chantier
-
-[spec path | non trace: reason]
-
-Flux: 100-sg-spec [marker] -> 101-sg-ready [marker] -> 102-sg-start [marker] -> 103-sg-verify [marker] -> 104-sg-end [marker] -> 005-sg-ship [marker]
-Reste a faire: [only if non-empty]
-Prochaine etape: [only if non-empty]
-```
-
-Use `report=agent` for handoff details: file list, source evidence, owner-skill reports, validation matrix, unresolved claim risks, and exact next command.
+Follow the shared reporting contract. In addition to its required outcome and proof, identify the selected content lane and owner boundary, editorial status, and Fresh Docs Gate verdict. Use `report=agent` only for source classification, pack-storage decision, owner handoff, validation evidence, or unresolved claim risks that the next owner needs.
 
 ## Rules
 
 - Orchestrate; do not duplicate specialist internals.
 - Follow shared operator-partnership doctrine. In content work, apply the obvious editorial follow-through that stays inside the current surface and owner contract before asking for framing help.
 - For Diane, presume public content by default and arbitrate only the correct declared public surface unless she explicitly asks for internal content or routes through `300-sg-docs`.
-- Treat `202-sg-repurpose` as the owner for extracting the reusable source-faithful pack when the work starts from a source and the downstream surface is not yet fully resolved.
+- Own `repurpose <source>` as one bounded local mode: load its playbook, keep verbatim requests archival, create only the governed source-faithful pack when safe, then hand downstream work to the established owner.
 - Keep content source truth separate from public claims.
 - Prefer declared surfaces over invented paths.
 - Ask only targeted questions when the answer changes mode, surface, scope, security, claims, or ship posture.

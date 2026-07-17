@@ -28,7 +28,7 @@ It owns transcript cleanup only: reading one submitted transcript, removing obvi
 Keep the boundary explicit:
 - stay here when the user already has a transcript file and wants it cleaned for readability
 - hand off to `800-tmux-capture-conversation` when the transcript has not been exported yet
-- hand off to `202-sg-repurpose` only when the user explicitly wants the cleaned source turned into another content artifact
+- hand off to `007-sg-content repurpose <source>` only when the user explicitly wants the cleaned source turned into another content artifact
 
 `801-clean-conversation-transcript` does not capture new transcripts, does not produce a separate strategy report by default, and does not invent content beyond the submitted transcript.
 
@@ -94,7 +94,7 @@ The content angle block must:
 - stay short enough to be useful while editing.
 - remain inside the file as comments, not as a separate report.
 
-Use `$202-sg-repurpose` as inspiration when useful for choosing angles, but do not run a full `202-sg-repurpose` report unless the user explicitly requests one. Borrow its doctrine: stay faithful to the source, separate confirmed facts from speculation, and prefer concrete reusable angles over generic marketing.
+Use `007-sg-content repurpose <source>` as the source-faithful route when the user explicitly requests a content artifact. Borrow its doctrine: stay faithful to the source, separate confirmed facts from speculation, and prefer concrete reusable angles over generic marketing.
 
 ## Cleaning Workflow
 

@@ -135,7 +135,7 @@ Score chaque projet 0-10. Être honnête — un 2/10 c'est bien. Ne pas gonfler 
 
 **Détection de concurrents** : vérifier systématiquement si le lien est un concurrent direct ou indirect d'un de nos projets (même marché, même audience, même problème résolu). Si oui, le signaler clairement dans le résumé avec le tag **⚔️ CONCURRENT** et le projet concerné.
 
-**Détection contenu public** : si le lien suggère un article, blog post, newsletter, social post, public docs, public skill page, FAQ, claim ou page marketing, charger `$SHIPFLOW_ROOT/skills/references/editorial-content-corpus.md`, puis vérifier le `shipglowz_data/editorial/content-map.md` du projet cible. Ne jamais inventer un blog, une newsletter ou une surface sociale absente. Pour un blog/article absent, signaler `surface missing: blog` et proposer un handoff `007-sg-content` (qui peut router vers `202-sg-repurpose`) ou `300-sg-docs editorial`.
+**Détection contenu public** : si le lien suggère un article, blog post, newsletter, social post, public docs, public skill page, FAQ, claim ou page marketing, charger `$SHIPFLOW_ROOT/skills/references/editorial-content-corpus.md`, puis vérifier le `shipglowz_data/editorial/content-map.md` du projet cible. Ne jamais inventer un blog, une newsletter ou une surface sociale absente. Pour un blog/article absent, signaler `surface missing: blog` et proposer un handoff `007-sg-content repurpose <source>` ou `300-sg-docs editorial`.
 **Détection produit** : si le lien concerne un produit déclaré, une page de vente, une page produit, une offre, un plan tarifaire, une livraison, ou un claim commercial, vérifier aussi que l'action recommandée respecte la gouvernance produit du projet cible : inventaire produit, URLs canoniques, mode de livraison, et claims prouvables.
 
 ### Step 4: Triage interactif — lien par lien
@@ -215,13 +215,13 @@ Canonical write targets:
 - Cross-project tasks: do not write central master-tracker backlog actions; route project-specific work to project-local trackers.
 - Project-local execution tasks: `[project_path]/shipglowz_data/workflow/TASKS.md` only when the target project owns its local tracker and the action is explicitly technical or implementation-focused.
 - Project-local editorial follow-up: `[project_path]/shipglowz_data/editorial/ROADMAP.md` when the action is public/editorial/content work and the surface is declared.
-- Content actions: do not write article/blog/newsletter/social tasks directly when the surface is undeclared; route to `007-sg-content` / `202-sg-repurpose` through the content lifecycle, or report `surface missing: blog`.
+- Content actions: do not write article/blog/newsletter/social tasks directly when the surface is undeclared; route to `007-sg-content repurpose <source>` through the content lifecycle, or report `surface missing: blog`.
 
 #### Si "Ignorer"
 - Ne rien faire. Le lien apparaîtra dans le rapport final comme IGNORÉ.
 
 #### Si "Backlog contenu"
-- If the chosen action affects public content, first apply the editorial corpus and content-map gate. If the target blog/article surface is missing, report `surface missing: blog` and route to `/007-sg-content [project] [source URL] [content goal]` or `/300-sg-docs editorial [project]`. If the surface exists and the source should be repurposed, route through `007-sg-content` to `202-sg-repurpose` instead of writing article copy directly.
+- If the chosen action affects public content, first apply the editorial corpus and content-map gate. If the target blog/article surface is missing, report `surface missing: blog` and route to `/007-sg-content repurpose [project] [source URL] [content goal]` or `/300-sg-docs editorial [project]`. If the surface exists and the source should be repurposed, route through `007-sg-content repurpose <source>` instead of writing article copy directly.
 - If the surface exists or the action is non-public content planning, add the task to the editorial roadmap chosen above, format :
   ```
   🟠 [Projet] task: [Description de la tâche contenu] | status: todo | area: editorial-followup | source: [URL] | surface: [surface ou unknown] | note: veille [date]

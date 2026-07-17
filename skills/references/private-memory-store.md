@@ -162,7 +162,7 @@ Do not store raw email bodies, private recipient names, sender details, full ema
 
 Once a project and durable output are confirmed:
 
-- `202-sg-repurpose` writes the pack to that project's `shipglowz_data/workflow/repurpose-packs/`.
+- `007-sg-content repurpose <source>` writes the pack to that project's `shipglowz_data/workflow/repurpose-packs/`.
 - `emailing` writes the sequence to that project's `shipglowz_data/workflow/email/`.
 - remove the source-cache item after the handoff, unless a documented short retention period is still needed for review.
 

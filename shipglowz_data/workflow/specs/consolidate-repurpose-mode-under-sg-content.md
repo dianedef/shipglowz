@@ -6,7 +6,7 @@ project: ShipGlowz
 created: "2026-07-17"
 created_at: "2026-07-17 08:45:22 UTC"
 updated: "2026-07-17"
-updated_at: "2026-07-17 08:51:22 UTC"
+updated_at: "2026-07-17 09:10:30 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: GPT-5 Codex
@@ -311,14 +311,19 @@ None. The operator explicitly approved the ownership decision: `202-sg-repurpose
 | 2026-07-17 08:45:22 | 100-sg-spec | GPT-5 Codex | Created the durable consolidation contract after inspecting the current `007` and `202` contracts, local/shared references, runtime/catalog, public pages, active routing/docs inventory, and historical predecessor specs without changing active surfaces. | Draft spec saved; no implementation started. | `/101-sg-ready consolidate repurpose mode under sg-content` |
 | 2026-07-17 08:49:51 | 100-sg-spec | GPT-5 Codex | Repaired the draft after the `101` security finding: marked source-handling impact as `yes` and made source safety, no-persistence/no-log/no-exposure, and governed-destination blocking explicit in the behavior, constraints, proof, and acceptance contract. | Draft repaired; fresh readiness review required. | `/101-sg-ready consolidate repurpose mode under sg-content` |
 | 2026-07-17 08:51:22 | 101-sg-ready | GPT-5 Codex | Re-ran the strict readiness gate against the repaired contract, including source-bearing security controls, no-fallback persistence, user-story traceability, task order, active-surface consequences, acceptance criteria, and proof. | Ready; no implementation performed by the gate. | `/102-sg-start consolidate repurpose mode under sg-content` |
+| 2026-07-17 09:01:18 | 102-sg-start | GPT-5 Codex | Consolidated the public repurpose identity into the bounded `007-sg-content repurpose <source>` mode, transferred its local playbook and rule matrix, migrated active routing/runtime/catalog/public discovery, added scenario-first contract proof, and retired the source directory and public page without an alias. | implemented; targeted contract, catalog JSON, active-name, retired-runtime-link, and full sync checks passed. | `/103-sg-verify consolidate repurpose mode under sg-content` |
+| 2026-07-17 09:05:39 | 900-shipglowz-core | GPT-5 Codex | Conservatively refreshed the migrated `007` repurpose mode against its playbook, transfer matrix, shared source/storage/handoff contracts, and active public surface. | Refreshed; one stale duplicate report template removed, with no repurpose safeguard or mode change. | `/103-sg-verify consolidate repurpose mode under sg-content` |
+| 2026-07-17 09:10:30 | 103-sg-verify | GPT-5 Codex | Independently checked the `007` dispatcher/playbook/matrix against the retired `202` contract, source-safety and owner boundaries, runtime/catalog/code-index state, active versus historical references, metadata, audit/budget, sync, public build, and diff hygiene. | not verified: the active public skills index still advertises `sf-repurpose`, and Claude/Codex each retain a dangling `202-sg-repurpose` current-user runtime symlink. The focused test passes but does not scan the `sf-repurpose` alias, so it cannot prove the required active-name retirement. | `/102-sg-start repair active public/runtime retirement evidence, then rerun /103-sg-verify` |
+| 2026-07-17 09:13:00 | 102-sg-start | GPT-5 Codex | Repaired post-verify retirement evidence: replaced the public `sf-repurpose` index entry with `sf-content repurpose`, removed the two explicit dangling current-user runtime symlinks, and expanded the focused contract scan to reject `sf-repurpose`. | implemented; focused test and direct retirement proofs rerun. | `/103-sg-verify consolidate repurpose mode under sg-content` |
 
 ## Current Chantier Flow
 
 - `100-sg-spec`: ready — durable mode, transfer, retirement, historical-treatment, security, public-route, and proof contract recorded.
 - `101-sg-ready`: ready — security controls, no-fallback persistence, scope, task ordering, and proof contract passed.
-- `102-sg-start`: not launched.
-- `103-sg-verify`: not launched.
+- `102-sg-start`: implemented — original consolidation plus targeted public/runtime retirement-evidence repair completed.
+- `900-shipglowz-core refresh`: completed — conservative evidence review passed; reporting contract deduplicated with no mode or safeguard change.
+- `103-sg-verify`: not verified — targeted repair complete; rerun independent verification.
 - `104-sg-end`: not launched.
 - `005-sg-ship`: not launched.
 
-Next command: `/102-sg-start consolidate repurpose mode under sg-content`
+Next command: `/102-sg-start repair active public/runtime retirement evidence, then rerun /103-sg-verify`

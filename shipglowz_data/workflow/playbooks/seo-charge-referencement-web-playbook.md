@@ -21,7 +21,7 @@ supersedes: []
 evidence:
   - "La fiche metier SEO requiert un noyau commun de diagnostic, technique, contenu, mesure et coordination transverse."
   - "Le rapport de recherche du 2026-06-27 identifie 4 familles operatoires et recommande une decomposition en sous-specialites."
-next_step: "/202-sg-repurpose ou /300-sg-docs pour diffuser le playbook et sa checklist"
+next_step: "/007-sg-content repurpose <source> ou /300-sg-docs pour diffuser le playbook et sa checklist"
 ---
 
 # Playbook SEO - Charge de referencement web

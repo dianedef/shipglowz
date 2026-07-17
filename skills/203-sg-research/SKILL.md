@@ -70,7 +70,7 @@ Use project-local context for project-specific recommendations:
 - Read `shipglowz_data/business/`, `shipglowz_data/technical/`, `shipglowz_data/editorial/`, and `shipglowz_data/workflow/` when they exist and the topic is project-specific.
 - Treat legacy `${SHIPFLOW_DATA_DIR:-$HOME/shipglowz_data}` as historical or compatibility input only. Do not use it as the business, editorial, technical, workflow, registry, or tracker source of truth for a project.
 - If project-local governance is missing, continue with lower confidence and report the context gap.
-- If recommendations touch public content or claims, load `$SHIPFLOW_ROOT/skills/references/editorial-content-corpus.md` and route follow-up writing through `007-sg-content` / `202-sg-repurpose`; do not invent a blog/article/newsletter surface.
+- If recommendations touch public content or claims, load `$SHIPFLOW_ROOT/skills/references/editorial-content-corpus.md` and route follow-up source repurposing through `007-sg-content repurpose <source>`; do not invent a blog/article/newsletter surface.
 
 ### Step 2: Multi-source research
 
@@ -183,6 +183,6 @@ Recommendation:     [one-line recommendation]
 - **Use canonical workflow research paths**: `shipglowz_data/workflow/research/`, not legacy root research folders.
 - If researching a library: always check Context7 first for official docs.
 - If the topic is project-specific (e.g., "best auth for Astro"), include the project's stack context.
-- If the output implies a blog post, article, newsletter, public docs, claim, or public skill page, route through `007-sg-content` / `202-sg-repurpose` and the editorial corpus before creating follow-up content.
+- If the output implies a blog post, article, newsletter, public docs, claim, or public skill page, route through `007-sg-content repurpose <source>` and the editorial corpus before creating follow-up content.
 - Be honest about uncertainty. If sources conflict, present both views.
 - Keep code examples in the project's language/framework when possible.

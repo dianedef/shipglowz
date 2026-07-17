@@ -80,7 +80,7 @@ This layer complements, but does not replace, `shipglowz_data/editorial/content-
 
 ## Content Quality Scoring
 
-Use `skills/references/content-quality-rubric.md` when a workflow, spec, or operator asks whether content is good enough for a specific project. The rubric is shared across `sg-content`, `sg-repurpose`, `sg-redact`, `sg-enrich`, `009-sg-marketing` modes, `sg-seo`, and `sg-verify`; do not create a project-specific skill for scoring.
+Use `skills/references/content-quality-rubric.md` when a workflow, spec, or operator asks whether content is good enough for a specific project. The rubric is shared across `sg-content` (including `repurpose`), `sg-redact`, `sg-enrich`, `009-sg-marketing` modes, `sg-seo`, and `sg-verify`; do not create a project-specific skill for scoring.
 
 The scoring context comes from `shipglowz_data/business/business.md`, `shipglowz_data/business/product.md`, `shipglowz_data/branding/branding.md`, `shipglowz_data/business/gtm.md`, `shipglowz_data/business/portfolio-project-pitch-links.md`, `shipglowz_data/editorial/content-map.md`, `shipglowz_data/editorial/page-intent-map.md`, and `shipglowz_data/editorial/claim-register.md`. A valid report includes the global score, criterion scores, weights, final status, blocked reasons, evidence, recommendations, confidence, and applied project-rule revisions.
 

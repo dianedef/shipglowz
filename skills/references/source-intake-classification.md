@@ -16,7 +16,6 @@ docs_impact: yes
 linked_systems:
   - skills/000-shipglowz/SKILL.md
   - skills/007-sg-content/SKILL.md
-  - skills/202-sg-repurpose/SKILL.md
   - skills/emailing/SKILL.md
   - skills/references/private-memory-store.md
   - shipglowz_data/editorial/content-map.md
@@ -70,7 +69,7 @@ It answers:
 What is this source, where does it belong, which angle is useful, and which owner skill should act next?
 ```
 
-It does not replace `202-sg-repurpose`, `007-sg-content`, `emailing`, research, copy audit, or docs owners. It prevents each of them from reinventing the same classification step.
+It does not replace `007-sg-content repurpose`, `emailing`, research, copy audit, or docs owners. It prevents each of them from reinventing the same classification step.
 
 ## Trigger
 
@@ -79,7 +78,7 @@ Load this reference when:
 - the user provides a source and asks what to do with it
 - the user uses `#source`
 - a skill receives an external email, URL, transcript, article, note, or competitor/content example as inspiration
-- a route could be `emailing`, `202-sg-repurpose`, `200-sg-redact`, `007-sg-content`, `203-sg-research`, `009-sg-marketing market|gtm|copy|copywriting`, `205-sg-veille`, `300-sg-docs`, or a project-specific business/content route
+- a route could be `emailing`, `007-sg-content repurpose`, `200-sg-redact`, `203-sg-research`, `009-sg-marketing market|gtm|copy|copywriting`, `205-sg-veille`, `300-sg-docs`, or a project-specific business/content route
 
 ## Invocation Pattern
 
@@ -196,7 +195,7 @@ Use `unknown` when the source cannot be classified safely. Ask one targeted ques
 ## Routing Rules
 
 - Email or campaign example intended for an audience sequence -> `emailing`.
-- Source that should become several content formats -> `202-sg-repurpose` through `007-sg-content` when surface/governance matters.
+- Source that should become several content formats -> `007-sg-content repurpose <source>` when surface/governance matters.
 - Source that needs a new original article, guide, or editorial -> `200-sg-redact` after content surface and claim gates.
 - Source that needs better existing content -> `201-sg-enrich`.
 - Source that is mainly external trend, competitor, product, market, or keyword signal -> `205-sg-veille`, `203-sg-research`, or `009-sg-marketing market` once the study question is settled.
@@ -294,7 +293,7 @@ Stop or ask a targeted question when:
 Validate references after edits with:
 
 ```bash
-rg -n "#source|source-intake-classification|Source type|Source-Inspiration|Owner skill" skills/references/source-intake-classification.md skills/references/shipglowz-terms.md skills/references/entrypoint-routing.md skills/000-shipglowz/SKILL.md skills/007-sg-content/SKILL.md skills/202-sg-repurpose/SKILL.md skills/emailing/SKILL.md shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md
+rg -n "#source|source-intake-classification|Source type|Source-Inspiration|Owner skill" skills/references/source-intake-classification.md skills/references/shipglowz-terms.md skills/references/entrypoint-routing.md skills/000-shipglowz/SKILL.md skills/007-sg-content/SKILL.md skills/emailing/SKILL.md shipglowz_data/technical/operator-guides/focus-tags-cheatsheet.md
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 python3 tools/shipglowz_metadata_lint.py skills/references/source-intake-classification.md skills/references/private-memory-store.md
 ```

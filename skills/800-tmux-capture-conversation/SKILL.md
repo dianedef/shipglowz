@@ -28,7 +28,7 @@ It owns raw transcript export only: target pane selection, title/destination inf
 Keep the boundary explicit:
 - stay here when the user wants to export a tmux conversation into a Markdown transcript
 - hand off to `801-clean-conversation-transcript` after capture when the user wants the transcript cleaned for readability
-- hand off to `202-sg-repurpose` only when the user explicitly wants the captured transcript turned into downstream content
+- hand off to `007-sg-content repurpose <source>` only when the user explicitly wants the captured transcript turned into downstream content
 
 `800-tmux-capture-conversation` does not clean transcript content beyond capture planning, does not rewrite the exported conversation for readability, and does not become a content strategy skill.
 

@@ -26,7 +26,7 @@ linked_artifacts: []
 depends_on: []
 supersedes: []
 next_review: "YYYY-MM-DD"
-next_step: "/sg-repurpose"
+next_step: "/007-sg-content repurpose <source>"
 ---
 
 # Content Map

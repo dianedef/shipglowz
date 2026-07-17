@@ -1,25 +1,31 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.2"
+artifact_version: "1.1.0"
 project: "ShipGlowz"
 created: "2026-06-22"
+created_at: "2026-06-22 00:00:00 UTC"
 updated: "2026-07-17"
+updated_at: "2026-07-17 08:55:31 UTC"
 status: ready
 source_skill: 100-sg-spec
-scope: devserver-ui-centralization
-user_story: "En tant qu’opérateur du menu ShipGlowz DevServer, je veux des sélecteurs d’environnement plus rapides et un shell UI centralisé, pour réduire la latence perçue et éviter la dérive entre gum et fallback bash."
+source_model: "GPT-5"
+scope: devserver-startup-cache-and-shell-ui
+user_story: "As a ShipGlowz DevServer operator, I want every shortcut and environment picker to open quickly and behave consistently, so routine server work feels immediate and reliable with or without gum."
 owner: unknown
 confidence: high
-risk_level: medium
-security_impact: none
+risk_level: high
+security_impact: yes
 docs_impact: yes
 linked_systems:
-  - lib.sh
-  - tui/src/views/dashboardView.ts
-  - tui/src/sources/readers.ts
-  - tui/src/viewModels/dashboard.ts
-  - shipglowz_data/workflow/TASKS.md
+  - cli/shipglowz.sh
+  - cli/lib.sh
+  - cli/shipglowz_devserver_gum.sh
+  - cli/shipglowz_devserver_bash.sh
+  - tests/cli/
+  - shipglowz_data/technical/context.md
+  - shipglowz_data/technical/context-function-tree.md
+  - shipglowz_data/technical/design-system-authority.md
 depends_on:
   - artifact: "skills/references/decision-quality-contract.md"
     artifact_version: "1.2.0"
@@ -27,254 +33,270 @@ depends_on:
   - artifact: "skills/references/design-system-token-contract.md"
     artifact_version: "1.0.0"
     required_status: active
-  - artifact: "CLAUDE.md"
-    artifact_version: "unknown"
-    required_status: active
+  - artifact: "shipglowz_data/technical/guidelines.md"
+    artifact_version: "1.5.0"
+    required_status: reviewed
 supersedes: []
 evidence:
-  - "Audit 2026-06-22: ui_choose god component (4 branches), duplicated lettered menu rendering, duplicated status color mapping, grep -qiF O(n*m), gum style loop overhead, center_* duplication, unused ui_box_header/ui_action_header, readers.ts 1103 lines mixing discovery/parsing/dedup/summarization."
-next_review: "2026-07-07"
-next_step: "/102-sg-start Centraliser le design system du shell DevServer et réduire la latence des sélecteurs"
+  - "2026-07-17 audit: sourcing cli/lib.sh takes 3.27-3.30s and cli/shipglowz.sh x takes 3.44-3.47s on the current ARM64 host."
+  - "2026-07-17 audit: s m n reaches its picker in 3.59-3.64s and s m r in 6.61-6.74s because the environment discovery path is repeated."
+  - "2026-07-17 audit: the current Flox find takes 2.58-2.60s, including about 2.31s below claiire/.flox; adding -prune to a matched .flox reduces the same discovery to 0.05-0.06s."
+  - "2026-07-17 cache audit: direct PM2/environment cache hits take 7/8ms, while real command-substitution callers repeat 229-248ms PM2 work and 2.77-2.82s environment scans because cache mutations occur in subshells."
+  - "Current code inspection: registry_sync runs unconditionally while cli/lib.sh is sourced, registry writes are not atomic, and registry, list, identifier, and path resolution paths duplicate Flox discovery."
+next_review: "2026-07-31"
+next_step: "/102-sg-start Optimize DevServer startup, caches, and shell UI"
 ---
 
-# Spec: Centraliser le design system du shell DevServer et réduire la latence des sélecteurs
+# Optimize DevServer startup, caches, and shell UI
 
 ## Title
 
-Centraliser le design system du shell DevServer et réduire la latence des sélecteurs
+Optimize DevServer startup, caches, and shell UI
+
+## Status
+
+Ready for implementation. The 2026-07-17 audit replaces the earlier assumption that selector rendering was the main bottleneck: mandatory registry synchronization, repeated Flox discovery, and ineffective subshell-local caches dominate startup latency.
 
 ## User Story
 
-En tant qu’opérateur du menu ShipGlowz DevServer, je veux des sélecteurs d’environnement plus rapides et un shell UI dont la logique d’affichage est centralisée, pour réduire la latence perçue et éviter la dérive entre `gum` et fallback bash.
+As a ShipGlowz DevServer operator, I want `s`, lightweight shortcuts, and environment pickers such as `s m n` and `s m r` to open quickly and behave consistently, so routine server work feels immediate, predictable, and pleasant with or without `gum`.
 
 ## Minimal Behavior Contract
 
-Quand l’opérateur invoque un sélecteur lettré (menu court ou recherche filtrée), le système accepte une liste d’items, affiche une interface lettrée cohérente (gum ou fallback), retourne l’item choisi ou un signal d’annulation, et échoue proprement quand la liste est vide ou quand l’utilisateur annule. L’edge case principal est une liste de plus de 26 items : les indices doivent rester exploitables sans duplication de rendu.
-
-## Problem
-
-`lib.sh` mélange 4 chemins d’affichage (gum court, gum filtré, fallback court, fallback filtré) avec du rendu lettré dupliqué trois fois. `grep -qiF` sur grandes listes, les appels `gum style` en boucle fermée, et l’absence de cache sur les listes d’environnement rendent le widget de sélection lent à apparaître. `readers.ts` (1103 lignes) mélange discovery, parsing, dédup et résumé, ce qui rend la TUI difficile à maintenir et à tester.
-
-## Solution
-
-Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_status_color`, `ui_text_center`) pour éliminer la duplication, remplacer les sous-processus coûteux par des helpers bash ou des primitives TUI dédiées, et découper `readers.ts` en modules à responsabilité unique avec un mapping de statut partagé.
-
-## Scope In
-
-- `lib.sh` : fonctions `ui_choose`, `ui_filter_choose`, `ui_screen_header`, `ui_header`, `center_fixed_width`, `center_session_banner_text`, `ui_box_header`, `ui_action_header`, `ui_pause`, `ui_input`, `ui_confirm`.
-- `tui/src/sources/readers.ts` : découpage en modules.
-- `tui/src/viewModels/dashboard.ts` : partage du mapping statut -> couleur.
-- `tui/src/views/dashboardView.ts` : consommation du mapping partagé.
-- `.claude/statusline-starship.sh` si il consomme les helpers UI.
-
-## Scope Out
-
-- `cli/shipglowz.sh`, `cli/shipglowz_devserver_gum.sh`, `cli/shipglowz_devserver_bash.sh` (sauf consommation directe des helpers `ui_*`).
-- Tunnels SSH (`local/*.sh`), PM2, Caddy, Flox, DuckDNS.
-- `injectors/web-inspector.js`, `tui/src/main.ts`.
-- Changements de design tokens CSS/tokens du site public.
-
-## Constraints
-
-- Maintenir la compatibilité gum + fallback bash pour tous les sélecteurs.
-- Préserver le contrat de retour existant : stdout = item sélectionné, return code = 0 (select) ou 1 (cancel/back).
-- Ne pas introduire de dépendance externe dans `lib.sh`.
-- Les couleurs ANSI et les缩进 doivent rester cohérents avec le reste du shell DevServer.
-- `readers.ts` doit rester exécutable dans un contexte Bun sans passthrough de shell.
-
-## Dependencies
-
-- Bash 4+ (associatif arrays déjà utilisés).
-- `gum` optionnel (fallback bash obligatoire).
-- `fzf` optionnel (fallback bash obligatoire).
-- Bun runtime pour TUI (déjà requis par `tui/src/main.ts`).
-- Aucune lib externe supplémentaire requis pour `lib.sh`.
-
-## Invariants
-
-- Toute sélection lettrée expose les mêmes lettres dans le même ordre (a, b, c, ..., z, aa, ab, ...) quel que soit le backend.
-- `x` reste le raccourci universel pour annuler/retour.
-- Le header `ShipGlowz DevServer` reste centré dans la largeur 50.
-- Une liste vide retourne toujours 1 et n’affiche pas de widget de sélection.
-- Le mapping statut -> trafic/couleur doit être identique entre shell et TUI.
+When the operator starts ShipGlowz or invokes a shortcut, the CLI performs only the discovery and process-state work required by that action, reuses a coherent cached environment index when it is safe, and presents the existing centralized shell UI without a multi-second pause. A missing, stale, or failed cache refresh must never truncate the last valid registry or silently return an incomplete list; the easiest edge case to miss is repeated calls through command substitution, where cache state must remain effective in the parent shell rather than being discarded in a subshell.
 
 ## Success Behavior
 
-- `ui_choose` et `ui_filter_choose` partagent la primitive de rendu lettrée ; modifier le style d’affichage se fait en un seul endroit.
-- L’utilisateur appuie sur `s m n` ou `s m r` : le widget de sélection apparaît sans délai perceptible (>100ms d’amélioration mesurable).
-- L’appel `ui_choose` sur 50 items en fallback bash est au moins 2x plus rapide qu’avant (mesuré avec `time`).
-- Dans la TUI, les statuts stopped/launching/online/error sont colorés de façon cohérente avec le shell.
-- Un agent frais peut ajouter un nouveau sélecteur lettré en 2-3 lignes sans recopier la logique de rendu.
+- `s x` and other shortcuts that do not need environment discovery no longer execute `registry_sync`, `pm2 jlist`, or a home-tree Flox scan during `cli/lib.sh` sourcing.
+- The first environment-dependent action refreshes one shared environment index only when the persistent registry is missing, explicitly invalidated, or stale according to a configurable policy.
+- One environment selection flow performs at most one Flox discovery and one PM2 snapshot; `s m r` does not repeat the same home-tree scan.
+- A matched `.flox` directory is emitted and pruned, so discovery never descends into Flox internals.
+- PM2, environment-list, and path-resolution cache hits remain hits through real production callers, not only when cache functions are invoked directly.
+- The registry is replaced atomically, concurrent readers see either the previous complete snapshot or the new complete snapshot, and a failed rebuild preserves the previous valid file.
+- The shell continues to use centralized `ui_*` primitives for letter keys, filtering, centering, traffic status, cancellation, and backend selection; `gum`, `fzf`, and pure Bash paths keep equivalent observable behavior.
+- Pending-input protection remains effective without imposing a fixed 120ms quiet wait before every interactive widget when no bytes are pending.
 
 ## Error Behavior
 
-- Liste vide : retour 1, message `No environments found` ou `No match`, pas de crash.
-- Annulation utilisateur (`x`, `Esc`, `Backspace` sur prompt vide) : retour 1, pas de side effect, pas de log d’erreur.
-- `gum` absent : fallback bash automatique, même ergonomie lettrée.
-- `fzf` absent : fallback bash automatique, même ergologie lettrée.
-- Entrée TTY invalide : normalisée par `_ui_normalize_choice`, pas de boucle infinie.
-- Erreur de parsing `readers.ts` : diagnostic江东, pas de crash du dashboard.
+- If PM2 is unavailable or `pm2 jlist` fails, environment discovery remains usable from Flox/registry data, affected statuses are reported as `unknown` or last-known state, and the CLI emits a concise diagnostic only on a surface where it helps recovery.
+- If Flox discovery fails, a valid existing registry remains untouched; a missing registry produces a recoverable non-zero result and an actionable message rather than an empty successful picker.
+- If an atomic registry refresh cannot acquire its bounded lock, the caller uses a still-valid snapshot or reports a recoverable busy state; it must not spin indefinitely.
+- Empty lists return 1 without opening a widget. Cancel, `x`, `Esc`, and an empty back action return 1 without side effects or error logging.
+- A cache invalidated by `start`, `stop`, `restart`, `remove`, or rename cannot be reused as fresh after the mutation.
+- No project path, registry content, PM2 output, or user choice is evaluated as shell code; failures and diagnostics must not expose secrets.
 
-## Links & Consequences
+## Problem
 
-- `cli/lib.sh` est sourcé par `cli/shipglowz.sh`, `cli/shipglowz_devserver_gum.sh`, `cli/shipglowz_devserver_bash.sh`, et tous les `local/*.sh` qui utilisent `ui_*`. Tous les fichiers qui importent `ui_choose`/`ui_filter_choose` doivent continuer de fonctionner sans changement d’appel.
-- `tui/src/sources/readers.ts` est consommé par `tui/src/main.ts` via `readDashboardData`. Tout découpage doit préserver le contrat de sortie `DashboardData`.
-- `tui/src/viewModels/dashboard.ts` construit `DashboardViewModel` utilisé par `dashboardView.ts`. Le mapping de statut déplacé doit rester importable sans breaking change.
-- `shipglowz_data/workflow/TASKS.md` doit être mis à jour avec les tâches de refactor.
-- `shipglowz_data/technical/context-function-tree.md` doit être mis à jour si les signatures `ui_*` changent.
+The DevServer pays global work before it knows which action the operator requested. `cli/lib.sh` currently calls `registry_sync` while being sourced, and that function always runs PM2 discovery plus a `find` under the projects root. The `find` prints `.flox` directories but does not prune them, so it traverses large Flox internals. Environment listing, identifier listing, and path resolution repeat similar scans. The in-memory PM2, environment, home-folder, and path caches mutate globals, but common callers invoke them with `$(...)` or process substitution, so those mutations disappear with the subshell. The result is a measured 3.45s common startup floor, 3.62s to `s m n`, and 6.68s to `s m r` on the audited host. The UI refactor has already introduced several shared primitives, but the fixed TTY drain and remaining subprocesses still add avoidable interaction latency.
 
-## Documentation Coherence
+## Solution
 
-- Mettre à jour `shipglowz_data/technical/context.md` si la couche UI est réorganisée.
-- Mettre à jour `shipglowz_data/technical/context-function-tree.md` si les signatures `ui_*` changent.
-- Aucun changement de documentation publique (site, README) n’est requis car la refactor est interne.
+Make initialization lazy and action-aware, consolidate Flox discovery behind one bounded scanner that prunes matched `.flox` directories, and use the atomic persistent registry as the shared environment/path index. Refactor cache APIs and production callers so state is populated in the current shell, keep one PM2 snapshot per CLI session until an explicit mutation invalidates it, and preserve compatibility stdout wrappers only for external callers. Complete the shell UI centralization by treating `cli/lib.sh` `ui_*` primitives as the canonical shell design-system layer and by removing fixed quiet waits and trivial subprocesses from hot interaction paths without weakening input safety.
 
-## Edge Cases
+## Scope In
 
-- Liste de 27+ items : les indices lettrés dépassent `z` ; le helper doit générer `aa`, `ab`, etc., et le rendu doit rester lisible.
-- Items contenant des espaces ou caractères spéciaux : le stripping d’icône (`sed 's/^[^ ]* //'`) doit rester fiable.
-- Concurrent access au cache TTY : `ui_flush_pending_input` doit rester appelé avant chaque widget interactif.
-- `gum` présent mais lent (`gum style` bloque) : le fallback lettré doit rester utilisable.
-- `readers.ts` appelé sur un répertoire `shipglowz_data` partiellement corrompu : diagnostics江东, pas de throw non capturé.
-- Chantier actif sans `Skill Run History` : la spec reste valide, le run est optionnel.
+- Startup behavior in `cli/shipglowz.sh` and source-time initialization in `cli/lib.sh`.
+- `ensure_registry`, `registry_sync`, `registry_update`, and registry invalidation/refresh policy.
+- Flox environment discovery used by registry creation, `list_all_environments`, `list_all_environment_identifiers`, and `resolve_project_path`.
+- PM2/environment/path/home-folder cache APIs and their production callers, including selectors and status helpers.
+- Shell UI hot paths: `ui_choose`, `ui_filter_choose`, `_ui_normalize_choice`, `ui_flush_pending_input`, and the existing `ui_letter_*`, `ui_text_center`, `ui_list_filter`, and `ui_traffic_color` primitives.
+- Gum and Bash menu frontends only where required to consume the shared contracts without duplication.
+- Focused shell tests, performance harness, manual CLI checklist, and mapped technical documentation.
+
+## Scope Out
+
+- Changes to PM2 lifecycle semantics, Flox environment contents, Caddy, DuckDNS, public deployment, or SSH tunnels.
+- TUI `readers.ts` decomposition and cross-runtime status styling; these do not cause the audited DevServer startup latency and require a separate contract if still desired.
+- Public site design tokens, branding changes, new terminal dependencies, or a replacement TUI framework.
+- Persistent background daemons, filesystem watchers, or a new database solely to accelerate discovery.
+- Android, Flutter, or hosted deployment work.
+
+## Constraints
+
+- Preserve Bash 4+ support and do not add a mandatory dependency to the CLI.
+- Preserve public stdout/return-code contracts: selected value on stdout; 0 for selection/success; 1 for cancel, empty list, or recoverable absence.
+- Use an optional destination-variable/internal API or another parent-shell pattern for cache-populating functions; do not rely on global mutation inside command substitution.
+- A canonical Flox scanner must use an expression equivalent to `-type d -name .flox -print -prune` after pruning heavy unrelated directories.
+- Registry writes must use a temporary file in the registry directory, restrictive permissions, validation, and atomic `mv`; synchronization must have a bounded concurrency strategy.
+- The cache policy must be invalidation-first after known mutations. TTL is a stale-data safety bound, not the primary way to observe local PM2/environment mutations.
+- The shell design-system authority is the shared ANSI constants and `ui_*` primitives in `cli/lib.sh`; menu frontends orchestrate them and must not introduce parallel literals or divergent selector behavior.
+- Preserve `gum`/`fzf` optionality and pure Bash fallback behavior.
+- Performance checks must compare repeated runs on the same host and report medians; one noisy run cannot establish regression or success.
 
 ## Test Contract
 
-- surface: `lib.sh` (shell UI) + `tui/src/` (TUI TypeScript)
-- proof_profile: manual + automated
+- surface: Bash DevServer runtime (`cli/shipglowz.sh`, `cli/lib.sh`, gum and Bash menu frontends)
+- proof_profile: automated + benchmark + manual terminal
 - proof_order:
-  1. Automated: `bun run test` dans `tui/` après découpage de `readers.ts`.
-  2. Automated: `bash -n lib.sh` + tests shells existants (`tests/cli/config-logging-cache.sh`, `tests/cli/json-error-handling.sh`, `tests/cli/input-validation.sh`).
-  3. Manual: ouvrir `s m n` et `s m r` dans le menu DevServer, vérifier l’apparition du widget et la latence perçue.
-  4. Manual: TUI dashboard, vérifier la cohérence des couleurs de statut.
-- checklist_path: `shipglowz_data/workflow/test-checklists/devserver-ui-centralization.md` (à créer si nécessaire)
-- required_scenario_ids: [SC01, SC02, SC03]
+  1. Static: `bash -n cli/lib.sh cli/shipglowz.sh cli/shipglowz_devserver_gum.sh cli/shipglowz_devserver_bash.sh`.
+  2. Automated: `tests/cli/config-logging-cache.sh`, `tests/cli/input-validation.sh`, `tests/cli/json-error-handling.sh`, and `tests/cli/menu-navigation.sh`.
+  3. Focused: discovery fixture proves `.flox` is emitted once and its descendants are never visited; registry failure/concurrency tests prove last-known-good and atomic replacement.
+  4. Benchmark: five warm and five cold same-host runs for source time, `s x`, `s m n`, and `s m r`, with median comparison against the recorded 2026-07-17 baseline.
+  5. Manual: real TTY walkthrough of `s`, `s m n`, `s m r`, cancel/back, empty list, gum, and Bash fallback.
+- checklist_path: `shipglowz_data/workflow/test-checklists/devserver-ui-centralization.md`
+- required_scenario_ids: [SC01, SC02, SC03, SC04, SC05, SC06]
 - required_results:
-  - SC01: sélection courte gum/fallback fonctionne, même rendu lettré.
-  - SC02: recherche filtrée gum/fallback fonctionne, même rendu lettré.
-  - SC03: TUI dashboard affiche les mêmes couleurs de statut que le shell.
-- exception_with_proof: absence de `gum` testée sur machine sans `gum` installé.
-- exception_without_proof: bench précis de latence sur machine ARM64 non représentative ; accepté car le critère est qualitatif (2x mesuré par `time` localement).
+  - SC01: a non-environment shortcut performs no registry, PM2, or Flox discovery at source time.
+  - SC02: cold environment discovery prunes `.flox`, produces a complete atomic registry, and does not destroy the previous registry on failure.
+  - SC03: repeated real callers reuse PM2/environment/path data and perform no duplicate discovery before invalidation.
+  - SC04: PM2 and environment mutations invalidate all dependent snapshots before the next read.
+  - SC05: `s m n` and `s m r` preserve selection, filtering, cancel, empty-list, gum, and Bash fallback behavior.
+  - SC06: benchmark medians meet the performance acceptance criteria without skipped correctness checks.
+- exception_with_proof: `gum`-absent behavior may be proven by an isolated PATH/test stub when the audited host has gum installed.
+- exception_without_proof: none.
+
+## Dependencies
+
+- Bash 4+ features already used by the project, including arrays, parameter expansion, and `printf -v` if chosen for destination-variable APIs.
+- Existing optional tools: `pm2`, `jq` with Python fallback, `gum`, and `fzf`.
+- Existing state directory and `envs.reg` format. A format migration is not required unless implementation proves the current delimiter cannot be preserved safely.
+- `fresh-docs not needed`: the performance causes and required behavior are fully defined and reproduced in local Bash code; this change does not alter an external PM2 or Flox API contract.
+
+## Invariants
+
+- PM2 remains the runtime source of truth, and every PM2 state mutation invalidates its session snapshot.
+- The registry remains the durable environment/path snapshot used by read-heavy menu surfaces, but it is never rebuilt unconditionally during library sourcing.
+- Environment discovery produces each project once, uses the existing `derive_pm2_app_name` naming contract, and never descends below a discovered `.flox` directory.
+- A reader never observes a partially written registry.
+- Absolute project-path validation and the no-`eval` boundary remain intact.
+- `x` remains the universal cancel/back shortcut; letter-key order and stdout return values remain compatible across gum, fzf, and Bash.
+- The fixed-width `ShipGlowz DevServer` header and existing traffic semantics remain stable unless a centralized `ui_*` contract changes them for every frontend.
+
+## Links & Consequences
+
+- `cli/shipglowz.sh` sources `cli/lib.sh` before parsing shortcuts, so any source-time command directly affects every invocation.
+- `select_environment`, `select_stop_target`, PM2 helpers, dashboard functions, and lifecycle actions consume the cache/registry layer and must migrate together to avoid a split cache model.
+- `env_start`, `env_stop`, `env_restart`, `env_remove`, rename, batch actions, and direct PM2 mutations must invalidate the dependent PM2 and environment/path snapshots.
+- Compatibility launchers and both menu frontends must retain their call signatures; they should not need independent discovery implementations.
+- `CLAUDE.md` currently documents registry synchronization at source time and must be corrected when the runtime changes.
+- `shipglowz_data/technical/context.md` and `context-function-tree.md` map this runtime area and must describe lazy registry refresh, the shared scanner, and cache ownership after implementation.
+- The existing persistent menu-header cache is not replaced; its lock identity should use the actual background process (`$BASHPID`) or an equivalent bounded lock, and update-check cadence must not be coupled accidentally to every 120-second header refresh.
+
+## Documentation Coherence
+
+- Update `shipglowz_data/technical/design-system-authority.md` with a DevServer shell entry naming `cli/lib.sh` ANSI constants and `ui_*` primitives as the canonical source, and both menu frontends as consumers.
+- Update `CLAUDE.md`, `shipglowz_data/technical/context.md`, and `shipglowz_data/technical/context-function-tree.md` because their source-time registry and cache descriptions otherwise become false.
+- Update the cache/config comments in `cli/config.sh` only if TTL or invalidation variables change.
+- Create and execute `shipglowz_data/workflow/test-checklists/devserver-ui-centralization.md` for manual TTY evidence.
+- No public README/site update is required because command names and user-visible capabilities do not change; the CLI becomes faster and keeps the same interaction contract.
+
+## Edge Cases
+
+- A `.flox` tree contains thousands of internal directories, symlinks, unreadable entries, or nested project-looking content.
+- Two project paths derive the same PM2 app name, or a project path contains spaces, glob characters, a pipe, or a newline.
+- The registry is missing, empty, stale, malformed, read-only, or refreshed concurrently by two CLI processes.
+- PM2 is installed but its daemon is stopped, `pm2 jlist` returns invalid JSON, or the JSON parser is unavailable.
+- A cache is populated through a compatibility stdout wrapper, a pipeline, command substitution, or process substitution.
+- `s m r` needs both environment and PM2 data and would accidentally trigger separate refreshes through nested helpers.
+- A state mutation succeeds but registry refresh fails; invalidation must prevent stale data from being presented as fresh.
+- Input bytes remain buffered after a shortcut, while an idle TTY has no bytes to drain.
+- More than 26 selector items, labels with spaces/emoji, empty lists, invalid keys, `Esc`, Backspace, and `x` cancellation.
 
 ## Implementation Tasks
 
-- [ ] Tâche 1 : Extraire `ui_letter_list` / `ui_back_label` comme primitives partagées
-  - Fichier : `lib.sh`
-  - Action : Extraire la logique de génération de clés lettrées (`_ui_letter_key`) et de label retour (`_ui_back_label_from_options`) en fonctions `ui_letter_list` et `ui_back_label` avec une signature claire.
-  - User story link : centraliser le rendu lettré pour éviter duplication et dérive.
-  - Depends on : aucune
-  - Validate with : `bash -n lib.sh` + menu court gum/fallback fonctionnel.
-  - Notes : conserver l’alphabet `abcdefghijklmnopqrstuvwyz` et la génération `aa/ab` pour >26 items.
+- [ ] Task 1: Consolidate Flox discovery into one bounded scanner
+  - File: `cli/lib.sh`
+  - Action: Add one internal scanner that returns validated project path/name pairs, prunes heavy directories and each matched `.flox`, deduplicates results, and is reused by registry, list, identifier, and path-resolution code.
+  - User story link: removes the 2.6-second traversal and duplicate scans before environment pickers.
+  - Depends on: none.
+  - Validate with: focused fixture test plus a scan assertion that no path below a matched `.flox` is visited.
+  - Notes: preserve `derive_pm2_app_name`; reject or safely handle values that cannot be represented by the current registry delimiter.
 
-- [ ] Tâche 2 : Factoriser `ui_choose` et `ui_filter_choose` sur les primitives lettrées
-  - Fichier : `lib.sh`
-  - Action : Remplacer les blocs de rendu lettré inline par des appels à `ui_letter_list` et `ui_back_label` ; réduire `ui_choose` à l’orchestration des chemins gum/fallback.
-  - User story link : éliminer la duplication de rendu et réduire la latence perçue.
-  - Depends on : Tâche 1
-  - Validate with : `bash -n lib.sh` + tests `tests/cli/input-validation.sh` + manuel `s m n`/`s m r`.
-  - Notes : `grep -qiF` dans `ui_filter_choose` doit être remplacé par un helper bash insensible à la casse (e.g., `shopt -s nocasematch` + boucle, ou mapping pré-calculé).
+- [ ] Task 2: Make registry refresh lazy, stale-aware, atomic, and failure-safe
+  - File: `cli/lib.sh`
+  - Action: Remove unconditional source-time `registry_sync`; make `ensure_registry` refresh only on missing/invalidated/stale state; build and validate a same-directory temporary snapshot, use a bounded lock, atomically replace on success, and preserve last-known-good data on failure.
+  - User story link: removes the global startup tax while keeping environment data reliable.
+  - Depends on: Task 1.
+  - Validate with: `s x` instrumentation shows zero discovery; cold/missing/stale/failing/concurrent registry tests pass.
+  - Notes: avoid direct truncation of `envs.reg`; clean owned temporary files on handled exits.
 
-- [ ] Tâche 3 : Remplacer `grep -qiF` par un helper bash sans sous-processus
-  - Fichier : `lib.sh`
-  - Action : Ajouter `ui_list_filter(items, query)` qui implémente le filtrage insensible à la casse sans fork externe ; l’utiliser dans `ui_filter_choose`.
-  - User story link : réduire la latence du widget sur grandes listes.
-  - Depends on : Tâche 2
-  - Validate with : bench `time` sur liste de 100 items, viser <50ms en fallback.
-  - Notes : préférer une approche par tableau Bash ou par `IFS` pour éviter des sous-processus par item.
+- [ ] Task 3: Replace subshell-lost cache mutation with parent-shell cache APIs
+  - File: `cli/lib.sh`
+  - Action: Introduce parent-shell destination-variable/internal APIs for PM2 and environment/path snapshots, migrate production callers away from `$(cache_mutating_function)`, pipelines, and process substitutions where they discard state, and retain compatibility stdout wrappers when required.
+  - User story link: makes cache hits effective in the actual `s m n` and `s m r` flows.
+  - Depends on: Tasks 1-2.
+  - Validate with: two real same-shell calls show one PM2 fetch and one environment discovery; second reads complete without external discovery work.
+  - Notes: prefer the durable registry for environment/name/path lookup rather than maintaining three competing ephemeral caches.
 
-- [ ] Tâche 4 : Centraliser les helpers de centrage texte
-  - Fichier : `lib.sh`
-  - Action : Unifier `center_fixed_width`, `center_line` (imbriqué dans `ui_header`), et `center_session_banner_text` en un seul helper `ui_text_center(text, width)` avec largeur par défaut documentée.
-  - User story link : design system shell cohérent.
-  - Depends on : aucune
-  - Validate with : `bash -n lib.sh` + visuel headers `ui_screen_header` et `display_session_banner`.
-  - Notes : largeur par défaut = 50, intérieur = 46 pour les box shells.
+- [ ] Task 4: Define coherent invalidation and one-snapshot-per-action behavior
+  - File: `cli/lib.sh`
+  - Action: Invalidate PM2 and dependent registry/path state after every PM2 or environment mutation, share one PM2 snapshot across an action, and ensure `s m r` cannot trigger nested duplicate refreshes.
+  - User story link: combines speed with correct status after start, stop, restart, remove, and rename.
+  - Depends on: Task 3.
+  - Validate with: extend `tests/cli/config-logging-cache.sh` for mutation, TTL, stale snapshot, and nested-caller cases.
+  - Notes: session cache remains valid until explicit mutation or a documented safety bound; do not poll PM2 merely because a short TTL elapsed mid-action.
 
-- [ ] Tâche 5 : Supprimer ou marquer explicitement les fonctions UI inutilisées
-  - Fichier : `lib.sh`
-  - Action : Vérifier `ui_box_header` et `ui_action_header` ; si non appelées hors `lib.sh`, les marquer comme API publique dépréciée avec commentaire, ou les supprimer après confirmation.
-  - User story link : réduire la surface d’API et éviter la maintenance de code mort.
-  - Depends on : Tâche 4
-  - Validate with : grep global des appelants, `bash -n lib.sh`.
+- [ ] Task 5: Complete the shell UI hot-path centralization
+  - File: `cli/lib.sh`, `cli/shipglowz_devserver_gum.sh`, `cli/shipglowz_devserver_bash.sh`
+  - Action: Keep selector/filter/centering/status logic behind the existing shared `ui_*` primitives, remove remaining trivial normalization subprocesses, and replace the fixed three-times-40ms quiet drain with an adaptive bounded strategy that still consumes pending bytes safely.
+  - User story link: preserves a consistent interface and removes avoidable interaction delay after startup work is fixed.
+  - Depends on: Task 4.
+  - Validate with: `tests/cli/input-validation.sh`, `tests/cli/menu-navigation.sh`, plus manual gum/Bash cancellation and buffered-input scenarios.
+  - Notes: no raw frontend-specific color, spacing, letter, or cancellation semantics outside the declared shell authority.
 
-- [ ] Tâche 6 : Extraire un helper unique de statut/couleur pour le shell
-  - Fichier : `lib.sh`
-  - Action : Créer `ui_traffic_color(status)` qui retourne l’emoji et la couleur ANSI correspondante (🟢 online, 🟠 launching, 🔴 error, etc.) ; remplacer les appels inline existants.
-  - User story link : design system shell cohérent, éviter la dérive de mapping.
-  - Depends on : Tâche 4
-  - Validate with : `bash -n lib.sh` + visuel menus `s m n`/`s m r`.
+- [ ] Task 6: Add regression and benchmark coverage
+  - File: `tests/cli/config-logging-cache.sh`, `tests/cli/menu-navigation.sh`, and a focused script under `tests/cli/` if separation improves determinism
+  - Action: Cover scanner pruning/deduplication, lazy startup, atomic registry failure/concurrency, parent-shell cache hits, invalidation, single-scan picker flows, and median performance reporting without adding production-only test hooks.
+  - User story link: prevents the multi-second startup floor and cache regression from returning.
+  - Depends on: Tasks 1-5.
+  - Validate with: all commands in Test Contract and `git diff --check`.
+  - Notes: functional tests must use isolated temporary state/project roots and must not overwrite the operator's live registry.
 
-- [ ] Tâche 7 : Porter le helper de statut dans la TUI
-  - Fichier : `tui/src/viewModels/dashboard.ts` ou module partagé TUI
-  - Action : Importer/compartimenter le mapping statut -> style pour que `dashboardView.ts` ne duplique plus `trafficFromSpecStatus`, `trafficFromAudit`, `lineColor`.
-  - User story link : cohérence shell/TUI, réduire duplication TS.
-  - Depends on : Tâche 6
-  - Validate with : `bun run dev` dans `tui/`, vérifier onglets Specs/Audits/Tasks.
-
-- [ ] Tâche 8 : Découper `readers.ts` en modules séparés
-  - Fichier : `tui/src/sources/readers.ts`
-  - Action : Extraire `sourcePolicy.ts` (existant), `canonicalRecords.ts`, `summarizers.ts` ; `readDashboardData` reste le point d’entrée public.
-  - User story link : améliorer la maintenabilité et la testabilité de la TUI.
-  - Depends on : Tâche 7
-  - Validate with : `bun run test` dans `tui/`, couverture cible >80% sur les parsers.
-
-- [ ] Tâche 9 : Ajouter des gardes de cache pour les listes d’environnement (déjà partiellement implémenté)
-  - Fichier : `lib.sh`
-  - Action : Vérifier que `ENV_LIST_CACHE` et `HOME_FOLDERS_CACHE` sont bien invalidés dans `env_start`, `env_remove`, `env_rename`, et que le TTL est configurable via `SHIPGLOWZ_LIST_CACHE_TTL`.
-  - User story link : réduire la latence des listes d’environnement.
-  - Depends on : Tâche 2
-  - Validate with : `source lib.sh && env_start test && list_all_environments` mesuré avec `time`.
-
-- [ ] Tâche 10 : Ajouter des tests ciblant la latence du sélecteur
-  - Fichier : `tests/cli/config-logging-cache.sh` ou nouveau `test_ui_choose.sh`
-  - Action : Ajouter un test mesurant le temps d’exécution de `ui_choose` sur 50 items en fallback bash ; warning si >100ms.
-  - User story link : preuve de la latence améliorée.
-  - Depends on : Tâches 1-3
-  - Validate with : `bash test_ui_choose.sh` en CI locale.
+- [ ] Task 7: Align design-system authority, runtime docs, and manual proof
+  - File: `shipglowz_data/technical/design-system-authority.md`, `CLAUDE.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/context-function-tree.md`, `shipglowz_data/workflow/test-checklists/devserver-ui-centralization.md`
+  - Action: Document the shell UI authority, lazy registry/cache lifecycle, scanner ownership, invalidation rules, and execute the manual checklist.
+  - User story link: keeps future changes fast, coherent, and understandable instead of reintroducing parallel hot paths.
+  - Depends on: Tasks 1-6.
+  - Validate with: metadata lint on changed docs, function-tree path review, completed checklist, and mapped documentation review.
+  - Notes: remove the obsolete claim that registry synchronization always runs when `lib.sh` loads.
 
 ## Acceptance Criteria
 
-- [ ] CA01: Given gum est installé, when l’opérateur lance `s m n`, then le widget lettré apparaît et l’opérateur peut sélectionner un environnnement en <=2 interactions.
-- [ ] CA02: Given gum est absent, when l’opérateur lance `s m r`, then le fallback bash produit la même interface lettrée (mêmes clés, même ordre) que gum.
-- [ ] CA03: Given une liste de 50 items, when `ui_choose` est appelé en fallback, then le rendu complet prend au plus 100ms (mesuré avec `time`).
-- [ ] CA04: Given `ui_filter_choose` avec `grep -qiF` remplacé, when la query est "foo", then le filtrage insensible à la casse retourne les bons items sans fork par item.
-- [ ] CA05: Given `center_fixed_width`, `center_line`, `center_session_banner_text` sont unifiés, when `ui_screen_header` est appelé, then le titre et le brand sont centrés correctement dans la largeur 50.
-- [ ] CA06: Given `ui_traffic_color` existe, when un status `online`/`launching`/`error`/`stopped` est passé, then la couleur et l’emoji sont identiques dans `lib.sh` et la TUI.
-- [ ] CA07: Given `readers.ts` découpé, when `bun run test` est lancé, then tous les parsers et summarizers ont une couverture >80%.
-- [ ] CA08: Given les caches `ENV_LIST_CACHE` et `HOME_FOLDERS_CACHE`, when `list_all_environments` est appelé deux fois en moins de 5s, then le deuxième appel ne relance pas de `find`.
-- [ ] CA09: Given une liste vide, when `ui_choose` est appelé, then la fonction retourne 1 sans afficher de widget et sans erreur dans les logs.
-- [ ] CA10: Given l’opérateur annule avec `x`, when `ui_choose` est en cours, then la fonction retourne 1 sans side effect et sans message d’erreur.
+- [ ] AC01: Given a shortcut that needs no environment state, when `cli/shipglowz.sh x` runs, then library sourcing performs no `registry_sync`, `pm2 jlist`, or Flox `find`, and its five-run median is at most 1.0s on the audited host.
+- [ ] AC02: Given a project containing `.flox` with a large internal tree, when discovery runs, then the project is returned once and no descendant of that `.flox` is traversed.
+- [ ] AC03: Given a valid registry and a failed or concurrent refresh, when a reader opens it, then the reader observes the complete old or complete new snapshot, never an empty/partial file, and the refresh terminates within its bounded lock timeout.
+- [ ] AC04: Given two real PM2/environment/path consumers in one CLI session, when no mutation occurs between them, then instrumentation records at most one PM2 fetch and one Flox discovery; the second consumer reuses the populated snapshot.
+- [ ] AC05: Given a successful start, stop, restart, remove, rename, or direct PM2 mutation, when the next status/list read occurs, then no pre-mutation PM2 or environment/path snapshot is accepted as fresh.
+- [ ] AC06: Given the audited host and equivalent state, when five-run medians are measured, then `s m n` reaches its picker in at most 1.25s and `s m r` in at most 1.50s, with at least a 60% improvement from the recorded 3.62s/6.68s baselines.
+- [ ] AC07: Given gum, fzf, or neither is available, when the operator selects, filters, cancels, or provides an invalid key, then the observable letter order, selected stdout value, cancellation code, and error behavior remain compatible.
+- [ ] AC08: Given an idle TTY, when an interactive widget opens, then pending-input protection adds no fixed 120ms wait; given buffered bytes, the bounded drain prevents those bytes from auto-selecting the next widget.
+- [ ] AC09: Given PM2 is unavailable or discovery fails, when an environment action opens, then the operator receives usable last-known or Flox-derived choices plus a recoverable diagnostic, and no valid registry is truncated.
+- [ ] AC10: Given isolated test roots, when all CLI suites and the manual checklist run, then no test writes the live registry, all required scenarios pass, and no new mandatory dependency is required.
+- [ ] AC11: Given the implementation is complete, when mapped documentation is reviewed, then the shell design-system authority, lazy registry lifecycle, shared discovery owner, cache invalidation rules, and validation commands match the code.
 
 ## Test Strategy
 
-- Unit: tests Bash pour `ui_letter_list`, `ui_back_label`, `ui_list_filter`, `ui_text_center`, `ui_traffic_color` (nouveau fichier `test_ui_choose.sh` ou extension `tests/cli/config-logging-cache.sh`).
-- Integration: tests existants `tests/cli/input-validation.sh`, `tests/cli/config-logging-cache.sh`, `tests/cli/json-error-handling.sh` doivent passer sans modification.
-- Integration TUI: `bun run test` dans `tui/` après découpage de `readers.ts`.
-- Manual: `s m n`, `s m r`, `Navigation` dans le menu DevServer ; vérifier latence perçue et absence de régression ergonomique.
-- Manual: TUI dashboard (`bun run dev` dans `tui/`), vérifier couleurs statut coherentes.
+- Unit: scanner expression/pruning, deduplication, destination-variable cache APIs, invalidation, normalization, and adaptive TTY drain with controlled inputs.
+- Integration: source `cli/lib.sh` with isolated state roots and instrument PM2/discovery counts through real selector/status callers; exercise missing, stale, failed, and concurrent registry refreshes.
+- Regression: run all five existing `tests/cli/*.sh` suites, with the four required suites listed in the Test Contract treated as blocking.
+- Performance: record cold and warm medians over five runs for `source cli/lib.sh`, `cli/shipglowz.sh x`, picker entry for `s m n`, and picker entry for `s m r`; retain command, host architecture, and raw timings in test evidence.
+- Manual: use a real TTY for gum and Bash fallback, long/empty lists, cancel/back, invalid keys, buffered input, and status display after mutation.
+- Security/robustness: registry paths and temporary files are isolated, permissions remain restrictive, values are never evaluated, lock waits are bounded, and live operator state is not used as a destructive test fixture.
 
 ## Risks
 
-- P1: Changement de comportement dans les sélecteurs lettrés si les indices dépassent l’alphabet 26 lettres ou si l’extraction n’est pas suffisamment générique.
-- P2: Risque de régression dans l’expérience gum vs fallback si la primitive partagée ne couvre pas tous les chemins existants.
-- P2: Découpage de `readers.ts` peut exposer des dépendances implicites entre parsing, dédup et résumé, causant des régressions dans le dashboard.
-- P3: `ui_box_header` et `ui_action_header` pourraient être appelés par des scripts externes non scannés ; les supprimer pourrait casser des workflows locaux.
+- P1: A cache API migration can leave one legacy command-substitution caller that silently bypasses cache state; exhaustive caller search and instrumentation are required.
+- P1: Lazy refresh can present stale status after a mutation if invalidation coverage is incomplete; PM2/environment mutation sites are a blocking review set.
+- P1: A faulty atomic-write or lock implementation can lose the registry or deadlock concurrent CLI sessions; failure injection and bounded-lock tests are required.
+- P2: Deriving environment lists and paths from one registry may expose duplicate-name or delimiter assumptions currently hidden by independent scans.
+- P2: Over-aggressive TTY draining can consume intentional input, while under-draining can leak shortcut bytes into the next widget.
+- P2: Strict wall-clock assertions can be flaky under host load; use same-host medians and require both an absolute budget and material baseline improvement.
+- P3: Compatibility callers may rely on stdout-only helper APIs; keep wrappers or migrate all known consumers before removing a function contract.
 
 ## Execution Notes
 
-- Lire d’abord `lib.sh` sections UI (L103-840) et `tui/src/sources/readers.ts` pour comprendre les contrats d’entrée/sortie existants.
-- Commencer par extraire les primitives bash (Tâches 1-4) avant de toucher la TUI (Tâche 7).
-- Ne pas modifier `ui_choose` et `ui_filter_choose` en même temps : factoriser d’abord `ui_choose` (Tâche 2), puis `ui_filter_choose` (Tâche 3).
-- `grep -qiF` est le goulot principal dans `ui_filter_choose:L448` ; le remplacer avant d’optimiser d’autres chemins.
-- `gum style` en boucle fermée (`ui_choose:L534-540`) génère 5+ sous-processus par sélection courte ; pré-générer les chaînes colorées ou utiliser `gum style --list` si disponible.
-- Pour `readers.ts`, suivre le principe de responsabilité unique: un module pour la policy de lecture, un pour les records canoniques, un pour les résumés.
-- Stop condition: si un test existant (`tests/cli/config-logging-cache.sh`, `tests/cli/json-error-handling.sh`, `tests/cli/input-validation.sh`) casse après refactor, arrêter et inspecter avant de continuer.
+- Read first: `cli/shipglowz.sh`, `cli/lib.sh` registry/cache/selectors, both menu frontends, then `tests/cli/config-logging-cache.sh` and `tests/cli/menu-navigation.sh`.
+- Start from measured root causes. Do not spend the first implementation wave on TUI decomposition or cosmetic rendering: correct discovery, lazy initialization, registry safety, and parent-shell cache ownership first.
+- Use one internal Flox discovery representation and one durable registry/path index. Avoid adding another cache layer that must be synchronized independently.
+- Prefer explicit destination-variable helpers (`printf -v`) or current-shell population plus read-only emitters. A function that mutates a cache must not be invoked in a subshell by production code.
+- Keep compatibility wrappers until global caller search proves they can be removed. Use `rg` across canonical and compatibility scripts before changing signatures.
+- Benchmark before and after each performance wave with the same state. Functional correctness, invalidation, and atomicity remain blocking even if timing targets pass.
+- Documentation Freshness Gate verdict: `fresh-docs not needed`; reroute only if implementation chooses a new external PM2/Flox API or a new dependency whose current behavior governs the design.
+- Stop and reroute to spec repair if implementation requires changing the registry file format, adding a daemon/watcher, weakening path validation, changing user-visible command semantics, or accepting a cache consistency model outside this contract.
 
 ## Open Questions
 
-- Les fonctions `ui_box_header` et `ui_action_header` sont-elles appelées par des scripts externes non présents dans `lib.sh` ? Si oui, elles doivent être marquées dépréciées plutôt que supprimées.
-- Quel est le délai cible exact pour le widget de sélection sur une machine ARM64 typique (Hetzner CAX) ? Le critère "2x plus rapide" est relatif ; faut-il un absolu en ms ?
-- `readers.ts` doit-il rester dans `tui/src/sources/` ou migrer vers `tui/src/readers/` avec des fichiers séparés ? Le découpage interne suffit-il, ou faut-il aussi réorganiser les imports ?
+None. The operator explicitly delegated the implementation quality goal, and local code plus audit evidence determine the bounded professional path.
 
 ## Skill Run History
 
@@ -282,14 +304,16 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 |----------|-------|-------|--------|--------|-----------|
 | 2026-06-22 | 100-sg-spec | unknown | create | draft | /101-sg-ready Centraliser le design system du shell DevServer et réduire la latence des sélecteurs |
 | 2026-06-22 | 101-sg-ready | unknown | gate | ready | /102-sg-start Centraliser le design system du shell DevServer et réduire la latence des sélecteurs |
-| 2026-07-17 | 403-sg-perf | GPT-5 | audit | D: socle commun mesuré via `s x` 3.45s, `s m n` 3.62s, `s m r` 6.68s; descente dans `.flox` et scans dupliqués confirmés | /102-sg-start Centraliser le design system du shell DevServer et réduire la latence des sélecteurs |
-| 2026-07-17 | 403-sg-perf | GPT-5 | cache audit | D: hits directs PM2/env 7/8ms, mais appels réels en sous-shell 229–248ms / 2.77–2.82s; cache header persistant 1ms | /102-sg-start Centraliser le design system du shell DevServer et réduire la latence des sélecteurs |
+| 2026-07-17 | 403-sg-perf | GPT-5 | audit | D: common startup measured via `s x` 3.45s, `s m n` 3.62s, and `s m r` 6.68s; `.flox` descent and duplicate scans confirmed | /100-sg-spec Optimize DevServer startup, caches, and shell UI |
+| 2026-07-17 | 403-sg-perf | GPT-5 | cache audit | D: direct PM2/environment hits 7/8ms, but production subshell calls repeat 229-248ms / 2.77-2.82s work; persistent header cache reads in 1ms | /100-sg-spec Optimize DevServer startup, caches, and shell UI |
+| 2026-07-17 | 100-sg-spec | GPT-5 | repair | repaired: root-cause performance, cache, atomicity, shell UI, proof, and documentation contracts made autonomous | /101-sg-ready Optimize DevServer startup, caches, and shell UI |
+| 2026-07-17 | 101-sg-ready | GPT-5 | gate | ready | /102-sg-start Optimize DevServer startup, caches, and shell UI |
 
 ## Current Chantier Flow
 
 | Phase | Status |
 |-------|--------|
-| 100-sg-spec | draft |
+| 100-sg-spec | done |
 | 101-sg-ready | ready |
 | 102-sg-start | todo |
 | 103-sg-verify | todo |

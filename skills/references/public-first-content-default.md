@@ -15,7 +15,6 @@ security_impact: none
 docs_impact: yes
 linked_systems:
   - skills/007-sg-content/SKILL.md
-  - skills/202-sg-repurpose/SKILL.md
   - skills/references/editorial-content-corpus.md
   - shipglowz_data/editorial/content-map.md
 depends_on:
@@ -24,7 +23,7 @@ depends_on:
     required_status: draft
 supersedes: []
 evidence:
-  - "Operator decision 2026-07-08: when Diane invokes sg-content or sg-repurpose, the default goal is public content unless she explicitly says internal content or uses sg-docs."
+  - "Operator decision 2026-07-08: when Diane invokes sg-content, the default goal is public content unless she explicitly says internal content or uses sg-docs."
 next_review: "2026-07-22"
 next_step: "/103-sg-verify public-first-content-default"
 ---
@@ -42,13 +41,12 @@ When Diane invokes ShipGlowz content-writing skills, the default target is a pub
 Apply this default when Diane invokes:
 
 - `007-sg-content`
-- `202-sg-repurpose`
 
 This reference may also guide adjacent writing skills when the same public-surface ambiguity appears, but it is binding first for those two owner paths.
 
 ## Default Rule
 
-Assume `public surface` by default when Diane asks for content through `007-sg-content` or `202-sg-repurpose`.
+Assume `public surface` by default when Diane asks for content through `007-sg-content`, including `repurpose <source>`.
 
 That means:
 
@@ -78,8 +76,8 @@ In those cases, treat the content as internal-facing and preserve the normal doc
 
 For Diane's public-first content runs:
 
-- `202-sg-repurpose` may produce a source-faithful structured draft or output pack, but it must name the intended public surface explicitly
-- `202-sg-repurpose` must not stop at unlabeled free paragraphs
+- `007-sg-content repurpose <source>` may produce a source-faithful structured pack, but it must name the intended public surface explicitly
+- `007-sg-content repurpose <source>` must not stop at unlabeled free paragraphs
 - `007-sg-content` must treat public placement as already decided in principle and only arbitrate which declared public surface is correct
 
 ## Prevention Rule
@@ -88,4 +86,3 @@ If a content answer could plausibly be mistaken for a preparatory note instead o
 
 - label it explicitly as a draft for a named public surface
 - or reroute immediately to the owner path that will apply it on that public surface
-

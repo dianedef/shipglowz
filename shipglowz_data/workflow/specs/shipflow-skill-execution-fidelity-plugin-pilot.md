@@ -6,7 +6,7 @@ project: "shipflow"
 created: "2026-05-25"
 created_at: "2026-05-25 12:54:14 UTC"
 updated: "2026-07-17"
-updated_at: "2026-07-17 08:40:08 UTC"
+updated_at: "2026-07-17 08:53:04 UTC"
 status: ready
 source_skill: sg-spec
 source_model: "GPT-5 Codex"
@@ -48,7 +48,7 @@ depends_on:
     artifact_version: "1.4.0"
     required_status: "active"
   - artifact: "skills/references/skill-context-budget.md"
-    artifact_version: "unknown"
+    artifact_version: "0.3.1"
     required_status: "draft"
   - artifact: "shipglowz_data/workflow/specs/audit-and-compact-skill-taxonomy-descriptions.md"
     artifact_version: "1.0.3"
@@ -61,7 +61,7 @@ evidence:
   - "User concern 2026-05-25: Codex does not appear to follow ShipGlowz skills to the letter and the skills are not yet excellent."
   - "Conversation evidence 2026-05-26: user had to ask 'tu attends quoi' / 'tu peux pas le retenter' after the agent reported next proof steps it could likely run."
   - "Operator correction 2026-07-17: replacing testimonials with Lorem ipsum was over-routed through multiple content skills instead of being executed as one atomic edit."
-next_step: "/sg-verify shipflow-skill-execution-fidelity-plugin-pilot"
+next_step: "/104-sg-end shipflow-skill-execution-fidelity-plugin-pilot"
 ---
 
 # Spec: ShipGlowz Skill Execution Fidelity Plugin Pilot
@@ -308,6 +308,7 @@ None.
 | 2026-05-25 13:03:00 UTC | sg-skill-build | GPT-5 Codex | Added durable skill execution-fidelity reference for future skill update specs. | implemented | /sg-verify shipflow-skill-execution-fidelity-plugin-pilot |
 | 2026-05-26 00:00:00 UTC | sg-skill-build | GPT-5 Codex | Added operator-last-resort proof rule from conversation evidence about agents asking the user to continue/retest. | implemented | /sg-verify shipflow-skill-execution-fidelity-plugin-pilot |
 | 2026-07-17 08:40:08 UTC | 900-shipglowz-core | GPT-5 Codex | Added proportional automatic skill selection and narrowed content activation after an atomic Lorem ipsum edit triggered unnecessary lifecycle work. | implemented | /103-sg-verify shipflow-skill-execution-fidelity-plugin-pilot |
+| 2026-07-17 08:53:04 UTC | 103-sg-verify | GPT-5 Codex | Verified the full activation chain, repaired root-router and generic-implementation interception, aligned operator/public docs, and passed scenario, metadata, budget, runtime-sync, audit, and site-build proof. | verified | /104-sg-end shipflow-skill-execution-fidelity-plugin-pilot |
 
 ## Current Chantier Flow
 
@@ -315,7 +316,7 @@ None.
 - sg-ready: ready
 - sg-skill-build: implemented
 - 900-shipglowz-core: implemented
-- sg-verify: pending
+- sg-verify: verified
 - sg-end: pending
 - sg-ship: pending
-- Next step: /sg-verify shipflow-skill-execution-fidelity-plugin-pilot
+- Next step: /104-sg-end shipflow-skill-execution-fidelity-plugin-pilot

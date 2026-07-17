@@ -216,7 +216,7 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 - Docs techniques / code change : `shipglowz_data/technical/code-docs-map.md`, puis le doc primaire mappe.
 - Tunnels / acces local : `local/README.md`, `local/local.sh`, `local/dev-tunnel.sh`.
 - Produit / business / site : `shipglowz_data/business/business.md`, `shipglowz_data/business/product.md`, `shipglowz_data/branding/branding.md`, `shipglowz_data/business/gtm.md`, puis les registres `shipglowz_data/business/project-competitors-and-inspirations.md` et `shipglowz_data/business/affiliate-programs.md` si la tache touche marche, inspirations, differenciation ou monetisation partenaire.
-- Contenu / repurposing : `shipglowz_data/editorial/content-map.md`, `skills/202-sg-repurpose/SKILL.md`, puis la surface cible.
+- Contenu / repurposing : `shipglowz_data/editorial/content-map.md`, `007-sg-content repurpose <source>`, puis la surface cible.
 - Architecture / conventions : `shipglowz_data/technical/architecture.md`, `shipglowz_data/technical/guidelines.md`, `CLAUDE.md`.
 
 ## Linked Docs

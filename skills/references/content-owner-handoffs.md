@@ -16,13 +16,11 @@ docs_impact: yes
 linked_systems:
   - skills/007-sg-content/SKILL.md
   - skills/007-sg-content/references/content-router.md
-  - skills/202-sg-repurpose/SKILL.md
-  - skills/202-sg-repurpose/references/repurpose-workflow.md
+  - skills/007-sg-content/references/repurpose-playbook.md
 depends_on: []
 supersedes: []
 evidence:
-  - "Content owner routing was split between 007-sg-content and 202-sg-repurpose with overlapping terminology."
-  - "Both skills need one canonical matrix for owner selection and handoff expectations."
+  - "Content owner routing uses one 007 repurpose mode and one canonical owner matrix."
 next_review: "2026-08-09"
 next_step: "/103-sg-verify content-owner-handoffs"
 ---
@@ -42,7 +40,7 @@ This reference centralizes who owns the next step. Local skills may keep activat
 | External URL/source triage | `205-sg-veille` |
 | Deep research report | `203-sg-research` |
 | Market, keyword, competitor, or demand study | `009-sg-marketing market` |
-| Source-faithful pack, reusable source analysis, or applied repurposing handoff | `202-sg-repurpose` |
+| Source-faithful pack, reusable source analysis, or applied repurposing handoff | `007-sg-content repurpose <source>` |
 | Original long-form article, guide, editorial, or public draft | `200-sg-redact` |
 | Upgrade existing content with research, structure, or clarity | `201-sg-enrich` |
 | Positioning, funnel, trust, offer, or launch-readiness audit | `009-sg-marketing gtm` |
@@ -69,7 +67,7 @@ When one skill routes content work to another, include at minimum:
 ## Routing Rules
 
 - Prefer the smallest owner that can safely complete the next step.
-- Route to `202-sg-repurpose` first when the work starts from source material and the downstream surface is not yet fully resolved.
+- Route to `007-sg-content repurpose <source>` first when the work starts from source material and the downstream surface is not yet fully resolved.
 - Route to `300-sg-docs` when the main job is governance, README/docs maintenance, metadata, or declared documentation surfaces.
 - Route to `200-sg-redact` only once source truth, surface, and claim posture are clear enough to draft.
 - Route to `201-sg-enrich` when the target already exists and needs strengthening more than net-new writing.

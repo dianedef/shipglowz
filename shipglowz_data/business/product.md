@@ -19,7 +19,7 @@ security_impact: yes
 docs_impact: yes
 evidence:
   - "Repo artifacts strongly emphasize context routing, specs, readiness, verification, audits, and environment operations"
-  - "shipglowz_data/editorial/content-map.md and sg-repurpose skill add a content routing layer for documentation and marketing reuse"
+  - "shipglowz_data/editorial/content-map.md and the sg-content repurpose mode add a content routing layer for documentation and marketing reuse"
 linked_artifacts:
   - "shipglowz_data/business/business.md"
   - "shipglowz_data/technical/architecture.md"
@@ -67,7 +67,7 @@ next_step: "/sg-docs audit shipglowz_data/business/product.md"
 - Explore -> Spec -> Ready -> Start -> Verify -> End.
 - Fix-first path for bounded bugs.
 - Docs and metadata path for keeping context and decision artifacts consistent.
-- Content map and sg-repurpose path for turning product work or source ideas into faithful docs, marketing, landing-page, FAQ, and semantic-cluster material.
+- Content map and sg-content repurpose path for turning product work or source ideas into faithful docs, marketing, landing-page, FAQ, and semantic-cluster material.
 - Server environment lifecycle path for deploy, restart, publish, and health management.
 
 ## Scope In

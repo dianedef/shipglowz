@@ -62,7 +62,7 @@ What should we change first so the right people can find, understand, and trust 
 
 - `406-sg-seo`
 - `007-sg-content`
-- `202-sg-repurpose`
+- `007-sg-content repurpose <source>`
 - `300-sg-docs`
 - `001-sg-build`
 

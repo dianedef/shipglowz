@@ -33,7 +33,7 @@ It is built for strategic scanning, not passive bookmarking.
 - saved research output in `shipglowz_data/workflow/research/veille-[DATE].md`
 - added or updated tool sheets in `shipglowz_data/workflow/research/tools.md`
 - optional backlog entries in the master `TASKS.md`
-- `007-sg-content` / `202-sg-repurpose` handoffs or `surface missing: blog` findings when a content idea needs an undeclared editorial surface
+- `007-sg-content repurpose <source>` handoffs or `surface missing: blog` findings when a content idea needs an undeclared editorial surface
 
 ## Typical Examples
 
@@ -50,6 +50,6 @@ The README is in English, but the produced research report is intentionally in F
 ## Related Skills
 
 - `203-sg-research` when a topic needs deeper investigation after triage
-- `007-sg-content` / `202-sg-repurpose` when a source should become public content, repurposing, or a governed content brief
+- `007-sg-content repurpose <source>` when a source should become public content, repurposing, or a governed content brief
 - `309-sg-tasks` when the resulting backlog needs further cleanup
 - `703-sg-review` to fold research-driven work into a broader session review

@@ -25,7 +25,7 @@ linked_systems:
   - docs/editorial/
   - skills/references/subagent-roles/editorial-reader.md
   - skills/300-sg-docs/SKILL.md
-  - skills/202-sg-repurpose/SKILL.md
+  - skills/007-sg-content/references/repurpose-playbook.md
 depends_on:
   - artifact: "specs/shipflow-editorial-content-governance-layer-for-ai-agents.md"
     artifact_version: "1.0.0"
