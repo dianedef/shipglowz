@@ -32,6 +32,7 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 - Added a reusable landing-page copywriting framework for reader-question sequencing, section-role and repetition ledgers, and claim/proof safety, integrated into the existing `009-sg-marketing copywriting` mode without adding a public mode or reusing project-specific copy.
 
 ### Changed
+- Formalized `008-sg-customer` as one customer-experience skill with `audit`, `flow`, `onboarding`, and `recovery` modes plus bounded playbooks; aligned active discovery and public documentation without introducing a second customer identity or claiming a shipped product-flow outcome.
 - Consolidated the technical skill surface into the new public `010-sg-technical` entrypoint with `audit`, `deps`, `performance`, `migrate`, and `help` modes; migrated active routing, documentation, runtime discovery, catalogs, and public pages; retired `401`-`404` without aliases; and verified the local migration with focused contract tests (14/14), governed metadata (18/18), runtime sync (204/204), and two public builds.
 - Consolidated the public repurposing-skill surface into the `repurpose` mode of `007-sg-content`; migrated active routing, runtime, catalog, documentation, and public discovery guidance while retiring the standalone predecessor entrypoint. The skill/runtime/public-documentation migration was verified; this does not claim a production content outcome.
 

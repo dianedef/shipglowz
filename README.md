@@ -558,7 +558,7 @@ Skill launch cheatsheet:
 | Release confidence after implementation | `004-sg-deploy [target or mode]` | no argument, `skip-check`, `--preview`, `--prod`, `no-changelog`. |
 | Bug-loop lifecycle | `003-sg-bug [BUG-ID, summary, or mode]` | no argument, `BUG-ID`, `--fix`, `--retest`, `--verify`, `--ship`, `--close`. |
 | Content management | `007-sg-content [goal, source, file, or mode]` | `plan`, `repurpose`, `draft`, `enrich`, `audit`, `seo`, `editorial`, `apply`, `ship`. |
-| Customer experience | `008-sg-customer <feature, flow, screen, or audit target>` | UX/UI clarity, friction, trust, first-success paths, setup ordering, recoverable states, docs impact, and proof routing. |
+| Customer experience | `008-sg-customer <audit|flow|onboarding|recovery> <target>` | One customer owner with exact modes for existing-journey audits, first-success flow contracts, onboarding, recovery, docs impact, and proof routing. |
 | Local-to-cloud data sync | `600-sg-local-cloud-sync <project, feature, or data domains>` | Local data promotion, cloud hydration, merge/conflict policy, sync/save UX states, sensitive-data exclusions, and proof routing. |
 | Product entitlements and access gates | `601-sg-product-entitlements <project or feature>` | Entitlement ownership, provider events, activation codes, product-local mirrors, backend authorization gates, support flows, and sync handoffs. |
 | Platform parity | `602-sg-platform-parity <project, feature, or platform set>` | Audit declared web, mobile, desktop, and native platform behavior; classify parity, adaptation, degradation, unsupported scope, and proof gaps before routing follow-up. |

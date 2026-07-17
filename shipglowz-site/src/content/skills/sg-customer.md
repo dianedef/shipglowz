@@ -29,25 +29,23 @@ what_you_get:
   - "A reusable onboarding progress overlay pattern when the product needs first-run setup guidance"
   - "Routes to design, build, docs, content, browser, or manual QA owner skills when needed"
 example_prompts:
-  - "/sg-customer onboard users after the new keyboard permissions flow"
-  - "/sg-customer audit the setup checklist before we ship"
-  - "/sg-customer create the activation plan for the new cloud sync feature"
+  - "/sg-customer onboarding keyboard permissions"
+  - "/sg-customer audit setup checklist before shipping"
+  - "/sg-customer flow cloud sync activation"
+  - "/sg-customer recovery revoked cloud permission"
 argument_modes:
-  - argument: "feature or flow"
-    effect: "Creates an end-user contract around the user journey and first-success path."
-    consequence: "Useful before implementing or after shipping a feature."
-  - argument: "audit"
-    effect: "Reviews an existing end-user or onboarding surface against experience principles."
-    consequence: "Useful when setup, explanations, or recovery feel confusing."
-  - argument: "permissions / setup"
-    effect: "Focuses on dependency order, value explanation, optionality, settings recovery, and recheck behavior."
-    consequence: "Useful for OS settings, integrations, auth, API keys, billing, or device access."
-  - argument: "visual states / progressive disclosure"
-    effect: "Focuses on small steps, current-step emphasis, icons, colors, badges, and visible completed/skipped/blocked states."
-    consequence: "Useful when users may be overwhelmed or when status differences need to be obvious at a glance."
-  - argument: "onboarding popup / progress overlay"
-    effect: "Uses the reusable onboarding progress overlay pattern from the WinFlowz and Temu implementations."
-    consequence: "Useful when future apps need a proven popup with sections, progress icons, state priority, actions, and recovery instead of rebuilding the interaction model from scratch."
+  - argument: "audit [scope]"
+    effect: "Finds evidence-backed comprehension, friction, trust, state, and recovery issues in an existing journey."
+    consequence: "Routes each finding to the proper owner and proof lane."
+  - argument: "flow [feature-or-flow]"
+    effect: "Creates an End-User Contract with first success, states, recovery, documentation impact, and proof route."
+    consequence: "Useful before implementation or after a shipped change."
+  - argument: "onboarding [feature-or-flow]"
+    effect: "Plans first-run setup, progressive disclosure, dependency order, optionality, and re-entry."
+    consequence: "Loads the overlay pattern only for an explicitly requested stepped overlay."
+  - argument: "recovery [feature-or-state]"
+    effect: "Creates a safe resume, defer, and recheck path for blocked, revoked, failed, or lost-context states."
+    consequence: "Keeps a user in control without hiding permission, billing, privacy, or data consequences."
 limits:
   - "It does not replace sg-design for visual polish, layout, token systems, or component architecture"
   - "It does not implement broad onboarding UI without a ready spec and build lifecycle"
@@ -63,7 +61,7 @@ featured: true
 order: 515
 ---
 
-## The End-User Layer
+## The Customer Layer
 
 Use `sg-customer` when the question is not just "does the feature exist?"
 but "will users understand it, trust it, know what to do, recover from skips or
@@ -72,8 +70,8 @@ blocked states, and reach value quickly?"
 It is especially useful for flows with permissions, integrations, optional
 modules, empty states, or setup steps that need clear why/how guidance.
 
-For first-run setup overlays, `sg-customer` can also use the shared
-onboarding progress overlay pattern: a popup with sections, one icon per step,
-neutral pending state, orange current state, green completed state even while
-selected, red skipped state,
-and explicit resume/recovery behavior.
+Use exactly one of four modes: `audit`, `flow`, `onboarding`, or `recovery`.
+If the goal is unclear, the skill asks which customer job matters instead of
+guessing. Visual-system work belongs to `sg-design`, content and public claims
+to `sg-content`, documentation governance to `sg-docs`, and browser, manual
+QA, or auth proof to their specialized owners.

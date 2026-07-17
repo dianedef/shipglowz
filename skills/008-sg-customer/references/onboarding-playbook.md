@@ -4,7 +4,7 @@ metadata_schema_version: "1.0"
 artifact_version: "1.0.0"
 project: ShipGlowz
 created: "2026-06-29"
-updated: "2026-06-29"
+updated: "2026-07-17"
 status: active
 source_skill: 008-sg-customer
 scope: onboarding-playbook
@@ -25,7 +25,7 @@ depends_on:
     required_status: active
 supersedes: []
 evidence:
-  - "Operator request 2026-06-29: transform sg-onboarding into sg-end-user with UX/UI mode and keep onboarding as a playbook/reference."
+  - "Operator request 2026-06-29: retain onboarding as a customer-mode playbook rather than a separate active skill."
 next_review: "2026-07-29"
 next_step: "/103-sg-verify 008-sg-customer"
 ---
@@ -34,7 +34,7 @@ next_step: "/103-sg-verify 008-sg-customer"
 
 ## Purpose
 
-Use this playbook when `008-sg-customer` is asked about onboarding, activation, setup guidance, first-run flows, first-success recovery, or feature adoption.
+Use this playbook only for `008-sg-customer onboarding [feature-or-flow]`: onboarding, activation, setup guidance, first-run flows, first-success recovery, or feature adoption.
 
 Onboarding is a mode of end-user experience. It should help the user reach value, understand state, recover from blockers, and trust the product. It is not only a welcome modal, tooltip tour, or checklist.
 
@@ -116,4 +116,4 @@ For permissions, system settings, billing, integrations, API keys, auth, data sy
 
 ## Specialized Overlay Pattern
 
-When the work needs a popup-style or stepped onboarding overlay, also load `skills/008-sg-customer/references/onboarding-progress-overlay-pattern.md`.
+Load `skills/008-sg-customer/references/onboarding-progress-overlay-pattern.md` only when the request explicitly needs a popup-style or stepped onboarding overlay. Ordinary onboarding loads no overlay pattern.

@@ -138,7 +138,7 @@ For requests involving declared products, sales surfaces, or public claims, pref
 | Market study, GTM audit, copy clarity audit, or persuasion/copywriting audit | `009-sg-marketing <market|gtm|copy|copywriting> <instruction>` |
 | Source intake, pasted email/article/transcript/URL classification, project fit, angle selection, or owner-skill choice | Load `source-intake-classification.md`, then route to the owner skill |
 | Design request, UI/UX work, redesign, design tokens, playground, accessibility design, component design, visual proof, or token migration | `006-sg-design <instruction>` |
-| End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-customer <instruction>` |
+| End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-customer <audit|flow|onboarding|recovery> <target>`; ask among modes when intent is mixed |
 | Local-first data promotion, cloud hydration, account sync, merge/conflict policy, reinstall recovery, or sync/save UX state | `600-sg-local-cloud-sync <instruction>` |
 | Product access, paid plans, premium gates, entitlement ledgers, provider events, activation codes, refunds/revokes, support access flows, or backend access gates | `601-sg-product-entitlements <instruction>` |
 | Create, modify, rename, document, or validate ShipGlowz skills | `900-shipglowz-core build <instruction>` |

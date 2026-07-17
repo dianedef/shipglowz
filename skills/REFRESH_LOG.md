@@ -4,6 +4,16 @@ Chronological log of skill refreshes via `/900-shipglowz-core refresh <skill>`. 
 
 ---
 
+## 2026-07-17 — 008-sg-customer
+
+**Added:** exact `audit`, `flow`, `onboarding`, and `recovery` dispatcher modes with bounded local playbooks and deterministic CA 1–12 contract proof.
+
+**Updated:** customer safety, adjacent-owner boundaries, active discovery syntax, onboarding lazy-overlay rule, and historical no-alias guardrails.
+
+**New phases:** none.
+
+**Sources:** 0 URLs consulted; fresh-docs not needed for this local skill-contract migration.
+
 ## 2026-07-17 — 009-sg-marketing
 
 **Added:**

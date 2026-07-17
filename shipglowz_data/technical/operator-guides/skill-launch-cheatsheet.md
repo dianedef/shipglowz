@@ -173,7 +173,7 @@ Public categories make the catalog easier to browse. Runtime families explain ho
 | Marketing study or review | `009-sg-marketing <mode> <target>` | `market`, `gtm`, `copy`, `copywriting`, `help`. |
 | Conversation quality audit | `705-sg-conversation-audit [latest|path <file-or-dir>|export shipflow|report=agent]` | Audit recurring operator-facing defects in conversation transcripts and route durable owner actions. |
 | Design lifecycle | `006-sg-design <design question or goal>` | `tokens`, `audit`, `playground`, page/route targets, redesign goals, token migration, visual proof, or natural-language design requests. |
-| Customer experience | `008-sg-customer <feature, flow, screen, or audit target>` | UX/UI clarity, friction, trust, first-success paths, setup order, recoverable states, docs impact, and proof routing. |
+| Customer experience | `008-sg-customer <audit|flow|onboarding|recovery> <target>` | Four customer modes for friction/trust audits, first-success flow contracts, setup, and recoverable states; routes adjacent-owner work. |
 | Local-to-cloud data sync | `600-sg-local-cloud-sync <project, feature, or data domains>` | Local data promotion, cloud hydration, merge/conflict policy, sync/save UX states, sensitive-data exclusions, and proof routing. |
 | Product entitlements and access gates | `601-sg-product-entitlements <project or feature>` | Entitlement ownership, provider events, activation codes, product-local mirrors, backend authorization gates, support flows, and sync handoffs. |
 | Internal skill creation or maintenance | `900-shipglowz-core build <idea or path>` | new skill idea, existing skill path, optional `700-sg-explore` for fuzzy placement, runtime/docs validation gates. |
@@ -227,7 +227,7 @@ Model routing note: `704-sg-model` recommends the right model for the current sc
 | `007-sg-content` | no argument or content goal; `plan`; `repurpose`; `draft`; `article`; `blog`; `guide`; `enrich`; `audit`; `copy`; `copywriting`; `seo`; `editorial`; `apply`; `publish`; `ship`; `score`; `quality gate`; `grille projet` |
 | `009-sg-marketing` | `market <target>`; `gtm <target>`; `copy <target>`; `copywriting <target>`; `help` |
 | `006-sg-design` | design question; page/route; `tokens`; `audit`; `playground`; redesign goal; token migration; visual proof; detailed report modes |
-| `008-sg-customer` | feature, flow, shipped change, onboarding audit target; permission/setup focus; detailed report modes |
+| `008-sg-customer` | `audit [scope]`; `flow [feature-or-flow]`; `onboarding [feature-or-flow]`; `recovery [feature-or-state]`; detailed report modes |
 | `600-sg-local-cloud-sync` | project, feature, data domains, sync question; audit; Flutter focus; secrets/sensitive-data focus; detailed report modes |
 | `900-shipglowz-core build` | new skill idea; existing skill path; `700-sg-explore` reroute when placement or public promise is too fuzzy |
 | `310-sg-github-hygiene` | no argument/`audit`; `branches`; `dependabot`; `fix`; `current repo`; `workspace` |

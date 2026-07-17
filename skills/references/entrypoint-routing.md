@@ -176,7 +176,7 @@ A read-only routing scout is allowed only for cheap classification evidence and 
 | Content strategy, repurposing, drafting, enrichment, SEO/copy audit, editorial governance, content apply/publish | `007-sg-content` |
 | Source intake, pasted email/article/transcript/URL classification, project fit, useful angle, or owner-skill choice | Load `skills/references/source-intake-classification.md`, then route to the owner skill |
 | Design request, UI/UX work, redesign, design tokens, design playground, accessibility design, component design, visual proof, or token migration | `006-sg-design` |
-| End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-customer` |
+| End-user experience, UX/UI clarity, trust, friction, feature activation, onboarding, setup guidance, first-success path, permission/setup sequencing, or recoverable states | `008-sg-customer <audit|flow|onboarding|recovery> <target>`; ambiguous intent asks among the four modes |
 | Local-first data promotion, cloud hydration, account sync, merge/conflict policy, reinstall recovery, or sync/save UX state | `600-sg-local-cloud-sync` |
 | Product access, paid plans, premium gates, entitlement ledgers, provider events, activation codes, refunds/revokes, support access flows, or backend access gates | `601-sg-product-entitlements` |
 | New skill, skill modification, skill runtime visibility, skill public page, skill docs/help coherence | `900-shipglowz-core build` |

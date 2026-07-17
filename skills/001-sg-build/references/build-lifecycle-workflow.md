@@ -205,7 +205,7 @@ Result: [implemented / partial / blocked]
 [Agents: used / not needed / degraded: reason]
 [All checks passed ✅ | Checks failed: ... | Checks skipped: ...]
 Evidence: [browser/prod/manual route or not needed]
-[Onboarding suggestion: /008-sg-customer <feature or flow>]
+[Customer suggestion: /008-sg-customer flow <feature-or-flow>]
 Risk: [only if non-empty]
 Next step: [only if real]
 

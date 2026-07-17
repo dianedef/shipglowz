@@ -115,7 +115,7 @@ Skill launch cheatsheet:
 | Deploy-target recommendation for an app project | `004-sg-deploy <project or context>` | Uses the canonical advisory matrix in `skills/references/deploy-target-matrix.md`; ShipGlowz advises, but final choice remains project-contextual. |
 | Bug-loop lifecycle | `003-sg-bug [BUG-ID, summary, or mode]` | no argument, `BUG-ID`, `--fix`, `--retest`, `--verify`, `--ship`, `--close`. |
 | Content management | `007-sg-content [goal, source, file, or mode]` | `plan`, `repurpose`, `draft`, `enrich`, `audit`, `seo`, `editorial`, `apply`, `ship`. |
-| Customer experience | `008-sg-customer <feature, flow, screen, or audit target>` | UX/UI clarity, friction, trust, first-success paths, setup order, recoverable states, docs impact, and proof routing. |
+| Customer experience | `008-sg-customer <audit|flow|onboarding|recovery> <target>` | One customer owner with exact modes for audits, flow contracts, onboarding, recovery, docs impact, and proof routing. |
 | Local-to-cloud data sync | `600-sg-local-cloud-sync <project, feature, or data domains>` | Local data promotion, cloud hydration, merge/conflict policy, sync/save UX states, sensitive-data exclusions, and proof routing. |
 | Product entitlements and access gates | `601-sg-product-entitlements <project or feature>` | Entitlement ownership, provider events, activation codes, product-local mirrors, backend authorization gates, support flows, and sync handoffs. |
 | Internal skill creation or maintenance | `900-shipglowz-core build <idea or path>` | new skill idea, existing skill path, optional `700-sg-explore` for fuzzy placement, runtime/docs validation gates. |
