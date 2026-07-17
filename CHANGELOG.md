@@ -26,6 +26,11 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 ---
 # ShipFlow Changelog
 
+## [2026-07-17]
+
+### Changed
+- Consolidated the public repurposing-skill surface into the `repurpose` mode of `007-sg-content`; migrated active routing, runtime, catalog, documentation, and public discovery guidance while retiring the standalone predecessor entrypoint. The skill/runtime/public-documentation migration was verified; this does not claim a production content outcome.
+
 ## [2026-07-16]
 
 ### Changed

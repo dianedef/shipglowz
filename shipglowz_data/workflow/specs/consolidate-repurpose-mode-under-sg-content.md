@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.2"
 project: ShipGlowz
 created: "2026-07-17"
 created_at: "2026-07-17 08:45:22 UTC"
 updated: "2026-07-17"
-updated_at: "2026-07-17 09:10:30 UTC"
+updated_at: "2026-07-17 10:30:20 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: GPT-5 Codex
@@ -57,12 +57,12 @@ evidence:
   - "`007-sg-content` already exposes `repurpose` in its argument hint and public modes, but currently routes every source-faithful pack to `202-sg-repurpose`."
   - "`202-sg-repurpose` contains the source-faithful, verbatim-preservation, durable-pack, diffusion, safety, and owner-handoff rules that must survive the consolidation."
   - "Active runtime, catalog, site, routing, shared-reference, operator-guide, template, and adjacent-skill surfaces currently expose `202-sg-repurpose` or `sg-repurpose`."
-next_step: "/102-sg-start consolidate repurpose mode under sg-content"
+next_step: "none"
 ---
 
 # Spec: Consolidate `repurpose` Mode Under `007-sg-content`
 
-🟢 [ShipGlowz] spec: Consolidate repurpose mode under sg-content | status: ready | path: shipglowz_data/workflow/specs/consolidate-repurpose-mode-under-sg-content.md | next: /102-sg-start consolidate repurpose mode under sg-content
+🟢 [ShipGlowz] spec: Consolidate repurpose mode under sg-content | status: shipped | path: shipglowz_data/workflow/specs/consolidate-repurpose-mode-under-sg-content.md | next: none
 
 ## Title
 
@@ -70,7 +70,7 @@ Consolidate `202-sg-repurpose` as `007-sg-content repurpose`
 
 ## Status
 
-Ready durable contract. Implementation may now alter the approved skill, runtime identity, public page, catalog, tracker, changelog, and historical-treatment surfaces only within this spec's scope and proof gates.
+Implementation, independent verification, closure bookkeeping, and bounded git shipping are complete. The skill/runtime/public-documentation migration is verified; this does not claim a production content outcome.
 
 ## User Story
 
@@ -315,6 +315,9 @@ None. The operator explicitly approved the ownership decision: `202-sg-repurpose
 | 2026-07-17 09:05:39 | 900-shipglowz-core | GPT-5 Codex | Conservatively refreshed the migrated `007` repurpose mode against its playbook, transfer matrix, shared source/storage/handoff contracts, and active public surface. | Refreshed; one stale duplicate report template removed, with no repurpose safeguard or mode change. | `/103-sg-verify consolidate repurpose mode under sg-content` |
 | 2026-07-17 09:10:30 | 103-sg-verify | GPT-5 Codex | Independently checked the `007` dispatcher/playbook/matrix against the retired `202` contract, source-safety and owner boundaries, runtime/catalog/code-index state, active versus historical references, metadata, audit/budget, sync, public build, and diff hygiene. | not verified: the active public skills index still advertises `sf-repurpose`, and Claude/Codex each retain a dangling `202-sg-repurpose` current-user runtime symlink. The focused test passes but does not scan the `sf-repurpose` alias, so it cannot prove the required active-name retirement. | `/102-sg-start repair active public/runtime retirement evidence, then rerun /103-sg-verify` |
 | 2026-07-17 09:13:00 | 102-sg-start | GPT-5 Codex | Repaired post-verify retirement evidence: replaced the public `sf-repurpose` index entry with `sf-content repurpose`, removed the two explicit dangling current-user runtime symlinks, and expanded the focused contract scan to reject `sf-repurpose`. | implemented; focused test and direct retirement proofs rerun. | `/103-sg-verify consolidate repurpose mode under sg-content` |
+| 2026-07-17 10:26:10 | 103-sg-verify | GPT-5 Codex | Re-ran independent scenario-first verification after the targeted retirement repair, including the `007` contract/playbook/matrix and source-safety/owner boundaries; public active-name scan; absent source/page/runtime identities; focused test; governed metadata; catalog; audit/budget; runtime sync; code-index baseline review; direct Astro build; and diff hygiene. | verified: `sf-repurpose` is absent from active public surfaces, the two stale runtime symlinks are absent, and the focused regression test now rejects the alias. | `/104-sg-end consolidate repurpose mode under sg-content` |
+| 2026-07-17 10:27:59 | 104-sg-end | GPT-5 Codex | Closed the verified skill/runtime/public-documentation migration in the canonical spec, task registry, and changelog without claiming a production content outcome or ship status. | closed: durable closure surfaces now match the verified scope; bounded git shipping remains. | `/005-sg-ship consolidate repurpose mode under sg-content` |
+| 2026-07-17 10:30:20 | 005-sg-ship | GPT-5 Codex | Re-ran the focused `007` repurpose contract, runtime sync, and catalog validation; confirmed that the previously committed migration is already on `origin/main`, then staged only its durable closure traces. | shipped: closure traces are committed and pushed without taking unrelated concurrent work into the index. | none |
 
 ## Current Chantier Flow
 
@@ -322,8 +325,8 @@ None. The operator explicitly approved the ownership decision: `202-sg-repurpose
 - `101-sg-ready`: ready — security controls, no-fallback persistence, scope, task ordering, and proof contract passed.
 - `102-sg-start`: implemented — original consolidation plus targeted public/runtime retirement-evidence repair completed.
 - `900-shipglowz-core refresh`: completed — conservative evidence review passed; reporting contract deduplicated with no mode or safeguard change.
-- `103-sg-verify`: not verified — targeted repair complete; rerun independent verification.
-- `104-sg-end`: not launched.
-- `005-sg-ship`: not launched.
+- `103-sg-verify`: verified — contract, retired-identity, public, runtime, metadata, catalog, sync, and direct-build proof passed; unrelated code-index and 205-size baselines classified separately.
+- `104-sg-end`: closed — canonical spec, task registry, and changelog record the verified skill/runtime/public-documentation migration without a ship or production-content-outcome claim.
+- `005-sg-ship`: shipped — the already-published bounded migration and its closure traces are committed and pushed; unrelated concurrent work remains out of scope.
 
-Next command: `/102-sg-start repair active public/runtime retirement evidence, then rerun /103-sg-verify`
+Next command: none

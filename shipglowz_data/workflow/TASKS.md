@@ -40,6 +40,7 @@
 
 ## Skills
 
+🟢 [ShipGlowz] task: Consolider `202-sg-repurpose` sous le mode `007-sg-content repurpose` | status: done | area: content-skill-surface | id: consolidate-repurpose-mode-under-sg-content | spec: shipglowz_data/workflow/specs/consolidate-repurpose-mode-under-sg-content.md | verification: migration skill/runtime/documentation publique vérifiée, sans promesse d’effet de contenu en production | ship_status: shipped | next: none
 🟢 [ShipGlowz] task: Consolider les skills marketing sous 009-sg-marketing avec les modes market, gtm, copy et copywriting | status: done | area: marketing-skill-surface | id: consolidate-marketing-skills-under-sg-marketing | spec: shipglowz_data/workflow/specs/consolidate-marketing-skills-under-sg-marketing.md | ship_status: shipped | next: none
 🟢 [ShipGlowz] task: Consolider la maintenance des skills dans les modes et playbooks internes de 900-shipglowz-core | status: done | area: skills-maintenance-core | id: consolidate-skill-maintenance-under-shipglowz-core | spec: shipglowz_data/workflow/specs/consolidate-skill-maintenance-under-shipglowz-core.md | ship_status: shipped | next: none
 🟢 [ShipFlow] task: Ajouter un mode de statut pour les conversations Codex lie au tracker local et son playbook reutilisable | status: done | area: conversation-status-index | source: decision utilisateur 2026-07-15 | next: none
