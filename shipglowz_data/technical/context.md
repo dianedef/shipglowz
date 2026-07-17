@@ -1,12 +1,12 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.6.0"
+artifact_version: "0.6.1"
 project: "shipflow"
 created: "2026-04-25"
-updated: "2026-06-30"
+updated: "2026-07-17"
 status: draft
-source_skill: manual
+source_skill: 102-sg-start
 scope: "context"
 owner: "unknown"
 confidence: "high"
@@ -16,7 +16,7 @@ docs_impact: "yes"
 linked_systems: ["cli/shipglowz.sh", "cli/lib.sh", "cli/config.sh", "cli/install.sh", "local/local.sh", "skills/", "skills/references/app-blueprints.md", "skills/app-blueprints/", "shipglowz_data/workflow/playbooks/spec-driven-workflow.md", "shipglowz_data/technical/context-function-tree.md", "shipglowz_data/editorial/content-map.md", "shipglowz_data/technical/", "shipglowz_data/business/project-competitors-and-inspirations.md", "shipglowz_data/business/affiliate-programs.md"]
 depends_on: []
 supersedes: []
-evidence: ["README.md", "CLAUDE.md", "shipglowz_data/editorial/content-map.md", function extraction from core shell scripts, "shipglowz_data/technical/* as code-proximate subsystem documentation", "Business registries added for project competitors/inspirations and affiliate programs."]
+evidence: ["README.md", "CLAUDE.md", "shipglowz_data/editorial/content-map.md", function extraction from core shell scripts, "shipglowz_data/technical/* as code-proximate subsystem documentation", "Business registries added for project competitors/inspirations and affiliate programs.", "2026-07-17 DevServer startup/cache implementation: lazy atomic registry, pruned Flox discovery, parent-shell cache APIs."]
 next_step: "/sg-docs update shipglowz_data/technical/context.md"
 ---
 
@@ -73,6 +73,7 @@ ShipGlowz combine deux couches :
 ```text
 cli/shipglowz.sh
   -> source lib.sh
+     -> declarations only; no PM2 query or Flox scan
   -> select menu frontend
   -> main()
   -> check_prerequisites()
@@ -91,7 +92,8 @@ project path
   -> detect_dev_command
   -> find_available_port
   -> PM2 start/update
-  -> invalidate_pm2_cache
+  -> invalidate_after_pm2_mutation
+  -> atomic registry_update or lazy ensure_registry
   -> refresh user-mode Caddy routes from online PM2 apps
   -> dashboard / health / publish
 ```
@@ -151,6 +153,10 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 ## Technical Decisions
 
 - PM2 est la source d'etat d'execution. Le cache PM2 doit etre invalide apres mutation.
+- Le sourcing de `cli/lib.sh` reste paresseux : aucun `pm2 jlist`, `registry_sync` ou scan Flox avant qu'une action en ait besoin.
+- `scan_flox_projects` est l'unique proprietaire de la decouverte Flox et prune chaque `.flox` trouve; `ensure_registry` fournit ensuite l'index noms/paths persistant.
+- Les caches qui doivent survivre entre deux appels utilisent les APIs a variable de destination dans le shell parent; les wrappers stdout restent des surfaces de compatibilite.
+- Le registre environnement est ecrit par fichier temporaire voisin + validation + `mv` atomique, avec verrou borne et conservation du dernier snapshot valide.
 - Caddy local est gere par ShipGlowz en mode utilisateur et suit l'etat PM2:
   start rafraichit les routes, stop/stop-all l'arrete quand aucune app PM2
   n'est online. Le service systeme Caddy est legacy/public et ne doit pas rester
@@ -169,6 +175,7 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 ## Invariants
 
 - Appeler `invalidate_pm2_cache` apres `start`, `stop`, `delete`, `restart` ou tout changement PM2.
+- Invalider ensemble PM2, registre et index noms/paths via `invalidate_after_pm2_mutation` apres une mutation runtime.
 - Ne pas parser la structure JS/JSON a coups de grep si une voie fiable existe deja.
 - Ne pas editer manuellement des fichiers regeneres comme les configs d'ecosystem runtime.
 - Ne pas transformer une passe metadata en rewrite complet de documentation.
@@ -177,6 +184,7 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 ## Hotspots
 
 - `lib.sh::env_start`: plus gros noeud fonctionnel.
+- `lib.sh::scan_flox_projects`, `ensure_registry`, `environment_index_load`: chemin critique paresseux pour les selecteurs d'environnement.
 - `lib.sh::env_start` et `init_flox_env`: auto-install Node avec guidage package manager quand `npm` est detecte, et chemin de migration pnpm optionnel.
 - `lib.sh::show_dashboard`: aggregation d'etat.
 - `lib.sh::deploy_github_project`: deploy depuis GitHub.
@@ -200,6 +208,7 @@ launcher active uniquement les MCP demandes pour la nouvelle session.
 - Changer les regles metadata : `skills/300-sg-docs/SKILL.md`, `tools/shipglowz_metadata_lint.py`, `shipglowz_data/technical/metadata-migration-guide.md`, `templates/`.
 - Changer la documentation technique proche du code : `shipglowz_data/technical/code-docs-map.md` puis le doc primaire dans `shipglowz_data/technical/`.
 - Changer l'UI shell (sélecteurs, menus, headers) : `cli/lib.sh` autour des primitives `ui_choose`, `ui_filter_choose`, `ui_text_center`, `ui_list_filter`, `ui_traffic_color`.
+- Changer la decouverte ou les caches DevServer : `cli/lib.sh` autour de `scan_flox_projects`, `ensure_registry`, `pm2_data_load`, `environment_index_load` et `invalidate_after_pm2_mutation`.
 - Changer la TUI (dashboard, filtres, tri, statuts) : `tui/src/statusMaps.ts` (mappings partagés), `tui/src/sources/` (lecture/parsing), `tui/src/viewModels/dashboard.ts` (logique de vue), `tui/src/views/dashboardView.ts` (rendu).
 - Changer la cartographie editoriale, les destinations de contenu ou les cocons semantiques : `shipglowz_data/editorial/content-map.md`, puis `shipglowz-site/src/pages/docs.astro` ou les surfaces concernees.
 - Changer le positionnement, l'audience ou le scope produit : `shipglowz_data/business/business.md`, `shipglowz_data/business/product.md`, `shipglowz_data/business/gtm.md`, `shipglowz_data/branding/branding.md`.

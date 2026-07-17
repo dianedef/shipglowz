@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.1.4"
 project: "ShipGlowz"
 created: "2026-06-22"
 created_at: "2026-06-22 00:00:00 UTC"
 updated: "2026-07-17"
-updated_at: "2026-07-17 08:55:31 UTC"
+updated_at: "2026-07-17 11:06:32 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: "GPT-5"
@@ -44,7 +44,7 @@ evidence:
   - "2026-07-17 cache audit: direct PM2/environment cache hits take 7/8ms, while real command-substitution callers repeat 229-248ms PM2 work and 2.77-2.82s environment scans because cache mutations occur in subshells."
   - "Current code inspection: registry_sync runs unconditionally while cli/lib.sh is sourced, registry writes are not atomic, and registry, list, identifier, and path resolution paths duplicate Flox discovery."
 next_review: "2026-07-31"
-next_step: "/102-sg-start Optimize DevServer startup, caches, and shell UI"
+next_step: "none"
 ---
 
 # Optimize DevServer startup, caches, and shell UI
@@ -55,7 +55,7 @@ Optimize DevServer startup, caches, and shell UI
 
 ## Status
 
-Ready for implementation. The 2026-07-17 audit replaces the earlier assumption that selector rendering was the main bottleneck: mandatory registry synchronization, repeated Flox discovery, and ineffective subshell-local caches dominate startup latency.
+Closed locally after implementation and independent verification. The DevServer startup, cache, registry, and shell UI behavior is proven on the audited host; bounded git shipping remains.
 
 ## User Story
 
@@ -194,7 +194,7 @@ Make initialization lazy and action-aware, consolidate Flox discovery behind one
 
 ## Implementation Tasks
 
-- [ ] Task 1: Consolidate Flox discovery into one bounded scanner
+- [x] Task 1: Consolidate Flox discovery into one bounded scanner
   - File: `cli/lib.sh`
   - Action: Add one internal scanner that returns validated project path/name pairs, prunes heavy directories and each matched `.flox`, deduplicates results, and is reused by registry, list, identifier, and path-resolution code.
   - User story link: removes the 2.6-second traversal and duplicate scans before environment pickers.
@@ -202,7 +202,7 @@ Make initialization lazy and action-aware, consolidate Flox discovery behind one
   - Validate with: focused fixture test plus a scan assertion that no path below a matched `.flox` is visited.
   - Notes: preserve `derive_pm2_app_name`; reject or safely handle values that cannot be represented by the current registry delimiter.
 
-- [ ] Task 2: Make registry refresh lazy, stale-aware, atomic, and failure-safe
+- [x] Task 2: Make registry refresh lazy, stale-aware, atomic, and failure-safe
   - File: `cli/lib.sh`
   - Action: Remove unconditional source-time `registry_sync`; make `ensure_registry` refresh only on missing/invalidated/stale state; build and validate a same-directory temporary snapshot, use a bounded lock, atomically replace on success, and preserve last-known-good data on failure.
   - User story link: removes the global startup tax while keeping environment data reliable.
@@ -210,7 +210,7 @@ Make initialization lazy and action-aware, consolidate Flox discovery behind one
   - Validate with: `s x` instrumentation shows zero discovery; cold/missing/stale/failing/concurrent registry tests pass.
   - Notes: avoid direct truncation of `envs.reg`; clean owned temporary files on handled exits.
 
-- [ ] Task 3: Replace subshell-lost cache mutation with parent-shell cache APIs
+- [x] Task 3: Replace subshell-lost cache mutation with parent-shell cache APIs
   - File: `cli/lib.sh`
   - Action: Introduce parent-shell destination-variable/internal APIs for PM2 and environment/path snapshots, migrate production callers away from `$(cache_mutating_function)`, pipelines, and process substitutions where they discard state, and retain compatibility stdout wrappers when required.
   - User story link: makes cache hits effective in the actual `s m n` and `s m r` flows.
@@ -218,7 +218,7 @@ Make initialization lazy and action-aware, consolidate Flox discovery behind one
   - Validate with: two real same-shell calls show one PM2 fetch and one environment discovery; second reads complete without external discovery work.
   - Notes: prefer the durable registry for environment/name/path lookup rather than maintaining three competing ephemeral caches.
 
-- [ ] Task 4: Define coherent invalidation and one-snapshot-per-action behavior
+- [x] Task 4: Define coherent invalidation and one-snapshot-per-action behavior
   - File: `cli/lib.sh`
   - Action: Invalidate PM2 and dependent registry/path state after every PM2 or environment mutation, share one PM2 snapshot across an action, and ensure `s m r` cannot trigger nested duplicate refreshes.
   - User story link: combines speed with correct status after start, stop, restart, remove, and rename.
@@ -226,7 +226,7 @@ Make initialization lazy and action-aware, consolidate Flox discovery behind one
   - Validate with: extend `tests/cli/config-logging-cache.sh` for mutation, TTL, stale snapshot, and nested-caller cases.
   - Notes: session cache remains valid until explicit mutation or a documented safety bound; do not poll PM2 merely because a short TTL elapsed mid-action.
 
-- [ ] Task 5: Complete the shell UI hot-path centralization
+- [x] Task 5: Complete the shell UI hot-path centralization
   - File: `cli/lib.sh`, `cli/shipglowz_devserver_gum.sh`, `cli/shipglowz_devserver_bash.sh`
   - Action: Keep selector/filter/centering/status logic behind the existing shared `ui_*` primitives, remove remaining trivial normalization subprocesses, and replace the fixed three-times-40ms quiet drain with an adaptive bounded strategy that still consumes pending bytes safely.
   - User story link: preserves a consistent interface and removes avoidable interaction delay after startup work is fixed.
@@ -234,7 +234,7 @@ Make initialization lazy and action-aware, consolidate Flox discovery behind one
   - Validate with: `tests/cli/input-validation.sh`, `tests/cli/menu-navigation.sh`, plus manual gum/Bash cancellation and buffered-input scenarios.
   - Notes: no raw frontend-specific color, spacing, letter, or cancellation semantics outside the declared shell authority.
 
-- [ ] Task 6: Add regression and benchmark coverage
+- [x] Task 6: Add regression and benchmark coverage
   - File: `tests/cli/config-logging-cache.sh`, `tests/cli/menu-navigation.sh`, and a focused script under `tests/cli/` if separation improves determinism
   - Action: Cover scanner pruning/deduplication, lazy startup, atomic registry failure/concurrency, parent-shell cache hits, invalidation, single-scan picker flows, and median performance reporting without adding production-only test hooks.
   - User story link: prevents the multi-second startup floor and cache regression from returning.
@@ -242,7 +242,7 @@ Make initialization lazy and action-aware, consolidate Flox discovery behind one
   - Validate with: all commands in Test Contract and `git diff --check`.
   - Notes: functional tests must use isolated temporary state/project roots and must not overwrite the operator's live registry.
 
-- [ ] Task 7: Align design-system authority, runtime docs, and manual proof
+- [x] Task 7: Align design-system authority, runtime docs, and manual proof
   - File: `shipglowz_data/technical/design-system-authority.md`, `CLAUDE.md`, `shipglowz_data/technical/context.md`, `shipglowz_data/technical/context-function-tree.md`, `shipglowz_data/workflow/test-checklists/devserver-ui-centralization.md`
   - Action: Document the shell UI authority, lazy registry/cache lifecycle, scanner ownership, invalidation rules, and execute the manual checklist.
   - User story link: keeps future changes fast, coherent, and understandable instead of reintroducing parallel hot paths.
@@ -252,17 +252,17 @@ Make initialization lazy and action-aware, consolidate Flox discovery behind one
 
 ## Acceptance Criteria
 
-- [ ] AC01: Given a shortcut that needs no environment state, when `cli/shipglowz.sh x` runs, then library sourcing performs no `registry_sync`, `pm2 jlist`, or Flox `find`, and its five-run median is at most 1.0s on the audited host.
-- [ ] AC02: Given a project containing `.flox` with a large internal tree, when discovery runs, then the project is returned once and no descendant of that `.flox` is traversed.
-- [ ] AC03: Given a valid registry and a failed or concurrent refresh, when a reader opens it, then the reader observes the complete old or complete new snapshot, never an empty/partial file, and the refresh terminates within its bounded lock timeout.
-- [ ] AC04: Given two real PM2/environment/path consumers in one CLI session, when no mutation occurs between them, then instrumentation records at most one PM2 fetch and one Flox discovery; the second consumer reuses the populated snapshot.
-- [ ] AC05: Given a successful start, stop, restart, remove, rename, or direct PM2 mutation, when the next status/list read occurs, then no pre-mutation PM2 or environment/path snapshot is accepted as fresh.
-- [ ] AC06: Given the audited host and equivalent state, when five-run medians are measured, then `s m n` reaches its picker in at most 1.25s and `s m r` in at most 1.50s, with at least a 60% improvement from the recorded 3.62s/6.68s baselines.
-- [ ] AC07: Given gum, fzf, or neither is available, when the operator selects, filters, cancels, or provides an invalid key, then the observable letter order, selected stdout value, cancellation code, and error behavior remain compatible.
-- [ ] AC08: Given an idle TTY, when an interactive widget opens, then pending-input protection adds no fixed 120ms wait; given buffered bytes, the bounded drain prevents those bytes from auto-selecting the next widget.
-- [ ] AC09: Given PM2 is unavailable or discovery fails, when an environment action opens, then the operator receives usable last-known or Flox-derived choices plus a recoverable diagnostic, and no valid registry is truncated.
-- [ ] AC10: Given isolated test roots, when all CLI suites and the manual checklist run, then no test writes the live registry, all required scenarios pass, and no new mandatory dependency is required.
-- [ ] AC11: Given the implementation is complete, when mapped documentation is reviewed, then the shell design-system authority, lazy registry lifecycle, shared discovery owner, cache invalidation rules, and validation commands match the code.
+- [x] AC01: Given a shortcut that needs no environment state, when `cli/shipglowz.sh x` runs, then library sourcing performs no `registry_sync`, `pm2 jlist`, or Flox `find`, and its five-run median is at most 1.0s on the audited host.
+- [x] AC02: Given a project containing `.flox` with a large internal tree, when discovery runs, then the project is returned once and no descendant of that `.flox` is traversed.
+- [x] AC03: Given a valid registry and a failed or concurrent refresh, when a reader opens it, then the reader observes the complete old or complete new snapshot, never an empty/partial file, and the refresh terminates within its bounded lock timeout.
+- [x] AC04: Given two real PM2/environment/path consumers in one CLI session, when no mutation occurs between them, then instrumentation records at most one PM2 fetch and one Flox discovery; the second consumer reuses the populated snapshot.
+- [x] AC05: Given a successful start, stop, restart, remove, rename, or direct PM2 mutation, when the next status/list read occurs, then no pre-mutation PM2 or environment/path snapshot is accepted as fresh.
+- [x] AC06: Given the audited host and equivalent state, when five-run medians are measured, then `s m n` reaches its picker in at most 1.25s and `s m r` in at most 1.50s, with at least a 60% improvement from the recorded 3.62s/6.68s baselines.
+- [x] AC07: Given gum, fzf, or neither is available, when the operator selects, filters, cancels, or provides an invalid key, then the observable letter order, selected stdout value, cancellation code, and error behavior remain compatible.
+- [x] AC08: Given an idle TTY, when an interactive widget opens, then pending-input protection adds no fixed 120ms wait; given buffered bytes, the bounded drain prevents those bytes from auto-selecting the next widget.
+- [x] AC09: Given PM2 is unavailable or discovery fails, when an environment action opens, then the operator receives usable last-known or Flox-derived choices plus a recoverable diagnostic, and no valid registry is truncated.
+- [x] AC10: Given isolated test roots, when all CLI suites and the manual checklist run, then no test writes the live registry, all required scenarios pass, and no new mandatory dependency is required.
+- [x] AC11: Given the implementation is complete, when mapped documentation is reviewed, then the shell design-system authority, lazy registry lifecycle, shared discovery owner, cache invalidation rules, and validation commands match the code.
 
 ## Test Strategy
 
@@ -308,6 +308,10 @@ None. The operator explicitly delegated the implementation quality goal, and loc
 | 2026-07-17 | 403-sg-perf | GPT-5 | cache audit | D: direct PM2/environment hits 7/8ms, but production subshell calls repeat 229-248ms / 2.77-2.82s work; persistent header cache reads in 1ms | /100-sg-spec Optimize DevServer startup, caches, and shell UI |
 | 2026-07-17 | 100-sg-spec | GPT-5 | repair | repaired: root-cause performance, cache, atomicity, shell UI, proof, and documentation contracts made autonomous | /101-sg-ready Optimize DevServer startup, caches, and shell UI |
 | 2026-07-17 | 101-sg-ready | GPT-5 | gate | ready | /102-sg-start Optimize DevServer startup, caches, and shell UI |
+| 2026-07-17 | 102-sg-start | GPT-5 | implemented | lazy startup, pruned Flox scan, atomic registry, parent-shell caches, coherent invalidation, adaptive TTY drain, focused regression suite; automated targets passed | /103-sg-verify Optimize DevServer startup, caches, and shell UI |
+| 2026-07-17 | 103-sg-verify | GPT-5 | verify | passed after correcting stale empty-lock recovery, Bash destination-variable scope collisions, and fallback `x` cancellation; automated, performance, and real-TTY proof passed | /104-sg-end Optimize DevServer startup, caches, and shell UI |
+| 2026-07-17 11:01:29 UTC | 104-sg-end | GPT-5 Codex | close | closed: synced the three canonical task records and changelog framing without claiming git ship status | /005-sg-ship Optimize DevServer startup, caches, and shell UI |
+| 2026-07-17 11:06:32 UTC | 005-sg-ship | GPT-5 Codex | ship | shipped: bounded DevServer performance/cache/UI scope committed and pushed after focused CLI, metadata, and diff checks | none |
 
 ## Current Chantier Flow
 
@@ -315,7 +319,7 @@ None. The operator explicitly delegated the implementation quality goal, and loc
 |-------|--------|
 | 100-sg-spec | done |
 | 101-sg-ready | ready |
-| 102-sg-start | todo |
-| 103-sg-verify | todo |
-| 104-sg-end | todo |
-| 005-sg-ship | todo |
+| 102-sg-start | done |
+| 103-sg-verify | done |
+| 104-sg-end | closed |
+| 005-sg-ship | shipped |

@@ -23,6 +23,7 @@ export SHIPGLOWZ_LOGGING_ENABLED=false
 export SHIPFLOW_LOGGING_ENABLED=false
 export SHIPGLOWZ_REGISTRY_LOCK_ATTEMPTS=2
 export SHIPGLOWZ_REGISTRY_LOCK_INTERVAL=0.01
+export SHIPGLOWZ_REGISTRY_EMPTY_LOCK_GRACE_SECONDS=1
 
 mkdir -p "$SHIPGLOWZ_PROJECTS_DIR/app-one/.flox/deep/internal/.flox" \
     "$SHIPGLOWZ_PROJECTS_DIR/group/app/.flox/cache"
@@ -36,7 +37,7 @@ cat > "$FAKE_BIN/pm2" <<'EOF'
 count=$(cat "$PM2_COUNT_FILE")
 printf '%s\n' "$((count + 1))" > "$PM2_COUNT_FILE"
 if [ "${1:-}" = "jlist" ]; then
-    printf '%s\n' '[]'
+    printf '%s\n' '[{"name":"group_app","pm2_env":{"status":"online","env":{"PORT":"3042"},"pm_cwd":"'"$SHIPGLOWZ_PROJECTS_DIR"'/group/app"}}]'
 fi
 EOF
 chmod +x "$FAKE_BIN/pm2"
@@ -73,6 +74,49 @@ pm2_data_load first_pm2
 pm2_data_load second_pm2
 assert_eq "1" "$(cat "$PM2_COUNT_FILE")" "PM2 snapshot is fetched once"
 assert_eq "$first_pm2" "$second_pm2" "PM2 snapshot values match"
+pm2_status_load group_status "group_app"
+pm2_port_load group_port "group_app"
+pm2_app_data_load group_cwd "group_app" "cwd"
+assert_eq "online" "$group_status" "status destination API"
+assert_eq "3042" "$group_port" "port destination API"
+assert_eq "$SHIPGLOWZ_PROJECTS_DIR/group/app" "$group_cwd" "cwd destination API"
+assert_eq "1" "$(cat "$PM2_COUNT_FILE")" "nested PM2 consumers reuse the parent snapshot"
+
+# Destination-variable APIs must survive Bash dynamic scope when production
+# callers use the same common names as internal fields.
+target=""
+value=""
+_shipglowz_assign target "assigned-target"
+_shipglowz_assign value "assigned-value"
+assert_eq "assigned-target" "$target" "assign helper supports target destination"
+assert_eq "assigned-value" "$value" "assign helper supports value destination"
+
+data=""
+status=""
+port=""
+cwd=""
+routes=""
+pm2_data_load data
+pm2_status_load status "group_app"
+pm2_port_load port "group_app"
+pm2_app_data_load cwd "group_app" "cwd"
+user_caddy_routes_load routes
+assert_eq "$first_pm2" "$data" "data production destination"
+assert_eq "online" "$status" "status production destination"
+assert_eq "3042" "$port" "port production destination"
+assert_eq "$SHIPGLOWZ_PROJECTS_DIR/group/app" "$cwd" "cwd production destination"
+assert_eq "group_app|3042" "$routes" "routes production destination"
+
+assert_eq "$first_pm2" "$(get_pm2_data_cached)" "PM2 data compatibility wrapper"
+assert_eq "online" "$(get_pm2_status group_app)" "PM2 status compatibility wrapper"
+assert_eq "3042" "$(get_port_from_pm2 group_app)" "PM2 port compatibility wrapper"
+assert_eq "$SHIPGLOWZ_PROJECTS_DIR/group/app" "$(get_pm2_app_data group_app cwd)" "PM2 cwd compatibility wrapper"
+assert_eq "group_app|3042" "$(user_caddy_routes_from_pm2)" "Caddy routes compatibility wrapper"
+
+# A known mutation invalidates the session snapshot before the next read.
+invalidate_after_pm2_mutation
+pm2_data_load third_pm2
+assert_eq "2" "$(cat "$PM2_COUNT_FILE")" "PM2 mutation invalidates the snapshot"
 
 # Registry creation is atomic and becomes the shared name/path index.
 registry_sync
@@ -83,6 +127,43 @@ environment_names_load names_two
 assert_eq "$names_one" "$names_two" "environment snapshot is reused"
 resolve_project_path_into resolved "group_app"
 assert_eq "$SHIPGLOWZ_PROJECTS_DIR/group/app" "$resolved" "path lookup uses registry"
+
+index=""
+names=""
+identifiers=""
+path=""
+folders=""
+all_envs=""
+mkdir -p "$HOME/plain-folder"
+environment_index_load index
+environment_names_load names
+environment_identifiers_load identifiers
+resolve_project_path_into path "group_app"
+home_folders_load folders "$HOME"
+stop_targets_load all_envs
+printf '%s\n' "$index" | grep -q '^group_app|online|3042|' || fail "index production destination"
+printf '%s\n' "$names" | grep -qx 'group_app' || fail "names production destination"
+printf '%s\n' "$identifiers" | grep -qx "$SHIPGLOWZ_PROJECTS_DIR/group/app" || fail "identifiers production destination"
+assert_eq "$SHIPGLOWZ_PROJECTS_DIR/group/app" "$path" "path production destination"
+printf '%s\n' "$folders" | grep -qx "$HOME/plain-folder" || fail "folders production destination"
+printf '%s\n' "$all_envs" | grep -qx 'group_app' || fail "all_envs production destination"
+
+assert_eq "$names" "$(list_all_environments)" "environment names compatibility wrapper"
+assert_eq "$identifiers" "$(list_all_environment_identifiers)" "environment identifiers compatibility wrapper"
+assert_eq "$path" "$(resolve_project_path group_app)" "path compatibility wrapper"
+assert_eq "$folders" "$(list_home_folders "$HOME")" "home folders compatibility wrapper"
+assert_eq "$all_envs" "$(list_all_stop_targets)" "stop targets compatibility wrapper"
+
+# An atomic update from another process invalidates the in-memory index through
+# its inode fingerprint even after the short-lived invalidation marker is gone.
+mkdir -p "$SHIPGLOWZ_PROJECTS_DIR/external/.flox"
+external_registry="$SHIPGLOWZ_STATE_DIR/external.reg"
+cp "$SHIPGLOWZ_REGISTRY" "$external_registry"
+printf '%s\n' "external|stopped||$SHIPGLOWZ_PROJECTS_DIR/external" >> "$external_registry"
+chmod 600 "$external_registry"
+mv "$external_registry" "$SHIPGLOWZ_REGISTRY"
+environment_names_load names_after_external_update
+printf '%s\n' "$names_after_external_update" | grep -qx 'external' || fail "external registry replacement refreshes the parent index"
 
 # A failed rebuild preserves the last complete snapshot.
 registry_before="$(cat "$SHIPGLOWZ_REGISTRY")"
@@ -103,13 +184,120 @@ start_ns=$(date +%s%N)
 ensure_registry || fail "valid last-known registry should survive a busy refresh"
 elapsed_ms=$(( ($(date +%s%N) - start_ns) / 1000000 ))
 [ "$elapsed_ms" -lt 500 ] || fail "registry lock wait is bounded (${elapsed_ms}ms)"
+rm -f "${SHIPGLOWZ_REGISTRY}.lock/pid"
 rmdir "${SHIPGLOWZ_REGISTRY}.lock" 2>/dev/null || true
 rm -f "${SHIPGLOWZ_REGISTRY}.invalidated"
+
+# An empty lock is busy during its creation grace window, but a lock left
+# empty by a crashed writer is recovered once that bounded window expires.
+SHIPGLOWZ_REGISTRY_EMPTY_LOCK_GRACE_SECONDS=60
+mkdir -p "${SHIPGLOWZ_REGISTRY}.lock"
+if _registry_acquire_lock; then
+    _registry_release_lock
+    fail "recent empty registry lock must remain busy"
+fi
+[ -d "${SHIPGLOWZ_REGISTRY}.lock" ] || fail "recent empty registry lock is preserved"
+rmdir "${SHIPGLOWZ_REGISTRY}.lock"
+
+SHIPGLOWZ_REGISTRY_EMPTY_LOCK_GRACE_SECONDS=1
+mkdir -p "${SHIPGLOWZ_REGISTRY}.lock"
+touch -d '5 seconds ago' "${SHIPGLOWZ_REGISTRY}.lock"
+_registry_acquire_lock || fail "old empty registry lock should be recovered"
+assert_eq "$BASHPID" "$(cat "${SHIPGLOWZ_REGISTRY}.lock/pid")" "recovered empty lock has current owner"
+_registry_release_lock
+[ ! -d "${SHIPGLOWZ_REGISTRY}.lock" ] || fail "recovered empty registry lock is releasable"
+
+# PID-bearing locks preserve a live owner and recover a dead owner.
+mkdir -p "${SHIPGLOWZ_REGISTRY}.lock"
+printf '%s\n' "$BASHPID" > "${SHIPGLOWZ_REGISTRY}.lock/pid"
+touch -d '5 seconds ago' "${SHIPGLOWZ_REGISTRY}.lock"
+if _registry_acquire_lock; then
+    _registry_release_lock
+    fail "live registry lock owner must never be removed"
+fi
+assert_eq "$BASHPID" "$(cat "${SHIPGLOWZ_REGISTRY}.lock/pid")" "live registry lock owner is preserved"
+rm -f "${SHIPGLOWZ_REGISTRY}.lock/pid"
+rmdir "${SHIPGLOWZ_REGISTRY}.lock"
+
+mkdir -p "${SHIPGLOWZ_REGISTRY}.lock"
+printf '%s\n' '99999999' > "${SHIPGLOWZ_REGISTRY}.lock/pid"
+_registry_acquire_lock || fail "dead registry lock owner should be recovered"
+assert_eq "$BASHPID" "$(cat "${SHIPGLOWZ_REGISTRY}.lock/pid")" "recovered dead lock has current owner"
+_registry_release_lock
+
+# A shortcut harness must replace the terminal action as well as the picker;
+# otherwise m -> r continues into a real restart and its stabilization wait.
+picker_seen=false
+ui_choose() {
+    picker_seen=true
+    printf '%s\n' "🟢 group_app"
+}
+action_restart() {
+    local selected=""
+    selected=$(select_environment "Select environment to restart") || return 1
+    assert_eq "group_app" "$selected" "m r picker selection"
+}
+run_menu_shortcut m r
 
 # Idle pending-input protection must return immediately without a fixed 120ms.
 start_ns=$(date +%s%N)
 ui_flush_pending_input </dev/null
 elapsed_ms=$(( ($(date +%s%N) - start_ns) / 1000000 ))
 [ "$elapsed_ms" -lt 50 ] || fail "idle input flush is adaptive (${elapsed_ms}ms)"
+
+# The pure-Bash filter reserves only a sole x/q (plus Esc/Backspace) for
+# cancellation; x remains searchable as part of a longer query.
+filter_stdout="$TEST_ROOT/filter-stdout"
+filter_stderr="$TEST_ROOT/filter-stderr"
+set +e
+printf 'x\n' | (export HAS_GUM=false PATH=/usr/bin:/bin; ui_filter_choose "Search" "xylophone" "alpha") >"$filter_stdout" 2>"$filter_stderr"
+filter_rc=$?
+set -e
+assert_eq "1" "$filter_rc" "fallback x query cancels"
+[ ! -s "$filter_stdout" ] || fail "fallback x cancellation has no selection output"
+! grep -q 'No match' "$filter_stderr" || fail "fallback x cancellation must not filter first"
+assert_eq "q" "$(_ui_normalize_filter_query ' Q ')" "fallback q query normalization"
+assert_eq "x" "$(_ui_normalize_filter_query $'\e')" "fallback Esc query normalization"
+assert_eq "x" "$(_ui_normalize_filter_query $'\177')" "fallback Backspace query normalization"
+assert_eq "x ray" "$(_ui_normalize_filter_query ' X Ray ')" "filter query keeps text containing x"
+
+set +e
+printf 'xylophone\n' | (export HAS_GUM=false PATH=/usr/bin:/bin; ui_filter_choose "Search" "xylophone" "alpha") >"$filter_stdout" 2>"$filter_stderr"
+filter_rc=$?
+set -e
+assert_eq "0" "$filter_rc" "fallback query containing x remains searchable"
+assert_eq "xylophone" "$(cat "$filter_stdout")" "fallback x-containing query selection"
+
+# gum/fzf own their interactive cancellation. Mocks verify that their real
+# return code is preserved and the displayed help advertises supported keys.
+UI_MOCK_BIN="$TEST_ROOT/ui-mock-bin"
+UI_MOCK_ARGS="$TEST_ROOT/ui-mock-args"
+mkdir -p "$UI_MOCK_BIN"
+cat > "$UI_MOCK_BIN/gum" <<'EOF'
+#!/bin/bash
+printf '%s\n' "$*" > "$UI_MOCK_ARGS"
+exit 130
+EOF
+cat > "$UI_MOCK_BIN/fzf" <<'EOF'
+#!/bin/bash
+printf '%s\n' "$*" > "$UI_MOCK_ARGS"
+exit 130
+EOF
+chmod +x "$UI_MOCK_BIN/gum" "$UI_MOCK_BIN/fzf"
+
+set +e
+(export HAS_GUM=true UI_MOCK_ARGS PATH="$UI_MOCK_BIN:/usr/bin:/bin"; ui_filter_choose "Search" "alpha" "beta") >"$filter_stdout" 2>"$filter_stderr"
+filter_rc=$?
+set -e
+assert_eq "130" "$filter_rc" "gum cancellation return code"
+grep -Eq 'Esc|Ctrl-C' "$UI_MOCK_ARGS" || fail "gum filter exposes honest cancellation help"
+
+rm -f "$UI_MOCK_BIN/gum"
+set +e
+(export HAS_GUM=false UI_MOCK_ARGS PATH="$UI_MOCK_BIN:/usr/bin:/bin"; ui_filter_choose "Search" "alpha" "beta") >"$filter_stdout" 2>"$filter_stderr"
+filter_rc=$?
+set -e
+assert_eq "130" "$filter_rc" "fzf cancellation return code"
+grep -Eq 'Esc|Ctrl-C' "$UI_MOCK_ARGS" || fail "fzf exposes honest cancellation help"
 
 echo "DevServer startup/cache regressions passed"

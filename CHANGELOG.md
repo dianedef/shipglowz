@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.7.0"
+artifact_version: "0.7.1"
 project: "shipflow"
 created: "2026-04-25"
-updated: "2026-07-15"
+updated: "2026-07-17"
 status: draft
 source_skill: 300-sg-docs
 scope: documentation
@@ -30,6 +30,9 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 
 ### Changed
 - Consolidated the public repurposing-skill surface into the `repurpose` mode of `007-sg-content`; migrated active routing, runtime, catalog, documentation, and public discovery guidance while retiring the standalone predecessor entrypoint. The skill/runtime/public-documentation migration was verified; this does not claim a production content outcome.
+
+### Fixed
+- Reduced DevServer shell startup and environment-picker latency with lazy atomic registry refresh, pruned Flox discovery, parent-shell caches, coherent invalidation, and adaptive pending-input draining; verified medians are `0.13s` for library sourcing, `0.19s` for `s x`, `0.31s` for `s m n`, and `0.58s` for `s m r`, with gum and Bash fallback selection/cancellation proof.
 
 ## [2026-07-16]
 

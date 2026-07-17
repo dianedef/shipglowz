@@ -1,12 +1,12 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.1.14"
+artifact_version: "0.1.15"
 project: "shipflow"
 created: "2026-04-25"
-updated: "2026-07-13"
+updated: "2026-07-17"
 status: draft
-source_skill: manual
+source_skill: 102-sg-start
 scope: "context"
 owner: "unknown"
 confidence: "medium"
@@ -16,7 +16,7 @@ docs_impact: "yes"
 linked_systems: ["shipglowz.sh", "lib.sh", "cli/shipglowz_devserver_gum.sh", "cli/shipglowz_devserver_bash.sh", "config.sh", "install.sh", "local/local.sh", "local/dev-tunnel.sh"]
 depends_on: []
 supersedes: []
-evidence: ["Function extraction from shipglowz.sh, lib.sh, config.sh, install.sh, local/local.sh, local/dev-tunnel.sh", "Blacksmith setup menu helpers added to lib.sh", "Blacksmith OAuth callback tunnel added to local tooling", "Blacksmith SSH Access guide added to the setup menu", "Codex MCP on-demand launcher added to lib.sh", "Grouped root menu and submenu wrappers added to menu frontends", "Root menu shortcuts aligned with visible menu labels", "Disk overview helpers added to the Health Check monitor", "Agent history and cache cleanup helpers added", "PM2 log cleanup/rotation and disk usage detail helpers added", "Turso setup menu helpers added to lib.sh", "Clerk CLI OAuth callback tunnel added to local tooling", "Local tunnel auth flows grouped under one authentication submenu", "Password-to-key promotion helpers and local menu flow added with independent key-only verification"]
+evidence: ["Function extraction from shipglowz.sh, lib.sh, config.sh, install.sh, local/local.sh, local/dev-tunnel.sh", "Blacksmith setup menu helpers added to lib.sh", "Blacksmith OAuth callback tunnel added to local tooling", "Blacksmith SSH Access guide added to the setup menu", "Codex MCP on-demand launcher added to lib.sh", "Grouped root menu and submenu wrappers added to menu frontends", "Root menu shortcuts aligned with visible menu labels", "Disk overview helpers added to the Health Check monitor", "Agent history and cache cleanup helpers added", "PM2 log cleanup/rotation and disk usage detail helpers added", "Turso setup menu helpers added to lib.sh", "Clerk CLI OAuth callback tunnel added to local tooling", "Local tunnel auth flows grouped under one authentication submenu", "Password-to-key promotion helpers and local menu flow added with independent key-only verification", "Lazy atomic environment registry and parent-shell cache APIs added on 2026-07-17"]
 next_step: "/sg-docs update CONTEXT-FUNCTION-TREE.md"
 ---
 
@@ -191,6 +191,8 @@ UI helpers
   -> ui_return_to_main_menu
   -> ui_should_return_to_main_menu
   -> ui_should_skip_next_pause
+  -> ui_flush_pending_input
+     -> _ui_drain_tty_until_quiet (idle-fast, bounded when bytes are pending)
   -> ui_is_back_choice
   -> ui_is_back_selection
 
@@ -323,9 +325,14 @@ status messaging
   -> warning
 
 PM2 / ports
-  -> get_pm2_data_cached
+  -> pm2_data_load (parent-shell snapshot owner)
+  -> get_pm2_data_cached (compatibility stdout wrapper)
   -> invalidate_pm2_cache
-  -> get_pm2_app_data
+  -> invalidate_after_pm2_mutation
+  -> pm2_app_data_load
+  -> pm2_status_load
+  -> pm2_port_load
+  -> get_pm2_app_data (compatibility stdout wrapper)
   -> list_pm2_app_names
   -> pm2_app_exists_by_name
   -> get_pm2_status_by_name
@@ -354,9 +361,17 @@ Flutter Web interactive dev
   -> action_flutter_web
 
 environment discovery
-  -> resolve_project_path
-  -> list_all_environments
-  -> list_all_environment_identifiers
+  -> scan_flox_projects
+  -> ensure_registry
+     -> registry_sync (bounded lock, validated temporary file, atomic replace)
+  -> registry_update
+  -> environment_index_load
+  -> environment_names_load
+  -> environment_identifiers_load
+  -> resolve_project_path_into
+  -> resolve_project_path (compatibility stdout wrapper)
+  -> list_all_environments (compatibility stdout wrapper)
+  -> list_all_environment_identifiers (compatibility stdout wrapper)
   -> select_environment
   -> select_stop_target
 
@@ -482,6 +497,7 @@ Si tu dois modifier l'installation :
 ## Hotspots
 
 - `env_start`: plus gros noeud fonctionnel pour lancement, detection, port, PM2, Flox et refresh Caddy utilisateur.
+- `scan_flox_projects` / `ensure_registry` / `environment_index_load`: chemin critique des listes d'environnement; il doit rester lazy, atomique et sans descente sous `.flox`.
 - `show_dashboard`: vue centrale d'etat et aggregation PM2.
 - `deploy_github_project`: flux de deploy distant depuis GitHub.
 - `action_publish`: publication Caddy + DuckDNS.

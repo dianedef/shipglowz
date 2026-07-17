@@ -243,6 +243,25 @@ _ui_normalize_choice() {
     printf '%s' "$choice"
 }
 
+# Filter queries keep their full text: unlike menu choices, whitespace does
+# not reduce them to the first token. Only a sole cancel token is reserved.
+_ui_normalize_filter_query() {
+    local query="${1:-}"
+
+    query="${query//$'\r'/}"
+    case "$query" in
+        $'\e'|$'\177'|$'\b') printf 'x'; return 0 ;;
+    esac
+
+    query="${query#"${query%%[![:space:]]*}"}"
+    query="${query%"${query##*[![:space:]]}"}"
+    query="${query,,}"
+    case "$query" in
+        esc|escape|backspace) query="x" ;;
+    esac
+    printf '%s' "$query"
+}
+
 SHIPGLOWZ_SKIP_NEXT_PAUSE=false
 SHIPGLOWZ_RETURN_TO_MAIN_MENU=false
 if [ -z "${SHIPGLOWZ_SKIP_NEXT_PAUSE_FILE:-${SHIPFLOW_SKIP_NEXT_PAUSE_FILE:-}}" ]; then
@@ -518,7 +537,7 @@ ui_filter_choose() {
     if [ "$HAS_GUM" = true ] && command -v gum >/dev/null 2>&1; then
         ui_flush_pending_input
         local selected
-        selected=$(printf '%s\n' "${items[@]}" | gum filter --header "ShipGlowz DevServer · $prompt" --placeholder "Type to search...")
+        selected=$(printf '%s\n' "${items[@]}" | gum filter --header "ShipGlowz DevServer · $prompt" --placeholder "Type to search · Esc/Ctrl-C to cancel")
         local rc=$?
         if [ $rc -ne 0 ]; then
             ui_skip_next_pause
@@ -537,6 +556,7 @@ ui_filter_choose() {
             --layout reverse \
             --border \
             --cycle \
+            --header "Type to search · Esc/Ctrl-C to cancel" \
             --bind "enter:accept")
         local rc=$?
         if [ $rc -ne 0 ]; then
@@ -554,6 +574,14 @@ ui_filter_choose() {
         echo -e "${YELLOW}Search:${NC} \c" >&2
         ui_flush_pending_input
         ui_read_line query
+        query=$(_ui_normalize_filter_query "$query")
+
+        case "$query" in
+            x|q)
+                ui_skip_next_pause
+                return 1
+                ;;
+        esac
 
         matches=()
         local item
@@ -2294,14 +2322,24 @@ stop_user_caddy() {
     echo -e "${GREEN}Stopped user Caddy.${NC}"
 }
 
-user_caddy_routes_from_pm2() {
-    local data="" name status port cwd
-    pm2_data_load data 2>/dev/null || return 1
-    while IFS='|' read -r name status port cwd; do
-        if [[ "$status" =~ ^(online|launching)$ ]] && [[ "$port" =~ ^[0-9]+$ ]] && [[ "$name" =~ ^[A-Za-z0-9._-]+$ ]]; then
-            printf '%s|%s\n' "$name" "$port"
+user_caddy_routes_load() {
+    local __sgdv_caddy_target="$1" __sgdv_caddy_data="" __sgdv_caddy_routes=""
+    local __sgdv_caddy_name __sgdv_caddy_status __sgdv_caddy_port __sgdv_caddy_cwd
+    pm2_data_load __sgdv_caddy_data 2>/dev/null || return 1
+    while IFS='|' read -r __sgdv_caddy_name __sgdv_caddy_status __sgdv_caddy_port __sgdv_caddy_cwd; do
+        if [[ "$__sgdv_caddy_status" =~ ^(online|launching)$ ]] && [[ "$__sgdv_caddy_port" =~ ^[0-9]+$ ]] && [[ "$__sgdv_caddy_name" =~ ^[A-Za-z0-9._-]+$ ]]; then
+            [ -n "$__sgdv_caddy_routes" ] && __sgdv_caddy_routes+=$'\n'
+            __sgdv_caddy_routes+="$__sgdv_caddy_name|$__sgdv_caddy_port"
         fi
-    done <<< "$data"
+    done <<< "$__sgdv_caddy_data"
+    _shipglowz_assign "$__sgdv_caddy_target" "$__sgdv_caddy_routes"
+}
+
+user_caddy_routes_from_pm2() {
+    local routes=""
+    user_caddy_routes_load routes || return 1
+    [ -n "$routes" ] && printf '%s\n' "$routes"
+    return 0
 }
 
 write_user_caddyfile() {
@@ -2389,8 +2427,8 @@ refresh_user_caddy_from_pm2() {
         return 0
     fi
 
-    local routes
-    routes=$(user_caddy_routes_from_pm2)
+    local routes=""
+    user_caddy_routes_load routes || routes=""
     if [ -z "$routes" ]; then
         stop_user_caddy
         return 0
@@ -3993,18 +4031,25 @@ SHIPGLOWZ_REGISTRY="${SHIPGLOWZ_REGISTRY:-${SHIPFLOW_REGISTRY:-$SHIPGLOWZ_STATE_
 SHIPFLOW_REGISTRY="$SHIPGLOWZ_REGISTRY"
 SHIPGLOWZ_REGISTRY_SYNCED=false
 SHIPFLOW_REGISTRY_SYNCED=false
+SHIPGLOWZ_REGISTRY_CHECKED_AT=0
 : "${SHIPGLOWZ_REGISTRY_CACHE_TTL:=300}"
 : "${SHIPGLOWZ_REGISTRY_LOCK_ATTEMPTS:=20}"
 : "${SHIPGLOWZ_REGISTRY_LOCK_INTERVAL:=0.05}"
+# Longer than the default 1s acquisition budget, so a writer observed between
+# mkdir and its pid write cannot be reclaimed by the same contending call.
+: "${SHIPGLOWZ_REGISTRY_EMPTY_LOCK_GRACE_SECONDS:=2}"
 
 SHIPGLOWZ_REGISTRY_INVALIDATED_FILE="${SHIPGLOWZ_REGISTRY_INVALIDATED_FILE:-${SHIPGLOWZ_REGISTRY}.invalidated}"
 SHIPGLOWZ_REGISTRY_LOCK_DIR="${SHIPGLOWZ_REGISTRY_LOCK_DIR:-${SHIPGLOWZ_REGISTRY}.lock}"
 
+# Bash 4 printf -v follows dynamic scope. Destination-variable APIs therefore
+# reserve __sgdv_* for function-specific internal locals; public callers must
+# use ordinary names. Distinct per-function suffixes keep nested APIs safe.
 _shipglowz_assign() {
-    local target="$1"
-    local value="${2:-}"
-    [[ "$target" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]] || return 1
-    printf -v "$target" '%s' "$value"
+    local __sgdv_assign_target="${1:-}"
+    local __sgdv_assign_value="${2-}"
+    [[ "$__sgdv_assign_target" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$ ]] || return 1
+    printf -v "$__sgdv_assign_target" '%s' "$__sgdv_assign_value"
 }
 
 # Emit one canonical name|path pair for every Flox project. The matched .flox
@@ -4066,6 +4111,19 @@ registry_is_valid() {
     return 0
 }
 
+_registry_empty_lock_is_stale() {
+    local grace="$SHIPGLOWZ_REGISTRY_EMPTY_LOCK_GRACE_SECONDS" mtime="" now=""
+    if ! [[ "$grace" =~ ^[0-9]+$ ]] || [ "$grace" -lt 1 ]; then
+        grace=2
+    fi
+
+    mtime=$(stat -c '%Y' "$SHIPGLOWZ_REGISTRY_LOCK_DIR" 2>/dev/null) || return 1
+    now=$(date +%s 2>/dev/null) || return 1
+    [[ "$mtime" =~ ^[0-9]+$ && "$now" =~ ^[0-9]+$ ]] || return 1
+    [ "$now" -ge "$mtime" ] || return 1
+    [ $((now - mtime)) -ge "$grace" ]
+}
+
 _registry_acquire_lock() {
     local attempt=0 pid=""
     while [ "$attempt" -lt "$SHIPGLOWZ_REGISTRY_LOCK_ATTEMPTS" ]; do
@@ -4074,13 +4132,24 @@ _registry_acquire_lock() {
             return 0
         fi
 
+        pid=""
         if [ -r "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" ]; then
             IFS= read -r pid < "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" || pid=""
         fi
-        if [ -z "$pid" ] || ! kill -0 "$pid" 2>/dev/null; then
-            rm -f "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" 2>/dev/null || true
-            rmdir "$SHIPGLOWZ_REGISTRY_LOCK_DIR" 2>/dev/null || true
-            continue
+        if [ -n "$pid" ]; then
+            # A live owner always wins, regardless of lock age. Only an
+            # explicit dead PID is safe to reclaim.
+            if ! kill -0 "$pid" 2>/dev/null; then
+                rm -f "$SHIPGLOWZ_REGISTRY_LOCK_DIR/pid" 2>/dev/null || true
+                rmdir "$SHIPGLOWZ_REGISTRY_LOCK_DIR" 2>/dev/null || true
+                continue
+            fi
+        elif _registry_empty_lock_is_stale; then
+            # Remove only an empty directory. If its owner writes pid between
+            # the age check and rmdir, rmdir fails and the live lock survives.
+            if rmdir "$SHIPGLOWZ_REGISTRY_LOCK_DIR" 2>/dev/null; then
+                continue
+            fi
         fi
 
         sleep "$SHIPGLOWZ_REGISTRY_LOCK_INTERVAL"
@@ -4102,6 +4171,8 @@ _registry_release_lock() {
 invalidate_environment_index_cache() {
     ENV_INDEX_CACHE=""
     ENV_INDEX_CACHE_LOADED=false
+    ENV_INDEX_CACHE_FINGERPRINT=""
+    ENV_INDEX_CACHE_CHECKED_SECONDS=0
     ENV_LIST_CACHE=""
     ENV_LIST_CACHE_TIME=0
     RESOLVE_PATH_CACHE=""
@@ -4114,20 +4185,20 @@ invalidate_registry_cache() {
     : > "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" 2>/dev/null || return 1
     SHIPGLOWZ_REGISTRY_SYNCED=false
     SHIPFLOW_REGISTRY_SYNCED=false
+    SHIPGLOWZ_REGISTRY_CHECKED_AT=0
 }
 
 ensure_registry() {
     local registry_valid=false
     registry_is_valid "$SHIPGLOWZ_REGISTRY" && registry_valid=true
 
-    if [ "$SHIPGLOWZ_REGISTRY_SYNCED" = "true" ] && [ "$registry_valid" = "true" ] && [ ! -e "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" ]; then
-        return 0
-    fi
-
     local stale=true now mtime=0 ttl="$SHIPGLOWZ_REGISTRY_CACHE_TTL"
     [[ "$ttl" =~ ^[0-9]+$ ]] || ttl=300
+    now=$(date +%s)
+    if [ "$SHIPGLOWZ_REGISTRY_SYNCED" = "true" ] && [ "$registry_valid" = "true" ] && [ ! -e "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" ] && [ $((now - SHIPGLOWZ_REGISTRY_CHECKED_AT)) -lt "$ttl" ]; then
+        return 0
+    fi
     if [ "$registry_valid" = "true" ] && [ ! -e "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" ]; then
-        now=$(date +%s)
         mtime=$(stat -c %Y "$SHIPGLOWZ_REGISTRY" 2>/dev/null || printf '0')
         if [ $((now - mtime)) -lt "$ttl" ]; then
             stale=false
@@ -4137,6 +4208,7 @@ ensure_registry() {
     if [ "$stale" = "false" ]; then
         SHIPGLOWZ_REGISTRY_SYNCED=true
         SHIPFLOW_REGISTRY_SYNCED=true
+        SHIPGLOWZ_REGISTRY_CHECKED_AT=$now
         return 0
     fi
 
@@ -4242,6 +4314,7 @@ registry_sync() {
     invalidate_environment_index_cache
     SHIPGLOWZ_REGISTRY_SYNCED=true
     SHIPFLOW_REGISTRY_SYNCED=true
+    SHIPGLOWZ_REGISTRY_CHECKED_AT=$(date +%s)
     return 0
 }
 
@@ -4293,6 +4366,7 @@ registry_update() {
     invalidate_environment_index_cache
     SHIPGLOWZ_REGISTRY_SYNCED=true
     SHIPFLOW_REGISTRY_SYNCED=true
+    SHIPGLOWZ_REGISTRY_CHECKED_AT=$(date +%s)
     return 0
 }
 
@@ -4332,15 +4406,15 @@ PM2_DATA_CACHE_VALID=false
 #   get_pm2_data_cached
 # -----------------------------------------------------------------------------
 pm2_data_load() {
-    local target="$1"
-    local current_time cache_age ttl="${SHIPGLOWZ_PM2_CACHE_TTL:-5}"
-    current_time=$(date +%s)
-    cache_age=$((current_time - PM2_DATA_CACHE_TIME))
-    [[ "$ttl" =~ ^[0-9]+$ ]] || ttl=5
+    local __sgdv_pm2_data_target="$1"
+    local __sgdv_pm2_data_now __sgdv_pm2_data_age __sgdv_pm2_data_ttl="${SHIPGLOWZ_PM2_CACHE_TTL:-5}"
+    __sgdv_pm2_data_now=$(date +%s)
+    __sgdv_pm2_data_age=$((__sgdv_pm2_data_now - PM2_DATA_CACHE_TIME))
+    [[ "$__sgdv_pm2_data_ttl" =~ ^[0-9]+$ ]] || __sgdv_pm2_data_ttl=5
 
-    if [ "${SHIPGLOWZ_PM2_CACHE_ENABLED:-true}" = "true" ] && [ "$PM2_DATA_CACHE_VALID" = "true" ] && [ "$cache_age" -lt "$ttl" ]; then
-        log DEBUG "Using cached PM2 data (age: ${cache_age}s)"
-        _shipglowz_assign "$target" "$PM2_DATA_CACHE"
+    if [ "${SHIPGLOWZ_PM2_CACHE_ENABLED:-true}" = "true" ] && [ "$PM2_DATA_CACHE_VALID" = "true" ] && [ "$__sgdv_pm2_data_age" -lt "$__sgdv_pm2_data_ttl" ]; then
+        log DEBUG "Using cached PM2 data (age: ${__sgdv_pm2_data_age}s)"
+        _shipglowz_assign "$__sgdv_pm2_data_target" "$PM2_DATA_CACHE"
         return $?
     fi
 
@@ -4350,19 +4424,19 @@ pm2_data_load() {
         return 1
     fi
 
-    local pm2_json parsed=""
-    if ! pm2_json=$(pm2 jlist 2>/dev/null); then
+    local __sgdv_pm2_data_json __sgdv_pm2_data_parsed=""
+    if ! __sgdv_pm2_data_json=$(pm2 jlist 2>/dev/null); then
         log WARNING "PM2 application snapshot unavailable"
         return 1
     fi
 
     if [ "${SHIPGLOWZ_PREFER_JQ:-true}" = "true" ] && command -v jq >/dev/null 2>&1; then
-        if ! parsed=$(printf '%s' "$pm2_json" | jq -r '.[] | "\(.name)|\(.pm2_env.status // "unknown")|\(.pm2_env.env.PORT // "")|\(.pm2_env.pm_cwd // "")"' 2>/dev/null); then
+        if ! __sgdv_pm2_data_parsed=$(printf '%s' "$__sgdv_pm2_data_json" | jq -r '.[] | "\(.name)|\(.pm2_env.status // "unknown")|\(.pm2_env.env.PORT // "")|\(.pm2_env.pm_cwd // "")"' 2>/dev/null); then
             log WARNING "PM2 returned invalid JSON"
             return 1
         fi
     elif command -v python3 >/dev/null 2>&1; then
-        if ! parsed=$(printf '%s' "$pm2_json" | python3 -c "
+        if ! __sgdv_pm2_data_parsed=$(printf '%s' "$__sgdv_pm2_data_json" | python3 -c "
 import sys, json
 try:
     apps = json.load(sys.stdin)
@@ -4385,10 +4459,10 @@ except Exception as e:
         return 1
     fi
 
-    PM2_DATA_CACHE="$parsed"
-    PM2_DATA_CACHE_TIME=$current_time
+    PM2_DATA_CACHE="$__sgdv_pm2_data_parsed"
+    PM2_DATA_CACHE_TIME=$__sgdv_pm2_data_now
     PM2_DATA_CACHE_VALID=true
-    _shipglowz_assign "$target" "$PM2_DATA_CACHE"
+    _shipglowz_assign "$__sgdv_pm2_data_target" "$PM2_DATA_CACHE"
 }
 
 # Description:
@@ -4472,26 +4546,34 @@ invalidate_home_folders_cache() {
 #   port=$(get_pm2_app_data "myapp" "port")
 # -----------------------------------------------------------------------------
 get_pm2_app_data() {
-    local app_name=$1
-    local field=$2  # status, port, or cwd
+    local result=""
+    pm2_app_data_load result "$1" "$2" || return 1
+    printf '%s\n' "$result"
+}
 
-    local data=""
-    pm2_data_load data || return 1
-    if [ -z "$data" ]; then
+pm2_app_data_load() {
+    local __sgdv_pm2_app_target="$1"
+    local __sgdv_pm2_app_name="$2"
+    local __sgdv_pm2_app_field="$3"  # status, port, or cwd
+
+    local __sgdv_pm2_app_data=""
+    pm2_data_load __sgdv_pm2_app_data || return 1
+    if [ -z "$__sgdv_pm2_app_data" ]; then
         return 1
     fi
 
-    while IFS='|' read -r name status port cwd; do
-        if [ "$name" = "$app_name" ]; then
-            case "$field" in
-                status) echo "$status" ;;
-                port) echo "$port" ;;
-                cwd) echo "$cwd" ;;
-                *) echo "$status|$port|$cwd" ;;
+    local __sgdv_pm2_app_row_name __sgdv_pm2_app_status __sgdv_pm2_app_port __sgdv_pm2_app_cwd
+    while IFS='|' read -r __sgdv_pm2_app_row_name __sgdv_pm2_app_status __sgdv_pm2_app_port __sgdv_pm2_app_cwd; do
+        if [ "$__sgdv_pm2_app_row_name" = "$__sgdv_pm2_app_name" ]; then
+            case "$__sgdv_pm2_app_field" in
+                status) _shipglowz_assign "$__sgdv_pm2_app_target" "$__sgdv_pm2_app_status" ;;
+                port) _shipglowz_assign "$__sgdv_pm2_app_target" "$__sgdv_pm2_app_port" ;;
+                cwd) _shipglowz_assign "$__sgdv_pm2_app_target" "$__sgdv_pm2_app_cwd" ;;
+                *) _shipglowz_assign "$__sgdv_pm2_app_target" "$__sgdv_pm2_app_status|$__sgdv_pm2_app_port|$__sgdv_pm2_app_cwd" ;;
             esac
-            return 0
+            return $?
         fi
-    done <<< "$data"
+    done <<< "$__sgdv_pm2_app_data"
     return 1
 }
 
@@ -4567,7 +4649,7 @@ get_pm2_status_by_name() {
         return 1
     fi
 
-    status=$(get_pm2_app_data "$app_name" "status")
+    pm2_app_data_load status "$app_name" "status" || status=""
     if [ -n "$status" ]; then
         echo "$status"
         return 0
@@ -4578,27 +4660,28 @@ get_pm2_status_by_name() {
 }
 
 stop_targets_load() {
-    local target="$1" envs="" pm2_data="" output="" item status port cwd
-    environment_names_load envs 2>/dev/null || envs=""
-    pm2_data_load pm2_data 2>/dev/null || pm2_data=""
-    declare -A seen=()
-    while IFS= read -r item; do
-        [ -n "$item" ] || continue
-        if [ -z "${seen[$item]+x}" ]; then
-            [ -n "$output" ] && output+=$'\n'
-            output+="$item"
-            seen[$item]=1
+    local __sgdv_stop_target="$1" __sgdv_stop_envs="" __sgdv_stop_pm2="" __sgdv_stop_output=""
+    local __sgdv_stop_item __sgdv_stop_status __sgdv_stop_port __sgdv_stop_cwd
+    environment_names_load __sgdv_stop_envs 2>/dev/null || __sgdv_stop_envs=""
+    pm2_data_load __sgdv_stop_pm2 2>/dev/null || __sgdv_stop_pm2=""
+    declare -A __sgdv_stop_seen=()
+    while IFS= read -r __sgdv_stop_item; do
+        [ -n "$__sgdv_stop_item" ] || continue
+        if [ -z "${__sgdv_stop_seen[$__sgdv_stop_item]+x}" ]; then
+            [ -n "$__sgdv_stop_output" ] && __sgdv_stop_output+=$'\n'
+            __sgdv_stop_output+="$__sgdv_stop_item"
+            __sgdv_stop_seen[$__sgdv_stop_item]=1
         fi
-    done <<< "$envs"
-    while IFS='|' read -r item status port cwd; do
-        [ -n "$item" ] || continue
-        if [ -z "${seen[$item]+x}" ]; then
-            [ -n "$output" ] && output+=$'\n'
-            output+="$item"
-            seen[$item]=1
+    done <<< "$__sgdv_stop_envs"
+    while IFS='|' read -r __sgdv_stop_item __sgdv_stop_status __sgdv_stop_port __sgdv_stop_cwd; do
+        [ -n "$__sgdv_stop_item" ] || continue
+        if [ -z "${__sgdv_stop_seen[$__sgdv_stop_item]+x}" ]; then
+            [ -n "$__sgdv_stop_output" ] && __sgdv_stop_output+=$'\n'
+            __sgdv_stop_output+="$__sgdv_stop_item"
+            __sgdv_stop_seen[$__sgdv_stop_item]=1
         fi
-    done <<< "$pm2_data"
-    _shipglowz_assign "$target" "$output"
+    done <<< "$__sgdv_stop_pm2"
+    _shipglowz_assign "$__sgdv_stop_target" "$__sgdv_stop_output"
 }
 
 list_all_stop_targets() {
@@ -4687,20 +4770,38 @@ is_port_in_use() {
 
 # Get all ports used by PM2 apps (even stopped ones) - OPTIMIZED
 get_all_pm2_ports() {
+    local ports=""
+    pm2_ports_load ports || return 0
+    [ -n "$ports" ] && printf '%s ' "$ports"
+    return 0
+}
+
+pm2_ports_load() {
+    local __sgdv_pm2_ports_target="$1"
     if ! command -v pm2 >/dev/null 2>&1; then
+        _shipglowz_assign "$__sgdv_pm2_ports_target" ""
         return 0
     fi
 
-    local data=""
-    pm2_data_load data || return 0
-    if [ -z "$data" ]; then
+    local __sgdv_pm2_ports_data=""
+    pm2_data_load __sgdv_pm2_ports_data || {
+        _shipglowz_assign "$__sgdv_pm2_ports_target" ""
+        return 0
+    }
+    if [ -z "$__sgdv_pm2_ports_data" ]; then
+        _shipglowz_assign "$__sgdv_pm2_ports_target" ""
         return 0
     fi
 
-    local name status port cwd
-    while IFS='|' read -r name status port cwd; do
-        [ -n "$port" ] && printf '%s ' "$port"
-    done <<< "$data"
+    local __sgdv_pm2_ports_name __sgdv_pm2_ports_status __sgdv_pm2_ports_port __sgdv_pm2_ports_cwd
+    local __sgdv_pm2_ports_output=""
+    while IFS='|' read -r __sgdv_pm2_ports_name __sgdv_pm2_ports_status __sgdv_pm2_ports_port __sgdv_pm2_ports_cwd; do
+        if [ -n "$__sgdv_pm2_ports_port" ]; then
+            [ -n "$__sgdv_pm2_ports_output" ] && __sgdv_pm2_ports_output+=" "
+            __sgdv_pm2_ports_output+="$__sgdv_pm2_ports_port"
+        fi
+    done <<< "$__sgdv_pm2_ports_data"
+    _shipglowz_assign "$__sgdv_pm2_ports_target" "$__sgdv_pm2_ports_output"
 }
 
 # -----------------------------------------------------------------------------
@@ -4733,7 +4834,8 @@ find_available_port() {
     local port=$base_port
 
     # Get all ports already assigned in PM2 (atomic read)
-    local pm2_ports=$(get_all_pm2_ports)
+    local pm2_ports=""
+    pm2_ports_load pm2_ports
 
     # Search for available port
     while [ $((port - base_port)) -lt $max_range ]; do
@@ -4757,29 +4859,38 @@ find_available_port() {
 
 # Get project status from PM2 - OPTIMIZED
 get_pm2_status() {
-    local identifier=$1
-    local project_dir="" env_name=""
-    if [[ "$identifier" == /* ]]; then
-        resolve_project_path_into project_dir "$identifier" || project_dir=""
-        [ -n "$project_dir" ] || { echo "not-found"; return 1; }
-        env_name=$(derive_pm2_app_name "$project_dir")
+    local status="" rc=0
+    pm2_status_load status "$1" || rc=$?
+    [ -n "$status" ] && printf '%s\n' "$status"
+    return "$rc"
+}
+
+pm2_status_load() {
+    local __sgdv_pm2_status_target="$1"
+    local __sgdv_pm2_status_identifier="$2"
+    local __sgdv_pm2_status_project_dir="" __sgdv_pm2_status_env_name=""
+    if [[ "$__sgdv_pm2_status_identifier" == /* ]]; then
+        resolve_project_path_into __sgdv_pm2_status_project_dir "$__sgdv_pm2_status_identifier" || __sgdv_pm2_status_project_dir=""
+        [ -n "$__sgdv_pm2_status_project_dir" ] || { _shipglowz_assign "$__sgdv_pm2_status_target" "not-found"; return 1; }
+        __sgdv_pm2_status_env_name=$(derive_pm2_app_name "$__sgdv_pm2_status_project_dir")
     else
-        env_name="$identifier"
+        __sgdv_pm2_status_env_name="$__sgdv_pm2_status_identifier"
     fi
 
     if ! command -v pm2 >/dev/null 2>&1; then
-        echo "pm2-not-installed"
+        _shipglowz_assign "$__sgdv_pm2_status_target" "pm2-not-installed"
         return 1
     fi
 
     # Use cached data
-    local status=$(get_pm2_app_data "$env_name" "status")
+    local __sgdv_pm2_status_value=""
+    pm2_app_data_load __sgdv_pm2_status_value "$__sgdv_pm2_status_env_name" "status" || __sgdv_pm2_status_value=""
 
-    if [ -n "$status" ]; then
-        echo "$status"
+    if [ -n "$__sgdv_pm2_status_value" ]; then
+        _shipglowz_assign "$__sgdv_pm2_status_target" "$__sgdv_pm2_status_value"
         return 0
     else
-        echo "not_found"
+        _shipglowz_assign "$__sgdv_pm2_status_target" "not_found"
         return 0
     fi
 }
@@ -4789,14 +4900,21 @@ get_pm2_status() {
 
 # Get port from PM2 env vars for a project - OPTIMIZED
 get_port_from_pm2() {
-    local identifier=$1
-    local project_dir="" env_name=""
-    if [[ "$identifier" == /* ]]; then
-        resolve_project_path_into project_dir "$identifier" || project_dir=""
-        [ -n "$project_dir" ] || return 1
-        env_name=$(derive_pm2_app_name "$project_dir")
+    local port=""
+    pm2_port_load port "$1" || return 1
+    printf '%s\n' "$port"
+}
+
+pm2_port_load() {
+    local __sgdv_pm2_port_target="$1"
+    local __sgdv_pm2_port_identifier="$2"
+    local __sgdv_pm2_port_project_dir="" __sgdv_pm2_port_env_name=""
+    if [[ "$__sgdv_pm2_port_identifier" == /* ]]; then
+        resolve_project_path_into __sgdv_pm2_port_project_dir "$__sgdv_pm2_port_identifier" || __sgdv_pm2_port_project_dir=""
+        [ -n "$__sgdv_pm2_port_project_dir" ] || return 1
+        __sgdv_pm2_port_env_name=$(derive_pm2_app_name "$__sgdv_pm2_port_project_dir")
     else
-        env_name="$identifier"
+        __sgdv_pm2_port_env_name="$__sgdv_pm2_port_identifier"
     fi
 
     if ! command -v pm2 >/dev/null 2>&1; then
@@ -4804,10 +4922,11 @@ get_port_from_pm2() {
     fi
 
     # Use cached data
-    local port=$(get_pm2_app_data "$env_name" "port")
+    local __sgdv_pm2_port_value=""
+    pm2_app_data_load __sgdv_pm2_port_value "$__sgdv_pm2_port_env_name" "port" || __sgdv_pm2_port_value=""
 
-    if [ -n "$port" ]; then
-        echo "$port"
+    if [ -n "$__sgdv_pm2_port_value" ]; then
+        _shipglowz_assign "$__sgdv_pm2_port_target" "$__sgdv_pm2_port_value"
         return 0
     fi
 
@@ -4845,6 +4964,8 @@ RESOLVE_PATH_CACHE_TIME=0
 : "${RESOLVE_PATH_CACHE_TTL:=5}"
 ENV_INDEX_CACHE=""
 ENV_INDEX_CACHE_LOADED=false
+ENV_INDEX_CACHE_FINGERPRINT=""
+ENV_INDEX_CACHE_CHECKED_SECONDS=0
 
 invalidate_path_cache() {
     invalidate_environment_index_cache
@@ -4852,74 +4973,83 @@ invalidate_path_cache() {
 }
 
 environment_index_load() {
-    local target="$1"
-    if [ "$ENV_INDEX_CACHE_LOADED" = "true" ]; then
-        _shipglowz_assign "$target" "$ENV_INDEX_CACHE"
+    local __sgdv_env_index_target="$1"
+    local __sgdv_env_index_fingerprint="" __sgdv_env_index_ttl="$SHIPGLOWZ_REGISTRY_CACHE_TTL"
+    [[ "$__sgdv_env_index_ttl" =~ ^[0-9]+$ ]] || __sgdv_env_index_ttl=300
+    if [ -f "$SHIPGLOWZ_REGISTRY" ]; then
+        __sgdv_env_index_fingerprint=$(stat -c '%Y:%s:%i' "$SHIPGLOWZ_REGISTRY" 2>/dev/null || true)
+    fi
+    if [ "$ENV_INDEX_CACHE_LOADED" = "true" ] && [ ! -e "$SHIPGLOWZ_REGISTRY_INVALIDATED_FILE" ] && [ -n "$__sgdv_env_index_fingerprint" ] && [ "$__sgdv_env_index_fingerprint" = "$ENV_INDEX_CACHE_FINGERPRINT" ] && [ $((SECONDS - ENV_INDEX_CACHE_CHECKED_SECONDS)) -lt "$__sgdv_env_index_ttl" ]; then
+        _shipglowz_assign "$__sgdv_env_index_target" "$ENV_INDEX_CACHE"
         return $?
     fi
 
     ensure_registry || return 1
-    local data="" line
-    while IFS= read -r line || [ -n "$line" ]; do
-        [ -n "$line" ] || continue
-        if [ -n "$data" ]; then
-            data+=$'\n'
+    local __sgdv_env_index_data="" __sgdv_env_index_line
+    while IFS= read -r __sgdv_env_index_line || [ -n "$__sgdv_env_index_line" ]; do
+        [ -n "$__sgdv_env_index_line" ] || continue
+        if [ -n "$__sgdv_env_index_data" ]; then
+            __sgdv_env_index_data+=$'\n'
         fi
-        data+="$line"
+        __sgdv_env_index_data+="$__sgdv_env_index_line"
     done < "$SHIPGLOWZ_REGISTRY"
-    ENV_INDEX_CACHE="$data"
+    ENV_INDEX_CACHE="$__sgdv_env_index_data"
     ENV_INDEX_CACHE_LOADED=true
-    _shipglowz_assign "$target" "$ENV_INDEX_CACHE"
+    ENV_INDEX_CACHE_FINGERPRINT=$(stat -c '%Y:%s:%i' "$SHIPGLOWZ_REGISTRY" 2>/dev/null || true)
+    ENV_INDEX_CACHE_CHECKED_SECONDS=$SECONDS
+    _shipglowz_assign "$__sgdv_env_index_target" "$ENV_INDEX_CACHE"
 }
 
 environment_names_load() {
-    local target="$1" index="" output="" name status port path
-    environment_index_load index || return 1
-    while IFS='|' read -r name status port path; do
-        [ -n "$name" ] || continue
-        [ -n "$output" ] && output+=$'\n'
-        output+="$name"
-    done <<< "$index"
-    _shipglowz_assign "$target" "$output"
+    local __sgdv_env_names_target="$1" __sgdv_env_names_index="" __sgdv_env_names_output=""
+    local __sgdv_env_names_name __sgdv_env_names_status __sgdv_env_names_port __sgdv_env_names_path
+    environment_index_load __sgdv_env_names_index || return 1
+    while IFS='|' read -r __sgdv_env_names_name __sgdv_env_names_status __sgdv_env_names_port __sgdv_env_names_path; do
+        [ -n "$__sgdv_env_names_name" ] || continue
+        [ -n "$__sgdv_env_names_output" ] && __sgdv_env_names_output+=$'\n'
+        __sgdv_env_names_output+="$__sgdv_env_names_name"
+    done <<< "$__sgdv_env_names_index"
+    _shipglowz_assign "$__sgdv_env_names_target" "$__sgdv_env_names_output"
 }
 
 environment_identifiers_load() {
-    local target="$1" index="" output="" name status port path
-    environment_index_load index || return 1
-    declare -A seen=()
-    while IFS='|' read -r name status port path; do
-        [ -n "$name" ] || continue
-        if [ -z "${seen[$name]+x}" ]; then
-            [ -n "$output" ] && output+=$'\n'
-            output+="$name"
-            seen[$name]=1
+    local __sgdv_env_ids_target="$1" __sgdv_env_ids_index="" __sgdv_env_ids_output=""
+    local __sgdv_env_ids_name __sgdv_env_ids_status __sgdv_env_ids_port __sgdv_env_ids_path
+    environment_index_load __sgdv_env_ids_index || return 1
+    declare -A __sgdv_env_ids_seen=()
+    while IFS='|' read -r __sgdv_env_ids_name __sgdv_env_ids_status __sgdv_env_ids_port __sgdv_env_ids_path; do
+        [ -n "$__sgdv_env_ids_name" ] || continue
+        if [ -z "${__sgdv_env_ids_seen[$__sgdv_env_ids_name]+x}" ]; then
+            [ -n "$__sgdv_env_ids_output" ] && __sgdv_env_ids_output+=$'\n'
+            __sgdv_env_ids_output+="$__sgdv_env_ids_name"
+            __sgdv_env_ids_seen[$__sgdv_env_ids_name]=1
         fi
-        if [ -n "$path" ] && [ -z "${seen[$path]+x}" ]; then
-            [ -n "$output" ] && output+=$'\n'
-            output+="$path"
-            seen[$path]=1
+        if [ -n "$__sgdv_env_ids_path" ] && [ -z "${__sgdv_env_ids_seen[$__sgdv_env_ids_path]+x}" ]; then
+            [ -n "$__sgdv_env_ids_output" ] && __sgdv_env_ids_output+=$'\n'
+            __sgdv_env_ids_output+="$__sgdv_env_ids_path"
+            __sgdv_env_ids_seen[$__sgdv_env_ids_path]=1
         fi
-    done <<< "$index"
-    _shipglowz_assign "$target" "$output"
+    done <<< "$__sgdv_env_ids_index"
+    _shipglowz_assign "$__sgdv_env_ids_target" "$__sgdv_env_ids_output"
 }
 
 resolve_project_path_into() {
-    local target="$1" identifier="$2"
+    local __sgdv_resolve_target="$1" __sgdv_resolve_identifier="$2"
 
     # Case 1: Identifier is already an absolute path
-    if [[ "$identifier" == /* && -d "$identifier" ]]; then
-        _shipglowz_assign "$target" "$identifier"
+    if [[ "$__sgdv_resolve_identifier" == /* && -d "$__sgdv_resolve_identifier" ]]; then
+        _shipglowz_assign "$__sgdv_resolve_target" "$__sgdv_resolve_identifier"
         return $?
     fi
 
-    local index="" name status port path
-    environment_index_load index || return 1
-    while IFS='|' read -r name status port path; do
-        if [ "$name" = "$identifier" ] || [ "$path" = "$identifier" ]; then
-            _shipglowz_assign "$target" "$path"
+    local __sgdv_resolve_index="" __sgdv_resolve_name __sgdv_resolve_status __sgdv_resolve_port __sgdv_resolve_path
+    environment_index_load __sgdv_resolve_index || return 1
+    while IFS='|' read -r __sgdv_resolve_name __sgdv_resolve_status __sgdv_resolve_port __sgdv_resolve_path; do
+        if [ "$__sgdv_resolve_name" = "$__sgdv_resolve_identifier" ] || [ "$__sgdv_resolve_path" = "$__sgdv_resolve_identifier" ]; then
+            _shipglowz_assign "$__sgdv_resolve_target" "$__sgdv_resolve_path"
             return $?
         fi
-    done <<< "$index"
+    done <<< "$__sgdv_resolve_index"
 
     return 1
 }
@@ -4971,20 +5101,20 @@ list_all_environment_identifiers() {
 }
 
 home_folders_load() {
-    local target="$1" home_dir="${2:-$HOME}"
-    local current_time
-    current_time=$(date +%s)
+    local __sgdv_home_target="$1" __sgdv_home_dir="${2:-$HOME}"
+    local __sgdv_home_now
+    __sgdv_home_now=$(date +%s)
 
-    if [ "${SHIPGLOWZ_ENV_LIST_CACHE_ENABLED:-true}" = "true" ] && [ $((current_time - HOME_FOLDERS_CACHE_TIME)) -lt "${SHIPGLOWZ_LIST_CACHE_TTL:-5}" ] && [ -n "$HOME_FOLDERS_CACHE" ] && [ "${HOME_FOLDERS_CACHE_DIR:-}" = "$home_dir" ]; then
-        log DEBUG "Using cached home folders (age: $((current_time - HOME_FOLDERS_CACHE_TIME))s)"
-        _shipglowz_assign "$target" "$HOME_FOLDERS_CACHE"
+    if [ "${SHIPGLOWZ_ENV_LIST_CACHE_ENABLED:-true}" = "true" ] && [ $((__sgdv_home_now - HOME_FOLDERS_CACHE_TIME)) -lt "${SHIPGLOWZ_LIST_CACHE_TTL:-5}" ] && [ -n "$HOME_FOLDERS_CACHE" ] && [ "${HOME_FOLDERS_CACHE_DIR:-}" = "$__sgdv_home_dir" ]; then
+        log DEBUG "Using cached home folders (age: $((__sgdv_home_now - HOME_FOLDERS_CACHE_TIME))s)"
+        _shipglowz_assign "$__sgdv_home_target" "$HOME_FOLDERS_CACHE"
         return $?
     fi
 
-    HOME_FOLDERS_CACHE=$(find "$home_dir" -maxdepth 1 -mindepth 1 -type d ! -name ".*" ! -path "$home_dir" 2>/dev/null | sort)
-    HOME_FOLDERS_CACHE_DIR="$home_dir"
-    HOME_FOLDERS_CACHE_TIME=$current_time
-    _shipglowz_assign "$target" "$HOME_FOLDERS_CACHE"
+    HOME_FOLDERS_CACHE=$(find "$__sgdv_home_dir" -maxdepth 1 -mindepth 1 -type d ! -name ".*" ! -path "$__sgdv_home_dir" 2>/dev/null | sort)
+    HOME_FOLDERS_CACHE_DIR="$__sgdv_home_dir"
+    HOME_FOLDERS_CACHE_TIME=$__sgdv_home_now
+    _shipglowz_assign "$__sgdv_home_target" "$HOME_FOLDERS_CACHE"
 }
 
 list_home_folders() {
@@ -6815,8 +6945,9 @@ env_start() {
         done <<< "$pm2_snapshot"
 
         # Detect if the port is currently used by this same app (normal during start/redeploy)
-        local self_status=$(get_pm2_app_data "$env_name" "status")
-        local self_port=$(get_pm2_app_data "$env_name" "port")
+        local self_status="" self_port=""
+        pm2_app_data_load self_status "$env_name" "status" || self_status=""
+        pm2_app_data_load self_port "$env_name" "port" || self_port=""
         local self_owns_port="false"
         if [ "$self_status" = "online" ] && [ "$self_port" = "$port" ] && is_port_in_use "$port"; then
             self_owns_port="true"
@@ -6928,8 +7059,8 @@ for app in apps:
     local legacy_env_name
     legacy_env_name=$(basename "$project_dir")
     if [ "$legacy_env_name" != "$env_name" ]; then
-        local legacy_cwd
-        legacy_cwd=$(get_pm2_app_data "$legacy_env_name" "cwd" 2>/dev/null || true)
+        local legacy_cwd=""
+        pm2_app_data_load legacy_cwd "$legacy_env_name" "cwd" 2>/dev/null || legacy_cwd=""
         if [ "$legacy_cwd" = "$project_dir" ]; then
             pm2 delete "$legacy_env_name" 2>/dev/null || true
             invalidate_after_pm2_mutation
@@ -6939,6 +7070,7 @@ for app in apps:
     # Atomic cleanup of existing process (Priority 3 #11: Fix race condition)
     # Use pm2 delete with idempotent operation (no check-then-act)
     pm2 delete "$env_name" 2>/dev/null || true
+    invalidate_after_pm2_mutation
 
     # Kill any lingering processes on the port to avoid zombies (skip for Expo)
     if [ "$is_expo" = "false" ] && command -v fuser >/dev/null 2>&1; then
@@ -6957,14 +7089,11 @@ for app in apps:
     pm2 save >/dev/null 2>&1
 
     # Invalidate cache after PM2 state change
-    invalidate_pm2_cache
-    invalidate_path_cache
-    invalidate_path_cache
-    invalidate_env_list_cache
+    invalidate_after_pm2_mutation
     invalidate_home_folders_cache
 
-    local started_status
-    started_status=$(get_pm2_status "$env_name")
+    local started_status=""
+    pm2_status_load started_status "$env_name" || true
     if [ "$started_status" != "online" ] && [ "$started_status" != "launching" ]; then
         error "PM2 n'a pas démarré $env_name correctement (statut: ${started_status:-unknown})"
         return 1
@@ -7817,8 +7946,8 @@ auto_fix_known_issues() {
         health=$(detect_crash_loop "$name" "$restarts" "$uptime_ms" "$status")
         [ "$health" = "healthy" ] && continue
 
-        local cwd
-        cwd=$(get_pm2_app_data "$name" "cwd")
+        local cwd=""
+        pm2_app_data_load cwd "$name" "cwd" || cwd=""
         [ -z "$cwd" ] && continue
 
         # --- Fix 1: Stale Next.js lock file ---
@@ -7890,7 +8019,8 @@ auto_fix_known_issues() {
 #   0 - Completed (even if some environments failed)
 # -----------------------------------------------------------------------------
 batch_stop_all() {
-    local all_envs=$(list_all_stop_targets)
+    local all_envs=""
+    stop_targets_load all_envs || all_envs=""
 
     if [ -z "$all_envs" ]; then
         echo -e "${YELLOW}No environments or PM2 apps found${NC}"
@@ -7958,7 +8088,8 @@ batch_start_all() {
         ((count++))
         echo -e "${BLUE}[$count/$total] Starting $name...${NC}"
         if env_start "$name" >/dev/null 2>&1; then
-            local port=$(get_pm2_app_data "$name" "port")
+            local port=""
+            pm2_app_data_load port "$name" "port" || port=""
             if [ -n "$port" ]; then
                 echo -e "  ${GREEN}✅ $name${NC} ${CYAN}→ :$port${NC}"
             else
@@ -8010,7 +8141,8 @@ batch_restart_all() {
         ((count++))
         echo -e "${BLUE}[$count/$total] Restarting $name...${NC}"
         if env_restart "$name" >/dev/null 2>&1; then
-            local port=$(get_pm2_app_data "$name" "port")
+            local port=""
+            pm2_app_data_load port "$name" "port" || port=""
             if [ -n "$port" ]; then
                 echo -e "  ${GREEN}✅ $name${NC} ${CYAN}→ :$port${NC}"
             else
@@ -8359,7 +8491,8 @@ env_restart() {
     log INFO "Restarting environment: $env_name"
 
     # Check if environment exists in PM2
-    local status=$(get_pm2_status "$env_name")
+    local status=""
+    pm2_status_load status "$env_name" || true
 
     if [ "$status" = "not_found" ]; then
         warning "Environment $env_name not running in PM2"
@@ -8383,8 +8516,8 @@ env_restart() {
         sleep "$verify_seconds"
         invalidate_pm2_cache
 
-        local restarted_status
-        restarted_status=$(get_pm2_status "$env_name")
+        local restarted_status=""
+        pm2_status_load restarted_status "$env_name" || true
         if [ "$restarted_status" != "online" ]; then
             error "Environment $env_name did not stabilize after restart (PM2: ${restarted_status:-unknown})"
             echo -e "${YELLOW}  Consultez les logs: pm2 logs $env_name --lines 50${NC}"
@@ -8392,7 +8525,8 @@ env_restart() {
             return 1
         fi
 
-        local port=$(get_port_from_pm2 "$env_name")
+        local port=""
+        pm2_port_load port "$env_name" || port=""
         success "Environment $env_name restarted successfully"
 
         if [ -n "$port" ]; then
@@ -8451,7 +8585,8 @@ view_environment_logs() {
     env_name=$(derive_pm2_app_name "$project_dir")
 
     # Check if environment exists in PM2
-    local status=$(get_pm2_status "$env_name")
+    local status=""
+    pm2_status_load status "$env_name" || true
 
     if [ "$status" = "not_found" ]; then
         error "Environment $env_name not found in PM2"
@@ -8853,7 +8988,8 @@ deploy_github_project() {
     shipglowz_init_project "$project_name" "$project_dir"
 
     # Get port and display success
-    local port=$(get_port_from_pm2 "$project_name")
+    local port=""
+    pm2_port_load port "$project_name" || port=""
 
     echo ""
     ui_screen_header "Deployment Successful!" success
@@ -9012,16 +9148,8 @@ action_deploy() {
         *Auto-detect*)
             echo -e "${BLUE}🔍 Scanning $PROJECTS_DIR for projects...${NC}"
 
-            EXISTING_ENVS=$(find "$PROJECTS_DIR" -maxdepth 4 \
-                \( -name "node_modules" -o -name ".git" -o -name "venv" -o -name ".venv" \
-                   -o -name "__pycache__" -o -name "target" -o -name ".next" -o -name ".nuxt" \
-                   -o -name "dist" -o -name ".cache" -o -name ".pnpm" -o -name ".yarn" \) -prune \
-                -o -type d -name ".flox" -print 2>/dev/null | while read -r flox_dir; do
-                proj_dir=$(dirname "$flox_dir")
-                case "$proj_dir" in
-                    "$PROJECTS_DIR"/.*) continue ;;
-                    *) echo "$proj_dir" ;;
-                esac
+            EXISTING_ENVS=$(scan_flox_projects | while IFS='|' read -r _ project_dir; do
+                [ -n "$project_dir" ] && printf '%s\n' "$project_dir"
             done | sort -u)
 
             NEW_PROJECTS=$(find "$PROJECTS_DIR" -maxdepth 4 \
@@ -10334,7 +10462,7 @@ action_publish() {
     echo ""
     ENV_NAME=$(select_environment "Select environment to publish")
     [ -z "$ENV_NAME" ] && return
-    PORT=$(get_port_from_pm2 "$ENV_NAME")
+    pm2_port_load PORT "$ENV_NAME" || PORT=""
     if [ -z "$PORT" ]; then echo -e "${RED}❌ Could not get port for $ENV_NAME${NC}"; return; fi
     DOMAIN="${DUCKDNS_SUBDOMAIN}.duckdns.org"
     CADDYFILE="/etc/caddy/Caddyfile"
@@ -10346,8 +10474,9 @@ action_publish() {
     if [ -n "$ALL_ENVS" ]; then
         while IFS= read -r env; do
             [ -z "$env" ] && continue
-            local env_status=$(get_pm2_status "$env")
-            local env_port=$(get_port_from_pm2 "$env")
+            local env_status="" env_port=""
+            pm2_status_load env_status "$env" || true
+            pm2_port_load env_port "$env" || env_port=""
             if [ "$env_status" = "online" ] && [ -n "$env_port" ]; then
                 ROUTES="${ROUTES}    reverse_proxy /${env}* localhost:${env_port}"$'\n'
                 echo -e "  ${GREEN}✓${NC} /${env} → localhost:${env_port}"
@@ -10376,12 +10505,15 @@ EOF
         if [ -n "$ALL_ENVS" ]; then
             while IFS= read -r env; do
                 [ -z "$env" ] && continue
-                local env_s=$(get_pm2_status "$env")
-                local env_p=$(get_port_from_pm2 "$env")
+                local env_s="" env_p=""
+                pm2_status_load env_s "$env" || true
+                pm2_port_load env_p "$env" || env_p=""
                 [ "$env_s" = "online" ] && [ -n "$env_p" ] && echo -e "${CYAN}   https://$DOMAIN/$env${NC}"
             done <<< "$ALL_ENVS"
         fi
-        if ! echo "$ALL_ENVS" | grep -q "^${ENV_NAME}$" || [ "$(get_pm2_status "$ENV_NAME")" != "online" ]; then
+        local selected_status=""
+        pm2_status_load selected_status "$ENV_NAME" || true
+        if ! echo "$ALL_ENVS" | grep -q "^${ENV_NAME}$" || [ "$selected_status" != "online" ]; then
             echo -e "${CYAN}   https://$DOMAIN/$ENV_NAME${NC} (selected)"
         fi
         echo ""

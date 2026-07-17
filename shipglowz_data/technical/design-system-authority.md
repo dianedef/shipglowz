@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.1"
+artifact_version: "1.0.2"
 project: ShipGlowz
 created: "2026-06-11"
-updated: "2026-06-26"
+updated: "2026-07-17"
 status: active
 source_skill: 300-sg-docs
 scope: design-system-authority
@@ -28,6 +28,7 @@ depends_on:
 supersedes: []
 evidence:
   - "User decision 2026-06-11: every managed application must declare the canonical design-system source instead of letting agents infer or customize design per screen."
+  - "2026-07-17 DevServer implementation confirms cli/lib.sh ui_* primitives as the shared gum/Bash shell UI authority."
 next_review: "2026-06-25"
 next_step: "/103-sg-verify design-system-authority"
 ---
@@ -115,6 +116,23 @@ Stop or report `partial` when:
 Update this artifact whenever the project adds a frontend, changes styling technology, introduces a token pipeline, changes component primitives, changes theme mode behavior, or accepts a documented platform-bound exception.
 
 ## ShipGlowz Surface Declarations (2026-06-26)
+
+- `ShipGlowz DevServer shell`:
+  - status: `declared`
+  - brand_contract: `shipglowz_data/branding/branding.md`
+  - canonical_source: `cli/lib.sh` shared `ui_*` primitives
+  - technology_carrier: `other` (ANSI/Bash with optional gum and fzf adapters)
+  - component_bridge: `ui_choose`, `ui_filter_choose`, `ui_letter_list`, `ui_back_label`, `ui_text_center`, `ui_list_filter`, `ui_traffic_color`
+  - layout_authority: `ui_screen_header`, `ui_header`, `ui_text_center`
+  - motion_authority: terminal-native; spinners and pending-input handling stay behind shared helpers
+  - forbidden_bypass:
+    - frontend-local letter generation, cancellation semantics, status colors, or centering logic
+    - fixed input waits outside `ui_flush_pending_input`
+    - direct gum/Bash styling that changes observable selection behavior without updating the shared primitive
+  - validation:
+    - `bash tests/cli/input-validation.sh`
+    - `bash tests/cli/menu-navigation.sh`
+    - real-TTY gum and Bash fallback cancellation walkthrough when interaction behavior changes
 
 - `shipglowz-site`:
   - status: `declared`

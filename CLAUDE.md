@@ -23,11 +23,18 @@ Guidance for Claude Code when working in this repository.
 
 **Env Registry** (`~/.shipglowz/envs.reg`) — Zero-subprocess dashboard data:
 ```bash
-registry_sync()   # Build registry from pm2 jlist + .flox dirs (called once on lib.sh load)
-registry_update() # Update single env entry (called by env_start/env_stop)
+ensure_registry()    # Lazy refresh only when the registry is missing, invalidated, or stale
+scan_flox_projects() # Shared bounded scanner; emits and prunes each matched .flox
+registry_sync()      # Atomically rebuild from one Flox scan + one PM2 snapshot
+registry_update()    # Atomically update one env entry after lifecycle mutations
 # Format: name|status|port|path per line
-# Dashboard reads via `cat` — ~1ms, no subprocesses
+# A valid last-known snapshot survives refresh or lock failures
 ```
+
+`lib.sh` sourcing must not call PM2 or scan Flox. Cache-populating internals use
+destination-variable APIs (`pm2_data_load`, `environment_index_load`,
+`resolve_project_path_into`) in the parent shell; stdout wrappers exist only
+for compatibility and must not be used when later calls need the same cache.
 
 **PM2 Health Scan** — File-read health check, no subprocess:
 ```bash
