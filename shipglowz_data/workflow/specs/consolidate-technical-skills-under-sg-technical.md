@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.10"
+artifact_version: "1.0.11"
 project: ShipGlowz
 created: "2026-07-17"
 created_at: "2026-07-17 13:36:36 UTC"
 updated: "2026-07-17"
-updated_at: "2026-07-17 14:55:29 UTC"
+updated_at: "2026-07-17 16:09:04 UTC"
 status: ready
 source_skill: 100-sg-spec
 source_model: GPT-5 Codex
@@ -270,7 +270,7 @@ Proof path: source-completeness and scenario-first contract proof, followed by a
   - Depends on: Tasks 1-6.
   - Validate with: focused test, absent-source/runtime checks, code-index lint, catalog JSON, and full sync check.
 
-- [ ] Task 8: Run independent verification, closure, and bounded ship preparation.
+- [x] Task 8: Run independent verification, closure, and bounded ship preparation.
   - Files: changed skill/reference/doc/test artifacts and canonical chantier closure surfaces owned by `103`, `104`, and `005`.
   - Action: verify migrated wording against every source, run the full Test Contract, classify unrelated baselines, close only after proof, and stage/push only this chantier's hunks.
   - User story link: proves the smaller skill surface remains excellent and durable.
@@ -279,19 +279,19 @@ Proof path: source-completeness and scenario-first contract proof, followed by a
 
 ## Acceptance Criteria
 
-- [ ] CA 1: Given a code, architecture, security, reliability, or test-posture request, when the operator invokes `010-sg-technical audit <target>`, then exactly the technical-audit playbook loads and preserves the `401` evidence and safety contract.
-- [ ] CA 2: Given dependency drift, vulnerability, supply-chain, license, lockfile, or package-config work, when `010-sg-technical deps` runs, then exactly the dependency playbook loads and a partial scan is never presented as a security sign-off.
-- [ ] CA 3: Given a file, project, or global performance concern, when `010-sg-technical performance <target>` runs, then exactly the performance playbook loads, irrelevant stack checks are skipped explicitly, and claims distinguish measured from inferred evidence.
-- [ ] CA 4: Given a breaking package/framework upgrade, when `010-sg-technical migrate [package@version]` runs, then official current guidance, impact mapping, approval, dirty-state/rollback safety, sequential application, and checks precede any completion claim.
-- [ ] CA 5: Given bare, invalid, or materially ambiguous input, when `010` resolves it, then it lists/asks among the four modes rather than loading all modes or guessing.
-- [ ] CA 6: Given broad audit, live production, SEO, i18n, or proportional check work, when routing executes, then ownership remains respectively `400`, `405`, `406`, `407`, or `105`, with `010` used only for the matching technical lane.
-- [ ] CA 7: Given the four source contracts and playbooks, when transfer completeness is reviewed, then every mandatory source rule has one explicit destination or a readiness-approved retirement rationale before source deletion.
-- [ ] CA 8: Given active skills, docs, public pages, catalogs, tests, and runtime surfaces, when scanned after migration, then no active predecessor invocation remains outside the narrow historical allowlist.
-- [ ] CA 9: Given a fresh runtime inventory, when technical skills are listed, then `010-sg-technical` appears exactly once and `401`-`404` do not appear.
-- [ ] CA 10: Given the optional quality pack and canonical code index, when validated, then four rows/entries are replaced by `010` while `400` and `407` remain and `405`/`406` retain their existing pack families.
-- [ ] CA 11: Given the public skill collection, when built, then one `sg-technical` page truthfully covers all modes and the four retired pages are absent from navigation/collection without hidden duplicate commands.
-- [ ] CA 12: Given security-sensitive source material, secrets, registry credentials, private logs, or unsafe scripts, when a mode encounters them, then it preserves least-authority inspection/redaction and does not persist or expose secret values in docs, tests, reports, or public content.
-- [ ] CA 13: Given the complete changed surface, when targeted contract tests, metadata, skill audit, budget, code-index, catalog, sync, diff, and public build checks run, then they pass or a named material proof gap blocks verification and retirement.
+- [x] CA 1: Given a code, architecture, security, reliability, or test-posture request, when the operator invokes `010-sg-technical audit <target>`, then exactly the technical-audit playbook loads and preserves the `401` evidence and safety contract.
+- [x] CA 2: Given dependency drift, vulnerability, supply-chain, license, lockfile, or package-config work, when `010-sg-technical deps` runs, then exactly the dependency playbook loads and a partial scan is never presented as a security sign-off.
+- [x] CA 3: Given a file, project, or global performance concern, when `010-sg-technical performance <target>` runs, then exactly the performance playbook loads, irrelevant stack checks are skipped explicitly, and claims distinguish measured from inferred evidence.
+- [x] CA 4: Given a breaking package/framework upgrade, when `010-sg-technical migrate [package@version]` runs, then official current guidance, impact mapping, approval, dirty-state/rollback safety, sequential application, and checks precede any completion claim.
+- [x] CA 5: Given bare, invalid, or materially ambiguous input, when `010` resolves it, then it lists/asks among the four modes rather than loading all modes or guessing.
+- [x] CA 6: Given broad audit, live production, SEO, i18n, or proportional check work, when routing executes, then ownership remains respectively `400`, `405`, `406`, `407`, or `105`, with `010` used only for the matching technical lane.
+- [x] CA 7: Given the four source contracts and playbooks, when transfer completeness is reviewed, then every mandatory source rule has one explicit destination or a readiness-approved retirement rationale before source deletion.
+- [x] CA 8: Given active skills, docs, public pages, catalogs, tests, and runtime surfaces, when scanned after migration, then no active predecessor invocation remains outside the narrow historical allowlist.
+- [x] CA 9: Given a fresh runtime inventory, when technical skills are listed, then `010-sg-technical` appears exactly once and `401`-`404` do not appear.
+- [x] CA 10: Given the optional quality pack and canonical code index, when validated, then four rows/entries are replaced by `010` while `400` and `407` remain and `405`/`406` retain their existing pack families.
+- [x] CA 11: Given the public skill collection, when built, then one `sg-technical` page truthfully covers all modes and the four retired pages are absent from navigation/collection without hidden duplicate commands.
+- [x] CA 12: Given security-sensitive source material, secrets, registry credentials, private logs, or unsafe scripts, when a mode encounters them, then it preserves least-authority inspection/redaction and does not persist or expose secret values in docs, tests, reports, or public content.
+- [x] CA 13: Given the complete changed surface, when targeted contract tests, metadata, skill audit, budget, code-index, catalog, sync, diff, and public build checks run, then they pass or a named material proof gap blocks verification and retirement.
 
 ## Test Strategy
 
@@ -346,6 +346,7 @@ None. The operator selected the métier architecture, and repository inspection 
 | 2026-07-17 14:46:58 UTC | 103-sg-verify mode=standard | GPT-5 Codex (GPT-5.5 high recommended only; runtime override unavailable) | Independently replayed source transfer from `git show HEAD`, verified the three numbered-route and two unprefixed-route spec repairs, challenged numbered/unprefixed bare/slash/path/command matching plus exact and unused-entry-failing allowlisting, and reran dispatcher, lazy-load, boundary, safety, active/public/catalog/runtime, metadata, audit, budget, JSON, pack, sync, build, and diff gates. | verified; focused contract 14/14, metadata 18/18, runtime sync 204/204, both public builds passed; pre-existing code-index alias failures, planned-pack portability reviews, and 205 budget risk remain classified outside this chantier | `/104-sg-end consolidate technical skills under sg-technical` |
 | 2026-07-17 14:50:18 UTC | 104-sg-end | GPT-5 Codex (gpt-5.4-mini recommended only; runtime override unavailable) | Closed the verified technical-skill consolidation in the canonical spec, task registry, and changelog without claiming git ship status or external runtime/production proof. | closed; local skill/runtime/documentation/public migration bookkeeping is complete | `/005-sg-ship consolidate technical skills under sg-technical` |
 | 2026-07-17 14:55:29 UTC | 005-sg-ship | GPT-5 Codex | Re-ran the bounded quick-ship gates, isolated the exact technical-consolidation scope from concurrent dirty work, committed it on the current branch, and pushed to its upstream without force. | shipped; focused contract 14/14, targeted metadata, audit/budget, catalog JSON, runtime sync 204/204, active scans, and diff hygiene passed; verified public builds reused because the implementation diff did not change after 103 | none |
+| 2026-07-17 16:09:04 UTC | 103-sg-verify mode=excellence | GPT-5 Codex | Replayed focused contract, budget, runtime-sync, shipped-diff, active predecessor scan, and cross-surface routing/public-page coherence; challenged user/operator friction, mode boundaries, mutation authority, duplication, durability, and closure truth. Repaired the stable local spec-state drift by marking the already-proven Task 8 and CA1-CA13 complete. | excellent; no material excellence gap remains; fresh-docs not needed; unrelated dirty work and pre-existing 205/code-index/packaging baselines remain out of scope | none |
 
 ## Current Chantier Flow
 
@@ -355,7 +356,7 @@ None. The operator selected the métier architecture, and repository inspection 
 - `102-sg-start repair` (first): implemented — `TECH-ACTIVE-06` scans every canonical spec deterministically, rejects every unallowlisted numbered predecessor occurrence, and proves the three initially corrected specs use exact `010` routes.
 - `102-sg-start repair` (unprefixed): implemented — the two remaining active specs now use exact `010` modes/playbooks; the scan covers numbered and unprefixed slash/path/command variants, preserves only exact reviewed source-era lines, fails stale allowlist entries, and proves all five corrected specs use exact `010` routes.
 - `900-shipglowz-core refresh`: passed — conservative 010 review aligned playbook mutation authority and official-source precedence with focused regression proof; no public/runtime route changed.
-- `103-sg-verify`: verified — both prior blockers are repaired and independently proven; source transfer, exact four-mode dispatch, owner/security/mutation boundaries, active/public/catalog/runtime retirement, and proportional local proof pass. Pre-existing code-index alias failures, planned-pack portability reviews, and the 205 budget risk remain outside this chantier.
+- `103-sg-verify`: excellent — standard proof remains valid; the fresh excellence pass confirmed one compact four-mode entrypoint, distinct adjacent owners, explicit mutation/evidence limits, public/runtime/help coherence, and a truthful closure record. The local spec-state drift (unchecked completed task and criteria) was repaired and retested. Pre-existing code-index alias failures, planned-pack portability reviews, and the 205 budget risk remain outside this chantier.
 - `104-sg-end`: closed — canonical spec, task registry, and changelog now record the verified local skill/runtime/documentation/public migration without a ship or production claim.
 - `005-sg-ship`: shipped — the exact bounded consolidation scope is committed and pushed to the current branch upstream without force; unrelated concurrent dirty work remains outside the commit, and no deployment or external production outcome is claimed.
 

@@ -147,6 +147,7 @@ Stop and report `not ready` or `blocked` when:
 - a material scope, behavior, or security question is still unresolved
 - a greenfield stack or blueprint has been frozen without the operator decision required by the Greenfield Technology Decision Rule
 - an applicable preferred stack preset was ignored, silently replaced, or put back to the operator as a repeated decision without a documented project conflict
+- a new application was narrowed to one mobile or browser target without first applying the shared Flutter Web/iOS/Android recommendation or documenting a durable product/platform constraint
 - a greenfield spec infers platform exclusions from `responsive`, `mobile-first`, `website`, or an initially omitted platform instead of applying the Greenfield Platform Footprint Rule
 - freshness, language-doctrine, or design-system gates apply but cannot be checked safely
 - the spec would require generous inference from conversation history to implement cleanly

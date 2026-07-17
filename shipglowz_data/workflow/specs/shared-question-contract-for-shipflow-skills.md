@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: ShipGlowz
 created: "2026-05-05"
 created_at: "2026-05-05 17:07:53 UTC"
 updated: "2026-07-17"
-updated_at: "2026-07-17 13:39:53 UTC"
+updated_at: "2026-07-17 13:46:36 UTC"
 status: ready
 source_skill: sg-skill-build
 source_model: "GPT-5 Codex"
@@ -44,6 +44,7 @@ evidence:
   - "User decision 2026-05-04: a skill may proceed by default only when the default is compatible with project context and current best practices."
   - "Operator correction 2026-07-17: platform footprint must be established before greenfield blueprint and stack decisions; an initially omitted mobile surface must not be silently excluded."
   - "Operator correction 2026-07-17: the established Astro-site and Flutter-app defaults must be resolved before blueprint matching or a broad technology comparison."
+  - "Operator clarification 2026-07-17: Astro/Vercel and Flutter are first recommendations, and a new app should default to one Flutter codebase across Web, iOS, and Android instead of a single platform."
 next_step: "/104-sg-end preferred stack preset contract"
 ---
 
@@ -134,6 +135,10 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
   - Files: `skills/references/preferred-stacks.md`, shared question/blueprint/lifecycle doctrine, and build/spec/readiness owner contracts.
   - Validate with: focused `PSP-003` and `SSRP-010` scans, metadata lint, core tests, skill audit, budget audit, runtime sync, and project-spec coherence checks.
 
+- [x] Task 7: Make Astro/Vercel and cross-platform Flutter the first recommendation rather than neutral options.
+  - Files: preferred-stack and question doctrine plus the readiness owner contract.
+  - Validate with: focused `PSP-005` and `SSRP-011` scans, metadata lint, core tests, skill audit, budget audit, runtime sync, and diff checks.
+
 ## Skill Run History
 
 | Date UTC | Skill | Model | Action | Result | Next step |
@@ -145,6 +150,8 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 | 2026-07-17 08:48:04 UTC | 103-sg-verify | GPT-5 Codex | Verified the `SSRP-009` ordering and failure scenario across build, blueprint, spec, and readiness owners; official Flutter docs, metadata lint, core tests, skill audit, budget audit, runtime sync, and diff checks passed. | verified | /104-sg-end greenfield platform footprint question contract |
 | 2026-07-17 13:38:03 UTC | 900-shipglowz-core | GPT-5 Codex | Promoted the existing Astro-site and Flutter-app convention into a canonical preferred-stack preset resolved before blueprints, then aligned the Best Fried Chicken architecture and narrowed its open technology decision to the shared backend. | implemented | /103-sg-verify preferred stack preset contract |
 | 2026-07-17 13:39:53 UTC | 103-sg-verify | GPT-5 Codex | Verified `PSP-003` and `SSRP-010` across lifecycle, build, blueprint, spec, and readiness contracts; metadata, core tests, skill audit, budget, runtime sync, project-doc coherence, and diff checks passed. | verified | /104-sg-end preferred stack preset contract |
+| 2026-07-17 13:45:15 UTC | 900-shipglowz-core | GPT-5 Codex | Strengthened the preferred preset after the operator's follow-up: Astro/Vercel and one Flutter Web/iOS/Android codebase are now first recommendations, with narrower app targets requiring an explicit constraint. | implemented | /103-sg-verify cross-platform-first preset contract |
+| 2026-07-17 13:46:36 UTC | 103-sg-verify | GPT-5 Codex | Verified the cross-platform-first rule with `PSP-005`, `SSRP-011`, an executable regression test, metadata lint, core tests, skill audit, budget audit, runtime sync, and diff checks. | verified | /104-sg-end cross-platform-first preset contract |
 
 ## Current Chantier Flow
 
@@ -158,3 +165,5 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 - `900-shipglowz-core preferred stack follow-up`: implemented; canonical Astro/Flutter/Vercel presets now resolve before blueprint matching and the active product spec is aligned.
 - `103-sg-verify`: verified; `SSRP-009`, metadata, core tests, audit, budget, runtime sync, and focused ordering/coherence scans pass.
 - `103-sg-verify preferred stack follow-up`: verified; `PSP-003`, `SSRP-010`, metadata, core tests, audits, runtime sync, project coherence, and diff checks pass.
+- `900-shipglowz-core cross-platform-first follow-up`: implemented; the canonical preset now leads with Astro/Vercel and Flutter Web/iOS/Android, including apparently mobile-only requests.
+- `103-sg-verify cross-platform-first follow-up`: verified; focused scenarios, 11/11 core tests, metadata, audits, runtime sync, and diff checks pass.

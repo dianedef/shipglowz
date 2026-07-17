@@ -9,6 +9,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills" / "900-shipglowz-core" / "SKILL.md"
 BUILD_PLAYBOOK = ROOT / "skills" / "900-shipglowz-core" / "references" / "skill-maintenance-playbook.md"
 REFRESH_PLAYBOOK = ROOT / "skills" / "900-shipglowz-core" / "references" / "skill-refresh-playbook.md"
+PREFERRED_STACKS = ROOT / "skills" / "references" / "preferred-stacks.md"
+QUESTION_CONTRACT = ROOT / "skills" / "references" / "question-contract.md"
+READY_SKILL = ROOT / "skills" / "101-sg-ready" / "SKILL.md"
 MAX_ACTIVATION_LINES = 220
 
 
@@ -18,6 +21,9 @@ class ShipGlowzCoreContractTests(unittest.TestCase):
         cls.text = SKILL.read_text(encoding="utf-8")
         cls.build = BUILD_PLAYBOOK.read_text(encoding="utf-8")
         cls.refresh = REFRESH_PLAYBOOK.read_text(encoding="utf-8")
+        cls.preferred_stacks = PREFERRED_STACKS.read_text(encoding="utf-8")
+        cls.question_contract = QUESTION_CONTRACT.read_text(encoding="utf-8")
+        cls.ready_skill = READY_SKILL.read_text(encoding="utf-8")
 
     def test_system_improvement_fields_have_one_owner_definition(self) -> None:
         for field in (
@@ -104,6 +110,17 @@ class ShipGlowzCoreContractTests(unittest.TestCase):
         self.assertIn("scenario-first and source-completeness proof", self.build)
         self.assertIn("`refresh not needed` only with a written justification and focused proof", self.build)
         self.assertIn("`fresh-docs not needed` is not that justification", self.build)
+
+    def test_preferred_stack_is_cross_platform_first_not_mobile_only(self) -> None:
+        for rule in (
+            "first-recommendation defaults",
+            "Recommend this pair first",
+            "Flutter Web, iOS, and Android from the same application codebase",
+            "`PSP-005 apparently mobile-only app`",
+        ):
+            self.assertIn(rule, self.preferred_stacks)
+        self.assertIn("`SSRP-011 cross-platform first`", self.question_contract)
+        self.assertIn("one mobile or browser target", self.ready_skill)
 
 
 if __name__ == "__main__":

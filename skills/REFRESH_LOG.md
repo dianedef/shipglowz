@@ -31,6 +31,18 @@ Chronological log of skill refreshes via `/900-shipglowz-core refresh <skill>`. 
 ## 2026-07-17 — 101-sg-ready
 
 **Added:**
+- [readiness] A new app cannot be narrowed to one browser or mobile target before ShipGlowz applies its Flutter Web/iOS/Android first recommendation.
+
+**Updated:**
+- [exception proof] A narrower app target now requires explicit durable product intent or a verified platform constraint.
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted (operator decision and local cross-skill contract review; fresh-docs not needed)
+
+## 2026-07-17 — 101-sg-ready
+
+**Added:**
 - [readiness] Proof that compatible operator-approved preferred stack presets were applied before accepting a blueprint or provider direction.
 
 **Updated:**

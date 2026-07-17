@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.7.0"
+artifact_version: "1.8.0"
 project: ShipGlowz
 created: "2026-05-05"
 updated: "2026-07-17"
@@ -37,6 +37,7 @@ evidence:
   - "User decision 2026-07-15: a greenfield product stack must be chosen with the operator at the product-consequence level instead of being silently fixed by the agent."
   - "Operator correction 2026-07-17: greenfield platform scope must be established before stack options; ShipGlowz must not silently exclude mobile applications and thereby omit Flutter from the decision."
   - "Operator correction 2026-07-17: ShipGlowz must apply the established Astro-site and Flutter-app preference before proposing a broad greenfield stack comparison."
+  - "Operator clarification 2026-07-17: Astro/Vercel and cross-platform Flutter are first recommendations; ShipGlowz must not default a new app to one mobile platform when one codebase can cover Web, iOS, and Android."
 next_review: "2026-06-05"
 next_step: "/104-sg-end greenfield platform footprint question contract"
 ---
@@ -106,6 +107,13 @@ platform is required later rather than at launch, record both the launch phase
 and the durable target architecture so the first implementation does not block
 the planned application.
 
+Likewise, never treat an initial request for an iOS app, Android app, or mobile
+app as a reason to recommend a single-platform codebase first. Unless the
+operator states a durable platform restriction or a verified constraint rules
+out a target, the first application recommendation is one Flutter codebase for
+Web, iOS, and Android. This does not replace the separate Astro surface when
+public SEO pages are part of the product.
+
 Once the footprint is known, evaluate all professionally credible framework
 directions that cover it. A request including iOS/Android must consider Flutter
 or explain concretely why it is not suitable; a public SEO-sensitive website
@@ -120,6 +128,9 @@ an established direction for the surfaces it covers and must be applied before
 blueprint matching or a broad technology comparison. Do not repeatedly ask the
 operator to approve Astro for a public/SEO site, Flutter for application
 surfaces, or Vercel for compatible web outputs when the preset applies.
+Present these compatible presets as ShipGlowz's recommended direction before
+any alternatives; alternatives exist to explain a concrete exception, not to
+make the operator reselect the habitual stack.
 
 For a new product with material technology choices that remain uncovered by an
 accepted preset or blueprint, the remaining direction is not a routine
@@ -230,3 +241,4 @@ Name the condition that would make another option better when that matters.
 - `SSRP-008 greenfield stack partnership`: given the operator asks to create a new product with no accepted stack, when the framework, hosting, data, or provider direction affects ongoing cost, control, maintenance, portability, or lock-in, then the agent presents one recommended product-level stack direction with practical alternatives and obtains a numbered decision before the spec freezes it.
 - `SSRP-009 greenfield platform footprint`: given the operator asks for a new Internet product and does not explicitly accept or reject native apps, when platform scope would change the credible framework options, then the agent establishes web/iOS/Android/desktop intent before blueprint matching or stack recommendation and does not silently place mobile apps in `Scope Out`.
 - `SSRP-010 preferred stack preset`: given the established footprint includes a public SEO site plus web/iOS/Android application surfaces, when no project constraint contradicts the defaults, then the agent applies Astro plus Flutter with Vercel web hosting before blueprint matching and asks only about uncovered material providers or justified exceptions.
+- `SSRP-011 cross-platform first`: given the operator asks for a new mobile or browser application without a durable single-platform restriction, then the agent first recommends one Flutter codebase for Web, iOS, and Android and keeps Astro on Vercel for any separate public SEO surface.

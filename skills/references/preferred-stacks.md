@@ -1,7 +1,7 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-07-17"
 updated: "2026-07-17"
@@ -25,6 +25,7 @@ evidence:
   - "Existing ShipGlowz Auth SDK Policy: apps use Flutter, sites use Astro, backend/data uses Convex, scripts/jobs/tools use Python, and auth is mostly Clerk."
   - "Operator correction 2026-07-17: public/SEO sites habitually use Astro and application surfaces use Flutter."
   - "Operator decision 2026-07-16: Vercel is the default web host; the dedicated-server deployment matrix applies only when a separate server runtime is genuinely required."
+  - "Operator clarification 2026-07-17: Astro, Vercel, and Flutter are first-recommendation defaults, and an app request should prefer one Flutter codebase for web, iOS, and Android instead of stopping at a mobile-only build."
 next_review: "2026-10-17"
 next_step: "none"
 ---
@@ -47,21 +48,32 @@ Do not make the operator repeatedly approve a preset already covering the
 requested surfaces. Ask only about material product consequences that remain
 uncovered, or about a justified exception.
 
+These are first-recommendation defaults, not merely options that must appear in
+a comparison. When they fit the product, lead with them, explain the resulting
+surface split in plain language, and continue without asking the operator to
+rediscover ShipGlowz's habitual stack.
+
 ## Canonical Defaults
 
 ### Public and SEO-sensitive websites
 
 - Framework: Astro.
 - Hosting: Vercel.
+- Recommend this pair first whenever a product needs a public website; use a
+  different framework or host only for a documented product constraint.
 - Use Astro for public, indexable, content-led surfaces such as landing pages,
   editorial pages, public menus, product/category pages, legal pages, and help.
 
 ### Cross-platform application surfaces
 
 - Framework: Flutter.
-- Targets: Flutter Web, iOS, and Android from the same application codebase when
-  those platforms are in scope.
+- Targets: Flutter Web, iOS, and Android from the same application codebase.
 - Hosting for the Flutter Web build: Vercel.
+- Recommend the shared Web + iOS + Android footprint first for a new consumer
+  or business application, even when the initial request names only a mobile
+  app or only a browser app. Narrow the targets only when the operator states a
+  durable product reason or a verified platform constraint makes one target
+  unsuitable.
 - Use Flutter for authenticated or transactional application flows, dashboards,
   configuration, ordering, and other app-centric interaction.
 
@@ -91,7 +103,8 @@ and ask one product-level decision rather than silently switching.
 For greenfield work:
 
 1. Establish launch and roadmap platform footprint.
-2. Apply every compatible operator-approved preferred preset.
+2. Lead with and apply every compatible operator-approved preferred preset;
+   presets are the first recommendation, not one neutral option among others.
 3. Resolve an exact app blueprint if one exists; it may refine the preset but
    must not silently contradict it.
 4. Research and ask only for material technology choices not already covered,
@@ -109,3 +122,7 @@ For greenfield work:
 - `PSP-004 backend exception`: when the baseline backend lacks suitable official
   platform support or creates material transactional risk, compare a justified
   alternative and obtain the operator's product-level decision.
+- `PSP-005 apparently mobile-only app`: a new app initially described only for
+  iOS or Android is first framed as one Flutter codebase for Web, iOS, and
+  Android; it is narrowed only from explicit product intent or verified
+  platform constraints.
