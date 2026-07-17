@@ -28,6 +28,9 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 
 ## [2026-07-17]
 
+### Added
+- Added a reusable landing-page copywriting framework for reader-question sequencing, section-role and repetition ledgers, and claim/proof safety, integrated into the existing `009-sg-marketing copywriting` mode without adding a public mode or reusing project-specific copy.
+
 ### Changed
 - Consolidated the public repurposing-skill surface into the `repurpose` mode of `007-sg-content`; migrated active routing, runtime, catalog, documentation, and public discovery guidance while retiring the standalone predecessor entrypoint. The skill/runtime/public-documentation migration was verified; this does not claim a production content outcome.
 

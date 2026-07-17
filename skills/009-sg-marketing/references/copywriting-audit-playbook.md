@@ -1,10 +1,10 @@
 ---
 artifact: skill_reference
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-07-16"
-updated: "2026-07-16"
+updated: "2026-07-17"
 status: active
 source_skill: 009-sg-marketing
 scope: copywriting-audit
@@ -15,7 +15,10 @@ security_impact: none
 docs_impact: yes
 linked_systems:
   - skills/009-sg-marketing/SKILL.md
+  - skills/references/landing-page-copywriting-framework.md
+  - skills/references/design-inspiration-library.md
   - skills/references/content-quality-rubric.md
+  - skills/references/editorial-content-corpus.md
   - skills/references/task-registry-routing.md
 depends_on:
   - artifact: skills/references/decision-quality-contract.md
@@ -26,7 +29,8 @@ supersedes:
   - skills/207-sg-audit-copywriting/references/copywriting-audit-workflow.md
 evidence:
   - "Migrated from 207-sg-audit-copywriting during marketing-surface consolidation."
-next_step: "/103-sg-verify consolidate marketing skills under sg-marketing"
+  - "Reusable landing-page framework adds scenario-proven sequence, repetition, and claim-safety doctrine without changing the public mode."
+next_step: "/103-sg-verify Reusable Landing-Page Copywriting Framework"
 ---
 
 # Copywriting Audit Playbook
@@ -40,6 +44,14 @@ Start with the intended buyer, not the text. This mode answers whether an offer 
 Read business and branding contracts and existing persona/customer-journey/strategy artifacts before scoring or persisting strategy. Report their version, status, freshness, and confidence; missing or stale contracts cap confidence and must appear as proof gaps. Public funnel/strategy changes require the editorial and technical-documentation corpus gates, including Editorial, Claim Impact, and Documentation Update Plans. Use `content-quality-rubric.md` for rubric statuses and `task-registry-routing.md` before follow-up writes.
 
 For sales/offer, CTA/proof/objection comparison, or explicit inspiration, apply the bounded Inspiration Gate: present at most five private reference IDs, require operator selection before loading bundles, record selected IDs, and extract patterns/anti-copy constraints without reproducing source copy.
+
+## Landing Framework Gate
+
+After this one local playbook is selected, load `$SHIPFLOW_ROOT/skills/references/landing-page-copywriting-framework.md` when the `copywriting` target is a landing, sales, or offer page, or when the request explicitly concerns its section flow, reading flow, repetition, proof placement, objection placement, or CTA sequence. A non-landing target without that explicit page-section need does not load the shared framework and continues through the existing Audit Flow.
+
+For an existing page, collect the framework's required inputs, inventory its current sections, build the Section Role, Claim/Proof, and Repetition Ledgers, then return the ordered `Landing Sequence Plan`. Give every section one `keep|move|merge|delete|create` action and its reader question, unique job, transition, evidence state, objection, and CTA role. State the selected framework path in the report.
+
+Keep recommendations at strategic sequence level. Route sentence-level clarity, grammar, microcopy, or rewriting to `copy`; do not run both modes. Treat unsupported claims as visible `needs proof` or `claim mismatch` gaps and recommend the strongest honest sequence supported by current evidence. If the missing shared framework or required local playbook prevents the pass, block it, name the canonical path, and give the concrete owner route `/900-shipglowz-core audit`; do not invent a generic template.
 
 ## Audit Flow
 

@@ -1,8 +1,20 @@
 # Skills Refresh Log
 
-Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent first.
+Chronological log of skill refreshes via `/900-shipglowz-core refresh <skill>`. Most recent first.
 
 ---
+
+## 2026-07-17 — 009-sg-marketing
+
+**Added:**
+- [landing copywriting] Shared reader-question, section-role, repetition, claim/proof, and sequence-plan doctrine with focused LPF contract proof.
+
+**Updated:**
+- [activation] The existing copywriting mode conditionally loads the shared framework for landing, sales, offer, or explicit bounded section-flow work without adding a public mode or second local playbook.
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted (local contract refresh; fresh-docs not needed)
 
 ## 2026-07-17 — 101-sg-ready
 
