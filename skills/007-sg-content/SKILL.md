@@ -1,6 +1,6 @@
 ---
 name: 007-sg-content
-description: "Content lifecycle router."
+description: "Orchestrate substantive content lifecycles across sources, claims, public surfaces, validation, and ship."
 argument-hint: '[goal | source | file | mode: plan, repurpose, draft, enrich, audit, marketing, seo, editorial, apply, ship]'
 ---
 
@@ -54,6 +54,8 @@ It routes content work to specialist owner skills and keeps the lifecycle cohere
 ## Scope Gate
 
 `007-sg-content` routes content lifecycle work. It does not replace specialist owner skills or invent new public surfaces on the fly.
+
+Do not activate it for an explicit atomic string, placeholder, typo, heading-tag, or formatting replacement that needs no content strategy, claim decision, or new surface. Execute that change directly and run the focused surface check.
 
 ## Required References
 

@@ -57,7 +57,7 @@ Before UI, mobile, component, layout, typography, spacing, color, shadow/elevati
 
 `001-sg-build` is the user-facing lifecycle orchestrator (`master-workflow`) and keeps user interaction high level while executing:
 
-`intake -> existing chantier check -> blueprint gate -> greenfield technology decision -> spec/readiness loop -> governance corpus gate -> model routing gate -> start -> verify -> end -> ship`
+`intake -> existing chantier check -> greenfield platform footprint -> blueprint gate -> greenfield technology decision -> spec/readiness loop -> governance corpus gate -> model routing gate -> start -> verify -> end -> ship`
 
 It answers one operational question:
 
@@ -103,12 +103,14 @@ Before creating any spec:
 
 After work item resolution, before spec creation:
 
-1. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`.
-2. Read the registry at `$SHIPFLOW_ROOT/skills/app-blueprints/README.md` for candidate matches.
-3. For each candidate, resolve the blueprint: check local cache first, then clone from `source.repo` if set.
-4. If matched, load the blueprint into the active context and pass it to downstream skills.
-5. If no match, proceed without a blueprint.
-6. If multiple blueprints match, ask the user to choose.
+1. Apply the Greenfield Platform Footprint Rule from `$SHIPFLOW_ROOT/skills/references/question-contract.md`; do not infer that responsive web excludes native mobile apps.
+2. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md`.
+3. Read the registry at `$SHIPFLOW_ROOT/skills/app-blueprints/README.md` for platform-compatible candidate matches.
+4. For each candidate, resolve the blueprint: check local cache first, then clone from `source.repo` if set.
+5. If matched, load the blueprint into the active context and pass it to downstream skills.
+6. If a candidate fits the platforms but not the product archetype, use it only as a stack/conventions reference.
+7. If no match, proceed without a blueprint.
+8. If multiple blueprints match, ask the user to choose.
 
 The blueprint pre-fills architecture, stack, models, routes, and conventions for `100-sg-spec` and `306-sg-scaffold`. It is not a substitute for a spec — it is a starting skeleton.
 
@@ -161,6 +163,7 @@ Stop and ask or reroute when:
 - governance corpus state is missing/stale and unresolved
 - a missing operator-owned business, audience, or framing fact materially changes behavior and no safe default exists
 - a greenfield technology direction would set material ongoing cost, control, maintenance, portability, or provider lock-in without operator agreement
+- a greenfield platform footprint that changes credible framework or architecture options has been assumed, or a major platform has been placed out of scope without operator evidence
 - a change would alter existing behavior without explicit decision
 - proposed execution would act as a quick-fix shortcut instead of preserving root cause, owner routing, shared structure, and proof
 - proposed UI/design execution would add or tolerate visual values outside the centralized design-system source without drift-check evidence and a named exception
@@ -187,6 +190,6 @@ Apply `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`. The default user
 
 Validate this skill after edits with:
 
-- `rg -n "Trace category|Process role|Master Delegation|Master Workflow Lifecycle|Existing Chantier Check|Greenfield Technology Decision|Stop Conditions|Final Report|build-lifecycle-workflow" skills/001-sg-build/SKILL.md`
+- `rg -n "Trace category|Process role|Master Delegation|Master Workflow Lifecycle|Existing Chantier Check|Greenfield Platform Footprint|Greenfield Technology Decision|Stop Conditions|Final Report|build-lifecycle-workflow" skills/001-sg-build/SKILL.md`
 - `python3 tools/skill_budget_audit.py --skills-root skills --format markdown`
 - `python3 tools/shipglowz_metadata_lint.py skills/001-sg-build/references/build-lifecycle-workflow.md`

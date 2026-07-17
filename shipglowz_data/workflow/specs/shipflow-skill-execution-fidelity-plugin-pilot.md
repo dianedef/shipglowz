@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: "shipflow"
 created: "2026-05-25"
 created_at: "2026-05-25 12:54:14 UTC"
-updated: "2026-05-25"
-updated_at: "2026-05-25 12:54:14 UTC"
+updated: "2026-07-17"
+updated_at: "2026-07-17 08:40:08 UTC"
 status: ready
 source_skill: sg-spec
 source_model: "GPT-5 Codex"
@@ -23,19 +23,29 @@ linked_systems:
   - "skills/references/master-delegation-semantics.md"
   - "skills/references/spec-driven-development-discipline.md"
   - "skills/references/skill-execution-fidelity.md"
+  - "skills/references/entrypoint-routing.md"
   - "skills/references/skill-context-budget.md"
+  - "skills/000-shipglowz/SKILL.md"
+  - "skills/102-sg-start/SKILL.md"
+  - "skills/007-sg-content/SKILL.md"
+  - "skills/201-sg-enrich/SKILL.md"
   - "tools/skill_budget_audit.py"
+  - "tools/test_skill_selection_proportionality.py"
+  - "README.md"
+  - "shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md"
+  - "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
+  - "shipglowz-site/src/content/skills/shipflow.md"
   - "/home/claude/plugins/shipflow-core/"
   - "/home/claude/.agents/plugins/marketplace.json"
 depends_on:
   - artifact: "skills/references/decision-quality-contract.md"
-    artifact_version: "1.0.0"
-    required_status: "active"
-  - artifact: "skills/references/spec-driven-development-discipline.md"
     artifact_version: "1.2.0"
     required_status: "active"
+  - artifact: "skills/references/spec-driven-development-discipline.md"
+    artifact_version: "1.5.0"
+    required_status: "active"
   - artifact: "skills/references/master-delegation-semantics.md"
-    artifact_version: "1.3.0"
+    artifact_version: "1.4.0"
     required_status: "active"
   - artifact: "skills/references/skill-context-budget.md"
     artifact_version: "unknown"
@@ -50,6 +60,7 @@ evidence:
   - "2026-05-25 shipflow-core pilot audit reports 70 heuristic issues, mostly missing visible Mission/Stop terms and long skill bodies."
   - "User concern 2026-05-25: Codex does not appear to follow ShipGlowz skills to the letter and the skills are not yet excellent."
   - "Conversation evidence 2026-05-26: user had to ask 'tu attends quoi' / 'tu peux pas le retenter' after the agent reported next proof steps it could likely run."
+  - "Operator correction 2026-07-17: replacing testimonials with Lorem ipsum was over-routed through multiple content skills instead of being executed as one atomic edit."
 next_step: "/sg-verify shipflow-skill-execution-fidelity-plugin-pilot"
 ---
 
@@ -104,6 +115,8 @@ Create a bounded execution-fidelity pass. First, improve the plugin audit so it 
 - Add or update a ShipGlowz-owned reference or tool only if the policy needs to be durable outside the plugin pilot.
 - Add an operator-last-resort proof rule: agents must run or route available non-destructive proof before asking the operator to retest.
 - Use `scenario-first` proof for skill obedience changes.
+- Add a proportional skill-selection gate so explicit atomic edits run directly unless they require substantive domain judgment.
+- Narrow content-router and enrichment activation wording where the observed failure proved over-selection.
 - Select a first remediation batch from concrete evidence, prioritizing skills where missing visible stop/validation/reporting gates could change behavior.
 - Preserve invocation keys, directories, frontmatter names, and public promises.
 - Record follow-up candidates instead of editing every skill in one run.
@@ -170,6 +183,8 @@ Create a bounded execution-fidelity pass. First, improve the plugin audit so it 
 - A reference contains the stop condition but the top-level skill does not visibly require loading that reference.
 - The plugin audit improves its classification but still cannot prove obedience without scenario tests.
 - A first remediation batch makes skills more uniform but less discriminating.
+- A fresh agent receives an exact `h1` to `h2`, typo, placeholder, or Lorem ipsum replacement and mistakes the edited file's domain for a reason to load a lifecycle skill.
+- The user explicitly names a skill for a small task; the skill must still activate but should use its smallest safe mode.
 
 ## Implementation Tasks
 
@@ -213,6 +228,14 @@ Create a bounded execution-fidelity pass. First, improve the plugin audit so it 
   - Validate with: plugin validation, plugin audit, skill budget audit, and runtime sync when skills changed.
   - Notes: Site build is required only if public site content changes.
 
+- [x] Task 6: Add proportional selection for atomic execution
+  - Files: `skills/references/skill-execution-fidelity.md`, `skills/references/entrypoint-routing.md`, `skills/000-shipglowz/SKILL.md`, `skills/007-sg-content/SKILL.md`, `skills/102-sg-start/SKILL.md`, `skills/201-sg-enrich/SKILL.md`, `tools/test_skill_selection_proportionality.py`, and the directly linked operator/public routing docs.
+  - Action: Define the atomic direct-execution gate, short-circuit the root router before it loads routing references, narrow the observed over-broad activation paths, and lock the behavior with a focused regression test.
+  - User story link: Prevents skill-following machinery from overwhelming trivial deterministic work.
+  - Depends on: Task 3
+  - Validate with: `python3 -m unittest tools.test_skill_selection_proportionality`
+  - Notes: Explicit skill invocation remains authoritative; only automatic selection becomes proportional.
+
 ## Acceptance Criteria
 
 - [x] AC 1: The improved plugin audit no longer treats every missing literal `Mission` heading as a hard defect.
@@ -223,6 +246,12 @@ Create a bounded execution-fidelity pass. First, improve the plugin audit so it 
 - [x] AC 6: No skill is renamed, deleted, merged, or publicly repromised.
 - [x] AC 7: The final report states whether the first batch improved real execution fidelity or whether the pilot mostly revealed audit-tool noise.
 - [x] AC 8: The durable reference states that the operator should test only as a last resort when agent-run proof is possible and safe.
+- [x] AC 9: Exact string, placeholder, typo, and heading-tag replacements without domain judgment are defined as direct execution.
+- [x] AC 10: `007-sg-content` and `201-sg-enrich` no longer present literal micro-edits as lifecycle or enrichment work.
+- [x] AC 11: Explicit user invocation still activates the named skill, using its smallest safe mode.
+- [x] AC 12: The root router decides atomic direct execution before loading its routing, topology, or owner-skill references.
+- [x] AC 13: The generic implementation skill excludes deterministic micro-edits from automatic activation.
+- [x] AC 14: Operator and public routing docs distinguish atomic direct execution from substantive skill-owned work.
 
 ## Test Strategy
 
@@ -232,6 +261,8 @@ Create a bounded execution-fidelity pass. First, improve the plugin audit so it 
 - Validate the plugin manifest with the official plugin-creator validator.
 - Run `tools/shipflow_sync_skills.sh --check --all` only when ShipGlowz skills are edited.
 - Run metadata lint on this spec if the spec history is updated during implementation.
+- Run `python3 -m unittest tools.test_skill_selection_proportionality` against the atomic-edit pressure scenario.
+- Build `shipglowz-site` when the public router page changes.
 
 ## Risks
 
@@ -276,12 +307,14 @@ None.
 | 2026-05-25 12:57:21 UTC | sg-skill-build | GPT-5 Codex | Improved shipflow-core audit classification, validated and reinstalled the plugin, and stopped without skill edits because no hard skill-contract findings remained. | implemented | /sg-verify shipflow-skill-execution-fidelity-plugin-pilot |
 | 2026-05-25 13:03:00 UTC | sg-skill-build | GPT-5 Codex | Added durable skill execution-fidelity reference for future skill update specs. | implemented | /sg-verify shipflow-skill-execution-fidelity-plugin-pilot |
 | 2026-05-26 00:00:00 UTC | sg-skill-build | GPT-5 Codex | Added operator-last-resort proof rule from conversation evidence about agents asking the user to continue/retest. | implemented | /sg-verify shipflow-skill-execution-fidelity-plugin-pilot |
+| 2026-07-17 08:40:08 UTC | 900-shipglowz-core | GPT-5 Codex | Added proportional automatic skill selection and narrowed content activation after an atomic Lorem ipsum edit triggered unnecessary lifecycle work. | implemented | /103-sg-verify shipflow-skill-execution-fidelity-plugin-pilot |
 
 ## Current Chantier Flow
 
 - sg-spec: ready
 - sg-ready: ready
 - sg-skill-build: implemented
+- 900-shipglowz-core: implemented
 - sg-verify: pending
 - sg-end: pending
 - sg-ship: pending

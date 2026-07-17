@@ -71,6 +71,7 @@ Parse `$ARGUMENTS` and the latest user request, then choose the smallest safe pa
 - Specs must preserve the Operator Autonomy Standard from `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`: implementation, diagnosis, test, and verification should gather safe evidence themselves before asking the operator.
 - Specs should not treat absent business framing as a generic blocker when one precise operator-owned question can resolve it. Ask for the smallest missing business, audience, or product truth and continue.
 - Greenfield product specs with no established stack or previously accepted blueprint must apply the Greenfield Technology Decision Rule from `$SHIPFLOW_ROOT/skills/references/question-contract.md`: present one researched product-level recommendation, obtain the operator's numbered decision, record its cost/control/maintenance/portability consequences, and keep package-level mechanics agent-owned.
+- Before blueprint or stack decisions, greenfield specs must apply the Greenfield Platform Footprint Rule from the same reference: record intended web/PWA/iOS/Android/desktop launch and roadmap surfaces, and never put a major platform in `Scope Out` solely because the first request did not name it.
 - `100-sg-spec` creates or updates the durable chantier spec only; it does not edit `TASKS.md`, `AUDIT_LOG.md`, or legacy `PROJECTS.md`.
 - Before creating or mutating a `spec:` operational summary line, load `$SHIPFLOW_ROOT/skills/references/operational-record-format.md` and keep the durable spec body separate from that one-line traffic-first record.
 - External-doc freshness, security, auth, tenant, data, money, destructive, and public-claim ambiguities must be resolved before the spec is called ready.
@@ -82,6 +83,7 @@ Stop and report blocked when:
 
 - A material product, security, data, tenant, external-side-effect, or workflow-integrity decision is missing.
 - A greenfield technology direction with material cost, control, maintenance, portability, or provider-lock-in consequences has been fixed without operator agreement.
+- A greenfield platform footprint that changes framework or architecture options is missing, inferred from words such as `responsive` or `website`, or excludes a major platform without operator evidence.
 - The requested implementation path would satisfy tasks but not the user story.
 - A required shared reference is missing or contradicts this activation contract.
 - The spec would need `TBD`, hidden assumptions, or untestable acceptance criteria.

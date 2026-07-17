@@ -4,6 +4,92 @@ Chronological log of skill refreshes via `/307-sg-skills-refresh`. Most recent f
 
 ---
 
+## 2026-07-17 — 102-sg-start
+
+**Added:** none
+
+**Updated:**
+- [activation] Deterministic literal and formatting micro-edits stay outside generic implementation unless the operator explicitly invokes the skill.
+- [discovery] The description now targets substantive local implementation tasks.
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted (operator correction and activation-path verification)
+
+## 2026-07-17 — 000-shipglowz
+
+**Added:**
+- [activation] Root-level atomic direct-execution gate before routing or topology references are loaded.
+
+**Updated:**
+- [routing] Deterministic micro-edits now stay in direct main-thread execution with focused proof; explicit skill invocations still activate.
+- [discovery] The description distinguishes non-trivial routing from atomic execution.
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted (operator correction and local pressure-scenario verification)
+
+## 2026-07-17 — 101-sg-ready
+
+**Added:**
+- [readiness] Greenfield launch and roadmap platform-footprint proof before approving a blueprint or stack.
+
+**Updated:**
+- [scope integrity] `mobile-first`, `responsive`, or an initially omitted platform can no longer justify silently excluding native applications.
+
+**New phases:** none
+
+**Sources:** 2 URLs consulted (official Flutter Web support and Web FAQ)
+
+## 2026-07-17 — 100-sg-spec
+
+**Added:**
+- [spec contract] Explicit web/PWA/iOS/Android/desktop launch and roadmap surfaces before architecture selection.
+
+**Updated:**
+- [scope safety] Major platform exclusions now require operator evidence instead of inference from the first request.
+
+**New phases:** none
+
+**Sources:** 2 URLs consulted (official Flutter Web support and Web FAQ)
+
+## 2026-07-17 — 001-sg-build
+
+**Added:**
+- [greenfield] Platform-footprint decision before blueprint matching and technology recommendation.
+
+**Updated:**
+- [blueprint] Candidates are filtered by required platforms before domain-keyword scoring; platform-compatible domain mismatches remain references rather than false blueprint matches.
+
+**New phases:**
+- Greenfield platform footprint between chantier resolution and blueprint selection.
+
+**Sources:** 2 URLs consulted (official Flutter Web support and Web FAQ)
+
+## 2026-07-17 — 201-sg-enrich
+
+**Added:** none
+
+**Updated:**
+- [activation] Literal placeholder, typo, heading-tag, and one-line replacements now stay outside enrichment and use focused direct execution.
+- [discovery] The description now targets substantive enrichment rather than generic content changes.
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted (operator correction and local execution-fidelity contract)
+
+## 2026-07-17 — 007-sg-content
+
+**Added:** none
+
+**Updated:**
+- [activation] Explicit atomic copy and formatting replacements no longer enter the content lifecycle.
+- [discovery] The description now targets substantive lifecycle work across sources, claims, surfaces, validation, and ship.
+
+**New phases:** none
+
+**Sources:** 0 URLs consulted (operator correction and local execution-fidelity contract)
+
 ## 2026-07-16 — 009-sg-marketing
 
 **Added:** none

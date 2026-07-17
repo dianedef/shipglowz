@@ -77,17 +77,18 @@ If the best-practice answer is clear, low-risk, reversible, inside contract, com
 
 After work item resolution, before spec creation:
 
-1. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` for the full contract.
-2. Extract keywords from the user request: normalize to lowercase, remove stopwords, keep nouns.
-3. **Read the registry** at `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`. Parse `available_blueprints` for match candidates.
-4. Score each candidate by keyword overlap against `match_keywords`, `name`, and `description`.
-5. For matched candidates, **resolve the blueprint file**:
+1. Apply the Greenfield Platform Footprint Rule from `$SHIPFLOW_ROOT/skills/references/question-contract.md`; distinguish browser, PWA, iOS/Android, desktop, launch phase, and roadmap targets when they change architecture.
+2. Load `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` for the full contract.
+3. Extract keywords from the user request: normalize to lowercase, remove stopwords, keep nouns.
+4. **Read the registry** at `$SHIPFLOW_ROOT/skills/app-blueprints/README.md`. Parse `available_blueprints` for match candidates.
+5. Score each candidate first by required-platform compatibility, then by keyword overlap against `match_keywords`, `name`, and `description`.
+6. For matched candidates, **resolve the blueprint file**:
    a. Check `$SHIPFLOW_ROOT/skills/app-blueprints/<id>/blueprint.md` (local cache).
    b. If missing but `source.repo` is set in the registry, clone the repo: `git clone --depth 1 <repo> $SHIPFLOW_ROOT/skills/app-blueprints/<id>/`. Use `$HOME/.shipflow/blueprints/<id>/` as fallback if `$SHIPFLOW_ROOT` is unavailable.
    c. If both fail, exclude this candidate.
-6. If no local match is found in the registry, fall back to scanning `$SHIPFLOW_ROOT/skills/app-blueprints/*/blueprint.md` for orphaned local blueprints not yet in the registry.
-7. Pick the best match (score > 0). If tie, ask the user.
-8. If a match is found:
+7. If no local match is found in the registry, fall back to scanning `$SHIPFLOW_ROOT/skills/app-blueprints/*/blueprint.md` for orphaned local blueprints not yet in the registry.
+8. Pick the best exact archetype match (score > 0). If a candidate is platform-compatible but domain-mismatched, keep it as a stack/conventions reference rather than inheriting its models and routes. If tied, ask the user.
+9. If a match is found:
    - Read the full blueprint file.
    - Keep the blueprint path in context for downstream skills.
    - When routing to `100-sg-spec`, include a handoff note: `blueprint: [id]`.
@@ -96,7 +97,7 @@ After work item resolution, before spec creation:
      ```text
      Blueprint: [id] (v[version]) — resolved from [local | cloned from <repo>]
      ```
-9. If no match, proceed without blueprint. This is normal for novel app types.
+10. If no match, proceed without blueprint. This is normal for novel app types.
 
 Add to the final report:
 ```text

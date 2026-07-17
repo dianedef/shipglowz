@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.2.1"
+artifact_version: "1.3.0"
 project: ShipGlowz
 created: "2026-06-23"
-updated: "2026-07-15"
+updated: "2026-07-17"
 status: draft
 source_skill: 009-sg-skill-build
 scope: app-blueprints
@@ -30,6 +30,7 @@ evidence:
   - "User decision 2026-06-23: the Blueprint Gate resolves via local cache first, clones from repo if missing."
   - "User decision 2026-06-25: blueprint extraction is a ShipGlowz-internal operation, owned by 900-shipglowz-core build."
   - "Extracted from contentglowz_app as first concrete Flutter blueprint."
+  - "Operator correction 2026-07-17: blueprint matching must follow an explicit greenfield platform footprint so mobile-capable Flutter directions are not omitted by a website-only assumption."
 next_review: "2026-08-15"
 next_step: "Create GitHub repos for each blueprint, update registry URLs"
 ---
@@ -104,14 +105,28 @@ Body sections:
 
 ## Matching
 
+Before keyword scoring, apply the Greenfield Platform Footprint Rule from
+`skills/references/question-contract.md`. Product-domain keywords alone are not
+enough: platform compatibility is a required matching dimension.
+
+- Exclude a blueprint that cannot cover a required platform.
+- Surface a Flutter-capable candidate when iOS/Android are required, even when
+  the product-domain keywords do not make it the final archetype match.
+- Treat a platform-compatible but domain-mismatched blueprint as a stack and
+  conventions reference, not as consent to inherit its domain models/routes.
+- For products combining an SEO-sensitive public website with mobile apps,
+  allow a split recommendation instead of forcing one blueprint across every
+  surface.
+
 When `001-sg-build` receives a request like "crée une app de carnet de santé pour voiture":
 
-1. Normalize the request to keywords: `[carnet, santé, voiture, health, log, vehicle]`
-2. Scan the registry (`$SHIPFLOW_ROOT/skills/app-blueprints/README.md`) for matching blueprints — match against `match_keywords`, `name`, and `description` (fuzzy, case-insensitive)
-3. For each match found in the registry, resolve it (local cache → clone from repo)
-4. If no match in registry, scan local `$SHIPFLOW_ROOT/skills/app-blueprints/*/blueprint.md` as fallback
-5. Return the best match or a shortlist; if no match, proceed without blueprint
-6. If multiple blueprints could match, ask the user to choose
+1. Resolve the product's required launch and roadmap platforms.
+2. Normalize the request to keywords: `[carnet, santé, voiture, health, log, vehicle]`
+3. Scan the registry (`$SHIPFLOW_ROOT/skills/app-blueprints/README.md`) for matching blueprints — match against required platforms plus `match_keywords`, `name`, and `description` (fuzzy, case-insensitive)
+4. For each match found in the registry, resolve it (local cache → clone from repo)
+5. If no match in registry, scan local `$SHIPFLOW_ROOT/skills/app-blueprints/*/blueprint.md` as fallback
+6. Return the best match or a shortlist; if no exact archetype matches, keep any platform-compatible candidate as a reference and proceed without falsely declaring an exact blueprint
+7. If multiple blueprints could match, ask the user to choose
 
 ## Blueprint Repo Structure
 

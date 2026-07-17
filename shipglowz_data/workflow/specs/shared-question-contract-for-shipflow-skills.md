@@ -1,12 +1,12 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-05-05"
 created_at: "2026-05-05 17:07:53 UTC"
-updated: "2026-05-05"
-updated_at: "2026-05-05 17:14:48 UTC"
+updated: "2026-07-17"
+updated_at: "2026-07-17 08:48:04 UTC"
 status: ready
 source_skill: sg-skill-build
 source_model: "GPT-5 Codex"
@@ -41,7 +41,8 @@ evidence:
   - "conversation-shipflow-questions-contextuelles-des-skills.md captured the earlier question-contract draft and user decisions."
   - "User decision 2026-05-04: questions should be numbered, explain why, include helpful icons when useful, and name the recommended answer."
   - "User decision 2026-05-04: a skill may proceed by default only when the default is compatible with project context and current best practices."
-next_step: "none"
+  - "Operator correction 2026-07-17: platform footprint must be established before greenfield blueprint and stack decisions; an initially omitted mobile surface must not be silently excluded."
+next_step: "/104-sg-end greenfield platform footprint question contract"
 ---
 
 # Spec: Shared Question Contract For ShipGlowz Skills
@@ -70,6 +71,7 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 - Trigger: A skill needs to choose whether to ask the user or proceed by default.
 - User/operator result: The skill asks a numbered decision question with why, recommendation, and practical options, or proceeds with a context-safe default and states important assumptions when useful.
 - System effect: the shared reference is reused instead of duplicating question doctrine in every skill.
+- System effect: greenfield platform scope is established before blueprint and stack selection, so credible mobile-capable options such as Flutter cannot disappear because a spec silently assumed web-only delivery.
 - Success proof: metadata lint, skill budget audit, runtime skill sync, targeted text checks, diff whitespace check, and site build pass.
 - Silent success: not allowed; material assumptions or questions must be visible.
 
@@ -79,6 +81,7 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 - If the obvious option conflicts with project context, public claims, architecture, security posture, or current best practices, the skill surfaces the conflict.
 - If a runtime prompt tool cannot express the full decision brief, the skill sends a short framing paragraph first and uses concise prompt options.
 - If validation fails, stop before shipping.
+- If launch or roadmap platforms are ambiguous and change the credible architecture, ask one numbered product question before placing any major platform in `Scope Out`.
 
 ## Scope In
 
@@ -86,6 +89,7 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 - Wire the shared contract into master lifecycle and entrypoint routing references.
 - Keep local `sg-build` and `shipflow` question gates aligned with the shared contract.
 - Update technical docs, workflow docs, README, launch cheatsheet, help, refresh log, and public skill pages where the promise is visible.
+- Extend the greenfield question contract, blueprint matching, spec creation, and readiness gates with an explicit platform-footprint decision.
 
 ## Scope Out
 
@@ -120,6 +124,10 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
   - Files: `README.md`, `shipglowz_data/workflow/playbooks/spec-driven-workflow.md`, `shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md`, `docs/technical/skill-runtime-and-lifecycle.md`, `skills/sg-help/SKILL.md`, `site/src/content/skills/shipflow.md`, `site/src/content/skills/sg-build.md`
   - Validate with: metadata lint where applicable and `pnpm --dir shipglowz-site build`.
 
+- [x] Task 5: Prevent platform scope from being inferred before stack selection.
+  - Files: shared question and blueprint doctrine plus build/spec/readiness owner contracts.
+  - Validate with: focused `SSRP-009` scans, metadata lint, skill audits, budget audit, and runtime sync checks.
+
 ## Skill Run History
 
 | Date UTC | Skill | Model | Action | Result | Next step |
@@ -127,6 +135,8 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 | 2026-05-05 17:07:53 UTC | sg-skill-build | GPT-5 Codex | Created the shared question-contract chantier from the captured conversation, after confirming prior duplicate/frontmatter/runtime warnings were no longer reproducible. | implemented | /sg-verify specs/shared-question-contract-for-shipflow-skills.md |
 | 2026-05-05 17:14:23 UTC | sg-verify | GPT-5 Codex | Verified shared question contract integration: metadata lint, skill budget audit, runtime skill sync, targeted wording checks, bug gate review, AGENTS alias check, diff whitespace, and clean Astro build after purging stale content cache. | verified | /sg-ship "shared question contract" |
 | 2026-05-05 17:14:48 UTC | sg-ship | GPT-5 Codex | Quick ship requested for `shared question contract`; staged the bounded question-contract scope after checks, then committed and pushed it. | shipped | none |
+| 2026-07-17 08:46:16 UTC | 900-shipglowz-core | GPT-5 Codex | Extended the shared greenfield decision contract after the Best Fried Chicken scope failure: platform footprint now precedes blueprint/stack selection, and Flutter must be considered when iOS/Android are required. | implemented | /103-sg-verify greenfield platform footprint question contract |
+| 2026-07-17 08:48:04 UTC | 103-sg-verify | GPT-5 Codex | Verified the `SSRP-009` ordering and failure scenario across build, blueprint, spec, and readiness owners; official Flutter docs, metadata lint, core tests, skill audit, budget audit, runtime sync, and diff checks passed. | verified | /104-sg-end greenfield platform footprint question contract |
 
 ## Current Chantier Flow
 
@@ -136,3 +146,5 @@ ShipGlowz skills must use one shared question/default doctrine for user-facing q
 - `sg-skill-build`: implemented; shared contract and integration surfaces updated.
 - `sg-verify`: verified; metadata lint, skill budget, runtime sync, targeted wording checks, bug gate review, AGENTS alias check, diff whitespace, and Astro build passed.
 - `sg-ship`: shipped; quick mode commit + push.
+- `900-shipglowz-core`: implemented follow-up correction for greenfield platform-footprint decisions.
+- `103-sg-verify`: verified; `SSRP-009`, metadata, core tests, audit, budget, runtime sync, and focused ordering/coherence scans pass.

@@ -95,6 +95,7 @@ The top-level review must confirm these buckets; the detailed heuristics live in
 - structure and mandatory sections
 - user-story alignment and minimal behavior contract
 - operator agreement on any greenfield technology direction that materially sets cost, control, maintenance, portability, or provider lock-in
+- explicit greenfield launch and roadmap platform footprint when web/PWA/iOS/Android/desktop scope changes credible framework or architecture options
 - metadata, freshness, and documentation coherence
 - task ordering, linked systems, and execution notes
 - proof contract fit, adversarial review, and security review
@@ -143,6 +144,7 @@ Stop and report `not ready` or `blocked` when:
 - a required section, proof contract, or linked-system consequence is missing
 - a material scope, behavior, or security question is still unresolved
 - a greenfield stack or blueprint has been frozen without the operator decision required by the Greenfield Technology Decision Rule
+- a greenfield spec infers platform exclusions from `responsive`, `mobile-first`, `website`, or an initially omitted platform instead of applying the Greenfield Platform Footprint Rule
 - freshness, language-doctrine, or design-system gates apply but cannot be checked safely
 - the spec would require generous inference from conversation history to implement cleanly
 

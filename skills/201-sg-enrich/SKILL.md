@@ -1,6 +1,6 @@
 ---
 name: 201-sg-enrich
-description: "Enrich content with research, user focus, and conversion fit."
+description: "Enrich substantive content with research, audience fit, structure, and conversion quality."
 argument-hint: <file-path or folder>
 ---
 
@@ -33,6 +33,8 @@ Always load shared references only when their gate applies. Load skill-local ref
 - `$SHIPFLOW_ROOT/skills/references/content-quality-rubric.md`: shared rubric for enriched-content quality score and structured feedback.
 
 ## Mode Detection
+
+Do not activate this skill for a literal placeholder, typo, heading-tag, or one-line replacement that needs no enrichment judgment. Execute that change directly with focused validation.
 
 Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`: bounded professional scope, never shortcut quality.
 

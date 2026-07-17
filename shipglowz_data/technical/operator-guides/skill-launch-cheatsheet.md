@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "1.8.1"
+artifact_version: "1.8.2"
 project: ShipGlowz
 created: "2026-05-04"
-updated: "2026-07-13"
+updated: "2026-07-17"
 status: reviewed
 source_skill: 300-sg-docs
 scope: skill-launch-cheatsheet
@@ -22,7 +22,7 @@ linked_systems:
   - shipglowz_data/editorial/content-map.md
 depends_on:
   - artifact: "shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
-    artifact_version: "0.17.0"
+    artifact_version: "0.18.4"
     required_status: draft
 supersedes:
   - docs/skill-launch-cheatsheet.md
@@ -43,6 +43,7 @@ evidence:
   - "310-sg-github-hygiene added as the git/GitHub sync, stale branch, PR drift, and Dependabot hygiene skill."
   - "Public/docs handoff clarity updated: numeric examples now match three-digit runtime names, and runtime invocation notes distinguish manual user commands from OpenCode/KiloCode internal calls."
   - "Added direct links to repo-visible OpenCode and KiloCode runtime pages."
+  - "2026-07-17 atomic routing update: deterministic micro-edits execute directly before owner-skill routing."
 next_step: "/300-sg-docs audit shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md"
 ---
 
@@ -52,7 +53,7 @@ Use this page when you need to choose which ShipGlowz skill to launch and which 
 
 ## Default Rule
 
-Start with `000-shipglowz <instruction>` when you want a non-technical first command. It answers pure conversational requests directly and routes real work to the right master or specialist skill. It uses a default only when the route is clear, low-risk, context-compatible, and verifiable.
+Start with `000-shipglowz <instruction>` when you want a non-technical first command. It answers pure conversational requests directly, executes deterministic micro-edits directly with focused validation, and routes substantive work to the right master or specialist skill. It uses a default only when the route is clear, low-risk, context-compatible, and verifiable.
 
 Start with `001-sg-build` directly when you already know the request is a feature, code, site, or docs workstream that needs the build lifecycle.
 
@@ -85,7 +86,7 @@ Family bands: `100-199` lifecycle/proof, `200-299` content/research/copy, `300-3
 Keep four roles separate:
 
 - `302-sg-help` explains and routes.
-- `000-shipglowz` routes or answers directly.
+- `000-shipglowz` routes, answers, or keeps deterministic micro-edits in direct execution.
 - The selected lifecycle or specialist skill owns execution.
 - The runtime may invoke internal calls after interpreting the user request.
 
@@ -162,7 +163,7 @@ Public categories make the catalog easier to browse. Runtime families explain ho
 
 | Need | Launch | Useful modes |
 | --- | --- | --- |
-| Non-technical first command | `000-shipglowz <instruction>` | Routes pure conversation directly; routes feature/code/docs to `001-sg-build`, maintenance to `002-sg-maintain`, bugs to `003-sg-bug`, release/deploy/prod proof to `004-sg-deploy`, content to `007-sg-content`, marketing studies/GTM/copy work to `009-sg-marketing`, design to `006-sg-design`, onboarding to `008-sg-customer`, local-to-cloud sync to `600-sg-local-cloud-sync`, internal skill maintenance to `900-shipglowz-core build`, and obvious specialist audits to `400-sg-audit-*`. Uses context-safe defaults and asks one numbered question when ambiguity changes route, risk, scope, or proof. |
+| Non-technical first command | `000-shipglowz <instruction>` | Answers pure conversation directly, executes deterministic micro-edits directly with focused validation, and routes substantive feature/code/docs, maintenance, bug, release, content, marketing, design, onboarding, sync, skill-maintenance, and audit work to the matching owner. Uses context-safe defaults and asks one numbered question only when ambiguity changes route, risk, scope, or proof. |
 | Non-trivial product, code, site, or docs work | `001-sg-build [spark|codex|mini|agents|sous-agent|no-agents] <story, bug, or goal>` | Plain task text is the story. Use `spark`, `codex`, `mini`, `agents`, or `sous-agent` to make model-specific delegated sequential execution a validation gate. For user-facing features, `001-sg-build` evaluates whether to suggest or route `/008-sg-customer` after implementation. Use detailed report modes only for handoff evidence. |
 | Recurring project upkeep | `002-sg-maintain [mode]` | `full`/no argument, `quick`, `security`, `deps`, `docs`, `audits`, `no-ship`, `global`. |
 | Release confidence after implementation | `004-sg-deploy [target or mode]` | no argument, `skip-check`, `--preview`, `--prod`, `no-changelog`. |

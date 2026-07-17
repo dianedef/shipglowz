@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.18.3"
+artifact_version: "0.18.4"
 project: ShipGlowz
 created: "2026-04-22"
-updated: "2026-06-29"
+updated: "2026-07-17"
 status: draft
 source_skill: 300-sg-docs
 scope: spec-driven-workflow
@@ -69,6 +69,7 @@ evidence:
   - "Updated on 2026-05-11 to make project governance artifacts canonical under shipglowz_data/, including workflow specs."
   - "Updated on 2026-06-28 to clarify public/docs runtime handoffs: helpers explain, the router hands off, owner skills execute, and OpenCode/KiloCode internal calls are not manual commands."
   - "Updated on 2026-06-29 to add Tariq as a named profile for acquisition-channel arbitration and traffic measurement discipline."
+  - "Updated on 2026-07-17 to route deterministic micro-edits through direct execution before loading owner workflows."
 next_review: "unknown"
 next_step: "/300-sg-docs audit shipglowz_data/workflow/playbooks/spec-driven-workflow.md"
 ---
@@ -105,7 +106,7 @@ Skill launch cheatsheet:
 
 | Need | Launch | Useful modes |
 | --- | --- | --- |
-| Non-technical first command | `000-shipglowz <instruction>` | Routes pure conversational answers directly; routes real work to the right master or specialist skill; asks one numbered question when ambiguous. |
+| Non-technical first command | `000-shipglowz <instruction>` | Answers pure conversation directly, executes deterministic micro-edits directly with focused validation, routes substantive work to the right skill, and asks one numbered question when materially ambiguous. |
 | Named operator profile | `%Victoire <instruction>`, `%SEO-specialist <instruction>`, or `%Tariq <instruction>` | Canonical profile syntax. Activates the named operator profile; `#Tag` remains a focus-tag surface and the router still picks the owner skill. |
 | Non-technical first command with named operator profile | `000-shipglowz profile=victoire <instruction>`, `000-shipglowz profile=seo-specialist <instruction>`, or `000-shipglowz profile=tariq <instruction>` | Same router, but with the selected profile active so the role contract shapes the answer or handoff framing. |
 | Non-trivial product, code, site, or docs work | `001-sg-build [spark|codex|mini|agents|sous-agent|no-agents] <story, bug, or goal>` | Plain task text is the story; use `spark`, `codex`, `mini`, `agents`, or `sous-agent` to make model-specific delegated sequential execution a validation gate; for user-facing features, `001-sg-build` evaluates whether to suggest or route `/008-sg-customer` after implementation; use detailed report modes only for handoff evidence. |
@@ -158,10 +159,10 @@ Optional model-selection entrypoint before execution:
 Primary non-technical router entrypoint:
 
 ```text
-000-shipglowz <instruction> -> direct answer or direct handoff to selected skill
+000-shipglowz <instruction> -> direct answer, atomic direct execution, or direct handoff to selected skill
 ```
 
-`000-shipglowz <instruction>` is the recommended first command when the operator does not want to choose a skill. It answers pure conversational requests in the main thread. It hands non-trivial feature, code, and docs work to `001-sg-build`; maintenance to `002-sg-maintain`; bug-loop work to `003-sg-bug`; release, deploy, or production proof to `004-sg-deploy`; content work to `007-sg-content`; onboarding and activation work to `008-sg-customer`; local-to-cloud sync contract work to `600-sg-local-cloud-sync`; product entitlement and access-gate work to `601-sg-product-entitlements`; internal skill maintenance to `900-shipglowz-core build`; and obvious specialist audits to `400-sg-audit-*`. Ambiguous requests get one numbered clarifying question with why, recommended answer, and practical options.
+`000-shipglowz <instruction>` is the recommended first command when the operator does not want to choose a skill. It answers pure conversational requests in the main thread and executes deterministic micro-edits there with focused validation, without loading an owner workflow. It hands non-trivial feature, code, and docs work to `001-sg-build`; maintenance to `002-sg-maintain`; bug-loop work to `003-sg-bug`; release, deploy, or production proof to `004-sg-deploy`; content work to `007-sg-content`; onboarding and activation work to `008-sg-customer`; local-to-cloud sync contract work to `600-sg-local-cloud-sync`; product entitlement and access-gate work to `601-sg-product-entitlements`; internal skill maintenance to `900-shipglowz-core build`; and obvious specialist audits to `400-sg-audit-*`. Ambiguous requests get one numbered clarifying question with why, recommended answer, and practical options.
 
 Named operator profiles sit above the router as a human-readable invocation layer. They do not replace skills:
 
@@ -199,7 +200,7 @@ The router uses direct main-thread handoff to the selected skill. It does not ru
 Public/docs handoff rule:
 
 - `302-sg-help` explains doctrine, invocation, and routing choices.
-- `000-shipglowz` routes or answers directly.
+- `000-shipglowz` routes, answers, or keeps deterministic micro-edits in direct execution.
 - The selected lifecycle or specialist skill owns execution after handoff.
 - In OpenCode or KiloCode-style runtimes, the operator should ask for the ShipGlowz router skill in natural language or through the runtime UI. Internal calls such as `skill({ name: "shipglowz" })` are runtime internals, not manual commands.
 

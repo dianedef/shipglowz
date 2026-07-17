@@ -1,6 +1,6 @@
 ---
 name: 102-sg-start
-description: "Execute ready specs or clear local tasks with guardrails."
+description: "Execute ready specs or substantive local implementation tasks with guardrails."
 argument-hint: <task description or TASKS.md item>
 ---
 
@@ -65,6 +65,7 @@ For `102-sg-start`, this preflight also applies before touching ShipGlowz-owned 
 
 Parse `$ARGUMENTS`, available ready specs, and the latest user request.
 
+- Atomic direct execution: an exact string, placeholder, typo, heading-tag, or formatting replacement that needs no implementation judgment stays outside `102-sg-start` unless the user explicitly invoked this skill. Execute it directly with focused validation.
 - Direct mode: small, local, clear tasks may execute without a durable spec; create a silent mini-contract before editing.
 - Spec-first mode: non-trivial, ambiguous, multi-file, auth/data/migration/API/security, external integration, or cross-domain work requires a ready spec before implementation.
 - Existing ready spec: load `references/execution-workflow.md`, read the spec fully, derive the execution contract, then implement.

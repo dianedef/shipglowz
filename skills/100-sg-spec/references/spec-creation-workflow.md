@@ -82,13 +82,21 @@ Avant de créer ou modifier une ligne opérationnelle `spec:`, charger `$SHIPFLO
 
 ### Step 1 — Comprendre le besoin
 
+Pour tout produit greenfield, appliquer d'abord la Greenfield Platform
+Footprint Rule de `$SHIPFLOW_ROOT/skills/references/question-contract.md`.
+Documenter séparément les surfaces de lancement et de roadmap (site public,
+application web/PWA, iOS, Android, desktop). Ne jamais traduire l'absence du mot
+`mobile` dans la première demande en exclusion des applications mobiles, ni
+confondre `responsive/mobile-first` avec une application iOS/Android.
+
 **Si un contexte `blueprint: [id]` est fourni** (handoff de `001-sg-build`) :
 1. Charger `$SHIPFLOW_ROOT/skills/references/app-blueprints.md` pour le contrat du système.
 2. Lire `$SHIPFLOW_ROOT/skills/app-blueprints/[id]/blueprint.md`.
 3. Extraire du blueprint : stack, architecture, modèles, routes, conventions.
 4. Utiliser ces informations pour pré-remplir le contexte technique (section Stack, Modèles, Routes).
-5. Si ce blueprint ou une stack équivalente a déjà été accepté par l'opérateur ou le corpus projet, ne pas reposer les questions couvertes. Sinon, traiter le blueprint comme une recommandation et appliquer la Greenfield Technology Decision Rule de `$SHIPFLOW_ROOT/skills/references/question-contract.md` avant de figer la stack.
-6. Continuer la spec normalement pour les décisions projet-spécifiques (user story, fonctionnalités exactes, données métier, UI/UX).
+5. Vérifier que le blueprint couvre la plateforme déclarée. Un blueprint compatible avec les plateformes mais pas avec le domaine peut informer la stack et les conventions sans pré-remplir les modèles/routes métier.
+6. Si ce blueprint ou une stack équivalente a déjà été accepté par l'opérateur ou le corpus projet, ne pas reposer les questions couvertes. Sinon, traiter le blueprint comme une recommandation et appliquer la Greenfield Technology Decision Rule de `$SHIPFLOW_ROOT/skills/references/question-contract.md` avant de figer la stack.
+7. Continuer la spec normalement pour les décisions projet-spécifiques (user story, fonctionnalités exactes, données métier, UI/UX).
 
 **Si `$ARGUMENTS` est fourni**, l'utiliser comme point de départ.
 **Sinon**, demander : "Qu'est-ce qu'on construit ?"

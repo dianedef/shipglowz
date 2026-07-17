@@ -1,6 +1,6 @@
 ---
 name: 000-shipglowz
-description: "Route requests to skills or answers."
+description: "Route non-trivial requests to skills while deterministic micro-edits execute directly."
 argument-hint: <instruction>
 ---
 
@@ -13,7 +13,7 @@ Before resolving any ShipGlowz-owned file, load `$SHIPFLOW_ROOT/skills/reference
 Trace category: `non-applicable`.
 Process role: `helper`.
 
-`000-shipglowz` does not write to chantier specs, bug files, release scopes, content surfaces, commits, or deployment state. The selected owner skill owns durable state and chantier tracing after handoff. If invoked inside a spec-first flow, do not modify `Skill Run History`; use a `(local)` chantier header with a short work name.
+`000-shipglowz` does not write to chantier specs, bug files, release scopes, commits, or deployment state. A selected owner skill owns durable state and chantier tracing after handoff. When the atomic gate below selects direct execution, the base executor owns only the bounded requested edit and its focused proof. If invoked inside a spec-first flow, do not modify `Skill Run History`; use a `(local)` chantier header with a short work name.
 
 ## Report Modes
 
@@ -21,13 +21,20 @@ Before producing a final report, load `$SHIPFLOW_ROOT/skills/references/reportin
 
 Default to `report=user`: concise, route-first, and in the user's active language. Use detailed report modes only when the user explicitly asks for handoff evidence or when routing is blocked.
 
+## Atomic Direct-Execution Gate
+
+Before loading routing, topology, or owner-skill references, keep the request in direct main-thread execution when the user supplied one explicit deterministic edit, the target is known or discoverable with one focused lookup, no domain judgment or sensitive boundary is involved, and focused validation is sufficient. Typical cases are an exact string or placeholder replacement, a typo, one formatting token, or one `h1` to `h2` change.
+
+Do not load a domain or lifecycle skill for these requests. Apply the bounded edit and run the smallest relevant check. An explicitly named skill still activates and uses its smallest safe mode. This is the activation-critical form of the shared Skill Selection Proportionality Gate.
+
 ## Delegation And Topology
 
-Before deciding execution topology, load `$SHIPFLOW_ROOT/skills/references/master-delegation-semantics.md`.
+For requests that do not pass the Atomic Direct-Execution Gate, load `$SHIPFLOW_ROOT/skills/references/master-delegation-semantics.md` before deciding execution topology.
 
 `000-shipglowz` is a primary router, not a master lifecycle executor. Its default topology is `main-thread routing`:
 
-- answer directly in the main conversation when no file work, validation, closure, ship, deployment, or durable artifact is needed
+- answer directly when no file work or lifecycle action is needed
+- execute directly in the main conversation when a bounded file edit passes the Atomic Direct-Execution Gate
 - hand off directly in the main conversation to the selected skill contract when work belongs to an existing skill
 - ask one numbered routing question when multiple routes are plausible and the answer changes behavior, risk, data, permissions, public claims, staging, closure, or ship posture
 
@@ -56,7 +63,7 @@ If focus tags are present in `$ARGUMENTS`, treat them as binding route-bias cues
 
 When `$ARGUMENTS` begins with a three-digit skill code or a three-digit runtime skill name, load `$SHIPFLOW_ROOT/skills/references/skill-code-index.md` before natural-language classification. Resolve `NNN`, `NNN-skill`, `NNNskill`, or `NNN skill` to the runtime skill name from that index, then hand off to that skill.
 
-Before choosing a route, answer, or fallback, load `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md`. Routing must prefer the owner path that preserves correctness, security, performance, maintainability, durability, excellence, and proof quality; do not route to the fastest or easiest owner when that would weaken the work. Apply the `Structure Replacement Doctrine`: prefer the route that removes current operator friction, ambiguity, or maintenance burden when it remains quality-equivalent.
+For requests that remain after the Atomic Direct-Execution Gate, load `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md` before choosing a route, answer, or fallback. Routing must prefer the owner path that preserves correctness, security, performance, maintainability, durability, excellence, and proof quality; do not route to the fastest or easiest owner when that would weaken the work. Apply the `Structure Replacement Doctrine`: prefer the route that removes current operator friction, ambiguity, or maintenance burden when it remains quality-equivalent.
 
 ## Mission
 
@@ -77,7 +84,7 @@ What should ShipGlowz do with this instruction, and which existing skill should 
 
 The goal is not to create a new mega-master or the shortest route. The goal is to keep the operator from memorizing the skill taxonomy while preserving the quality and excellence bar, gates, delegation rules, evidence rules, and ship rules owned by existing skills.
 
-Keep the boundary explicit: `000-shipglowz` routes or answers directly. It does not prime broad context for a known task, generate a portfolio status dashboard, or continue a resolved chantier after owner selection is already clear.
+Keep the boundary explicit: `000-shipglowz` routes, answers, or selects bounded direct execution. It does not prime broad context for a known task, generate a portfolio status dashboard, or continue a resolved chantier after owner selection is already clear.
 
 ## Mode Detection
 
@@ -87,8 +94,8 @@ Parse `$ARGUMENTS` as the operator instruction.
 - `help`, `aide`, `commands`, `skills`, or route-selection questions: answer directly or route to `302-sg-help` only if the user wants the full help surface.
 - Named profile activation: apply `skills/references/profile-activation.md`. When the instruction starts with `%<Profile>`, `profile=<id>`, or `profil=<id>`, or clearly asks to respond as a known profile, load the matching profile and keep its role bias active for this turn. The canonical syntax is `%<Profile>`. The profile shapes arbitration and output style; it does not replace owner-skill routing. `#<Tag>` remains reserved for focus tags and route-bias cues.
 - Numeric skill code: resolve the leading three digits through `skill-code-index.md`, then hand off to the runtime skill. Accepted forms include `001`, `001-sg-build`, `001sfbuild`, and `001 sg-build`.
-- Explicit skill name: hand off to that skill unless the request reveals a safer owner.
-- Natural-language instruction: classify using the routing matrix below.
+- Explicit skill name: hand off to that skill. If its safety or scope gate blocks execution, let that skill reroute explicitly instead of silently substituting another owner.
+- Natural-language instruction: apply the Atomic Direct-Execution Gate first; classify only unmatched requests with the routing matrix below.
 - Natural-language instruction with focus tags: classify using the routing matrix plus the focus-tag execution priorities; tags can change owner preference, artifact preference, and whether a direct suggestion is too passive.
 
 Route away instead of staying in `000-shipglowz` when the operator already knows the helper surface needed:
@@ -119,6 +126,7 @@ For requests involving declared products, sales surfaces, or public claims, pref
 | Intent | Route |
 | --- | --- |
 | Pure question, explanation, or advice with no file work | Answer directly |
+| Explicit deterministic micro-edit with no domain judgment or sensitive boundary | Direct main-thread execution with focused validation; no owner skill |
 | Build or change a user-facing feature and also think about end-user clarity, UX/UI friction, activation, beginner adoption, or first-success guidance | `001-sg-build <instruction>` first; `001-sg-build` evaluates the post-implementation `008-sg-customer` gate |
 | Non-trivial feature, code, site, docs, product, or workflow work | `001-sg-build <instruction>` |
 | Create a new app from scratch (carnet, gestion, CRUD, etc.) | `001-sg-build <instruction>` — le Blueprint Gate cherchera un blueprint correspondant dans `skills/app-blueprints/` pour guider la creation |

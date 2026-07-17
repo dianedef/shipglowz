@@ -1,10 +1,10 @@
 ---
 artifact: documentation
 metadata_schema_version: "1.0"
-artifact_version: "0.17.0"
+artifact_version: "0.17.1"
 project: "ShipGlowz"
 created: "2026-04-25"
-updated: "2026-07-13"
+updated: "2026-07-17"
 status: draft
 source_skill: 300-sg-docs
 scope: readme
@@ -32,7 +32,7 @@ linked_systems:
   - skills/references/question-contract.md
   - skills/references/app-blueprints.md
   - skills/references/design-inspiration-library.md
-  - shipglowz-site/src/content/skills/000-shipglowz.md
+  - shipglowz-site/src/content/skills/shipflow.md
   - shipglowz_data/technical
   - shipglowz_data/editorial
   - shipglowz_data/technical/codex-plugin-packaging.md
@@ -41,6 +41,7 @@ linked_systems:
 depends_on: []
 supersedes: []
 evidence:
+  - "2026-07-17 atomic routing update: deterministic micro-edits execute directly with focused validation instead of loading a lifecycle skill."
   - "Added 108-sg-browser as the generic non-auth browser verification path."
   - "Added 004-sg-deploy as the release confidence orchestrator."
   - "Added 002-sg-maintain as the recurring project maintenance orchestrator."
@@ -485,7 +486,7 @@ Recommended non-technical entrypoint in a skill-aware agent session:
 000-shipglowz <instruction>
 ```
 
-Use `000-shipglowz <instruction>` when you want ShipGlowz to choose the route. It answers pure conversational requests directly, hands non-trivial feature/code/docs work to `001-sg-build`, upkeep to `002-sg-maintain`, bugs to `003-sg-bug`, release/deploy/prod proof to `004-sg-deploy`, content to `007-sg-content`, onboarding and activation work to `008-sg-customer`, local-to-cloud sync contract work to `600-sg-local-cloud-sync`, product-entitlement work to `601-sg-product-entitlements`, internal skill maintenance to `900-shipglowz-core build`, and obvious specialist audits to `400-sg-audit-*`. If the route is ambiguous, it asks one numbered question with why, the recommended answer, and practical options. When it routes, it hands the current thread directly to the selected skill; selected masters own their own delegated sequential execution.
+Use `000-shipglowz <instruction>` when you want ShipGlowz to choose the route. It answers pure conversational requests directly, executes deterministic micro-edits directly with focused validation, hands non-trivial feature/code/docs work to `001-sg-build`, upkeep to `002-sg-maintain`, bugs to `003-sg-bug`, release/deploy/prod proof to `004-sg-deploy`, content to `007-sg-content`, onboarding and activation work to `008-sg-customer`, local-to-cloud sync contract work to `600-sg-local-cloud-sync`, product-entitlement work to `601-sg-product-entitlements`, internal skill maintenance to `900-shipglowz-core build`, and obvious specialist audits to `400-sg-audit-*`. If the route is ambiguous, it asks one numbered question with why, the recommended answer, and practical options. When it routes, it hands the current thread directly to the selected skill; selected masters own their own delegated sequential execution.
 
 You can also activate a named operator profile through the same router. Example:
 
@@ -535,7 +536,7 @@ Skill launch cheatsheet:
 
 | Need | Launch | Useful modes |
 | --- | --- | --- |
-| Non-technical first command | `000-shipglowz <instruction>` | Routes pure conversation directly; routes real work to the right master or specialist skill; uses context-safe defaults and asks one numbered decision question when ambiguity changes route, risk, scope, or proof. |
+| Non-technical first command | `000-shipglowz <instruction>` | Answers pure conversation directly, executes deterministic micro-edits directly with focused validation, routes substantive work to the right skill, and asks one numbered decision question only when ambiguity changes route, risk, scope, or proof. |
 | Named operator profile | `%Victoire <instruction>`, `%SEO-specialist <instruction>`, or `%Tariq <instruction>` | Canonical profile syntax for a named operator profile. Use `#Tag` separately for focus tags such as `#SEO`, `#traffic`, or `#acquisition`. |
 | Non-technical first command with named profile | `000-shipglowz profile=victoire <instruction>`, `000-shipglowz profile=seo-specialist <instruction>`, or `000-shipglowz profile=tariq <instruction>` | Same router, with the selected profile active for the turn. |
 | Non-trivial product, code, site, or docs work | `001-sg-build [spark|codex|mini|agents|sous-agent|no-agents] <story, bug, or goal>` | Plain task text is the story; `spark`, `codex`, `mini`, `agents`, and `sous-agent` strictly validate model-specific delegated sequential execution; for user-facing features, `001-sg-build` evaluates whether to suggest or route `/008-sg-customer` after implementation; use detailed report modes only for handoff evidence. |

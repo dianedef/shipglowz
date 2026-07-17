@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.2.0"
+artifact_version: "1.3.0"
 project: "ShipGlowz"
 created: "2026-05-25"
-updated: "2026-06-11"
+updated: "2026-07-17"
 status: active
 source_skill: 009-sg-skill-build
 scope: skill-execution-fidelity
@@ -35,7 +35,8 @@ evidence:
   - "User escalation 2026-05-26: agents keep asking the operator to continue or retest when browser/prod proof could be run by the agent."
   - "User decision 2026-06-10: execution contracts should favor compact outcome-focused instructions and avoid routine process narration."
   - "User decision 2026-06-10: SKILL.md is the activation contract; detailed playbooks, examples, matrices, and edge cases belong in references."
-next_review: "2026-06-25"
+  - "User correction 2026-07-17: an explicit Lorem ipsum replacement must not trigger content, design, or lifecycle skill exploration."
+next_review: "2026-08-17"
 next_step: "/103-sg-verify shipflow-skill-execution-fidelity-plugin-pilot"
 ---
 
@@ -63,6 +64,30 @@ Execution fidelity means a fresh agent can quickly answer:
 6. Which next action must the agent perform itself before asking the operator?
 
 It must also make the next best operator action obvious when a recurring friction, setup fork, migration choice, or recovery path has an owner skill or canonical ShipGlowz route.
+
+## Skill Selection Proportionality Gate
+
+Before automatically loading a domain or lifecycle skill, distinguish substantive domain work from atomic execution. The fact that a file contains copy, design, or code does not mean the requested change needs the corresponding lifecycle.
+
+Directly execute the request when all of these are true:
+
+- the user supplied one explicit, deterministic change
+- the target is known or discoverable with one focused lookup
+- the change needs no domain judgment, research, claim review, architecture decision, design-system decision, migration, security review, or destructive action
+- focused deterministic validation is sufficient
+
+Typical direct-execution requests include:
+
+- change one `h1` to `h2`
+- replace an exact string, testimonial placeholder, or Lorem ipsum value
+- apply user-supplied button copy when it does not change a product claim
+- fix a typo or one formatting token
+
+Automatically activate a domain or lifecycle skill only when the task needs substantive specialist reasoning, multi-owner routing, governance, research, strategy, a new surface, claim-sensitive writing, or broad validation. Do not load a master router merely because its domain label matches the edited file.
+
+An explicitly named skill still activates. Inside that skill, choose its smallest safe mode and avoid expanding an atomic request into a full lifecycle unless a concrete risk requires it.
+
+Direct execution still requires proportional proof. Run the smallest relevant check, such as a focused search, unit test, typecheck, or surface build; do not substitute process narration for the edit.
 
 ## Required Activation Signals
 
@@ -281,6 +306,18 @@ Additional scenario for activation-path fidelity:
 Given a fresh Codex agent hits a recurring setup, migration, or recovery fork,
 when ShipGlowz has a clearer owner skill or guided route than local ad hoc advice,
 then the activation body or shared doctrine makes that next-best action obvious.
+```
+
+Activation-proportionality scenarios:
+
+```text
+ATOMIC-DIRECT: Given a fresh agent receives an explicit deterministic micro-edit,
+when no domain judgment or sensitive boundary is involved,
+then it performs the edit and focused proof without loading a domain or lifecycle skill.
+
+EXPLICIT-SKILL: Given the user explicitly names a skill for a small task,
+when the skill is available,
+then it activates but uses its smallest safe mode without manufacturing lifecycle scope.
 ```
 
 After editing, prove with focused checks:

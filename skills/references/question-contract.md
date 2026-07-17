@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.5.0"
+artifact_version: "1.6.0"
 project: ShipGlowz
 created: "2026-05-05"
-updated: "2026-06-28"
+updated: "2026-07-17"
 status: active
 source_skill: 009-sg-skill-build
 scope: skill-question-contract
@@ -34,8 +34,9 @@ evidence:
   - "User decision 2026-06-10: autonomy and question rules should be compact enough to preserve the signal."
   - "User decision 2026-06-28: the operator is not here to code, but is happy to answer precise business-critical questions that the repository cannot answer."
   - "User decision 2026-07-15: a greenfield product stack must be chosen with the operator at the product-consequence level instead of being silently fixed by the agent."
+  - "Operator correction 2026-07-17: greenfield platform scope must be established before stack options; ShipGlowz must not silently exclude mobile applications and thereby omit Flutter from the decision."
 next_review: "2026-06-05"
-next_step: "/103-sg-verify shipflow-skill-reporting-and-proof-hardening"
+next_step: "/104-sg-end greenfield platform footprint question contract"
 ---
 
 # Question Contract
@@ -80,6 +81,34 @@ Business, product, audience, and framing facts often belong to the operator rath
 The standard is not "ask less no matter what". It is "ask at the partner layer". If a question sharpens business intent, audience nuance, positioning, or product usefulness that the agent cannot infer confidently from the project, asking is part of doing the job well.
 
 Proceed without asking when the safe default is clear, in scope, low-risk or reversible, compatible with project context and current best practices, and verifiable in the current run.
+
+## Greenfield Platform Footprint Rule
+
+Before blueprint matching or technology recommendations for a greenfield
+product, establish the intended platform footprint at the product level:
+
+- public website or browser application
+- installable web app / PWA when materially different from an ordinary site
+- native iOS and Android applications
+- desktop applications when relevant
+
+Use explicit operator statements and existing product corpus first. If the
+platform footprint is absent or ambiguous and it would materially change the
+framework, architecture, delivery phases, cost, or maintenance model, ask one
+numbered product question or bundle it into the greenfield technology decision.
+
+Never treat `mobile-first`, `responsive`, `website`, or `on the Internet` as
+proof that native mobile applications are unwanted. Never put a major platform
+into `Scope Out` merely because it was not named in the first sentence. When a
+platform is required later rather than at launch, record both the launch phase
+and the durable target architecture so the first implementation does not block
+the planned application.
+
+Once the footprint is known, evaluate all professionally credible framework
+directions that cover it. A request including iOS/Android must consider Flutter
+or explain concretely why it is not suitable; a public SEO-sensitive website
+must separately evaluate whether its web surface should use document-centric
+web technology even when Flutter owns the mobile applications.
 
 ## Greenfield Technology Decision Rule
 
@@ -190,3 +219,4 @@ Name the condition that would make another option better when that matters.
 - `SSRP-006 required decision`: when the answer changes security, data, product behavior, validation confidence, closure, or ship risk, the skill asks one numbered plain-language question with a recommended option.
 - `SSRP-007 operator-owned business truth`: when the missing fact is business, audience, product, or framing context that the operator uniquely knows and the repository cannot prove, the skill asks one precise numbered question and continues after the answer instead of calling the task blocked.
 - `SSRP-008 greenfield stack partnership`: given the operator asks to create a new product with no accepted stack, when the framework, hosting, data, or provider direction affects ongoing cost, control, maintenance, portability, or lock-in, then the agent presents one recommended product-level stack direction with practical alternatives and obtains a numbered decision before the spec freezes it.
+- `SSRP-009 greenfield platform footprint`: given the operator asks for a new Internet product and does not explicitly accept or reject native apps, when platform scope would change the credible framework options, then the agent establishes web/iOS/Android/desktop intent before blueprint matching or stack recommendation and does not silently place mobile apps in `Scope Out`.

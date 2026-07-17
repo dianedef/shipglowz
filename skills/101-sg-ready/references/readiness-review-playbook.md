@@ -78,6 +78,7 @@ Before looking at implementation detail, verify that the spec clearly links:
 - the expected behavior
 - the business or operational value
 - the explicit scope limits
+- the declared launch and roadmap platform footprint for greenfield products when it affects architecture
 
 Refuse the spec if a fresh reader cannot answer without hesitation:
 
@@ -147,6 +148,7 @@ Check:
 - operator autonomy is preserved: diagnostics, tests, verification, and proof
   say what to collect before asking the user
 - `Scope Out` meaningfully bounds the work
+- greenfield `Scope Out` does not exclude native mobile, web, PWA, or desktop solely because the initial request omitted that surface; platform exclusions are operator-backed, and `mobile-first` is not treated as equivalent to iOS/Android apps
 - when the spec touches ShipGlowz artifacts, skills, reports, technical docs,
   prompts, or user-facing product copy, it respects ShipGlowz language doctrine
 

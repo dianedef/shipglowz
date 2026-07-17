@@ -2,14 +2,14 @@
 title: "shipflow"
 slug: "shipflow"
 tagline: "Start with one plain instruction and let ShipGlowz choose the right workflow."
-summary: "The primary non-technical router skill for answering simple questions directly or handing real work to the right ShipGlowz master or specialist skill."
+summary: "The primary non-technical router for answering questions, executing deterministic micro-edits directly, or handing substantive work to the right ShipGlowz skill."
 category: "Plan & Decide"
 audience:
   - "Founders who do not want to memorize every sf-* command"
   - "Operators who know the outcome but not the right workflow route"
   - "Teams that want routing decisions kept visible in the main thread"
 problem: "A user can lose momentum before work starts by having to choose between build, bug, maintenance, content, design, deploy, skill, and audit workflows."
-outcome: "You get one first command that either answers directly, routes the current thread to the right ShipGlowz skill, or asks one numbered clarification question when no context-safe route exists."
+outcome: "You get one first command that answers directly, performs deterministic micro-edits with focused validation, routes substantive work to the right ShipGlowz skill, or asks one numbered clarification question when no context-safe route exists."
 founder_angle: "The router keeps the first move simple. You describe the business or product need, and ShipGlowz chooses whether the work is conversation, build, maintenance, bug, release, content, design, skill maintenance, or audit. The router also steers requests into product-aware content and docs paths when declared products or public claims are part of the work."
 when_to_use:
   - "When you want the recommended first command and do not know which skill to launch"
@@ -21,7 +21,8 @@ what_you_give:
   - "Any known target file, feature, bug symptom, deployment, content surface, or audit concern"
 what_you_get:
   - "A direct conversational answer for pure questions"
-  - "A direct main-thread handoff to the selected skill for real work"
+  - "Direct execution with focused validation for deterministic micro-edits"
+  - "A direct main-thread handoff to the selected skill for substantive work"
   - "One numbered question when the route is ambiguous"
   - "No hidden master-skill-in-subagent nesting"
   - "A route that keeps product governance, claims, and surface coherence visible when the task touches shipped or market-facing material"
@@ -31,7 +32,7 @@ example_prompts:
   - "shipflow prepare this change for deploy proof"
 argument_modes:
   - argument: "<instruction>"
-    effect: "Classifies the request and either answers directly or hands the main thread to the selected ShipGlowz skill."
+    effect: "Classifies the request and either answers directly, executes a deterministic micro-edit directly, or hands the main thread to the selected ShipGlowz skill."
     consequence: "Routes feature/code/docs to sg-build, mixed build-plus-customer requests to sg-build first with a post-build sg-customer gate, maintenance to sg-maintain, bugs to sg-bug, release/deploy/prod proof to sg-deploy, content to sg-content, design to sg-design, customer-experience work to sg-customer, internal skill maintenance to the internal 900 core workflow, and obvious specialist audits to sg-audit-*."
 limits:
   - "It does not replace the selected skill's lifecycle gates"
@@ -98,5 +99,7 @@ $shipglowz help me choose the right workflow
 
 The router keeps the handoff visible. If it selects a master skill, that skill
 takes over the main thread and owns its own delegated sequential execution.
+If the request is only a deterministic micro-edit, the router keeps execution
+direct and runs focused validation without loading a lifecycle skill.
 If no route is safely implied by the instruction and project context, the router
 asks one numbered decision question with the reason and recommended route.

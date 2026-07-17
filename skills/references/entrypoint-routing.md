@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.5.0"
+artifact_version: "1.6.0"
 project: ShipGlowz
 created: "2026-05-04"
-updated: "2026-06-29"
+updated: "2026-07-17"
 status: active
 source_skill: 009-sg-skill-build
 scope: entrypoint-routing
@@ -27,6 +27,7 @@ linked_systems:
   - skills/400-sg-audit/SKILL.md
   - skills/references/master-delegation-semantics.md
   - skills/references/question-contract.md
+  - skills/references/skill-execution-fidelity.md
   - shipglowz_data/technical/operator-guides/skill-launch-cheatsheet.md
   - README.md
   - shipglowz_data/workflow/playbooks/spec-driven-workflow.md
@@ -40,6 +41,9 @@ depends_on:
   - artifact: "skills/references/master-workflow-lifecycle.md"
     artifact_version: "1.2.0"
     required_status: active
+  - artifact: "skills/references/skill-execution-fidelity.md"
+    artifact_version: "1.3.0"
+    required_status: active
 supersedes: []
 evidence:
   - "User decision 2026-05-04: create `000-shipglowz` as the primary non-technical router across the existing skill taxonomy."
@@ -47,6 +51,7 @@ evidence:
   - "User decision 2026-05-04: ambiguous routing questions should be numbered decision briefs with a responsible recommendation."
   - "User decision 2026-05-06: design-related requests should route to a master `006-sg-design` lifecycle entrypoint."
   - "2026-06-11 ShipGlowz Core natural-language routing added for internal 900-shipglowz-core."
+  - "Operator correction 2026-07-17: deterministic micro-edits must bypass domain and lifecycle routing."
 next_review: "2026-06-04"
 next_step: "/103-sg-verify specs/shipflow-primary-router-skill.md"
 ---
@@ -64,6 +69,8 @@ It defines only the routing-question rule. Load `skills/references/question-cont
 ## Core Rule
 
 Route to the smallest existing owner that can safely own the outcome.
+
+Apply the Skill Selection Proportionality Gate from `skills/references/skill-execution-fidelity.md` before domain classification. An explicit deterministic micro-edit with a known or easily found target, no domain judgment or sensitive boundary, and focused deterministic proof stays in direct main-thread execution. Do not load an owner skill merely because the edited file belongs to its domain. An explicitly named skill remains authoritative and uses its smallest safe mode.
 
 Before natural-language routing, check whether the user included one or more focus tags defined in `skills/references/shipglowz-terms.md` such as `#partner`, `#offer`, `#growth`, `#traffic`, `#acquisition`, `#clarity`, `#source`, `#rules`, `#docs`, `#canon`, `#quality`, `#shipflow`, or `#proof`. When present, load the referenced canonical documents first and treat them as routing priorities for the current turn.
 
@@ -158,6 +165,7 @@ A read-only routing scout is allowed only for cheap classification evidence and 
 | Operator intent | Primary route |
 | --- | --- |
 | Pure question, explanation, model/help clarification, or advice with no files | Direct answer |
+| Exact string, placeholder, typo, heading-tag, or formatting replacement with no domain judgment or sensitive boundary | Direct main-thread execution with focused validation; no owner skill |
 | Numeric skill code such as `001`, `001-sg-build`, or `001sfbuild` | Runtime skill from `skills/references/skill-code-index.md` |
 | Build or change a user-facing feature and also think about end-user clarity, UX/UI friction, activation, beginner adoption, or first-success guidance | `001-sg-build` first; `001-sg-build` evaluates the post-implementation `008-sg-customer` gate |
 | Feature, product change, code work, site work, docs work, workflow improvement, broad bug-like goal without durable bug state | `001-sg-build` |
