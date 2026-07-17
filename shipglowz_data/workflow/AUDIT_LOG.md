@@ -10,3 +10,4 @@
 🟠 [ShipFlow] audit: Site design tokens | date: 2026-06-12 | overall: D | issues: 3 high / 4 medium | scope: site
 🟠 [ShipFlow] audit: Dependency health for site | date: 2026-06-20 | overall: C | issues: 2 high / 1 moderate / 1 low / 1 major upgrade | scope: site
 🟡 [ShipFlow] audit: Dependency health for tui | date: 2026-06-20 | overall: C | issues: 1 missing lockfile / 1 unpinned toolchain / 1 proof gap | scope: tui
+🟠 [ShipGlowz] audit: DevServer startup latency | date: 2026-07-17 | overall: D | issues: 2 high / 2 medium | scope: CLI startup and environment shortcuts | id: perf-devserver-startup-2026-07-17

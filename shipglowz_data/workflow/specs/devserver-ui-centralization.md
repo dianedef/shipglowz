@@ -1,10 +1,10 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.2"
 project: "ShipGlowz"
 created: "2026-06-22"
-updated: "2026-06-22"
+updated: "2026-07-17"
 status: ready
 source_skill: 100-sg-spec
 scope: devserver-ui-centralization
@@ -282,6 +282,8 @@ Extraire des primitives partagées (`ui_letter_list`, `ui_back_label`, `ui_statu
 |----------|-------|-------|--------|--------|-----------|
 | 2026-06-22 | 100-sg-spec | unknown | create | draft | /101-sg-ready Centraliser le design system du shell DevServer et réduire la latence des sélecteurs |
 | 2026-06-22 | 101-sg-ready | unknown | gate | ready | /102-sg-start Centraliser le design system du shell DevServer et réduire la latence des sélecteurs |
+| 2026-07-17 | 403-sg-perf | GPT-5 | audit | D: socle commun mesuré via `s x` 3.45s, `s m n` 3.62s, `s m r` 6.68s; descente dans `.flox` et scans dupliqués confirmés | /102-sg-start Centraliser le design system du shell DevServer et réduire la latence des sélecteurs |
+| 2026-07-17 | 403-sg-perf | GPT-5 | cache audit | D: hits directs PM2/env 7/8ms, mais appels réels en sous-shell 229–248ms / 2.77–2.82s; cache header persistant 1ms | /102-sg-start Centraliser le design system du shell DevServer et réduire la latence des sélecteurs |
 
 ## Current Chantier Flow
 
