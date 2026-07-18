@@ -1,10 +1,10 @@
 ---
 artifact: skill_reference
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: "shipflow"
 created: "2026-05-16"
-updated: "2026-07-17"
+updated: "2026-07-18"
 status: draft
 source_skill: 100-sg-spec
 scope: "100-sg-spec-workflow"
@@ -26,6 +26,7 @@ supersedes: []
 evidence:
   - "Extracted during compact-shipflow-skill-instructions-phase-4 to preserve lifecycle workflow detail outside the activation body."
   - "Operator correction 2026-07-17: apply preferred stack presets before blueprint intake or a greenfield technology comparison."
+  - "Operator correction 2026-07-18: a saved draft remains an unfinished chantier and returns control through plain-language choices, not lifecycle commands."
 next_step: "none"
 ---
 
@@ -435,33 +436,17 @@ Sauvegarder la spec dans le projet :
 
 **Rapport final :**
 ```
-Spec enregistrée : specs/[slug].md
-Blueprint: [id] (v[version]) — utilisé comme squelette d'architecture
+🧱 CHANTIER (spec) : [titre]
+🎯 VERDICT (HH:mm) : brouillon enregistré
 
-Prochaine étape :
-- Lancer /102-sg-start [titre] pour commencer l'implémentation
-- Ou continuer à explorer avec /700-sg-explore
+[Résumé du contrat produit et des décisions encore ouvertes]
+[Blueprint utilisé, seulement si cette information aide la décision]
 
-## Chantier
+1. ✅ Continuer comme prévu — préparer le chantier pour l'implémentation.
+2. 🧭 Réorienter — modifier le périmètre, les priorités ou une décision produit.
+3. ⏸ Mettre en pause — conserver le brouillon pour plus tard.
 
-Skill courante: 100-sg-spec
-Chantier: specs/[slug].md
-Trace spec: ecrite
-Flux:
-- 100-sg-spec: done
-- 101-sg-ready: not launched
-- 102-sg-start: not launched
-- 103-sg-verify: not launched
-- 104-sg-end: not launched
-- 005-sg-ship: not launched
-
-Reste a faire:
-- Lancer la readiness gate.
-
-Prochaine etape:
-- /101-sg-ready [titre]
-
-Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : draft saved`; do not append a verdict after this body.
+Réponds avec le numéro ou indique une autre direction.
 ```
 
 ---

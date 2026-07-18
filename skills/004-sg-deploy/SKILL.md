@@ -23,7 +23,7 @@ If no unique chantier spec is identified, do not write to a spec; use a `(local)
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, evidence-first, and using the opening chantier header. For `report=agent`, blocked runs, or explicit handoff, use `$SHIPFLOW_ROOT/skills/004-sg-deploy/references/deploy-report-template.md`.
+Default to `report=user`: concise, evidence-first, and using the opening chantier header. Blocked user reports remain plain-language and end with safe recovery choices. For `report=agent` or explicit handoff, use `$SHIPFLOW_ROOT/skills/004-sg-deploy/references/deploy-report-template.md`.
 
 ## Mission
 

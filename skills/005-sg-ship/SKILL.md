@@ -246,7 +246,7 @@ If the push succeeds and the project development mode is `vercel-preview-push`, 
 
 If the project development mode is `hybrid`, require the same `/405-sg-prod` handoff when the shipped change needs hosted validation: auth/OAuth, callbacks, webhooks, Vercel routing, edge/serverless runtime, deployment env vars, or preview/prod-only data behavior.
 
-Do not tell the user to run manual/browser tests before `405-sg-prod` has confirmed the matching deployment is ready. In the report, state that the push is complete but preview validation is still pending behind `405-sg-prod`.
+Do not tell the user to run manual/browser tests before `405-sg-prod` has confirmed the matching deployment is ready. In the user report, state plainly that the push is complete but hosted validation is still pending; keep the internal proof owner in `report=agent` only.
 
 ## Step 8 — One report
 
@@ -261,15 +261,14 @@ Report formatting rules:
 - Use `Checks skipped: [reason]` when checks are intentionally skipped.
 - If push fails, replace the status line with `Push failed: [reason]. Repo [state]. [check summary].`
 - Prefer a compact `Limits:` / `Limites:` line for partial proof, missing bug gate, unknown development mode, or remaining validation instead of scattering raw internal gate labels through the report.
-- In the `Chantier` block, put the spec path directly under the heading; do not prefix it with `Chantier:`.
-- Use one compact `Flux:` line with status markers, for example `Flux: 100-sg-spec ✅ -> 101-sg-ready ✅ -> 102-sg-start ✅ -> 103-sg-verify ✅ -> 104-sg-end ✅ -> 005-sg-ship ✅🎯`.
-- Omit `Trace spec`, `Verdict 005-sg-ship`, `Reste a faire`, and `Prochaine etape` when they are redundant or empty.
-- Include `Reste a faire:` only when a concrete remaining item exists.
-- Include `Prochaine etape:` only when a real next command/action exists, especially required `/405-sg-prod` preview validation.
+- Start with the shared chantier and verdict headers; never expose a spec path, lifecycle flow, internal owner, skill, or command in `report=user`.
+- When shipping leaves the chantier open, end with two or three numbered plain-language choices from the shared reporting contract.
+- When full shipping genuinely completes the chantier, omit the choice block. When hosted proof remains, offer outcome-level choices about continuing validation, changing priority, or pausing.
 
 Quick mode report:
 ```text
-## Ship quick — [date] 🚀
+🧱 CHANTIER (local|spec) : [nom]
+🎯 VERDICT (HH:mm) : partagé pour itération
 
 `[SHORT_SHA]` — [commit message] -> `[branch]`
 
@@ -281,18 +280,17 @@ Scope: [concrete changed area]
 ⚠️ Limits: [bug risk not assessed / development mode unknown / partial proof / security note], only if non-empty.
 📝 Docs: [updated / not impacted / gap remains], only if useful.
 
-## Chantier
+1. ✅ Continuer comme prévu — poursuivre le chantier avec la priorité actuelle.
+2. 🧭 Réorienter — changer la priorité ou le périmètre.
+3. ⏸ Mettre en pause — conserver le chantier pour plus tard.
 
-[spec path | non applicable: reason | non trace: reason]
-
-Flux: 100-sg-spec [status marker] -> 101-sg-ready [status marker] -> 102-sg-start [status marker] -> 103-sg-verify [status marker] -> 104-sg-end [status marker] -> 005-sg-ship [status marker]
-[Reste a faire: item, only if non-empty]
-[Prochaine etape: /405-sg-prod [project or URL] if preview-push validation is required, only if non-empty]
+Réponds avec le numéro ou indique une autre direction.
 ```
 
 Full mode report:
 ```text
-## Ship full — [date] 🚀
+🧱 CHANTIER (local|spec) : [nom]
+🎯 VERDICT (HH:mm) : [livré | livré avec validation restante]
 
 `[SHORT_SHA]` — [commit message] -> `[branch]`
 
@@ -305,13 +303,8 @@ Session closed: [only when useful beyond the shipped title]
 User story closure: [only when partial, assumed, or important]
 📝 Docs: [updated / not impacted in a non-obvious way / gap remains], only if useful.
 
-## Chantier
-
-[spec path | non applicable: reason | non trace: reason]
-
-Flux: 100-sg-spec [status marker] -> 101-sg-ready [status marker] -> 102-sg-start [status marker] -> 103-sg-verify [status marker] -> 104-sg-end [status marker] -> 005-sg-ship [status marker]
-[Reste a faire: item, only if non-empty]
-[Prochaine etape: /405-sg-prod [project or URL] if preview-push validation is required, only if non-empty]
+[Si une validation reste nécessaire, terminer par des choix numérotés en
+langage simple. Si le chantier est réellement terminé, ne rien ajouter.]
 ```
 
 ## Rules

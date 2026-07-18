@@ -26,6 +26,11 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 ---
 # ShipFlow Changelog
 
+## [2026-07-18]
+
+### Changed
+- Unfinished chantier reports now end with plain-language choices to continue, reprioritize, or pause; internal skills, commands, lifecycle phases, and agent topology remain hidden from operators.
+
 ## [2026-07-17]
 
 ### Added

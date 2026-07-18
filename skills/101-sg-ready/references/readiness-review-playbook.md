@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: ShipGlowz
 created: "2026-06-27"
-updated: "2026-07-17"
+updated: "2026-07-18"
 status: active
 source_skill: 009-sg-skill-build
 scope: 101-sg-ready-review-playbook
@@ -26,6 +26,7 @@ evidence:
   - "2026-06-27 targeted hardening pass moved long readiness heuristics out of the 101-sg-ready activation contract while preserving local readiness gates."
   - "2026-06-26 batch A hardening audit identified 101-sg-ready body-size pressure as the clearest execution-fidelity risk in the current corpus."
   - "Operator correction 2026-07-17: readiness must prove that compatible preferred stack presets were applied before blueprint or provider decisions."
+  - "Operator correction 2026-07-18: user-mode readiness reports hide lifecycle internals and end with plain-language choices when the chantier remains open."
 next_review: "2026-07-04"
 next_step: "/103-sg-verify 101-sg-ready execution-fidelity compaction"
 ---
@@ -250,21 +251,15 @@ In `report=user`, use this compact shape unless the run is blocked or the user
 asks for detail:
 
 ```text
-Readiness: [ready | not ready | blocked]
-Spec: [path]
-[Blockers: 1-3 bullets only when action is required]
-[Checks: metadata/proof summary, one short line]
+🧱 CHANTIER (spec) : [titre]
+🎯 VERDICT (HH:mm) : [prêt | non prêt | bloqué]
 
-## Chantier
+[Résultat et preuve, en une ou deux lignes]
+[Blocages en langage clair, seulement lorsqu'ils changent la décision]
 
-[spec path]
-
-Flux: 100-sg-spec [marker] -> 101-sg-ready [marker] -> 102-sg-start [marker] -> 103-sg-verify [marker] -> 104-sg-end [marker] -> 005-sg-ship [marker]
-[Prochaine etape: only if real]
-
-🎯 VERDICT (HH:mm) : [ready | not ready | blocked]
-
-<Response body, including any required decision options>
+[Si le chantier reste ouvert, terminer par deux ou trois choix numérotés en
+langage simple. Ne jamais exposer un chemin de spec, une commande, un skill,
+un propriétaire interne, un flux ou une étape de cycle de vie.]
 ```
 
 Use the detailed form only in `report=agent`, blocked runs, handoffs, or

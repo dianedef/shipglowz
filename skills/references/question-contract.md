@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.8.0"
+artifact_version: "1.9.0"
 project: ShipGlowz
 created: "2026-05-05"
-updated: "2026-07-17"
+updated: "2026-07-18"
 status: active
 source_skill: 009-sg-skill-build
 scope: skill-question-contract
@@ -38,6 +38,7 @@ evidence:
   - "Operator correction 2026-07-17: greenfield platform scope must be established before stack options; ShipGlowz must not silently exclude mobile applications and thereby omit Flutter from the decision."
   - "Operator correction 2026-07-17: ShipGlowz must apply the established Astro-site and Flutter-app preference before proposing a broad greenfield stack comparison."
   - "Operator clarification 2026-07-17: Astro/Vercel and cross-platform Flutter are first recommendations; ShipGlowz must not default a new app to one mobile platform when one codebase can cover Web, iOS, and Android."
+  - "Operator correction 2026-07-18: unfinished-chantier choices stay at the outcome and priority layer; internal skills and commands remain agent-owned."
 next_review: "2026-06-05"
 next_step: "/104-sg-end greenfield platform footprint question contract"
 ---
@@ -64,8 +65,13 @@ Load this contract before any user-facing:
 - security, data, permission, destructive, staging, closure, or ship-risk question
 - blocked-state recovery question
 - selection question for project, file, URL, domain, check set, package, market, or content source
+- an unfinished-chantier choice block in a final user-facing report
 
-Do not use it for internal analysis, progress updates, final reports, or subagent instructions where the subagent is forbidden to ask the user.
+Do not use it for internal analysis, routine in-flight progress updates, completed
+final reports, or subagent instructions where the subagent is forbidden to ask
+the user. For an unfinished final report, use the shared continuity-choice rule
+from `reporting-contract.md`: its options concern product direction, priority,
+or pause/continue, never an internal skill, command, owner, or lifecycle phase.
 
 ## Ask Threshold
 

@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: ShipGlowz
 created: "2026-06-29"
-updated: "2026-07-15"
+updated: "2026-07-18"
 status: active
 source_skill: 006-sg-design
 scope: design-proof-and-reporting
@@ -22,7 +22,7 @@ linked_systems:
   - skills/references/reporting-contract.md
 depends_on:
   - artifact: skills/references/reporting-contract.md
-    artifact_version: "1.4.0"
+    artifact_version: "1.10.0"
     required_status: active
   - artifact: skills/references/spec-driven-development-discipline.md
     artifact_version: "1.5.0"
@@ -30,6 +30,7 @@ depends_on:
 supersedes: []
 evidence:
   - "2026-07-15 consolidation rewrote design proof routes to use canonical 006-sg-design modes."
+  - "Operator correction 2026-07-18: design user reports keep proof consequences visible while hiding internal routes and lifecycle controls."
 next_review: "2026-08-15"
 next_step: "/104-sg-end consolidate design skill surface into modes and playbooks"
 ---
@@ -75,20 +76,15 @@ If deployment target is unknown, route first to `405-sg-prod` instead of asking 
 Use this shape only when a design-specific report is needed in addition to the shared reporting contract:
 
 ```text
-## Design: [scope]
+🧱 CHANTIER (local|spec) : [nom]
+🎯 VERDICT (HH:mm) : [résultat]
 
-Result: [implemented / partial / blocked / rerouted]
-Route: [design mode, proof owner, or lifecycle skill]
-Design proof: [checks/browser/audit evidence or missing proof]
-Token implementation: [complete / partial / not applicable]
-Next step: [only if real]
+[Résultat de conception et preuve observable]
+[Limite de preuve ou de cohérence des tokens, seulement si elle compte]
 
-## Chantier
-
-[spec path | non trace: reason]
-Flux: 100-sg-spec [marker] -> 101-sg-ready [marker] -> 102-sg-start [marker] -> 103-sg-verify [marker] -> 104-sg-end [marker] -> 005-sg-ship [marker]
-Reste a faire: [only if non-empty]
-Prochaine etape: [only if non-empty]
+[Si le chantier reste ouvert, terminer par les choix numérotés en langage
+simple du contrat partagé. Ne jamais exposer un mode interne, un propriétaire
+de preuve, un skill, une commande, un chemin de spec ou un flux.]
 ```
 
 Agent/handoff mode may add the routing matrix decision, owned surfaces, forbidden files, validation commands, browser proof obligations, docs/editorial plan, and unresolved decisions.

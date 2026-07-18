@@ -25,7 +25,7 @@ Before closing a spec-first chantier, load `$SHIPFLOW_ROOT/skills/references/cha
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, outcome-first, and using the opening chantier header. The detailed report template below is for `report=agent`, blocked runs, or explicit handoff.
+Default to `report=user`: concise, outcome-first, and using the opening chantier header. Use `report=agent`, blocked runs, or explicit handoff when detailed closure evidence is required.
 
 ## Required References
 
@@ -147,60 +147,29 @@ For each significant decision or discovery from Step 1, save to memory if it wil
 Output ONE concise report:
 
 ```
-## Done — [date]
+🧱 CHANTIER (local|spec) : [nom]
+🎯 VERDICT (HH:mm) : [clos localement | partiel | différé | bloqué]
 
-**What changed:**
-- [bullet per logical change — specific, not vague]
+[Résultat métier ou opérateur en une ou deux lignes]
+✅ [Preuve compacte réellement exécutée]
+[Limite de preuve, documentation ou risque seulement si elle compte]
 
-**User story / outcome:**
-- [what user-facing outcome was advanced, completed, or still unproven]
-
-**Development mode:**
-- [local / vercel-preview-push / hybrid / unknown] — [validation evidence or missing preview-proof route]
-
-**Documentation coherence:**
-- [updated / not impacted / gap remains]
-
-**Status:**
-- Completed: [item], [item]
-- In progress: [item — where it stands]
-- Risks / evidence limits: [explicit remaining uncertainty, especially product/security]
-- Decisions saved: [decision or "none"]
-
-**Up next:**
-1. [emoji] [top priority from TASKS.md]
-2. [emoji] [second priority]
-3. [emoji] [third priority]
-
-[📝 Not committed — run /005-sg-ship when ready to push]
-
-## Chantier
-
-Skill courante: 104-sg-end
-Chantier: [spec path | non applicable | non trace]
-Trace spec: [ecrite | non ecrite | non applicable]
-Flux:
-- 100-sg-spec: [status]
-- 101-sg-ready: [status]
-- 102-sg-start: [status]
-- 103-sg-verify: [status]
-- 104-sg-end: [closed | deferred | blocked | not applicable]
-- 005-sg-ship: [status]
-
-Reste a faire:
-- [item or None]
-
-Prochaine etape:
-- [/005-sg-ship puis /405-sg-prod si la validation preview-push est requise | /005-sg-ship | explicit action | None]
-
-Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : [closed | deferred | blocked | not applicable]`; do not append a verdict after this body.
+[Si le chantier reste ouvert, terminer par deux ou trois choix numérotés en
+langage simple sur la poursuite, la priorité, le périmètre ou la pause. Ne
+jamais exposer un skill, une commande, un propriétaire interne, une étape de
+cycle de vie, un chemin de spec ou un flux.]
 ```
+
+In `report=agent`, add tracker/changelog state, development mode, detailed
+evidence limits, spec trace, lifecycle state, internal owners, and exact next
+commands when the receiving agent needs them.
 
 ### Rules
 
 - Do NOT commit or push — that's 005-sg-ship's job
 - Do NOT output anything before Step 5 — one report only
 - Keep the report under 25 lines
+- Keep user mode free of internal skill names, commands, spec paths, lifecycle stages, and agent topology
 - If nothing was done this session, say so honestly
 - Update BOTH master and local TASKS.md when both exist
 - Do not let TASKS/CHANGELOG imply stronger proof than the actual validation supports

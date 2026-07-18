@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.5.0"
+artifact_version: "1.6.0"
 project: ShipGlowz
 created: "2026-05-05"
-updated: "2026-07-16"
+updated: "2026-07-18"
 status: active
 source_skill: manual
 scope: final-report-timestamp
@@ -26,6 +26,7 @@ evidence:
   - "User decision 2026-07-16: the chantier local/spec name is the first line and the timestamped verdict follows immediately below it."
   - "User decision 2026-07-16: show only Europe/Paris time (`HH:mm`) in the verdict header and omit the calendar date."
   - "User decision 2026-07-16: use 🧱 for normal chantier headers and reserve 🚧 for a genuinely blocked verdict."
+  - "Operator correction 2026-07-18: user-facing route context describes the outcome or decision, never an internal owner, skill, command, or lifecycle stage."
 next_review: "2026-06-05"
 next_step: "/103-sg-verify final report timestamp contract"
 ---
@@ -61,6 +62,6 @@ For a genuinely blocked verdict, replace the first marker only:
 - Put exactly one chantier header before the verdict; follow `reporting-contract.md` for local/spec selection and naming.
 - Keep `🧱` for normal, successful, partial, or in-progress runs; use `🚧` only when the verdict is blocked.
 - Put the substantive response immediately below the verdict: result, proof, limits, and any decision question.
-- When owner routing helps the operator understand the next action, add `🧭 Route: <owner> — <short reason>` directly below the verdict.
+- When route context helps the operator understand the next action, add `🧭 Suite : <outcome or decision> — <short reason>` directly below the verdict. Never name an internal owner, skill, command, lifecycle stage, or delegated agent there.
 - Do not append a second verdict, timestamp, reminder, or commentary after the response. When a numbered decision is required, the final visible content must be the options followed by `Réponds avec le numéro, ou précise une autre option.`
 - If a skill has no natural verdict, use a concise status such as `rapport terminé` or `non applicable`.

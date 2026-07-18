@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-06-29"
-updated: "2026-06-29"
+updated: "2026-07-18"
 status: draft
 source_skill: 004-sg-deploy
 scope: 004-sg-deploy-report-template
@@ -19,14 +19,15 @@ linked_systems:
   - skills/references/chantier-tracking.md
 depends_on:
   - artifact: "skills/references/reporting-contract.md"
-    artifact_version: "1.4.0"
+    artifact_version: "1.10.0"
     required_status: active
   - artifact: "skills/references/chantier-tracking.md"
-    artifact_version: "0.5.0"
+    artifact_version: "0.8.0"
     required_status: draft
 supersedes: []
 evidence:
   - "Extracted from skills/004-sg-deploy/SKILL.md to keep long report templates outside the activation body."
+  - "Operator correction 2026-07-18: detailed lifecycle evidence remains agent-only; unfinished or blocked user reports expose safe outcome choices instead."
 next_review: "2026-07-13"
 next_step: "/103-sg-verify 004-sg-deploy report template"
 ---
@@ -35,7 +36,7 @@ next_step: "/103-sg-verify 004-sg-deploy report template"
 
 ## Purpose
 
-Provide the detailed `004-sg-deploy` report shape for `report=agent`, blocked runs, or explicit handoff. Default user reports should stay concise and follow `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
+Provide the detailed `004-sg-deploy` report shape for `report=agent` or explicit handoff. Default and blocked user reports stay concise and follow `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
 ## Template
 
@@ -94,11 +95,11 @@ Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : [dep
 
 For `report=user`, compress the same content to:
 
+- opening chantier and timestamped verdict headers
 - outcome
 - environment and URL
 - evidence collected
 - gaps or risks
-- next step
-- compact chantier block
+- two or three plain-language recovery or continuation choices when the chantier remains open
 
-Do not include the full phase matrix unless the run is blocked, partial, or the user asks for handoff detail.
+Do not include the full phase matrix, internal owners, skills, commands, spec paths, or lifecycle state in user mode. Keep blocked and partial user reports actionable through safe outcome choices; use `report=agent` for handoff detail.

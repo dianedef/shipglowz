@@ -70,6 +70,10 @@ help
 
 Bare or invalid input must list these modes or ask one targeted routing question. `build` and `refresh` without a target are invalid; do not infer a target, reuse the last target, or treat retired `009-sg-skill-build` / `307-sg-skills-refresh` names as aliases.
 
+An operator critique that names a concrete ShipGlowz behavior to correct is a
+bounded repair request, not a bare invocation: select the narrowest internal
+`build` target and continue without asking the operator to choose a mode.
+
 ## Scope Gate
 
 Audit, packaging, and help requests are read-only unless the operator asks for edits. `build` and `refresh` follow their loaded playbook; non-trivial behavior changes require a ready spec. An operator critique of ShipGlowz execution authorizes a bounded repair at the narrowest justified ShipGlowz layer unless the operator says `read-only`, `audit only`, or otherwise forbids edits.
@@ -175,6 +179,7 @@ Validate this skill after edits with:
 ```bash
 rg -n "Mode Detection|Mode Scenarios|skill-maintenance-playbook|skill-refresh-playbook|retired|Mission|Scope Gate|Required References|Stop Conditions|Validation" skills/900-shipglowz-core/SKILL.md
 python3 -m unittest tools.test_900_shipglowz_core_contract
+python3 -m unittest tools.test_reporting_contract
 python3 tools/audit_shipglowz_skills.py
 python3 tools/skill_budget_audit.py --skills-root skills --format markdown
 tools/shipglowz_sync_skills.sh --check --skill 900-shipglowz-core

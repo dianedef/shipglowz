@@ -21,6 +21,12 @@ Process role: `source-de-chantier`.
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` when this run is attached to a spec-first chantier. If exactly one active `specs/*.md` chantier is identified, append the current run to `Skill Run History`, update `Current Chantier Flow` when the run changes the chantier state, and open the report with the opening chantier header. If no unique chantier is identified, do not write to any spec; use a `(local)` chantier header with a short work name.
 
+## Report Modes
+
+Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
+
+Default to `report=user`: concise, evidence-first, and using the opening chantier header. Use `report=agent`, `handoff`, `verbose`, or `full-report` when another agent needs URLs, runtime details, evidence inventories, internal routes, or lifecycle state.
+
 ## Chantier Potential Intake
 
 Apply the chantier-potential threshold from `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` before the final report.
@@ -181,53 +187,22 @@ If a finding crosses the chantier threshold, report `Chantier potentiel` and rou
 ## Final Report Shape
 
 ```text
-## Browser Verification: [objective]
+🧱 CHANTIER (local|spec) : [nom]
+🎯 VERDICT (HH:mm) : [réussi | échec | partiel | bloqué]
 
-🎯 VERDICT (HH:mm) : [pass / fail / partial / blocked / needs-auth / needs-deploy / needs-manual-test / unsafe-action]
-
-Target: [URL]
-Environment: [local / preview / production / unknown]
-Playwright MCP runtime: [executable-path ... / chromium fallback / blocked stale config]
-Objective: [requested assertion]
-Observed: [short factual observation]
-Evidence:
-- [snapshot/screenshot/console/network summary]
-- [Sentry issue/event summary or limit, when relevant]
-Limits:
-- [what was not proven]
-Next step:
-- [ShipGlowz command or none]
+[Ce que le navigateur a réellement observé]
+✅ [Preuve compacte : page, état visible, console ou réseau]
+[Limite ou risque seulement s'il change la confiance]
 
 ## Chantier potentiel
 
 Chantier potentiel: [oui / non / incertain]
-Titre propose: [title or None]
+Titre proposé: [title or None]
 Raison: [threshold reason]
-Severite: [P0 / P1 / P2 / P3 / unknown]
-Scope: [files/projects/domains/workflows affected]
-Evidence:
-- [browser finding or blocker]
-Spec recommandee: [/100-sg-spec ... or None]
-Prochaine etape: [next command or none]
+Sévérité: [P0 / P1 / P2 / P3 / unknown]
+Formalisation recommandée: [oui / non] — [raison courte]
 
-## Chantier
-
-Skill courante: 108-sg-browser
-Chantier: [spec path | non applicable | non trace]
-Trace spec: [ecrite | non ecrite | non applicable]
-Flux:
-- 100-sg-spec: [status]
-- 101-sg-ready: [status]
-- 102-sg-start: [status]
-- 103-sg-verify: [status]
-- 104-sg-end: [status]
-- 005-sg-ship: [status]
-
-Reste a faire:
-- [item or None]
-
-Prochaine etape:
-- [next command or explicit none]
-
-Do not append a verdict after this body; the opening `VERDICT` line is the report status.
+[Si le chantier reste ouvert, terminer par deux ou trois choix numérotés en
+langage simple. Ne jamais exposer une URL privée, un runtime interne, un skill,
+une commande, un propriétaire, un chemin de spec ou un flux.]
 ```

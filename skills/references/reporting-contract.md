@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.9.0"
+artifact_version: "1.10.0"
 project: ShipGlowz
 created: "2026-05-03"
-updated: "2026-07-16"
+updated: "2026-07-18"
 status: active
 source_skill: 001-sg-build
 scope: skill-reporting-contract
@@ -39,6 +39,7 @@ evidence:
   - "User decision 2026-07-16: the visible verdict marker contains Paris time only (`HH:mm`), without the calendar date."
   - "User decision 2026-07-16: successful validation evidence should be compacted into one emoji-labelled line with middle-dot separators."
   - "User decision 2026-07-16: use 🧱 for a normal chantier, reserve 🚧 for a blocked run, and use 📂, 🔨, and 📌 only for scope, active work, and priority or decision context."
+  - "Operator correction 2026-07-18: every final report that returns control while a chantier remains unfinished must offer plain-language choices and hide internal skills, commands, stages, owners, and agent topology."
 next_review: "2026-06-04"
 next_step: "/103-sg-verify shipflow-skill-reporting-and-proof-hardening"
 ---
@@ -89,7 +90,7 @@ Default user-mode reports must fit this shape unless the skill has a stricter lo
 2. `🎯 VERDICT (HH:mm) : <status>` immediately below it
 3. outcome and proof summary or check summary
 4. limits only when they affect trust, risk, or next action
-5. one real next step or one numbered decision question only when the user must act
+5. a numbered plain-language choice block whenever the chantier remains unfinished and control returns to the operator
 
 ## Active Work Continuation Rule
 
@@ -142,11 +143,46 @@ Pressure scenario `SSRP-007 directed conversation`: given an operator says
 uses that milestone only to choose and execute the next owner action; it does
 not make the operator restart, interpret, or steer the workflow.
 
-When routing is relevant to the operator, add one concise line directly below the verdict:
+When routing is relevant to the operator, add one concise line directly below the verdict in plain language:
 
 ```text
-🧭 Route: <skill or owner> — <short reason>
+🧭 Suite : <résultat ou décision à obtenir> — <raison courte>
 ```
+
+Never name a skill, command, lifecycle phase, delegated agent, or internal owner
+in that user-facing line. Those details belong to `report=agent`.
+
+## Unfinished Chantier Choice
+
+When a user-facing final report leaves a chantier unfinished, end the message
+with a numbered, plain-language choice block. This gives the operator a visible
+way to steer the objective without making them operate ShipGlowz internals.
+
+Use the smallest truthful set of two or three options. When no material
+decision is missing, offer this default shape:
+
+```text
+1. ✅ Continuer comme prévu — le travail continue avec la priorité actuelle.
+2. 🧭 Réorienter — indique ce que tu veux changer ou privilégier.
+3. ⏸ Mettre en pause — le chantier reste conservé pour plus tard.
+
+Réponds avec le numéro ou indique une autre direction.
+```
+
+Rules:
+
+- This applies to every final user-facing message for an open, partial, or
+  otherwise unfinished chantier, including a status update that returns control
+  to the operator. Routine in-flight commentary may remain informational while
+  agents continue work.
+- If a material business, product, safety, scope, release, or risk decision is
+  actually required, replace the generic choices with that specific numbered
+  decision and its recommended option.
+- The choices must describe outcomes, priority, scope, or pause/continue
+  consequences. They must never expose skill names, slash commands, lifecycle
+  labels, agent topology, or ask the operator to launch internal work.
+- A completed chantier does not receive this block. A blocked unfinished
+  chantier receives specific safe recovery choices instead of generic continue.
 
 Do not include full checklists, validation matrices, phase ledgers, file inventories, raw command output, or lifecycle internals in successful user-mode reports. Keep that detail in the durable artifact or use `report=agent`.
 
@@ -293,11 +329,11 @@ In `report=user`, use:
 
 Result: <clear / issues found / blocked>
 Top findings:
-- <severity> <file:line or area> - <issue>
+- <severity> <area> - <issue>
 
 Proof gaps: <short list or none>
 Chantier potentiel: <oui/non/incertain> - <reason>
-Next step: <command or action, only if real>
+[If the chantier remains open, finish with the shared numbered plain-language choices.]
 ```
 
 For large global audits, keep the project/domain matrix only when it helps compare projects. Prefer top findings and systemic patterns over exhaustive per-file detail in the user-facing closeout.
@@ -318,7 +354,7 @@ Concise does not mean vague. If a run is blocked, partial, or risky, include:
 Use these scenarios when changing reporting behavior or reviewing a skill report:
 
 - `SSRP-001 human success`: a directly launched skill succeeds. The user report is concise, in the user's active language, and includes outcome, proof summary, and no checklist dump.
-- `SSRP-002 human not-ready`: `101-sg-ready` finds blockers. The user report lists only blockers that require action, explains them plainly, and gives one next command.
+- `SSRP-002 human not-ready`: `101-sg-ready` finds blockers. The user report lists only blockers that require action, explains them plainly, and ends with one numbered plain-language recovery decision without naming a command or internal owner.
 - `SSRP-003 human blocked safety`: a safety or security gate blocks work. The user report names the gate, summarizes redacted evidence, gives the safest next action, and does not expose secrets or bulk logs.
 - `SSRP-004 agent handoff`: another skill needs detailed evidence. The caller passes `report=agent`, and the report may include checklists, matrices, files, commands, and lifecycle internals.
 - `SSRP-005 proof limit`: a completion claim lacks full proof. The user report stays short but names the missing proof or explicit exception before claiming completion.
@@ -326,6 +362,7 @@ Use these scenarios when changing reporting behavior or reviewing a skill report
 - `SSRP-009 chantier opening`: a local task and a spec-owned task each produce a user report. The local report opens with `🧱 CHANTIER (local) : <short work name>` and the spec-owned report opens with `🧱 CHANTIER (spec) : <spec title>`; both place the verdict immediately below and omit any trailing chantier block.
 - `SSRP-010 compact validation line`: tests, metadata lint, and runtime synchronization all pass. The user report emits `✅ Tests 18/18 · 🧾 Métadonnées OK · 🔄 Sync 236/236` on one line, omits unavailable segments, and reports any warning or failure separately instead of disguising it as success.
 - `SSRP-011 chantier emoji semantics`: a normal run opens with `🧱 CHANTIER`; a genuinely blocked run opens with `🚧 CHANTIER`; `📂`, `🔨`, and `📌` appear only for dossier/scope, active implementation/repair, and priority/decision/next-action context respectively.
+- `SSRP-012 unfinished chantier choice`: a user-facing final report leaves a chantier open. It ends with two or three numbered choices in plain language, recommends the current safe direction, and names neither a skill nor a command. A completed chantier has no choice block; a blocked chantier offers safe recovery choices.
 
 ## Verdict Header
 

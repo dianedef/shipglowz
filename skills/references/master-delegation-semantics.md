@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.4.0"
+artifact_version: "1.5.0"
 project: ShipGlowz
 created: "2026-05-04"
-updated: "2026-06-10"
+updated: "2026-07-18"
 status: active
 source_skill: 001-sg-build
 scope: master-delegation-semantics
@@ -43,6 +43,7 @@ evidence:
   - "User decision 2026-05-24: delegated execution must optimize for quality, security, performance, and durability before speed or cost."
   - "User decision 2026-06-10: favor subagents broadly to keep the main conversation clean; sequential is the normal default, while parallel remains read-only or spec/batch-gated."
   - "User decision 2026-06-10: using a master skill counts as consent for bounded sequential subagents, and `spark`, `codex`, `sous-agent`/`subagent`, and `mini` arguments request model-specific subagent delegation."
+  - "Operator correction 2026-07-18: internal mission selection stays agent-owned while unfinished user reports expose only plain-language outcome choices."
 next_review: "2026-06-04"
 next_step: "/103-sg-verify master delegation semantics"
 ---
@@ -109,13 +110,20 @@ Claim a subagent model override only when the runtime accepted it. If overrides 
 
 ## Short Confirmations
 
-After a master skill has diagnosed the current chantier, proposed a bounded action, or named the next safe mission, a short natural-language confirmation in the active conversation language means, by intent rather than exact keyword:
+After a master skill has diagnosed the current chantier or proposed a bounded
+action, a short natural-language confirmation in the active conversation
+language means, by intent rather than exact keyword:
 
 ```text
 continue the current chantier in delegated sequential mode with one bounded subagent
 ```
 
 Short confirmations never authorize parallel subagents. Ask again only when scope, risk, data, permissions, destructive behavior, staging, closure, or ship semantics change.
+
+The next safe mission remains internal. In an unfinished user-facing report,
+offer only plain-language choices about continuing, reprioritizing, changing
+scope, or pausing; never require the operator to select an owner, skill, or
+command to continue the chantier.
 
 ## Parallelism
 

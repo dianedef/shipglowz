@@ -1,10 +1,10 @@
 ---
 artifact: skill_reference
 metadata_schema_version: "1.0"
-artifact_version: "1.4.0"
+artifact_version: "1.5.0"
 project: "shipflow"
 created: "2026-06-10"
-updated: "2026-07-17"
+updated: "2026-07-18"
 status: active
 source_skill: 001-sg-build
 scope: "build-lifecycle-workflow"
@@ -28,6 +28,7 @@ evidence:
   - "Extracted from 001-sg-build/SKILL.md during residual body-risk cleanup."
   - "Clarified that 102-sg-start local auto-verify is not full 001-sg-build lifecycle orchestration."
   - "Operator correction 2026-07-17: resolve the canonical preferred stack after platform footprint and before blueprint matching."
+  - "Operator correction 2026-07-18: unfinished build reports offer operator-facing outcome choices without exposing internal workflow controls."
 next_step: "none"
 ---
 
@@ -199,21 +200,15 @@ When delegating, load role contracts from `$SHIPFLOW_ROOT/skills/references/suba
 User mode:
 
 ```text
-## Built: [task]
+🧱 CHANTIER (local|spec) : [nom]
+🎯 VERDICT (HH:mm) : [résultat]
 
-Result: [implemented / partial / blocked]
-[Agents: used / not needed / degraded: reason]
-[All checks passed ✅ | Checks failed: ... | Checks skipped: ...]
-Evidence: [browser/prod/manual route or not needed]
-[Customer suggestion: /008-sg-customer flow <feature-or-flow>]
-Risk: [only if non-empty]
-Next step: [only if real]
+[Résumé orienté résultat et preuve compacte]
+[Limite ou risque seulement s'il compte]
 
-## Chantier
-
-[spec path | non applicable: reason | non trace: reason]
-
-Flux: 100-sg-spec [marker] -> 101-sg-ready [marker] -> 102-sg-start [marker] -> 103-sg-verify [marker] -> 104-sg-end [marker] -> 005-sg-ship [marker]
+[Si le chantier reste ouvert, terminer par les choix numérotés en langage
+simple du contrat de reporting. Ne jamais exposer une commande, un skill, un
+agent, un flux, un chemin de spec ou une étape interne.]
 ```
 
 Agent mode may include mode, execution mode, agents, contract, phases, evidence routing, validation, risks, next step, and full chantier metadata.

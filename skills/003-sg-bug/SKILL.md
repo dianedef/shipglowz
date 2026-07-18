@@ -21,7 +21,7 @@ Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/chanti
 
 Before producing the final report, load `$SHIPFLOW_ROOT/skills/references/reporting-contract.md`.
 
-Default to `report=user`: concise, lifecycle-first, and using the opening chantier header. The detailed report template below is for `report=agent`, blocked runs, or explicit handoff.
+Default to `report=user`: concise, outcome-first, and using the opening chantier header. Use `report=agent`, explicit handoff, or an explicitly verbose request when another agent needs detailed bug state, evidence paths, internal routes, or lifecycle state. A blocked user report remains plain-language and ends with safe recovery choices.
 
 ## Master Delegation
 
@@ -233,57 +233,29 @@ Stop and report `blocked` when:
 ## Final Report
 
 ```text
-## Bug Loop: [BUG-ID or summary]
+🧱 CHANTIER (local|spec) : [nom]
+🎯 VERDICT (HH:mm) : [corrigé | partiel | bloqué | aucune action]
 
-Mode: [dashboard/intake/fix/retest/verify/ship/close]
-Bug state: [status, severity, bug file path]
-Classification: [needs capture / needs evidence / needs fix / needs retest / needs verify / shippable / blocked]
-Execution mode: [main-only / delegated sequential / spec-gated parallel]
-Development mode: [local / vercel-preview-push / hybrid / unknown]
-Evidence posture: [sufficient / missing / sensitive-blocked / not needed]
-Proof path: [regression-first / evidence-first / exception-with-proof / not chosen]
-Sentry posture: [supplied pointer correlated / no pointer supplied / PM2-Doppler fallback / not applicable]
-Diagnostics/logs posture: [copied header verified / copied header missing / surface missing / not applicable]
-Operator autonomy: [safe evidence gathered / operator input genuinely needed / gap]
-Security posture: [ok / risk]
-Decision: [executed / routed / blocked / no action]
-
-Next step:
-- [exact command]
+[État du bug, résultat observable et preuve compacte]
+[Risque, preuve manquante ou limite de sécurité seulement si elle compte]
 
 ## Chantier potentiel
 
 Chantier potentiel: [oui/non/incertain]
-Titre propose: [title or None]
+Titre proposé: [title or None]
 Raison: [short reason]
-Severite: [P0/P1/P2/P3/unknown]
-Scope: [files/projects/domains/workflows affected]
-Evidence:
-- [bug state or observation]
-Spec recommandee: [/100-sg-spec ... | None]
-Prochaine etape: [command or None]
+Sévérité: [P0/P1/P2/P3/unknown]
+Formalisation recommandée: [oui/non] — [raison courte]
 
-## Chantier
-
-Skill courante: 003-sg-bug
-Chantier: [spec path | non applicable | non trace]
-Trace spec: [ecrite | non ecrite | non applicable]
-Flux:
-- 100-sg-spec: [status]
-- 101-sg-ready: [status]
-- 102-sg-start: [status]
-- 103-sg-verify: [status]
-- 104-sg-end: [status]
-- 005-sg-ship: [status]
-
-Reste a faire:
-- [item or None]
-
-Prochaine etape:
-- [command]
-
-Place the shared chantier header immediately before `🎯 VERDICT (HH:mm) : [executed | routed | blocked | no action]`; do not append a verdict after this body.
+[Si le chantier reste ouvert, terminer par deux ou trois choix numérotés en
+langage simple. Un blocage reçoit des choix de récupération sûrs. Ne jamais
+exposer un skill, une commande, un propriétaire, un chemin de bug/spec, un
+mode d'exécution ou un flux.]
 ```
+
+In `report=agent`, include the bug identifier and durable record, classification,
+development mode, proof path, redacted diagnostics, security posture, internal
+owner route, lifecycle state, remaining evidence, and exact next command.
 
 ## Rules
 

@@ -68,6 +68,11 @@ class ShipGlowzCoreContractTests(unittest.TestCase):
         self.assertIn("names as aliases", self.text)
         self.assertIn("Missing local playbook", self.text)
 
+    def test_concrete_operator_critique_becomes_bounded_repair(self) -> None:
+        self.assertIn("concrete ShipGlowz behavior to correct", self.text)
+        self.assertIn("select the narrowest internal\n`build` target", self.text)
+        self.assertIn("without asking the operator to choose a mode", self.text)
+
     def test_build_playbook_preserves_lifecycle_runtime_and_surface_guards(self) -> None:
         for rule in (
             "Search adjacent skills",

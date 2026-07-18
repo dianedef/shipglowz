@@ -218,20 +218,16 @@ For product implementations, use the project checks named by the ready spec and 
 User mode:
 
 ```text
-## Local-Cloud Sync: [project/feature]
+🧱 CHANTIER (local|spec) : [nom]
+🎯 VERDICT (HH:mm) : [résultat]
 
-Result: [contract / audit / routed / blocked]
-Risk: [data loss / tenant / privacy / conflict / none]
-Route: [direct contract | 100-sg-spec/build | 008-sg-customer | 300-sg-docs | blocked]
-Proof path: [scenario-first/test-first/regression-first/evidence-first/exception-with-proof]
-Docs: Documentation Update Plan [status], Editorial Update Plan [status]
+[Résultat du contrat de synchronisation et preuve compacte]
+[Risque de perte, confidentialité, conflit ou limite de preuve seulement s'il compte]
+[Impact documentaire seulement s'il change la confiance ou la décision]
 
-## Chantier
-
-[spec path | non applicable: reason | non trace: reason]
-Flux: 100-sg-spec [marker] -> 101-sg-ready [marker] -> 102-sg-start [marker] -> 103-sg-verify [marker] -> 104-sg-end [marker] -> 005-sg-ship [marker]
-Reste a faire: [only if non-empty]
-Prochaine etape: [only if non-empty]
+[Si le chantier reste ouvert, terminer par deux ou trois choix numérotés en
+langage simple. Ne jamais exposer un skill, une commande, un propriétaire
+interne, une étape de cycle de vie, un chemin de spec ou un flux.]
 ```
 
 Agent/handoff mode may include the full Sync Contract, data-domain matrix, owner-skill routing, target files, validation commands, unresolved decisions, and proof gaps.

@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "0.7.0"
+artifact_version: "0.8.0"
 project: ShipGlowz
 created: "2026-04-27"
-updated: "2026-07-16"
+updated: "2026-07-18"
 status: draft
 source_skill: 102-sg-start
 scope: chantier-tracking
@@ -42,6 +42,7 @@ evidence:
   - "User decision 2026-07-16: replace the trailing user-mode chantier block with a local/spec chantier name header before the verdict."
   - "User decision 2026-07-16: the verdict header displays Paris time only, without the date."
   - "User decision 2026-07-16: normal chantier headers use 🧱 and 🚧 is reserved for genuinely blocked runs."
+  - "Operator correction 2026-07-18: chantier-potential reporting must not make operators launch or interpret internal workflow commands."
 next_review: "2026-05-27"
 next_step: "/103-sg-verify Specs as chantier registry"
 ---
@@ -102,8 +103,8 @@ Severite: P0 | P1 | P2 | P3 | unknown
 Scope: <files/projects/domains/workflows affected>
 Evidence:
 - <finding, command, file, URL, or observed behavior>
-Spec recommandee: /100-sg-spec <title and compact context>
-Prochaine etape: <next ShipGlowz command or explicit none>
+Formalisation recommandée: oui | non - <short reason>
+Choix proposes: <two or three plain-language outcomes when the chantier remains open>
 ```
 
 The report still opens with the shared chantier header. If the source skill is already attached to one unique chantier and the findings remain inside that chantier, use `Chantier potentiel: non` and point back to the current lifecycle next step.
