@@ -75,7 +75,7 @@ This doc covers the Astro public site under `shipglowz-site/`, public skill cont
 ## Invariants
 
 - `shipglowz_data/technical/` is internal-only in v1.
-- The Astro site runtime must stay compatible with Node.js `22.12.0` through 24.x as declared in `shipglowz-site/package.json`.
+- The Astro site runtime is pinned to Node.js 24.x as declared in `shipglowz-site/package.json`.
 - Public site copy must not expose private implementation details, private URLs, tokens, internal logs, or operator-only instructions.
 - Public claims must be backed by product, business, brand, GTM, workflow docs, or observed behavior.
 - Public claims that touch sensitive areas must pass the editorial claim register.

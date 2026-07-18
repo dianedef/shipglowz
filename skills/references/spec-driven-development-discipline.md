@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.5.0"
+artifact_version: "1.5.1"
 project: ShipGlowz
 created: "2026-05-18"
-updated: "2026-06-11"
+updated: "2026-07-18"
 status: active
 source_skill: 102-sg-start
 scope: spec-driven-development-discipline
@@ -41,6 +41,7 @@ evidence:
   - "Conversation audit 2026-06-09: UI and product behavior claims need an explicit proof path or proof gap before being reported as fixed."
   - "User decision 2026-06-10: proof-first instructions should preserve strong evidence requirements without verbose examples in the decision path."
   - "User decision 2026-06-11: UI/design implementation must not create local visual decisions outside the centralized design-system authority."
+  - "User decision 2026-07-18: technical checks may establish an implemented visual repair, but rendered validation is required before resolution claims."
 next_review: "2026-06-18"
 next_step: "/103-sg-verify shipflow-skill-reporting-and-proof-hardening"
 ---
@@ -68,6 +69,13 @@ Before implementation, name the proof path that fits the changed surface:
 The proof path is part of the execution contract. It does not replace the source-of-truth work item.
 
 A user-visible behavior claim is not complete until the report names the proof run or the remaining proof gap. This matters most for UI, input, playback, auth/session, and other flows where static checks can miss the user story.
+
+For a user-visible visual claim, a build, typecheck, asset signature, filesystem
+presence, URL reachability, or HTTP 200 is supporting evidence only. A repair
+may be reported as `implemented` after those technical checks, but it is not
+resolved, fixed, verified, or closed until a person validates the relevant
+post-fix rendered result. An artifact or trace exception waives only that
+artifact; it never waives behavior proof.
 
 ## Stack-Agnostic Test and Proof Contract
 
@@ -107,6 +115,11 @@ When `target_or_environment` is unknown, the first route is `405-sg-prod` for ta
 - `PREVIEW-PUSH-LADDER`: preview proof needing deployment must route `005-sg-ship` -> `405-sg-prod` before browser/auth/manual owner routing.
 - `LOCAL-COMPLETE-PROD-PENDING`: local implementation complete while production/provider proof is pending must avoid closure/ship-ready language and name next owner.
 - `SAFETY-REDACTION`: proof routes touching private payloads/logs/tokens/cookies/secrets must stay redacted and avoid requesting sensitive values.
+- `VISUAL-IMPLEMENTED-NOT-RESOLVED`: valid image bytes, HTTP 200, a build, or a
+  corrected local file may support `implemented`, but a person validates the
+  rendered result before any resolved/fixed/verified/closed claim. If that
+  validation is unavailable, report the proof gap with its concrete owner,
+  scenario, proof type, and target or environment.
 
 ## Validation Proportionality
 

@@ -1,10 +1,10 @@
 ---
 artifact: playbook
 metadata_schema_version: "1.0"
-artifact_version: "1.4.0"
+artifact_version: "1.4.1"
 project: ShipGlowz
 created: "2026-07-15"
-updated: "2026-07-16"
+updated: "2026-07-18"
 status: draft
 source_skill: 309-sg-tasks
 scope: conversation-tracker-sync
@@ -28,6 +28,7 @@ evidence:
   - "Operator decision on 2026-07-16: project session cleanup uses a dry-run-first prune that excludes the active thread and open work."
   - "Operator decision on 2026-07-16: sessions rename <status> renames only the current Codex conversation using STATUS - semantic title."
   - "Operator correction on 2026-07-16: session names summarize the latest conversation objective or its outcome in at most five words and never truncate message text."
+  - "Operator decision on 2026-07-18: a missing rename status must not be inferred or trigger any session or tracker mutation."
 next_review: "2026-08-15"
 next_step: "/309-sg-tasks sessions <project>"
 ---
@@ -134,8 +135,12 @@ Pressure scenarios:
 
 ## Current Session Rename
 
-Use `sessions rename <status>` only after the operator explicitly invokes it.
-Derive a concise semantic work title from the visible conversation, resolve and
+Use `sessions rename <status>` only after the operator explicitly invokes it
+with a supported status. If `sessions rename` omits or supplies an unsupported
+status, ask for exactly one supported status (`todo`, `doing`, `in_progress`,
+`blocked`, or `done`) and do not derive a title, inspect sessions, call the
+helper, or mutate Codex or `TASKS.md`. With a valid status, derive a concise
+semantic work title from the visible conversation, resolve and
 preflight `$SHIPFLOW_ROOT/tools/rename_codex_session.py`, then pass the status
 and unprefixed work title to the helper. The explicit command authorizes this
 single rename, so no second confirmation is needed.
@@ -152,6 +157,9 @@ Pressure scenarios:
 - `SESSION-RENAME-CURRENT-ONLY`: only `CODEX_THREAD_ID` changes.
 - `SESSION-RENAME-CWD-ISOLATION`: a cwd mismatch fails without mutation.
 - `SESSION-RENAME-STATUS-GATE`: unsupported statuses fail before mutation.
+- `CONVERSATION-RENAME-MISSING-STATUS`: a missing status asks for exactly one
+  supported status and does not derive a title, inspect sessions, call the
+  helper, or mutate Codex or `TASKS.md`.
 - `SESSION-RENAME-SEMANTIC-GATE`: empty, generic, control-character, or already-prefixed work titles fail.
 - `SESSION-RENAME-FIVE-WORD-GATE`: a six-word work title fails without mutation.
 - `SESSION-RENAME-IDEMPOTENT`: repeating the same title is a successful no-op.
@@ -240,6 +248,8 @@ method and `TASKS.md` remains the operational record.
   the preview; a dry-run is the successful default outcome.
 - current-session rename lacks `CODEX_THREAD_ID`, has a cwd mismatch, or cannot
   derive a semantic work title: stop without changing any thread or tracker.
+- current-session rename lacks a supported status: ask for exactly one supported
+  status before any rename-related read or mutation.
 
 ## Validation
 

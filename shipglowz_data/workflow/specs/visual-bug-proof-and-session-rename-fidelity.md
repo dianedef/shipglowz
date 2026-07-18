@@ -1,13 +1,13 @@
 ---
 artifact: spec
 metadata_schema_version: "1.0"
-artifact_version: "0.1.0"
+artifact_version: "1.0.0"
 project: "ShipGlowz"
 created: "2026-07-17"
 created_at: "2026-07-17 14:15:19 UTC"
-updated: "2026-07-17"
-updated_at: "2026-07-17 14:15:19 UTC"
-status: draft
+updated: "2026-07-18"
+updated_at: "2026-07-18 12:25:51 UTC"
+status: ready
 source_skill: 100-sg-spec
 source_model: "GPT-5 Codex"
 scope: "visual bug proof and current-session rename execution fidelity"
@@ -53,7 +53,7 @@ evidence:
   - "skills/003-sg-bug/SKILL.md already defines evidence, fix, retest, verify ownership and hosted proof routing, so the repair must reinforce rather than replace that lifecycle."
   - "tools/rename_codex_session.py already requires positional status and work-title arguments and restricts status values, but its focused tests do not cover a missing-status invocation."
   - "shipglowz_data/workflow/specs/codex-current-session-rename.md defines only `sessions rename <status>` and does not authorize status inference."
-next_step: "/101-sg-ready shipglowz_data/workflow/specs/visual-bug-proof-and-session-rename-fidelity.md"
+next_step: "/102-sg-start Visual Bug Proof and Session Rename Fidelity"
 ---
 
 # Spec: Visual Bug Proof and Session Rename Fidelity
@@ -64,7 +64,7 @@ Visual Bug Proof and Session Rename Fidelity
 
 ## Status
 
-draft — ready for `/101-sg-ready` review; no implementation has started.
+ready — reviewed for implementation; no implementation has started.
 
 ## User Story
 
@@ -72,13 +72,13 @@ As the ShipGlowz operator, I want minor visual fixes to retain rendered proof an
 
 ## Minimal Behavior Contract
 
-When a purely cosmetic visual bug qualifies for the minor exception, ShipGlowz may omit the durable per-bug Markdown file, but it must still name evidence before the fix, apply the fix, obtain a rendered retest in an independent proof phase, and pass verification before reporting the behavior fixed; if rendered proof is unavailable, it reports the exact proof gap and routes it to the concrete proof owner instead of claiming completion. When the operator invokes `sessions rename` without a supported status, ShipGlowz must not infer one, derive a title, inspect other sessions, call the rename helper, or mutate Codex or project state; it asks one targeted status question, while the helper independently rejects a missing positional status without database mutation. The easiest edge case is mistaking valid image bytes, HTTP 200 responses, a build, or a locally corrected file for proof that the user-visible page rendered the intended portraits.
+When a purely cosmetic visual bug qualifies for the minor exception, ShipGlowz may omit the durable per-bug Markdown file, but it must still name evidence before the fix and apply the repair. It may then report the repair as `implemented`, but it must not call the bug resolved, fixed, verified, or closed until a person has validated the relevant rendered result; if that visual validation is unavailable, it reports the exact proof gap and routes it to the concrete proof owner. When the operator invokes `sessions rename` without a supported status, ShipGlowz must not infer one, derive a title, inspect other sessions, call the rename helper, or mutate Codex or project state; it asks one targeted status question, while the helper independently rejects a missing positional status without database mutation. The easiest edge case is mistaking valid image bytes, HTTP 200 responses, a build, or a locally corrected file for proof that the user-visible page rendered the intended portraits.
 
 ## Success Behavior
 
 - Given a cosmetic visual defect with no state, permission, data, or interaction consequence, `106-sg-fix` may record `minor exception` instead of creating `shipglowz_data/workflow/bugs/BUG-ID.md`.
 - Before editing, the fixing phase records `evidence-first` or a justified alternate proof path, the observed defect, and the expected rendered state.
-- After the fix, a distinct retest phase owned by `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, or another explicitly justified proof owner exercises the rendered behavior against the correct environment.
+- After the fix, a distinct retest phase obtains a person's validation of the rendered behavior against the correct environment. `107-sg-test`, `108-sg-browser`, `109-sg-auth-debug`, or another explicitly justified proof owner may collect or route that validation.
 - `003-sg-bug` preserves the ordered state semantics `evidence -> fix-attempted -> retest -> fixed-pending-verify -> verify`; a fix-producing phase cannot promote its own result directly to verified or closed.
 - Build, typecheck, asset signature, filesystem presence, URL reachability, and HTTP status remain useful supporting checks but do not substitute for rendered/browser proof of a visual claim.
 - If the required target or browser surface is unavailable, the report remains partial or blocked and includes `proof_type`, `owner_skill`, `scenario`, and `target_or_environment` per the existing hosted-proof follow-through contract.
@@ -90,7 +90,7 @@ When a purely cosmetic visual bug qualifies for the minor exception, ShipGlowz m
 
 - If a visual retest cannot run because the target is unknown, the route starts with `405-sg-prod` target discovery; it does not ask the operator to infer the next proof owner.
 - If preview-push mode governs the target, local rendered evidence cannot close the proof gap; the flow follows `005-sg-ship -> 405-sg-prod -> 108-sg-browser/109-sg-auth-debug/107-sg-test` as applicable.
-- If browser automation is unavailable but a justified manual proof is the strongest remaining surface, the flow records `exception-with-proof`, the reason automation is unavailable, the exact manual scenario, and the owner; it does not relabel static checks as rendered proof.
+- If browser automation is unavailable, the flow routes the exact manual visual-validation scenario to a person and records `exception-with-proof`, the reason automation is unavailable, the scenario, and the owner; it does not relabel static checks as rendered proof.
 - If one actor both applies the code fix and collects the evidence, independence must still be structural: a separate post-fix retest phase against the resulting surface and a later `103-sg-verify` decision are required. A separate subagent is preferred when available but is not itself the proof contract.
 - If `sessions rename` omits or supplies an unsupported status, the operator receives a targeted correction request and the current title remains unchanged.
 - The missing-status path must never fall through to general `sessions` archive inspection, task synchronization, title derivation, another-thread inspection, or `TASKS.md` mutation.
@@ -114,7 +114,7 @@ Strengthen the narrowest reusable owner layers with scenario-first proof. Add on
 
 - Clarify that the `106-sg-fix` minor exception waives only creation of a new durable bug file.
 - Preserve the exception boundary for typo/copy-only fixes, purely cosmetic visual defects without state/permission/data/interaction consequence, and already-tracked duplicates.
-- Define rendered/browser proof as required for user-visible visual completion claims.
+- Define a person's rendered visual validation as required for user-visible visual resolution claims; technical checks alone may support an `implemented` report.
 - Preserve supporting static checks without treating them as sufficient rendered proof.
 - Enforce the lifecycle order across `106-sg-fix` and `003-sg-bug`: evidence before fix, fix-attempted after code change, independent post-fix retest, then `103-sg-verify`.
 - Define independence as phase/owner separation and fresh post-fix evidence, not necessarily a different process or subagent.
@@ -179,8 +179,8 @@ Strengthen the narrowest reusable owner layers with scenario-first proof. Add on
 ## Invariants
 
 - A minor exception changes artifact overhead only; it does not lower the evidence required for a behavior claim.
-- A user-visible visual fix is not `fixed`, `verified`, or `closed` solely because code changed, a build passed, image bytes are valid, an asset exists, or a URL returns HTTP 200.
-- The fixing phase may report at most `fix-attempted` until post-fix retest evidence exists.
+- A user-visible visual fix is not `resolved`, `fixed`, `verified`, or `closed` solely because code changed, a build passed, image bytes are valid, an asset exists, or a URL returns HTTP 200.
+- The fixing phase may report `implemented` after technical validation, but not resolved/fixed until a person validates the post-fix rendered state.
 - Retest evidence must be collected after the fix against the relevant rendered surface and environment.
 - Verification remains owned by `103-sg-verify`, separate from the fix attempt and retest result.
 - Proof gaps name a concrete owner, scenario, proof type, and target/environment rather than leaving the operator to choose a route.
@@ -211,7 +211,7 @@ Strengthen the narrowest reusable owner layers with scenario-first proof. Add on
 
 ## Edge Cases
 
-- A portrait asset is a valid PNG and its remote URL returns HTTP 200, but CSS clips it, the DOM references a different source, hydration replaces it, or the browser blocks it: static checks pass, rendered proof fails, and the bug remains unverified.
+- A portrait asset is a valid PNG and its remote URL returns HTTP 200, but CSS clips it, the DOM references a different source, hydration replaces it, or the browser blocks it: static checks pass, the repair may be reported implemented, but the bug is not resolved until a person validates its rendered state.
 - A visual defect occurs only at a responsive breakpoint: the retest scenario must name the viewport/state rather than using a generic homepage load.
 - A visual fix is local but the project uses preview-push authority: the local browser result is supporting evidence only and the hosted proof route remains required.
 - Browser proof cannot run because the URL is unknown: route to `405-sg-prod` for target discovery before choosing browser/auth/manual proof.
@@ -235,7 +235,7 @@ Strengthen the narrowest reusable owner layers with scenario-first proof. Add on
 
 - [ ] Task 2: Bind the minor exception to bug-memory only in the fix owner.
   - Files: `skills/106-sg-fix/SKILL.md`, `skills/106-sg-fix/references/bug-fix-workflow.md`
-  - Action: make the exception's sole effect explicit, require evidence before fix, cap the fix phase at `fix-attempted`, require independent rendered retest and later verification, and expose structured proof-gap routing in the detailed report path.
+  - Action: make the exception's sole effect explicit, require evidence before fix, permit `implemented` after technical validation, require a person's rendered visual validation before resolved/fixed wording and later verification, and expose structured proof-gap routing in the detailed report path.
   - User story link: preserves fast handling of truly minor defects without weakening user-visible proof.
   - Depends on: Task 1.
   - Validate with: `python3 -m unittest tools.test_bug_proof_fidelity_contract`, focused `rg`, metadata lint, and skill budget audit.
@@ -292,8 +292,8 @@ Strengthen the narrowest reusable owner layers with scenario-first proof. Add on
 ## Acceptance Criteria
 
 - [ ] AC 1: Given a purely cosmetic visual defect qualifies for the minor exception, when `106-sg-fix` executes, then only creation of a new durable bug file is waived and the proof path remains mandatory.
-- [ ] AC 2: Given a visual fix has passed build, file-signature, existence, URL, or HTTP checks, when no rendered retest has run, then neither `106-sg-fix` nor `003-sg-bug` may report the user-visible behavior fixed, verified, or closed.
-- [ ] AC 3: Given a visual fix has been applied, when the lifecycle continues, then a distinct post-fix retest phase records rendered evidence before `103-sg-verify` can decide closure.
+- [ ] AC 2: Given a visual fix has passed build, file-signature, existence, URL, or HTTP checks, when no person has validated the rendered result, then the workflow may report it implemented but neither `106-sg-fix` nor `003-sg-bug` may report the user-visible behavior resolved, fixed, verified, or closed.
+- [ ] AC 3: Given a visual fix has been applied, when the lifecycle continues, then a distinct post-fix retest phase records a person's rendered validation before `103-sg-verify` can decide closure.
 - [ ] AC 4: Given the same agent performs fix and retest, when independence is evaluated, then a fresh post-fix proof phase and separate verification decision satisfy the contract; mere reuse of pre-fix/static evidence does not.
 - [ ] AC 5: Given the rendered proof target is unavailable or unknown, when the run reports a gap, then it includes `proof_type`, `owner_skill`, `scenario`, and `target_or_environment` and avoids completion language.
 - [ ] AC 6: Given preview-push authority applies, when only local rendered proof exists, then the bug remains unverified until the existing ship/prod/browser-auth-manual route completes or a valid exception-with-proof is recorded.
@@ -349,14 +349,17 @@ None. The operator approved a full cross-skill/tooling hardening spec, the exist
 | Date UTC | Skill | Model | Action | Result | Next step |
 |----------|-------|-------|--------|--------|-----------|
 | 2026-07-17 14:15:19 UTC | 100-sg-spec | GPT-5 Codex | Created the full scenario-first contract for visual minor-exception proof and deterministic missing-status session rename behavior. | draft ready for review | /101-sg-ready shipglowz_data/workflow/specs/visual-bug-proof-and-session-rename-fidelity.md |
+| 2026-07-18 00:00:00 UTC | 100-sg-spec | GPT-5 Codex | Clarified the proportional visual-bug rule: technical checks may establish implementation; only a person's rendered validation establishes resolution. | draft refined | /101-sg-ready shipglowz_data/workflow/specs/visual-bug-proof-and-session-rename-fidelity.md |
+| 2026-07-18 12:25:51 UTC | 101-sg-ready | GPT-5 Codex | Reviewed structure, behavior, scenario-first proof, security boundaries, dependencies, and execution order. | ready | /102-sg-start Visual Bug Proof and Session Rename Fidelity |
+| 2026-07-18 12:32:03 UTC | 103-sg-verify | GPT-5.5 (requested; unavailable, used GPT-5 Codex) | mode=standard; scoped scenario-first verification found focused tests, metadata lint, skill audit, budget audit, runtime sync, documentation scan, and diff hygiene passing, but implementation progress and dependency-version trace remain stale in this spec. | partial | Reconcile the implemented-task/acceptance state and `depends_on` versions, then rerun standard verification. |
 
 ## Current Chantier Flow
 
 - `100-sg-spec`: done; full draft created and locally validated.
-- `101-sg-ready`: pending.
-- `102-sg-start`: not started.
+- `101-sg-ready`: ready; fresh-context implementation approved.
+- `102-sg-start`: implementation evidence exists in the scoped diff, but durable task/acceptance progress is not recorded.
 - `900-shipglowz-core refresh`: not started; required after material skill edits.
-- `103-sg-verify`: not started.
+- `103-sg-verify`: partial; behavioral and mechanical evidence pass, but task-progress and dependency-version trace are stale.
 - `104-sg-end`: not started.
 - `005-sg-ship`: not authorized.
-- Next step: `/101-sg-ready shipglowz_data/workflow/specs/visual-bug-proof-and-session-rename-fidelity.md`.
+- Next step: reconcile the active spec's implementation progress and `depends_on` versions, then rerun standard verification.

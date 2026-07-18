@@ -101,8 +101,12 @@ conversation.
 status vocabulary. It must not mutate `TASKS.md` unless the conversation also
 produced a durable task.
 
-`/309-sg-tasks sessions rename <status>` derives one semantic work title from
-the visible conversation, then invokes the ShipGlowz-owned
+`/309-sg-tasks sessions rename <status>` requires an explicit supported status
+before any rename-related work. If `sessions rename` has no status or an
+unsupported status, ask for exactly one supported status (`todo`, `doing`,
+`in_progress`, `blocked`, or `done`) and do not derive a title, inspect
+sessions, call the helper, or mutate Codex or `TASKS.md`. With a valid status,
+derive one semantic work title from the visible conversation, then invoke the ShipGlowz-owned
 `tools/rename_codex_session.py` with that title. Accept only `todo`, `doing`,
 `in_progress`, `blocked`, or `done`; target only `CODEX_THREAD_ID` in the exact
 current `cwd`; persist `<STATUS> - <work title>` with at most five work-title
@@ -146,6 +150,9 @@ not reproduce destructive SQLite or filesystem logic ad hoc in the agent.
 - `CONVERSATION-RENAME-CURRENT-ONLY`: an explicit `sessions rename <status>`
   changes only `CODEX_THREAD_ID` in the exact current cwd, rejects generic work
   titles, and leaves project trackers and every other thread untouched.
+- `CONVERSATION-RENAME-MISSING-STATUS`: `sessions rename` without a supported
+  status asks for exactly one supported status and does not derive a title,
+  inspect sessions, call the helper, or mutate Codex or `TASKS.md`.
 - `CONVERSATION-TITLE-TRUNCATION`: a first request or preview begins with a
   long sentence; read through the latest objective and outcome, then write an
   original semantic summary of at most five words. Never use prefix slicing,

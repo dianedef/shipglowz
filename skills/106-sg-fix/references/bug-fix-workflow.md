@@ -1,10 +1,10 @@
 ---
 artifact: skill_reference
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.0.1"
 project: "shipflow"
 created: "2026-06-10"
-updated: "2026-06-10"
+updated: "2026-07-18"
 status: active
 source_skill: 106-sg-fix
 scope: "bug-fix-workflow"
@@ -24,6 +24,7 @@ depends_on:
 supersedes: []
 evidence:
   - "Extracted from 106-sg-fix/SKILL.md during residual body-risk cleanup."
+  - "Visual bug proof fidelity hardening on 2026-07-18."
 next_step: "none"
 ---
 
@@ -66,6 +67,14 @@ Initial or refreshed bug files must include summary/title/status/severity/next s
 When investigation starts, move status to `in-diagnosis` and append a Diagnosis Notes row. Every concrete code attempt appends a Fix Attempts row with timestamp UTC, files changed, hypothesis, proof path, validation command or reason skipped, result, Sentry pointer status when relevant, and next retest command.
 
 If no passing retest exists, status cannot be `closed`.
+
+A qualifying minor exception only waives creation of a new durable bug file.
+For a user-visible visual repair, record the pre-fix evidence and expected
+rendered state, then retain the lifecycle evidence -> fix-attempted -> retest
+-> fixed-pending-verify -> verify. Technical checks may support `implemented`,
+but do not call it resolved, fixed, verified, or closed until a person validates
+the rendered result. If unavailable, retain the proof gap and its concrete
+proof owner, scenario, proof type, and target or environment.
 
 ## Technical Triage
 
@@ -113,6 +122,10 @@ When classified `direct`:
 - allow `fixed-pending-verify` only after passing retest
 - refuse `closed` without retest evidence
 - run `103-sg-verify` logic after retest before closure
+
+For a visual minor exception, the person validates the rendered result in the
+distinct post-fix retest phase; the exception only waives creation of a new
+durable bug file and never substitutes static checks for that validation.
 
 ## Spec-First Or Diagnostic-Only
 

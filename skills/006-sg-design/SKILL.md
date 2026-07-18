@@ -43,6 +43,8 @@ Before resolving design lifecycle gates, load `$SHIPFLOW_ROOT/skills/references/
 
 ## Required References
 
+- `$SHIPFLOW_ROOT/skills/references/async-feedback-visibility-contract.md` when designing, auditing, or implementing any delayed operation, loading state, progress indicator, save/sync feedback, preview/render, export, or async interaction.
+
 Load `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md` before route or implementation decisions.
 
 Load `$SHIPFLOW_ROOT/skills/references/design-system-token-contract.md` before UI, mobile, component, layout, typography, spacing, color, shadow/elevation, motion, safe-area, keyboard/IME, overlay, responsive, token, theme, or visual proof work.

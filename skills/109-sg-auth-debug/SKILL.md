@@ -47,6 +47,8 @@ It does not own generic browser proof, full manual QA logging, deployment discov
 
 ## Required References
 
+- `$SHIPFLOW_ROOT/skills/references/async-feedback-visibility-contract.md` for auth/session checks, OAuth/browser callbacks, token refresh, sign-in, sign-out, or any delayed provider operation.
+
 Always load shared references only when their gate applies. Load skill-local references precisely by mode:
 
 - `references/auth-debug-workflow.md`: Auth debug workflow, provider-reference routing, reproduction strategy, Playwright proof, Sentry/PM2 evidence, and report details.

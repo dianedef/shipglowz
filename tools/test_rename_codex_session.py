@@ -116,6 +116,26 @@ class SessionRenameTests(unittest.TestCase):
         self.assertEqual(caught.exception.code, "invalid_status")
         self.assertEqual(self.titles(), before)
 
+    def test_missing_status_fails_without_mutation(self) -> None:
+        before = self.titles()
+        with self.assertRaises(rename.RenameError) as caught:
+            rename.rename_session(
+                db_path=self.db_path,
+                cwd=self.project,
+                current_thread_id=self.current_id,
+                status="",
+                work_title="Codex session rename mode",
+            )
+        self.assertEqual(caught.exception.code, "invalid_status")
+        self.assertEqual(self.titles(), before)
+
+    def test_cli_missing_status_does_not_open_or_mutate_database(self) -> None:
+        before = self.titles()
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as caught:
+            rename.run(["--cwd", str(self.project), "--db", str(self.db_path)])
+        self.assertEqual(caught.exception.code, 2)
+        self.assertEqual(self.titles(), before)
+
     def test_semantic_title_gate(self) -> None:
         for title in ("", "Review work", "DONE - Existing prefix", "bad\ntitle"):
             with self.subTest(title=title), self.assertRaises(rename.RenameError):
@@ -232,6 +252,21 @@ class SessionNamingContractTests(unittest.TestCase):
             self.assertIn("latest objective", text)
             self.assertIn("at most five words", text)
             self.assertIn("first-N-word extraction", text)
+
+    def test_contract_rejects_missing_status_before_all_rename_work(self) -> None:
+        skill = (ROOT / "skills" / "309-sg-tasks" / "SKILL.md").read_text(encoding="utf-8")
+        playbook = (
+            ROOT
+            / "shipglowz_data"
+            / "workflow"
+            / "playbooks"
+            / "conversation-tracker-sync-playbook.md"
+        ).read_text(encoding="utf-8")
+        for text in (skill, playbook):
+            normalized = " ".join(text.split())
+            self.assertIn("CONVERSATION-RENAME-MISSING-STATUS", normalized)
+            self.assertIn("ask for exactly one supported status", normalized)
+            self.assertIn("do not derive a title, inspect sessions, call the helper, or mutate", normalized)
 
 
 if __name__ == "__main__":

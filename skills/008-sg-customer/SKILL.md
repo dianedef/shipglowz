@@ -44,6 +44,8 @@ Natural-language input is dispatcher input, not a fifth mode: select one mode on
 
 ## Required References
 
+- `$SHIPFLOW_ROOT/skills/references/async-feedback-visibility-contract.md` for customer-facing loading, onboarding, save, upload, support, recovery, or any other operation with a noticeable delay.
+
 Load only the selected mode playbook. Load shared references only when their gate applies:
 
 - `$SHIPFLOW_ROOT/skills/references/decision-quality-contract.md` before choosing scope, defaults, proof, or route.

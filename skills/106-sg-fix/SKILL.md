@@ -90,6 +90,13 @@ Direct bug fixes still require durable bug memory. `106-sg-fix` must finish with
 
 Minor exceptions are limited to typo/copy-only fixes, purely cosmetic visual defects with no state/permission/data/interaction consequence, or duplicates of an already-tracked `BUG-ID` with no new diagnosis or fix history. Never use the exception for auth, data, workflow, permission, API, redirect, cache, payment, external effect, or stateful UI bugs.
 
+A minor exception only waives creation of a new durable bug file. It still
+requires evidence before the fix, a post-fix retest, and verification routing.
+For a user-visible visual defect, technical checks may support `implemented`,
+but do not call it resolved, fixed, verified, or closed until a person validates
+the rendered result. If that validation is unavailable, report the concrete
+proof gap and route it through the owner named by the shared proof discipline.
+
 When a `BUG-ID` exists, open `shipglowz_data/workflow/bugs/BUG-ID.md` right before intake and treat it as source of truth. If no bug file exists and no exception applies, create or reserve a new durable bug record before or during the direct fix flow using the procedure in `bug-fix-workflow.md`.
 
 ## Security And Data Gates
@@ -101,6 +108,12 @@ Direct fixes must preserve security-by-default: do not rely on UI-only protectio
 ## Execution
 
 If `direct`, apply the shared task application loop to implement the bounded professional repair one repair slice at a time, attach it to durable bug memory, append a `Fix Attempts` row after the actual attempt, run relevant checks, and keep the bug status no stronger than `fix-attempted` until retest evidence exists.
+
+For a qualifying visual minor exception, record `minor exception` rather than
+creating a bug file, but preserve the same evidence -> fix-attempted -> retest
+-> fixed-pending-verify -> verify order. A person validates the rendered result
+in the retest phase; no static or transport check can promote the repair beyond
+`implemented` on its own.
 
 If `spec-first`, do not code; route to `/100-sg-spec`, `/101-sg-ready`, then `/102-sg-start`.
 
@@ -131,6 +144,7 @@ Use the report shape in `bug-fix-workflow.md`: classification, reason, user stor
 - A direct visual fix must defend design-system coherence; unexplained hardcoded sizes, offsets, breakpoints, z-indexes, colors, font sizes, spacings, animation timings, IME/keyboard insets, or overlay positions are not acceptable proof of repair.
 - For UI/design fixes, run `python3 "${SHIPFLOW_ROOT:-$HOME/shipglowz}/tools/design_system_drift_check.py" --changed --format markdown` or route the gap explicitly; unresolved new drift keeps the bug at most `fix-attempted`.
 - Do not close a bug without retest evidence in `shipglowz_data/workflow/bugs/BUG-ID.md`.
+- For a visual minor exception, do not use resolved/fixed/verified/closed language until a person validates the rendered result; otherwise report only `implemented` plus the proof gap.
 - Do not treat a local retest as closure evidence when project mode requires Vercel preview-push validation.
 
 ## Validation

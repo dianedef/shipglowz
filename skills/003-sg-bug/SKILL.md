@@ -39,6 +39,12 @@ Use the shared bug work item model: one Markdown bug file under `shipglowz_data/
 
 Before routing to fix, retest, verify, or ship-risk claims, load `$SHIPFLOW_ROOT/skills/references/spec-driven-development-discipline.md`. Bug work uses a `regression-first` proof path when reproduction and an automated regression surface are practical; otherwise it must record `evidence-first` or `exception-with-proof` with concrete reproduction, root cause hypothesis, and retest evidence.
 
+For user-visible visual bugs, preserve evidence -> fix-attempted -> retest ->
+fixed-pending-verify -> verify. Technical checks may support `implemented`, but
+must not call it resolved, fixed, verified, or closed until a person validates
+the rendered result in the post-fix retest phase. A minor exception only waives
+creation of a durable bug file; it does not waive this proof route.
+
 ## Chantier Potential Intake
 
 Apply the chantier-potential threshold from `$SHIPFLOW_ROOT/skills/references/chantier-tracking.md` before the final report.
