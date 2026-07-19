@@ -153,6 +153,7 @@ shipflow-turso-ssh
 - Bare SSH identity filenames resolve from the menu launch directory, then `~/.ssh/`, then the user's home directory; the saved identity path should be absolute.
 - Local port occupancy is checked before opening a tunnel.
 - Managed tunnel stop logic should select ShipGlowz-owned tunnels, not broad process patterns.
+- SSH tunnel forwards use `127.0.0.1` as the remote bind target instead of `localhost`, because `localhost` may resolve to `::1` or `127.0.0.1` depending on the server's network stack, which can mismatch the app's listening family and make the tunnel appear created but unreachable.
 - Raw SSH process listing is debug-only operator output via `SHIPFLOW_DEBUG=1`.
 - Active Flutter Web `tmux` ports are discovered from the server-side
   `SHIPFLOW_FLUTTER_WEB_SESSIONS_FILE` registry and included only when the

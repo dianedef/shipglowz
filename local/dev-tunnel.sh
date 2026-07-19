@@ -31,7 +31,7 @@ get_managed_tunnel_pids() {
     ps -eo pid=,args= | while read -r pid cmd; do
         [ -n "$pid" ] || continue
         if [[ "$cmd" == *autossh* ]] &&
-            [[ "$cmd" == *" -L "*":localhost:"* ]] &&
+            [[ "$cmd" == *" -L "*":127.0.0.1:"* ]] &&
             [[ " $cmd " == *" $REMOTE_HOST "* ]]; then
             printf "%s\n" "$pid"
         fi
@@ -92,11 +92,11 @@ is_local_tunnel_ready() {
     local port="$1"
 
     if command -v nc >/dev/null 2>&1; then
-        nc -z localhost "$port" >/dev/null 2>&1
+        nc -z 127.0.0.1 "$port" >/dev/null 2>&1
         return
     fi
 
-    curl -s --connect-timeout 1 "http://localhost:${port}" >/dev/null 2>&1
+    curl -s --connect-timeout 1 "http://127.0.0.1:${port}" >/dev/null 2>&1
 }
 
 # Load saved connection or use default
@@ -312,7 +312,7 @@ for port_info in "${PORT_ARRAY[@]}"; do
         -o "ServerAliveInterval=${SHIPGLOWZ_SSH_KEEPALIVE_INTERVAL:-${SHIPFLOW_SSH_KEEPALIVE_INTERVAL:-30}}"
         -o "ServerAliveCountMax=${SHIPGLOWZ_SSH_KEEPALIVE_MAX:-${SHIPFLOW_SSH_KEEPALIVE_MAX:-3}}"
         -o "ExitOnForwardFailure=yes"
-        -L "${port}:localhost:${port}"
+        -L "${port}:127.0.0.1:${port}"
     )
     while IFS= read -r arg; do
         autossh_args+=("$arg")

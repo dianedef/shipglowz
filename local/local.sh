@@ -1291,7 +1291,7 @@ get_tunnel_processes() {
         esac
 
         case " $cmd " in
-            *" autossh "*"-L "*":localhost:"*|*"/autossh "*"-L "*":localhost:"*|*" ssh "*"-N "*"-L "*":localhost:"*|*"/ssh "*"-N "*"-L "*":localhost:"*)
+            *" autossh "*"-L "*":127.0.0.1:"*|*"/autossh "*"-L "*":127.0.0.1:"*|*" ssh "*"-N "*"-L "*":127.0.0.1:"*|*"/ssh "*"-N "*"-L "*":127.0.0.1:"*)
                 printf "%s %s\n" "$pid" "$cmd"
                 ;;
         esac
@@ -1307,7 +1307,7 @@ get_tunnel_pids() {
 is_local_tunnel_ready() {
     local port="$1"
 
-    if command -v nc &> /dev/null && nc -z localhost "$port" 2>/dev/null; then
+        if command -v nc &> /dev/null && nc -z 127.0.0.1 "$port" 2>/dev/null; then
         return 0
     fi
 
@@ -1315,7 +1315,7 @@ is_local_tunnel_ready() {
         return 0
     fi
 
-    curl -s --connect-timeout 1 "http://localhost:${port}" &> /dev/null
+    curl -s --connect-timeout 1 "http://127.0.0.1:${port}" &> /dev/null
 }
 
 # Fonction pour attendre que les tunnels soient bien levés
@@ -1413,7 +1413,7 @@ start_tunnels() {
             -o "ServerAliveInterval=30"
             -o "ServerAliveCountMax=3"
             -o "ExitOnForwardFailure=yes"
-            -L "${port}:localhost:${port}"
+            -L "${port}:127.0.0.1:${port}"
         )
         while IFS= read -r arg; do
             autossh_args+=("$arg")
@@ -1461,11 +1461,11 @@ show_urls() {
         name=$(echo "$line" | cut -d':' -f2)
         
         # Vérifier si le port local est accessible (méthode la plus fiable)
-        if command -v nc &> /dev/null && nc -z localhost "$port" 2>/dev/null; then
+    if command -v nc &> /dev/null && nc -z 127.0.0.1 "$port" 2>/dev/null; then
             echo -e "  ${GREEN}✓${NC} http://localhost:${port} ${YELLOW}(${name})${NC} ${GREEN}[actif]${NC}"
         elif command -v lsof &> /dev/null && lsof -i :${port} &> /dev/null; then
             echo -e "  ${GREEN}✓${NC} http://localhost:${port} ${YELLOW}(${name})${NC} ${GREEN}[actif]${NC}"
-        elif curl -s --connect-timeout 1 http://localhost:${port} &> /dev/null; then
+        elif curl -s --connect-timeout 1 http://127.0.0.1:${port} &> /dev/null; then
             echo -e "  ${GREEN}✓${NC} http://localhost:${port} ${YELLOW}(${name})${NC} ${GREEN}[actif]${NC}"
         else
             echo -e "  ${RED}✗${NC} http://localhost:${port} ${YELLOW}(${name})${NC} ${RED}[tunnel inactif]${NC}"

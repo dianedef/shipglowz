@@ -9211,6 +9211,8 @@ action_deploy() {
                 proj_dir=$(dirname "$manifest")
                 case "$proj_dir" in
                     "$PROJECTS_DIR"/.*) continue ;;
+                    "$PROJECTS_DIR"/packages/*) continue ;;
+                    "$PROJECTS_DIR"/scripts/*) continue ;;
                 esac
                 if [ ! -d "$proj_dir/.flox" ]; then
                     echo "$proj_dir"
