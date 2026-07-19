@@ -8519,10 +8519,61 @@ env_restart() {
         local restarted_status=""
         pm2_status_load restarted_status "$env_name" || true
         if [ "$restarted_status" != "online" ]; then
-            error "Environment $env_name did not stabilize after restart (PM2: ${restarted_status:-unknown})"
-            echo -e "${YELLOW}  Consultez les logs: pm2 logs $env_name --lines 50${NC}"
-            log ERROR "Restart did not stabilize: $env_name (status: ${restarted_status:-unknown})"
-            return 1
+            echo -e "${YELLOW}⚠️  L'environnement $env_name n'a pas pu redémarrer proprement (PM2: ${restarted_status:-unknown})${NC}"
+            echo -e "${YELLOW}  Causes possibles: dépendances manquantes, config cassée, port occupé${NC}"
+            echo -e "${BLUE}📋 Logs récents:${NC}"
+            pm2 logs "$env_name" --lines 20 --nostream 2>&1 | grep -v "^$" || true
+            echo ""
+            echo -e "${BLUE}🔧 Tentative de réparation automatique via env_start...${NC}"
+            if env_start "$project_dir" >/dev/null 2>&1; then
+                success "Environment $env_name réparé et démarré via env_start"
+                local port=""
+                pm2_port_load port "$env_name" || port=""
+                if [ -n "$port" ]; then
+                    echo -e "${GREEN}✅ URL: ${CYAN}http://localhost:$port${NC}"
+                fi
+                log INFO "Recovery via env_start succeeded: $env_name"
+                return 0
+            else
+                error "La réparation automatique a échoué pour $env_name"
+                echo -e "${YELLOW}  Consultez les logs: pm2 logs $env_name --lines 50${NC}"
+                log ERROR "Recovery via env_start failed: $env_name"
+                return 1
+            fi
+        fi
+
+        local restarted_restarts=""
+        restarted_restarts=$(pm2 jlist 2>/dev/null | python3 -c "
+import json, sys
+try:
+    apps = json.load(sys.stdin)
+except:
+    sys.exit(0)
+for app in apps:
+    if app.get('name') == '$env_name':
+        print(app.get('pm2_env', {}).get('restart_time', 0))
+" 2>/dev/null)
+        if [ -n "$restarted_restarts" ] && [ "$restarted_restarts" -gt 0 ]; then
+            echo -e "${YELLOW}⚠️  $env_name a redémarré $restarted_restarts fois après le restart demandé — l'app est en crash loop${NC}"
+            echo -e "${BLUE}📋 Logs récents:${NC}"
+            pm2 logs "$env_name" --lines 20 --nostream 2>&1 | grep -v "^$" || true
+            echo ""
+            echo -e "${BLUE}🔧 Tentative de réparation automatique via env_start...${NC}"
+            if env_start "$project_dir" >/dev/null 2>&1; then
+                success "Environment $env_name réparé et démarré via env_start"
+                local port=""
+                pm2_port_load port "$env_name" || port=""
+                if [ -n "$port" ]; then
+                    echo -e "${GREEN}✅ URL: ${CYAN}http://localhost:$port${NC}"
+                fi
+                log INFO "Crash-loop recovery via env_start succeeded: $env_name"
+                return 0
+            else
+                error "La réparation automatique a échoué pour $env_name"
+                echo -e "${YELLOW}  Consultez les logs: pm2 logs $env_name --lines 50${NC}"
+                log ERROR "Crash-loop recovery via env_start failed: $env_name"
+                return 1
+            fi
         fi
 
         local port=""
