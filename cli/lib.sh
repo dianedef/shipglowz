@@ -4256,11 +4256,12 @@ registry_sync() {
     local pm2_available=true
     pm2_data_load pm2_data 2>/dev/null || pm2_available=false
 
-    declare -A paths=() previous_status=() previous_port=() seen=()
+    declare -A paths=() path_to_name=() previous_status=() previous_port=() seen=() seen_paths=()
     local name path status port cwd extra
     while IFS='|' read -r name path extra; do
         [ -n "$name" ] && [ -n "$path" ] && [ -z "$extra" ] || continue
         paths[$name]="$path"
+        path_to_name["$path"]="$name"
     done < "$discovery_file"
 
     if registry_is_valid "$SHIPGLOWZ_REGISTRY"; then
@@ -4279,14 +4280,29 @@ registry_sync() {
             fi
             [ -n "$path" ] && [ -d "$path/.flox" ] || continue
             case "$name$status$port$path" in *'|'*|*$'\n'*) continue ;; esac
+
+            if [ -n "${path_to_name[$path]:-}" ]; then
+                canonical_name="${path_to_name[$path]}"
+                if [ "$canonical_name" != "$name" ]; then
+                    name="$canonical_name"
+                fi
+            fi
+
+            if [ -n "${seen_paths[$path]:-}" ]; then
+                continue
+            fi
+            seen_paths["$path"]="$name"
+
             printf '%s|%s|%s|%s\n' "$name" "${status:-unknown}" "$port" "$path" >> "$snapshot_file"
-            seen[$name]=1
+            seen["$name"]=1
         done <<< "$pm2_data"
     fi
 
     while IFS='|' read -r name path extra; do
         [ -n "$name" ] && [ -n "$path" ] && [ -z "$extra" ] || continue
-        [ -z "${seen[$name]+x}" ] || continue
+        if [ -n "${seen_paths[$path]:-}" ]; then
+            continue
+        fi
         status="stopped"
         port=""
         if [ "$pm2_available" = "false" ] && [ -n "${previous_status[$name]+x}" ]; then
@@ -5065,15 +5081,31 @@ resolve_project_path() {
 # Return a collision-resistant PM2 name for a project directory.
 derive_pm2_app_name() {
     local project_dir="${1%/}"
-    local role
-    local parent
+    local role parent candidate project_root
 
     [ -n "$project_dir" ] || return 1
     role=$(basename "$project_dir")
 
     case "$role" in
         app|site|lab|worker)
-            parent=$(basename "$(dirname "$project_dir")")
+            local found_root=false
+            project_root=$(dirname "$project_dir")
+            while [ -n "$project_root" ] && [ "$project_root" != "/" ] && [ "$project_root" != "." ]; do
+                if [ -d "$project_root/.git" ] || \
+                   [ -f "$project_root/package.json" ] || \
+                   [ -f "$project_root/pubspec.yaml" ] || \
+                   [ -f "$project_root/requirements.txt" ] || \
+                   [ -f "$project_root/Cargo.toml" ] || \
+                   [ -f "$project_root/go.mod" ]; then
+                    found_root=true
+                    break
+                fi
+                project_root=$(dirname "$project_root")
+            done
+            if [ "$found_root" = "false" ]; then
+                project_root=$(dirname "$project_dir")
+            fi
+            parent=$(basename "$project_root")
             [ -n "$parent" ] && [ "$parent" != "." ] && [ "$parent" != "/" ] || return 1
             parent="${parent%_$role}"
             printf '%s_%s\n' "$parent" "$role"
@@ -6261,26 +6293,32 @@ detect_dev_command() {
                     echo "npx expo start --dev-client --tunnel"
                     ;;
                 astro)
-                    if [ "$pm_cmd" = "npm run" ]; then
-                        echo "$pm_cmd dev -- --port \$PORT"
+                    if [ "$pm_cmd" = "pnpm" ]; then
+                        echo "pnpm exec astro dev --port \$PORT"
                     else
-                        echo "$pm_cmd dev --port \$PORT"
+                        echo "$pm_cmd dev -- --port \$PORT"
                     fi
                     ;;
                 next)
-                    # Next.js reads PORT env var natively - no -p flag needed
-                    # Using -p with pnpm causes quoting issues ("-p" "3023")
-                    echo "$pm_cmd dev"
+                    if [ "$pm_cmd" = "pnpm" ]; then
+                        echo "pnpm exec next dev"
+                    else
+                        echo "$pm_cmd dev"
+                    fi
                     ;;
                 vite)
-                    if [ "$pm_cmd" = "npm run" ]; then
-                        echo "$pm_cmd dev -- --port \$PORT --host"
+                    if [ "$pm_cmd" = "pnpm" ]; then
+                        echo "pnpm exec vite --port \$PORT --host"
                     else
-                        echo "$pm_cmd dev --port \$PORT --host"
+                        echo "$pm_cmd dev -- --port \$PORT --host"
                     fi
                     ;;
                 nuxt)
-                    echo "$pm_cmd dev --port \$PORT"
+                    if [ "$pm_cmd" = "pnpm" ]; then
+                        echo "pnpm exec nuxt dev --port \$PORT"
+                    else
+                        echo "$pm_cmd dev --port \$PORT"
+                    fi
                     ;;
                 *)
                     echo "$pm_cmd dev"
@@ -7018,7 +7056,8 @@ module.exports = {
     script: "bash",
     args: ["-lc", "$pm2_launch_cmd"],
     env: {
-      PORT: $port
+      PORT: $port,
+      PATH: "$project_dir/node_modules/.bin:\$PATH"
     },
     autorestart: true,
     max_restarts: 3,
@@ -9211,8 +9250,9 @@ action_deploy() {
                 proj_dir=$(dirname "$manifest")
                 case "$proj_dir" in
                     "$PROJECTS_DIR"/.*) continue ;;
-                    "$PROJECTS_DIR"/packages/*) continue ;;
-                    "$PROJECTS_DIR"/scripts/*) continue ;;
+                esac
+                case "$(basename "$(dirname "$proj_dir")")" in
+                    packages|scripts) continue ;;
                 esac
                 if [ ! -d "$proj_dir/.flox" ]; then
                     echo "$proj_dir"
