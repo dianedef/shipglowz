@@ -7056,8 +7056,7 @@ module.exports = {
     script: "bash",
     args: ["-lc", "$pm2_launch_cmd"],
     env: {
-      PORT: $port,
-      PATH: "$project_dir/node_modules/.bin:\$PATH"
+      PORT: $port
     },
     autorestart: true,
     max_restarts: 3,
