@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.0.0"
+artifact_version: "1.1.0"
 project: ShipGlowz
 created: "2026-06-28"
-updated: "2026-06-28"
+updated: "2026-07-23"
 status: active
 source_skill: 300-sg-docs
 scope: monorepo-governance-topology
@@ -24,6 +24,7 @@ supersedes: []
 evidence:
   - "Operator decision 2026-06-28: monorepo governance should group by theme first, then by surface."
   - "Repeated migration drift caused by mixed site/app folders carrying business, technical, and workflow docs together."
+  - "Operator decision 2026-07-23: monorepo source roots (site/, app/, backend/, packages/) are separate from governance roots (shipglowz_data/), and flat source roots are the preferred canonical shape."
 next_review: "2026-07-28"
 next_step: "/300-sg-docs migrate-layout"
 ---
@@ -56,6 +57,17 @@ Examples:
 - `shipglowz_data/technical/app/*`
 - `shipglowz_data/workflow/site/*`
 - `shipglowz_data/workflow/app/*`
+
+## Monorepo Source Root Rule
+
+Source roots and governance roots are separate concerns. Governance stays at the monorepo root under `shipglowz_data/`. Canonical source roots may be flat at the monorepo root when the project uses the public-site + application + backend split:
+
+- `site/`
+- `app/`
+- `backend/`
+- `packages/`
+
+Nested `apps/*` packaging is allowed only when the project documents a durable technical reason; it is not the default ShipGlowz monorepo shape.
 
 ## Decision Rule
 

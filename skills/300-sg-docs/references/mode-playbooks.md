@@ -111,6 +111,7 @@ Minimum checks:
 - high-cognitive-load symbols reached from behavior indexes have source comment coverage for contract/invariant recovery
 - UI projects declare design-system authority in `shipglowz_data/technical/design-system-authority.md` or a mapped scoped app doc
 - monorepos have one root `shipglowz_data/` with app/package path scopes instead of repeated nested corpora
+- monorepos using the Astro plus Flutter plus backend split prefer flat source roots at the monorepo root; nested `apps/*` layout is treated as migration debt unless a durable exception is documented
 - external provider behavior has a global source note under `shipglowz_data/technical/external-platforms/` when it is common or repeated across projects
 - projects or monorepo surfaces that use an external provider have a governance-root usage note under `shipglowz_data/technical/platforms/` only when provider behavior affects validation, auth, deploy, runtime, SDK, storage, security, migrations, observability, compliance, production proof, or local exceptions
 

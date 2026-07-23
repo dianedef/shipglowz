@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.6.0"
+artifact_version: "1.7.0"
 project: ShipGlowz
 created: "2026-04-27"
-updated: "2026-07-13"
+updated: "2026-07-23"
 status: active
 source_skill: 102-sg-start
 scope: canonical-path-resolution
@@ -28,6 +28,7 @@ evidence:
   - "Operator clarification on 2026-07-13: root compliance is determined by documentary and architecture ownership contracts, with explicit QA, bug, public-reference, and historical exceptions."
   - "Operator decision on 2026-07-13: archived governance history must resolve under shipglowz_data/workflow/archives instead of a root archive directory."
   - "Operator decision on 2026-07-13: root docs and bug workflow paths must migrate into canonical technical and workflow families."
+  - "Operator decision on 2026-07-23: flat source roots at the monorepo root (site/, app/, backend/, packages/) are the preferred canonical shape for projects using the Astro plus Flutter plus backend split; nested apps/* packaging is allowed only with a documented durable exception."
 next_review: "2026-05-27"
 next_step: "/103-sg-verify canonical path policy"
 ---
@@ -85,6 +86,29 @@ ShipGlowz skills often run from a project repository, but ShipGlowz-owned tools 
 - Legacy root ShipGlowz governance files such as `BUSINESS.md`, `PRODUCT.md`, `BRANDING.md`, `GTM.md`, `ARCHITECTURE.md`, `CONTENT_MAP.md`, `CONTEXT.md`, `CONTEXT-FUNCTION-TREE.md`, `GUIDELINES.md`, `TASKS.md`, and `AUDIT_LOG.md` are migration sources only. They are not compliant project artifact locations.
 - Generated local-output directories such as `node_modules/`, `dist/`, `.astro/`, `.vercel/`, `.vercel/output/`, and `.playwright-mcp/` are disposable runtime artifacts, not governance artifacts, evidence artifacts, or source-of-truth project documents.
 - If a ShipGlowz-owned file is missing from `$SHIPFLOW_ROOT`, report a ShipGlowz installation gap. Do not report it missing just because it is absent from the project repository.
+
+## Source Root Conventions
+
+ShipGlowz does not mandate one universal source tree shape, but when a project uses the canonical public-site + application + backend split, prefer flat application roots at the monorepo root instead of nested `apps/*` bundles.
+
+Preferred canonical source roots:
+
+- `site/` — public web surface
+- `app/` — application surface
+- `backend/` — data, migrations, server-side authority
+- `packages/` or `packages/contracts/` — shared typed contracts when cross-surface contracts are versioned separately
+
+Anti-patterns:
+
+- `apps/site/`, `apps/app/`, `apps/backend/`
+- duplicating the same logical surface under multiple root folders because of historical package boundaries
+- burying the governance corpus under a source app folder; governance stays at the monorepo root
+
+Resolution rule:
+
+- source files resolve from their logical root folder
+- governance artifacts always resolve from the monorepo root `shipglowz_data/`, regardless of where the source root lives
+- build, workspace, and deployment configs should be reachable from the monorepo root without assuming nested package management unless the project documents a durable exception
 
 ## ShipGlowz-Owned Tool Preflight
 

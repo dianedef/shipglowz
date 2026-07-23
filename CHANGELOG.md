@@ -26,6 +26,18 @@ next_step: "/300-sg-docs audit CHANGELOG.md"
 ---
 # ShipFlow Changelog
 
+## [2026-07-23]
+
+### Added
+- Added canonical monorepo source-root conventions in `skills/references/canonical-paths.md`: `site/`, `app/`, `backend/`, `packages/` are the preferred flat roots for Astro + Flutter + backend projects; nested `apps/*` packaging is allowed only with a documented durable exception.
+- Added a matching monorepo source-root rule in `skills/references/monorepo-governance-topology.md`, separating source-root shape from governance-root placement.
+- Added an expected source layout section in `skills/references/preferred-stacks.md` for the Astro plus Flutter preset.
+
+### Changed
+- `305-sg-init` now loads `preferred-stacks.md` before choosing a greenfield source-root layout.
+- `102-sg-start` now requires respecting canonical source roots and forbids introducing nested `apps/*` layout without a documented durable exception.
+- `300-sg-docs` monorepo audit now checks flat source-root compliance in addition to governance-root compliance.
+
 ## [2026-07-18]
 
 ### Changed

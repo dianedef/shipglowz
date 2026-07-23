@@ -32,6 +32,7 @@ Always load shared references only when their gate applies. Load skill-local ref
 - `references/bootstrap-workflow.md`: Detailed bootstrap workflow, generated artifact templates, MCP setup, governance corpus bootstrap, and final reporting details.
 - `$SHIPFLOW_ROOT/skills/references/project-governance-rules.md`: required when deciding the minimum compliant governed-project shape, especially for monorepos and governance-root expectations.
 - `$SHIPFLOW_ROOT/skills/references/documentation-governance-rules.md`: required when bootstrapping, auditing, or normalizing documentation architecture, metadata, or canonical placement.
+- `$SHIPFLOW_ROOT/skills/references/preferred-stacks.md`: required for greenfield projects before choosing a source-root layout or confirming the stack preset.
 - `$SHIPFLOW_ROOT/skills/references/question-contract.md`: required before asking bootstrap, project-intent, target-surface, runtime, or governance-scope questions.
 - `$SHIPFLOW_ROOT/skills/references/operator-partnership-contract.md`: required when bootstrap depends on operator-owned business, product, audience, or framing truth that cannot be discovered locally.
 - `$SHIPFLOW_ROOT/skills/references/design-system-token-contract.md`: required when bootstrapping or auditing governance for a project with a UI surface.
@@ -54,6 +55,7 @@ Parse `$ARGUMENTS` and choose the smallest safe mode under `$SHIPFLOW_ROOT/skill
 - When bootstrap scope includes the private data repository, resolve its remote from configuration such as `SHIPGLOWZ_PRIVATE_DATA_REPO` instead of hardcoding an operator-specific repository URL.
 - Treat `~/.shipglowz/private/data/` as a separate Git working tree for durable private data, not as a subfolder to version inside public repos or `$SHIPFLOW_ROOT`.
 - Stop and report if the target private data path exists but is not a Git repository, unless the active bootstrap contract explicitly includes migration or repair steps.
+- For monorepos using the Astro plus Flutter plus backend split, prefer flat source roots at the monorepo root (`site/`, `app/`, `backend/`, `packages/`) instead of nested `apps/*` bundles unless the project documents a durable technical exception.
 
 ## Stop Conditions
 

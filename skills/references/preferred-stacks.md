@@ -1,10 +1,10 @@
 ---
 artifact: technical_guidelines
 metadata_schema_version: "1.0"
-artifact_version: "1.1.0"
+artifact_version: "1.2.0"
 project: ShipGlowz
 created: "2026-07-17"
-updated: "2026-07-17"
+updated: "2026-07-23"
 status: active
 source_skill: 900-shipglowz-core
 scope: preferred-stack-presets
@@ -85,6 +85,17 @@ rediscover ShipGlowz's habitual stack.
   availability, prices, orders, and other shared business state.
 - Define an explicit navigation boundary between the Astro site and Flutter app
   while preserving brand, accessibility, analytics, and deep-link continuity.
+
+#### Expected source layout
+
+When the operator accepts the Astro plus Flutter preset with a shared backend, the expected source layout is:
+
+- `site/` for the Astro public/SEO surface
+- `app/` for the Flutter ordering application
+- `backend/` for the shared backend authority
+- `packages/contracts/` when typed cross-surface contracts are versioned separately
+
+Deployment entrypoints such as Vercel build commands should be expressible from the monorepo root without relying on nested package discovery unless the project documents a durable exception.
 
 ### Supporting defaults
 

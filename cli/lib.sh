@@ -5872,6 +5872,34 @@ launch_codex_pnpm_migration() {
     fi
 }
 
+launch_codex_docs_compliance() {
+    local project_dir=$1
+    local codex_prompt
+
+    if [ -z "$project_dir" ] || [ ! -d "$project_dir" ]; then
+        error "Workspace invalide pour ouvrir Codex"
+        return 1
+    fi
+
+    if ! command -v codex >/dev/null 2>&1; then
+        error "Codex CLI introuvable dans le PATH"
+        info "Installe Codex avec ShipGlowz avant de lancer la conformité docs."
+        return 1
+    fi
+
+    codex_prompt="Applique la skill ShipGlowz 300-sg-docs en mode docs compliance sur ce workspace: audite la topologie de gouvernance, corrige l'architecture non-conformante détectée (lockfile manquant au niveau projet alors qu'il est présent au niveau parent), propose la structure correcte et applique les corrections nécessaires pour rendre le projet conforme."
+
+    if [ -r /dev/tty ]; then
+        printf '%b' "${BLUE}🧭 Ouverture de Codex pour la conformité docs / governance...${NC}\n" > /dev/tty
+        printf '%b' "${YELLOW}Le demarrage ShipGlowz s'arrete ici pour te laisser finir la conformité dans Codex.${NC}\n\n" > /dev/tty
+        codex -C "$project_dir" "$codex_prompt" < /dev/tty > /dev/tty 2>&1
+    else
+        echo -e "${BLUE}🧭 Ouverture de Codex pour la conformité docs / governance...${NC}"
+        echo -e "${YELLOW}Le demarrage ShipGlowz s'arrete ici pour te laisser finir la conformité dans Codex.${NC}"
+        codex -C "$project_dir" "$codex_prompt"
+    fi
+}
+
 prompt_node_package_manager_choice() {
     local project_dir=$1
     local current_pm=$2
@@ -6278,12 +6306,32 @@ detect_dev_command() {
         
         # Determine package manager
         local pm_cmd=""
+        local governance_noncompliant=false
+        local governance_hint=""
         if [ -f "pnpm-lock.yaml" ]; then
             pm_cmd="pnpm"
         elif [ -f "yarn.lock" ]; then
             pm_cmd="yarn"
         else
-            pm_cmd="npm run"
+            # Check monorepo case: lock file in parent but not in project dir
+            local parent_lock=""
+            if [ -f "../pnpm-lock.yaml" ]; then
+                parent_lock="pnpm-lock.yaml"
+            elif [ -f "../yarn.lock" ]; then
+                parent_lock="yarn.lock"
+            fi
+            
+            if [ -n "$parent_lock" ]; then
+                if [ "$parent_lock" = "pnpm-lock.yaml" ]; then
+                    pm_cmd="pnpm"
+                else
+                    pm_cmd="npm run"
+                fi
+                governance_noncompliant=true
+                governance_hint="Lock file '$parent_lock' found in parent directory but missing in project root — architecture non-conformant. Run 'sg fix-architecture' to migrate to proper pnpm workspace structure."
+            else
+                pm_cmd="npm run"
+            fi
         fi
         
         # Build command based on framework and port
@@ -6913,6 +6961,45 @@ env_start() {
         return 1
     fi
 
+    # Governance check: warn about non-conformant architecture (lock file in parent but not in project dir)
+    local governance_nonconformant=false
+    if [ -f "package.json" ] && [ -d "$project_dir" ]; then
+        if [ ! -f "$project_dir/pnpm-lock.yaml" ] && [ -f "$project_dir/../pnpm-lock.yaml" ]; then
+            governance_nonconformant=true
+            echo -e "${YELLOW}⚠️  ARCHITECTURE NON-CONFORMANTE${NC}"
+            echo -e "   lock pnpm trouvé au niveau parent mais absent du répertoire du projet."
+            echo -e "   ${CYAN}Cette configuration peut causer des problèmes de compatibilité PM2.${NC}"
+        elif [ ! -f "$project_dir/yarn.lock" ] && [ -f "$project_dir/../yarn.lock" ]; then
+            governance_nonconformant=true
+            echo -e "${YELLOW}⚠️  ARCHITECTURE NON-CONFORMANTE${NC}"
+            echo -e "   lock yarn trouvé au niveau parent mais absent du répertoire du projet."
+            echo -e "   ${CYAN}Cette configuration peut causer des problèmes de compatibilité PM2.${NC}"
+        fi
+
+        if [ "$governance_nonconformant" = "true" ]; then
+            echo -e "   Exécutez: ${GREEN}sg fix-architecture $env_name${NC} pour migrer vers une structure conforme."
+            local docs_choice
+            docs_choice=$(printf '%s\n' \
+                "Continuer sans corriger" \
+                "Ouvrir Codex pour corriger la conformité docs / governance" \
+                "Annuler le démarrage" \
+                | ui_choose "Architecture non-conformante détectée pour $env_name. Que veux-tu faire ?") || return 1
+
+            case "$docs_choice" in
+                "Continuer sans corriger")
+                    echo -e "${YELLOW}Démarrage poursuivi avec l'architecture actuelle.${NC}"
+                    ;;
+                "Ouvrir Codex pour corriger la conformité docs / governance")
+                    launch_codex_docs_compliance "$project_dir" || return 1
+                    return 20
+                    ;;
+                *)
+                    return 1
+                    ;;
+            esac
+        fi
+    fi
+
     # Expo/React Native projects use a tunnel — no fixed port needed
     local is_expo=false
     if [[ "$dev_cmd" == *"expo start"* ]]; then
@@ -7028,10 +7115,12 @@ env_start() {
 
     local pm2_launch_cmd=""
     if [ "$is_expo" = "true" ]; then
-        pm2_launch_cmd="flox activate -- bash -lc '$escaped_runtime_cmd'"
+        pm2_launch_cmd="$escaped_runtime_cmd"
     else
-        pm2_launch_cmd="export PORT=$port && flox activate -- ${doppler_prefix}bash -lc '$escaped_runtime_cmd'"
+        pm2_launch_cmd="${doppler_prefix}${escaped_runtime_cmd}"
     fi
+    local pm2_launch_js
+    pm2_launch_js=$(printf "%s" "$pm2_launch_cmd" | sed 's/"/\\"/g')
 
     # Create persistent ecosystem file (Expo has no PORT)
     if [ "$is_expo" = "true" ]; then
@@ -7041,7 +7130,7 @@ module.exports = {
     name: "$env_name",
     cwd: "$project_dir",
     script: "bash",
-    args: ["-lc", "$pm2_launch_cmd"],
+    args: ["-lc", "$pm2_launch_js"],
     autorestart: false,
     watch: false
   }]
@@ -7054,7 +7143,7 @@ module.exports = {
     name: "$env_name",
     cwd: "$project_dir",
     script: "bash",
-    args: ["-lc", "$pm2_launch_cmd"],
+    args: ["-lc", "$pm2_launch_js"],
     env: {
       PORT: $port
     },
